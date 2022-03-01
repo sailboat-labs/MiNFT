@@ -87,7 +87,7 @@ export default function Header() {
       </section>
 
       {/* Header */}
-      <div className='container mx-auto  h-[150vh] pt-20'>
+      <div className='container mx-auto pt-20'>
         <VisibilitySensor
           partialVisibility
           onChange={(isVisible) => {

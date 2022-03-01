@@ -16,6 +16,7 @@ import Seo from '@/components/Seo';
  */
 import Vercel from '~/svg/Vercel.svg';
 import Header from '@/components/pages/landing/header';
+import ExploreCategories from '@/components/pages/landing/categories';
 
 // !STARTERCONF -> Select !STARTERCONF and CMD + SHIFT + F
 // Before you begin editing, follow all comments with `STARTERCONF`,
@@ -26,9 +27,11 @@ export default function HomePage() {
     <div>
       {/* <Seo templateTitle='Home' /> */}
       <Seo />
-      <Header />
 
-      <main></main>
+      <main>
+        <Header />
+        <ExploreCategories/>
+      </main>
     </div>
   );
 }
