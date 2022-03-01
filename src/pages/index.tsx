@@ -4,6 +4,7 @@ import ExploreCategories from '@/components/pages/landing/categories';
 import Header from '@/components/pages/landing/header';
 import Seo from '@/components/Seo';
 import LaunchingSoon from '@/components/pages/landing/launchingsoon';
+import NewlyAdded from '@/components/pages/landing/newlyadded';
 
 // !STARTERCONF -> Select !STARTERCONF and CMD + SHIFT + F
 // Before you begin editing, follow all comments with `STARTERCONF`,
@@ -12,14 +13,13 @@ import LaunchingSoon from '@/components/pages/landing/launchingsoon';
 export default function HomePage() {
   return (
     <div className='pb-20'>
-      {/* <Seo templateTitle='Home' /> */}
       <Seo />
 
       <main>
         <Header />
         <ExploreCategories/>
         <LaunchingSoon/>
-        {/* <FeaturedCollections/> */}
+        <NewlyAdded/>
       </main>
     </div>
   );
