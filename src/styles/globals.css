@@ -50,6 +50,10 @@
     @apply font-primary text-3xl font-bold md:text-5xl;
   }
 
+  .contained {
+  @apply container mx-auto px-5 md:px-10 lg:px-16 xl:px-20;
+  }
+
   h1,
   .h1 {
     @apply font-primary text-2xl font-bold md:text-4xl;

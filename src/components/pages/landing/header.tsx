@@ -9,8 +9,8 @@ export default function Header() {
   const [headerVisible, setHeaderVisible] = useState(true);
 
   return (
-    <div>
-      <section className='fixed z-[999] w-full bg-white px-8 text-gray-700'>
+    <div className='bg-gray-100'>
+      <section className={`fixed z-[999] w-full  px-8 text-gray-700 ${headerVisible ? "bg-transparent" : "bg-white shadow"}`}>
         <div className='container mx-auto flex max-w-7xl flex-col flex-wrap items-center justify-between py-3 md:flex-row'>
           <div className='relative flex flex-col md:flex-row'>
             <div className='relative z-[2] flex'>
@@ -33,6 +33,20 @@ export default function Header() {
                   MiNFT<span className='text-indigo-600'>.</span>
                 </span>
               </a>
+              <div
+                className={`ml-10 transition-all 
+              ${
+                headerVisible
+                  ? 'translate-x-5 opacity-0'
+                  : 'translate-x-0 opacity-100'
+              }
+              `}
+              >
+                <input
+                  className='rounded-lg bg-gray-100 px-8 py-2 transition-all focus:border-0 focus:px-10'
+                  placeholder='Search...'
+                />
+              </div>
             </div>
             {/* <nav className=" relative z-[2] hidden md:flex flex-wrap items-center mb-5 text-base md:mb-0 md:pl-8 md:ml-8 md:border-l md:border-gray-200">
             <Link passHref href="/">
@@ -66,7 +80,7 @@ export default function Header() {
                 Add Project
               </div>
             </Link>
-            <div className='rounded-[50%] bg-gray-200 p-1'>
+            <div className='rounded-[50%] p-1'>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 className='h-6 w-6'
@@ -87,15 +101,40 @@ export default function Header() {
       </section>
 
       {/* Header */}
-      <div className='container mx-auto pt-20'>
+      <div className='contained pt-20 pb-10 '>
         <VisibilitySensor
-          partialVisibility
+          // partialVisibility
           onChange={(isVisible) => {
             setHeaderVisible(isVisible);
           }}
         >
-          <div className=' p-10 '></div>
+          <div className='p-10 -mt-5 '></div>
         </VisibilitySensor>
+        <div className='text-4xl font-bold mt-10'>Discover, collect, and sell</div>
+        <div className='text-4xl font-bold'>extraordinary NFTs</div>
+        <div className='flex gap-3 py-5 transition-all hover:scale-105 hover:translate-x-1 cursor-pointer w-fit'>
+          <svg
+            xmlns='http://www.w3.org/2000/svg'
+            className='h-6 w-6'
+            fill='none'
+            viewBox='0 0 24 24'
+            stroke='currentColor'
+          >
+            <path
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              strokeWidth='2'
+              d='M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z'
+            />
+            <path
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              strokeWidth='2'
+              d='M21 12a9 9 0 11-18 0 9 9 0 0118 0z'
+            />
+          </svg>
+          <span>Learn More About NFT</span>
+        </div>
       </div>
     </div>
   );
