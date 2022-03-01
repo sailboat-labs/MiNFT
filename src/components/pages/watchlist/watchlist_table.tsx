@@ -1,4 +1,4 @@
-export default function LaunchingSoon() {
+export default function WatchListTable() {
   const collections: {
     name: string;
     image: string;
@@ -84,8 +84,10 @@ export default function LaunchingSoon() {
   ];
 
   return (
-    <div className='contained mt-10'>
-     
+    <div id="launching_soon" className='mt-10'>
+      <a href="#launching_soon">
+
+      </a>
       <div className='mt-3 flex flex-col'>
         <div className='overflow-x-auto sm:-mx-6 lg:-mx-8'>
           <div className='inline-block min-w-full py-2 sm:px-6 lg:px-8'>
