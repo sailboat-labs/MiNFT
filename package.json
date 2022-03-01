@@ -16,8 +16,7 @@
     "format:check": "prettier -c .",
     "release": "standard-version",
     "push-release": "git push --follow-tags origin main",
-    "postbuild": "next-sitemap",
-    "prepare": "husky install"
+    "postbuild": "next-sitemap"
   },
   "dependencies": {
     "clsx": "^1.1.1",
@@ -44,7 +43,6 @@
     "eslint-config-prettier": "^8.4.0",
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "eslint-plugin-unused-imports": "^1.1.5",
-    "husky": "^7.0.4",
     "jest": "^27.5.1",
     "lint-staged": "^11.2.6",
     "next-sitemap": "^1.9.12",
