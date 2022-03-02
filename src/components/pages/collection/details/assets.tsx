@@ -54,7 +54,7 @@ export default function Assets() {
         <span className='flex cursor-pointer items-center gap-1'>Discover</span>
       </div>
 
-      <div className='flex gap-5 mt-5 overflow-auto'>
+      <div className='mt-5 flex gap-5 overflow-auto'>
         {assets.map((item, index) => (
           <div key={index}>
             <div className='flex h-44 cursor-pointer flex-col justify-end rounded-lg bg-green-200'>
@@ -65,6 +65,9 @@ export default function Assets() {
             </div>
           </div>
         ))}
+      </div>
+      <div className='gradient-button mx-auto mt-5'>
+        See More
       </div>
     </div>
   );

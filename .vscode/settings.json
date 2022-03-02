@@ -5,5 +5,8 @@
   "editor.codeActionsOnSave": {
     "source.fixAll": true
   },
-  "headwind.runOnSave": false
+  "headwind.runOnSave": false,
+  "cSpell.words": [
+    "primaryblue"
+  ]
 }

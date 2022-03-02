@@ -51,7 +51,15 @@
   }
 
   .contained {
-  @apply container mx-auto px-5 md:px-10 lg:px-16 xl:px-20;
+    @apply container mx-auto px-5 md:px-10 lg:px-16 xl:px-20;
+  }
+
+  .gradient-button {
+    @apply w-fit cursor-pointer rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 px-5 py-2 text-white transition-all hover:scale-105 hover:opacity-90;
+  }
+
+  .default-input {
+    @apply hover:bg-gray-100 transition-all rounded-lg border-2 bg-gray-50 px-5 py-2;
   }
 
   h1,

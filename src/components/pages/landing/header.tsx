@@ -9,9 +9,9 @@ export default function Header() {
   const [headerVisible, setHeaderVisible] = useState(true);
 
   return (
-    <div className='bg-gray-100'>
-      <section className={`fixed z-[999] w-full  px-8 text-gray-700 ${headerVisible ? "bg-transparent" : "bg-white shadow"}`}>
-        <div className='container mx-auto flex max-w-7xl flex-col flex-wrap items-center justify-between py-3 md:flex-row'>
+    <div className='bg-primaryblue bg-opacity-20'>
+      <section className={`fixed transition-all z-[999] w-full  px-8 text-gray-700 ${headerVisible ? "bg-transparent" : "bg-white text-white shadow"}`}>
+        <div className='contained flex  flex-col items-center justify-between py-3 md:flex-row'>
           <div className='relative flex flex-col md:flex-row'>
             <div className='relative z-[2] flex'>
               {/* <img
@@ -24,7 +24,7 @@ export default function Header() {
                 className={`flex items-center  font-medium text-gray-900 transition-all md:mb-0 lg:w-auto lg:items-center lg:justify-center 
                 ${
                   headerVisible
-                    ? 'translate-y-12 scale-[2] '
+                    ? 'translate-y-12 scale-[2] md:translate-x-8'
                     : 'translate-y-0 scale-100'
                 }
                 `}

@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 export default function Navbar() {
   return (
-    <section className='fixed z-[999] w-full bg-white px-8 text-gray-700'>
+    <section className='fixed z-[999] w-full bg-white px-8 text-gray-700 shadow'>
       <div className='container mx-auto flex max-w-7xl flex-col flex-wrap items-center justify-between py-3 md:flex-row'>
         <div className='relative flex flex-col md:flex-row'>
           <div className='relative z-[2] flex'>
@@ -54,7 +54,7 @@ export default function Navbar() {
               Add Project
             </div>
           </Link>
-          <div className='rounded-[50%] bg-gray-200 p-1'>
+          <div className='rounded-[50%]  p-1'>
             <svg
               xmlns='http://www.w3.org/2000/svg'
               className='h-6 w-6'

@@ -2,6 +2,7 @@
 import Layout from '@/components/layout/Layout';
 import Assets from '@/components/pages/collection/details/assets';
 import CollectionSummary from '@/components/pages/collection/details/collection_summary';
+import Comments from '@/components/pages/collection/details/comments';
 
 export default function CollectionPage() {
   return (
@@ -26,6 +27,7 @@ export default function CollectionPage() {
         </div>
         <CollectionSummary />
         <Assets/>
+        <Comments/>
       </div>
     </Layout>
   );
