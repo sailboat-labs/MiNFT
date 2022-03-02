@@ -1,6 +1,14 @@
 import Link from 'next/link';
 
-export default function Footer() {
+
+type props = {
+  className?:string;
+}
+
+export default function Footer({className}:props) {
+
+  
+
   const links: { label: string; route: string }[] = [
     { label: 'FAQ', route: '/' },
     { label: 'Contact', route: '/' },
@@ -11,7 +19,7 @@ export default function Footer() {
   const year = new Date().getUTCFullYear();
 
   return (
-    <div className='mt-20 bg-primaryblue bg-opacity-20'>
+    <div className={`mt-20 bg-primaryblue bg-opacity-20 ${className}`}>
       <div className='contained flex flex-col md:flex-row gap-5 text-center md:text-left items-center justify-between py-10'>
         <div className='flex select-none flex-col gap-2'>
           <Link passHref href='/'>

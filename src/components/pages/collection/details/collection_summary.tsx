@@ -4,12 +4,11 @@ import TeamInfo from './team_information';
 import WishlistRequirements from './wishlist_requirements';
 
 export default function CollectionSummary() {
-
-  const [ratings, setRatings] = useState(4)
+  const [ratings, setRatings] = useState(4);
 
   return (
     <>
-      <div className='contained flex w-full flex-col gap-10 lg:flex-row'>
+      <div className='contained flex w-full flex-col gap-20 lg:flex-row'>
         <div className=' w-full lg:w-[70%]'>
           <div className='mt-10 text-2xl font-bold'>Cool Cats Collection</div>
           <div className='mt-3 text-sm text-gray-500'>
@@ -53,7 +52,42 @@ export default function CollectionSummary() {
           <CollectionStats className='mt-10 justify-center' />
           <WishlistRequirements />
         </div>
-        <div className='h-[400px] w-full rounded bg-green-200 lg:w-[30%]'></div>
+        <div className=' w-full rounded lg:w-[30%]'>
+          <div className='flex h-[400px] cursor-pointer flex-col justify-end rounded-lg bg-gray-200'>
+            <div className=' flex w-full items-center gap-5 rounded-b-lg border-2 border-t-0 bg-white px-3 py-3'>
+              <div className='rounded-[50%] border-2 bg-gray-100 p-5'></div>
+              <div className='whitespace-wrap'>Cool Cats</div>
+            </div>
+          </div>
+          <table className='mt-5'>
+            <tbody>
+              <tr className='bg-white '>
+                <td className='whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 '>
+                  Contract Address
+                </td>
+                <td className='whitespace-nowrap py-2 px-6 text-sm text-gray-500 '>
+                  0x4123423412342213423
+                </td>
+              </tr>
+              <tr className='bg-white '>
+                <td className='whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 '>
+                  Tokens Standard
+                </td>
+                <td className='whitespace-nowrap py-2 px-6 text-sm text-gray-500 '>
+                  ERC 721
+                </td>
+              </tr>
+              <tr className='bg-white '>
+                <td className='whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 '>
+                  Blockchain
+                </td>
+                <td className='whitespace-nowrap py-2 px-6 text-sm text-gray-500 '>
+                  Ethereum
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </>
   );

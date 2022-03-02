@@ -3,6 +3,13 @@ import Link from 'next/link';
 // import DarkModeMenu from "../navbar/darkmode-toggle";
 
 export default function Navbar() {
+  const links: { label: string; route: string }[] = [
+    { label: 'Cateogories', route: '/' },
+    { label: 'All Collections', route: '/' },
+    { label: 'Trending', route: '/' },
+    { label: 'About Us', route: '/' },
+  ];
+
   return (
     <section className='fixed z-[999] w-full bg-white px-8 text-gray-700 shadow'>
       <div className='container mx-auto flex max-w-7xl flex-col flex-wrap items-center justify-between py-3 md:flex-row'>
@@ -21,6 +28,15 @@ export default function Navbar() {
                 MiNFT<span className='text-indigo-600'>.</span>
               </span>
             </a>
+            <div
+              className={`ml-10 transition-all
+              `}
+            >
+              <input
+                className='rounded-lg bg-gray-100 px-8 py-2 transition-all focus:border-0 focus:px-10'
+                placeholder='Search...'
+              />
+            </div>
           </div>
           {/* <nav className=" relative z-[2] hidden md:flex flex-wrap items-center mb-5 text-base md:mb-0 md:pl-8 md:ml-8 md:border-l md:border-gray-200">
             <Link passHref href="/">
@@ -47,10 +63,19 @@ export default function Navbar() {
           </nav> */}
         </div>
 
-        <div className='ml-5 hidden items-center space-x-6 md:inline-flex lg:justify-end'>
+        <div className='ml-5 hidden items-center space-x-6 lg:inline-flex lg:justify-end'>
           {/* <DarkModeMenu className="md:mr-5" /> */}
+          <div className='flex gap-5'>
+            {links.map((link, index) => (
+              <Link passHref href={link.route} key={index}>
+                <span className='cursor-pointer hover:text-black text-gray-600 transition-all hover:scale-105'>
+                  {link.label}
+                </span>
+              </Link>
+            ))}
+          </div>
           <Link passHref href='/nft/entries'>
-            <div className='mr-5 cursor-pointer font-medium leading-6 bg-gray-200 px-3 py-1 rounded  hover:text-gray-900'>
+            <div className='mr-5 cursor-pointer rounded bg-gray-200 px-3 py-1 font-medium leading-6  hover:text-gray-900'>
               Add Project
             </div>
           </Link>
