@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { useState } from 'react';
 import CollectionStats from './stats';
 import TeamInfo from './team_information';
@@ -5,6 +6,25 @@ import WishlistRequirements from './wishlist_requirements';
 
 export default function CollectionSummary() {
   const [ratings, setRatings] = useState(4);
+
+  const [socialLinks, setSocialLinks] = useState<
+    {
+      name: string;
+      link: string;
+      image: string;
+    }[]
+  >([
+    {
+      name: 'Discord',
+      link: 'https://discord.com/francis',
+      image: '/images/discord_logo.png',
+    },
+    {
+      name: 'Twitter',
+      link: 'https://discord.com/francis',
+      image: '/images/discord_logo.png',
+    },
+  ]);
 
   return (
     <>
@@ -87,6 +107,14 @@ export default function CollectionSummary() {
               </tr>
             </tbody>
           </table>
+          <div className='flex flex-col mt-10 gap-5'>
+            {socialLinks.map((link, index) => (
+              <div key={index} className='flex items-center gap-5'>
+                <img alt='' className='h-10 w-10' src={link.image} />
+                <span className='font-bold'>{link.name}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </>
