@@ -1,7 +1,12 @@
+import { useState } from 'react';
 import CollectionStats from './stats';
 import TeamInfo from './team_information';
+import WishlistRequirements from './wishlist_requirements';
 
 export default function CollectionSummary() {
+
+  const [ratings, setRatings] = useState(4)
+
   return (
     <>
       <div className='contained flex w-full flex-col gap-10 lg:flex-row'>
@@ -46,6 +51,7 @@ export default function CollectionSummary() {
           </div>
           <TeamInfo />
           <CollectionStats className='mt-10 justify-center' />
+          <WishlistRequirements />
         </div>
         <div className='h-[400px] w-full rounded bg-green-200 lg:w-[30%]'></div>
       </div>

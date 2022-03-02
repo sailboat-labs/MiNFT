@@ -1,11 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
 import Layout from '@/components/layout/Layout';
+import Assets from '@/components/pages/collection/details/assets';
 import CollectionSummary from '@/components/pages/collection/details/collection_summary';
 
 export default function CollectionPage() {
   return (
     <Layout>
-      <div>
+      <div className='pb-20'>
         <div className='h-20'>
           <img
             className='absolute h-20 w-full object-cover'
@@ -24,6 +25,7 @@ export default function CollectionPage() {
           <span>News</span>
         </div>
         <CollectionSummary />
+        <Assets/>
       </div>
     </Layout>
   );
