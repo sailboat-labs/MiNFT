@@ -84,7 +84,7 @@ export default function WatchListTable() {
   ];
 
   return (
-    <div id="launching_soon" className='mt-10'>
+    <div id="launching_soon" className=''>
       <a href="#launching_soon">
 
       </a>
