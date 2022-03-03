@@ -20,9 +20,10 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.5.0",
+    "axios": "^0.26.0",
     "clsx": "^1.1.1",
-    "firebase": "^9.6.7",
     "eth-address": "^1.0.1",
+    "firebase": "^9.6.7",
     "metamask-react": "^2.3.0",
     "next": "^12.1.0",
     "pure-react-carousel": "^1.28.1",

@@ -1,4 +1,8 @@
-import * as React from "react";
+import axios from "axios";
+import { formatEthAddress } from "eth-address";
+import { useMetaMask } from "metamask-react/lib/use-metamask";
+import { useEffect } from "react";
+import toast from "react-hot-toast";
 
 import Footer from "@/components/layout/Footer";
 import ExploreCategories from "@/components/pages/landing/categories";
@@ -12,6 +16,20 @@ import Seo from "@/components/Seo";
 // to customize the default configuration.
 
 export default function HomePage() {
+  const { status, account } = useMetaMask();
+
+  useEffect(() => {
+    if (status == "connected" && account)
+      axios
+        .post("/api/user", { address: formatEthAddress(account) })
+        .then(() => {
+          return;
+        })
+        .catch((_) => {
+          toast.error("Unable to update user");
+          return;
+        });
+  });
   return (
     <div className="">
       <Seo />
