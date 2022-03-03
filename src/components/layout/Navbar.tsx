@@ -2,6 +2,7 @@
 // import DarkModeMenu from "../navbar/darkmode-toggle";
 import { useMetaMask } from "metamask-react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 import ProfileIcon from "../shared/profile_icon";
 
@@ -14,6 +15,9 @@ export default function Navbar() {
     { label: "Trending", route: "/" },
     { label: "About Us", route: "/" },
   ];
+
+  const router = useRouter();
+
 
   return (
     <section className="fixed z-[999] w-full bg-white px-8 text-gray-700 shadow">
@@ -76,11 +80,13 @@ export default function Navbar() {
               </Link>
             ))}
           </div>
-          <Link passHref href="/collection/add">
-            <div className="mr-5 cursor-pointer rounded bg-gray-200 px-3 py-1 font-medium leading-6  hover:text-gray-900">
-              Add Project
-            </div>
-          </Link>
+          {router.pathname !== "/collection/add" && (
+            <Link passHref href="/collection/add">
+              <div className="mr-5 cursor-pointer rounded bg-gray-200 px-3 py-1 font-medium leading-6  hover:text-gray-900">
+                Add Project
+              </div>
+            </Link>
+          )}
           {!account && status !== "connecting" && (
             <div
               onClick={connect}

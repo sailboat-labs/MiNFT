@@ -8,6 +8,7 @@ import Dropdown from "@/components/shared/dropdown";
 
 export default function AddCollection() {
   const [selectedProjectType, setSelectedProjectType] = useState<string>();
+  
 
   return (
     <Layout>
