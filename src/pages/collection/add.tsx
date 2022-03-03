@@ -4,6 +4,7 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import TextField, { TextFieldProps } from "@mui/material/TextField";
 import axios from "axios";
 import { useFormik } from "formik";
+import { useMetaMask } from "metamask-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { v4 } from "uuid";
@@ -11,7 +12,7 @@ import * as Yup from "yup";
 
 import { blockchains } from "@/data/blockchains";
 import { categories } from "@/data/categories";
-import { yesno } from "@/data/yesno";
+import { yesNo } from "@/data/yes_no";
 
 import ImageUpload from "@/components/collection/ImageUpload";
 import Layout from "@/components/layout/Layout";
@@ -24,6 +25,8 @@ interface IAddCollectionProps {
 }
 
 export default function AddCollection({ collection }: IAddCollectionProps) {
+  const { account } = useMetaMask();
+
   const [selectedProjectType, setSelectedProjectType] = useState<string>();
   const [whitelistAvailable, setWhitelistAvailable] = useState<string>();
   const [selectedBlockchain, setSelectedBlockchain] = useState<string>();
@@ -37,14 +40,6 @@ export default function AddCollection({ collection }: IAddCollectionProps) {
     new Date("2014-08-18T21:11:54")
   );
 
-  const handlePresaleMintDateTimeChange = (newValue: Date | null) => {
-    setPresaleMintDateTime(newValue);
-  };
-
-  const handlePublicMintDateTimeChange = (newValue: Date | null) => {
-    setPublicMintDateTime(newValue);
-  };
-
   const collectionForm = useFormik({
     initialValues: {
       name: collection?.name,
@@ -54,12 +49,9 @@ export default function AddCollection({ collection }: IAddCollectionProps) {
       etherscan: collection?.etherscan,
       opensea: collection?.opensea,
       description: collection?.description,
-      preMintDate: collection?.preMintDate,
-      publicMintDate: collection?.publicMintDate,
       preSaleCost: collection?.preSaleCost,
       publicMintCost: collection?.publicMintCost,
       supply: collection?.supply,
-      whitelistAvailable: collection?.whitelistAvailable,
       whitelistRequirements: collection?.whitelistRequirements,
       teamInfo: collection?.teamInfo,
     },
@@ -71,12 +63,9 @@ export default function AddCollection({ collection }: IAddCollectionProps) {
       etherscan: Yup.string(),
       opensea: Yup.string(),
       description: Yup.string(),
-      preMintDate: Yup.string(),
-      publicMintDate: Yup.string(),
       preSaleCost: Yup.string(),
       publicMintCost: Yup.string(),
       supply: Yup.string(),
-      whitelistAvailable: Yup.string(),
       whitelistRequirements: Yup.string(),
       teamInfo: Yup.string(),
     }),
@@ -86,6 +75,7 @@ export default function AddCollection({ collection }: IAddCollectionProps) {
         const timestamp = new Date().toISOString();
         const _collection: Collection = {
           id: collection?.id ?? v4(),
+          owner: account ? account : "",
           name: values.name,
           blockchain: selectedBlockchain,
           projectType: selectedProjectType,
@@ -95,12 +85,12 @@ export default function AddCollection({ collection }: IAddCollectionProps) {
           etherscan: values.etherscan,
           opensea: values.opensea,
           description: values.description,
-          preMintDate: values.preMintDate,
-          publicMintDate: values.publicMintDate,
+          preMintDate: presaleMintDateTime?.toISOString(),
+          publicMintDate: publicMintDateTime?.toISOString(),
           preSaleCost: values.preSaleCost,
           publicMintCost: values.publicMintCost,
           supply: values.supply,
-          whitelistAvailable: values.whitelistAvailable,
+          whitelistAvailable: whitelistAvailable,
           whitelistRequirements: values.whitelistRequirements,
           teamInfo: values.teamInfo,
           image: imageUrl,
@@ -345,8 +335,8 @@ export default function AddCollection({ collection }: IAddCollectionProps) {
                 <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
                   <Dropdown
                     onItemSelected={setWhitelistAvailable}
-                    options={yesno}
-                    className="w-full "
+                    options={yesNo}
+                    className="w-full"
                   />
                 </td>
               </tr>
