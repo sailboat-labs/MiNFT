@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 export default function Navbar() {
   const links: { label: string; route: string }[] = [
-    { label: 'Cateogories', route: '/' },
+    { label: 'Categories', route: '/' },
     { label: 'All Collections', route: '/' },
     { label: 'Trending', route: '/' },
     { label: 'About Us', route: '/' },

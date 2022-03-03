@@ -1,8 +1,10 @@
-import Layout from '@/components/layout/Layout';
-import Dropdown from '@/components/shared/dropdown';
+import { useState } from 'react';
+
 import { blockchains } from '@/data/blockchains';
 import { categories } from '@/data/categories';
-import { useState } from 'react';
+
+import Layout from '@/components/layout/Layout';
+import Dropdown from '@/components/shared/dropdown';
 
 export default function AddCollection() {
   const [selectedProjectType, setSelectedProjectType] = useState<string>();
