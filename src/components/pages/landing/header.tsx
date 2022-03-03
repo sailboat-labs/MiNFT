@@ -2,11 +2,26 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import VisibilitySensor from 'react-visibility-sensor';
+import { useMetaMask } from 'metamask-react';
+import Example from '@/components/shared/profile_icon';
+import ProfileIcon from '@/components/shared/profile_icon';
 
 // import DarkModeMenu from "../navbar/darkmode-toggle";
 
 export default function Header() {
   const [headerVisible, setHeaderVisible] = useState(true);
+
+  const { status, connect, account, chainId, ethereum } = useMetaMask();
+
+  //   if (status === "initializing") return <div>Synchronisation with MetaMask ongoing...</div>
+
+  //   if (status === "unavailable") return <div>MetaMask not available :(</div>
+
+  //   if (status === "notConnected") return <button onClick={connect}>Connect to MetaMask</button>
+
+  //   if (status === "connecting") return <div>Connecting...</div>
+
+  //   if (status === "connected") return <div>Connected account {account} on chain ID {chainId}</div>
 
   return (
     <div className='bg-primaryblue bg-opacity-20'>
@@ -25,7 +40,7 @@ export default function Header() {
             /> */}
               <Link passHref href='/'>
                 <span
-                  className={`mx-auto flex select-none items-center text-xl font-black cursor-pointer leading-none  text-gray-900  transition-all md:mb-0 lg:w-auto lg:items-center lg:justify-center 
+                  className={`mx-auto flex cursor-pointer select-none items-center text-xl font-black leading-none  text-gray-900  transition-all md:mb-0 lg:w-auto lg:items-center lg:justify-center 
                 ${
                   headerVisible
                     ? 'translate-y-12 scale-[2] md:translate-x-8'
@@ -83,22 +98,20 @@ export default function Header() {
                 Add Project
               </div>
             </Link>
-            <div className='rounded-[50%] p-1'>
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                className='h-6 w-6'
-                fill='none'
-                viewBox='0 0 24 24'
-                stroke='currentColor'
+            {!account && status !== "connecting" && (
+              <div
+                onClick={connect}
+                className='gradient-button mr-5 cursor-pointer rounded px-3 py-1 text-xs font-medium leading-6  hover:text-gray-900'
               >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth='2'
-                  d='M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z'
-                />
-              </svg>
-            </div>
+                Connect your address
+              </div>
+            )}
+            {account && (
+              <ProfileIcon/>
+            )}
+            {
+              status === "connecting" && <div>Connecting...</div>
+            }
           </div>
         </div>
       </section>
