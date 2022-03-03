@@ -6,6 +6,8 @@ import { useMetaMask } from 'metamask-react';
 import Example from '@/components/shared/profile_icon';
 import ProfileIcon from '@/components/shared/profile_icon';
 import toast, { Toaster } from 'react-hot-toast';
+import { formatEthAddress } from 'eth-address';
+
 
 // import DarkModeMenu from "../navbar/darkmode-toggle";
 
@@ -14,18 +16,11 @@ export default function Header() {
 
   const { status, connect, account, chainId, ethereum } = useMetaMask();
 
-  //   if (status === "initializing") return <div>Synchronisation with MetaMask ongoing...</div>
 
-  //   if (status === "unavailable") return <div>MetaMask not available :(</div>
-
-  //   if (status === "notConnected") return <button onClick={connect}>Connect to MetaMask</button>
-
-  //   if (status === "connecting") return <div>Connecting...</div>
-
-  //   if (status === "connected") return <div>Connected account {account} on chain ID {chainId}</div>
-
-
- 
+  useEffect(()=>{
+  //  status == 'connecting' && toast('Connecting metamask')
+  //  account && toast.success(`Connected on ${account && formatEthAddress(account)}`)
+  },[account])
 
   return (
     <div className='bg-primaryblue bg-opacity-20'>
@@ -97,14 +92,16 @@ export default function Header() {
 
           <div className='ml-5 hidden items-center space-x-6 md:inline-flex lg:justify-end'>
             {/* <DarkModeMenu className="md:mr-5" /> */}
-            <Link passHref href='/collection/add'>
+            {
+              account && <Link passHref href='/collection/add'>
               <div className='mr-5 cursor-pointer rounded bg-gray-200 px-3 py-1 font-medium leading-6  hover:text-gray-900'>
                 Add Project
               </div>
             </Link>
-            {!account && status !== "connecting" && (
+            }
+            {!account && status !== "connecting" && status !== "unavailable" && (
               <div
-                onClick={connect}
+                onClick={(connect)}
                 className='gradient-button mr-5 cursor-pointer rounded px-3 py-1 text-xs font-medium leading-6  hover:text-gray-900'
               >
                 Connect your address

@@ -14,10 +14,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
 
   useEffect(()=>{
-   status == 'connecting' && toast('Connecting metamask')
-   status == 'connected' && toast.success(`Connected on ${account && formatEthAddress(account)}`)
+    
+  //  status == 'connecting' && toast('Connecting metamask')
+  //  status == 'connected' && toast.success(`Connected on ${account && formatEthAddress(account)}`)
    status == 'unavailable' && toast.success('Metamask not available')
-  },[status])
+  },[status,account])
 
 
   
