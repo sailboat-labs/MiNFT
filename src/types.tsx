@@ -5,6 +5,7 @@ export interface User {
 
 export interface Collection {
   id: string;
+  owner: string;
   name?: string;
   blockchain?: string;
   projectType?: string;

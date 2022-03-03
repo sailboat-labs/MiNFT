@@ -4,6 +4,7 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import TextField, { TextFieldProps } from "@mui/material/TextField";
 import axios from "axios";
 import { ErrorMessage, Field, Form, Formik, useFormik } from "formik";
+import { useMetaMask } from "metamask-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { v4 } from "uuid";
@@ -11,7 +12,6 @@ import * as Yup from "yup";
 
 import { blockchains } from "@/data/blockchains";
 import { categories } from "@/data/categories";
-import { yesno } from "@/data/yesno";
 
 import ImageUpload from "@/components/collection/ImageUpload";
 import Layout from "@/components/layout/Layout";
@@ -24,6 +24,8 @@ interface IAddCollectionProps {
 }
 
 export default function AddCollection({ collection }: IAddCollectionProps) {
+  const { account } = useMetaMask();
+
   const [selectedProjectType, setSelectedProjectType] = useState<string>();
   const [whitelistAvailable, setWhitelistAvailable] = useState<string>();
   const [selectedBlockchain, setSelectedBlockchain] = useState<string>();
@@ -78,29 +80,30 @@ export default function AddCollection({ collection }: IAddCollectionProps) {
   async function formSubmit(values: any) {
     try {
       const timestamp = new Date().toISOString();
-      const _collection: Collection = {
-        id: collection?.id ?? v4(),
-        name: values.name,
-        blockchain: selectedBlockchain,
-        projectType: selectedProjectType,
-        website: values.website,
-        twitter: values.twitter,
-        discord: values.discord,
-        etherscan: values.etherscan,
-        opensea: values.opensea,
-        description: values.description,
-        preMintDate: values.preMintDate,
-        publicMintDate: values.publicMintDate,
-        preSaleCost: values.preSaleCost,
-        publicMintCost: values.publicMintCost,
-        supply: values.supply,
-        whitelistAvailable: values.whitelistAvailable,
-        whitelistRequirements: values.whitelistRequirements,
-        teamInfo: values.teamInfo,
-        image: imageUrl,
-        dateCreated: collection?.dateCreated ?? timestamp,
-        lastUpdated: timestamp,
-      };
+        const _collection: Collection = {
+          id: collection?.id ?? v4(),
+          owner: account!,
+          name: values.name,
+          blockchain: selectedBlockchain,
+          projectType: selectedProjectType,
+          website: values.website,
+          twitter: values.twitter,
+          discord: values.discord,
+          etherscan: values.etherscan,
+          opensea: values.opensea,
+          description: values.description,
+          preMintDate: presaleMintDateTime?.toISOString(),
+          publicMintDate: publicMintDateTime?.toISOString(),
+          preSaleCost: values.preSaleCost,
+          publicMintCost: values.publicMintCost,
+          supply: values.supply,
+          whitelistAvailable: whitelistAvailable,
+          whitelistRequirements: values.whitelistRequirements,
+          teamInfo: values.teamInfo,
+          image: imageUrl,
+          dateCreated: collection?.dateCreated ?? timestamp,
+          lastUpdated: timestamp,
+        };
 
       const { data } = collection
         ? await axios.put("/api/collections", {
@@ -369,7 +372,7 @@ export default function AddCollection({ collection }: IAddCollectionProps) {
                       <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
                         <Dropdown
                           onItemSelected={setWhitelistAvailable}
-                          options={yesno}
+                          options={['yes','no']}
                           className="w-full "
                         />
                       </td>

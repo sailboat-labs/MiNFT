@@ -8,7 +8,6 @@ const firestore = getFirestore(firebaseApp);
 const collectionsCollection = collection(firestore, "collections");
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  console.log(req.method);
   try {
     if (req.method == "POST") {
       const { collection } = req.body;
