@@ -1,8 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from 'next/link';
 // import DarkModeMenu from "../navbar/darkmode-toggle";
+import { useMetaMask } from 'metamask-react';
+import ProfileIcon from '../shared/profile_icon';
+
 
 export default function Navbar() {
+  const { status, connect, account, chainId, ethereum } = useMetaMask();
+
   const links: { label: string; route: string }[] = [
     { label: 'Categories', route: '/' },
     { label: 'All Collections', route: '/' },
@@ -76,22 +81,20 @@ export default function Navbar() {
               Add Project
             </div>
           </Link>
-          <div className='rounded-[50%]  p-1'>
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              className='h-6 w-6'
-              fill='none'
-              viewBox='0 0 24 24'
-              stroke='currentColor'
-            >
-              <path
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                strokeWidth='2'
-                d='M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z'
-              />
-            </svg>
-          </div>
+          {!account && status !== "connecting" && (
+              <div
+                onClick={connect}
+                className='gradient-button mr-5 cursor-pointer rounded px-3 py-1 text-xs font-medium leading-6  hover:text-gray-900'
+              >
+                Connect your address
+              </div>
+            )}
+            {account && (
+              <ProfileIcon/>
+            )}
+            {
+              status === "connecting" && <div>Connecting...</div>
+            }
         </div>
       </div>
     </section>

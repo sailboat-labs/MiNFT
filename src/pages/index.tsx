@@ -6,6 +6,7 @@ import Seo from '@/components/Seo';
 import LaunchingSoon from '@/components/pages/landing/launchingsoon';
 import NewlyAdded from '@/components/pages/landing/newlyadded';
 import Footer from '@/components/layout/footer';
+import { MetaMaskProvider } from "metamask-react";
 
 // !STARTERCONF -> Select !STARTERCONF and CMD + SHIFT + F
 // Before you begin editing, follow all comments with `STARTERCONF`,
