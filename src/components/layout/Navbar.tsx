@@ -3,6 +3,7 @@
 import { useMetaMask } from "metamask-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useState } from "react";
 
 import ProfileIcon from "../shared/profile_icon";
 
@@ -18,24 +19,91 @@ export default function Navbar() {
 
   const router = useRouter();
 
+  const [navOpen, setNavOpen] = useState(false);
 
   return (
-    <section className="fixed z-[999] w-full bg-white px-8 text-gray-700 shadow">
-      <div className="container mx-auto flex max-w-7xl flex-col flex-wrap items-center justify-between py-3 md:flex-row">
-        <div className="relative flex flex-col md:flex-row">
-          <div className="relative z-[2] flex">
+    <section className="fixed z-[999] w-full bg-white text-gray-700 shadow">
+      <div
+        className={`absolute z-[2] flex h-screen w-full flex-col bg-white shadow  transition-all lg:hidden 
+      ${navOpen ? "translate-x-0" : "translate-x-full"}
+      `}
+      >
+        <div className="flex justify-between px-8 py-3">
+          <Link href="/" passHref>
+            <div className="flex w-fit justify-between">
+              <span className="flex cursor-pointer select-none items-center text-xl font-black leading-none text-gray-900 md:mb-0 lg:items-center lg:justify-center">
+                MiNFT<span className="text-indigo-600">.</span>
+              </span>
+            </div>
+          </Link>
+          <svg
+            onClick={() => {
+              setNavOpen(false);
+            }}
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6 cursor-pointer"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </div>
+        <div className="flex w-full justify-center py-5">
+          {!account && status !== "connecting" && (
+            <div
+              onClick={connect}
+              className="gradient-button mr-5 cursor-pointer rounded px-3 py-1 text-xs font-medium leading-6  hover:text-gray-900"
+            >
+              Connect your address
+            </div>
+          )}
+          
+        </div>
+        <div className="flex justify-center">{account && <ProfileIcon />}</div>
+        {status === "connecting" && <div>Connecting...</div>}
+        
+      </div>
+      <div className="container relative z-[1] mx-auto flex max-w-7xl flex-col flex-wrap items-center justify-between px-8 py-3 md:flex-row">
+        <div className="relative flex w-full flex-col md:flex-row lg:w-fit">
+          <div className="relative z-[2] flex w-full">
             {/* <img
               className="mx-auto w-10 h-10"
               src="/logo.webp"
               alt="feature image"
             /> */}
-            <Link href="/" passHref>
-              <span className="mx-auto flex cursor-pointer select-none items-center text-xl font-black leading-none text-gray-900 md:mb-0 lg:w-auto lg:items-center lg:justify-center">
-                MiNFT<span className="text-indigo-600">.</span>
-              </span>
-            </Link>
+            <div className="flex w-full justify-between ">
+              <Link href="/" passHref>
+                <span className="flex cursor-pointer select-none items-center text-xl font-black leading-none text-gray-900 md:mb-0 lg:items-center lg:justify-center">
+                  MiNFT<span className="text-indigo-600">.</span>
+                </span>
+              </Link>
+
+              <svg
+                onClick={() => {
+                  setNavOpen(true);
+                }}
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6 cursor-pointer transition-all hover:scale-105 lg:hidden"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M4 8h16M4 16h16"
+                />
+              </svg>
+            </div>
             <div
-              className={`ml-10 transition-all
+              className={`ml-10 hidden transition-all lg:block
               `}
             >
               <input
