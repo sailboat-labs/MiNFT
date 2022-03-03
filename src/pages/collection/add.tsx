@@ -1,3 +1,7 @@
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import DateTimePicker from "@mui/lab/DateTimePicker";
+import LocalizationProvider from "@mui/lab/LocalizationProvider";
+import TextField, { TextFieldProps } from "@mui/material/TextField";
 import axios from "axios";
 import { useFormik } from "formik";
 import { useState } from "react";
@@ -7,6 +11,7 @@ import * as Yup from "yup";
 
 import { blockchains } from "@/data/blockchains";
 import { categories } from "@/data/categories";
+import { yesno } from "@/data/yesno";
 
 import ImageUpload from "@/components/collection/ImageUpload";
 import Layout from "@/components/layout/Layout";
@@ -20,8 +25,25 @@ interface IAddCollectionProps {
 
 export default function AddCollection({ collection }: IAddCollectionProps) {
   const [selectedProjectType, setSelectedProjectType] = useState<string>();
+  const [whitelistAvailable, setWhitelistAvailable] = useState<string>();
   const [selectedBlockchain, setSelectedBlockchain] = useState<string>();
   const [imageUrl, setImageUrl] = useState<string>();
+
+  const [presaleMintDateTime, setPresaleMintDateTime] = useState<Date | null>(
+    new Date("2014-08-18T21:11:54")
+  );
+
+  const [publicMintDateTime, setPublicMintDateTime] = useState<Date | null>(
+    new Date("2014-08-18T21:11:54")
+  );
+
+  const handlePresaleMintDateTimeChange = (newValue: Date | null) => {
+    setPresaleMintDateTime(newValue);
+  };
+
+  const handlePublicMintDateTimeChange = (newValue: Date | null) => {
+    setPublicMintDateTime(newValue);
+  };
 
   const collectionForm = useFormik({
     initialValues: {
@@ -272,7 +294,15 @@ export default function AddCollection({ collection }: IAddCollectionProps) {
               Pre-sale Mint date and time
             </span>
             <span className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
-              <div className="h-36 w-36 rounded-lg bg-gray-100"></div>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DateTimePicker
+                  value={presaleMintDateTime}
+                  onChange={setPresaleMintDateTime}
+                  renderInput={(
+                    params: JSX.IntrinsicAttributes & TextFieldProps
+                  ) => <TextField {...params} />}
+                />
+              </LocalizationProvider>
             </span>
           </div>
           <div className="flex items-center bg-white">
@@ -280,7 +310,15 @@ export default function AddCollection({ collection }: IAddCollectionProps) {
               Public Mint date and time
             </span>
             <span className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
-              <div className="h-36 w-36 rounded-lg bg-gray-100"></div>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DateTimePicker
+                  value={publicMintDateTime}
+                  onChange={setPublicMintDateTime}
+                  renderInput={(
+                    params: JSX.IntrinsicAttributes & TextFieldProps
+                  ) => <TextField {...params} />}
+                />
+              </LocalizationProvider>
             </span>
           </div>
         </div>
@@ -306,8 +344,8 @@ export default function AddCollection({ collection }: IAddCollectionProps) {
                 </td>
                 <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
                   <Dropdown
-                    onItemSelected={setSelectedProjectType}
-                    options={["yes", "no"]}
+                    onItemSelected={setWhitelistAvailable}
+                    options={yesno}
                     className="w-full "
                   />
                 </td>
