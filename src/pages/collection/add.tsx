@@ -50,7 +50,7 @@ export default function AddCollection() {
               </table>
             </div>
           </div>
-          <div className='h-72 flex-1 bg-red-200'>
+          <div className=' flex-1 '>
             <div className='overflow-hidden sm:rounded-lg'>
               <table className='w-full'>
                 <tbody>
@@ -114,7 +114,7 @@ export default function AddCollection() {
             </div>
           </div>
         </div>
-        <div className='flex'>
+        <div className='flex mt-5'>
           <div className='whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 '>
             Description
           </div>

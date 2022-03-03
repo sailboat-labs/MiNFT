@@ -57,6 +57,7 @@ export default function Dropdown({
         <ul className='py-1' aria-labelledby='dropdownButton'>
           {options.map((option, index) => (
             <li
+            className='cursor-pointer hover:bg-gray-100'
               onClick={() => {
                 onItemSelected(option);
                 setOnParentClick({ show: false, selected: option });
