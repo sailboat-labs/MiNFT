@@ -20,14 +20,11 @@ export default function Navbar() {
               src="/logo.webp"
               alt="feature image"
             /> */}
-            <a
-              href='#'
-              className='flex items-center  font-medium text-gray-900 md:mb-0 lg:w-auto lg:items-center lg:justify-center'
-            >
-              <span className='mx-auto select-none text-xl font-black leading-none text-gray-900'>
+            <Link href='/' passHref>
+              <span className='mx-auto flex select-none items-center text-xl font-black leading-none cursor-pointer text-gray-900 md:mb-0 lg:w-auto lg:items-center lg:justify-center'>
                 MiNFT<span className='text-indigo-600'>.</span>
               </span>
-            </a>
+            </Link>
             <div
               className={`ml-10 transition-all
               `}
@@ -68,13 +65,13 @@ export default function Navbar() {
           <div className='flex gap-5'>
             {links.map((link, index) => (
               <Link passHref href={link.route} key={index}>
-                <span className='cursor-pointer hover:text-black text-gray-600 transition-all hover:scale-105'>
+                <span className='cursor-pointer text-gray-600 transition-all hover:scale-105 hover:text-black'>
                   {link.label}
                 </span>
               </Link>
             ))}
           </div>
-          <Link passHref href='/nft/entries'>
+          <Link passHref href='/collection/add'>
             <div className='mr-5 cursor-pointer rounded bg-gray-200 px-3 py-1 font-medium leading-6  hover:text-gray-900'>
               Add Project
             </div>

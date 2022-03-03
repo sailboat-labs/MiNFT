@@ -10,7 +10,11 @@ export default function Header() {
 
   return (
     <div className='bg-primaryblue bg-opacity-20'>
-      <section className={`fixed transition-all z-[999] w-full  px-8 text-gray-700 ${headerVisible ? "bg-transparent" : "bg-white text-white shadow"}`}>
+      <section
+        className={`fixed z-[999] w-full px-8  text-gray-700 transition-all ${
+          headerVisible ? 'bg-transparent' : 'bg-white text-white shadow'
+        }`}
+      >
         <div className='contained flex  flex-col items-center justify-between py-3 md:flex-row'>
           <div className='relative flex flex-col md:flex-row'>
             <div className='relative z-[2] flex'>
@@ -19,20 +23,19 @@ export default function Header() {
               src="/logo.webp"
               alt="feature image"
             /> */}
-              <a
-                href='#'
-                className={`flex items-center  font-medium text-gray-900 transition-all md:mb-0 lg:w-auto lg:items-center lg:justify-center 
+              <Link passHref href='/'>
+                <span
+                  className={`mx-auto flex select-none items-center text-xl font-black cursor-pointer leading-none  text-gray-900  transition-all md:mb-0 lg:w-auto lg:items-center lg:justify-center 
                 ${
                   headerVisible
                     ? 'translate-y-12 scale-[2] md:translate-x-8'
                     : 'translate-y-0 scale-100'
                 }
                 `}
-              >
-                <span className='mx-auto select-none text-xl font-black leading-none text-gray-900'>
+                >
                   MiNFT<span className='text-indigo-600'>.</span>
                 </span>
-              </a>
+              </Link>
               <div
                 className={`ml-10 transition-all 
               ${
@@ -75,7 +78,7 @@ export default function Header() {
 
           <div className='ml-5 hidden items-center space-x-6 md:inline-flex lg:justify-end'>
             {/* <DarkModeMenu className="md:mr-5" /> */}
-            <Link passHref href='/nft/entries'>
+            <Link passHref href='/collection/add'>
               <div className='mr-5 cursor-pointer rounded bg-gray-200 px-3 py-1 font-medium leading-6  hover:text-gray-900'>
                 Add Project
               </div>
@@ -108,11 +111,13 @@ export default function Header() {
             setHeaderVisible(isVisible);
           }}
         >
-          <div className='p-10 -mt-5 '></div>
+          <div className='-mt-5 p-10 '></div>
         </VisibilitySensor>
-        <div className='text-4xl font-bold mt-10'>Discover, collect, and sell</div>
+        <div className='mt-10 text-4xl font-bold'>
+          Discover, collect, and sell
+        </div>
         <div className='text-4xl font-bold'>extraordinary NFTs</div>
-        <div className='flex gap-3 py-5 transition-all hover:scale-105 hover:translate-x-1 cursor-pointer w-fit'>
+        <div className='flex w-fit cursor-pointer gap-3 py-5 transition-all hover:translate-x-1 hover:scale-105'>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             className='h-6 w-6'
