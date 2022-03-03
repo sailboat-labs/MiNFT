@@ -1,10 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import VisibilitySensor from 'react-visibility-sensor';
 import { useMetaMask } from 'metamask-react';
 import Example from '@/components/shared/profile_icon';
 import ProfileIcon from '@/components/shared/profile_icon';
+import toast, { Toaster } from 'react-hot-toast';
 
 // import DarkModeMenu from "../navbar/darkmode-toggle";
 
@@ -22,6 +23,9 @@ export default function Header() {
   //   if (status === "connecting") return <div>Connecting...</div>
 
   //   if (status === "connected") return <div>Connected account {account} on chain ID {chainId}</div>
+
+
+ 
 
   return (
     <div className='bg-primaryblue bg-opacity-20'>
