@@ -298,14 +298,16 @@ export default function AddCollection({ collection }: IAddCollectionProps) {
                 <div className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
                   Description
                 </div>
-                <Field
-                  as="textarea"
-                  className="mx-6 min-h-[150px] w-full rounded-lg border-2"
-                  placeholder="Collection Description"
-                  name="description"
-                />
-                <div className="text-red-500">
-                  <ErrorMessage name="description" component="div" />
+                <div className="mx-6 flex w-full flex-col">
+                  <Field
+                    as="textarea"
+                    className=" min-h-[150px] w-full rounded-lg border-2"
+                    placeholder="Collection Description"
+                    name="description"
+                  />
+                  <div className="text-red-500">
+                    <ErrorMessage name="description" component="div" />
+                  </div>
                 </div>
               </div>
 
@@ -372,7 +374,7 @@ export default function AddCollection({ collection }: IAddCollectionProps) {
                       <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
                         <Dropdown
                           onItemSelected={setWhitelistAvailable}
-                          options={['yes','no']}
+                          options={["yes", "no"]}
                           className="w-full "
                         />
                       </td>
