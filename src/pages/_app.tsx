@@ -1,9 +1,8 @@
-import { MetaMaskProvider } from 'metamask-react';
-import { AppProps } from 'next/app';
-import  { Toaster } from 'react-hot-toast';
+import { MetaMaskProvider } from "metamask-react";
+import { AppProps } from "next/app";
+import { Toaster } from "react-hot-toast";
 
-import '@/styles/globals.css';
-import { useEffect } from 'react';
+import "@/styles/globals.css";
 
 /**
  * !STARTERCONF info
@@ -11,12 +10,9 @@ import { useEffect } from 'react';
  */
 
 function MyApp({ Component, pageProps }: AppProps) {
-
-  
-  
   return (
     <MetaMaskProvider>
-    <Toaster/>
+      <Toaster />
       <Component {...pageProps} />
     </MetaMaskProvider>
   );
