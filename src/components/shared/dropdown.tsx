@@ -16,7 +16,7 @@ export default function Dropdown({
     selected: string;
   }>({ show: false, selected: "Select One" });
   return (
-    <>
+    <div className="relative w-full">
       <button
         id="dropdownButton"
         onClick={() => {
@@ -26,7 +26,7 @@ export default function Dropdown({
           });
         }}
         data-dropdown-toggle="dropdown"
-        className={`inline-flex items-center rounded-lg bg-gray-200 px-4 py-2.5 text-center text-sm font-medium capitalize focus:ring-4 focus:ring-blue-300 ${className}`}
+        className={`inline-flex w-full items-center justify-between rounded-lg bg-gray-200 px-4 py-2.5 text-center text-sm font-medium capitalize focus:ring-4 focus:ring-blue-300 ${className}`}
         type="button"
       >
         {onParentClick.selected}
@@ -48,7 +48,7 @@ export default function Dropdown({
 
       <div
         id="dropdown"
-        className={`absolute z-10 mt-3 w-48 list-none items-center divide-y divide-gray-100 rounded bg-white text-base shadow transition-all  ${
+        className={`absolute z-10 mt-3 w-full list-none items-center divide-y divide-gray-100 rounded bg-white text-base shadow transition-all  ${
           onParentClick.show
             ? "pointer-events-auto translate-y-0 scale-100 opacity-100"
             : "pointer-events-none -translate-y-2 scale-95 opacity-0"
@@ -71,6 +71,6 @@ export default function Dropdown({
           ))}
         </ul>
       </div>
-    </>
+    </div>
   );
 }

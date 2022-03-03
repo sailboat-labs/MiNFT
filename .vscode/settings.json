@@ -11,6 +11,8 @@
   "headwind.runOnSave": false,
   "cSpell.words": [
     "clsx",
+    "Dropzone",
+    "Formik",
     "headlessui",
     "primaryblue",
     "STARTERCONF",
