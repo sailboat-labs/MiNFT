@@ -2,8 +2,8 @@ import { useMetaMask } from "metamask-react";
 import * as React from "react";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
+import Footer from "./footer";
 
-import Footer from "./Footer";
 import Navbar from "./Navbar";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
