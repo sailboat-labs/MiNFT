@@ -10,7 +10,6 @@ import LaunchingSoon from "@/components/pages/landing/launchingsoon";
 import NewlyAdded from "@/components/pages/landing/newlyadded";
 import Seo from "@/components/Seo";
 
-// !STARTERCONF -> Select !STARTERCONF and CMD + SHIFT + F
 // Before you begin editing, follow all comments with `STARTERCONF`,
 // to customize the default configuration.
 
