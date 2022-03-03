@@ -12,7 +12,7 @@ export default function Header() {
   const [headerVisible, setHeaderVisible] = useState(true);
   const [navOpen, setNavOpen] = useState(false);
 
-  const { status, connect, account, chainId, ethereum } = useMetaMask();
+  const { status, connect, account} = useMetaMask();
 
   useEffect(() => {
     //  status == 'connecting' && toast('Connecting metamask')
