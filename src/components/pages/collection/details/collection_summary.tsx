@@ -5,7 +5,6 @@ import TeamInfo from './team_information';
 import WishlistRequirements from './wishlist_requirements';
 
 export default function CollectionSummary() {
-  const [ratings, setRatings] = useState(4);
 
   const [socialLinks, setSocialLinks] = useState<
     {
