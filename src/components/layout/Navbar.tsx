@@ -1,9 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
-import Link from 'next/link';
 // import DarkModeMenu from "../navbar/darkmode-toggle";
 import { useMetaMask } from 'metamask-react';
-import ProfileIcon from '../shared/profile_icon';
+import Link from 'next/link';
 
+import ProfileIcon from '../shared/profile_icon';
 
 export default function Navbar() {
   const { status, connect, account, chainId, ethereum } = useMetaMask();
@@ -26,7 +26,7 @@ export default function Navbar() {
               alt="feature image"
             /> */}
             <Link href='/' passHref>
-              <span className='mx-auto flex select-none items-center text-xl font-black leading-none cursor-pointer text-gray-900 md:mb-0 lg:w-auto lg:items-center lg:justify-center'>
+              <span className='mx-auto flex cursor-pointer select-none items-center text-xl font-black leading-none text-gray-900 md:mb-0 lg:w-auto lg:items-center lg:justify-center'>
                 MiNFT<span className='text-indigo-600'>.</span>
               </span>
             </Link>
@@ -81,20 +81,16 @@ export default function Navbar() {
               Add Project
             </div>
           </Link>
-          {!account && status !== "connecting" && (
-              <div
-                onClick={connect}
-                className='gradient-button mr-5 cursor-pointer rounded px-3 py-1 text-xs font-medium leading-6  hover:text-gray-900'
-              >
-                Connect your address
-              </div>
-            )}
-            {account && (
-              <ProfileIcon/>
-            )}
-            {
-              status === "connecting" && <div>Connecting...</div>
-            }
+          {!account && status !== 'connecting' && (
+            <div
+              onClick={connect}
+              className='gradient-button mr-5 cursor-pointer rounded px-3 py-1 text-xs font-medium leading-6  hover:text-gray-900'
+            >
+              Connect your address
+            </div>
+          )}
+          {account && <ProfileIcon />}
+          {status === 'connecting' && <div>Connecting...</div>}
         </div>
       </div>
     </section>

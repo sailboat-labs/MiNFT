@@ -1,9 +1,12 @@
 {
   "css.validate": false,
+  "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
   "editor.tabSize": 2,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.codeActionsOnSave": {
-    "source.fixAll": true
+    "source.fixAll.eslint": true,
+    "source.fixAll.format": true
   },
   "headwind.runOnSave": false,
   "cSpell.words": [
