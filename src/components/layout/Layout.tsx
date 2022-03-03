@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useMetaMask } from "metamask-react";
 import * as React from "react";
 import { useEffect } from "react";
@@ -14,6 +15,19 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     //  status == 'connected' && toast.success(`Connected on ${account && formatEthAddress(account)}`)
     status == "unavailable" && toast.success("Metamask not available");
   }, [status, account]);
+
+  useEffect(() => {
+    if (status == "connected" && account)
+      axios
+        .post("/api/user", { address: account })
+        .then(() => {
+          return;
+        })
+        .catch((_) => {
+          toast.error("Unable to update user");
+          return;
+        });
+  });
 
   return (
     <div className="flex flex-col">

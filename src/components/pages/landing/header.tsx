@@ -22,7 +22,7 @@ export default function Header() {
     <div className="bg-primaryblue bg-opacity-20">
       <section
         className={`fixed z-[999] w-full px-8  text-gray-700 transition-all ${
-          headerVisible ? "bg-transparent" : "bg-white text-white shadow"
+          headerVisible ? "bg-transparent" : "bg-white  shadow"
         }`}
       >
         <div className="contained flex  flex-col items-center justify-between py-3 md:flex-row">
