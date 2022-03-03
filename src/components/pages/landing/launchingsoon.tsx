@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+import dayjs from "dayjs";
 import {
   collection,
   DocumentData,
@@ -101,7 +103,9 @@ export default function LaunchingSoon() {
                           </div>
                         </td>
                         <td className="whitespace-nowrap py-4 px-6 text-sm text-gray-500 ">
-                          {collection.name}
+                          {dayjs(new Date(collection.preMintDate!)).format(
+                            "DD MMM, YYYY HH:MM"
+                          )}
                         </td>
                         <td className="whitespace-nowrap py-4 px-6 text-sm uppercase text-gray-500">
                           {collection.whitelistAvailable == "yes"
@@ -109,7 +113,7 @@ export default function LaunchingSoon() {
                             : "false"}
                         </td>
                         <td className="whitespace-nowrap py-4 px-6 text-sm uppercase text-gray-500">
-                          {collection.teamInfo}
+                          {collection.teamInfo ? "true" : "false"}
                         </td>
                         <td className="whitespace-nowrap py-4 px-6 text-sm text-gray-500 ">
                           {collection.projectType}
