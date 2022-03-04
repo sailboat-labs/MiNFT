@@ -4,12 +4,21 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import TextField, { TextFieldProps } from "@mui/material/TextField";
 import axios from "axios";
 import dashify from "dashify";
+import {
+  collection as fire,
+  DocumentData,
+  getFirestore,
+  query,
+} from "firebase/firestore";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useMetaMask } from "metamask-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useCollectionData } from "react-firebase-hooks/firestore";
 import toast from "react-hot-toast";
 import { v4 } from "uuid";
 import * as Yup from "yup";
+
+import { firebaseApp } from "@/lib/firebase";
 
 import { blockchains } from "@/data/blockchains";
 import { categories } from "@/data/categories";
@@ -22,12 +31,30 @@ import Dropdown from "@/components/shared/dropdown";
 
 import { Collection } from "@/types";
 
+const firestore = getFirestore(firebaseApp);
 interface IAddCollectionProps {
   collection?: Collection;
 }
 
 export default function AddCollection({ collection }: IAddCollectionProps) {
   const { account } = useMetaMask();
+
+  const [names, setNames] = useState<string[]>([]);
+
+  const _query = query(fire(firestore, "collections"));
+  const [snapshots, loading] = useCollectionData(_query);
+
+  useEffect(() => {
+    if (loading) return;
+    if (!snapshots) return;
+
+    const data = snapshots.reduce((acc: string[], curr: DocumentData) => {
+      acc.push((curr.name as string).toLowerCase());
+      return acc;
+    }, []);
+
+    setNames(data);
+  }, [loading, snapshots]);
 
   const [selectedProjectType, setSelectedProjectType] = useState<string>();
   const [whitelistAvailable, setWhitelistAvailable] = useState<string>();
@@ -49,7 +76,8 @@ export default function AddCollection({ collection }: IAddCollectionProps) {
       .trim()
       .lowercase()
       .required("Name is required")
-      .not(["add"], "Name cannot be 'Add'"),
+      .not(["add"], "Name cannot be 'Add'")
+      .not(names, `Name already exists`),
     website: Yup.string().required("Website is required"),
     twitter: Yup.string().required("Twitter is required"),
     discord: Yup.string(),
@@ -135,7 +163,7 @@ export default function AddCollection({ collection }: IAddCollectionProps) {
     }
   }
 
-  return (
+  return names ? (
     <Layout>
       <>
         <UploadingPost show={collectionSubmitting} />
@@ -480,5 +508,7 @@ export default function AddCollection({ collection }: IAddCollectionProps) {
         </Formik>
       </>
     </Layout>
+  ) : (
+    <></>
   );
 }

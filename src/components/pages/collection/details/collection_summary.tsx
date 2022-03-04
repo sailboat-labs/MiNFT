@@ -17,6 +17,7 @@ interface SocialLInk {
 interface ICollectionSummaryProps {
   collection: Collection;
 }
+
 export default function CollectionSummary({
   collection,
 }: ICollectionSummaryProps) {
