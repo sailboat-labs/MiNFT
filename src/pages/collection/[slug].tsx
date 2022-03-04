@@ -20,7 +20,7 @@ const CollectionPage = () => {
   const { id } = router.query;
 
   const ref = doc(firestore, `collections/${id}`);
-  const [collectionData, setCollectionData] = useState<any>();
+  const [collectionData, setCollectionData] = useState<Collection>();
   const [collection, loading, error] = useDocumentData(ref);
 
   const [openSeaData, setOpenSeaData] = useState<OpenSeaCollection>();
@@ -43,7 +43,7 @@ const CollectionPage = () => {
 
   useEffect(() => {
     if (!collection || loading) return;
-    setCollectionData(collection);
+    setCollectionData(collection as Collection);
   }, [loading, error, collection]);
 
   useEffect(() => {
