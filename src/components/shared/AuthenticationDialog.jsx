@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 
 import { connectors } from "@/utils/config";
 
-export default function AuthenticationDialog({ show, required }) {
+export default function AuthenticationDialog({ show }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const {
@@ -25,10 +25,10 @@ export default function AuthenticationDialog({ show, required }) {
 
   useEffect(() => {
     if (account) return setIsOpen(false);
-    if ((required || show) && !account) return setIsOpen(true);
+    if ( show && !account) return setIsOpen(true);
 
     return setIsOpen(false);
-  }, [account, isOpen, required]);
+  }, [account, isOpen]);
 
   useEffect(() => {
     if (show) setIsOpen(show);

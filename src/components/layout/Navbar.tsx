@@ -31,7 +31,7 @@ export default function Navbar() {
 
   return (
     <section className="fixed z-[999] w-full bg-white text-gray-700 shadow">
-      <AuthenticationDialog show={showAuthDialog} required={false} />
+      <AuthenticationDialog show={showAuthDialog}  />
       <div
         className={`absolute z-[2] flex h-screen w-full flex-col bg-white shadow  transition-all lg:hidden 
       ${navOpen ? "translate-x-0" : "translate-x-full"}

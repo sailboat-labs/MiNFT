@@ -221,7 +221,7 @@ export default function AddCollection({
     <Layout>
       <>
         <UploadingPost show={collectionSubmitting} />
-        <AuthenticationDialog show={true} required={true} />
+        <AuthenticationDialog show={false} />
         <ConnectWalletFullScreen />
         {/* <form className="mt-20">
           <label htmlFor="upload">Upload File</label>

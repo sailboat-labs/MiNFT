@@ -18,7 +18,7 @@ export default function Header() {
 
   return (
     <div className="bg-primaryblue bg-opacity-20">
-      <AuthenticationDialog show={showAuthDialog} required={false}/>
+      <AuthenticationDialog show={showAuthDialog} />
       <div
         className={`fixed z-[2] flex h-screen w-full flex-col bg-white shadow  transition-all lg:hidden 
       ${navOpen ? "translate-x-0" : "translate-x-full"}

@@ -12,11 +12,11 @@ import "@/styles/globals.css";
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <MoralisProvider
-      appId="DSTBtQhn4m4DPtvN6vgMiuWHKtCjgrGNTTn0gmBU"
-      serverUrl="https://wl7nngidaae7.usemoralis.com:2053/server"
+      appId={process.env.NEXT_PUBLIC_MORALIS_APP_ID!}
+      serverUrl={process.env.NEXT_PUBLIC_MORALIS_SERVERURL!}
     >
-        <Toaster />
-        <Component {...pageProps} />
+      <Toaster />
+      <Component {...pageProps} />
     </MoralisProvider>
   );
 }
