@@ -14,8 +14,8 @@ import { useEffect, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 
 import { firebaseApp } from "@/lib/firebase";
-import { Collection } from "@/types";
 
+import { Collection } from "@/types";
 
 const firestore = getFirestore(firebaseApp);
 export default function LaunchingSoon() {
@@ -96,10 +96,8 @@ export default function LaunchingSoon() {
                           pathname: `/collection/[slug]`,
                           query: {
                             slug: collection.slug!,
-                            id: collection.id,
                           },
                         }}
-                        as={`/collection/${collection.slug!}`}
                         passHref
                       >
                         <tr className="cursor-pointer border-b bg-white transition-all hover:bg-gray-50">
