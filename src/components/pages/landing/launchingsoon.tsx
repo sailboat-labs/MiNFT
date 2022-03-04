@@ -14,8 +14,8 @@ import { useEffect, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 
 import { firebaseApp } from "@/lib/firebase";
-
 import { Collection } from "@/types";
+
 
 const firestore = getFirestore(firebaseApp);
 export default function LaunchingSoon() {

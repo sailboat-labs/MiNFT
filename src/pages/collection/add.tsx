@@ -1,16 +1,27 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import DateTimePicker from "@mui/lab/DateTimePicker";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import TextField, { TextFieldProps } from "@mui/material/TextField";
 import axios from "axios";
 import dashify from "dashify";
+import {
+  collection as fire,
+  DocumentData,
+  getFirestore,
+  query,
+} from "firebase/firestore";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useMetaMask } from "metamask-react";
-import { useState } from "react";
+import { useRouter } from "next/router";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useCollectionData } from "react-firebase-hooks/firestore";
 import toast from "react-hot-toast";
 import { v4 } from "uuid";
 import { read, utils,writeFileXLSX } from "xlsx";
 import * as Yup from "yup";
+
+import { firebaseApp } from "@/lib/firebase";
 
 import { blockchains } from "@/data/blockchains";
 import { categories } from "@/data/categories";
@@ -23,24 +34,60 @@ import Dropdown from "@/components/shared/dropdown";
 
 import { Collection } from "@/types";
 
+const firestore = getFirestore(firebaseApp);
 interface IAddCollectionProps {
   collection?: Collection;
+  setEditMode?: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function AddCollection({ collection }: IAddCollectionProps) {
+export default function AddCollection({
+  collection,
+  setEditMode,
+}: IAddCollectionProps) {
   const { account } = useMetaMask();
+  const router = useRouter();
 
-  const [selectedProjectType, setSelectedProjectType] = useState<string>();
-  const [whitelistAvailable, setWhitelistAvailable] = useState<string>();
-  const [selectedBlockchain, setSelectedBlockchain] = useState<string>();
-  const [imageUrl, setImageUrl] = useState<string>();
+  const [names, setNames] = useState<string[]>([]);
+
+  const _query = query(fire(firestore, "collections"));
+  const [snapshots, loading] = useCollectionData(_query);
+
+  useEffect(() => {
+    if (loading) return;
+    if (!snapshots) return;
+
+    const data = snapshots.reduce((acc: string[], curr: DocumentData) => {
+      acc.push((curr.name as string).toLowerCase());
+      return acc;
+    }, []);
+
+    if (collection) {
+      const index = data.indexOf(collection.name!.toLowerCase());
+      data.splice(index, 1);
+    }
+
+    setNames(data);
+  }, [loading, snapshots]);
+
+  const [selectedProjectType, setSelectedProjectType] = useState<
+    string | undefined
+  >(collection?.projectType);
+  const [whitelistAvailable, setWhitelistAvailable] = useState<
+    string | undefined
+  >(collection?.whitelistAvailable);
+  const [selectedBlockchain, setSelectedBlockchain] = useState<
+    string | undefined
+  >(collection?.blockchain);
+  const [imageUrl, setImageUrl] = useState<string | undefined>(
+    collection?.image
+  );
 
   const [presaleMintDateTime, setPresaleMintDateTime] = useState<Date | null>(
-    new Date("2014-08-18T21:11:54")
+    new Date(collection?.preMintDate ?? "2014-08-18T21:11:54")
   );
 
   const [publicMintDateTime, setPublicMintDateTime] = useState<Date | null>(
-    new Date("2014-08-18T21:11:54")
+    new Date(collection?.publicMintDate ?? "2014-08-18T21:11:54")
   );
 
   const [collectionSubmitting, setCollectionSubmitting] = useState(false);
@@ -50,7 +97,8 @@ export default function AddCollection({ collection }: IAddCollectionProps) {
       .trim()
       .lowercase()
       .required("Name is required")
-      .not(["add"], "Name cannot be 'Add'"),
+      .not(["add"], "Name cannot be 'Add'")
+      .not(names, `Name already exists`),
     website: Yup.string().required("Website is required"),
     twitter: Yup.string().required("Twitter is required"),
     discord: Yup.string(),
@@ -125,11 +173,16 @@ export default function AddCollection({ collection }: IAddCollectionProps) {
           });
 
       if (data.success) {
-        toast.success("Added");
+        toast.success(collection ? "Updated" : "Added");
       } else {
         toast.error(data.message);
       }
+
       setCollectionSubmitting(false);
+      if (collection) {
+        router.replace(`/collection/${dashify(values.name)}`);
+        router.reload();
+      }
     } catch (error) {
       toast.error("Unable to add collection");
       setCollectionSubmitting(false);
@@ -137,7 +190,6 @@ export default function AddCollection({ collection }: IAddCollectionProps) {
   }
 
   const readUploadFile = (e: any) => {
-    
     e.preventDefault();
     try {
       if (e.target.files) {
@@ -157,12 +209,11 @@ export default function AddCollection({ collection }: IAddCollectionProps) {
       }
     } catch (error) {
       console.log(error);
-      
     }
   };
   
 
-  return (
+  return names ? (
     <Layout>
       <>
         <UploadingPost show={collectionSubmitting} />
@@ -187,14 +238,16 @@ export default function AddCollection({ collection }: IAddCollectionProps) {
             return (
               <Form className="contained mt-10 transition-all">
                 <div className="flex justify-between">
-                  <strong className="text-2xl ">Add New Collection</strong>
+                  <strong className="text-2xl ">
+                    {collection ? "Update" : "Add New"} Collection
+                  </strong>
                   <button
                     type="submit"
                     onClick={handleSubmit}
                     disabled={isSubmitting}
                     className="gradient-button mr-6"
                   >
-                    Add
+                    {collection ? "Update" : "Add New"}
                   </button>
                 </div>
 
@@ -224,6 +277,7 @@ export default function AddCollection({ collection }: IAddCollectionProps) {
                             </td>
                             <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
                               <Dropdown
+                                initial={selectedBlockchain}
                                 onItemSelected={setSelectedBlockchain}
                                 options={blockchains}
                                 className="w-full "
@@ -255,6 +309,7 @@ export default function AddCollection({ collection }: IAddCollectionProps) {
                             </td>
                             <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
                               <Dropdown
+                                initial={selectedProjectType}
                                 onItemSelected={setSelectedProjectType}
                                 options={categories}
                                 className="w-full"
@@ -427,6 +482,7 @@ export default function AddCollection({ collection }: IAddCollectionProps) {
                         </td>
                         <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
                           <Dropdown
+                            initial={whitelistAvailable}
                             onItemSelected={setWhitelistAvailable}
                             options={["yes", "no"]}
                             className="w-full "
@@ -516,5 +572,7 @@ export default function AddCollection({ collection }: IAddCollectionProps) {
         </Formik>
       </>
     </Layout>
+  ) : (
+    <></>
   );
 }

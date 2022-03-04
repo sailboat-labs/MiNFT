@@ -1,8 +1,16 @@
 /* eslint-disable @next/next/no-img-element */
-import { doc, getFirestore } from "firebase/firestore";
+import {
+  collection as fire,
+  doc,
+  getFirestore,
+  query,
+} from "firebase/firestore";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useDocumentData } from "react-firebase-hooks/firestore";
+import {
+  useCollectionData,
+  useDocumentData,
+} from "react-firebase-hooks/firestore";
 
 import { firebaseApp } from "@/lib/firebase";
 
@@ -11,19 +19,28 @@ import Assets from "@/components/pages/collection/details/assets";
 import CollectionSummary from "@/components/pages/collection/details/collection_summary";
 import Comments from "@/components/pages/collection/details/comments";
 
+import AddCollection from "./add";
+
 import { Collection, OpenSeaCollection } from "@/types";
 
 const firestore = getFirestore(firebaseApp);
 
 const CollectionPage = () => {
   const router = useRouter();
-  const { id } = router.query;
+  const { slug } = router.query;
+
+  const [id, setId] = useState<string>("b");
+
+  const [editMode, setEditMode] = useState<boolean>(false);
 
   const ref = doc(firestore, `collections/${id}`);
   const [collectionData, setCollectionData] = useState<Collection>();
   const [collection, loading, error] = useDocumentData(ref);
 
-  const [openSeaData, setOpenSeaData] = useState<OpenSeaCollection>();
+  const _query = query(fire(firestore, "collections"));
+  const [snapshots, _loading] = useCollectionData(_query);
+
+   const [openSeaData, setOpenSeaData] = useState<OpenSeaCollection>();
 
   async function getCollection() {
     if (!collection || !collection.opensea) return;
@@ -44,12 +61,30 @@ const CollectionPage = () => {
   useEffect(() => {
     if (!collection || loading) return;
     setCollectionData(collection as Collection);
+    console.log(collection);
+    
   }, [loading, error, collection]);
 
   useEffect(() => {
     if (!collection || !collection.opensea) return;
     getCollection();
   }, [collection]);
+
+  useEffect(() => {
+    if (_loading) return;
+    if (!snapshots) return;
+
+    const data = snapshots[0].id;
+
+    setId(data);
+  }, [_loading, snapshots]);
+
+  if (editMode)
+    return collection ? (
+      <AddCollection collection={collection as Collection} />
+    ) : (
+      <></>
+    );
 
   return (
     <Layout>
@@ -80,7 +115,8 @@ const CollectionPage = () => {
           </div>
           <CollectionSummary
             openSeaData={openSeaData}
-            collection={collection as Collection}
+            collection={collectionData as Collection}
+            setEditMode={setEditMode}
           />
           <Assets />
           <Comments />
