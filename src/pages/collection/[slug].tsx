@@ -45,7 +45,7 @@ const CollectionPage = ({ router }: any) => {
     setOpenSeaData(_collection);
   }
 
-`  useEffect(() => {
+  useEffect(() => {
     if (!collection || loading) return;
     setCollectionData(collection as Collection);
   }, [loading, error, collection]);
