@@ -1,8 +1,16 @@
 /* eslint-disable @next/next/no-img-element */
-import { doc, getFirestore } from "firebase/firestore";
+import {
+  collection as fire,
+  doc,
+  getFirestore,
+  query,
+} from "firebase/firestore";
 import { useRouter } from "next/router";
-import { useState } from "react";
-import { useDocumentData } from "react-firebase-hooks/firestore";
+import { useEffect, useState } from "react";
+import {
+  useCollectionData,
+  useDocumentData,
+} from "react-firebase-hooks/firestore";
 
 import { firebaseApp } from "@/lib/firebase";
 
@@ -19,13 +27,26 @@ const firestore = getFirestore(firebaseApp);
 
 const CollectionPage = () => {
   const router = useRouter();
-  console.log(router.query);
-  const { id } = router.query;
+  const { slug } = router.query;
+
+  const [id, setId] = useState<string>("b");
 
   const [editMode, setEditMode] = useState<boolean>(false);
 
   const ref = doc(firestore, `collections/${id}`);
   const [collection, loading, error] = useDocumentData(ref);
+
+  const _query = query(fire(firestore, "collections"));
+  const [snapshots, _loading] = useCollectionData(_query);
+
+  useEffect(() => {
+    if (_loading) return;
+    if (!snapshots) return;
+
+    const data = snapshots[0].id;
+
+    setId(data);
+  }, [_loading, snapshots]);
 
   if (editMode)
     return collection ? (
@@ -34,7 +55,7 @@ const CollectionPage = () => {
       <></>
     );
 
-  return collection ? (
+  return id && collection ? (
     <Layout>
       <div className="pb-20">
         <div className="h-20">

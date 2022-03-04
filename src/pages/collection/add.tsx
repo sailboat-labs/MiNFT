@@ -13,6 +13,7 @@ import {
 } from "firebase/firestore";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useMetaMask } from "metamask-react";
+import { useRouter } from "next/router";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import toast from "react-hot-toast";
@@ -43,6 +44,7 @@ export default function AddCollection({
   setEditMode,
 }: IAddCollectionProps) {
   const { account } = useMetaMask();
+  const router = useRouter();
 
   const [names, setNames] = useState<string[]>([]);
 
@@ -176,6 +178,10 @@ export default function AddCollection({
       }
 
       setCollectionSubmitting(false);
+      if (collection) {
+        router.replace(`/collection/${dashify(values.name)}`);
+        router.reload();
+      }
     } catch (error) {
       toast.error("Unable to add collection");
       setCollectionSubmitting(false);
@@ -192,7 +198,6 @@ export default function AddCollection({
           validationSchema={formValidationSchema}
           onSubmit={(values, { setSubmitting }) => {
             formSubmit(values);
-            if (collection) return setEditMode!(false);
           }}
         >
           {({ errors, touched, handleSubmit, isSubmitting }: any) => {
