@@ -19,6 +19,7 @@ import Dropdown from "@/components/shared/dropdown";
 
 import { Collection } from "@/types";
 import ConnectWalletFullScreen from "@/components/shared/connect_wallet_fullscreen";
+import UploadingPost from "@/components/pages/collection/add/uploading_post_modal";
 
 interface IAddCollectionProps {
   collection?: Collection;
@@ -39,6 +40,9 @@ export default function AddCollection({ collection }: IAddCollectionProps) {
   const [publicMintDateTime, setPublicMintDateTime] = useState<Date | null>(
     new Date("2014-08-18T21:11:54")
   );
+
+
+  const [collectionSubmitting, setCollectionSubmitting] = useState(false)
 
   const formValidationSchema = Yup.object().shape({
     name: Yup.string().required("Name is required"),
@@ -78,6 +82,7 @@ export default function AddCollection({ collection }: IAddCollectionProps) {
   };
 
   async function formSubmit(values: any) {
+    setCollectionSubmitting(true)
     try {
       const timestamp = new Date().toISOString();
       const _collection: Collection = {
@@ -118,14 +123,19 @@ export default function AddCollection({ collection }: IAddCollectionProps) {
       } else {
         toast.error(data.message);
       }
+    setCollectionSubmitting(false);
+
     } catch (error) {
       toast.error("Unable to add collection");
+    setCollectionSubmitting(false);
+
     }
   }
 
   return (
     <Layout>
       <>
+      <UploadingPost show={collectionSubmitting}/>
         <ConnectWalletFullScreen />
         <Formik
           initialValues={formInitialValues}
