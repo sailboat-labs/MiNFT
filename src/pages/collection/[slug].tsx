@@ -33,7 +33,6 @@ const CollectionPage = () => {
       const response = await fetch(url);
       const body = await response.text();
       const parsedBody = await JSON.parse(body);
-      console.log(parsedBody.collection);
 
       if (parsedBody.collection.slug != "undefined")
         setOpenSeaData(parsedBody.collection);
