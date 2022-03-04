@@ -104,7 +104,7 @@ export default function LaunchingSoon() {
                         </td>
                         <td className="whitespace-nowrap py-4 px-6 text-sm text-gray-500 ">
                           {dayjs(new Date(collection.preMintDate!)).format(
-                            "DD MMM, YYYY HH:MM"
+                            "DD MMM, YYYY. HH:MM"
                           )}
                         </td>
                         <td className="whitespace-nowrap py-4 px-6 text-sm uppercase text-gray-500">

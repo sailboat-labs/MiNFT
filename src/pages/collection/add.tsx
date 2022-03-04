@@ -3,7 +3,7 @@ import DateTimePicker from "@mui/lab/DateTimePicker";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import TextField, { TextFieldProps } from "@mui/material/TextField";
 import axios from "axios";
-import { ErrorMessage, Field, Form, Formik, useFormik } from "formik";
+import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useMetaMask } from "metamask-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -39,9 +39,10 @@ export default function AddCollection({ collection }: IAddCollectionProps) {
     new Date("2014-08-18T21:11:54")
   );
 
-
   const formValidationSchema = Yup.object().shape({
-    name: Yup.string().required("Name is required"),
+    name: Yup.string()
+      .required("Name is required")
+      .not(["ADD", "Add", "add"], "Name cannot be 'Add'"),
     website: Yup.string().required("Website is required"),
     twitter: Yup.string().required("Twitter is required"),
     discord: Yup.string(),
@@ -80,30 +81,30 @@ export default function AddCollection({ collection }: IAddCollectionProps) {
   async function formSubmit(values: any) {
     try {
       const timestamp = new Date().toISOString();
-        const _collection: Collection = {
-          id: collection?.id ?? v4(),
-          owner: account!,
-          name: values.name,
-          blockchain: selectedBlockchain,
-          projectType: selectedProjectType,
-          website: values.website,
-          twitter: values.twitter,
-          discord: values.discord,
-          etherscan: values.etherscan,
-          opensea: values.opensea,
-          description: values.description,
-          preMintDate: presaleMintDateTime?.toISOString(),
-          publicMintDate: publicMintDateTime?.toISOString(),
-          preSaleCost: values.preSaleCost,
-          publicMintCost: values.publicMintCost,
-          supply: values.supply,
-          whitelistAvailable: whitelistAvailable,
-          whitelistRequirements: values.whitelistRequirements,
-          teamInfo: values.teamInfo,
-          image: imageUrl,
-          dateCreated: collection?.dateCreated ?? timestamp,
-          lastUpdated: timestamp,
-        };
+      const _collection: Collection = {
+        id: collection?.id ?? v4(),
+        owner: account!,
+        name: values.name,
+        blockchain: selectedBlockchain,
+        projectType: selectedProjectType,
+        website: values.website,
+        twitter: values.twitter,
+        discord: values.discord,
+        etherscan: values.etherscan,
+        opensea: values.opensea,
+        description: values.description,
+        preMintDate: presaleMintDateTime?.toISOString(),
+        publicMintDate: publicMintDateTime?.toISOString(),
+        preSaleCost: values.preSaleCost,
+        publicMintCost: values.publicMintCost,
+        supply: values.supply,
+        whitelistAvailable: whitelistAvailable,
+        whitelistRequirements: values.whitelistRequirements,
+        teamInfo: values.teamInfo,
+        image: imageUrl,
+        dateCreated: collection?.dateCreated ?? timestamp,
+        lastUpdated: timestamp,
+      };
 
       const { data } = collection
         ? await axios.put("/api/collections", {
@@ -129,7 +130,7 @@ export default function AddCollection({ collection }: IAddCollectionProps) {
         initialValues={formInitialValues}
         validationSchema={formValidationSchema}
         onSubmit={(values, { setSubmitting }) => {
-          formSubmit(values)
+          formSubmit(values);
         }}
       >
         {({ errors, touched, handleSubmit, isSubmitting }: any) => {
