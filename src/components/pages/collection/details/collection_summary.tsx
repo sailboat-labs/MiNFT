@@ -98,7 +98,7 @@ export default function CollectionSummary({
             </div>
           </div>
           <TeamInfo info={collection.teamInfo!} />
-          {openSeaData && openSeaData.slug != "undefined" && (
+          {openSeaData && (
             <CollectionStats
               collectionStats={openSeaData.stats}
               className="mt-10 justify-center"
@@ -124,7 +124,7 @@ export default function CollectionSummary({
           </div>
           <table className="mt-5">
             <tbody>
-              {openSeaData && openSeaData.slug != "undefined" && (
+              {openSeaData && (
                 <>
                   <tr className="bg-white ">
                     <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">

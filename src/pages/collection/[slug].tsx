@@ -35,8 +35,8 @@ const CollectionPage = () => {
       const body = await response.text();
       const parsedBody = await JSON.parse(body);
 
-      setOpenSeaData(parsedBody.collection);
-      console.log(parsedBody.collection);
+      if (parsedBody.collection.slug != "undefined")
+        setOpenSeaData(parsedBody.collection);
     } catch (error) {
       console.log(error);
     }
