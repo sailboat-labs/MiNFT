@@ -14,11 +14,11 @@ import {
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useMetaMask } from "metamask-react";
 import { useRouter } from "next/router";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import toast from "react-hot-toast";
 import { v4 } from "uuid";
-import { read, utils,writeFileXLSX } from "xlsx";
+import { read, utils } from "xlsx";
 import * as Yup from "yup";
 
 import { firebaseApp } from "@/lib/firebase";
@@ -37,7 +37,7 @@ import { Collection } from "@/types";
 const firestore = getFirestore(firebaseApp);
 interface IAddCollectionProps {
   collection?: Collection;
-  setEditMode?: Dispatch<SetStateAction<boolean>>;
+  setEditMode?: any;
 }
 
 export default function AddCollection({
@@ -178,12 +178,14 @@ export default function AddCollection({
         toast.error(data.message);
       }
 
-      setCollectionSubmitting(false);
       if (collection) {
-        router.replace(`/collection/${dashify(values.name)}`);
-        router.reload();
+        const url = `/collection/${dashify(values.name)}`;
+        router.replace(url);
+        setEditMode!(false);
       }
+      setCollectionSubmitting(false);
     } catch (error) {
+      console.error(error);
       toast.error("Unable to add collection");
       setCollectionSubmitting(false);
     }
@@ -211,7 +213,6 @@ export default function AddCollection({
       console.log(error);
     }
   };
-  
 
   return names ? (
     <Layout>

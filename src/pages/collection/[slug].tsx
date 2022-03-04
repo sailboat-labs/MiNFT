@@ -2,15 +2,13 @@
 import {
   collection as fire,
   doc,
+  getDocs,
   getFirestore,
   query,
+  where,
 } from "firebase/firestore";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import {
-  useCollectionData,
-  useDocumentData,
-} from "react-firebase-hooks/firestore";
+import { useDocumentData } from "react-firebase-hooks/firestore";
 
 import { firebaseApp } from "@/lib/firebase";
 
@@ -25,8 +23,8 @@ import { Collection, OpenSeaCollection } from "@/types";
 
 const firestore = getFirestore(firebaseApp);
 
-const CollectionPage = () => {
-  const router = useRouter();
+const CollectionPage = ({ router }: any) => {
+  console.log(router);
   const { slug } = router.query;
 
   const [id, setId] = useState<string>("b");
@@ -37,10 +35,7 @@ const CollectionPage = () => {
   const [collectionData, setCollectionData] = useState<Collection>();
   const [collection, loading, error] = useDocumentData(ref);
 
-  const _query = query(fire(firestore, "collections"));
-  const [snapshots, _loading] = useCollectionData(_query);
-
-   const [openSeaData, setOpenSeaData] = useState<OpenSeaCollection>();
+  const [openSeaData, setOpenSeaData] = useState<OpenSeaCollection>();
 
   async function getCollection() {
     if (!collection || !collection.opensea) return;
@@ -54,15 +49,13 @@ const CollectionPage = () => {
       if (parsedBody.collection.slug != "undefined")
         setOpenSeaData(parsedBody.collection);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   }
 
   useEffect(() => {
     if (!collection || loading) return;
     setCollectionData(collection as Collection);
-    console.log(collection);
-    
   }, [loading, error, collection]);
 
   useEffect(() => {
@@ -71,17 +64,24 @@ const CollectionPage = () => {
   }, [collection]);
 
   useEffect(() => {
-    if (_loading) return;
-    if (!snapshots) return;
+    if (slug) {
+      const _query = query(
+        fire(firestore, "collections"),
+        where("slug", "==", slug)
+      );
 
-    const data = snapshots[0].id;
-
-    setId(data);
-  }, [_loading, snapshots]);
+      getDocs(_query).then((snap) => {
+        setId(snap.docs[0].id);
+      });
+    }
+  }, [slug]);
 
   if (editMode)
     return collection ? (
-      <AddCollection collection={collection as Collection} />
+      <AddCollection
+        collection={collection as Collection}
+        setEditMode={setEditMode}
+      />
     ) : (
       <></>
     );
@@ -125,5 +125,15 @@ const CollectionPage = () => {
     </Layout>
   );
 };
+
+export function getServerSideProps({ query }: any) {
+  // if query object was received, return it as a router prop:
+  if (query.slug) {
+    return { props: { router: { query } } };
+  }
+  // obtain slug elsewhere, redirect or fallback to some default value:
+  /* ... */
+  return { props: { router: { query: { slug: "" } } } };
+}
 
 export default CollectionPage;
