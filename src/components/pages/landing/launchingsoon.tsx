@@ -100,7 +100,7 @@ export default function LaunchingSoon() {
                           },
                         }}
                         as={`/collection/${collection.slug!}`}
-                        passHref={true}
+                        passHref
                       >
                         <tr className="cursor-pointer border-b bg-white transition-all hover:bg-gray-50">
                           <td className="flex items-center gap-5 whitespace-nowrap py-4 px-6 text-sm font-medium text-gray-900">

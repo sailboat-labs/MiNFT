@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @next/next/no-img-element */
 import dayjs from "dayjs";
+import { formatEthAddress } from "eth-address";
 import { useEffect, useState } from "react";
 
 import CollectionStats from "./stats";
@@ -16,9 +17,11 @@ interface SocialLInk {
 }
 interface ICollectionSummaryProps {
   collection: Collection;
+  openSeaData?: any; // Get object for this
 }
 export default function CollectionSummary({
   collection,
+  openSeaData,
 }: ICollectionSummaryProps) {
   const [socialLinks, setSocialLinks] = useState<SocialLInk[]>([]);
 
@@ -95,14 +98,19 @@ export default function CollectionSummary({
             </div>
           </div>
           <TeamInfo info={collection.teamInfo!} />
-          <CollectionStats className="mt-10 justify-center" />
+          {openSeaData && openSeaData.slug != "undefined" && (
+            <CollectionStats
+              collectionStats={openSeaData.stats}
+              className="mt-10 justify-center"
+            />
+          )}
           <WishlistRequirements
             requirements={collection.whitelistRequirements!}
           />
         </div>
         <div className=" w-full rounded lg:w-[30%]">
-          <div className="flex h-[400px] cursor-pointer flex-col justify-end rounded-lg bg-gray-200">
-            <img src={collection.image} alt="" />
+          <div className="flex h-fit cursor-pointer flex-col justify-end rounded-lg bg-gray-200">
+            <img className="rounded-t-lg" src={collection.image} alt="" />
 
             <div className=" flex w-full items-center gap-5 rounded-b-lg border-2 border-t-0 bg-white px-3 py-3">
               <img
@@ -116,30 +124,65 @@ export default function CollectionSummary({
           </div>
           <table className="mt-5">
             <tbody>
-              <tr className="bg-white ">
-                <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
-                  Contract Address
-                </td>
-                <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
-                  0x4123423412342213423
-                </td>
-              </tr>
-              <tr className="bg-white ">
-                <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
-                  Tokens Standard
-                </td>
-                <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
-                  ERC 721
-                </td>
-              </tr>
+              {openSeaData && openSeaData.slug != "undefined" && (
+                <>
+                  <tr className="bg-white ">
+                    <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
+                      Contract Address
+                    </td>
+                    <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
+                      {formatEthAddress(
+                        openSeaData.primary_asset_contracts[0].address ?? ""
+                      )}
+                    </td>
+                  </tr>
+                  <tr className="bg-white ">
+                    <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
+                      Tokens Standard
+                    </td>
+                    <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
+                      {openSeaData.primary_asset_contracts[0].schema_name ?? ""}
+                    </td>
+                  </tr>
+                </>
+              )}
               <tr className="bg-white ">
                 <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
                   Blockchain
                 </td>
-                <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
-                  Ethereum
+                <td className="whitespace-nowrap py-2 px-6 text-sm capitalize text-gray-500 ">
+                  {collection.blockchain}
                 </td>
               </tr>
+              {collection.opensea && (
+                <tr className="bg-white ">
+                  <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
+                    Opensea
+                  </td>
+                  <td
+                    onClick={() => {
+                      window.open(collection.opensea, "_blank");
+                    }}
+                    className="flex cursor-pointer items-center gap-2 whitespace-nowrap py-2 px-6 text-sm text-blue-500 transition-all hover:text-blue-900 "
+                  >
+                    {collection.opensea?.toString().split("/collection/")[1]}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-4 w-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                      />
+                    </svg>
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
           <div className="mt-10 flex flex-col gap-5">
