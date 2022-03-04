@@ -132,6 +132,8 @@ export default function AddCollection({ collection }: IAddCollectionProps) {
     }
   }
 
+  
+
   return (
     <Layout>
       <>
