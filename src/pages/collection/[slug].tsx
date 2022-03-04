@@ -22,6 +22,7 @@ import Comments from "@/components/pages/collection/details/comments";
 import AddCollection from "./add";
 
 import { Collection, OpenSeaCollection } from "@/types";
+import { getOpenSeaCollection } from "@/helpers/opensea";
 
 const firestore = getFirestore(firebaseApp);
 
@@ -40,29 +41,19 @@ const CollectionPage = () => {
   const _query = query(fire(firestore, "collections"));
   const [snapshots, _loading] = useCollectionData(_query);
 
-   const [openSeaData, setOpenSeaData] = useState<OpenSeaCollection>();
+  const [openSeaData, setOpenSeaData] = useState<OpenSeaCollection>();
 
   async function getCollection() {
     if (!collection || !collection.opensea) return;
-    try {
-      const _slug = collection.opensea.toString().split("/collection/")[1];
-      const url = `https://api.opensea.io/api/v1/collection/${_slug}`;
-      const response = await fetch(url);
-      const body = await response.text();
-      const parsedBody = await JSON.parse(body);
-
-      if (parsedBody.collection.slug != "undefined")
-        setOpenSeaData(parsedBody.collection);
-    } catch (error) {
-      console.log(error);
-    }
+    const _slug = collection.opensea.toString().split("/collection/")[1];
+    const _collection = await getOpenSeaCollection(_slug);
+    setOpenSeaData(_collection);
   }
 
   useEffect(() => {
     if (!collection || loading) return;
     setCollectionData(collection as Collection);
     console.log(collection);
-    
   }, [loading, error, collection]);
 
   useEffect(() => {
