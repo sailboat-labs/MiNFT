@@ -28,12 +28,12 @@ const CollectionPage = () => {
   async function getCollection() {
     if (!collection || !collection.opensea) return;
     try {
-      console.log("getting");
       const _slug = collection.opensea.toString().split("/collection/")[1];
       const url = `https://api.opensea.io/api/v1/collection/${_slug}`;
       const response = await fetch(url);
       const body = await response.text();
       const parsedBody = await JSON.parse(body);
+      console.log(parsedBody.collection);
 
       if (parsedBody.collection.slug != "undefined")
         setOpenSeaData(parsedBody.collection);
@@ -43,8 +43,6 @@ const CollectionPage = () => {
   }
 
   useEffect(() => {
-    console.log(id);
-
     if (!collection || loading) return;
     setCollectionData(collection);
   }, [loading, error, collection]);
