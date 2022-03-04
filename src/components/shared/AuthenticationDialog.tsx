@@ -1,38 +1,34 @@
 /* eslint-disable @next/next/no-img-element */
 import { Dialog, Transition } from "@headlessui/react";
-// import { useMetaMask } from "metamask-react";
-import { Fragment, useEffect, useState } from "react";
-import { useMoralis } from "react-moralis";
 import axios from "axios";
+// import { useMetaMask } from "metamask-react";
+import { Dispatch, Fragment, SetStateAction, useEffect } from "react";
 import toast from "react-hot-toast";
+import { useMoralis } from "react-moralis";
 
 import { connectors } from "@/utils/config";
 
-export default function AuthenticationDialog({ show }) {
-  const [isOpen, setIsOpen] = useState(false);
-
+interface IAuthenticationDialogProps {
+  showAuthDialog: boolean;
+  setShowAuthDialog: Dispatch<SetStateAction<boolean>>;
+}
+export default function AuthenticationDialog({
+  showAuthDialog,
+  setShowAuthDialog,
+}: IAuthenticationDialogProps) {
   const {
     isAuthenticating,
     isInitializing,
     authenticate,
     isAuthenticated,
     account,
-    chainId,
-    logout,
+    // chainId,
+    // logout,
   } = useMoralis();
 
-  // const { status, connect, account } = useMetaMask();
-
   useEffect(() => {
-    if (account) return setIsOpen(false);
-    if ( show && !account) return setIsOpen(true);
-
-    return setIsOpen(false);
-  }, [account, isOpen]);
-
-  useEffect(() => {
-    if (show) setIsOpen(show);
-  }, [show]);
+    if (account) return setShowAuthDialog(false);
+  }, [account, setShowAuthDialog]);
 
   useEffect(() => {
     if (account && isAuthenticated)
@@ -49,13 +45,11 @@ export default function AuthenticationDialog({ show }) {
 
   return (
     <>
-      <Transition appear show={isOpen} as={Fragment}>
+      <Transition appear show={showAuthDialog} as={Fragment}>
         <Dialog
           as="div"
           className="fixed inset-0 z-[1000] overflow-y-auto"
-          onClose={() => {
-            null;
-          }}
+          onClose={() => setShowAuthDialog(!showAuthDialog)}
         >
           <Dialog.Overlay className="fixed inset-0 bg-black opacity-30" />
           <div className="min-h-screen px-4 text-center">
@@ -92,7 +86,7 @@ export default function AuthenticationDialog({ show }) {
                   as="h3"
                   className="pb-10 text-lg font-medium leading-6 text-gray-900"
                 >
-                  <div className="flex justify-between items-center">
+                  <div className="flex items-center justify-between">
                     {isAuthenticating ? (
                       <div className="flex items-center gap-2">
                         <svg
@@ -119,6 +113,7 @@ export default function AuthenticationDialog({ show }) {
                       "Connect your wallet"
                     )}
                     <svg
+                      onClick={() => setShowAuthDialog(!showAuthDialog)}
                       xmlns="http://www.w3.org/2000/svg"
                       className="h-6 w-6 cursor-pointer"
                       fill="none"
@@ -148,12 +143,15 @@ export default function AuthenticationDialog({ show }) {
                       onClick={async () => {
                         if (!isAuthenticating && !isInitializing) {
                           try {
-                            await authenticate({ provider: connectorId });
+                            await authenticate({
+                              provider: connectorId as any,
+                            });
                             window.localStorage.setItem(
                               "connectorId",
                               connectorId
                             );
                           } catch (e) {
+                            // eslint-disable-next-line no-console
                             console.error(e);
                           }
                         }

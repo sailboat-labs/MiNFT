@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { SelectOutlined } from "@ant-design/icons";
 import { Button, Card, Modal } from "antd";
 import Text from "antd/lib/typography/Text";
@@ -56,14 +57,15 @@ function Account() {
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
             {connectors.map(({ title, icon, connectorId }, key) => (
               <div
-                style={styles.connector}
+                style={styles.connector as any}
                 key={key}
                 onClick={async () => {
                   try {
-                    await authenticate({ provider: connectorId });
+                    await authenticate({ provider: connectorId as any });
                     window.localStorage.setItem("connectorId", connectorId);
                     setIsAuthModalVisible(false);
                   } catch (e) {
+                    // eslint-disable-next-line no-console
                     console.error(e);
                   }
                 }}
@@ -100,14 +102,15 @@ function Account() {
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
             {connectors.map(({ title, icon, connectorId }, key) => (
               <div
-                style={styles.connector}
+                style={styles.connector as any}
                 key={key}
                 onClick={async () => {
                   try {
-                    await authenticate({ provider: connectorId });
+                    await authenticate({ provider: connectorId as any });
                     window.localStorage.setItem("connectorId", connectorId);
                     setIsAuthModalVisible(false);
                   } catch (e) {
+                    // eslint-disable-next-line no-console
                     console.error(e);
                   }
                 }}
@@ -166,7 +169,6 @@ function Account() {
           }}
           bodyStyle={{ padding: "15px" }}
         >
-          
           <div style={{ marginTop: "10px", padding: "0 10px" }}>
             <a
               href={`${getExplorer(chainId)}/address/${account}`}

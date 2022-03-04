@@ -1,24 +1,28 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import VisibilitySensor from "react-visibility-sensor";
+import { useState } from "react";
 import { useMoralis } from "react-moralis";
+import VisibilitySensor from "react-visibility-sensor";
 
 import ProfileIcon from "@/components/shared/profile_icon";
-import AuthenticationDialog from "../../shared/AuthenticationDialog"
+
+import AuthenticationDialog from "../../shared/AuthenticationDialog";
 
 // import DarkModeMenu from "../navbar/darkmode-toggle";
 
 export default function Header() {
   const [headerVisible, setHeaderVisible] = useState(true);
   const [navOpen, setNavOpen] = useState(false);
-  const [showAuthDialog, setShowAuthDialog] = useState(false)
+  const [showAuthDialog, setShowAuthDialog] = useState(false);
 
-  const { account, chainId } = useMoralis();
+  const { account } = useMoralis();
 
   return (
     <div className="bg-primaryblue bg-opacity-20">
-      <AuthenticationDialog show={showAuthDialog} />
+      <AuthenticationDialog
+        showAuthDialog={showAuthDialog}
+        setShowAuthDialog={setShowAuthDialog}
+      />
       <div
         className={`fixed z-[2] flex h-screen w-full flex-col bg-white shadow  transition-all lg:hidden 
       ${navOpen ? "translate-x-0" : "translate-x-full"}

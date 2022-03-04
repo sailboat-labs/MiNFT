@@ -12,7 +12,6 @@ import {
   query,
 } from "firebase/firestore";
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import { useMetaMask } from "metamask-react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
@@ -30,12 +29,10 @@ import { categories } from "@/data/categories";
 import ImageUpload from "@/components/collection/ImageUpload";
 import Layout from "@/components/layout/Layout";
 import UploadingPost from "@/components/pages/collection/add/uploading_post_modal";
-import AuthenticationDialog from "../../components/shared/AuthenticationDialog";
 import ConnectWalletFullScreen from "@/components/shared/connect_wallet_fullscreen";
 import Dropdown from "@/components/shared/dropdown";
 
 import { Collection } from "@/types";
-
 
 const firestore = getFirestore(firebaseApp);
 interface IAddCollectionProps {
@@ -221,7 +218,10 @@ export default function AddCollection({
     <Layout>
       <>
         <UploadingPost show={collectionSubmitting} />
-        <AuthenticationDialog show={false} />
+        {/* <AuthenticationDialog
+          showAuthDialog={false}
+          setShowAuthDialog={undefined}
+        /> */}
         <ConnectWalletFullScreen />
         {/* <form className="mt-20">
           <label htmlFor="upload">Upload File</label>

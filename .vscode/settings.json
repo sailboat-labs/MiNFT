@@ -10,14 +10,19 @@
   },
   "headwind.runOnSave": false,
   "cSpell.words": [
+    "antd",
     "clsx",
     "dashify",
     "Dropzone",
     "Formik",
     "headlessui",
+    "Moralis",
+    "postbuild",
     "Presale",
     "primaryblue",
     "STARTERCONF",
+    "typecheck",
+    "walletconnect",
     "Watchlist"
   ]
 }
