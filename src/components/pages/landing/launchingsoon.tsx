@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import dayjs from "dayjs";
 import {
@@ -63,6 +64,12 @@ export default function LaunchingSoon() {
                       scope="col"
                       className="py-3 px-6 text-left text-xs font-medium uppercase tracking-wider text-gray-700 "
                     >
+                      Public Mint Date & Time
+                    </th>
+                    <th
+                      scope="col"
+                      className="py-3 px-6 text-left text-xs font-medium uppercase tracking-wider text-gray-700 "
+                    >
                       Whitelist Available
                     </th>
                     <th
@@ -85,14 +92,14 @@ export default function LaunchingSoon() {
                       <tr key={index} className="border-b bg-white ">
                         <td className="flex items-center gap-5 whitespace-nowrap py-4 px-6 text-sm font-medium text-gray-900">
                           <div className="h-10 w-10 flex-shrink-0 rounded-[50%] bg-gray-100">
-                            {/* <img
-                          className='h-full w-full rounded-[50%] object-cover'
-                          src={
-                            limitedPartner.profileImage ??
-                            'https://www.google.com/s2/favicons?sz=64&domain_url=https://nzvc.co.nz'
-                          }
-                          alt=''
-                        /> */}
+                            <img
+                              className="h-full w-full rounded-[50%] object-cover"
+                              src={
+                                collection.image ??
+                                "https://www.google.com/s2/favicons?sz=64&domain_url=https://nzvc.co.nz"
+                              }
+                              alt=""
+                            />
                           </div>
                           <div>
                             <div className="text-md">{collection.name}</div>
@@ -107,6 +114,11 @@ export default function LaunchingSoon() {
                             "DD MMM, YYYY. HH:MM"
                           )}
                         </td>
+                        <td className="whitespace-nowrap py-4 px-6 text-sm text-gray-500 ">
+                          {dayjs(new Date(collection.publicMintDate!)).format(
+                            "DD MMM, YYYY HH:MM"
+                          )}
+                        </td>
                         <td className="whitespace-nowrap py-4 px-6 text-sm uppercase text-gray-500">
                           {collection.whitelistAvailable == "yes"
                             ? "true"
@@ -115,7 +127,7 @@ export default function LaunchingSoon() {
                         <td className="whitespace-nowrap py-4 px-6 text-sm uppercase text-gray-500">
                           {collection.teamInfo ? "true" : "false"}
                         </td>
-                        <td className="whitespace-nowrap py-4 px-6 text-sm text-gray-500 ">
+                        <td className="whitespace-nowrap py-4 px-6 text-sm capitalize text-gray-500 ">
                           {collection.projectType}
                         </td>
                       </tr>
