@@ -3,15 +3,18 @@ import DateTimePicker from "@mui/lab/DateTimePicker";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import TextField, { TextFieldProps } from "@mui/material/TextField";
 import axios from "axios";
-import { ErrorMessage, Field, Form, Formik, useFormik } from "formik";
+import dashify from "dashify";
+import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useMetaMask } from "metamask-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { v4 } from "uuid";
+import { read, utils,writeFileXLSX } from "xlsx";
 import * as Yup from "yup";
+
 import { blockchains } from "@/data/blockchains";
 import { categories } from "@/data/categories";
-import { read, writeFileXLSX,utils } from "xlsx";
+
 import ImageUpload from "@/components/collection/ImageUpload";
 import Layout from "@/components/layout/Layout";
 import UploadingPost from "@/components/pages/collection/add/uploading_post_modal";
@@ -40,11 +43,14 @@ export default function AddCollection({ collection }: IAddCollectionProps) {
     new Date("2014-08-18T21:11:54")
   );
 
-
-  const [collectionSubmitting, setCollectionSubmitting] = useState(false)
+  const [collectionSubmitting, setCollectionSubmitting] = useState(false);
 
   const formValidationSchema = Yup.object().shape({
-    name: Yup.string().required("Name is required"),
+    name: Yup.string()
+      .trim()
+      .lowercase()
+      .required("Name is required")
+      .not(["add"], "Name cannot be 'Add'"),
     website: Yup.string().required("Website is required"),
     twitter: Yup.string().required("Twitter is required"),
     discord: Yup.string(),
@@ -81,13 +87,14 @@ export default function AddCollection({ collection }: IAddCollectionProps) {
   };
 
   async function formSubmit(values: any) {
-    setCollectionSubmitting(true)
+    setCollectionSubmitting(true);
     try {
       const timestamp = new Date().toISOString();
       const _collection: Collection = {
         id: collection?.id ?? v4(),
         owner: account!,
         name: values.name,
+        slug: dashify(values.name),
         blockchain: selectedBlockchain,
         projectType: selectedProjectType,
         website: values.website,
@@ -122,12 +129,10 @@ export default function AddCollection({ collection }: IAddCollectionProps) {
       } else {
         toast.error(data.message);
       }
-    setCollectionSubmitting(false);
-
+      setCollectionSubmitting(false);
     } catch (error) {
       toast.error("Unable to add collection");
-    setCollectionSubmitting(false);
-
+      setCollectionSubmitting(false);
     }
   }
 

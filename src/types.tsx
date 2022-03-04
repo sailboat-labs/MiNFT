@@ -7,6 +7,7 @@ export interface Collection {
   id: string;
   owner: string;
   name?: string;
+  slug?: string;
   blockchain?: string;
   projectType?: string;
   website?: string;

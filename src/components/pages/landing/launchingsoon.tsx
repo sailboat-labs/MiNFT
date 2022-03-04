@@ -9,6 +9,7 @@ import {
   orderBy,
   query,
 } from "firebase/firestore";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 
@@ -89,48 +90,61 @@ export default function LaunchingSoon() {
                 <tbody>
                   {collections &&
                     collections.map((collection, index) => (
-                      <tr key={index} className="border-b bg-white cursor-pointer hover:bg-gray-50 transition-all">
-                        <td className="flex items-center gap-5 whitespace-nowrap py-4 px-6 text-sm font-medium text-gray-900">
-                          <div className="h-10 w-10 flex-shrink-0 rounded-[50%] bg-gray-100">
-                            <img
-                              className="h-full w-full rounded-[50%] object-cover"
-                              src={
-                                collection.image ??
-                                "https://www.google.com/s2/favicons?sz=64&domain_url=https://nzvc.co.nz"
-                              }
-                              alt=""
-                            />
-                          </div>
-                          <div>
-                            <div className="text-md">{collection.name}</div>
-                            <div className="whitespace-nowrap text-sm text-gray-500 ">
-                              <span>{collection.supply}</span>
-                              <span>&nbsp;circulating supply</span>
+                      <Link
+                        key={index}
+                        href={{
+                          pathname: `/collection/[slug]`,
+                          query: {
+                            slug: collection.slug!,
+                            id: collection.id,
+                          },
+                        }}
+                        as={`/collection/${collection.slug!}`}
+                        passHref={true}
+                      >
+                        <tr className="cursor-pointer border-b bg-white transition-all hover:bg-gray-50">
+                          <td className="flex items-center gap-5 whitespace-nowrap py-4 px-6 text-sm font-medium text-gray-900">
+                            <div className="h-10 w-10 flex-shrink-0 rounded-[50%] bg-gray-100">
+                              <img
+                                className="h-full w-full rounded-[50%] object-cover"
+                                src={
+                                  collection.image ??
+                                  "https://www.google.com/s2/favicons?sz=64&domain_url=https://nzvc.co.nz"
+                                }
+                                alt=""
+                              />
                             </div>
-                          </div>
-                        </td>
-                        <td className="whitespace-nowrap py-4 px-6 text-sm text-gray-500 ">
-                          {dayjs(new Date(collection.preMintDate!)).format(
-                            "DD MMM, YYYY HH:MM"
-                          )}
-                        </td>
-                        <td className="whitespace-nowrap py-4 px-6 text-sm text-gray-500 ">
-                          {dayjs(new Date(collection.publicMintDate!)).format(
-                            "DD MMM, YYYY HH:MM"
-                          )}
-                        </td>
-                        <td className="whitespace-nowrap py-4 px-6 text-sm uppercase text-gray-500">
-                          {collection.whitelistAvailable == "yes"
-                            ? "true"
-                            : "false"}
-                        </td>
-                        <td className="whitespace-nowrap py-4 px-6 text-sm uppercase text-gray-500">
-                          {collection.teamInfo ? "true" : "false"}
-                        </td>
-                        <td className="whitespace-nowrap py-4 px-6 text-sm capitalize text-gray-500 ">
-                          {collection.projectType}
-                        </td>
-                      </tr>
+                            <div>
+                              <div className="text-md">{collection.name}</div>
+                              <div className="whitespace-nowrap text-sm text-gray-500 ">
+                                <span>{collection.supply}</span>
+                                <span>&nbsp;circulating supply</span>
+                              </div>
+                            </div>
+                          </td>
+                          <td className="whitespace-nowrap py-4 px-6 text-sm text-gray-500 ">
+                            {dayjs(new Date(collection.preMintDate!)).format(
+                              "DD MMM, YYYY. HH:MM"
+                            )}
+                          </td>
+                          <td className="whitespace-nowrap py-4 px-6 text-sm text-gray-500 ">
+                            {dayjs(new Date(collection.publicMintDate!)).format(
+                              "DD MMM, YYYY HH:MM"
+                            )}
+                          </td>
+                          <td className="whitespace-nowrap py-4 px-6 text-sm uppercase text-gray-500">
+                            {collection.whitelistAvailable == "yes"
+                              ? "true"
+                              : "false"}
+                          </td>
+                          <td className="whitespace-nowrap py-4 px-6 text-sm uppercase text-gray-500">
+                            {collection.teamInfo ? "true" : "false"}
+                          </td>
+                          <td className="whitespace-nowrap py-4 px-6 text-sm capitalize text-gray-500 ">
+                            {collection.projectType}
+                          </td>
+                        </tr>
+                      </Link>
                     ))}
                 </tbody>
               </table>

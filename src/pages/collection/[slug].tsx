@@ -1,11 +1,27 @@
 /* eslint-disable @next/next/no-img-element */
+import { doc, getFirestore } from "firebase/firestore";
+import { useRouter } from "next/router";
+import { useDocumentData } from "react-firebase-hooks/firestore";
+
+import { firebaseApp } from "@/lib/firebase";
+
 import Layout from "@/components/layout/Layout";
 import Assets from "@/components/pages/collection/details/assets";
 import CollectionSummary from "@/components/pages/collection/details/collection_summary";
 import Comments from "@/components/pages/collection/details/comments";
 
-export default function CollectionPage() {
-  return (
+import { Collection } from "@/types";
+
+const firestore = getFirestore(firebaseApp);
+
+const CollectionPage = () => {
+  const router = useRouter();
+  const { id } = router.query;
+
+  const ref = doc(firestore, `collections/${id}`);
+  const [collection, loading, error] = useDocumentData(ref);
+
+  return collection ? (
     <Layout>
       <div className="pb-20">
         <div className="h-20">
@@ -25,10 +41,14 @@ export default function CollectionPage() {
           <span className="text-red-500 underline">Article</span>
           <span>News</span>
         </div>
-        <CollectionSummary />
+        <CollectionSummary collection={collection as Collection} />
         <Assets />
         <Comments />
       </div>
     </Layout>
+  ) : (
+    <></>
   );
-}
+};
+
+export default CollectionPage;

@@ -1,81 +1,117 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @next/next/no-img-element */
-import { useState } from "react";
+import dayjs from "dayjs";
+import { useEffect, useState } from "react";
 
 import CollectionStats from "./stats";
 import TeamInfo from "./team_information";
 import WishlistRequirements from "./wishlist_requirements";
 
-export default function CollectionSummary() {
-  const [socialLinks, setSocialLinks] = useState<
-    {
-      name: string;
-      link: string;
-      image: string;
-    }[]
-  >([
-    {
-      name: "Discord",
-      link: "https://discord.com/francis",
-      image: "/images/discord_logo.png",
-    },
-    {
-      name: "Twitter",
-      link: "https://discord.com/francis",
-      image: "/images/discord_logo.png",
-    },
-  ]);
+import { Collection } from "@/types";
+
+interface SocialLInk {
+  name: string;
+  link: string;
+  image: string;
+}
+interface ICollectionSummaryProps {
+  collection: Collection;
+}
+export default function CollectionSummary({
+  collection,
+}: ICollectionSummaryProps) {
+  const [socialLinks, setSocialLinks] = useState<SocialLInk[]>([]);
+
+  useEffect(() => {
+    const links = [];
+    if (collection.twitter) {
+      links.push({
+        name: "Twitter",
+        link: collection.twitter,
+        image: "/images/discord_logo.png",
+      });
+    }
+    if (collection.discord) {
+      links.push({
+        name: "Discord",
+        link: collection.discord,
+        image: "/images/discord_logo.png",
+      });
+    }
+
+    setSocialLinks(links);
+  }, [collection]);
 
   return (
     <>
       <div className="contained flex w-full flex-col gap-20 lg:flex-row">
         <div className=" w-full lg:w-[70%]">
-          <div className="mt-10 text-2xl font-bold">Cool Cats Collection</div>
+          <div className="mt-10 text-2xl font-bold">{collection.name}</div>
           <div className="mt-3 text-sm text-gray-500">
-            Cool Cats is a collection of 9,999 randomly generated and
-            stylistically curated NFTs that exist on the Ethereum Blockchain.
-            Cool Cat holders can participate in exclusive events such as NFT
-            claims, raffles, community giveaways, and more. Remember, all cats
-            are cool, but some are cooler than others.
+            {collection.description}
           </div>
           <div className="mt-5 grid grid-cols-2 gap-5 border-2 border-black px-5 py-3 md:grid-cols-3 xl:grid-cols-4">
             <div className="flex flex-col gap-2">
               <span className="font-bold">Presale Mint Date and Time</span>
-              <span>08/12/2022 - 8pm GMT</span>
+              <span>
+                {dayjs(new Date(collection.preMintDate!)).format(
+                  "DD/MM/YYYY, HH : MM "
+                )}
+              </span>
             </div>
             <div className="flex flex-col gap-2">
               <span className="font-bold">Public Mint Date and Time</span>
-              <span>08/12/2022 - 8pm GMT</span>
+              <span>
+                {dayjs(new Date(collection.publicMintDate!)).format(
+                  "DD/MM/YYYY, HH : MM "
+                )}
+              </span>
             </div>
             <div className="flex flex-col gap-2">
               <span className="font-bold">Whitelist Available</span>
-              <span>No</span>
+              <span className="capitalize">
+                {collection.whitelistAvailable}
+              </span>
             </div>
             <div className="flex flex-col gap-2">
               <span className="font-bold">Team Info</span>
-              <span>Yes</span>
+              <span>{collection.teamInfo ? "Yes" : "No"}</span>
             </div>
             <div className="flex flex-col gap-2">
-              <span className="font-bold">Project Type</span>
-              <span>Art</span>
+              <span className="font-bold ">Project Type</span>
+              <span className="capitalize">{collection.projectType}</span>
             </div>
             <div className="flex flex-col gap-2">
               <span className="font-bold">Presale Mint Cost</span>
-              <span>TBA</span>
+              <span className="capitalize">
+                {collection.preSaleCost ?? "TBA"}
+              </span>
             </div>
             <div className="flex flex-col gap-2">
               <span className="font-bold">Public Mint Cost</span>
-              <span>TBA</span>
+              <span className="capitalize">
+                {collection.publicMintCost ?? "TBA"}
+              </span>
             </div>
           </div>
-          <TeamInfo />
+          <TeamInfo info={collection.teamInfo!} />
           <CollectionStats className="mt-10 justify-center" />
-          <WishlistRequirements />
+          <WishlistRequirements
+            requirements={collection.whitelistRequirements!}
+          />
         </div>
         <div className=" w-full rounded lg:w-[30%]">
           <div className="flex h-[400px] cursor-pointer flex-col justify-end rounded-lg bg-gray-200">
+            <img src={collection.image} alt="" />
+
             <div className=" flex w-full items-center gap-5 rounded-b-lg border-2 border-t-0 bg-white px-3 py-3">
-              <div className="rounded-[50%] border-2 bg-gray-100 p-5"></div>
-              <div className="whitespace-wrap">Cool Cats</div>
+              <img
+                className="h-12 w-12 rounded-full bg-gray-100"
+                src={collection.image}
+                alt=""
+              />
+
+              <div className="whitespace-wrap">{collection.name}</div>
             </div>
           </div>
           <table className="mt-5">
