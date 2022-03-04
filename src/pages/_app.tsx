@@ -1,7 +1,7 @@
 import { MetaMaskProvider } from "metamask-react";
 import { AppProps } from "next/app";
 import { Toaster } from "react-hot-toast";
-
+import { MoralisProvider } from "react-moralis";
 import "@/styles/globals.css";
 
 /**
@@ -11,10 +11,13 @@ import "@/styles/globals.css";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <MetaMaskProvider>
-      <Toaster />
-      <Component {...pageProps} />
-    </MetaMaskProvider>
+    <MoralisProvider
+      appId="DSTBtQhn4m4DPtvN6vgMiuWHKtCjgrGNTTn0gmBU"
+      serverUrl="https://wl7nngidaae7.usemoralis.com:2053/server"
+    >
+        <Toaster />
+        <Component {...pageProps} />
+    </MoralisProvider>
   );
 }
 

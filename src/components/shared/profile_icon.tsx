@@ -1,10 +1,15 @@
 import { Menu, Transition } from "@headlessui/react";
 import { formatEthAddress } from "eth-address";
-import { useMetaMask } from "metamask-react";
+// import { useMetaMask } from "metamask-react";
 import { Fragment } from "react";
+import { useMoralis } from "react-moralis";
+
 
 export default function ProfileIcon() {
-  const { status, connect, account, chainId, ethereum } = useMetaMask();
+  // const { status, connect, account, chainId, ethereum } = useMetaMask();
+  const { authenticate, isAuthenticated, account, chainId, logout } =
+    useMoralis();
+
 
   return (
     <div className="w-fit text-right">
@@ -66,6 +71,7 @@ export default function ProfileIcon() {
               <Menu.Item>
                 {({ active }: any) => (
                   <button
+                  onClick={logout}
                     className={`${
                       active ? "bg-primaryblue text-white" : "text-gray-900"
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}

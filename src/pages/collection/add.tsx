@@ -17,6 +17,7 @@ import { useRouter } from "next/router";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import toast from "react-hot-toast";
+import { useMoralis } from "react-moralis";
 import { v4 } from "uuid";
 import { read, utils,writeFileXLSX } from "xlsx";
 import * as Yup from "yup";
@@ -29,10 +30,12 @@ import { categories } from "@/data/categories";
 import ImageUpload from "@/components/collection/ImageUpload";
 import Layout from "@/components/layout/Layout";
 import UploadingPost from "@/components/pages/collection/add/uploading_post_modal";
+import AuthenticationDialog from "../../components/shared/AuthenticationDialog";
 import ConnectWalletFullScreen from "@/components/shared/connect_wallet_fullscreen";
 import Dropdown from "@/components/shared/dropdown";
 
 import { Collection } from "@/types";
+
 
 const firestore = getFirestore(firebaseApp);
 interface IAddCollectionProps {
@@ -44,7 +47,7 @@ export default function AddCollection({
   collection,
   setEditMode,
 }: IAddCollectionProps) {
-  const { account } = useMetaMask();
+  const { account } = useMoralis();
   const router = useRouter();
 
   const [names, setNames] = useState<string[]>([]);
@@ -217,6 +220,7 @@ export default function AddCollection({
     <Layout>
       <>
         <UploadingPost show={collectionSubmitting} />
+        <AuthenticationDialog show={true} required={true} />
         <ConnectWalletFullScreen />
         {/* <form className="mt-20">
           <label htmlFor="upload">Upload File</label>

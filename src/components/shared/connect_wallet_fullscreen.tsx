@@ -1,5 +1,5 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { useMetaMask } from "metamask-react";
+// import { useMetaMask } from "metamask-react";
 import { Fragment, useEffect, useState } from "react";
 
 export default function ConnectWalletFullScreen() {
@@ -10,13 +10,13 @@ export default function ConnectWalletFullScreen() {
     setIsOpen(true);
   }
 
-  const { status, connect, account } = useMetaMask();
+  // const { status, connect, account } = useMetaMask();
 
 
-  useEffect(() => {
-     if (account && status === "connected") return setIsOpen(false);
-    return openModal()
-  }, [account,status,isOpen]);
+  // useEffect(() => {
+  //    if (account && status === "connected") return setIsOpen(false);
+  //   return openModal()
+  // }, [account,status,isOpen]);
 
   return (
     <>
@@ -73,7 +73,7 @@ export default function ConnectWalletFullScreen() {
                   <button
                     type="button"
                     className="gradient-button"
-                    onClick={connect}
+                    // onClick={connect}
                   >
                     Connect
                   </button>

@@ -1,15 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
 // import DarkModeMenu from "../navbar/darkmode-toggle";
-import { useMetaMask } from "metamask-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import AuthenticationDialog from "../shared/AuthenticationDialog";
+import { useMoralis } from "react-moralis";
 
 import ProfileIcon from "../shared/profile_icon";
 
 export default function Navbar() {
-  const { status, connect, account, chainId, ethereum } = useMetaMask();
-
   const links: { label: string; route: string }[] = [
     { label: "Categories", route: "/" },
     { label: "All Collections", route: "/" },
@@ -17,12 +16,22 @@ export default function Navbar() {
     { label: "About Us", route: "/" },
   ];
 
+  const [showAuthDialog, setShowAuthDialog] = useState(false);
   const router = useRouter();
+  const {
+    authenticate,
+    isAuthenticating,
+    isAuthenticated,
+    account,
+    chainId,
+    logout,
+  } = useMoralis();
 
   const [navOpen, setNavOpen] = useState(false);
 
   return (
     <section className="fixed z-[999] w-full bg-white text-gray-700 shadow">
+      <AuthenticationDialog show={showAuthDialog} required={false} />
       <div
         className={`absolute z-[2] flex h-screen w-full flex-col bg-white shadow  transition-all lg:hidden 
       ${navOpen ? "translate-x-0" : "translate-x-full"}
@@ -54,18 +63,6 @@ export default function Navbar() {
             />
           </svg>
         </div>
-        <div className="flex w-full justify-center py-5">
-          {!account && status !== "connecting" && (
-            <div
-              onClick={connect}
-              className="gradient-button mr-5 cursor-pointer rounded px-3 py-1 text-xs font-medium leading-6  hover:text-gray-900"
-            >
-              Connect your address
-            </div>
-          )}
-        </div>
-        <div className="flex justify-center">{account && <ProfileIcon />}</div>
-        {status === "connecting" && <div>Connecting...</div>}
       </div>
       <div className="container relative z-[1] mx-auto flex max-w-7xl flex-col flex-wrap items-center justify-between px-8 py-3 md:flex-row">
         <div className="relative flex w-full flex-col md:flex-row lg:w-fit">
@@ -100,7 +97,7 @@ export default function Navbar() {
                 />
               </svg>
             </div>
-            <div
+            {/* <div
               className={`ml-10 hidden transition-all lg:block
               `}
             >
@@ -108,7 +105,7 @@ export default function Navbar() {
                 className="rounded-lg bg-gray-100 px-8 py-2 transition-all focus:border-0 focus:px-10"
                 placeholder="Search..."
               />
-            </div>
+            </div> */}
           </div>
           {/* <nav className=" relative z-[2] hidden md:flex flex-wrap items-center mb-5 text-base md:mb-0 md:pl-8 md:ml-8 md:border-l md:border-gray-200">
             <Link passHref href="/">
@@ -153,16 +150,18 @@ export default function Navbar() {
               </div>
             </Link>
           )}
-          {!account && status !== "connecting" && (
+          {!account && !isAuthenticating && (
             <div
-              onClick={connect}
+              onClick={() => {
+                setShowAuthDialog(true);
+              }}
               className="gradient-button mr-5 cursor-pointer rounded px-3 py-1 text-xs font-medium leading-6  hover:text-gray-900"
             >
               Connect your wallet
             </div>
           )}
           {account && <ProfileIcon />}
-          {status === "connecting" && (
+          {!account && isAuthenticating && (
             <div>
               <button
                 disabled
