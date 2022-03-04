@@ -3,6 +3,7 @@ import DateTimePicker from "@mui/lab/DateTimePicker";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import TextField, { TextFieldProps } from "@mui/material/TextField";
 import axios from "axios";
+import dashify from "dashify";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useMetaMask } from "metamask-react";
 import { useState } from "react";
@@ -45,8 +46,10 @@ export default function AddCollection({ collection }: IAddCollectionProps) {
 
   const formValidationSchema = Yup.object().shape({
     name: Yup.string()
+      .trim()
+      .lowercase()
       .required("Name is required")
-      .not(["ADD", "Add", "add"], "Name cannot be 'Add'"),
+      .not(["add"], "Name cannot be 'Add'"),
     website: Yup.string().required("Website is required"),
     twitter: Yup.string().required("Twitter is required"),
     discord: Yup.string(),
@@ -90,6 +93,7 @@ export default function AddCollection({ collection }: IAddCollectionProps) {
         id: collection?.id ?? v4(),
         owner: account!,
         name: values.name,
+        slug: dashify(values.name),
         blockchain: selectedBlockchain,
         projectType: selectedProjectType,
         website: values.website,
