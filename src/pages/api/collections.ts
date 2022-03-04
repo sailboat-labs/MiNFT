@@ -6,6 +6,7 @@ import {
   getFirestore,
   query,
   setDoc,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -37,6 +38,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           .status(200)
           .json({ success: false, message: "Name already exists" });
       }
+    } else if (req.method == "PUT") {
+      const { collection } = req.body;
+
+      const _doc = doc(firestore, `collections/${collection.id}`);
+      await updateDoc(_doc, collection);
+
+      return res.status(200).json({ success: true });
     }
     return res.status(500).json({ success: false, message: "Wrong method" });
   } catch (error) {

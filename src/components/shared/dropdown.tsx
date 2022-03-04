@@ -2,19 +2,21 @@ import { Dispatch, SetStateAction, useState } from "react";
 
 type props = {
   onItemSelected: Dispatch<SetStateAction<string | undefined>>;
+  initial?: string;
   options: string[];
   className?: string;
 };
 
 export default function Dropdown({
   onItemSelected,
+  initial,
   options,
   className,
 }: props) {
   const [onParentClick, setOnParentClick] = useState<{
     show: boolean;
     selected: string;
-  }>({ show: false, selected: "Select One" });
+  }>({ show: false, selected: initial ?? "Select One" });
   return (
     <div className="relative w-full">
       <button

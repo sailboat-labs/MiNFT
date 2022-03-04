@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @next/next/no-img-element */
 import dayjs from "dayjs";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 import CollectionStats from "./stats";
 import TeamInfo from "./team_information";
@@ -16,10 +16,12 @@ interface SocialLInk {
 }
 interface ICollectionSummaryProps {
   collection: Collection;
+  setEditMode: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function CollectionSummary({
   collection,
+  setEditMode,
 }: ICollectionSummaryProps) {
   const [socialLinks, setSocialLinks] = useState<SocialLInk[]>([]);
 
@@ -47,7 +49,16 @@ export default function CollectionSummary({
     <>
       <div className="contained flex w-full flex-col gap-20 lg:flex-row">
         <div className=" w-full lg:w-[70%]">
-          <div className="mt-10 text-2xl font-bold">{collection.name}</div>
+          <div className="flex justify-between">
+            <div className="mt-10 text-2xl font-bold">{collection.name}</div>
+            <button
+              className="mt-10 rounded-lg bg-gray-200 px-6 font-bold"
+              onClick={() => setEditMode(true)}
+            >
+              Edit
+            </button>
+          </div>
+
           <div className="mt-3 text-sm text-gray-500">
             {collection.description}
           </div>

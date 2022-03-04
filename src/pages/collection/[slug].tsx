@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { doc, getFirestore } from "firebase/firestore";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 
 import { firebaseApp } from "@/lib/firebase";
@@ -10,16 +11,28 @@ import Assets from "@/components/pages/collection/details/assets";
 import CollectionSummary from "@/components/pages/collection/details/collection_summary";
 import Comments from "@/components/pages/collection/details/comments";
 
+import AddCollection from "./add";
+
 import { Collection } from "@/types";
 
 const firestore = getFirestore(firebaseApp);
 
 const CollectionPage = () => {
   const router = useRouter();
+  console.log(router.query);
   const { id } = router.query;
+
+  const [editMode, setEditMode] = useState<boolean>(false);
 
   const ref = doc(firestore, `collections/${id}`);
   const [collection, loading, error] = useDocumentData(ref);
+
+  if (editMode)
+    return collection ? (
+      <AddCollection collection={collection as Collection} />
+    ) : (
+      <></>
+    );
 
   return collection ? (
     <Layout>
@@ -41,7 +54,10 @@ const CollectionPage = () => {
           <span className="text-red-500 underline">Article</span>
           <span>News</span>
         </div>
-        <CollectionSummary collection={collection as Collection} />
+        <CollectionSummary
+          collection={collection as Collection}
+          setEditMode={setEditMode}
+        />
         <Assets />
         <Comments />
       </div>
