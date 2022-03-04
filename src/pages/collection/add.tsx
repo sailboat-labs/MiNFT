@@ -9,17 +9,16 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { v4 } from "uuid";
 import * as Yup from "yup";
-
 import { blockchains } from "@/data/blockchains";
 import { categories } from "@/data/categories";
-
+import { read, writeFileXLSX,utils } from "xlsx";
 import ImageUpload from "@/components/collection/ImageUpload";
 import Layout from "@/components/layout/Layout";
+import UploadingPost from "@/components/pages/collection/add/uploading_post_modal";
+import ConnectWalletFullScreen from "@/components/shared/connect_wallet_fullscreen";
 import Dropdown from "@/components/shared/dropdown";
 
 import { Collection } from "@/types";
-import ConnectWalletFullScreen from "@/components/shared/connect_wallet_fullscreen";
-import UploadingPost from "@/components/pages/collection/add/uploading_post_modal";
 
 interface IAddCollectionProps {
   collection?: Collection;
@@ -132,13 +131,46 @@ export default function AddCollection({ collection }: IAddCollectionProps) {
     }
   }
 
+  const readUploadFile = (e: any) => {
+    
+    e.preventDefault();
+    try {
+      if (e.target.files) {
+        console.log("files", e.target.files);
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const data = e.target!.result;
+
+          const workbook = read(data, { type: "array" });
+          const sheetName = workbook.SheetNames[0];
+          const worksheet = workbook.Sheets[sheetName];
+          const json = utils.sheet_to_json(worksheet);
+          console.log(json);
+        };
+        reader.readAsArrayBuffer(e.target.files[0]);
+      }
+    } catch (error) {
+      console.log(error);
+      
+    }
+  };
   
 
   return (
     <Layout>
       <>
-      <UploadingPost show={collectionSubmitting}/>
+        <UploadingPost show={collectionSubmitting} />
         <ConnectWalletFullScreen />
+        {/* <form className="mt-20">
+          <label htmlFor="upload">Upload File</label>
+          <input
+            type="file"
+            name="upload"
+            id="upload"
+            onChange={readUploadFile}
+          />
+        </form> */}
         <Formik
           initialValues={formInitialValues}
           validationSchema={formValidationSchema}
@@ -155,7 +187,7 @@ export default function AddCollection({ collection }: IAddCollectionProps) {
                     type="submit"
                     onClick={handleSubmit}
                     disabled={isSubmitting}
-                    className="mr-6 rounded-md bg-gray-300 py-1 px-5 font-bold shadow-sm"
+                    className="gradient-button mr-6"
                   >
                     Add
                   </button>

@@ -158,7 +158,7 @@ export default function Navbar() {
               onClick={connect}
               className="gradient-button mr-5 cursor-pointer rounded px-3 py-1 text-xs font-medium leading-6  hover:text-gray-900"
             >
-              Connect your address
+              Connect your wallet
             </div>
           )}
           {account && <ProfileIcon />}
