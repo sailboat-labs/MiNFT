@@ -8,7 +8,7 @@ import CollectionStats from "./stats";
 import TeamInfo from "./team_information";
 import WishlistRequirements from "./wishlist_requirements";
 
-import { Collection } from "@/types";
+import { Collection, OpenSeaCollection } from "@/types";
 
 interface SocialLInk {
   name: string;
@@ -17,7 +17,7 @@ interface SocialLInk {
 }
 interface ICollectionSummaryProps {
   collection: Collection;
-  openSeaData?: any; // Get object for this
+  openSeaData?: OpenSeaCollection; // Get object for this
 }
 export default function CollectionSummary({
   collection,

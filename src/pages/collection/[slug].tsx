@@ -11,7 +11,7 @@ import Assets from "@/components/pages/collection/details/assets";
 import CollectionSummary from "@/components/pages/collection/details/collection_summary";
 import Comments from "@/components/pages/collection/details/comments";
 
-import { Collection } from "@/types";
+import { Collection, OpenSeaCollection } from "@/types";
 
 const firestore = getFirestore(firebaseApp);
 
@@ -23,7 +23,7 @@ const CollectionPage = () => {
   const [collectionData, setCollectionData] = useState<any>();
   const [collection, loading, error] = useDocumentData(ref);
 
-  const [openSeaData, setOpenSeaData] = useState();
+  const [openSeaData, setOpenSeaData] = useState<OpenSeaCollection>();
 
   async function getCollection() {
     if (!collection || !collection.opensea) return;
