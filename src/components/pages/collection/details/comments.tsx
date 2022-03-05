@@ -96,6 +96,7 @@ export default function Comments({ collectionId }: ICommentsProps) {
         toast.error("Unable to add comment");
       }
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error(error);
     }
   };
@@ -182,10 +183,7 @@ export default function Comments({ collectionId }: ICommentsProps) {
                       d="M5 13l4 4L19 7"
                     />
                   </svg>
-                  <span
-                    onClick={() => handleCreateComment()}
-                    className="text-xs"
-                  >
+                  <span onClick={handleCreateComment} className="text-xs">
                     Post
                   </span>
                 </div>
