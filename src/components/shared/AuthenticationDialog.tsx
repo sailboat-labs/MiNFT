@@ -26,6 +26,7 @@ export default function AuthenticationDialog({
     // logout,
   } = useMoralis();
 
+
   useEffect(() => {
     if (account) return setShowAuthDialog(false);
   }, [account, setShowAuthDialog]);
@@ -145,6 +146,8 @@ export default function AuthenticationDialog({
                           try {
                             await authenticate({
                               provider: connectorId as any,
+                              signingMessage:
+                                "MiNFT is requesting read access to your wallet",
                             });
                             window.localStorage.setItem(
                               "connectorId",
