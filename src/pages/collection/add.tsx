@@ -93,6 +93,7 @@ export default function AddCollection({
   const [showPresaleDate, setShowPresaleDate] = useState(false);
   const [showPublicDate, setShowPublicDate] = useState(false);
 
+
   const [collectionSubmitting, setCollectionSubmitting] = useState(false);
 
   const formValidationSchema = Yup.object().shape({
@@ -225,7 +226,6 @@ export default function AddCollection({
           showAuthDialog={false}
           setShowAuthDialog={undefined}
         /> */}
-        <ConnectWalletFullScreen />
         {/* <form className="mt-20">
           <label htmlFor="upload">Upload File</label>
           <input
@@ -470,7 +470,7 @@ export default function AddCollection({
                       className="focus:ring-3 h-4 w-4 rounded border border-gray-300 bg-gray-50 focus:ring-blue-300"
                     />
                     <span
-                      className={`whitespace-nowrap transition-all py-2 px-6 text-sm text-gray-500 ${
+                      className={`whitespace-nowrap py-2 px-6 text-sm text-gray-500 transition-all ${
                         showPublicDate
                           ? "pointer-events-auto translate-x-0 opacity-100"
                           : "pointer-events-none translate-x-5 opacity-0"
@@ -545,24 +545,6 @@ export default function AddCollection({
                           </div>
                         </td>
                       </tr>
-                      <tr className="bg-white ">
-                        <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
-                          Whitelist requirements
-                        </td>
-                        <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
-                          <Field
-                            className="default-input w-full"
-                            placeholder="whitelist requirements"
-                            name="whitelistRequirements"
-                          />
-                          <div className="text-red-500">
-                            <ErrorMessage
-                              name="whitelistRequirements"
-                              component="div"
-                            />
-                          </div>
-                        </td>
-                      </tr>
                     </tbody>
                   </table>
                   <table className="w-full">
@@ -586,13 +568,34 @@ export default function AddCollection({
                   </table>
                 </div>
 
-                <div className="mt-10 flex">
+                {whitelistAvailable == 'yes' && (
+                  <div className="mt-10 flex w-full items-center bg-white">
+                    <div className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
+                      Whitelist requirements
+                    </div>
+                    <div className="w-full whitespace-nowrap py-2 px-6 text-sm text-gray-500">
+                      <Field
+                        as="textarea"
+                        className=" min-h-[120px] w-full rounded-lg border-2"
+                        placeholder="whitelist requirements"
+                        name="whitelistRequirements"
+                      />
+                      <div className="text-red-500">
+                        <ErrorMessage
+                          name="whitelistRequirements"
+                          component="div"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
+                <div className="mt-10 flex items-center">
                   <div className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
                     Team Info
                   </div>
                   <Field
                     as="textarea"
-                    className="mx-6 min-h-[150px] w-full rounded-lg border-2"
+                    className="mx-6 min-h-[120px] w-full rounded-lg border-2"
                     placeholder="Team Info"
                     name="teamInfo"
                   />
