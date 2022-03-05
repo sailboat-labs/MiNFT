@@ -1,10 +1,8 @@
-import { MetaMaskProvider } from "metamask-react";
 import { AppProps } from "next/app";
 import { Toaster } from "react-hot-toast";
 import { MoralisProvider } from "react-moralis";
+
 import "@/styles/globals.css";
-import { useState } from "react";
-import PageLoader from "@/components/shared/PageLoader";
 
 /**
  * !STARTERCONF info

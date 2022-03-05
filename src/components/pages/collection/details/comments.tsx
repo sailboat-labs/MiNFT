@@ -231,6 +231,8 @@ export default function Comments({ collectionId }: ICommentsProps) {
                   <span
                     onClick={() => {
                       handleCreateComment();
+                      console.log("Comment");
+                      
                     }}
                     className="text-xs"
                   >
