@@ -60,7 +60,7 @@ export default function CollectionSummary({
 
             {account && account == collection.owner ? (
               <button
-                className="mt-10 rounded-lg bg-gray-200 px-6 font-bold"
+                className="mt-10 gradient-button rounded-lg bg-gray-200 px-6 font-bold"
                 onClick={() =>
                   router.push(
                     {
