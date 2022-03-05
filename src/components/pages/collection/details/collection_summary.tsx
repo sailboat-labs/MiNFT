@@ -2,7 +2,10 @@
 /* eslint-disable @next/next/no-img-element */
 import dayjs from "dayjs";
 import { formatEthAddress } from "eth-address";
+import { useRouter } from "next/router";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useMoralis } from "react-moralis";
+
 import CollectionStats from "./stats";
 import TeamInfo from "./team_information";
 import WishlistRequirements from "./wishlist_requirements";
@@ -17,7 +20,7 @@ interface SocialLInk {
 interface ICollectionSummaryProps {
   collection: Collection;
   setEditMode: Dispatch<SetStateAction<boolean>>;
-  openSeaData?: OpenSeaCollection; 
+  openSeaData?: OpenSeaCollection;
 }
 
 export default function CollectionSummary({
@@ -25,6 +28,8 @@ export default function CollectionSummary({
   setEditMode,
   openSeaData,
 }: ICollectionSummaryProps) {
+  const router = useRouter();
+  const { account } = useMoralis();
   const [socialLinks, setSocialLinks] = useState<SocialLInk[]>([]);
 
   useEffect(() => {
@@ -53,12 +58,27 @@ export default function CollectionSummary({
         <div className=" w-full lg:w-[70%]">
           <div className="flex justify-between">
             <div className="mt-10 text-2xl font-bold">{collection.name}</div>
-            <button
-              className="mt-10 rounded-lg bg-gray-200 px-6 font-bold"
-              onClick={() => setEditMode(true)}
-            >
-              Edit
-            </button>
+
+            {account && account == collection.owner ? (
+              <button
+                className="mt-10 rounded-lg bg-gray-200 px-6 font-bold"
+                onClick={() =>
+                  router.push(
+                    {
+                      pathname: `/collection/add`,
+                      query: {
+                        collection: JSON.stringify(collection),
+                      },
+                    },
+                    "/collection/add"
+                  )
+                }
+              >
+                Edit
+              </button>
+            ) : (
+              <></>
+            )}
           </div>
 
           <div className="mt-3 text-sm text-gray-500">

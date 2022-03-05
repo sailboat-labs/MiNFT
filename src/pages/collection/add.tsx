@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import DateTimePicker from "@mui/lab/DateTimePicker";
@@ -6,7 +7,7 @@ import TextField, { TextFieldProps } from "@mui/material/TextField";
 import axios from "axios";
 import dashify from "dashify";
 import {
-  collection as fire,
+  collection as col,
   DocumentData,
   getFirestore,
   query,
@@ -35,21 +36,13 @@ import Dropdown from "@/components/shared/dropdown";
 import { Collection } from "@/types";
 
 const firestore = getFirestore(firebaseApp);
-interface IAddCollectionProps {
-  collection?: Collection;
-  setEditMode?: any;
-}
 
-export default function AddCollection({
-  collection,
-  setEditMode,
-}: IAddCollectionProps) {
+export default function AddCollection({ collection }: any) {
   const { account } = useMoralis();
   const router = useRouter();
-
   const [names, setNames] = useState<string[]>([]);
 
-  const _query = query(fire(firestore, "collections"));
+  const _query = query(col(firestore, "collections"));
   const [snapshots, loading] = useCollectionData(_query);
 
   useEffect(() => {
@@ -178,11 +171,9 @@ export default function AddCollection({
         toast.error(data.message);
       }
 
-      if (collection) {
-        const url = `/collection/${dashify(values.name)}`;
-        router.replace(url);
-        setEditMode!(false);
-      }
+      const url = `/collection/${dashify(values.name)}`;
+      router.replace(url);
+
       setCollectionSubmitting(false);
     } catch (error) {
       console.error(error);
@@ -581,3 +572,14 @@ export default function AddCollection({
     <></>
   );
 }
+
+export const getServerSideProps = async ({ query }: any) => {
+  // if query object was received, return it as a router prop:
+  if (query.collection) {
+    return {
+      props: { collection: JSON.parse(query.collection) as Collection },
+    };
+  }
+
+  return { props: {} };
+};
