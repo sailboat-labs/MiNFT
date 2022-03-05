@@ -19,19 +19,14 @@ import Comments from "@/components/pages/collection/details/comments";
 
 import { getOpenSeaCollection } from "@/helpers/opensea";
 
-import AddCollection from "./add";
-
 import { Collection, OpenSeaCollection } from "@/types";
 
 const firestore = getFirestore(firebaseApp);
 
 const CollectionPage = ({ router }: any) => {
-  console.log(router);
   const { slug } = router.query;
 
   const [id, setId] = useState<string>("b");
-
-  const [editMode, setEditMode] = useState<boolean>(false);
 
   const ref = doc(firestore, `collections/${id}`);
   const [collectionData, setCollectionData] = useState<Collection>();
@@ -69,16 +64,6 @@ const CollectionPage = ({ router }: any) => {
     }
   }, [slug]);
 
-  if (editMode)
-    return collection ? (
-      <AddCollection
-        collection={collection as Collection}
-        setEditMode={setEditMode}
-      />
-    ) : (
-      <></>
-    );
-
   return (
     <Layout>
       {!collectionData ? (
@@ -109,10 +94,9 @@ const CollectionPage = ({ router }: any) => {
           <CollectionSummary
             openSeaData={openSeaData}
             collection={collectionData as Collection}
-            setEditMode={setEditMode}
           />
           <Assets />
-          <Comments />
+          <Comments collectionId={collectionData.id} />
         </div>
       )}
     </Layout>

@@ -1,34 +1,110 @@
-export default function Comments() {
-  const comments: {
-    comment: string;
-    owner: string;
-    imageUrl?: string;
-    upvotes: number;
-  }[] = [
-    {
-      comment:
-        "Cool Cats is a collection of 9,999 randomly generated and stylistically curated NFTs that exist on the Ethereum Blockchain.Cool Cat holders can participate in exclusive events such as NFTclaims, raffles, community giveaways, and more. Remember, all cats are cool, but some are cooler than others. Visit www.coolcatsnft.com to learn more.",
-      owner: "boateng.eth",
-      upvotes: 5,
-    },
-    {
-      comment:
-        "Remember, all cats are cool, but some are cooler than others. Visit www.coolcatsnft.com to learn more.",
-      owner: "eshun.eth",
-      upvotes: 8,
-    },
-    {
-      comment:
-        "Cool Cats is a collection of 9,999 randomly generated and stylistically curated NFTs that exist on the Ethereum Blockchain.Cool Cat holders can participate in exclusive events such as NFTclaims, raffles, community giveaways, and more. Remember, all cats are cool, but some are cooler than others. Visit www.coolcatsnft.com to learn more.",
-      owner: "francis.eth",
-      upvotes: 0,
-    },
-  ];
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+import axios from "axios";
+import { formatEthAddress } from "eth-address";
+import {
+  collection,
+  DocumentData,
+  getFirestore,
+  limit,
+  orderBy,
+  query,
+} from "firebase/firestore";
+import { useEffect, useState } from "react";
+import { useCollectionData } from "react-firebase-hooks/firestore";
+import toast from "react-hot-toast";
+import { useMoralis } from "react-moralis";
+import { v4 } from "uuid";
+
+import { firebaseApp } from "@/lib/firebase";
+
+import { Comment } from "@/types";
+interface ICommentsProps {
+  collectionId: string;
+}
+
+// const comments: Comment[] = [
+//   {
+//     comment:
+//       "Cool Cats is a Comment of 9,999 randomly generated and stylistically curated NFTs that exist on the Ethereum Blockchain.Cool Cat holders can participate in exclusive events such as NFTclaims, raffles, community giveaways, and more. Remember, all cats are cool, but some are cooler than others. Visit www.coolcatsnft.com to learn more.",
+//     owner: "boateng.eth",
+//     upVotes: 5,
+//   },
+//   {
+//     comment:
+//       "Remember, all cats are cool, but some are cooler than others. Visit www.coolcatsnft.com to learn more.",
+//     owner: "eshun.eth",
+//     upVotes: 8,
+//   },
+//   {
+//     comment:
+//       "Cool Cats is a collection of 9,999 randomly generated and stylistically curated NFTs that exist on the Ethereum Blockchain.Cool Cat holders can participate in exclusive events such as NFTclaims, raffles, community giveaways, and more. Remember, all cats are cool, but some are cooler than others. Visit www.coolcatsnft.com to learn more.",
+//     owner: "francis.eth",
+//     upVotes: 0,
+//   },
+// ];
+
+const firestore = getFirestore(firebaseApp);
+export default function Comments({ collectionId }: ICommentsProps) {
+  const { account } = useMoralis();
+
+  // Get comments from firestore
+  const [comments, setComments] = useState<Comment[]>([]);
+
+  const _query = query(
+    collection(firestore, `collections/${collectionId}/comments`),
+    orderBy("lastUpdated", "desc"),
+    limit(100)
+  );
+  const [snapshots, loading] = useCollectionData(_query);
+
+  useEffect(() => {
+    if (loading) return;
+    if (!snapshots) return;
+
+    const data = snapshots.reduce((acc: Comment[], curr: DocumentData) => {
+      acc.push(curr as Comment);
+      return acc;
+    }, []);
+
+    setComments(data);
+  }, [loading, snapshots]);
+
+  // Create and edit comments
+
+  const [comment, setComment] = useState<string>();
+  const handleCreateComment = async () => {
+    try {
+      const timestamp = new Date().toISOString();
+      const _comment: Comment = {
+        id: v4(),
+        comment: comment!,
+        owner: account!,
+        upVotes: 0,
+        dateCreated: timestamp,
+        lastUpdated: timestamp,
+      };
+
+      const { data } = await axios.post("/api/comments", {
+        comment: _comment,
+        collectionId,
+      });
+
+      if (data.success) {
+        toast.success("Comment Added");
+        setComment("");
+      } else {
+        toast.error("Unable to add comment");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div className="contained mt-10 rounded  py-5">
-      <div className="mt-0 text-2xl font-bold">Comments</div>
-
+      {comments.length > 0 && (
+        <div className="mt-0 text-2xl font-bold">Comments</div>
+      )}
       <div className="mt-10 flex flex-col gap-3">
         {comments.map((item, index) => (
           <div
@@ -38,16 +114,16 @@ export default function Comments() {
             <div className="h-10 w-10 rounded-[50%] border-2 border-red-200 bg-red-100"></div>
             <div className="flex flex-col gap-2">
               <div className="flex gap-5">
-                <span>{item.owner}</span>
+                <span>{formatEthAddress(item.owner)}</span>
                 {/* <span>Rating here</span> */}
               </div>
               <p className="max-w-3xl text-sm text-gray-500">{item.comment}</p>
               <span
                 className={`${
-                  item.upvotes < 1 ? "hidden" : "block"
+                  item.upVotes < 1 ? "hidden" : "block"
                 } text-xs text-red-500`}
               >
-                {item.upvotes} found this helpful
+                {item.upVotes} found this helpfulV{" "}
               </span>
               <div className="mt-2 flex items-center gap-5">
                 <div className="gradient-button flex items-center gap-2">
@@ -74,41 +150,50 @@ export default function Comments() {
         ))}
       </div>
 
-      <div className="mt-10">
-        <span className="mx-10 font-semibold">Add New Comment</span>
-        <div className="mt-2 flex gap-5 rounded-lg px-5 py-3">
-          <div className="h-10 w-10 rounded-[50%] border-2 border-red-200 bg-red-100"></div>
-          <div className="flex w-full flex-col gap-2">
-            <div className="flex gap-5">
-              <span className="mx-5">francis.eth</span>
-            </div>
+      {account && (
+        <div className="mt-10">
+          <span className="mx-10 font-semibold">Add New Comment</span>
+          <div className="mt-2 flex gap-5 rounded-lg px-5 py-3">
+            <div className="h-10 w-10 rounded-[50%] border-2 border-red-200 bg-red-100"></div>
+            <div className="flex w-full flex-col gap-2">
+              <div className="flex gap-5">
+                <span className="mx-5">{formatEthAddress(account)}</span>
+              </div>
 
-            <textarea
-              className="w-full rounded-lg bg-gray-50 px-8 py-3"
-              placeholder="Enter comment"
-            />
-            <div className="flex justify-end">
-              <div className="gradient-button flex items-center gap-2">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M5 13l4 4L19 7"
-                  />
-                </svg>
-                <span className="text-xs">Post</span>
+              <textarea
+                className="w-full rounded-lg bg-gray-50 px-8 py-3"
+                placeholder="Enter comment"
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+              />
+              <div className="flex justify-end">
+                <div className="gradient-button flex items-center gap-2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                  <span
+                    onClick={() => handleCreateComment()}
+                    className="text-xs"
+                  >
+                    Post
+                  </span>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

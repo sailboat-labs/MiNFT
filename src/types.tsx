@@ -29,6 +29,16 @@ export interface Collection {
   lastUpdated?: string;
 }
 
+export interface Comment {
+  id: string;
+  comment: string;
+  owner: string;
+  imageUrl?: string;
+  upVotes: number;
+  dateCreated: string;
+  lastUpdated: string;
+}
+
 export interface OpenSeaCollection {
   banner_image_url?: string;
   chat_url?: string;

@@ -3,7 +3,7 @@
 import dayjs from "dayjs";
 import { formatEthAddress } from "eth-address";
 import { useRouter } from "next/router";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useMoralis } from "react-moralis";
 
 import CollectionStats from "./stats";
@@ -19,13 +19,11 @@ interface SocialLInk {
 }
 interface ICollectionSummaryProps {
   collection: Collection;
-  setEditMode: Dispatch<SetStateAction<boolean>>;
   openSeaData?: OpenSeaCollection;
 }
 
 export default function CollectionSummary({
   collection,
-  setEditMode,
   openSeaData,
 }: ICollectionSummaryProps) {
   const router = useRouter();
