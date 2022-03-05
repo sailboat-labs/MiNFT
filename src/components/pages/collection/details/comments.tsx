@@ -85,10 +85,10 @@ export default function Comments({ collectionId }: ICommentsProps) {
     try {
       let voted = false;
       const votes = upVotes.filter((upVote) => upVote.id == account!);
-      if (votes) {
+      if (votes.length > 1) {
+        voted = votes[0].value;
         const index = upVotes.indexOf(votes[0]);
         upVotes.splice(index, 1);
-        voted = votes[0].value;
       }
       const _comment: Comment = {
         id: id,
@@ -155,7 +155,7 @@ export default function Comments({ collectionId }: ICommentsProps) {
                 } text-xs text-red-500`}
               >
                 {item.upVotes!.filter((upVote) => upVote.value).length} found
-                this helpfulV{" "}
+                this helpful
               </span>
               {account && (
                 <div className="mt-2 flex items-center gap-5">
