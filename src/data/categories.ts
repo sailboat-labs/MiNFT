@@ -5,4 +5,6 @@ export const categories: string[] = [
   "domain name",
   "music",
   "collectible",
+  "gaming",
+  "pfp"
 ];

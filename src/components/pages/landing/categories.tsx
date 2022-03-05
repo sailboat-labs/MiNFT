@@ -7,6 +7,8 @@ export default function ExploreCategories() {
     { label: "Utility", image: "/images/utility_category.png" },
     { label: "Domain Names", image: "/images/domain_names_category.png" },
     { label: "Music", image: "/images/music_category.png" },
+    { label: "Gaming", image: "/images/music_category.png" },
+    { label: "PFP", image: "/images/music_category.png" },
   ];
 
   return (

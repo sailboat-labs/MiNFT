@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useMoralis } from "react-moralis";
 
+import Roadmap from "./roadmap";
 import CollectionStats from "./stats";
 import TeamInfo from "./team_information";
 import WishlistRequirements from "./wishlist_requirements";
@@ -86,17 +87,21 @@ export default function CollectionSummary({
             <div className="flex flex-col gap-2">
               <span className="font-bold">Presale Mint Date and Time</span>
               <span>
-                {dayjs(new Date(collection.preMintDate!)).format(
-                  "DD/MM/YYYY, HH : MM "
-                )}
+                {collection.preMintDate
+                  ? dayjs(new Date(collection.preMintDate!)).format(
+                      "DD/MM/YYYY, HH : MM "
+                    )
+                  : "N/A"}
               </span>
             </div>
             <div className="flex flex-col gap-2">
               <span className="font-bold">Public Mint Date and Time</span>
               <span>
-                {dayjs(new Date(collection.publicMintDate!)).format(
-                  "DD/MM/YYYY, HH : MM "
-                )}
+                {collection.publicMintDate
+                  ? dayjs(new Date(collection.publicMintDate!)).format(
+                      "DD/MM/YYYY, HH : MM "
+                    )
+                  : "N/A"}
               </span>
             </div>
             <div className="flex flex-col gap-2">
@@ -125,6 +130,18 @@ export default function CollectionSummary({
                 {collection.publicMintCost ?? "TBA"}
               </span>
             </div>
+            <div className="flex flex-col gap-2">
+              <span className="font-bold">Mint Per Presale</span>
+              <span className="capitalize">
+                {collection.mintsPerPresale ?? "TBA"}
+              </span>
+            </div>
+            <div className="flex flex-col gap-2">
+              <span className="font-bold">Mint Per Transaction</span>
+              <span className="capitalize">
+                {collection.mintsPerTx ?? "TBA"}
+              </span>
+            </div>
           </div>
           <TeamInfo info={collection.teamInfo!} />
           {openSeaData && (
@@ -136,6 +153,7 @@ export default function CollectionSummary({
           <WishlistRequirements
             requirements={collection.whitelistRequirements!}
           />
+          <Roadmap roadmap={collection.roadmap} />
         </div>
         <div className=" w-full rounded lg:w-[30%]">
           <div className="flex h-fit cursor-pointer flex-col justify-end rounded-lg bg-gray-200">

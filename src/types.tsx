@@ -21,6 +21,10 @@ export interface Collection {
   preSaleCost?: string;
   publicMintCost?: string;
   supply?: string;
+  roadmap:string;
+  mintsPerPresale:string;
+  mintsPerTx:string;
+  whyILikeProject:string;
   whitelistAvailable?: string;
   whitelistRequirements?: string;
   teamInfo?: string;

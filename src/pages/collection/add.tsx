@@ -1,9 +1,5 @@
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import AdapterDateFns from "@mui/lab/AdapterDateFns";
-import DateTimePicker from "@mui/lab/DateTimePicker";
-import LocalizationProvider from "@mui/lab/LocalizationProvider";
-import TextField, { TextFieldProps } from "@mui/material/TextField";
 import axios from "axios";
 import dashify from "dashify";
 import {
@@ -24,16 +20,18 @@ import * as Yup from "yup";
 
 import { firebaseApp } from "@/lib/firebase";
 
-import { blockchains } from "@/data/blockchains";
-import { categories } from "@/data/categories";
-
-import ImageUpload from "@/components/collection/ImageUpload";
 import Layout from "@/components/layout/Layout";
+import CollectionDescription from "@/components/pages/collection/add/CollectionDescription";
+import CollectionDetails from "@/components/pages/collection/add/CollectionDetails";
+import CollectionStats from "@/components/pages/collection/add/CollectionStats";
+import MintDates from "@/components/pages/collection/add/MintDates";
+import TeamInfo from "@/components/pages/collection/add/TeamInfo";
 import UploadingPost from "@/components/pages/collection/add/uploading_post_modal";
-import ConnectWalletFullScreen from "@/components/shared/connect_wallet_fullscreen";
-import Dropdown from "@/components/shared/dropdown";
+import WhitelistRequirements from "@/components/pages/collection/add/WhitelistRequirements";
 
 import { Collection } from "@/types";
+import Roadmap from "@/components/pages/collection/add/Roadmap";
+import WhyILikeProject from "@/components/pages/collection/add/WhyILikeProject";
 
 const firestore = getFirestore(firebaseApp);
 
@@ -83,6 +81,11 @@ export default function AddCollection({ collection }: any) {
     new Date(collection?.publicMintDate ?? "2014-08-18T21:11:54")
   );
 
+  const [showPresaleDate, setShowPresaleDate] = useState(false);
+  const [showPublicDate, setShowPublicDate] = useState(false);
+  const [showWhitelistRequirementList, setShowWhitelistRequirementList] =
+    useState(false);
+
   const [collectionSubmitting, setCollectionSubmitting] = useState(false);
 
   const formValidationSchema = Yup.object().shape({
@@ -98,14 +101,15 @@ export default function AddCollection({ collection }: any) {
     etherscan: Yup.string(),
     opensea: Yup.string(),
     description: Yup.string().required("Description is required"),
+    roadmap: Yup.string(),
+    mintsPerPresale: Yup.number(),
+    mintsPerTx: Yup.number(),
+    whyILikeProject: Yup.string(),
+    preSaleMintCost: Yup.string(),
+    publicMintCost: Yup.string(),
+    supply: Yup.string(),
 
-    preSaleMintCost: Yup.string().required("Presale Cost is required"),
-    publicMintCost: Yup.string().required("Public Mint Cost is required"),
-    supply: Yup.string().required("Supply is required"),
-
-    whitelistRequirements: Yup.string().required(
-      "Whitelist Requirements is required"
-    ),
+    whitelistRequirements: Yup.string(),
     teamInfo: Yup.string(),
   });
 
@@ -125,13 +129,17 @@ export default function AddCollection({ collection }: any) {
     whitelistAvailable: collection?.whitelistAvailable,
     whitelistRequirements: collection?.whitelistRequirements,
     teamInfo: collection?.teamInfo,
+    roadmap: collection?.roadmap,
+    mintsPerPresale: collection?.mintsPerPresale,
+    mintsPerTx: collection?.mintsPerTx,
+    whyILikeProject: collection?.whyILikeProject,
   };
 
   async function formSubmit(values: any) {
     setCollectionSubmitting(true);
     try {
       const timestamp = new Date().toISOString();
-      const _collection: Collection = {
+      let _collection: Collection = {
         id: collection?.id ?? v4(),
         owner: account!,
         name: values.name,
@@ -143,9 +151,11 @@ export default function AddCollection({ collection }: any) {
         discord: values.discord,
         etherscan: values.etherscan,
         opensea: values.opensea,
+        roadmap: values.roadmap,
+        mintsPerPresale: values.mintsPerPresale,
+        mintsPerTx: values.mintsPerTx,
+        whyILikeProject: values.whyILikeProject,
         description: values.description,
-        preMintDate: presaleMintDateTime?.toISOString(),
-        publicMintDate: publicMintDateTime?.toISOString(),
         preSaleCost: values.preSaleCost,
         publicMintCost: values.publicMintCost,
         supply: values.supply,
@@ -156,6 +166,17 @@ export default function AddCollection({ collection }: any) {
         dateCreated: collection?.dateCreated ?? timestamp,
         lastUpdated: timestamp,
       };
+
+      if (showPresaleDate)
+        _collection = {
+          ..._collection,
+          preMintDate: presaleMintDateTime?.toISOString(),
+        };
+      if (showPublicDate)
+        _collection = {
+          ..._collection,
+          publicMintDate: publicMintDateTime?.toISOString(),
+        };
 
       const { data } = collection
         ? await axios.put("/api/collections", {
@@ -213,7 +234,6 @@ export default function AddCollection({ collection }: any) {
           showAuthDialog={false}
           setShowAuthDialog={undefined}
         /> */}
-        <ConnectWalletFullScreen />
         {/* <form className="mt-20">
           <label htmlFor="upload">Upload File</label>
           <input
@@ -247,321 +267,36 @@ export default function AddCollection({ collection }: any) {
                   </button>
                 </div>
 
-                <div className="mt-10 flex flex-col md:flex-row">
-                  <div className="h-72 flex-1 ">
-                    <div className="overflow-hidden sm:rounded-lg">
-                      <table className="w-full">
-                        <tbody>
-                          <tr className="bg-white ">
-                            <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
-                              Collection Name
-                            </td>
-                            <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
-                              <Field
-                                name="name"
-                                className="default-input w-full"
-                                placeholder="Collection"
-                              />
-                              <div className="text-red-500">
-                                <ErrorMessage name="name" component="div" />
-                              </div>
-                            </td>
-                          </tr>
-                          <tr className="bg-white ">
-                            <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
-                              Blockchain
-                            </td>
-                            <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
-                              <Dropdown
-                                initial={selectedBlockchain}
-                                onItemSelected={setSelectedBlockchain}
-                                options={blockchains}
-                                className="w-full "
-                              />
-                            </td>
-                          </tr>
-                          <tr className="bg-white ">
-                            <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
-                              Collection Image
-                            </td>
-                            <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
-                              <ImageUpload
-                                setImageUrl={setImageUrl}
-                                imageUrl={imageUrl}
-                              />
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                  <div className=" flex-1 ">
-                    <div className="overflow-hidden sm:rounded-lg">
-                      <table className="w-full">
-                        <tbody>
-                          <tr className="w-full bg-white">
-                            <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
-                              Project Type
-                            </td>
-                            <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
-                              <Dropdown
-                                initial={selectedProjectType}
-                                onItemSelected={setSelectedProjectType}
-                                options={categories}
-                                className="w-full"
-                              />
-                            </td>
-                          </tr>
-                          <tr className="bg-white ">
-                            <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
-                              Website
-                            </td>
-                            <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
-                              <Field
-                                name="website"
-                                className="default-input w-full"
-                                placeholder="Website"
-                              />
-                              <div className="text-red-500">
-                                <ErrorMessage name="website" component="div" />
-                              </div>
-                            </td>
-                          </tr>
-                          <tr className="bg-white ">
-                            <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
-                              Twitter
-                            </td>
-                            <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
-                              <Field
-                                name="twitter"
-                                // type="text"
-                                className="default-input w-full"
-                                placeholder="Twitter"
-                              />
-                              <div className="text-red-500">
-                                <ErrorMessage name="twitter" component="div" />
-                              </div>
-                            </td>
-                          </tr>
-                          <tr className="bg-white ">
-                            <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
-                              Discord
-                            </td>
-                            <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
-                              <Field
-                                name="discord"
-                                // type="text"
-                                className="default-input w-full"
-                                placeholder="Discord"
-                              />
-                              <div className="text-red-500">
-                                <ErrorMessage name="discord" component="div" />
-                              </div>
-                            </td>
-                          </tr>
-                          <tr className="bg-white ">
-                            <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
-                              Etherscan
-                            </td>
-                            <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
-                              <Field
-                                // type="text"
-                                className="default-input w-full"
-                                placeholder="Etherscan"
-                                name="etherscan"
-                              />
-                              <div className="text-red-500">
-                                <ErrorMessage
-                                  name="etherscan"
-                                  component="div"
-                                />
-                              </div>
-                            </td>
-                          </tr>
-                          <tr className="bg-white ">
-                            <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
-                              Opensea
-                            </td>
-                            <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
-                              <Field
-                                // type="text"
-                                className="default-input w-full"
-                                placeholder="Opensea"
-                                name="opensea"
-                              />
-                              <div className="text-red-500">
-                                <ErrorMessage name="opensea" component="div" />
-                              </div>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-                <div className="mt-5 flex">
-                  <div className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
-                    Description
-                  </div>
-                  <div className="mx-6 flex w-full flex-col">
-                    <Field
-                      as="textarea"
-                      className=" min-h-[150px] w-full rounded-lg border-2"
-                      placeholder="Collection Description"
-                      name="description"
-                    />
-                    <div className="text-red-500">
-                      <ErrorMessage name="description" component="div" />
-                    </div>
-                  </div>
-                </div>
+                <CollectionDetails
+                  selectedProjectType={selectedProjectType}
+                  setSelectedProjectType={setSelectedProjectType}
+                  selectedBlockchain={selectedBlockchain}
+                  setSelectedBlockchain={setSelectedBlockchain}
+                  imageUrl={imageUrl}
+                  setImageUrl={setImageUrl}
+                />
+                <CollectionDescription />
 
-                <div className="mt-10 flex flex-col gap-5 md:flex-row">
-                  <div className="flex items-center bg-white">
-                    <span className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
-                      Pre-sale Mint date and time
-                    </span>
-                    <span className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
-                      <LocalizationProvider dateAdapter={AdapterDateFns}>
-                        <DateTimePicker
-                          value={presaleMintDateTime}
-                          onChange={setPresaleMintDateTime}
-                          renderInput={(
-                            params: JSX.IntrinsicAttributes & TextFieldProps
-                          ) => <TextField {...params} />}
-                        />
-                      </LocalizationProvider>
-                    </span>
-                  </div>
-                  <div className="flex items-center bg-white">
-                    <span className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
-                      Public Mint date and time
-                    </span>
-                    <span className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
-                      <LocalizationProvider dateAdapter={AdapterDateFns}>
-                        <DateTimePicker
-                          value={publicMintDateTime}
-                          onChange={setPublicMintDateTime}
-                          renderInput={(
-                            params: JSX.IntrinsicAttributes & TextFieldProps
-                          ) => <TextField {...params} />}
-                        />
-                      </LocalizationProvider>
-                    </span>
-                  </div>
-                </div>
+                <MintDates
+                  presaleMintDateTime={presaleMintDateTime}
+                  setPresaleMintDateTime={setPresaleMintDateTime}
+                  publicMintDateTime={publicMintDateTime}
+                  setPublicMintDateTime={setPublicMintDateTime}
+                  showPresaleDate={showPresaleDate}
+                  setShowPresaleDate={setShowPresaleDate}
+                  showPublicDate={showPublicDate}
+                  setShowPublicDate={setShowPublicDate}
+                />
 
-                <div className="mt-10 flex items-start ">
-                  <table className="w-full">
-                    <tbody>
-                      <tr className="bg-white ">
-                        <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
-                          Pre-sale Mint cost
-                        </td>
-                        <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
-                          <Field
-                            className="default-input w-full"
-                            placeholder="Pre-sale mint cost"
-                            name="preSaleMintCost"
-                          />
-                          <div className="text-red-500">
-                            <ErrorMessage
-                              name="preSaleMintCost"
-                              component="div"
-                            />
-                          </div>
-                        </td>
-                      </tr>
-                      <tr className="bg-white ">
-                        <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
-                          Whitelist Available
-                        </td>
-                        <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
-                          <Dropdown
-                            initial={whitelistAvailable}
-                            onItemSelected={setWhitelistAvailable}
-                            options={["yes", "no"]}
-                            className="w-full "
-                          />
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                  <table className="w-full">
-                    <tbody>
-                      <tr className="bg-white ">
-                        <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
-                          Public Mint cost
-                        </td>
-                        <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
-                          <Field
-                            className="default-input w-full"
-                            placeholder="public mint cost"
-                            name="publicMintCost"
-                          />
-                          <div className="text-red-500">
-                            <ErrorMessage
-                              name="publicMintCost"
-                              component="div"
-                            />
-                          </div>
-                        </td>
-                      </tr>
-                      <tr className="bg-white ">
-                        <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
-                          Whitelist requirements
-                        </td>
-                        <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
-                          <Field
-                            className="default-input w-full"
-                            placeholder="whitelist requirements"
-                            name="whitelistRequirements"
-                          />
-                          <div className="text-red-500">
-                            <ErrorMessage
-                              name="whitelistRequirements"
-                              component="div"
-                            />
-                          </div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                  <table className="w-full">
-                    <tbody>
-                      <tr className="bg-white ">
-                        <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
-                          Supply
-                        </td>
-                        <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
-                          <Field
-                            className="default-input w-full"
-                            placeholder="supply"
-                            name="supply"
-                          />
-                          <div className="text-red-500">
-                            <ErrorMessage name="supply" component="div" />
-                          </div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+                <CollectionStats
+                  whitelistAvailable={whitelistAvailable}
+                  setWhitelistAvailable={setWhitelistAvailable}
+                />
+                {whitelistAvailable == "yes" && <WhitelistRequirements />}
+                <Roadmap />
+                <WhyILikeProject />
 
-                <div className="mt-10 flex">
-                  <div className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
-                    Team Info
-                  </div>
-                  <Field
-                    as="textarea"
-                    className="mx-6 min-h-[150px] w-full rounded-lg border-2"
-                    placeholder="Team Info"
-                    name="teamInfo"
-                  />
-                  <div className="text-red-500">
-                    <ErrorMessage name="teamInfo" component="div" />
-                  </div>
-                </div>
+                <TeamInfo />
               </Form>
             );
           }}
