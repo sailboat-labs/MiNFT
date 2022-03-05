@@ -8,6 +8,7 @@ import TeamInfo from "./team_information";
 import WishlistRequirements from "./wishlist_requirements";
 
 import { Collection, OpenSeaCollection } from "@/types";
+import Roadmap from "./roadmap";
 
 interface SocialLInk {
   name: string;
@@ -54,7 +55,7 @@ export default function CollectionSummary({
           <div className="flex justify-between">
             <div className="mt-10 text-2xl font-bold">{collection.name}</div>
             <button
-              className="mt-10 rounded-lg bg-gray-200 px-6 font-bold gradient-button"
+              className="gradient-button mt-10 rounded-lg bg-gray-200 px-6 font-bold"
               onClick={() => setEditMode(true)}
             >
               Edit
@@ -107,6 +108,18 @@ export default function CollectionSummary({
                 {collection.publicMintCost ?? "TBA"}
               </span>
             </div>
+            <div className="flex flex-col gap-2">
+              <span className="font-bold">Mint Per Presale</span>
+              <span className="capitalize">
+                {collection.mintsPerPresale ?? "TBA"}
+              </span>
+            </div>
+            <div className="flex flex-col gap-2">
+              <span className="font-bold">Mint Per Transaction</span>
+              <span className="capitalize">
+                {collection.mintsPerTx ?? "TBA"}
+              </span>
+            </div>
           </div>
           <TeamInfo info={collection.teamInfo!} />
           {openSeaData && (
@@ -118,6 +131,7 @@ export default function CollectionSummary({
           <WishlistRequirements
             requirements={collection.whitelistRequirements!}
           />
+          <Roadmap roadmap={collection.roadmap} />
         </div>
         <div className=" w-full rounded lg:w-[30%]">
           <div className="flex h-fit cursor-pointer flex-col justify-end rounded-lg bg-gray-200">
