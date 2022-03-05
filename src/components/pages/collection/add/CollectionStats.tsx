@@ -12,6 +12,7 @@ export default function CollectionStats(props: any) {
             </td>
             <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
               <Field
+                type="number"
                 className="default-input w-full "
                 placeholder="Pre-sale mint cost"
                 name="preSaleMintCost"
@@ -27,6 +28,7 @@ export default function CollectionStats(props: any) {
             </td>
             <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
               <Field
+                type="number"
                 className="default-input w-full "
                 placeholder="public mint cost"
                 name="publicMintCost"
@@ -43,6 +45,7 @@ export default function CollectionStats(props: any) {
             </td>
             <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
               <Field
+                type="number"
                 className="default-input w-full "
                 placeholder="Mints per Presale"
                 name="mintsPerPresale"
@@ -76,6 +79,7 @@ export default function CollectionStats(props: any) {
             </td>
             <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
               <Field
+                type="number"
                 className="default-input w-full "
                 placeholder="supply"
                 name="supply"
@@ -91,6 +95,7 @@ export default function CollectionStats(props: any) {
             </td>
             <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
               <Field
+                type="number"
                 className="default-input w-full "
                 placeholder="Mints per Transaction"
                 name="mintsPerTx"
