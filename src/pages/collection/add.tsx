@@ -90,6 +90,9 @@ export default function AddCollection({
     new Date(collection?.publicMintDate ?? "2014-08-18T21:11:54")
   );
 
+  const [showPresaleDate, setShowPresaleDate] = useState(false);
+  const [showPublicDate, setShowPublicDate] = useState(false);
+
   const [collectionSubmitting, setCollectionSubmitting] = useState(false);
 
   const formValidationSchema = Yup.object().shape({
@@ -425,12 +428,25 @@ export default function AddCollection({
                   </div>
                 </div>
 
-                <div className="mt-10 flex flex-col gap-5 md:flex-row">
+                <div className="mt-10 flex flex-col gap-5">
                   <div className="flex items-center bg-white">
                     <span className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
                       Pre-sale Mint date and time
                     </span>
-                    <span className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
+                    <input
+                      onChange={(e) => {
+                        setShowPresaleDate(e.target.checked);
+                      }}
+                      type="checkbox"
+                      className="focus:ring-3 h-4 w-4 rounded border border-gray-300 bg-gray-50 focus:ring-blue-300"
+                    />
+                    <span
+                      className={`whitespace-nowrap py-2 px-6 text-sm text-gray-500 transition-all ${
+                        showPresaleDate
+                          ? "pointer-events-auto translate-x-0 opacity-100"
+                          : "pointer-events-none translate-x-5 opacity-0"
+                      }`}
+                    >
                       <LocalizationProvider dateAdapter={AdapterDateFns}>
                         <DateTimePicker
                           value={presaleMintDateTime}
@@ -446,7 +462,20 @@ export default function AddCollection({
                     <span className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
                       Public Mint date and time
                     </span>
-                    <span className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
+                    <input
+                      onChange={(e) => {
+                        setShowPublicDate(e.target.checked);
+                      }}
+                      type="checkbox"
+                      className="focus:ring-3 h-4 w-4 rounded border border-gray-300 bg-gray-50 focus:ring-blue-300"
+                    />
+                    <span
+                      className={`whitespace-nowrap transition-all py-2 px-6 text-sm text-gray-500 ${
+                        showPublicDate
+                          ? "pointer-events-auto translate-x-0 opacity-100"
+                          : "pointer-events-none translate-x-5 opacity-0"
+                      }`}
+                    >
                       <LocalizationProvider dateAdapter={AdapterDateFns}>
                         <DateTimePicker
                           value={publicMintDateTime}
