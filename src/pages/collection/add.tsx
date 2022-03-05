@@ -114,11 +114,9 @@ export default function AddCollection({
     whyILikeProject: Yup.string(),
     preSaleMintCost: Yup.string().required("Presale Cost is required"),
     publicMintCost: Yup.string().required("Public Mint Cost is required"),
-    supply: Yup.string().required("Supply is required"),
+    supply: Yup.string(),
 
-    whitelistRequirements: Yup.string().required(
-      "Whitelist Requirements is required"
-    ),
+    whitelistRequirements: Yup.string(),
     teamInfo: Yup.string(),
   });
 
@@ -148,7 +146,7 @@ export default function AddCollection({
     setCollectionSubmitting(true);
     try {
       const timestamp = new Date().toISOString();
-      const _collection: Collection = {
+      let _collection: Collection = {
         id: collection?.id ?? v4(),
         owner: account!,
         name: values.name,
@@ -165,8 +163,6 @@ export default function AddCollection({
         mintsPerTx: values.mintsPerTx,
         whyILikeProject: values.whyILikeProject,
         description: values.description,
-        preMintDate: presaleMintDateTime?.toISOString(),
-        publicMintDate: publicMintDateTime?.toISOString(),
         preSaleCost: values.preSaleCost,
         publicMintCost: values.publicMintCost,
         supply: values.supply,
@@ -177,6 +173,17 @@ export default function AddCollection({
         dateCreated: collection?.dateCreated ?? timestamp,
         lastUpdated: timestamp,
       };
+
+      if (showPresaleDate)
+        _collection = {
+          ..._collection,
+          preMintDate: presaleMintDateTime?.toISOString(),
+        };
+      if (showPublicDate)
+        _collection = {
+          ..._collection,
+          publicMintDate: publicMintDateTime?.toISOString(),
+        };
 
       const { data } = collection
         ? await axios.put("/api/collections", {
@@ -203,7 +210,6 @@ export default function AddCollection({
       toast.error("Unable to add collection");
       setCollectionSubmitting(false);
     }
-    
   }
 
   const readUploadFile = (e: any) => {
@@ -297,7 +303,7 @@ export default function AddCollection({
                 />
                 {whitelistAvailable == "yes" && <WhitelistRequirements />}
                 <Roadmap />
-                <WhyILikeProject/>
+                <WhyILikeProject />
 
                 <TeamInfo />
               </Form>
