@@ -112,8 +112,8 @@ export default function AddCollection({
     mintsPerPresale: Yup.number(),
     mintsPerTx: Yup.number(),
     whyILikeProject: Yup.string(),
-    preSaleMintCost: Yup.string().required("Presale Cost is required"),
-    publicMintCost: Yup.string().required("Public Mint Cost is required"),
+    preSaleMintCost: Yup.string(),
+    publicMintCost: Yup.string(),
     supply: Yup.string(),
 
     whitelistRequirements: Yup.string(),
