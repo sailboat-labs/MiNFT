@@ -2,7 +2,7 @@
 // import DarkModeMenu from "../navbar/darkmode-toggle";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMoralis } from "react-moralis";
 
 import AuthenticationDialog from "../shared/AuthenticationDialog";
@@ -16,6 +16,8 @@ export default function Navbar() {
     { label: "About Us", route: "/" },
   ];
 
+  const requiredAuthPaths = ["/profile"]
+
   const [showAuthDialog, setShowAuthDialog] = useState(false);
   const router = useRouter();
   const {
@@ -28,6 +30,11 @@ export default function Navbar() {
   } = useMoralis();
 
   const [navOpen, setNavOpen] = useState(false);
+
+
+  useEffect(()=>{
+    if(!account && requiredAuthPaths.includes(router.pathname)) setShowAuthDialog(true)
+  },[account])
 
   return (
     <section className="fixed z-[999] w-full bg-white text-gray-700 shadow">

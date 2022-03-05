@@ -1,24 +1,25 @@
 import { Menu, Transition } from "@headlessui/react";
 import { formatEthAddress } from "eth-address";
+import Link from "next/link";
 // import { useMetaMask } from "metamask-react";
 import { Fragment } from "react";
 import { useMoralis } from "react-moralis";
-
 
 export default function ProfileIcon() {
   // const { status, connect, account, chainId, ethereum } = useMetaMask();
   const { authenticate, isAuthenticated, account, chainId, logout } =
     useMoralis();
 
-
   return (
     <div className="w-fit text-right">
       <Menu as="div" className="relative inline-block text-left">
         <div>
           <Menu.Button className="inline-flex w-full justify-center  rounded-md bg-opacity-20 text-sm  font-medium  hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
-            <div className="cursor-pointer rounded-[50%] p-1 transition-all hover:scale-105 gap-3 flex">
+            <div className="flex cursor-pointer gap-3 rounded-[50%] p-1 transition-all hover:scale-105">
               <span>Ethereum Mainnet</span>
-              <span className="border-l-2 px-3 border-gray-500">{account && formatEthAddress(account)}</span>
+              <span className="border-l-2 border-gray-500 px-3">
+                {account && formatEthAddress(account)}
+              </span>
             </div>
           </Menu.Button>
         </div>
@@ -42,6 +43,25 @@ export default function ProfileIcon() {
                   >
                     {account && formatEthAddress(account)}
                   </button>
+                )}
+              </Menu.Item>
+              <Menu.Item>
+                {({ active }: any) => (
+                  <div
+                    className={`${
+                      active ? "bg-primaryblue text-white" : "text-gray-900"
+                    } group flex w-full cursor-pointer items-center rounded-md px-2 py-2 text-sm `}
+                  >
+                    <Link href="/profile" passHref>
+                      <div
+                        className={`${
+                          active ? "bg-primaryblue text-white" : "text-gray-900"
+                        } group flex w-full items-center rounded-md py-0 text-sm `}
+                      >
+                        Profile
+                      </div>
+                    </Link>
+                  </div>
                 )}
               </Menu.Item>
               <Menu.Item>
@@ -71,7 +91,7 @@ export default function ProfileIcon() {
               <Menu.Item>
                 {({ active }: any) => (
                   <button
-                  onClick={logout}
+                    onClick={logout}
                     className={`${
                       active ? "bg-primaryblue text-white" : "text-gray-900"
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
