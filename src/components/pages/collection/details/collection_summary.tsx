@@ -54,7 +54,7 @@ export default function CollectionSummary({
           <div className="flex justify-between">
             <div className="mt-10 text-2xl font-bold">{collection.name}</div>
             <button
-              className="mt-10 rounded-lg bg-gray-200 px-6 font-bold"
+              className="mt-10 rounded-lg bg-gray-200 px-6 font-bold gradient-button"
               onClick={() => setEditMode(true)}
             >
               Edit
