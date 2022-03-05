@@ -16,10 +16,12 @@ import { useCollectionData } from "react-firebase-hooks/firestore";
 import { firebaseApp } from "@/lib/firebase";
 
 import { Collection } from "@/types";
+import PageLoader from "@/components/shared/PageLoader";
 
 const firestore = getFirestore(firebaseApp);
 export default function LaunchingSoon() {
   const [collections, setCollections] = useState<Collection[]>([]);
+  const [loadingCollection, setLoadingCollection] = useState(false)
 
   const _query = query(
     collection(firestore, "collections"),
@@ -42,6 +44,7 @@ export default function LaunchingSoon() {
 
   return (
     <div className="contained mt-10">
+      {loadingCollection && <PageLoader/>}
       <div className="mt-3 flex flex-col">
         <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
@@ -91,6 +94,7 @@ export default function LaunchingSoon() {
                   {collections &&
                     collections.map((collection, index) => (
                       <Link
+                      
                         key={index}
                         href={{
                           pathname: `/collection/[slug]`,
@@ -100,7 +104,7 @@ export default function LaunchingSoon() {
                         }}
                         passHref
                       >
-                        <tr className="cursor-pointer border-b bg-white transition-all hover:bg-gray-50">
+                        <tr onClick={()=>{setLoadingCollection(true)}} className="cursor-pointer border-b bg-white transition-all hover:bg-gray-50">
                           <td className="flex items-center gap-5 whitespace-nowrap py-4 px-6 text-sm font-medium text-gray-900">
                             <div className="h-10 w-10 flex-shrink-0 rounded-[50%] bg-gray-100">
                               <img

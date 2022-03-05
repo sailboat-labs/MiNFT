@@ -20,6 +20,7 @@ import Comments from "@/components/pages/collection/details/comments";
 import { getOpenSeaCollection } from "@/helpers/opensea";
 
 import { Collection, OpenSeaCollection } from "@/types";
+import PageLoader from "@/components/shared/PageLoader";
 
 const firestore = getFirestore(firebaseApp);
 
@@ -67,7 +68,7 @@ const CollectionPage = ({ router }: any) => {
   return (
     <Layout>
       {!collectionData ? (
-        <div className="mt-10">Loading</div>
+        <PageLoader/>
       ) : (
         <div className="pb-20">
           <div className="h-20">

@@ -1,8 +1,10 @@
-import ImageUpload from "@/components/collection/ImageUpload";
-import Dropdown from "@/components/shared/dropdown";
+import { ErrorMessage, Field } from "formik";
+
 import { blockchains } from "@/data/blockchains";
 import { categories } from "@/data/categories";
-import { ErrorMessage, Field } from "formik";
+
+import ImageUpload from "@/components/collection/ImageUpload";
+import Dropdown from "@/components/shared/dropdown";
 
 export default function CollectionDetails(props: any) {
   return (
@@ -88,7 +90,7 @@ export default function CollectionDetails(props: any) {
               </tr>
               <tr className="bg-white ">
                 <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
-                  Twitter
+                  Twitter handle
                 </td>
                 <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
                   <Field

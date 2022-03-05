@@ -1,10 +1,11 @@
+import { useState } from "react";
 import { useMoralis } from "react-moralis";
 
 import Layout from "@/components/layout/Layout";
-import EthAddress from "@/components/shared/EthAddress";
-import { useEffect, useState } from "react";
-import AuthenticationDialog from "@/components/shared/AuthenticationDialog";
 import ProfileName from "@/components/pages/profile/NameField";
+import AuthenticationDialog from "@/components/shared/AuthenticationDialog";
+import EthAddress from "@/components/shared/EthAddress";
+
 import TimezoneSelector from "./TimezoneSelector";
 
 export default function Profile() {
@@ -57,7 +58,7 @@ export default function Profile() {
           <div className="h-36 w-36 rounded-[50%] bg-gray-200"></div>
           <ProfileName />
           {account && <EthAddress className="mt-5" account={account} />}
-          <TimezoneSelector/>
+          <TimezoneSelector />
         </div>
       </div>
     </Layout>

@@ -3,6 +3,8 @@ import { AppProps } from "next/app";
 import { Toaster } from "react-hot-toast";
 import { MoralisProvider } from "react-moralis";
 import "@/styles/globals.css";
+import { useState } from "react";
+import PageLoader from "@/components/shared/PageLoader";
 
 /**
  * !STARTERCONF info
@@ -16,6 +18,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       serverUrl={process.env.NEXT_PUBLIC_MORALIS_SERVERURL!}
     >
       <Toaster />
+
       <Component {...pageProps} />
     </MoralisProvider>
   );
