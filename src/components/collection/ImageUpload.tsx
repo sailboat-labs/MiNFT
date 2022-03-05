@@ -103,18 +103,22 @@ const ImageUpload = ({
 
   return (
     <div {...getRootProps()} className={`relative ${className}`}>
-      <div className="flex h-36 justify-center rounded-lg bg-gray-100">
+      <div
+        className={`flex justify-center rounded-lg bg-gray-100 ${
+          imageUrl ? "w-fit h-fit" : "w-full h-36"
+        }`}
+      >
         <input {...getInputProps()} name="file" />
         {imageUrl && (
           <img
-            className="translate h-full w-full rounded-lg  object-cover"
+            className="translate h-36 w-36 rounded-lg  object-cover"
             src={imageUrl}
             alt=""
           />
         )}
 
         {!imageUrl && (
-          <div className="flex flex-col items-center justify-center">
+          <div className="flex flex-col items-center justify-center ">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-10 w-10"
