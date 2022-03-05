@@ -18,7 +18,7 @@ interface SocialLInk {
 interface ICollectionSummaryProps {
   collection: Collection;
   setEditMode: Dispatch<SetStateAction<boolean>>;
-  openSeaData?: OpenSeaCollection; 
+  openSeaData?: OpenSeaCollection;
 }
 
 export default function CollectionSummary({
@@ -69,17 +69,21 @@ export default function CollectionSummary({
             <div className="flex flex-col gap-2">
               <span className="font-bold">Presale Mint Date and Time</span>
               <span>
-                {dayjs(new Date(collection.preMintDate!)).format(
-                  "DD/MM/YYYY, HH : MM "
-                )}
+                {collection.preMintDate
+                  ? dayjs(new Date(collection.preMintDate!)).format(
+                      "DD/MM/YYYY, HH : MM "
+                    )
+                  : "N/A"}
               </span>
             </div>
             <div className="flex flex-col gap-2">
               <span className="font-bold">Public Mint Date and Time</span>
               <span>
-                {dayjs(new Date(collection.publicMintDate!)).format(
-                  "DD/MM/YYYY, HH : MM "
-                )}
+                {collection.publicMintDate
+                  ? dayjs(new Date(collection.publicMintDate!)).format(
+                      "DD/MM/YYYY, HH : MM "
+                    )
+                  : "N/A"}
               </span>
             </div>
             <div className="flex flex-col gap-2">

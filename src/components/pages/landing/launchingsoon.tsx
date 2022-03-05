@@ -121,14 +121,18 @@ export default function LaunchingSoon() {
                             </div>
                           </td>
                           <td className="whitespace-nowrap py-4 px-6 text-sm text-gray-500 ">
-                            {dayjs(new Date(collection.preMintDate!)).format(
-                              "DD MMM, YYYY. HH:MM"
-                            )}
+                            {collection.preMintDate
+                              ? dayjs(new Date(collection.preMintDate!)).format(
+                                  "DD/MM/YYYY, HH : MM "
+                                )
+                              : "N/A"}
                           </td>
                           <td className="whitespace-nowrap py-4 px-6 text-sm text-gray-500 ">
-                            {dayjs(new Date(collection.publicMintDate!)).format(
-                              "DD MMM, YYYY HH:MM"
-                            )}
+                            {collection.publicMintDate
+                              ? dayjs(
+                                  new Date(collection.publicMintDate!)
+                                ).format("DD/MM/YYYY, HH : MM ")
+                              : "N/A"}
                           </td>
                           <td className="whitespace-nowrap py-4 px-6 text-sm uppercase text-gray-500">
                             {collection.whitelistAvailable == "yes"
