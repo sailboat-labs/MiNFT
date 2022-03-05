@@ -17,7 +17,7 @@ import { v4 } from "uuid";
 
 import { firebaseApp } from "@/lib/firebase";
 
-import { Comment } from "@/types";
+import { Comment, UpVote } from "@/types";
 interface ICommentsProps {
   collectionId: string;
 }
@@ -49,6 +49,7 @@ export default function Comments({ collectionId }: ICommentsProps) {
 
   // Get comments from firestore
   const [comments, setComments] = useState<Comment[]>([]);
+  const [selectedComment, setSelectedComment] = useState<Comment>();
 
   const _query = query(
     collection(firestore, `collections/${collectionId}/comments`),
@@ -79,7 +80,7 @@ export default function Comments({ collectionId }: ICommentsProps) {
         id: v4(),
         comment: comment!,
         owner: account!,
-        upVotes: 0,
+        upVotes: [],
         dateCreated: timestamp,
         lastUpdated: timestamp,
       };
@@ -101,6 +102,37 @@ export default function Comments({ collectionId }: ICommentsProps) {
     }
   };
 
+  const handleVote = async (id: string, upVotes: UpVote[]) => {
+    try {
+      let voted = false;
+      const votes = upVotes.filter((upVote) => upVote.id == account!);
+      if (votes) {
+        const index = upVotes.indexOf(votes[0]);
+        upVotes.splice(index, 1);
+        voted = votes[0].value;
+      }
+      const _comment: Comment = {
+        id: id,
+        upVotes: [...upVotes, ...[{ id: account!, value: !voted }]],
+      };
+
+      const { data } = await axios.put("/api/comments", {
+        comment: _comment,
+        collectionId,
+      });
+
+      if (data.success) {
+        toast.success("Comment UpVoted");
+        setComment("");
+      } else {
+        toast.error("Unable to upVote comment");
+      }
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+    }
+  };
+
   return (
     <div className="contained mt-10 rounded  py-5">
       {comments.length > 0 && (
@@ -115,37 +147,49 @@ export default function Comments({ collectionId }: ICommentsProps) {
             <div className="h-10 w-10 rounded-[50%] border-2 border-red-200 bg-red-100"></div>
             <div className="flex flex-col gap-2">
               <div className="flex gap-5">
-                <span>{formatEthAddress(item.owner)}</span>
+                <span>{formatEthAddress(item.owner!)}</span>
                 {/* <span>Rating here</span> */}
               </div>
               <p className="max-w-3xl text-sm text-gray-500">{item.comment}</p>
               <span
                 className={`${
-                  item.upVotes < 1 ? "hidden" : "block"
+                  item.upVotes!.filter((upVote) => upVote.value).length! < 1
+                    ? "hidden"
+                    : "block"
                 } text-xs text-red-500`}
               >
-                {item.upVotes} found this helpfulV{" "}
+                {item.upVotes!.filter((upVote) => upVote.value).length} found
+                this helpfulV{" "}
               </span>
-              <div className="mt-2 flex items-center gap-5">
-                <div className="gradient-button flex items-center gap-2">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"
-                    />
-                  </svg>
-                  <span className="text-xs">Helpful</span>
+              {account && (
+                <div className="mt-2 flex items-center gap-5">
+                  <div className="gradient-button flex items-center gap-2">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-4 w-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"
+                      />
+                    </svg>
+                    <span
+                      onClick={async () =>
+                        await handleVote(item.id, item.upVotes!)
+                      }
+                      className="text-xs"
+                    >
+                      Helpful
+                    </span>
+                  </div>
+                  <span className="text-sm">Report</span>
                 </div>
-                <span className="text-sm">Report</span>
-              </div>
+              )}
             </div>
           </div>
         ))}

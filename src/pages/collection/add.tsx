@@ -8,7 +8,7 @@ import {
   getFirestore,
   query,
 } from "firebase/firestore";
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
@@ -25,13 +25,13 @@ import CollectionDescription from "@/components/pages/collection/add/CollectionD
 import CollectionDetails from "@/components/pages/collection/add/CollectionDetails";
 import CollectionStats from "@/components/pages/collection/add/CollectionStats";
 import MintDates from "@/components/pages/collection/add/MintDates";
+import Roadmap from "@/components/pages/collection/add/Roadmap";
 import TeamInfo from "@/components/pages/collection/add/TeamInfo";
 import UploadingPost from "@/components/pages/collection/add/uploading_post_modal";
 import WhitelistRequirements from "@/components/pages/collection/add/WhitelistRequirements";
+import WhyILikeProject from "@/components/pages/collection/add/WhyILikeProject";
 
 import { Collection } from "@/types";
-import Roadmap from "@/components/pages/collection/add/Roadmap";
-import WhyILikeProject from "@/components/pages/collection/add/WhyILikeProject";
 
 const firestore = getFirestore(firebaseApp);
 
@@ -309,12 +309,19 @@ export default function AddCollection({ collection }: any) {
 }
 
 export const getServerSideProps = async ({ query }: any) => {
+  let collection = null;
   // if query object was received, return it as a router prop:
   if (query.collection) {
-    return {
-      props: { collection: JSON.parse(query.collection) as Collection },
-    };
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem("collection", query.collection);
+    }
+    collection = JSON.parse(query.collection) as Collection;
+  } else {
+    if (typeof window !== "undefined") {
+      const local = window.localStorage.getItem("collection");
+      if (local) collection = JSON.parse(local) as Collection;
+    }
   }
 
-  return { props: {} };
+  return { props: { collection } };
 };

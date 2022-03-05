@@ -21,10 +21,10 @@ export interface Collection {
   preSaleCost?: string;
   publicMintCost?: string;
   supply?: string;
-  roadmap:string;
-  mintsPerPresale:string;
-  mintsPerTx:string;
-  whyILikeProject:string;
+  roadmap: string;
+  mintsPerPresale: string;
+  mintsPerTx: string;
+  whyILikeProject: string;
   whitelistAvailable?: string;
   whitelistRequirements?: string;
   teamInfo?: string;
@@ -35,12 +35,17 @@ export interface Collection {
 
 export interface Comment {
   id: string;
-  comment: string;
-  owner: string;
+  comment?: string;
+  owner?: string;
   imageUrl?: string;
-  upVotes: number;
-  dateCreated: string;
-  lastUpdated: string;
+  upVotes?: UpVote[];
+  dateCreated?: string;
+  lastUpdated?: string;
+}
+
+export interface UpVote {
+  id: string;
+  value: boolean;
 }
 
 export interface OpenSeaCollection {
