@@ -92,6 +92,7 @@ export default function AddCollection({
 
   const [showPresaleDate, setShowPresaleDate] = useState(false);
   const [showPublicDate, setShowPublicDate] = useState(false);
+  const [showWhitelistRequirementList, setShowWhitelistRequirementList] = useState(false);
 
 
   const [collectionSubmitting, setCollectionSubmitting] = useState(false);
@@ -307,8 +308,8 @@ export default function AddCollection({
                       </table>
                     </div>
                   </div>
-                  <div className=" flex-1 ">
-                    <div className="overflow-hidden sm:rounded-lg">
+                  <div className="flex-1">
+                    <div className=" sm:rounded-lg">
                       <table className="w-full">
                         <tbody>
                           <tr className="w-full bg-white">
