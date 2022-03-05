@@ -22,27 +22,6 @@ interface ICommentsProps {
   collectionId: string;
 }
 
-// const comments: Comment[] = [
-//   {
-//     comment:
-//       "Cool Cats is a Comment of 9,999 randomly generated and stylistically curated NFTs that exist on the Ethereum Blockchain.Cool Cat holders can participate in exclusive events such as NFTclaims, raffles, community giveaways, and more. Remember, all cats are cool, but some are cooler than others. Visit www.coolcatsnft.com to learn more.",
-//     owner: "boateng.eth",
-//     upVotes: 5,
-//   },
-//   {
-//     comment:
-//       "Remember, all cats are cool, but some are cooler than others. Visit www.coolcatsnft.com to learn more.",
-//     owner: "eshun.eth",
-//     upVotes: 8,
-//   },
-//   {
-//     comment:
-//       "Cool Cats is a collection of 9,999 randomly generated and stylistically curated NFTs that exist on the Ethereum Blockchain.Cool Cat holders can participate in exclusive events such as NFTclaims, raffles, community giveaways, and more. Remember, all cats are cool, but some are cooler than others. Visit www.coolcatsnft.com to learn more.",
-//     owner: "francis.eth",
-//     upVotes: 0,
-//   },
-// ];
-
 const firestore = getFirestore(firebaseApp);
 export default function Comments({ collectionId }: ICommentsProps) {
   const { account } = useMoralis();
@@ -135,9 +114,26 @@ export default function Comments({ collectionId }: ICommentsProps) {
 
   return (
     <div className="contained mt-10 rounded  py-5">
-      {comments.length > 0 && (
-        <div className="mt-0 text-2xl font-bold">Comments</div>
-      )}
+      <div className="mt-0 text-2xl font-bold">Comments</div>
+
+      <div className="w-full flex flex-col items-center justify-center py-5 text-center">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          strokeWidth="2"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"
+          />
+        </svg>{" "}
+        No comment
+      </div>
+
       <div className="mt-10 flex flex-col gap-3">
         {comments.map((item, index) => (
           <div
@@ -236,6 +232,8 @@ export default function Comments({ collectionId }: ICommentsProps) {
           </div>
         </div>
       )}
+
+      {!account && <div>Connect your wallet to add a comment</div>}
     </div>
   );
 }
