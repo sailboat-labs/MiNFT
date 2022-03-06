@@ -16,11 +16,15 @@ import Layout from "@/components/layout/Layout";
 import Assets from "@/components/pages/collection/details/assets";
 import CollectionSummary from "@/components/pages/collection/details/collection_summary";
 import Comments from "@/components/pages/collection/details/comments";
+import PageLoader from "@/components/shared/PageLoader";
 
-import { getOpenSeaCollection } from "@/helpers/opensea";
+import {
+  getOpenSeaCollection,
+  getOpenSeaCollectionAssets,
+} from "@/helpers/opensea";
 
 import { Collection, OpenSeaCollection } from "@/types";
-import PageLoader from "@/components/shared/PageLoader";
+import axios from "axios";
 
 const firestore = getFirestore(firebaseApp);
 
@@ -40,6 +44,11 @@ const CollectionPage = ({ router }: any) => {
     const _slug = collection.opensea.toString().split("/collection/")[1];
     const _collection = await getOpenSeaCollection(_slug);
     setOpenSeaData(_collection);
+
+    // const { data } = await axios.get("/api/opensea_assets", {
+      
+    // });
+    // console.log(data);
   }
 
   useEffect(() => {
@@ -68,7 +77,7 @@ const CollectionPage = ({ router }: any) => {
   return (
     <Layout>
       {!collectionData ? (
-        <PageLoader/>
+        <PageLoader />
       ) : (
         <div className="pb-20">
           <div className="h-20">
