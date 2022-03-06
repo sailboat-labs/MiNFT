@@ -38,16 +38,19 @@ export interface Comment {
   comment?: string;
   owner?: string;
   imageUrl?: string;
-  upVotes?: UpVote[];
+  upVotes?: Map<string, boolean>;
   dateCreated?: string;
   lastUpdated?: string;
 }
 
-export interface UpVote {
-  id: string;
-  value: boolean;
+export interface User {
+  walletId: string;
+  name?: string;
+  timeZone?: string;
+  avatarUrl?: string;
+  dateCreated?: string;
+  lastUpdated?: string;
 }
-
 export interface OpenSeaCollection {
   banner_image_url?: string;
   chat_url?: string;

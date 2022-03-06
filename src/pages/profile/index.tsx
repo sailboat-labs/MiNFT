@@ -1,17 +1,27 @@
+import { doc, getFirestore } from "firebase/firestore";
 import { useState } from "react";
+import { useDocumentData } from "react-firebase-hooks/firestore";
 import { useMoralis } from "react-moralis";
+
+import { firebaseApp } from "@/lib/firebase";
 
 import Layout from "@/components/layout/Layout";
 import ProfileName from "@/components/pages/profile/NameField";
+import ProfileImageUpload from "@/components/pages/profile/ProfileImageUpload";
 import AuthenticationDialog from "@/components/shared/AuthenticationDialog";
 import EthAddress from "@/components/shared/EthAddress";
 
 import TimezoneSelector from "./TimezoneSelector";
 
+const firestore = getFirestore(firebaseApp);
+
 export default function Profile() {
   const [showAuthDialog, setShowAuthDialog] = useState(false);
 
   const { account, chainId } = useMoralis();
+  const ref = doc(firestore, `users/${account ?? "b"}`);
+
+  const [user, loading, error] = useDocumentData(ref);
 
   if (!account) {
     return (
@@ -51,16 +61,19 @@ export default function Profile() {
     );
   }
 
-  return (
+  return user ? (
     <Layout>
       <div className="contained mt-10">
         <div className="flex flex-col items-center justify-center">
-          <div className="h-36 w-36 rounded-[50%] bg-gray-200"></div>
-          <ProfileName />
+          <ProfileImageUpload imageUrl={user.avatarUrl} />
+          {/* <div className="h-36 w-36 rounded-[50%] bg-gray-200"></div> */}
+          <ProfileName name={user.name} />
           {account && <EthAddress className="mt-5" account={account} />}
-          <TimezoneSelector />
+          <TimezoneSelector timeZone={user.timeZone} />
         </div>
       </div>
     </Layout>
+  ) : (
+    <></>
   );
 }

@@ -55,7 +55,7 @@ export default function CollectionSummary({
 
   return (
     <>
-      <div className="contained flex w-full flex-col gap-20 lg:flex-row">
+      <div className="contained flex w-full flex-col gap-20 lg:flex-row mt-10">
         <div className=" w-full lg:w-[70%]">
           {loadingPage && <PageLoader />}
           <div className="flex justify-between">
@@ -159,7 +159,7 @@ export default function CollectionSummary({
           />
           <Roadmap roadmap={collection.roadmap} />
         </div>
-        <div className=" w-full rounded lg:w-[30%]">
+        <div className=" w-full rounded lg:w-[20%]">
           <div className="flex h-fit cursor-pointer flex-col justify-end rounded-lg bg-gray-200">
             <img className="rounded-t-lg" src={collection.image} alt="" />
 
@@ -178,7 +178,7 @@ export default function CollectionSummary({
               {openSeaData && (
                 <>
                   <tr className="bg-white ">
-                    <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
+                    <td className="whitespace-nowrap py-2  text-sm font-medium text-gray-900 ">
                       Contract Address
                     </td>
                     <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
@@ -188,7 +188,7 @@ export default function CollectionSummary({
                     </td>
                   </tr>
                   <tr className="bg-white ">
-                    <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
+                    <td className="whitespace-nowrap py-2  text-sm font-medium text-gray-900 ">
                       Tokens Standard
                     </td>
                     <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
@@ -198,7 +198,7 @@ export default function CollectionSummary({
                 </>
               )}
               <tr className="bg-white ">
-                <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
+                <td className="whitespace-nowrap py-2  text-sm font-medium text-gray-900 ">
                   Blockchain
                 </td>
                 <td className="whitespace-nowrap py-2 px-6 text-sm capitalize text-gray-500 ">
@@ -207,7 +207,7 @@ export default function CollectionSummary({
               </tr>
               {collection.opensea && (
                 <tr className="bg-white ">
-                  <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
+                  <td className="whitespace-nowrap py-2  text-sm font-medium text-gray-900 ">
                     Opensea
                   </td>
                   <td
