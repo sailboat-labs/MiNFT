@@ -18,7 +18,10 @@ import CollectionSummary from "@/components/pages/collection/details/collection_
 import Comments from "@/components/pages/collection/details/comments";
 import PageLoader from "@/components/shared/PageLoader";
 
-import { getOpenSeaCollection } from "@/helpers/opensea";
+import {
+  getOpenSeaCollection,
+  getOpenSeaCollectionAssets,
+} from "@/helpers/opensea";
 
 import { Collection, OpenSeaCollection } from "@/types";
 
@@ -40,6 +43,11 @@ const CollectionPage = ({ router }: any) => {
     const _slug = collection.opensea.toString().split("/collection/")[1];
     const _collection = await getOpenSeaCollection(_slug);
     setOpenSeaData(_collection);
+
+    // const { data } = await axios.get("/api/opensea_assets", {
+      
+    // });
+    // console.log(data);
   }
 
   useEffect(() => {

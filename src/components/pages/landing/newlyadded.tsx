@@ -53,7 +53,6 @@ export default function NewlyAdded() {
             />
           </svg>
         </ButtonBack>
-        <div className="absolute z-[2] h-[180px] w-20 translate-x-10 rounded-l-lg bg-gradient-to-r from-white to-transparent"></div>
 
         <Slider>
           {newlyAdded.map((item, index) => (
@@ -74,7 +73,6 @@ export default function NewlyAdded() {
 
         <ButtonNext>
           <div className="flex items-center">
-            <div className="right-0 z-[2] h-[180px] w-20 -translate-x-28 rounded-r-lg bg-gradient-to-r from-transparent to-white"></div>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="absolute h-6 w-6"
