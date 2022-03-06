@@ -85,13 +85,13 @@ const CollectionPage = ({ router }: any) => {
                 src="/images/discord_logo.png"
                 alt=""
               />
-              “Crazy news! Announcement of a new Cool Cats collection”
+              {`“Crazy news! Announcement of a new ${collectionData.name} collection”`}
             </div>
           </div>
-          <div className="contained mt-10 flex gap-5">
+          {/* <div className="contained mt-10 flex gap-5">
             <span className="text-red-500 underline">Article</span>
             <span>News</span>
-          </div>
+          </div> */}
           <CollectionSummary
             openSeaData={openSeaData}
             collection={collectionData as Collection}

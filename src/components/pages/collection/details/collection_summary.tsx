@@ -53,7 +53,7 @@ export default function CollectionSummary({
 
   return (
     <>
-      <div className="contained flex w-full flex-col gap-20 lg:flex-row">
+      <div className="contained flex w-full flex-col gap-20 lg:flex-row mt-10">
         <div className=" w-full lg:w-[70%]">
           <div className="flex justify-between">
             <div className="mt-10 text-2xl font-bold">{collection.name}</div>
