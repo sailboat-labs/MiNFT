@@ -6,6 +6,7 @@ import {
   getFirestore,
   query,
   setDoc,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -19,21 +20,30 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { address } = req.body;
 
-    const checkExistsQuery = query(
-      usersCollections,
-      where("id", "==", address)
-    );
+    if (req.method == "POST") {
+      const checkExistsQuery = query(
+        usersCollections,
+        where("id", "==", address)
+      );
 
-    const exists = (await getDocs(checkExistsQuery)).docs.length > 0;
+      const exists = (await getDocs(checkExistsQuery)).docs.length > 0;
 
-    if (!exists) {
-      const _doc = doc(firestore, `users/${address}`);
-      await setDoc(_doc, {
-        walletId: address,
-      });
+      if (!exists) {
+        const _doc = doc(firestore, `users/${address}`);
+        await setDoc(_doc, {
+          walletId: address,
+        });
+      }
+
+      return res.status(200).json({ success: true });
+    } else if (req.method == "PUT") {
+      const { user } = req.body;
+
+      const _doc = doc(firestore, `users/${user.walletId}`);
+      await updateDoc(_doc, user);
+
+      return res.status(200).json({ success: true });
     }
-
-    return res.status(200).json({ success: true });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ success: false, error });

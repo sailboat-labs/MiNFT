@@ -43,6 +43,14 @@ export interface Comment {
   lastUpdated?: string;
 }
 
+export interface User {
+  walletId: string;
+  name?: string;
+  timeZone?: string;
+  avatarUrl?: string;
+  dateCreated?: string;
+  lastUpdated?: string;
+}
 export interface OpenSeaCollection {
   banner_image_url?: string;
   chat_url?: string;

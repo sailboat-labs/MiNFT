@@ -3,6 +3,7 @@ import { useMoralis } from "react-moralis";
 
 import Layout from "@/components/layout/Layout";
 import ProfileName from "@/components/pages/profile/NameField";
+import ProfileImageUpload from "@/components/pages/profile/ProfileImageUpload";
 import AuthenticationDialog from "@/components/shared/AuthenticationDialog";
 import EthAddress from "@/components/shared/EthAddress";
 
@@ -55,7 +56,8 @@ export default function Profile() {
     <Layout>
       <div className="contained mt-10">
         <div className="flex flex-col items-center justify-center">
-          <div className="h-36 w-36 rounded-[50%] bg-gray-200"></div>
+          <ProfileImageUpload />
+          {/* <div className="h-36 w-36 rounded-[50%] bg-gray-200"></div> */}
           <ProfileName />
           {account && <EthAddress className="mt-5" account={account} />}
           <TimezoneSelector />

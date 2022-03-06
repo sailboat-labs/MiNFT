@@ -1,16 +1,36 @@
+import axios from "axios";
 import { Field, Form, Formik } from "formik";
 import { useState } from "react";
+import toast from "react-hot-toast";
+import { useMoralis } from "react-moralis";
 import * as Yup from "yup";
+
+import { User } from "@/types";
 
 type props = {
   name?: string;
 };
 
 export default function ProfileName({ name }: props) {
+  const { account } = useMoralis();
+
   const [editMode, setEditMode] = useState(false);
 
-  function onNameSave(values: any) {
-    //Save name
+  async function onNameSave(name: string) {
+    const user: User = {
+      walletId: account!,
+      name: name,
+      lastUpdated: new Date().toISOString(),
+    };
+
+    const { data } = await axios.put("/api/user", { user });
+
+    if (data.success) {
+      toast.success(`Updated`);
+      if (editMode) setEditMode(false);
+    } else {
+      toast.error(`Unable to update`);
+    }
   }
 
   const formInitialValues = {
@@ -25,9 +45,7 @@ export default function ProfileName({ name }: props) {
     <Formik
       initialValues={formInitialValues}
       validationSchema={formValidationSchema}
-      onSubmit={(values, { setSubmitting }) => {
-        onNameSave(values);
-      }}
+      onSubmit={(values, { setSubmitting }) => onNameSave(values.name ?? "")}
     >
       <Form className="mt-5 flex items-center gap-2">
         <Field
