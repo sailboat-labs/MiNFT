@@ -17,6 +17,7 @@ export default function ProfileName({ name }: props) {
   const [editMode, setEditMode] = useState(false);
 
   async function onNameSave(name: string) {
+    console.log("Called");
     const user: User = {
       walletId: account!,
       name: name,

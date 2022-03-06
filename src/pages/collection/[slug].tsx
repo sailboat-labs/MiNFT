@@ -16,11 +16,11 @@ import Layout from "@/components/layout/Layout";
 import Assets from "@/components/pages/collection/details/assets";
 import CollectionSummary from "@/components/pages/collection/details/collection_summary";
 import Comments from "@/components/pages/collection/details/comments";
+import PageLoader from "@/components/shared/PageLoader";
 
 import { getOpenSeaCollection } from "@/helpers/opensea";
 
 import { Collection, OpenSeaCollection } from "@/types";
-import PageLoader from "@/components/shared/PageLoader";
 
 const firestore = getFirestore(firebaseApp);
 
@@ -68,7 +68,7 @@ const CollectionPage = ({ router }: any) => {
   return (
     <Layout>
       {!collectionData ? (
-        <PageLoader/>
+        <PageLoader />
       ) : (
         <div className="pb-20">
           <div className="h-20">

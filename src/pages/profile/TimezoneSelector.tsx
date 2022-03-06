@@ -1,10 +1,37 @@
+import axios from "axios";
 import { useState } from "react";
+import toast from "react-hot-toast";
+import { useMoralis } from "react-moralis";
 import TimezoneSelect from "react-timezone-select";
 
-export default function TimezoneSelector() {
+import { User } from "@/types";
+
+interface ITimeZoneSelectorProps {
+  timeZone?: string;
+}
+
+export default function TimezoneSelector({ timeZone }: ITimeZoneSelectorProps) {
+  const { account } = useMoralis();
   const [selectedTimezone, setSelectedTimezone] = useState(
-    Intl.DateTimeFormat().resolvedOptions().timeZone
+    timeZone ?? Intl.DateTimeFormat().resolvedOptions().timeZone
   );
+
+  async function updateTimeZone() {
+    const user: User = {
+      walletId: account!,
+      timeZone: selectedTimezone,
+      lastUpdated: new Date().toISOString(),
+    };
+
+    const { data } = await axios.put("/api/user", { user });
+
+    if (data.success) {
+      toast.success(`Updated`);
+    } else {
+      toast.error(`Unable to update`);
+    }
+  }
+
   return (
     <div className="mt-10  flex flex-col items-center">
       <TimezoneSelect
@@ -12,6 +39,7 @@ export default function TimezoneSelector() {
         value={selectedTimezone}
         onChange={(e) => {
           setSelectedTimezone(e.value);
+          updateTimeZone();
         }}
       />
       <div className="mt-2">{JSON.stringify(selectedTimezone, null, 2)}</div>
