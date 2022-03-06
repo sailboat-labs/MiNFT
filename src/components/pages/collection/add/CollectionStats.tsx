@@ -1,5 +1,6 @@
-import Dropdown from "@/components/shared/dropdown";
 import { ErrorMessage, Field } from "formik";
+
+import Dropdown from "@/components/shared/dropdown";
 
 export default function CollectionStats(props: any) {
   return (
@@ -15,10 +16,10 @@ export default function CollectionStats(props: any) {
                 type="number"
                 className="default-input w-full "
                 placeholder="Pre-sale mint cost"
-                name="preSaleMintCost"
+                name="preSaleCost"
               />
               <div className="text-red-500">
-                <ErrorMessage name="preSaleMintCost" component="div" />
+                <ErrorMessage name="preSaleCost" component="div" />
               </div>
             </td>
           </tr>
