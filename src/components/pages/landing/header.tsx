@@ -192,7 +192,7 @@ export default function Header() {
             Discover, collect, and sell
           </div>
           <div className="text-4xl font-bold">extraordinary NFTs</div>
-          <div className="flex w-full cursor-pointer justify-center gap-3 py-5 transition-all hover:translate-x-1 hover:scale-105 lg:justify-start">
+          <div className="flex w-fit cursor-pointer justify-center gap-3 py-5 transition-all hover:translate-x-1 hover:scale-105 lg:justify-start">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-6 w-6"
