@@ -12,6 +12,7 @@ import TeamInfo from "./team_information";
 import WishlistRequirements from "./wishlist_requirements";
 
 import { Collection, OpenSeaCollection } from "@/types";
+import PageLoader from "@/components/shared/PageLoader";
 
 interface SocialLInk {
   name: string;
@@ -30,6 +31,7 @@ export default function CollectionSummary({
   const router = useRouter();
   const { account } = useMoralis();
   const [socialLinks, setSocialLinks] = useState<SocialLInk[]>([]);
+  const [loadingPage, setLoadingPage] = useState(false);
 
   useEffect(() => {
     const links = [];
@@ -55,13 +57,15 @@ export default function CollectionSummary({
     <>
       <div className="contained flex w-full flex-col gap-20 lg:flex-row">
         <div className=" w-full lg:w-[70%]">
+          {loadingPage && <PageLoader />}
           <div className="flex justify-between">
             <div className="mt-10 text-2xl font-bold">{collection.name}</div>
 
             {account && account == collection.owner ? (
               <button
-                className="mt-10 gradient-button rounded-lg bg-gray-200 px-6 font-bold"
-                onClick={() =>
+                className="gradient-button mt-10 rounded-lg bg-gray-200 px-6 font-bold"
+                onClick={() => {
+                  setLoadingPage(true)
                   router.push(
                     {
                       pathname: `/collection/add`,
@@ -70,8 +74,8 @@ export default function CollectionSummary({
                       },
                     },
                     "/collection/add"
-                  )
-                }
+                  );
+                }}
               >
                 Edit
               </button>

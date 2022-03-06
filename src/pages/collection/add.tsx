@@ -313,12 +313,12 @@ export const getServerSideProps = async ({ query }: any) => {
   // if query object was received, return it as a router prop:
   if (query.collection) {
     if (typeof window !== "undefined") {
-      window.localStorage.setItem("collection", query.collection);
+      window.sessionStorage.setItem("collection", query.collection);
     }
     collection = JSON.parse(query.collection) as Collection;
   } else {
     if (typeof window !== "undefined") {
-      const local = window.localStorage.getItem("collection");
+      const local = window.sessionStorage.getItem("collection");
       if (local) collection = JSON.parse(local) as Collection;
     }
   }
