@@ -15,13 +15,15 @@ import { useCollectionData } from "react-firebase-hooks/firestore";
 
 import { firebaseApp } from "@/lib/firebase";
 
-import { Collection } from "@/types";
 import PageLoader from "@/components/shared/PageLoader";
+
+import { Collection } from "@/types";
 
 const firestore = getFirestore(firebaseApp);
 export default function LaunchingSoon() {
   const [collections, setCollections] = useState<Collection[]>([]);
-  const [loadingCollection, setLoadingCollection] = useState(false)
+  const [loadingCollection, setLoadingCollection] = useState(false);
+  const [animateIntoView, setAnimateIntoView] = useState(false);
 
   const _query = query(
     collection(firestore, "collections"),
@@ -40,12 +42,16 @@ export default function LaunchingSoon() {
     }, []);
 
     setCollections(data);
+    setTimeout(() => {
+      setAnimateIntoView(true);
+    }, 500);
   }, [loading, snapshots]);
 
   return (
     <div className="contained mt-10">
-      {loadingCollection && <PageLoader/>}
-      <div className="mt-3 flex flex-col">
+      {loadingCollection && <PageLoader />}
+
+      <div className={`mt-3 flex flex-col transition-all `}>
         <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
             <div className="overflow-hidden shadow sm:rounded-lg">
@@ -90,11 +96,45 @@ export default function LaunchingSoon() {
                     </th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody
+                  className={`transition-all  ${
+                    animateIntoView ? "hidden" : ""
+                  }`}
+                >
+                  {[...Array(5)].map((item, index) => (
+                    <tr
+                      key={index}
+                      className="animate-pulse cursor-pointer border-b bg-white"
+                    >
+                      <td className="flex items-center gap-5 whitespace-nowrap py-4 px-6 text-sm font-medium text-gray-900">
+                        <div className="h-10 w-10 flex-shrink-0 rounded-[50%] bg-gray-200"></div>
+                        <div>
+                          <div className="w-48 whitespace-nowrap rounded-lg bg-gray-200 py-3 text-sm text-gray-500"></div>
+                          <div className="mt-2 w-48 whitespace-nowrap rounded-lg bg-gray-200 py-2 text-sm text-gray-500"></div>
+                        </div>
+                      </td>
+                      <td className="whitespace-nowrap py-4 px-6 text-sm text-gray-500 ">
+                        <div className="w-48 whitespace-nowrap rounded-lg bg-gray-200 py-3 text-sm text-gray-500"></div>
+                      </td>
+                      <td className="whitespace-nowrap py-4 px-6 text-sm text-gray-500 ">
+                        <div className="w-48 whitespace-nowrap rounded-lg bg-gray-200 py-3 text-sm text-gray-500"></div>
+                      </td>
+                      <td className="whitespace-nowrap py-4 px-6 text-sm uppercase text-gray-500">
+                        <div className="w-36 whitespace-nowrap rounded-lg bg-gray-200 py-3 text-sm text-gray-500"></div>
+                      </td>
+                      <td className="whitespace-nowrap py-4 px-6 text-sm uppercase text-gray-500">
+                        <div className="w-36 whitespace-nowrap rounded-lg bg-gray-200 py-3 text-sm text-gray-500"></div>
+                      </td>
+                      <td className="whitespace-nowrap py-4 px-6 text-sm capitalize text-gray-500 ">
+                        <div className="w-36 whitespace-nowrap rounded-lg bg-gray-200 py-3 text-sm text-gray-500"></div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+                <tbody className={`${!animateIntoView ? "hidden" : ""}`}>
                   {collections &&
                     collections.map((collection, index) => (
                       <Link
-                      
                         key={index}
                         href={{
                           pathname: `/collection/[slug]`,
@@ -104,7 +144,12 @@ export default function LaunchingSoon() {
                         }}
                         passHref
                       >
-                        <tr onClick={()=>{setLoadingCollection(true)}} className="cursor-pointer border-b bg-white transition-all hover:bg-gray-50">
+                        <tr
+                          onClick={() => {
+                            setLoadingCollection(true);
+                          }}
+                          className="cursor-pointer border-b bg-white transition-all hover:bg-gray-50"
+                        >
                           <td className="flex items-center gap-5 whitespace-nowrap py-4 px-6 text-sm font-medium text-gray-900">
                             <div className="h-10 w-10 flex-shrink-0 rounded-[50%] bg-gray-100">
                               <img
