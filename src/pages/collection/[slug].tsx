@@ -96,7 +96,7 @@ const CollectionPage = ({ router }: any) => {
             openSeaData={openSeaData}
             collection={collectionData as Collection}
           />
-          <Assets />
+          {/* <Assets /> */}
           <Comments collectionId={collectionData.id} />
         </div>
       )}
