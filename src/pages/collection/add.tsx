@@ -105,7 +105,7 @@ export default function AddCollection({ collection }: any) {
     mintsPerPresale: Yup.number(),
     mintsPerTx: Yup.number(),
     whyILikeProject: Yup.string(),
-    preSaleMintCost: Yup.string(),
+    preSaleCost: Yup.string(),
     publicMintCost: Yup.string(),
     supply: Yup.string(),
 
