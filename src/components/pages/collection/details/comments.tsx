@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { Menu, Transition } from "@headlessui/react";
 import axios from "axios";
 import { formatEthAddress } from "eth-address";
 import {
@@ -9,7 +10,7 @@ import {
   orderBy,
   query,
 } from "firebase/firestore";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import toast from "react-hot-toast";
 import { useMoralis } from "react-moralis";
@@ -37,6 +38,8 @@ export default function Comments({ collectionId }: ICommentsProps) {
     limit(100)
   );
   const [snapshots, loading] = useCollectionData(_query);
+  const [selectedComment, setSelectedComment] = useState<Comment>();
+  const [editMode, setEditMode] = useState<boolean>(false);
 
   useEffect(() => {
     if (loading) return;
@@ -50,6 +53,10 @@ export default function Comments({ collectionId }: ICommentsProps) {
     setComments(data);
   }, [loading, snapshots]);
 
+  useEffect(() => {
+    setComment(selectedComment?.comment);
+  }, [selectedComment]);
+
   // Create and edit comments
 
   const [comment, setComment] = useState<string>();
@@ -59,24 +66,27 @@ export default function Comments({ collectionId }: ICommentsProps) {
       const timestamp = new Date().toISOString();
       const upVotes: Map<string, boolean> = new Map();
       const _comment: Comment = {
-        id: v4(),
+        id: editMode ? selectedComment!.id : v4(),
         comment: comment!,
         owner: account!,
-        upVotes: upVotes,
-        dateCreated: timestamp,
+        upVotes: editMode ? selectedComment!.upVotes : upVotes,
+        dateCreated: editMode ? selectedComment!.dateCreated : timestamp,
         lastUpdated: timestamp,
       };
 
-      const { data } = await axios.post("/api/comments", {
-        comment: _comment,
-        collectionId,
-      });
+      const { data } = editMode
+        ? await axios.put("/api/comments", { comment: _comment, collectionId })
+        : await axios.post("/api/comments", {
+            comment: _comment,
+            collectionId,
+          });
 
       if (data.success) {
-        toast.success("Comment Added");
+        toast.success(`Comment ${editMode ? "Updated" : "Added"}`);
         setComment("");
+        if (editMode) setEditMode(false);
       } else {
-        toast.error("Unable to add comment");
+        toast.error(`Unable to ${editMode ? "update" : "add"} comment`);
       }
     } catch (error) {
       // eslint-disable-next-line no-console
@@ -141,11 +151,52 @@ export default function Comments({ collectionId }: ICommentsProps) {
             key={index}
             className="flex gap-5 rounded-lg bg-gray-50 px-5 py-3"
           >
-            <div className="h-10 w-10 rounded-[50%] border-2 border-red-200 bg-red-100"></div>
-            <div className="flex flex-col gap-2">
+            <div className="h-10 w-10 rounded-full border-2 border-red-200 bg-red-100"></div>
+            <div className="flex w-full flex-col gap-2">
               <div className="flex w-full justify-between gap-5">
                 <div>{formatEthAddress(item.owner!)}</div>
-                {account && item.owner == account && <DotsVertical />}
+                {account && item.owner == account && (
+                  <div className="w-fit text-right">
+                    <Menu as="div" className="relative inline-block text-left">
+                      <div>
+                        <Menu.Button className="">
+                          <DotsVertical />
+                        </Menu.Button>
+                      </div>
+                      <Transition
+                        as={Fragment}
+                        enter="transition ease-out duration-100"
+                        enterFrom="transform opacity-0 scale-95"
+                        enterTo="transform opacity-100 scale-100"
+                        leave="transition ease-in duration-75"
+                        leaveFrom="transform opacity-100 scale-100"
+                        leaveTo="transform opacity-0 scale-95"
+                      >
+                        <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                          <div className="px-1 py-1 ">
+                            <Menu.Item>
+                              {({ active }: any) => (
+                                <button
+                                  onClick={() => {
+                                    setSelectedComment(item);
+                                    setEditMode(true);
+                                  }}
+                                  className={`${
+                                    active
+                                      ? "bg-primaryblue text-white"
+                                      : "text-gray-900"
+                                  } group flex w-full items-center rounded-md px-2 py-2 text-sm font-bold`}
+                                >
+                                  Edit
+                                </button>
+                              )}
+                            </Menu.Item>
+                          </div>
+                        </Menu.Items>
+                      </Transition>
+                    </Menu>
+                  </div>
+                )}
                 {/* <span>Rating here</span> */}
               </div>
               <p className="max-w-3xl text-sm text-gray-500">{item.comment}</p>
@@ -194,7 +245,10 @@ export default function Comments({ collectionId }: ICommentsProps) {
 
       {account && (
         <div className="mt-10">
-          <span className="mx-10 font-semibold">Add New Comment</span>
+          <span className="mx-10 font-semibold">
+            {" "}
+            {editMode ? "Update" : "Add new"} Comment
+          </span>
           <div className="mt-2 flex gap-5 rounded-lg px-5 py-3">
             <div className="h-10 w-10 rounded-[50%] border-2 border-red-200 bg-red-100"></div>
             <div className="flex w-full flex-col gap-2">
@@ -227,7 +281,9 @@ export default function Comments({ collectionId }: ICommentsProps) {
                       d="M5 13l4 4L19 7"
                     />
                   </svg>
-                  <span className="text-xs">Post</span>
+                  <span className="text-xs">
+                    {editMode ? "Update" : "Post"}
+                  </span>
                 </div>
               </div>
             </div>
