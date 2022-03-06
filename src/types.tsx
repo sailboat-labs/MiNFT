@@ -38,14 +38,9 @@ export interface Comment {
   comment?: string;
   owner?: string;
   imageUrl?: string;
-  upVotes?: UpVote[];
+  upVotes?: Map<string, boolean>;
   dateCreated?: string;
   lastUpdated?: string;
-}
-
-export interface UpVote {
-  id: string;
-  value: boolean;
 }
 
 export interface OpenSeaCollection {
