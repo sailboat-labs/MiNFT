@@ -42,7 +42,7 @@ export default function TimezoneSelector({ timeZone }: ITimeZoneSelectorProps) {
           updateTimeZone();
         }}
       />
-      <div className="mt-2">{JSON.stringify(selectedTimezone, null, 2)}</div>
+      <div className="mt-2">{JSON.stringify(selectedTimezone)}</div>
     </div>
   );
 }

@@ -18,13 +18,15 @@ export default function ProfileName({ name }: props) {
   const [editMode, setEditMode] = useState<boolean>(!name);
 
   async function onNameSave(name: string) {
-    toast('Checking validity')
+    toast("Checking validity");
     const web3 = new Web3(Web3.givenProvider);
 
     const address = await web3.eth.ens.getOwner(name);
 
-    if (address != "0xC3f1c82bF8c048e42a743E8C328f2705d2aa5151")
+    if (address != account) {
+      toast.dismiss();
       return toast.error("ENS doesn't belong to your address");
+    }
 
     const user: User = {
       walletId: account!,
@@ -35,9 +37,11 @@ export default function ProfileName({ name }: props) {
     const { data } = await axios.put("/api/user", { user });
 
     if (data.success) {
+      toast.dismiss();
       toast.success(`Updated`);
       if (editMode) setEditMode(false);
     } else {
+      toast.dismiss();
       toast.error(`Unable to update`);
     }
   }
@@ -61,7 +65,7 @@ export default function ProfileName({ name }: props) {
           name="name"
           disabled={!editMode}
           placeholder="Verify ENS"
-          className=" rounded-md  border-2 bg-gray-50 text-center text-2xl font-bold disabled:border-0 disabled:bg-white"
+          className="w-52  rounded-md border-2 bg-gray-50 text-center text-xl font-bold disabled:border-0 disabled:bg-white"
         />
         {!editMode && (
           <svg
