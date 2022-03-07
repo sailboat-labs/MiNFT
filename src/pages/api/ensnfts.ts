@@ -8,11 +8,16 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   try {
     if (req.method != "GET") return;
+
+    console.log(req.query);
+
+    const {account} = req.query;
+    
     const config: any = {
       method: "get",
       mode: "no-cors",
 
-      url: "https://minft.eth.xyz/nfts/0xC3f1c82bF8c048e42a743E8C328f2705d2aa5151",
+      url: `https://minft.eth.xyz/nfts/${account}`,
     };
 
     await axios(config)
