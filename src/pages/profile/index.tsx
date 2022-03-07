@@ -1,5 +1,5 @@
 import { doc, getFirestore } from "firebase/firestore";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import { useMoralis } from "react-moralis";
 
@@ -12,6 +12,7 @@ import AuthenticationDialog from "@/components/shared/AuthenticationDialog";
 import EthAddress from "@/components/shared/EthAddress";
 
 import TimezoneSelector from "./TimezoneSelector";
+import PageLoader from "@/components/shared/PageLoader";
 
 const firestore = getFirestore(firebaseApp);
 
@@ -19,9 +20,19 @@ export default function Profile() {
   const [showAuthDialog, setShowAuthDialog] = useState(false);
 
   const { account, chainId } = useMoralis();
-  const ref = doc(firestore, `users/${account ?? "b"}`);
+  const ref = doc(firestore, `users/${account}`);
+  
 
   const [user, loading, error] = useDocumentData(ref);
+
+  const [profile, setProfile] = useState<any>()
+
+  useEffect(()=>{
+    
+    if(!account) return;
+    
+    setProfile(user)
+  },[user,loading,account])
 
   if (!account) {
     return (
@@ -61,19 +72,21 @@ export default function Profile() {
     );
   }
 
-  return user ? (
+  return (
     <Layout>
-      <div className="contained mt-10">
-        <div className="flex flex-col items-center justify-center">
-          <ProfileImageUpload imageUrl={user.avatarUrl} />
-          {/* <div className="h-36 w-36 rounded-[50%] bg-gray-200"></div> */}
-          <ProfileName name={user.name} />
-          {account && <EthAddress className="mt-5" account={account} />}
-          <TimezoneSelector timeZone={user.timeZone} />
+      {profile ? (
+        <div className="contained mt-10">
+          <div className="flex flex-col items-center justify-center">
+            <ProfileImageUpload imageUrl={profile.avatarUrl} />
+            {/* <div className="h-36 w-36 rounded-[50%] bg-gray-200"></div> */}
+            <ProfileName name={profile.name} />
+            {account && <EthAddress className="mt-5" account={account} />}
+            <TimezoneSelector timeZone={profile.timeZone} />
+          </div>
         </div>
-      </div>
+      ) : (
+        <PageLoader />
+      )}
     </Layout>
-  ) : (
-    <></>
   );
 }

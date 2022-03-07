@@ -23,7 +23,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method == "POST") {
       const checkExistsQuery = query(
         usersCollections,
-        where("id", "==", address)
+        where("walletId", "==", address)
       );
 
       const exists = (await getDocs(checkExistsQuery)).docs.length > 0;

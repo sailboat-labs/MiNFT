@@ -26,23 +26,24 @@ export default function AuthenticationDialog({
     // logout,
   } = useMoralis();
 
-
   useEffect(() => {
     if (account) return setShowAuthDialog(false);
   }, [account, setShowAuthDialog]);
 
   useEffect(() => {
-    if (account && isAuthenticated)
-      axios
-        .post("/api/user", { address: account })
-        .then(() => {
-          return;
-        })
-        .catch((_) => {
-          toast.error("Unable to update user");
-          return;
-        });
-  });
+    if (!account || !isAuthenticated) return;
+    console.log("oh", account, isAuthenticated);
+
+    axios
+      .post("/api/user", { address: account.toString().toLowerCase() })
+      .then(() => {
+        return console.log("saved");
+      })
+      .catch((_) => {
+        toast.error("Unable to update user");
+        return;
+      });
+  }, [account, isAuthenticated]);
 
   return (
     <>

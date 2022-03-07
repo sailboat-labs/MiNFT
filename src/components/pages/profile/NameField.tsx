@@ -6,6 +6,7 @@ import { useMoralis } from "react-moralis";
 import * as Yup from "yup";
 
 import { User } from "@/types";
+import Web3 from "web3";
 
 type props = {
   name?: string;
@@ -14,10 +15,17 @@ type props = {
 export default function ProfileName({ name }: props) {
   const { account } = useMoralis();
 
-  const [editMode, setEditMode] = useState(false);
+  const [editMode, setEditMode] = useState<boolean>(!name);
 
   async function onNameSave(name: string) {
-    console.log("Called");
+    toast('Checking validity')
+    const web3 = new Web3(Web3.givenProvider);
+
+    const address = await web3.eth.ens.getOwner(name);
+
+    if (address != "0xC3f1c82bF8c048e42a743E8C328f2705d2aa5151")
+      return toast.error("ENS doesn't belong to your address");
+
     const user: User = {
       walletId: account!,
       name: name,
@@ -52,7 +60,7 @@ export default function ProfileName({ name }: props) {
         <Field
           name="name"
           disabled={!editMode}
-          placeholder="Fullname"
+          placeholder="Verify ENS"
           className=" rounded-md  border-2 bg-gray-50 text-center text-2xl font-bold disabled:border-0 disabled:bg-white"
         />
         {!editMode && (
@@ -77,20 +85,23 @@ export default function ProfileName({ name }: props) {
 
         {editMode && (
           <div className="flex gap-5">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6 cursor-pointer transition-all hover:scale-105"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth="2"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M5 13l4 4L19 7"
-              />
-            </svg>
+            <button type="submit">
+              <svg
+                type="submit"
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6 cursor-pointer transition-all hover:scale-105"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M5 13l4 4L19 7"
+                />
+              </svg>
+            </button>
 
             <svg
               onClick={() => {
