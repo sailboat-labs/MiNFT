@@ -23,13 +23,13 @@ interface SocialLInk {
 interface ICollectionSummaryProps {
   collection: Collection;
   openSeaData?: OpenSeaCollection;
-  className?:string;
+  className?: string;
 }
 
 export default function CollectionSummary({
   collection,
   openSeaData,
-  className
+  className,
 }: ICollectionSummaryProps) {
   const router = useRouter();
   const { account } = useMoralis();
@@ -58,7 +58,9 @@ export default function CollectionSummary({
 
   return (
     <>
-      <div className={`contained mt-10 flex w-full flex-col gap-20 lg:flex-row ${className}`}>
+      <div
+        className={`contained mt-10 flex w-full flex-col gap-20 lg:flex-row ${className}`}
+      >
         <div className={` w-full  lg:w-[70%] ${openSeaData && "mt-10"}`}>
           {loadingPage && <PageLoader />}
           <div className="flex justify-between">
@@ -164,12 +166,28 @@ export default function CollectionSummary({
         </div>
         <div className=" w-full rounded lg:w-[20%]">
           <div className="flex h-fit flex-col justify-end rounded-lg ">
-            <img className="rounded-t-2 h-72" src={collection.image} alt="" />
+            <img
+              className="rounded-t-2 h-72"
+              src={
+                collection.image
+                  ? collection.image
+                  : openSeaData
+                  ? openSeaData?.image_url
+                  : ""
+              }
+              alt=""
+            />
 
             <div className="flex w-full items-center gap-5 rounded-b-lg border-2 border-t-0 bg-white px-3 py-3">
               <img
                 className="h-12 w-12 rounded-full "
-                src={collection.image}
+                src={
+                  collection.image
+                    ? collection.image
+                    : openSeaData
+                    ? openSeaData?.image_url
+                    : ""
+                }
                 alt=""
               />
 
