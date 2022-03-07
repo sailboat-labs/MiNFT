@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { doc, getFirestore } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useDocumentData } from "react-firebase-hooks/firestore";
@@ -6,8 +7,7 @@ import { useMoralis } from "react-moralis";
 import { firebaseApp } from "@/lib/firebase";
 
 import Layout from "@/components/layout/Layout";
-import ProfileName from "@/components/pages/profile/NameField";
-import ProfileImageUpload from "@/components/pages/profile/ProfileImageUpload";
+import UserNfts from "@/components/pages/profile/usernfts";
 import AuthenticationDialog from "@/components/shared/AuthenticationDialog";
 import EthAddress from "@/components/shared/EthAddress";
 import PageLoader from "@/components/shared/PageLoader";
@@ -75,11 +75,20 @@ export default function Profile() {
       {profile ? (
         <div className="contained mt-10">
           <div className="flex flex-col items-center justify-center">
-            <ProfileImageUpload imageUrl={profile.avatarUrl} />
-            {/* <div className="h-36 w-36 rounded-[50%] bg-gray-200"></div> */}
-            <ProfileName name={profile.name} />
+            <img
+              className="translate h-36 w-36 rounded-full bg-gray-200 object-cover"
+              src={
+                profile.avatarUrl ??
+                "http://www.gravatar.com/avatar/3b3be63a4c2a439b013787725dfce802?d=identicon"
+              }
+              alt=""
+            />
+            <div className="mt-5 rounded-md  text-center text-2xl font-bold disabled:border-0 disabled:bg-white">
+              {profile.name ?? "Domain name not set"}
+            </div>
             {account && <EthAddress className="mt-5" account={account} />}
             <TimezoneSelector timeZone={profile.timeZone} />
+            <UserNfts account={account} />
           </div>
         </div>
       ) : (
