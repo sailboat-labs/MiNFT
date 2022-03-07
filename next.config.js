@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
-  target: "serverless",
+  
   eslint: {
     dirs: ['src'],
   },
