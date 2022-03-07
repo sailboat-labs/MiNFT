@@ -10,9 +10,9 @@ import ProfileName from "@/components/pages/profile/NameField";
 import ProfileImageUpload from "@/components/pages/profile/ProfileImageUpload";
 import AuthenticationDialog from "@/components/shared/AuthenticationDialog";
 import EthAddress from "@/components/shared/EthAddress";
+import PageLoader from "@/components/shared/PageLoader";
 
 import TimezoneSelector from "./TimezoneSelector";
-import PageLoader from "@/components/shared/PageLoader";
 
 const firestore = getFirestore(firebaseApp);
 
@@ -21,18 +21,16 @@ export default function Profile() {
 
   const { account, chainId } = useMoralis();
   const ref = doc(firestore, `users/${account}`);
-  
 
   const [user, loading, error] = useDocumentData(ref);
 
-  const [profile, setProfile] = useState<any>()
+  const [profile, setProfile] = useState<any>();
 
-  useEffect(()=>{
-    
-    if(!account) return;
-    
-    setProfile(user)
-  },[user,loading,account])
+  useEffect(() => {
+    if (!account) return;
+
+    setProfile(user);
+  }, [user, loading, account]);
 
   if (!account) {
     return (

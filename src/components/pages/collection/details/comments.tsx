@@ -18,6 +18,8 @@ import { v4 } from "uuid";
 
 import { firebaseApp } from "@/lib/firebase";
 
+import AuthenticationDialog from "@/components/shared/AuthenticationDialog";
+
 import { Comment } from "@/types";
 
 import DotsVertical from "~/svg/dots-vertical.svg";
@@ -31,6 +33,8 @@ export default function Comments({ collectionId }: ICommentsProps) {
 
   // Get comments from firestore
   const [comments, setComments] = useState<Comment[]>([]);
+
+  const [showAuthDialog, setShowAuthDialog] = useState(false);
 
   const _query = query(
     collection(firestore, `collections/${collectionId}/comments`),
@@ -292,7 +296,21 @@ export default function Comments({ collectionId }: ICommentsProps) {
       )}
 
       {!account && (
-        <div className="mt-10">Connect your wallet to add a comment</div>
+        <>
+          <div className="mt-10">Connect your wallet to add a comment</div>
+          <div
+            onClick={() => {
+              setShowAuthDialog(true);
+            }}
+            className="gradient-button mt-5"
+          >
+            Connect your wallet
+          </div>
+          <AuthenticationDialog
+            showAuthDialog={showAuthDialog}
+            setShowAuthDialog={setShowAuthDialog}
+          />
+        </>
       )}
     </div>
   );
