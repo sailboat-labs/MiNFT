@@ -13,6 +13,7 @@
     "antd",
     "clsx",
     "dashify",
+    "degen",
     "Dropzone",
     "Formik",
     "headlessui",

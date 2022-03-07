@@ -1,10 +1,12 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @next/next/no-img-element */
 import dayjs from "dayjs";
-import { formatEthAddress } from "eth-address";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useMoralis } from "react-moralis";
+
+import EthAddress from "@/components/shared/EthAddress";
+import PageLoader from "@/components/shared/PageLoader";
 
 import Roadmap from "./roadmap";
 import CollectionStats from "./stats";
@@ -12,7 +14,6 @@ import TeamInfo from "./team_information";
 import WishlistRequirements from "./wishlist_requirements";
 
 import { Collection, OpenSeaCollection } from "@/types";
-import PageLoader from "@/components/shared/PageLoader";
 
 interface SocialLInk {
   name: string;
@@ -22,11 +23,13 @@ interface SocialLInk {
 interface ICollectionSummaryProps {
   collection: Collection;
   openSeaData?: OpenSeaCollection;
+  className?:string;
 }
 
 export default function CollectionSummary({
   collection,
   openSeaData,
+  className
 }: ICollectionSummaryProps) {
   const router = useRouter();
   const { account } = useMoralis();
@@ -55,8 +58,8 @@ export default function CollectionSummary({
 
   return (
     <>
-      <div className="contained flex w-full flex-col gap-20 lg:flex-row mt-10">
-        <div className=" w-full lg:w-[70%]">
+      <div className={`contained mt-10 flex w-full flex-col gap-20 lg:flex-row ${className}`}>
+        <div className={` w-full  lg:w-[70%] ${openSeaData && "mt-10"}`}>
           {loadingPage && <PageLoader />}
           <div className="flex justify-between">
             <div className="mt-10 text-2xl font-bold">{collection.name}</div>
@@ -65,7 +68,7 @@ export default function CollectionSummary({
               <button
                 className="gradient-button mt-10 rounded-lg bg-gray-200 px-6 font-bold"
                 onClick={() => {
-                  setLoadingPage(true)
+                  setLoadingPage(true);
                   router.push(
                     {
                       pathname: `/collection/add`,
@@ -160,12 +163,12 @@ export default function CollectionSummary({
           <Roadmap roadmap={collection.roadmap} />
         </div>
         <div className=" w-full rounded lg:w-[20%]">
-          <div className="flex h-fit cursor-pointer flex-col justify-end rounded-lg bg-gray-200">
-            <img className="rounded-t-lg" src={collection.image} alt="" />
+          <div className="flex h-fit flex-col justify-end rounded-lg ">
+            <img className="rounded-t-2 h-72" src={collection.image} alt="" />
 
-            <div className=" flex w-full items-center gap-5 rounded-b-lg border-2 border-t-0 bg-white px-3 py-3">
+            <div className="flex w-full items-center gap-5 rounded-b-lg border-2 border-t-0 bg-white px-3 py-3">
               <img
-                className="h-12 w-12 rounded-full bg-gray-100"
+                className="h-12 w-12 rounded-full "
                 src={collection.image}
                 alt=""
               />
@@ -182,9 +185,10 @@ export default function CollectionSummary({
                       Contract Address
                     </td>
                     <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
-                      {formatEthAddress(
-                        openSeaData.primary_asset_contracts[0].address ?? ""
-                      )}
+                      <EthAddress
+                        className="-translate-x-2 px-2 py-1"
+                        account={openSeaData.primary_asset_contracts[0].address}
+                      />
                     </td>
                   </tr>
                   <tr className="bg-white ">

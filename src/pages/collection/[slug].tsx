@@ -37,12 +37,21 @@ const CollectionPage = ({ router }: any) => {
   const [collection, loading, error] = useDocumentData(ref);
 
   const [openSeaData, setOpenSeaData] = useState<OpenSeaCollection>();
+  const [showHeader, setShowHeader] = useState(false)
 
   async function getCollection() {
     if (!collection || !collection.opensea) return;
     const _slug = collection.opensea.toString().split("/collection/")[1];
     const _collection = await getOpenSeaCollection(_slug);
+    
+    
     setOpenSeaData(_collection);
+
+    if(!_collection?.banner_image_url) return
+
+    setTimeout(() => {
+      setShowHeader(true)
+    }, 1000);
 
     // const { data } = await axios.get("/api/opensea_assets", {
       
@@ -79,20 +88,16 @@ const CollectionPage = ({ router }: any) => {
         <PageLoader />
       ) : (
         <div className="pb-20">
-          <div className="h-20">
+          <div className={`transition-all duration-500 h-36 ${showHeader ? " translate-y-0 opacity-100" : "h-0 -translate-y-10 opacity-0"}`}>
             <img
-              className="absolute h-20 w-full object-cover"
-              src="/images/collection_page_top_images.png"
+              className="absolute h-36 w-full object-cover"
+              src={openSeaData?.banner_image_url}
               alt=""
             />
-            <div className="absolute h-20 w-full bg-gradient-to-r from-black to-transparent"></div>
+            <div className="absolute h-36 w-full bg-gradient-to-r from-black to-transparent"></div>
 
-            <div className="absolute z-[2] flex h-20 items-center gap-3 px-20 font-bold text-white">
-              <img
-                className="h-10 w-10"
-                src="/images/discord_logo.png"
-                alt=""
-              />
+            <div className="absolute z-[2] flex h-36 items-center gap-3 px-20 font-bold text-white">
+              <img className="h-10 w-10" src={openSeaData?.image_url} alt="" />
               {`“Crazy news! Announcement of a new ${collectionData.name} collection”`}
             </div>
           </div>
@@ -101,6 +106,7 @@ const CollectionPage = ({ router }: any) => {
             <span>News</span>
           </div> */}
           <CollectionSummary
+            className={`${showHeader && "-translate-y-20"}`}
             openSeaData={openSeaData}
             collection={collectionData as Collection}
           />

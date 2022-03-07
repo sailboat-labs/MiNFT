@@ -209,7 +209,7 @@ export default function Comments({ collectionId }: ICommentsProps) {
                 } text-xs text-red-500`}
               >
                 {Object.values(item.upVotes!).filter((value) => value).length}{" "}
-                found this helpful
+                degen found this helpful
               </span>
               {account && (
                 <div className="mt-2 flex items-center gap-5">

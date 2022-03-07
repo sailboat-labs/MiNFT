@@ -18,7 +18,7 @@ export default function EthAddress({ account,className }: props) {
           onMouseLeave={() => {
             setShowCopy(false);
           }}
-          className={`flex cursor-pointer gap-2 rounded-xl border-2 px-5 py-1 hover:bg-gray-100 ${className}`}
+          className={`flex cursor-pointer gap-2 rounded-xl hover:bg-gray-100 ${className}`}
         >
           {formatEthAddress(account)}{" "}
           <svg
