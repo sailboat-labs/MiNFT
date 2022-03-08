@@ -8,20 +8,22 @@ type props = {
   selectedCategory: string;
 };
 
+ export const categories: { label: string; image: string }[] = [
+   { label: "art", image: "/images/art_category.png" },
+   { label: "photography", image: "/images/photography_category.png" },
+   { label: "collectibles", image: "/images/collectibles_category.png" },
+   { label: "utility", image: "/images/utility_category.png" },
+   { label: "domain names", image: "/images/domain_names_category.png" },
+   { label: "music", image: "/images/music_category.png" },
+   { label: "gaming", image: "/images/music_category.png" },
+   { label: "pfp", image: "/images/music_category.png" },
+ ];
+
 export default function ExploreCategories({
   selectedCategory,
   setSelectedCategory,
 }: props) {
-  const categories: { label: string; image: string }[] = [
-    { label: "art", image: "/images/art_category.png" },
-    { label: "photography", image: "/images/photography_category.png" },
-    { label: "collectibles", image: "/images/collectibles_category.png" },
-    { label: "utility", image: "/images/utility_category.png" },
-    { label: "domain names", image: "/images/domain_names_category.png" },
-    { label: "music", image: "/images/music_category.png" },
-    { label: "gaming", image: "/images/music_category.png" },
-    { label: "pfp", image: "/images/music_category.png" },
-  ];
+  
 
   const [hoveredCategory, setHoveredCategory] = useState(-1);
 

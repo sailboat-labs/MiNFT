@@ -1,10 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 // import DarkModeMenu from "../navbar/darkmode-toggle";
+import { Menu, Transition } from "@headlessui/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useMoralis } from "react-moralis";
+import { categories } from "../pages/landing/categories";
 
 import AuthenticationDialog from "../shared/AuthenticationDialog";
 import ProfileIcon from "../shared/profile_icon";
@@ -13,8 +15,6 @@ export default function Navbar() {
   const links: { label: string; route: string }[] = [
     { label: "Categories", route: "/" },
     { label: "All Collections", route: "/" },
-    { label: "Trending", route: "/" },
-    { label: "About Us", route: "/" },
   ];
 
   const requiredAuthPaths = ["/profile"];
@@ -146,15 +146,54 @@ export default function Navbar() {
         <div className="ml-5 hidden items-center space-x-6 lg:inline-flex lg:justify-end">
           {/* <DarkModeMenu className="md:mr-5" /> */}
           <div className="flex gap-5">
-            {links.map((link, index) => (
+            {/* {links.map((link, index) => (
               <Link passHref href={link.route} key={index}>
                 <span className="cursor-pointer text-gray-600 transition-all hover:scale-105 hover:text-black">
                   {link.label}
                 </span>
               </Link>
-            ))}
+            ))} */}
+            <div className="">
+              <Menu as="div" className="relative inline-block text-left">
+                <div className="flex items-center gap-3">
+                  <Menu.Button className="cursor-pointer text-gray-600 transition-all hover:scale-105 hover:text-black">
+                    Categories
+                  </Menu.Button>
+                </div>
+                <Transition
+                  as={Fragment}
+                  enter="transition ease-out duration-100"
+                  enterFrom="transform opacity-0 scale-95"
+                  enterTo="transform opacity-100 scale-100"
+                  leave="transition ease-in duration-75"
+                  leaveFrom="transform opacity-100 scale-100"
+                  leaveTo="transform opacity-0 scale-95"
+                >
+                  <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <div className="px-1 py-1 ">
+                      {categories.map((item, index) => (
+                        <Menu.Item key={index}>
+                          {({ active }) => (
+                            <button
+                              className={`${
+                                active
+                                  ? "bg-primaryblue text-white"
+                                  : "text-gray-900"
+                              } group flex w-full items-center rounded-md px-2 py-2 text-sm capitalize`}
+                            >
+                              {item.label}
+                            </button>
+                          )}
+                        </Menu.Item>
+                      ))}
+                      
+                    </div>
+                  </Menu.Items>
+                </Transition>
+              </Menu>
+            </div>
           </div>
-          {router.pathname !== "/collection/add" && (
+          {account && isAuthenticated && router.pathname !== "/collection/add" && (
             <Link passHref href="/collection/add">
               <div className="mr-5 cursor-pointer rounded bg-gray-200 px-3 py-1 font-medium leading-6  hover:text-gray-900">
                 Add Project
