@@ -17,8 +17,9 @@ import { firebaseApp } from "@/lib/firebase";
 
 import PageLoader from "@/components/shared/PageLoader";
 
-import { Collection } from "@/types";
 import ExploreCategories from "./categories";
+
+import { Collection } from "@/types";
 
 const firestore = getFirestore(firebaseApp);
 export default function LaunchingSoon() {
@@ -26,6 +27,7 @@ export default function LaunchingSoon() {
   const [loadingCollection, setLoadingCollection] = useState(false);
   const [animateIntoView, setAnimateIntoView] = useState(false);
 
+  const [selectedCategory, setSelectedCategory] = useState("all");
   const _query = query(
     collection(firestore, "collections"),
     orderBy("lastUpdated", "desc"),
@@ -53,9 +55,12 @@ export default function LaunchingSoon() {
       {loadingCollection && <PageLoader />}
 
       <div className={`mt-3 flex flex-col transition-all `}>
-        <ExploreCategories />
+        <ExploreCategories
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+        />
 
-        <div className="overflow-x-auto sm:-mx-6 lg:-mx-8 mt-10">
+        <div className="mt-10 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
             <div className="overflow-hidden shadow sm:rounded-lg">
               <table className="min-w-full">
