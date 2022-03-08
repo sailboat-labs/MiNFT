@@ -97,7 +97,7 @@ const CollectionPage = ({ router }: any) => {
             <div className="absolute h-36 w-full bg-gradient-to-r from-black to-transparent"></div>
 
             <div className="absolute z-[2] flex h-36 items-center gap-3 px-20 font-bold text-white">
-              <img className="h-10 rounded-[50%] w-10" src={openSeaData?.image_url} alt="" />
+              <img className="h-10 rounded-[] w-10" src={openSeaData?.image_url} alt="" />
               {`“Crazy news! Announcement of a new ${collectionData.name} collection”`}
             </div>
           </div>
