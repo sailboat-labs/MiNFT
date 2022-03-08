@@ -10,6 +10,10 @@ import {
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
+import Slider from "react-slick";
+
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 import { firebaseApp } from "@/lib/firebase";
 
@@ -43,48 +47,131 @@ export default function NewlyAdded() {
     }, 500);
   }, [loading, snapshots]);
 
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 1000,
+    slidesToShow: 3,
+    centerPadding: "20px",
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 5000,
+    pauseOnHover: true,
+    // centerMode: true,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          dots: true,
+          infinite: true,
+          speed: 1000,
+          slidesToShow: 3,
+          slidesToScroll: 1,
+          autoplay: true,
+          autoplaySpeed: 5000,
+          pauseOnHover: true,
+          centerMode: true,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          dots: true,
+          infinite: true,
+          speed: 1000,
+          slidesToShow: 3,
+          slidesToScroll: 1,
+          autoplay: true,
+          autoplaySpeed: 5000,
+          pauseOnHover: true,
+          centerMode: true,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          dots: true,
+          infinite: true,
+          speed: 1000,
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          autoplay: true,
+          autoplaySpeed: 5000,
+          pauseOnHover: true,
+          // centerMode: true,
+        },
+      },
+    ],
+  };
+
   return (
     <div id="newly_added" className="contained mt-10">
-      <a href="#newly_added">
-        <strong className="text-xl">Newly Added</strong>
+      <a href="#newly_added" className="flex w-full justify-center">
+        <strong className="text-2xl">Newly Added</strong>
       </a>
 
-      <section className="flex items-center overflow-hidden gap-5">
-        <div className="h-20 w-20 bg-red-200"></div>
+      <div
+        className={`mt-0 flex  justify-center transition-all ${
+          animateIntoView
+            ? "h-0 scale-95 opacity-0 "
+            : "scale-100 animate-pulse opacity-100"
+        }`}
+      >
+        <div className="mt-10 flex gap-5 overflow-x-hidden">
+          {[...Array(3)].map((item, index) => (
+            <div
+              key={index}
+              className="mr-10 h-[400px] w-[300px] cursor-pointer"
+            >
+              <div className="flex flex-col items-center">
+                <div className="h-[400px] w-[300px] rounded-lg border-2 bg-white object-cover"></div>
 
-        <div id="scrollbar" className="relative">
-          <div
-            className="mt-8 snap-x snap-mandatory gap-4 overflow-x-auto xl:grid"
-            style={{
-              gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-            }}
-          >
-            <div className="flex w-max items-start gap-10">
-              {collections
-                .filter((item) => item.image != null)
-                .map((item, index) => (
-                  <div
-                    key={index}
-                    className="relative flex-1 cursor-pointer snap-center snap-always transition-all"
-                  >
-                    <div className="flex flex-col items-center">
-                      <img
-                        className="h-48 w-52 rounded-lg border-2 bg-white object-cover"
-                        src={item.image}
-                        alt=""
-                      />
+                <div className="absolute h-[400px] w-[300px]  rounded-lg bg-gradient-to-b from-transparent via-transparent to-gray-500 opacity-80"></div>
 
-                      <p className="my-5 text-center text-lg text-gray-700">
-                        {item.name}
-                      </p>
-                    </div>
-                  </div>
-                ))}
+                <div className="absolute bottom-0 my-5 flex -translate-y-10 flex-col items-center gap-3">
+                  <p className="rounded-lg bg-white py-2 px-28"></p>
+                  <p className="w-fit rounded-lg bg-white py-2 px-20"></p>
+                </div>
+              </div>
             </div>
-          </div>
+          ))}
         </div>
-        <div onClick={()=>{window.scrollTo(100,0)}} className="h-20 w-20 bg-red-200"></div>
-      </section>
+      </div>
+      <div
+        className={`mt-10 transition-all ${
+          !animateIntoView ? "h-0 scale-95 opacity-0" : "scale-100 opacity-100"
+        }`}
+      >
+        <Slider {...settings}>
+          {collections
+            .filter((item) => item.image != null)
+            .map((item, index) => (
+              <div
+                key={index}
+                className="mr-10 h-[400px] w-[300px] cursor-pointer"
+              >
+                <div className="flex flex-col items-center">
+                  <img
+                    className="h-[400px] w-[300px] rounded-lg border-2 bg-white object-cover"
+                    src={item.image}
+                    alt=""
+                  />
+
+                  <div className="absolute h-[400px] w-[300px]  rounded-lg bg-gradient-to-b from-transparent via-transparent to-black opacity-80"></div>
+
+                  <div className="absolute bottom-0 my-5">
+                    <p className=" text-center text-2xl text-white">
+                      {item.name}
+                    </p>
+                    <p className="text-center text-sm uppercase text-white">
+                      {item.projectType}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+        </Slider>
+      </div>
     </div>
   );
 }
