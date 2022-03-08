@@ -133,7 +133,7 @@ export default function Comments({ collectionId }: ICommentsProps) {
     }
   };
 
-  async function verifyCommentAuthenticity(comment: string, signature: string) {
+  async function verifyCommentAuthenticity(comment: string, signature: string, address:string) {
     toast('Verifying authenticity');
     toast.dismiss();
     
@@ -145,7 +145,7 @@ export default function Comments({ collectionId }: ICommentsProps) {
     );
 
     toast.dismiss()
-    if (_address == account)
+    if (_address == address)
       return toast.success("Comment verification successful");
     return toast.error("Comment verification unsuccessful");
   }
@@ -373,7 +373,8 @@ export default function Comments({ collectionId }: ICommentsProps) {
                                   onClick={() => {
                                     verifyCommentAuthenticity(
                                       item.comment!,
-                                      item.signature!
+                                      item.signature!,
+                                      item.owner!
                                     );
                                   }}
                                   className={`${
