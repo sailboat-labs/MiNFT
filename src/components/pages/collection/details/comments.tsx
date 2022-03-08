@@ -29,7 +29,7 @@ interface ICommentsProps {
 
 const firestore = getFirestore(firebaseApp);
 export default function Comments({ collectionId }: ICommentsProps) {
-  const { account } = useMoralis();
+  const { account,isAuthenticated } = useMoralis();
 
   // Get comments from firestore
   const [comments, setComments] = useState<Comment[]>([]);
@@ -38,6 +38,9 @@ export default function Comments({ collectionId }: ICommentsProps) {
 
   const [sortBy, setSortBy] = useState("date");
   const [sortAsc, setSortAsc] = useState(true);
+
+
+  
 
   const _query = query(
     collection(firestore, `collections/${collectionId}/comments`),
@@ -138,7 +141,7 @@ export default function Comments({ collectionId }: ICommentsProps) {
           <Menu as="div" className="relative inline-block text-left">
             <div className="flex items-center gap-3">
               <span className="text-sm font-normal">Sort by</span>
-              <Menu.Button className="rounded bg-primaryblue px-2 text-sm text-white transition-all hover:scale-105 capitalize">
+              <Menu.Button className="rounded bg-primaryblue px-2 text-sm capitalize text-white transition-all hover:scale-105">
                 {sortBy}
               </Menu.Button>
               <svg
@@ -348,7 +351,7 @@ export default function Comments({ collectionId }: ICommentsProps) {
                     : "s"}
                   &nbsp;found this helpful
                 </span>
-                {account && (
+                {account && isAuthenticated && (
                   <div className="mt-2 flex items-center gap-5">
                     <div
                       onClick={async () =>
@@ -380,7 +383,7 @@ export default function Comments({ collectionId }: ICommentsProps) {
           ))}
       </div>
 
-      {account && (
+      {account && isAuthenticated && (
         <div className="mt-10">
           <span className="mx-10 font-semibold">
             {" "}

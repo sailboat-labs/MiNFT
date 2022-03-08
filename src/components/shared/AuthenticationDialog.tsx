@@ -23,21 +23,24 @@ export default function AuthenticationDialog({
     isAuthenticated,
     account,
     // chainId,
-    // logout,
+    logout,
   } = useMoralis();
 
   useEffect(() => {
-    if (account) return setShowAuthDialog(false);
-  }, [account, setShowAuthDialog]);
+    if (account && isAuthenticated) return setShowAuthDialog(false);
+  }, [account, isAuthenticated, setShowAuthDialog]);
+
+  // useEffect(()=>{
+  //   if(!isAuthenticated && !account) logout()
+  // },[isAuthenticating,isAuthenticated,account])
 
   useEffect(() => {
     if (!account || !isAuthenticated) return;
-    console.log("oh", account, isAuthenticated);
 
     axios
       .post("/api/user", { address: account.toString().toLowerCase() })
       .then(() => {
-        return console.log("saved");
+        return;
       })
       .catch((_) => {
         toast.error("Unable to update user");
@@ -51,7 +54,9 @@ export default function AuthenticationDialog({
         <Dialog
           as="div"
           className="fixed inset-0 z-[1000] overflow-y-auto"
-          onClose={() => setShowAuthDialog(!showAuthDialog)}
+          onClose={() =>
+            !isAuthenticating && setShowAuthDialog(!showAuthDialog)
+          }
         >
           <Dialog.Overlay className="fixed inset-0 bg-black opacity-30" />
           <div className="min-h-screen px-4 text-center">
@@ -115,7 +120,9 @@ export default function AuthenticationDialog({
                       "Connect your wallet"
                     )}
                     <svg
-                      onClick={() => setShowAuthDialog(!showAuthDialog)}
+                      onClick={() =>
+                        !isAuthenticating && setShowAuthDialog(!showAuthDialog)
+                      }
                       xmlns="http://www.w3.org/2000/svg"
                       className="h-6 w-6 cursor-pointer"
                       fill="none"
@@ -149,7 +156,13 @@ export default function AuthenticationDialog({
                               provider: connectorId as any,
                               signingMessage:
                                 "MiNFT is requesting read access to your wallet",
+                            }).then((result) => {
+                              if (result?.authenticated) return;
+                              logout();
+                            }).catch((reason)=>{
+                              toast.error(reason)
                             });
+                            // if(!isAuthenticated) logout();
                             window.localStorage.setItem(
                               "connectorId",
                               connectorId

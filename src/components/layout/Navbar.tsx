@@ -23,7 +23,7 @@ export default function Navbar() {
   const {
     // authenticate,
     isAuthenticating,
-    // isAuthenticated,
+    isAuthenticated,
     account,
     // chainId,
     // logout,
@@ -168,8 +168,8 @@ export default function Navbar() {
               Connect your wallet
             </div>
           )}
-          {account && <ProfileIcon />}
-          {!account && isAuthenticating && (
+          {account && isAuthenticated && <ProfileIcon />}
+          { isAuthenticating && (
             <div>
               <button
                 disabled
