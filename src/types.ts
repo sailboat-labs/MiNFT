@@ -42,6 +42,7 @@ export interface Comment {
   upVotes?: Map<string, boolean>;
   dateCreated?: string;
   lastUpdated?: string;
+  signature?:string;
 }
 
 export interface User {

@@ -16,6 +16,7 @@ import { useCollectionData } from "react-firebase-hooks/firestore";
 import toast from "react-hot-toast";
 import { useMoralis } from "react-moralis";
 import { v4 } from "uuid";
+import Web3 from "web3";
 
 import { firebaseApp } from "@/lib/firebase";
 
@@ -30,6 +31,8 @@ interface ICommentsProps {
 
 const firestore = getFirestore(firebaseApp);
 export default function Comments({ collectionId }: ICommentsProps) {
+  const web3 = new Web3(Web3.givenProvider);
+
   const { account, isAuthenticated } = useMoralis();
 
   // Get comments from firestore
@@ -70,6 +73,33 @@ export default function Comments({ collectionId }: ICommentsProps) {
   const [comment, setComment] = useState<string>();
 
   const handleCreateComment = async () => {
+    //if trying to update comment, verify the authenticity of the data and owner
+    if (editMode) {
+      if (!selectedComment?.comment || !selectedComment.signature) return;
+      const _signature = selectedComment?.signature;
+      const _address = await web3.eth.personal.ecRecover(
+        web3.utils.sha3(selectedComment.comment)!,
+        _signature
+      );
+
+      if (_address !== account)
+        return toast.error("An error occurred verifying authenticity");
+    }
+
+    const messageHash = web3.utils.sha3(comment!);
+
+    // Signs the messageHash with a given account
+    const signature = await web3.eth.personal.sign(
+      messageHash!,
+      account!,
+      "my password"
+    );
+
+    const data = await web3.eth.personal.ecRecover(messageHash!, signature);
+
+    if (data !== account)
+      return toast.error("An error occurred verifying your signed comment");
+
     try {
       const timestamp = new Date().toISOString();
       const upVotes: Map<string, boolean> = new Map();
@@ -77,6 +107,7 @@ export default function Comments({ collectionId }: ICommentsProps) {
         id: editMode ? selectedComment!.id : v4(),
         comment: comment!,
         owner: account!,
+        signature,
         upVotes: editMode ? selectedComment!.upVotes : upVotes,
         dateCreated: editMode ? selectedComment!.dateCreated : timestamp,
         lastUpdated: timestamp,
@@ -101,6 +132,23 @@ export default function Comments({ collectionId }: ICommentsProps) {
       console.error(error);
     }
   };
+
+  async function verifyCommentAuthenticity(comment: string, signature: string) {
+    toast('Verifying authenticity');
+    toast.dismiss();
+    
+    if (!comment || !signature) return toast.error("Comment verification unsuccessful");
+    //verify authenticity
+    const _address = await web3.eth.personal.ecRecover(
+      web3.utils.sha3(comment)!,
+      signature
+    );
+
+    toast.dismiss()
+    if (_address == account)
+      return toast.success("Comment verification successful");
+    return toast.error("Comment verification unsuccessful");
+  }
 
   const handleVote = async (id: string, upVotes: Map<string, boolean>) => {
     try {
@@ -282,30 +330,26 @@ export default function Comments({ collectionId }: ICommentsProps) {
               <div className="flex w-full flex-col gap-2">
                 <div className="flex w-full justify-between gap-5">
                   <div>{formatEthAddress(item.owner!)}</div>
-                  {account && item.owner == account && (
-                    <div className="w-fit text-right">
-                      <Menu
-                        as="div"
-                        className="relative inline-block text-left"
+                  <div className="w-fit text-right">
+                    <Menu as="div" className="relative inline-block text-left">
+                      <div>
+                        <Menu.Button className="">
+                          <DotsVertical />
+                        </Menu.Button>
+                      </div>
+                      <Transition
+                        as={Fragment}
+                        enter="transition ease-out duration-100"
+                        enterFrom="transform opacity-0 scale-95"
+                        enterTo="transform opacity-100 scale-100"
+                        leave="transition ease-in duration-75"
+                        leaveFrom="transform opacity-100 scale-100"
+                        leaveTo="transform opacity-0 scale-95"
                       >
-                        <div>
-                          <Menu.Button className="">
-                            <DotsVertical />
-                          </Menu.Button>
-                        </div>
-                        <Transition
-                          as={Fragment}
-                          enter="transition ease-out duration-100"
-                          enterFrom="transform opacity-0 scale-95"
-                          enterTo="transform opacity-100 scale-100"
-                          leave="transition ease-in duration-75"
-                          leaveFrom="transform opacity-100 scale-100"
-                          leaveTo="transform opacity-0 scale-95"
-                        >
-                          <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                            <div className="px-1 py-1 ">
+                        <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                          <div className="px-1 py-1 ">
+                            {account && item.owner == account && (
                               <Menu.Item>
-                                
                                 {({ active }: any) => (
                                   <button
                                     onClick={() => {
@@ -322,12 +366,31 @@ export default function Comments({ collectionId }: ICommentsProps) {
                                   </button>
                                 )}
                               </Menu.Item>
-                            </div>
-                          </Menu.Items>
-                        </Transition>
-                      </Menu>
-                    </div>
-                  )}
+                            )}
+                            <Menu.Item>
+                              {({ active }: any) => (
+                                <button
+                                  onClick={() => {
+                                    verifyCommentAuthenticity(
+                                      item.comment!,
+                                      item.signature!
+                                    );
+                                  }}
+                                  className={`${
+                                    active
+                                      ? "bg-primaryblue text-white"
+                                      : "text-gray-900"
+                                  } group flex w-full items-center rounded-md px-2 py-2 text-sm font-bold`}
+                                >
+                                  Verify authenticity
+                                </button>
+                              )}
+                            </Menu.Item>
+                          </div>
+                        </Menu.Items>
+                      </Transition>
+                    </Menu>
+                  </div>
                   {/* <span>Rating here</span> */}
                 </div>
                 <p className="max-w-3xl text-sm text-gray-500">
