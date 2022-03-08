@@ -1,27 +1,47 @@
-import {
-  ButtonBack,
-  ButtonNext,
-  CarouselProvider,
-  Slide,
-  Slider,
-} from "pure-react-carousel";
+/* eslint-disable @next/next/no-img-element */
 
-import "pure-react-carousel/dist/react-carousel.es.css";
+import {
+  collection,
+  DocumentData,
+  getFirestore,
+  limit,
+  orderBy,
+  query,
+} from "firebase/firestore";
+import { useEffect, useState } from "react";
+import { useCollectionData } from "react-firebase-hooks/firestore";
+
+import { firebaseApp } from "@/lib/firebase";
+
+import { Collection } from "@/types";
+const firestore = getFirestore(firebaseApp);
 
 export default function NewlyAdded() {
-  const newlyAdded: {
-    name: string;
-    image: string;
-    collectionProfileImage: string;
-  }[] = [
-    { name: "Cool Cats", image: "", collectionProfileImage: "" },
-    { name: "Azuki", image: "", collectionProfileImage: "" },
-    { name: "Bored Ape Yacht Club", image: "", collectionProfileImage: "" },
-    { name: "Crypto Punks", image: "", collectionProfileImage: "" },
-    { name: "Lions", image: "", collectionProfileImage: "" },
-    { name: "DAO Punks", image: "", collectionProfileImage: "" },
-    { name: "Womenrise", image: "", collectionProfileImage: "" },
-  ];
+  const [collections, setCollections] = useState<Collection[]>([]);
+  const [loadingCollection, setLoadingCollection] = useState(false);
+  const [animateIntoView, setAnimateIntoView] = useState(false);
+
+  const _query = query(
+    collection(firestore, "collections"),
+    orderBy("dateCreated", "desc"),
+    limit(10)
+  );
+  const [snapshots, loading] = useCollectionData(_query);
+
+  useEffect(() => {
+    if (loading) return;
+    if (!snapshots) return;
+
+    const data = snapshots.reduce((acc: Collection[], curr: DocumentData) => {
+      acc.push(curr as Collection);
+      return acc;
+    }, []);
+
+    setCollections(data);
+    setTimeout(() => {
+      setAnimateIntoView(true);
+    }, 500);
+  }, [loading, snapshots]);
 
   return (
     <div id="newly_added" className="contained mt-10">
@@ -29,67 +49,42 @@ export default function NewlyAdded() {
         <strong className="text-xl">Newly Added</strong>
       </a>
 
-      <CarouselProvider
-        className="mt-5 flex h-52 items-center gap-10"
-        naturalSlideWidth={280}
-        naturalSlideHeight={40}
-        totalSlides={3}
-        visibleSlides={1}
-        isIntrinsicHeight={true}
-      >
-        <ButtonBack>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
+      <section className="flex items-center overflow-hidden gap-5">
+        <div className="h-20 w-20 bg-red-200"></div>
+
+        <div id="scrollbar" className="relative">
+          <div
+            className="mt-8 snap-x snap-mandatory gap-4 overflow-x-auto xl:grid"
+            style={{
+              gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+            }}
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z"
-            />
-          </svg>
-        </ButtonBack>
+            <div className="flex w-max items-start gap-10">
+              {collections
+                .filter((item) => item.image != null)
+                .map((item, index) => (
+                  <div
+                    key={index}
+                    className="relative flex-1 cursor-pointer snap-center snap-always transition-all"
+                  >
+                    <div className="flex flex-col items-center">
+                      <img
+                        className="h-48 w-52 rounded-lg border-2 bg-white object-cover"
+                        src={item.image}
+                        alt=""
+                      />
 
-        <Slider>
-          {newlyAdded.map((item, index) => (
-            <Slide
-              key={index}
-              style={{ width: "180px", marginRight: "20px" }}
-              index={index}
-            >
-              <div className="flex h-44 cursor-pointer flex-col justify-end rounded-lg bg-green-200">
-                <div className=" flex w-full items-center gap-5 rounded-b-lg border-2 border-t-0 bg-white px-3 py-3">
-                  <div className="rounded-[50%] border-2 bg-gray-100 p-5"></div>
-                  <div className="whitespace-wrap">{item.name}</div>
-                </div>
-              </div>
-            </Slide>
-          ))}
-        </Slider>
-
-        <ButtonNext>
-          <div className="flex items-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="absolute h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
+                      <p className="my-5 text-center text-lg text-gray-700">
+                        {item.name}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+            </div>
           </div>
-        </ButtonNext>
-      </CarouselProvider>
+        </div>
+        <div onClick={()=>{window.scrollTo(100,0)}} className="h-20 w-20 bg-red-200"></div>
+      </section>
     </div>
   );
 }
