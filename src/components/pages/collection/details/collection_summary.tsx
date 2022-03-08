@@ -11,10 +11,10 @@ import PageLoader from "@/components/shared/PageLoader";
 import Roadmap from "./roadmap";
 import CollectionStats from "./stats";
 import TeamInfo from "./team_information";
+import WhyILikeThisProject from "./WhyILikeProject";
 import WishlistRequirements from "./wishlist_requirements";
 
 import { Collection, OpenSeaCollection } from "@/types";
-import WhyILikeThisProject from "./WhyILikeProject";
 
 interface SocialLInk {
   name: string;
@@ -172,7 +172,7 @@ export default function CollectionSummary({
             requirements={collection.whitelistRequirements!}
           />
           <Roadmap roadmap={collection.roadmap} />
-          <WhyILikeThisProject whyIlikeProject={collection.whyILikeProject}/>
+          <WhyILikeThisProject whyIlikeProject={collection.whyILikeProject} />
         </div>
         <div className=" w-full rounded lg:w-[20%]">
           <div className="flex h-fit flex-col justify-end rounded-lg ">

@@ -13,15 +13,11 @@ import { useDocumentData } from "react-firebase-hooks/firestore";
 import { firebaseApp } from "@/lib/firebase";
 
 import Layout from "@/components/layout/Layout";
-import Assets from "@/components/pages/collection/details/assets";
 import CollectionSummary from "@/components/pages/collection/details/collection_summary";
 import Comments from "@/components/pages/collection/details/comments";
 import PageLoader from "@/components/shared/PageLoader";
 
-import {
-  getOpenSeaCollection,
-  getOpenSeaCollectionAssets,
-} from "@/helpers/opensea";
+import { getOpenSeaCollection } from "@/helpers/opensea";
 
 import { Collection, OpenSeaCollection } from "@/types";
 
@@ -37,24 +33,23 @@ const CollectionPage = ({ router }: any) => {
   const [collection, loading, error] = useDocumentData(ref);
 
   const [openSeaData, setOpenSeaData] = useState<OpenSeaCollection>();
-  const [showHeader, setShowHeader] = useState(false)
+  const [showHeader, setShowHeader] = useState(false);
 
   async function getCollection() {
     if (!collection || !collection.opensea) return;
     const _slug = collection.opensea.toString().split("/collection/")[1];
     const _collection = await getOpenSeaCollection(_slug);
-    
-    
+
     setOpenSeaData(_collection);
 
-    if(!_collection?.banner_image_url) return
+    if (!_collection?.banner_image_url) return;
 
     setTimeout(() => {
-      setShowHeader(true)
+      setShowHeader(true);
     }, 1000);
 
     // const { data } = await axios.get("/api/opensea_assets", {
-      
+
     // });
     // console.log(data);
   }
@@ -88,7 +83,13 @@ const CollectionPage = ({ router }: any) => {
         <PageLoader />
       ) : (
         <div className="pb-20">
-          <div className={`transition-all duration-500 h-36 ${showHeader ? " translate-y-0 opacity-100" : "h-0 -translate-y-10 opacity-0"}`}>
+          <div
+            className={`h-36 transition-all duration-500 ${
+              showHeader
+                ? " translate-y-0 opacity-100"
+                : "h-0 -translate-y-10 opacity-0"
+            }`}
+          >
             <img
               className="absolute h-36 w-full object-cover"
               src={openSeaData?.banner_image_url}
@@ -97,7 +98,11 @@ const CollectionPage = ({ router }: any) => {
             <div className="absolute h-36 w-full bg-gradient-to-r from-black to-transparent"></div>
 
             <div className="absolute z-[2] flex h-36 items-center gap-3 px-20 font-bold text-white">
-              <img className="h-10 rounded-[] w-10" src={openSeaData?.image_url} alt="" />
+              <img
+                className="h-10 w-10 rounded-[]"
+                src={openSeaData?.image_url}
+                alt=""
+              />
               {`“Crazy news! Announcement of a new ${collectionData.name} collection”`}
             </div>
           </div>

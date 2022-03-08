@@ -16,7 +16,7 @@ export default function Navbar() {
     { label: "About Us", route: "/" },
   ];
 
-  const requiredAuthPaths = ["/profile"]
+  const requiredAuthPaths = ["/profile"];
 
   const [showAuthDialog, setShowAuthDialog] = useState(false);
   const router = useRouter();
@@ -31,10 +31,10 @@ export default function Navbar() {
 
   const [navOpen, setNavOpen] = useState(false);
 
-
-  useEffect(()=>{
-    if(!account && requiredAuthPaths.includes(router.pathname)) setShowAuthDialog(true)
-  },[account])
+  useEffect(() => {
+    if (!account && requiredAuthPaths.includes(router.pathname))
+      setShowAuthDialog(true);
+  }, [account]);
 
   return (
     <section className="fixed z-[999] w-full bg-white text-gray-700 shadow">
@@ -169,7 +169,7 @@ export default function Navbar() {
             </div>
           )}
           {account && isAuthenticated && <ProfileIcon />}
-          { isAuthenticating && (
+          {isAuthenticating && (
             <div>
               <button
                 disabled

@@ -16,16 +16,14 @@ export default function UserNfts({ account }: props) {
   const [loadingNfts, setLoadingNfts] = useState(true);
 
   async function getNFTS() {
-    setLoadingNfts(true)
+    setLoadingNfts(true);
     try {
       const { data } = await axios.get("/api/ensnfts", { params: { account } });
       setNfts(data.data);
-      setLoadingNfts(false)
+      setLoadingNfts(false);
     } catch (error) {
-      setLoadingNfts(false)
+      setLoadingNfts(false);
     }
-
-    
   }
 
   useEffect(() => {
@@ -88,7 +86,7 @@ export default function UserNfts({ account }: props) {
       ) : (
         <div>
           {nfts.length < 1 ? (
-            <div className="mt-10 text-xl font-bold text-gray-500 flex flex-col justify-center items-center gap-5">
+            <div className="mt-10 flex flex-col items-center justify-center gap-5 text-xl font-bold text-gray-500">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-10 w-10"

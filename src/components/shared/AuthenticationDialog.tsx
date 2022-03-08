@@ -156,12 +156,14 @@ export default function AuthenticationDialog({
                               provider: connectorId as any,
                               signingMessage:
                                 "MiNFT is requesting read access to your wallet",
-                            }).then((result) => {
-                              if (result?.authenticated) return;
-                              logout();
-                            }).catch((reason)=>{
-                              toast.error(reason)
-                            });
+                            })
+                              .then((result) => {
+                                if (result?.authenticated) return;
+                                logout();
+                              })
+                              .catch((reason) => {
+                                toast.error(reason);
+                              });
                             // if(!isAuthenticated) logout();
                             window.localStorage.setItem(
                               "connectorId",
