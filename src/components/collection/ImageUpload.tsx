@@ -105,7 +105,7 @@ const ImageUpload = ({
     <div {...getRootProps()} className={`relative ${className}`}>
       <div
         className={`flex justify-center rounded-lg bg-gray-100 ${
-          imageUrl ? "w-fit h-fit" : "w-full h-36"
+          imageUrl ? "h-fit w-fit" : "h-36 w-full"
         }`}
       >
         <input {...getInputProps()} name="file" />

@@ -15,7 +15,6 @@ import { useCollectionData } from "react-firebase-hooks/firestore";
 import toast from "react-hot-toast";
 import { useMoralis } from "react-moralis";
 import { v4 } from "uuid";
-import { read, utils } from "xlsx";
 import * as Yup from "yup";
 
 import { firebaseApp } from "@/lib/firebase";
@@ -108,7 +107,7 @@ export default function AddCollection({ collection }: any) {
     preSaleCost: Yup.string(),
     publicMintCost: Yup.string(),
     supply: Yup.string(),
-    whitepaper:Yup.string(),
+    whitepaper: Yup.string(),
     whitelistRequirements: Yup.string(),
     teamInfo: Yup.string(),
   });
@@ -152,7 +151,7 @@ export default function AddCollection({ collection }: any) {
         discord: values.discord,
         etherscan: values.etherscan,
         opensea: values.opensea,
-        whitepaper:values.whitepaper,
+        whitepaper: values.whitepaper,
         roadmap: values.roadmap,
         mintsPerPresale: values.mintsPerPresale,
         mintsPerTx: values.mintsPerTx,
