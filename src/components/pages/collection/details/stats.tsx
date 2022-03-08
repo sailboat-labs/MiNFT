@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 type props = {
   className?: string;
   collectionStats: any;

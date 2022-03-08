@@ -2,7 +2,7 @@ import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import DateTimePicker from "@mui/lab/DateTimePicker";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import TextField, { TextFieldProps } from "@mui/material/TextField";
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function MintDates(props: any) {
   return (
     <div className="mt-10 flex flex-col gap-5">

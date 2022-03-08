@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @next/next/no-img-element */
 
 import { Transition } from "@headlessui/react";

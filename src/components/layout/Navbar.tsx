@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 // import DarkModeMenu from "../navbar/darkmode-toggle";
 import Link from "next/link";

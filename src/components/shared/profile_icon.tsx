@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Menu, Transition } from "@headlessui/react";
 import { formatEthAddress } from "eth-address";
 import Link from "next/link";
@@ -7,7 +8,7 @@ import { useMoralis } from "react-moralis";
 
 export default function ProfileIcon() {
   // const { status, connect, account, chainId, ethereum } = useMetaMask();
-  const { authenticate, isAuthenticated, account, chainId, logout } =
+  const { account, logout } =
     useMoralis();
 
   return (

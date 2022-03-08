@@ -2,6 +2,7 @@ import { ErrorMessage, Field } from "formik";
 
 import Dropdown from "@/components/shared/dropdown";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function CollectionStats(props: any) {
   return (
     <div className="mt-10 grid grid-cols-1 items-start md:grid-cols-2 ">

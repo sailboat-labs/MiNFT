@@ -6,6 +6,7 @@ import { categories } from "@/data/categories";
 import ImageUpload from "@/components/collection/ImageUpload";
 import Dropdown from "@/components/shared/dropdown";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function CollectionDetails(props: any) {
   return (
     <div className="mt-10 flex flex-col md:flex-row">

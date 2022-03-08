@@ -1,14 +1,9 @@
-import axios from "axios";
 import * as React from "react";
-import { useEffect } from "react";
-import toast from "react-hot-toast";
-import Footer from "./footer";
 
+import Footer from "./footer";
 import Navbar from "./Navbar";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-
-  
   // useEffect(() => {
   //   //  status == 'connecting' && toast('Connecting metamask')
   //   //  status == 'connected' && toast.success(`Connected on ${account && formatEthAddress(account)}`)

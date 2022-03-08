@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Menu, Transition } from "@headlessui/react";
 import axios from "axios";
@@ -29,7 +30,7 @@ interface ICommentsProps {
 
 const firestore = getFirestore(firebaseApp);
 export default function Comments({ collectionId }: ICommentsProps) {
-  const { account,isAuthenticated } = useMoralis();
+  const { account, isAuthenticated } = useMoralis();
 
   // Get comments from firestore
   const [comments, setComments] = useState<Comment[]>([]);
@@ -38,9 +39,6 @@ export default function Comments({ collectionId }: ICommentsProps) {
 
   const [sortBy, setSortBy] = useState("date");
   const [sortAsc, setSortAsc] = useState(true);
-
-
-  
 
   const _query = query(
     collection(firestore, `collections/${collectionId}/comments`),
@@ -130,8 +128,6 @@ export default function Comments({ collectionId }: ICommentsProps) {
       console.error(error);
     }
   };
-
-
 
   return (
     <div className="contained mt-10 rounded  py-5">
@@ -246,6 +242,7 @@ export default function Comments({ collectionId }: ICommentsProps) {
 
       <div className="mt-10 flex flex-col gap-3">
         {comments
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           .sort((a: any, b: any) => {
             switch (sortBy) {
               case "date created":
@@ -308,6 +305,7 @@ export default function Comments({ collectionId }: ICommentsProps) {
                           <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                             <div className="px-1 py-1 ">
                               <Menu.Item>
+                                
                                 {({ active }: any) => (
                                   <button
                                     onClick={() => {

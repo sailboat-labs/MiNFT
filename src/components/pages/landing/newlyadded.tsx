@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @next/next/no-img-element */
 
 import {
@@ -17,6 +19,8 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 import { firebaseApp } from "@/lib/firebase";
+
+import PageLoader from "@/components/shared/PageLoader";
 
 import { Collection } from "@/types";
 const firestore = getFirestore(firebaseApp);
@@ -85,7 +89,7 @@ export default function NewlyAdded() {
           justifyContent: "center",
           alignItems: "center",
           // position:"relative",
-          zIndex:2
+          zIndex: 2,
         }}
         onClick={onClick}
       />
@@ -153,6 +157,7 @@ export default function NewlyAdded() {
 
   return (
     <div id="newly_added" className="contained mt-10">
+      {loadingCollection && <PageLoader />}
       <a href="#newly_added" className="flex w-full justify-center">
         <strong className="text-2xl">Newly Added</strong>
       </a>
@@ -203,7 +208,12 @@ export default function NewlyAdded() {
                 passHref
                 key={index}
               >
-                <div className="mr-10 h-[400px] w-[300px] cursor-pointer">
+                <div
+                  onClick={() => {
+                    setLoadingCollection(true);
+                  }}
+                  className="mr-10 h-[400px] w-[300px] cursor-pointer"
+                >
                   <div className="flex flex-col items-center">
                     <img
                       className="h-[400px] w-[300px] rounded-lg border-2 bg-white object-cover"

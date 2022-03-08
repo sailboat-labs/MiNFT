@@ -3,6 +3,7 @@
 import { useState } from "react";
 
 type props = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   setSelectedCategory: any;
   selectedCategory: string;
 };

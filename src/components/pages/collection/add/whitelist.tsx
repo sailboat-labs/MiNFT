@@ -1,5 +1,3 @@
-import Dropdown from "@/components/shared/dropdown";
-
 export default function AddWhitelist() {
   return (
     <div>
