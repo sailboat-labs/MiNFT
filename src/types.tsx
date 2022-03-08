@@ -31,6 +31,7 @@ export interface Collection {
   image?: string;
   dateCreated?: string;
   lastUpdated?: string;
+  whitepaper?:string;
 }
 
 export interface Comment {

@@ -1,17 +1,22 @@
 import { formatEthAddress } from "eth-address";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 type props = {
   account?: string;
-  className?:string;
+  className?: string;
 };
 
-export default function EthAddress({ account,className }: props) {
-  const [showCopy, setShowCopy] = useState(false)
+export default function EthAddress({ account, className }: props) {
+  const [showCopy, setShowCopy] = useState(false);
   return (
     <>
       {account && (
         <div
+          onClick={() => {
+            navigator.clipboard.writeText(account);
+            toast.success('Copied to clipboard')
+          }}
           onMouseOver={() => {
             setShowCopy(true);
           }}
@@ -23,7 +28,11 @@ export default function EthAddress({ account,className }: props) {
           {formatEthAddress(account)}{" "}
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className={`h-6 w-6 transition-all ${showCopy ? "translate-x-0 opacity-100" :"-translate-x-2 opacity-0 w-0"}`}
+            className={`h-6 w-6 transition-all ${
+              showCopy
+                ? "translate-x-0 opacity-100"
+                : "w-0 -translate-x-2 opacity-0"
+            }`}
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"

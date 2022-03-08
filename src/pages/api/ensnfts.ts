@@ -9,14 +9,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     if (req.method != "GET") return;
 
-    console.log(req.query);
 
-    const {account} = req.query;
-    
+    const { account } = req.query;
+
     const config: any = {
       method: "get",
       mode: "no-cors",
-
       url: `https://minft.eth.xyz/nfts/${account}`,
     };
 

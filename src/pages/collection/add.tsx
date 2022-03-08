@@ -108,7 +108,7 @@ export default function AddCollection({ collection }: any) {
     preSaleCost: Yup.string(),
     publicMintCost: Yup.string(),
     supply: Yup.string(),
-
+    whitepaper:Yup.string(),
     whitelistRequirements: Yup.string(),
     teamInfo: Yup.string(),
   });
@@ -133,6 +133,7 @@ export default function AddCollection({ collection }: any) {
     mintsPerPresale: collection?.mintsPerPresale,
     mintsPerTx: collection?.mintsPerTx,
     whyILikeProject: collection?.whyILikeProject,
+    whitepaper: collection?.whitepaper,
   };
 
   async function formSubmit(values: any) {
@@ -151,6 +152,7 @@ export default function AddCollection({ collection }: any) {
         discord: values.discord,
         etherscan: values.etherscan,
         opensea: values.opensea,
+        whitepaper:values.whitepaper,
         roadmap: values.roadmap,
         mintsPerPresale: values.mintsPerPresale,
         mintsPerTx: values.mintsPerTx,
@@ -203,28 +205,28 @@ export default function AddCollection({ collection }: any) {
     }
   }
 
-  const readUploadFile = (e: any) => {
-    e.preventDefault();
-    try {
-      if (e.target.files) {
-        console.log("files", e.target.files);
+  // const readUploadFile = (e: any) => {
+  //   e.preventDefault();
+  //   try {
+  //     if (e.target.files) {
+  //       console.log("files", e.target.files);
 
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          const data = e.target!.result;
+  //       const reader = new FileReader();
+  //       reader.onload = (e) => {
+  //         const data = e.target!.result;
 
-          const workbook = read(data, { type: "array" });
-          const sheetName = workbook.SheetNames[0];
-          const worksheet = workbook.Sheets[sheetName];
-          const json = utils.sheet_to_json(worksheet);
-          console.log(json);
-        };
-        reader.readAsArrayBuffer(e.target.files[0]);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  //         const workbook = read(data, { type: "array" });
+  //         const sheetName = workbook.SheetNames[0];
+  //         const worksheet = workbook.Sheets[sheetName];
+  //         const json = utils.sheet_to_json(worksheet);
+  //         console.log(json);
+  //       };
+  //       reader.readAsArrayBuffer(e.target.files[0]);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   return names ? (
     <Layout>

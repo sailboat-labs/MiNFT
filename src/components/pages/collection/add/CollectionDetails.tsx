@@ -148,6 +148,21 @@ export default function CollectionDetails(props: any) {
                   </div>
                 </td>
               </tr>
+              <tr className="bg-white ">
+                <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
+                  Whitepaper
+                </td>
+                <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
+                  <Field // type="text"
+                    className="default-input w-full"
+                    placeholder="Whitepaper"
+                    name="whitepaper"
+                  />
+                  <div className="text-red-500">
+                    <ErrorMessage name="whitepaper" component="div" />
+                  </div>
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>

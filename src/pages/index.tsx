@@ -1,8 +1,3 @@
-import axios from "axios";
-import { useMetaMask } from "metamask-react/lib/use-metamask";
-import { useEffect } from "react";
-import toast from "react-hot-toast";
-
 import Footer from "@/components/layout/footer";
 import ExploreCategories from "@/components/pages/landing/categories";
 import Header from "@/components/pages/landing/header";
@@ -34,8 +29,8 @@ export default function HomePage() {
 
       <main>
         <Header />
-        <ExploreCategories />
         <NewlyAdded />
+        <ExploreCategories />
         <LaunchingSoon />
         <Footer />
       </main>
