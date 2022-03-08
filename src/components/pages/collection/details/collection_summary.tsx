@@ -33,7 +33,7 @@ export default function CollectionSummary({
   className,
 }: ICollectionSummaryProps) {
   const router = useRouter();
-  const { account } = useMoralis();
+  const { account, isAuthenticated } = useMoralis();
   const [socialLinks, setSocialLinks] = useState<SocialLInk[]>([]);
   const [loadingPage, setLoadingPage] = useState(false);
 
@@ -75,7 +75,7 @@ export default function CollectionSummary({
           <div className="flex justify-between">
             <div className="mt-10 text-2xl font-bold">{collection.name}</div>
 
-            {account && account == collection.owner ? (
+            {account && isAuthenticated && account == collection.owner ? (
               <button
                 className="gradient-button mt-10 rounded-lg bg-gray-200 px-6 font-bold"
                 onClick={() => {
