@@ -141,72 +141,85 @@ export default function LaunchingSoon() {
                 </tbody>
                 <tbody className={`${!animateIntoView ? "hidden" : ""}`}>
                   {collections &&
-                    collections.map((collection, index) => (
-                      <Link
-                        key={index}
-                        href={{
-                          pathname: `/collection/[slug]`,
-                          query: {
-                            slug: collection.slug!,
-                          },
-                        }}
-                        passHref
-                      >
-                        <tr
-                          onClick={() => {
-                            setLoadingCollection(true);
+                    collections
+                      .filter((item) => {
+                        if (selectedCategory == "all" || !selectedCategory)
+                          return item.projectType;
+                        else return item.projectType == selectedCategory;
+                      })
+                      .map((collection, index) => (
+                        <Link
+                          key={index}
+                          href={{
+                            pathname: `/collection/[slug]`,
+                            query: {
+                              slug: collection.slug!,
+                            },
                           }}
-                          className="cursor-pointer border-b bg-white transition-all hover:bg-gray-50"
+                          passHref
                         >
-                          <td className="flex items-center gap-5 whitespace-nowrap py-4 px-6 text-sm font-medium text-gray-900">
-                            <div className="h-10 w-10 flex-shrink-0 rounded-[50%] bg-gray-100">
-                              <img
-                                className="h-full w-full rounded-[50%] object-cover"
-                                src={
-                                  collection.image ??
-                                  "https://www.google.com/s2/favicons?sz=64&domain_url=https://nzvc.co.nz"
-                                }
-                                alt=""
-                              />
-                            </div>
-                            <div>
-                              <div className="text-md">{collection.name}</div>
-                              <div className="whitespace-nowrap text-sm text-gray-500 ">
-                                <span>{collection.supply}</span>
-                                <span>&nbsp;circulating supply</span>
+                          <tr
+                            onClick={() => {
+                              setLoadingCollection(true);
+                            }}
+                            className="cursor-pointer border-b bg-white transition-all hover:bg-gray-50"
+                          >
+                            <td className="flex items-center gap-5 whitespace-nowrap py-4 px-6 text-sm font-medium text-gray-900">
+                              <div className="h-10 w-10 flex-shrink-0 rounded-[50%] bg-gray-100">
+                                <img
+                                  className="h-full w-full rounded-[50%] object-cover"
+                                  src={
+                                    collection.image ??
+                                    "https://www.google.com/s2/favicons?sz=64&domain_url=https://nzvc.co.nz"
+                                  }
+                                  alt=""
+                                />
                               </div>
-                            </div>
-                          </td>
-                          <td className="whitespace-nowrap py-4 px-6 text-sm text-gray-500 ">
-                            {collection.preMintDate
-                              ? dayjs(new Date(collection.preMintDate!)).format(
-                                  "DD/MM/YYYY, HH : MM "
-                                )
-                              : "N/A"}
-                          </td>
-                          <td className="whitespace-nowrap py-4 px-6 text-sm text-gray-500 ">
-                            {collection.publicMintDate
-                              ? dayjs(
-                                  new Date(collection.publicMintDate!)
-                                ).format("DD/MM/YYYY, HH : MM ")
-                              : "N/A"}
-                          </td>
-                          <td className="whitespace-nowrap py-4 px-6 text-sm uppercase text-gray-500">
-                            {collection.whitelistAvailable == "yes"
-                              ? "true"
-                              : "false"}
-                          </td>
-                          <td className="whitespace-nowrap py-4 px-6 text-sm uppercase text-gray-500">
-                            {collection.teamInfo ? "true" : "false"}
-                          </td>
-                          <td className="whitespace-nowrap py-4 px-6 text-sm capitalize text-gray-500 ">
-                            {collection.projectType}
-                          </td>
-                        </tr>
-                      </Link>
-                    ))}
+                              <div>
+                                <div className="text-md">{collection.name}</div>
+                                <div className="whitespace-nowrap text-sm text-gray-500 ">
+                                  <span>{collection.supply}</span>
+                                  <span>&nbsp;circulating supply</span>
+                                </div>
+                              </div>
+                            </td>
+                            <td className="whitespace-nowrap py-4 px-6 text-sm text-gray-500 ">
+                              {collection.preMintDate
+                                ? dayjs(
+                                    new Date(collection.preMintDate!)
+                                  ).format("DD/MM/YYYY, HH : MM ")
+                                : "N/A"}
+                            </td>
+                            <td className="whitespace-nowrap py-4 px-6 text-sm text-gray-500 ">
+                              {collection.publicMintDate
+                                ? dayjs(
+                                    new Date(collection.publicMintDate!)
+                                  ).format("DD/MM/YYYY, HH : MM ")
+                                : "N/A"}
+                            </td>
+                            <td className="whitespace-nowrap py-4 px-6 text-sm uppercase text-gray-500">
+                              {collection.whitelistAvailable == "yes"
+                                ? "true"
+                                : "false"}
+                            </td>
+                            <td className="whitespace-nowrap py-4 px-6 text-sm uppercase text-gray-500">
+                              {collection.teamInfo ? "true" : "false"}
+                            </td>
+                            <td className="whitespace-nowrap py-4 px-6 text-sm capitalize text-gray-500 ">
+                              {collection.projectType}
+                            </td>
+                          </tr>
+                        </Link>
+                      ))}
                 </tbody>
               </table>
+              <div className="flex items-center justify-center text-center">
+                {collections.filter((item) => {
+                  if (selectedCategory == "all" || !selectedCategory)
+                    return item.projectType;
+                  else return item.projectType == selectedCategory;
+                }).length < 1 && <span className="py-10">No Collection matches this filter</span>}
+              </div>
             </div>
           </div>
         </div>
