@@ -8,6 +8,7 @@ import {
   orderBy,
   query,
 } from "firebase/firestore";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import Slider from "react-slick";
@@ -47,17 +48,63 @@ export default function NewlyAdded() {
     }, 500);
   }, [loading, snapshots]);
 
+  function SampleNextArrow(props: any) {
+    const { className, style, onClick } = props;
+    return (
+      <div
+        className={className}
+        style={{
+          ...style,
+          display: "flex",
+          background: "black",
+          borderRadius: "50%",
+          height: "50px",
+          width: "50px",
+          justifyContent: "center",
+          alignItems: "center",
+          // position:"relative",
+          zIndex: 2,
+        }}
+        onClick={onClick}
+      />
+    );
+  }
+
+  function SamplePrevArrow(props: any) {
+    const { className, style, onClick } = props;
+    return (
+      <div
+        className={className}
+        style={{
+          ...style,
+          display: "flex",
+          background: "black",
+          borderRadius: "50%",
+          height: "50px",
+          width: "50px",
+          justifyContent: "center",
+          alignItems: "center",
+          // position:"relative",
+          zIndex:2
+        }}
+        onClick={onClick}
+      />
+    );
+  }
+
   const settings = {
     dots: true,
     infinite: true,
     speed: 1000,
-    slidesToShow: 3,
+    slidesToShow: 4,
     centerPadding: "20px",
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 5000,
     pauseOnHover: true,
-    // centerMode: true,
+    nextArrow: <SampleNextArrow />,
+    prevArrow: <SamplePrevArrow />,
+    centerMode: true,
     responsive: [
       {
         breakpoint: 1024,
@@ -146,29 +193,37 @@ export default function NewlyAdded() {
           {collections
             .filter((item) => item.image != null)
             .map((item, index) => (
-              <div
+              <Link
+                href={{
+                  pathname: `/collection/[slug]`,
+                  query: {
+                    slug: item.slug!,
+                  },
+                }}
+                passHref
                 key={index}
-                className="mr-10 h-[400px] w-[300px] cursor-pointer"
               >
-                <div className="flex flex-col items-center">
-                  <img
-                    className="h-[400px] w-[300px] rounded-lg border-2 bg-white object-cover"
-                    src={item.image}
-                    alt=""
-                  />
+                <div className="mr-10 h-[400px] w-[300px] cursor-pointer">
+                  <div className="flex flex-col items-center">
+                    <img
+                      className="h-[400px] w-[300px] rounded-lg border-2 bg-white object-cover"
+                      src={item.image}
+                      alt=""
+                    />
 
-                  <div className="absolute h-[400px] w-[300px]  rounded-lg bg-gradient-to-b from-transparent via-transparent to-black opacity-80"></div>
+                    <div className="absolute h-[400px] w-[300px]  rounded-lg bg-gradient-to-b from-transparent via-transparent to-black opacity-80"></div>
 
-                  <div className="absolute bottom-0 my-5">
-                    <p className=" text-center text-2xl text-white">
-                      {item.name}
-                    </p>
-                    <p className="text-center text-sm uppercase text-white">
-                      {item.projectType}
-                    </p>
+                    <div className="absolute bottom-0 my-5">
+                      <p className=" text-center text-2xl text-white">
+                        {item.name}
+                      </p>
+                      <p className="text-center text-sm uppercase text-white">
+                        {item.projectType}
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
         </Slider>
       </div>

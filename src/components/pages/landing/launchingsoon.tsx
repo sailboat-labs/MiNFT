@@ -18,6 +18,7 @@ import { firebaseApp } from "@/lib/firebase";
 import PageLoader from "@/components/shared/PageLoader";
 
 import { Collection } from "@/types";
+import ExploreCategories from "./categories";
 
 const firestore = getFirestore(firebaseApp);
 export default function LaunchingSoon() {
@@ -52,7 +53,9 @@ export default function LaunchingSoon() {
       {loadingCollection && <PageLoader />}
 
       <div className={`mt-3 flex flex-col transition-all `}>
-        <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <ExploreCategories />
+
+        <div className="overflow-x-auto sm:-mx-6 lg:-mx-8 mt-10">
           <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
             <div className="overflow-hidden shadow sm:rounded-lg">
               <table className="min-w-full">

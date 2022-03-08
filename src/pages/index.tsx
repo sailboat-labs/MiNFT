@@ -30,7 +30,6 @@ export default function HomePage() {
       <main>
         <Header />
         <NewlyAdded />
-        <ExploreCategories />
         <LaunchingSoon />
         <Footer />
       </main>

@@ -12,7 +12,7 @@ export default function ExploreCategories() {
   ];
 
   return (
-    <div className="contained mt-10">
+    <div className="mt-10">
       <strong className="text-xl">Explore by Categories</strong>
       <div className="mt-5 grid grid-cols-1 gap-8 md:grid-cols-3 xl:grid-cols-4 ">
         {categories.map((category, index) => (
