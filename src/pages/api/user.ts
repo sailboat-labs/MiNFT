@@ -30,9 +30,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
       if (!exists) {
         const _doc = doc(firestore, `users/${address}`);
-        await setDoc(_doc, {
-          walletId: address,
-        });
+        await setDoc(
+          _doc,
+          {
+            walletId: address,
+          },
+          { merge: true }
+        );
       }
 
       return res.status(200).json({ success: true });
