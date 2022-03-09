@@ -76,7 +76,7 @@ export default function CollectionSummary({
   return (
     <>
       <div
-        className={`contained mt-20 flex w-full flex-col gap-20 lg:flex-row ${className}`}
+        className={`contained mt-16 flex w-full flex-col gap-20 lg:flex-row ${className}`}
       >
         <div
           className={` mt-10  w-full lg:w-[70%] ${
@@ -186,9 +186,9 @@ export default function CollectionSummary({
           <WhyILikeThisProject whyIlikeProject={collection.whyILikeProject} />
         </div>
         <div className=" w-full rounded lg:w-[20%]">
-          <div className="flex h-fit flex-col justify-end rounded-lg ">
+          <div className="flex h-72 w-full flex-col justify-end rounded-lg ">
             <img
-              className="rounded-t-2 h-72"
+              className="rounded-t-2 w-full h-auto min-h-72 object-cover"
               src={
                 collection.image
                   ? collection.image
@@ -199,8 +199,8 @@ export default function CollectionSummary({
               alt=""
             />
 
-            <div className="flex w-full items-center gap-5 rounded-b-lg border-2 border-t-0 bg-white px-3 py-3">
-              <img
+            <div className="flex w-full flex-col items-center gap-5 rounded-b-lg border-2 border-t-0 bg-white px-3 py-3">
+              {/* <img
                 className="h-12 w-12 rounded-full "
                 src={
                   collection.image
@@ -210,9 +210,9 @@ export default function CollectionSummary({
                     : getRandomAvatar(collection.owner)
                 }
                 alt=""
-              />
+              /> */}
 
-              <div className="whitespace-wrap">{collection.name}</div>
+              <div className="whitespace-wrap text-center">{collection.name}</div>
             </div>
           </div>
           <table className="mt-5">
