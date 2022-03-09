@@ -62,6 +62,13 @@ export default function CollectionSummary({
         image: "/images/whitepaper.jpeg",
       });
     }
+    if (collection.website) {
+      links.push({
+        name: "Website",
+        link: collection.website,
+        image: "/images/website_logo.jpeg",
+      });
+    }
 
     setSocialLinks(links);
   }, [collection]);

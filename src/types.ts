@@ -32,6 +32,7 @@ export interface Collection {
   dateCreated?: string;
   lastUpdated?: string;
   whitepaper?:string;
+  
 }
 
 export interface Comment {
