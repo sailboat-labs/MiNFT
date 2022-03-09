@@ -13,6 +13,17 @@ export default function CollectionDetails(props: any) {
       <div className="h-72 flex-1 ">
         <div className="overflow-hidden sm:rounded-lg">
           <table className="w-full">
+              <tr className="bg-white ">
+                <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
+                  Collection Image
+                </td>
+                <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
+                  <ImageUpload
+                    setImageUrl={props.setImageUrl}
+                    imageUrl={props.imageUrl}
+                  />
+                </td>
+              </tr>
             <tbody>
               <tr className="bg-white ">
                 <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
@@ -22,7 +33,7 @@ export default function CollectionDetails(props: any) {
                   <Field
                     name="name"
                     className="default-input w-full"
-                    placeholder="Collection"
+                    placeholder="Collection Name"
                   />
                   <div className="text-red-500">
                     <ErrorMessage name="name" component="div" />
@@ -39,17 +50,6 @@ export default function CollectionDetails(props: any) {
                     onItemSelected={props.setSelectedBlockchain}
                     options={blockchains}
                     className="w-full "
-                  />
-                </td>
-              </tr>
-              <tr className="bg-white ">
-                <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
-                  Collection Image
-                </td>
-                <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
-                  <ImageUpload
-                    setImageUrl={props.setImageUrl}
-                    imageUrl={props.imageUrl}
                   />
                 </td>
               </tr>

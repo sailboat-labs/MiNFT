@@ -82,8 +82,7 @@ export default function AddCollection({ collection }: any) {
 
   const [showPresaleDate, setShowPresaleDate] = useState(false);
   const [showPublicDate, setShowPublicDate] = useState(false);
-  const [showWhitelistRequirementList, setShowWhitelistRequirementList] =
-    useState(false);
+  
 
   const [collectionSubmitting, setCollectionSubmitting] = useState(false);
 

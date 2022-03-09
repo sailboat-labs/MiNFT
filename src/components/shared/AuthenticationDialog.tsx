@@ -156,7 +156,7 @@ export default function AuthenticationDialog({
                             await authenticate({
                               provider: connectorId as any,
                               signingMessage:
-                                "MiNFT is requesting read access to your wallet",
+                                "Authenticate with MiNFT \nClick to sign in and accept the \nMiNFT Terms of Service.\n\n This request will not trigger a blockchain transaction \nor cost any gas fees.\nYour authentication status will reset after 24 hours",
                             })
                               .then((result) => {
                                 if (result?.authenticated) return;
