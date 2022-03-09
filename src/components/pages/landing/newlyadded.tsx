@@ -100,7 +100,7 @@ export default function NewlyAdded() {
     dots: true,
     infinite: true,
     speed: 1000,
-    slidesToShow: 4,
+    slidesToShow: 3,
     centerPadding: "20px",
     slidesToScroll: 1,
     autoplay: true,
@@ -108,20 +108,20 @@ export default function NewlyAdded() {
     pauseOnHover: true,
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
-    centerMode: true,
     responsive: [
+     
       {
         breakpoint: 1024,
         settings: {
           dots: true,
           infinite: true,
           speed: 1000,
-          slidesToShow: 3,
+          slidesToShow: 2,
           slidesToScroll: 1,
           autoplay: true,
           autoplaySpeed: 5000,
           pauseOnHover: true,
-          centerMode: true,
+         
         },
       },
       {
@@ -130,12 +130,13 @@ export default function NewlyAdded() {
           dots: true,
           infinite: true,
           speed: 1000,
-          slidesToShow: 3,
+          slidesToShow: 1,
           slidesToScroll: 1,
           autoplay: true,
           autoplaySpeed: 5000,
           pauseOnHover: true,
-          centerMode: true,
+          nextArrow: <></>,
+          prevArrow: <></>,
         },
       },
       {
@@ -149,14 +150,15 @@ export default function NewlyAdded() {
           autoplay: true,
           autoplaySpeed: 5000,
           pauseOnHover: true,
-          // centerMode: true,
+          nextArrow: <></>,
+          prevArrow: <></>,
         },
       },
     ],
   };
 
   return (
-    <div id="newly_added" className="contained mt-10">
+    <div id="newly_added" className="contained mt-10 overflow-hidden">
       {loadingCollection && <PageLoader />}
       <a href="#newly_added" className="flex w-full justify-center">
         <strong className="text-2xl">Newly Added</strong>
@@ -212,18 +214,23 @@ export default function NewlyAdded() {
                   onClick={() => {
                     setLoadingCollection(true);
                   }}
-                  className="mr-10 h-[400px] w-[300px] cursor-pointer"
+                  className="mx-5 h-[400px] w-auto  cursor-pointer "
                 >
                   <div className="flex flex-col items-center">
                     <img
-                      className="h-[400px] w-[300px] rounded-lg border-2 bg-white object-cover"
+                      className="h-[400px] w-full rounded-lg border-2 bg-white object-cover"
                       src={item.image}
                       alt=""
                     />
 
-                    <div className="absolute h-[400px] w-[300px]  rounded-lg bg-gradient-to-b from-transparent via-transparent to-black opacity-80"></div>
+                    <div className="absolute  h-[400px] rounded-lg bg-gradient-to-b from-transparent via-transparent to-black opacity-80"></div>
 
-                    <div className="absolute bottom-0 my-5">
+                    <div className="absolute bottom-0 my-5 flex flex-col items-center px-5">
+                      <img
+                        className="h-20 w-20 rounded-full border-2 bg-white object-cover"
+                        src={item.image}
+                        alt=""
+                      />
                       <p className=" text-center text-2xl text-white">
                         {item.name}
                       </p>

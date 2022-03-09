@@ -15,7 +15,7 @@ export default function Header() {
   const [navOpen, setNavOpen] = useState(false);
   const [showAuthDialog, setShowAuthDialog] = useState(false);
 
-  const { account,isAuthenticated } = useMoralis();
+  const { account, isAuthenticated } = useMoralis();
 
   return (
     <div className="bg-opacity-20 bg-gradient-to-b from-primaryblue  to-white">
@@ -186,7 +186,7 @@ export default function Header() {
       </section>
 
       {/* Header */}
-      <div className="contained pt-20 pb-10 relative z-[2]">
+      <div className="contained relative z-[2] pt-20 pb-10">
         <VisibilitySensor
           // partialVisibility
           onChange={(isVisible) => {
@@ -200,7 +200,7 @@ export default function Header() {
             Discover, collect, and sell
           </div>
           <div className="text-4xl font-bold">extraordinary NFTs</div>
-          <div className="flex w-fit cursor-pointer justify-center gap-3 py-5 transition-all hover:translate-x-1 hover:scale-105 lg:justify-start">
+          <div className="flex w-full cursor-pointer items-center justify-center gap-3 py-5 transition-all hover:translate-x-1 hover:scale-105 lg:w-fit lg:justify-start">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-6 w-6"
