@@ -170,7 +170,7 @@ export default function LaunchingSoon() {
                                   className="h-full w-full rounded-[50%] object-cover"
                                   src={
                                     collection.image ??
-                                    "https://www.google.com/s2/favicons?sz=64&domain_url=https://nzvc.co.nz"
+                                    "http://www.gravatar.com/avatar/3b3be63a4c2a439b013787725dfce802?d=identicon"
                                   }
                                   alt=""
                                 />
@@ -218,7 +218,11 @@ export default function LaunchingSoon() {
                   if (selectedCategory == "all" || !selectedCategory)
                     return item.projectType;
                   else return item.projectType == selectedCategory;
-                }).length < 1 && <span className="py-10">No Collection matches this filter</span>}
+                }).length < 1 && (
+                  <span className="py-10">
+                    No Collection matches this filter
+                  </span>
+                )}
               </div>
             </div>
           </div>
