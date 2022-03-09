@@ -14,6 +14,7 @@ import WhyILikeThisProject from "./WhyILikeProject";
 import WishlistRequirements from "./wishlist_requirements";
 
 import { Collection, OpenSeaCollection } from "@/types";
+import { getRandomAvatar } from "@/utils/GetRandomAvatar";
 
 interface SocialLInk {
   name: string;
@@ -193,7 +194,7 @@ export default function CollectionSummary({
                   ? collection.image
                   : openSeaData
                   ? openSeaData?.image_url
-                  : "http://www.gravatar.com/avatar/3b3be63a4c2a439b013787725dfce802?d=identicon"
+                  : getRandomAvatar(collection.owner)
               }
               alt=""
             />
@@ -206,7 +207,7 @@ export default function CollectionSummary({
                     ? collection.image
                     : openSeaData
                     ? openSeaData?.image_url
-                    : "http://www.gravatar.com/avatar/3b3be63a4c2a439b013787725dfce802?d=identicon"
+                    : getRandomAvatar(collection.owner)
                 }
                 alt=""
               />

@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import { useMoralis } from "react-moralis";
 
 import { connectors } from "@/utils/config";
+import { getRandomAvatar } from "@/utils/GetRandomAvatar";
 
 interface IAuthenticationDialogProps {
   showAuthDialog: boolean;
@@ -36,7 +37,9 @@ export default function AuthenticationDialog({
   // },[isAuthenticating,isAuthenticated,account])
 
   useEffect(() => {
+    
     if (!account || !isAuthenticated) return;
+    getRandomAvatar(account);
 
     axios
       .post("/api/user", { address: account.toString().toLowerCase() })

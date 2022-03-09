@@ -13,6 +13,7 @@ import EthAddress from "@/components/shared/EthAddress";
 import PageLoader from "@/components/shared/PageLoader";
 
 import TimezoneSelector from "./TimezoneSelector";
+import { getRandomAvatar } from "@/utils/GetRandomAvatar";
 
 const firestore = getFirestore(firebaseApp);
 
@@ -77,10 +78,7 @@ export default function Profile() {
           <div className="flex flex-col items-center justify-center">
             <img
               className="translate h-36 w-36 rounded-full bg-gray-200 object-cover"
-              src={
-                profile.avatarUrl ??
-                "http://www.gravatar.com/avatar/3b3be63a4c2a439b013787725dfce802?d=identicon"
-              }
+              src={profile.avatarUrl ?? getRandomAvatar(account!)}
               alt=""
             />
             <div className="mt-5 rounded-md  text-center text-2xl font-bold disabled:border-0 disabled:bg-white">

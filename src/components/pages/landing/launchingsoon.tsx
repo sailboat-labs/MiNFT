@@ -20,6 +20,7 @@ import PageLoader from "@/components/shared/PageLoader";
 import ExploreCategories from "./categories";
 
 import { Collection } from "@/types";
+import { getRandomAvatar } from "@/utils/GetRandomAvatar";
 
 const firestore = getFirestore(firebaseApp);
 export default function LaunchingSoon() {
@@ -170,7 +171,7 @@ export default function LaunchingSoon() {
                                   className="h-full w-full rounded-[50%] object-cover"
                                   src={
                                     collection.image ??
-                                    "http://www.gravatar.com/avatar/3b3be63a4c2a439b013787725dfce802?d=identicon"
+                                    getRandomAvatar(collection.owner)
                                   }
                                   alt=""
                                 />
