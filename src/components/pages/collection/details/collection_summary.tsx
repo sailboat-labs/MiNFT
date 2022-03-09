@@ -25,17 +25,18 @@ interface ICollectionSummaryProps {
   collection: Collection;
   openSeaData?: OpenSeaCollection;
   className?: string;
+  setLoadingPage:any
 }
 
 export default function CollectionSummary({
   collection,
   openSeaData,
   className,
+  setLoadingPage
 }: ICollectionSummaryProps) {
   const router = useRouter();
   const { account, isAuthenticated } = useMoralis();
   const [socialLinks, setSocialLinks] = useState<SocialLInk[]>([]);
-  const [loadingPage, setLoadingPage] = useState(false);
 
   useEffect(() => {
     const links = [];
@@ -71,7 +72,6 @@ export default function CollectionSummary({
         className={`contained mt-10 flex w-full flex-col gap-20 lg:flex-row ${className}`}
       >
         <div className={` w-full  lg:w-[70%] ${openSeaData && "mt-10"}`}>
-          {loadingPage && <PageLoader />}
           <div className="flex justify-between">
             <div className="mt-10 text-2xl font-bold">{collection.name}</div>
 

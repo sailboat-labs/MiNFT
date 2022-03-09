@@ -34,6 +34,7 @@ const CollectionPage = ({ router }: any) => {
 
   const [openSeaData, setOpenSeaData] = useState<OpenSeaCollection>();
   const [showHeader, setShowHeader] = useState(false);
+  const [loadingPage, setLoadingPage] = useState(false)
 
   async function getCollection() {
     if (!collection || !collection.opensea) return;
@@ -82,42 +83,49 @@ const CollectionPage = ({ router }: any) => {
       {!collectionData ? (
         <PageLoader />
       ) : (
-        <div className="pb-20">
-          <div
-            className={`h-36 transition-all duration-500 ${
-              showHeader
-                ? " translate-y-0 opacity-100"
-                : "h-0 -translate-y-10 opacity-0"
-            }`}
-          >
-            <img
-              className="absolute h-36 w-full object-cover"
-              src={openSeaData?.banner_image_url}
-              alt=""
-            />
-            <div className="absolute h-36 w-full bg-gradient-to-r from-black to-transparent"></div>
+        <>
+          {loadingPage ? (
+            <PageLoader />
+          ) : (
+            <div className="pb-20">
+              <div
+                className={`h-36 transition-all duration-500 ${
+                  showHeader
+                    ? " translate-y-0 opacity-100"
+                    : "h-0 -translate-y-10 opacity-0"
+                }`}
+              >
+                <img
+                  className="absolute h-36 w-full object-cover"
+                  src={openSeaData?.banner_image_url}
+                  alt=""
+                />
+                <div className="absolute h-36 w-full bg-gradient-to-r from-black to-transparent"></div>
 
-            <div className="absolute z-[2] flex h-36 items-center gap-3 px-20 font-bold text-white">
-              <img
-                className="h-10 w-10 rounded-[]"
-                src={openSeaData?.image_url}
-                alt=""
-              />
-              {`“Crazy news! Announcement of a new ${collectionData.name} collection”`}
-            </div>
-          </div>
-          {/* <div className="contained mt-10 flex gap-5">
+                <div className="absolute z-[2] flex h-36 items-center gap-3 px-20 font-bold text-white">
+                  <img
+                    className="h-10 w-10 rounded-[]"
+                    src={openSeaData?.image_url}
+                    alt=""
+                  />
+                  {`“Crazy news! Announcement of a new ${collectionData.name} collection”`}
+                </div>
+              </div>
+              {/* <div className="contained mt-10 flex gap-5">
             <span className="text-red-500 underline">Article</span>
             <span>News</span>
           </div> */}
-          <CollectionSummary
-            className={`${showHeader && "-translate-y-20"}`}
-            openSeaData={openSeaData}
-            collection={collectionData as Collection}
-          />
-          {/* <Assets /> */}
-          <Comments collectionId={collectionData.id} />
-        </div>
+              <CollectionSummary
+              setLoadingPage={setLoadingPage}
+                className={`${showHeader && "-translate-y-20"}`}
+                openSeaData={openSeaData}
+                collection={collectionData as Collection}
+              />
+              {/* <Assets /> */}
+              <Comments collectionId={collectionData.id} />
+            </div>
+          )}
+        </>
       )}
     </Layout>
   );

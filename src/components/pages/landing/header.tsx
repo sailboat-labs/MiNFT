@@ -15,10 +15,16 @@ export default function Header() {
   const [navOpen, setNavOpen] = useState(false);
   const [showAuthDialog, setShowAuthDialog] = useState(false);
 
-  const { account } = useMoralis();
+  const { account,isAuthenticated } = useMoralis();
 
   return (
-    <div className="bg-primaryblue bg-opacity-20">
+    <div className="bg-opacity-20 bg-gradient-to-b from-primaryblue  to-white">
+      <img
+        className="absolute -mt-5 w-screen object-cover "
+        src="/images/Sprinkle.svg"
+        alt=""
+      />
+
       <AuthenticationDialog
         showAuthDialog={showAuthDialog}
         setShowAuthDialog={setShowAuthDialog}
@@ -66,10 +72,12 @@ export default function Header() {
             </div>
           )}
         </div>
-        <div className="flex justify-center">{account && <ProfileIcon />}</div>
+        <div className="flex justify-center">
+          {account && isAuthenticated && <ProfileIcon />}
+        </div>
       </div>
       <section
-        className={`fixed z-[1] w-full px-8  text-gray-700 transition-all ${
+        className={`fixed z-[3] w-full px-8  text-gray-700 transition-all ${
           headerVisible ? "bg-transparent" : "bg-white  shadow"
         }`}
       >
@@ -155,7 +163,7 @@ export default function Header() {
 
           <div className="ml-5 hidden items-center space-x-6 md:inline-flex lg:justify-end">
             {/* <DarkModeMenu className="md:mr-5" /> */}
-            {account && (
+            {account && isAuthenticated && (
               <Link passHref href="/collection/add">
                 <div className="mr-5 cursor-pointer rounded bg-gray-200 px-3 py-1 font-medium leading-6  hover:text-gray-900">
                   Add Project
@@ -172,13 +180,13 @@ export default function Header() {
                 Connect your wallet
               </div>
             )}
-            {account && <ProfileIcon />}
+            {account && isAuthenticated && <ProfileIcon />}
           </div>
         </div>
       </section>
 
       {/* Header */}
-      <div className="contained pt-20 pb-10 ">
+      <div className="contained pt-20 pb-10 relative z-[2]">
         <VisibilitySensor
           // partialVisibility
           onChange={(isVisible) => {
