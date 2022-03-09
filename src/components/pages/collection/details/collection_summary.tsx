@@ -193,7 +193,7 @@ export default function CollectionSummary({
                   ? collection.image
                   : openSeaData
                   ? openSeaData?.image_url
-                  : ""
+                  : "http://www.gravatar.com/avatar/3b3be63a4c2a439b013787725dfce802?d=identicon"
               }
               alt=""
             />
@@ -206,7 +206,7 @@ export default function CollectionSummary({
                     ? collection.image
                     : openSeaData
                     ? openSeaData?.image_url
-                    : ""
+                    : "http://www.gravatar.com/avatar/3b3be63a4c2a439b013787725dfce802?d=identicon"
                 }
                 alt=""
               />
