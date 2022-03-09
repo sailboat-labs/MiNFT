@@ -109,7 +109,6 @@ export default function NewlyAdded() {
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
     responsive: [
-     
       {
         breakpoint: 1024,
         settings: {
@@ -121,7 +120,6 @@ export default function NewlyAdded() {
           autoplay: true,
           autoplaySpeed: 5000,
           pauseOnHover: true,
-         
         },
       },
       {
