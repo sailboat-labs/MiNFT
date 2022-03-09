@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import { useMoralis } from "react-moralis";
 
 import EthAddress from "@/components/shared/EthAddress";
-import PageLoader from "@/components/shared/PageLoader";
 
 import Roadmap from "./roadmap";
 import CollectionStats from "./stats";
@@ -25,14 +24,14 @@ interface ICollectionSummaryProps {
   collection: Collection;
   openSeaData?: OpenSeaCollection;
   className?: string;
-  setLoadingPage:any
+  setLoadingPage: any;
 }
 
 export default function CollectionSummary({
   collection,
   openSeaData,
   className,
-  setLoadingPage
+  setLoadingPage,
 }: ICollectionSummaryProps) {
   const router = useRouter();
   const { account, isAuthenticated } = useMoralis();
@@ -76,10 +75,14 @@ export default function CollectionSummary({
   return (
     <>
       <div
-        className={`contained mt-10 flex w-full flex-col gap-20 lg:flex-row ${className}`}
+        className={`contained mt-20 flex w-full flex-col gap-20 lg:flex-row ${className}`}
       >
-        <div className={` w-full  lg:w-[70%] ${openSeaData && "mt-10"}`}>
-          <div className="flex justify-between">
+        <div
+          className={` mt-10  w-full lg:w-[70%] ${
+            !openSeaData && "-translate-y-20"
+          }`}
+        >
+          <div className="flex justify-between ">
             <div className="mt-10 text-2xl font-bold">{collection.name}</div>
 
             {account && isAuthenticated && account == collection.owner ? (
