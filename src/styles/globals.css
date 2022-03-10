@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+
+
+
 :root {
   /* #region  /**=========== Primary Color =========== */
   /* !STARTERCONF Customize these variable, copy and paste from /styles/colors.css for list of colors */
@@ -31,22 +34,22 @@
 @layer base {
   /* inter var - latin */
   @font-face {
-    font-family: "Inter";
+    font-family: 'Inter';
     font-style: normal;
     font-weight: 100 900;
     font-display: optional;
-    src: url("/fonts/primary-regular.ttf") format("ttf");
+    src: url('/fonts/primary-regular.ttf') format('ttf');
     unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
       U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212,
       U+2215, U+FEFF, U+FFFD;
   }
 
   html {
-    @apply bg-black;
+    background-color:black;
   }
 
   .cursor-newtab {
-    cursor: url("/images/new-tab.png") 10 10, pointer;
+    cursor: url('/images/new-tab.png') 10 10, pointer;
   }
 
   /* #region  /**=========== Typography =========== */
@@ -63,7 +66,7 @@
   }
 
   .default-input {
-    @apply rounded-lg border-2 bg-gray-50 px-5 py-2 transition-all hover:bg-gray-100;
+    @apply hover:bg-gray-100 transition-all rounded-lg border-2 bg-gray-50 px-5 py-2;
   }
 
   h1,
