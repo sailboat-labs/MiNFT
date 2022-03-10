@@ -107,10 +107,9 @@ export default function Header() {
                     setNavOpen(true);
                   }}
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6 cursor-pointer transition-all hover:scale-105 lg:hidden"
+                  className="h-6 w-6 cursor-pointer transition-all hover:scale-105 lg:hidden dark:stroke-white stroke-black"
                   fill="none"
                   viewBox="0 0 24 24"
-                  stroke="currentColor"
                   strokeWidth="2"
                 >
                   <path
