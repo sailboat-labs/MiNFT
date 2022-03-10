@@ -1,5 +1,6 @@
 import Footer from "@/components/layout/footer";
 import Layout from "@/components/layout/Layout";
+import FAQ from "@/components/pages/landing/FAQ";
 import Header from "@/components/pages/landing/header";
 import LaunchingSoon from "@/components/pages/landing/launchingsoon";
 import NewlyAdded from "@/components/pages/landing/newlyadded";
@@ -31,6 +32,7 @@ export default function HomePage() {
         <Header />
         <NewlyAdded />
         <LaunchingSoon />
+        <FAQ/>
         <Footer />
       </div>
     </div>
