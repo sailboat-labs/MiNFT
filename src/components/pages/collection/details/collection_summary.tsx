@@ -186,7 +186,7 @@ export default function CollectionSummary({
           <WhyILikeThisProject whyIlikeProject={collection.whyILikeProject} />
         </div>
         <div className=" w-full rounded lg:w-[20%]">
-          <div className="flex h-72 w-full flex-col justify-end rounded-lg ">
+          <div className="flex h-fit lg:h-72 w-full flex-col justify-end rounded-lg ">
             <img
               className="rounded-t-2 min-h-72 h-auto w-full object-cover"
               src={
@@ -281,7 +281,7 @@ export default function CollectionSummary({
               )}
             </tbody>
           </table>
-          <div className="mt-10 flex flex-col gap-5 border-t-2 pt-5">
+          <div className="mt-10 lg:flex lg:flex-col grid grid-cols-2 gap-5 border-t-2 pt-5">
             {socialLinks.map((link, index) => (
               <div key={index} className="flex items-center gap-3">
                 <img
