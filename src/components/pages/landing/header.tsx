@@ -31,7 +31,7 @@ export default function Header() {
         setShowAuthDialog={setShowAuthDialog}
       />
       <div
-        className={`fixed z-[2] flex h-screen w-full flex-col  shadow  transition-all lg:hidden 
+        className={`fixed z-[99] flex h-screen w-full flex-col bg-white shadow  transition-all  dark:bg-black lg:hidden 
       ${navOpen ? "translate-x-0" : "translate-x-full"}
       `}
       >
@@ -76,12 +76,13 @@ export default function Header() {
         <div className="flex justify-center">
           {account && isAuthenticated && <ProfileIcon />}
         </div>
+        <DarkModeMenu/>
       </div>
       <section
-        className={`fixed z-[3] w-full px-8 text-gray-700 transition-all bg-white dark:bg-black ${
+        className={`fixed z-[3] w-full bg-white px-8 text-gray-700 transition-all dark:bg-black ${
           headerVisible
             ? "bg-transparent dark:border-b-0 dark:border-transparent"
-            : "dark:border-b-2 shadow  dark:border-gray-500"
+            : "shadow dark:border-b-2  dark:border-gray-500"
         }`}
       >
         <div className="contained flex  flex-col items-center justify-between py-3 md:flex-row">
@@ -163,7 +164,7 @@ export default function Header() {
             {/* <DarkModeMenu className="md:mr-5" /> */}
             {account && isAuthenticated && (
               <Link passHref href="/collection/add">
-                <div className="mr-5 cursor-pointer rounded bg-gray-200 dark:bg-gray-700 px-3 py-1 font-medium leading-6  hover:text-gray-900 dark:text-gray-200">
+                <div className="mr-5 cursor-pointer rounded bg-gray-200 px-3 py-1 font-medium leading-6 hover:text-gray-900  dark:bg-gray-700 dark:text-gray-200">
                   Add Project
                 </div>
               </Link>
@@ -179,7 +180,7 @@ export default function Header() {
               </div>
             )}
             {account && isAuthenticated && <ProfileIcon />}
-            <DarkModeMenu/>
+            <DarkModeMenu />
           </div>
         </div>
       </section>

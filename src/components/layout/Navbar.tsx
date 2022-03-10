@@ -51,11 +51,11 @@ export default function Navbar({ className }: props) {
         setShowAuthDialog={setShowAuthDialog}
       />
       <div
-        className={`absolute z-[2] flex h-screen w-full flex-col  shadow  transition-all lg:hidden 
+        className={`absolute z-[2] flex h-screen w-full flex-col bg-white shadow  transition-all  dark:bg-black lg:hidden 
       ${navOpen ? "translate-x-0" : "translate-x-full"}
       `}
       >
-        <div className="flex justify-between px-8 py-3">
+        <div className="flex justify-between px-8 py-3 ">
           <Link href="/" passHref>
             <div className="flex w-fit justify-between">
               <span className="flex cursor-pointer select-none items-center text-xl font-black leading-none  text-gray-900 dark:text-white md:mb-0 lg:items-center lg:justify-center">
@@ -81,6 +81,22 @@ export default function Navbar({ className }: props) {
             />
           </svg>
         </div>
+        <div className="flex w-full justify-center py-5">
+          {!account && (
+            <div
+              onClick={() => {
+                setShowAuthDialog(true);
+              }}
+              className="gradient-button mr-5 cursor-pointer rounded px-3 py-1 text-xs font-medium leading-6  hover:text-gray-900 dark:text-gray-200"
+            >
+              Connect your wallet
+            </div>
+          )}
+        </div>
+        <div className="flex justify-center">
+          {account && isAuthenticated && <ProfileIcon />}
+        </div>
+        <DarkModeMenu />
       </div>
       <div className="container relative z-[1] mx-auto flex max-w-7xl flex-col flex-wrap items-center justify-between px-8 py-3 md:flex-row">
         <div className="relative flex w-full flex-col md:flex-row lg:w-fit">
