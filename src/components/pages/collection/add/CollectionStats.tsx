@@ -8,8 +8,8 @@ export default function CollectionStats(props: any) {
     <div className="mt-10 grid grid-cols-1 items-start md:grid-cols-2 ">
       <table className="w-full">
         <tbody>
-          <tr className="bg-white ">
-            <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
+          <tr className=" ">
+            <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 dark:text-gray-200 ">
               Pre-sale Mint cost
             </td>
             <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
@@ -24,8 +24,8 @@ export default function CollectionStats(props: any) {
               </div>
             </td>
           </tr>
-          <tr className="bg-white ">
-            <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
+          <tr className=" ">
+            <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 dark:text-gray-200 ">
               Public Mint cost
             </td>
             <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
@@ -41,8 +41,8 @@ export default function CollectionStats(props: any) {
             </td>
           </tr>
 
-          <tr className="bg-white ">
-            <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
+          <tr className=" ">
+            <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 dark:text-gray-200 ">
               Mints per Presale
             </td>
             <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
@@ -62,8 +62,8 @@ export default function CollectionStats(props: any) {
 
       <table className="w-full">
         <tbody>
-          <tr className="bg-white ">
-            <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
+          <tr className=" ">
+            <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 dark:text-gray-200 ">
               Whitelist Available
             </td>
             <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
@@ -75,8 +75,8 @@ export default function CollectionStats(props: any) {
               />
             </td>
           </tr>
-          <tr className="bg-white ">
-            <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
+          <tr className=" ">
+            <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 dark:text-gray-200 ">
               Supply
             </td>
             <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
@@ -91,8 +91,8 @@ export default function CollectionStats(props: any) {
               </div>
             </td>
           </tr>
-          <tr className="bg-white ">
-            <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
+          <tr className=" ">
+            <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 dark:text-gray-200 ">
               Mints per Transaction
             </td>
             <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">

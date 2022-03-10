@@ -6,12 +6,17 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { Fragment, useEffect, useState } from "react";
 import { useMoralis } from "react-moralis";
-import { categories } from "../pages/landing/categories";
 
+import DarkModeMenu from "./DarkmodeToggle";
+import { categories } from "../pages/landing/categories";
 import AuthenticationDialog from "../shared/AuthenticationDialog";
 import ProfileIcon from "../shared/profile_icon";
 
-export default function Navbar() {
+type props = {
+  className?: string;
+};
+
+export default function Navbar({ className }: props) {
   const links: { label: string; route: string }[] = [
     { label: "Categories", route: "/" },
     { label: "All Collections", route: "/" },
@@ -38,20 +43,22 @@ export default function Navbar() {
   }, [account]);
 
   return (
-    <section className="fixed z-[999] w-full bg-white text-gray-700 shadow">
+    <section
+      className={`fixed z-[999] w-full border-gray-500 bg-white text-gray-700 shadow transition-all  dark:border-b-2 dark:bg-black dark:text-white ${className}`}
+    >
       <AuthenticationDialog
         showAuthDialog={showAuthDialog}
         setShowAuthDialog={setShowAuthDialog}
       />
       <div
-        className={`absolute z-[2] flex h-screen w-full flex-col bg-white shadow  transition-all lg:hidden 
+        className={`absolute z-[2] flex h-screen w-full flex-col  shadow  transition-all lg:hidden 
       ${navOpen ? "translate-x-0" : "translate-x-full"}
       `}
       >
         <div className="flex justify-between px-8 py-3">
           <Link href="/" passHref>
             <div className="flex w-fit justify-between">
-              <span className="flex cursor-pointer select-none items-center text-xl font-black leading-none text-gray-900 md:mb-0 lg:items-center lg:justify-center">
+              <span className="flex cursor-pointer select-none items-center text-xl font-black leading-none  text-gray-900 dark:text-white md:mb-0 lg:items-center lg:justify-center">
                 MiNFT<span className="text-indigo-600">.</span>
               </span>
             </div>
@@ -85,7 +92,7 @@ export default function Navbar() {
             /> */}
             <div className="flex w-full justify-between ">
               <Link href="/" passHref>
-                <span className="flex cursor-pointer select-none items-center text-xl font-black leading-none text-gray-900 md:mb-0 lg:items-center lg:justify-center">
+                <span className="flex cursor-pointer select-none items-center text-xl font-black leading-none text-gray-900  dark:text-white md:mb-0 lg:items-center lg:justify-center">
                   MiNFT<span className="text-indigo-600">.</span>
                 </span>
               </Link>
@@ -143,7 +150,7 @@ export default function Navbar() {
           </nav> */}
         </div>
 
-        <div className="ml-5 hidden items-center space-x-6 lg:inline-flex lg:justify-end">
+        <div className="ml-5 hidden  items-center space-x-6 lg:inline-flex lg:justify-end">
           {/* <DarkModeMenu className="md:mr-5" /> */}
           <div className="flex gap-5">
             {/* {links.map((link, index) => (
@@ -156,7 +163,7 @@ export default function Navbar() {
             <div className="">
               <Menu as="div" className="relative inline-block text-left">
                 <div className="flex items-center gap-3">
-                  <Menu.Button className="cursor-pointer text-gray-600 transition-all hover:scale-105 hover:text-black">
+                  <Menu.Button className="cursor-pointer  transition-all hover:scale-105">
                     Categories
                   </Menu.Button>
                 </div>
@@ -169,7 +176,7 @@ export default function Navbar() {
                   leaveFrom="transform opacity-100 scale-100"
                   leaveTo="transform opacity-0 scale-95"
                 >
-                  <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                  <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5  focus:outline-none dark:border-2 dark:border-gray-500 dark:bg-black dark:text-white">
                     <div className="px-1 py-1 ">
                       {categories.map((item, index) => (
                         <Menu.Item key={index}>
@@ -179,23 +186,23 @@ export default function Navbar() {
                                 active
                                   ? "bg-primaryblue text-white"
                                   : "text-gray-900"
-                              } group flex w-full items-center rounded-md px-2 py-2 text-sm capitalize`}
+                              } group flex w-full items-center rounded-md px-2 py-2 text-sm capitalize dark:text-white`}
                             >
                               {item.label}
                             </button>
                           )}
                         </Menu.Item>
                       ))}
-                      
                     </div>
                   </Menu.Items>
                 </Transition>
               </Menu>
             </div>
           </div>
+
           {account && isAuthenticated && router.pathname !== "/collection/add" && (
             <Link passHref href="/collection/add">
-              <div className="mr-5 cursor-pointer rounded bg-gray-200 px-3 py-1 font-medium leading-6  hover:text-gray-900">
+              <div className="mr-5 cursor-pointer rounded bg-gray-200 px-3 py-1 font-medium leading-6 hover:text-gray-900  dark:bg-gray-700 dark:text-gray-200">
                 Add Project
               </div>
             </Link>
@@ -236,6 +243,7 @@ export default function Navbar() {
               </button>
             </div>
           )}
+          <DarkModeMenu />
         </div>
       </div>
     </section>

@@ -50,7 +50,7 @@ export default function Dropdown({
 
       <div
         id="dropdown"
-        className={`absolute z-10 mt-3 w-full list-none items-center divide-y divide-gray-100 rounded bg-white text-base shadow transition-all  ${
+        className={`absolute z-10 mt-3 w-full list-none items-center divide-y divide-gray-100 rounded  text-base shadow transition-all  ${
           onParentClick.show
             ? "pointer-events-auto translate-y-0 scale-100 opacity-100"
             : "pointer-events-none -translate-y-2 scale-95 opacity-0"

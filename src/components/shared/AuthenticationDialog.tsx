@@ -37,7 +37,6 @@ export default function AuthenticationDialog({
   // },[isAuthenticating,isAuthenticated,account])
 
   useEffect(() => {
-    
     if (!account || !isAuthenticated) return;
     getRandomAvatar(account);
 
@@ -92,14 +91,14 @@ export default function AuthenticationDialog({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="my-8 inline-block w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+              <div className="my-8 inline-block w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left  align-middle shadow-xl transition-all dark:bg-gray-700 dark:text-white">
                 <Dialog.Title
                   as="h3"
                   className="pb-10 text-lg font-medium leading-6 text-gray-900"
                 >
                   <div className="flex items-center justify-between">
                     {isAuthenticating ? (
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 fill-black dark:fill-white dark:text-white">
                         <svg
                           role="status"
                           className="mr-2 inline h-4 w-4 animate-spin text-gray-200 "
@@ -121,17 +120,16 @@ export default function AuthenticationDialog({
                     ) : isInitializing ? (
                       "Please Wait"
                     ) : (
-                      "Connect your wallet"
+                      <div className="dark:text-white">Connect your wallet</div>
                     )}
                     <svg
                       onClick={() =>
                         !isAuthenticating && setShowAuthDialog(!showAuthDialog)
                       }
                       xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6 cursor-pointer"
+                      className="h-6 w-6 cursor-pointer stroke-black dark:stroke-white"
                       fill="none"
                       viewBox="0 0 24 24"
-                      stroke="currentColor"
                       strokeWidth="2"
                     >
                       <path

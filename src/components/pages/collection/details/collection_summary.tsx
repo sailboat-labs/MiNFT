@@ -109,10 +109,10 @@ export default function CollectionSummary({
             )}
           </div>
 
-          <div className="mt-3 text-sm text-gray-500">
+          <div className="mt-3 text-sm text-gray-500 dark:text-gray-200">
             {collection.description}
           </div>
-          <div className="mt-5 grid grid-cols-2 gap-5 border-2 border-black px-5 py-3 md:grid-cols-3 xl:grid-cols-4">
+          <div className="mt-5 grid grid-cols-2 gap-5 border-2 border-black dark:border-gray-500 rounded-md  px-5 py-3 md:grid-cols-3 xl:grid-cols-4">
             <div className="flex flex-col gap-2">
               <span className="font-bold">Presale Mint Date and Time</span>
               <span>
@@ -188,7 +188,7 @@ export default function CollectionSummary({
         <div className=" w-full rounded lg:w-[20%]">
           <div className="flex h-72 w-full flex-col justify-end rounded-lg ">
             <img
-              className="rounded-t-2 w-full h-auto min-h-72 object-cover"
+              className="rounded-t-2 min-h-72 h-auto w-full object-cover"
               src={
                 collection.image
                   ? collection.image
@@ -199,7 +199,7 @@ export default function CollectionSummary({
               alt=""
             />
 
-            <div className="flex w-full flex-col items-center gap-5 rounded-b-lg border-2 border-t-0 bg-white px-3 py-3">
+            <div className="flex w-full flex-col items-center gap-5 rounded-b-lg border-2 border-t-0  px-3 py-3">
               {/* <img
                 className="h-12 w-12 rounded-full "
                 src={
@@ -212,15 +212,17 @@ export default function CollectionSummary({
                 alt=""
               /> */}
 
-              <div className="whitespace-wrap text-center">{collection.name}</div>
+              <div className="whitespace-wrap text-center">
+                {collection.name}
+              </div>
             </div>
           </div>
           <table className="mt-5">
             <tbody>
               {openSeaData && (
                 <>
-                  <tr className="bg-white ">
-                    <td className="whitespace-nowrap py-2  text-sm font-medium text-gray-900 ">
+                  <tr className=" ">
+                    <td className="whitespace-nowrap py-2  text-sm font-medium text-gray-900 dark:text-gray-200">
                       Contract Address
                     </td>
                     <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
@@ -230,8 +232,8 @@ export default function CollectionSummary({
                       />
                     </td>
                   </tr>
-                  <tr className="bg-white ">
-                    <td className="whitespace-nowrap py-2  text-sm font-medium text-gray-900 ">
+                  <tr className=" ">
+                    <td className="whitespace-nowrap py-2  text-sm font-medium text-gray-900 dark:text-gray-200">
                       Tokens Standard
                     </td>
                     <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
@@ -240,8 +242,8 @@ export default function CollectionSummary({
                   </tr>
                 </>
               )}
-              <tr className="bg-white ">
-                <td className="whitespace-nowrap py-2  text-sm font-medium text-gray-900 ">
+              <tr className=" ">
+                <td className="whitespace-nowrap py-2  text-sm font-medium text-gray-900 dark:text-gray-200">
                   Blockchain
                 </td>
                 <td className="whitespace-nowrap py-2 px-6 text-sm capitalize text-gray-500 ">
@@ -249,8 +251,8 @@ export default function CollectionSummary({
                 </td>
               </tr>
               {collection.opensea && (
-                <tr className="bg-white ">
-                  <td className="whitespace-nowrap py-2  text-sm font-medium text-gray-900 ">
+                <tr className=" ">
+                  <td className="whitespace-nowrap py-2  text-sm font-medium text-gray-900 dark:text-gray-200">
                     Opensea
                   </td>
                   <td
@@ -284,7 +286,7 @@ export default function CollectionSummary({
               <div key={index} className="flex items-center gap-3">
                 <img
                   alt=""
-                  className="h-8 w-8 rounded-[50%] border-2 bg-white"
+                  className="h-8 w-8 rounded-[50%] border-2 "
                   src={link.image}
                 />
                 <div

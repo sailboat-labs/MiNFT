@@ -159,7 +159,7 @@ export default function NewlyAdded() {
     <div id="newly_added" className="contained mt-10 overflow-hidden">
       {loadingCollection && <PageLoader />}
       <a href="#newly_added" className="flex w-full justify-center">
-        <strong className="text-2xl">Newly Added</strong>
+        <strong className="text-2xl dark:text-white">Newly Added</strong>
       </a>
 
       <div
@@ -176,13 +176,13 @@ export default function NewlyAdded() {
               className="mr-10 h-[400px] w-[300px] cursor-pointer"
             >
               <div className="flex flex-col items-center">
-                <div className="h-[400px] w-[300px] rounded-lg border-2 bg-white object-cover"></div>
+                <div className="h-[400px] w-[300px] rounded-lg border-2  object-cover"></div>
 
                 <div className="absolute h-[400px] w-[300px]  rounded-lg bg-gradient-to-b from-transparent via-transparent to-gray-500 opacity-80"></div>
 
                 <div className="absolute bottom-0 my-5 flex -translate-y-10 flex-col items-center gap-3">
-                  <p className="rounded-lg bg-white py-2 px-28"></p>
-                  <p className="w-fit rounded-lg bg-white py-2 px-20"></p>
+                  <p className="rounded-lg  py-2 px-28"></p>
+                  <p className="w-fit rounded-lg  py-2 px-20"></p>
                 </div>
               </div>
             </div>
@@ -216,7 +216,7 @@ export default function NewlyAdded() {
                 >
                   <div className="flex flex-col items-center">
                     <img
-                      className="h-[400px] w-full rounded-lg border-2 bg-white object-cover"
+                      className="h-[400px] w-full rounded-lg border-2  object-cover"
                       src={item.image}
                       alt=""
                     />
@@ -225,7 +225,7 @@ export default function NewlyAdded() {
 
                     <div className="absolute bottom-0 my-5 flex flex-col items-center px-5">
                       <img
-                        className="h-20 w-20 rounded-full border-2 bg-white object-cover"
+                        className="h-20 w-20 rounded-full border-2  object-cover"
                         src={item.image}
                         alt=""
                       />

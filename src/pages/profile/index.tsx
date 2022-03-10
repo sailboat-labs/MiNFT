@@ -12,8 +12,9 @@ import AuthenticationDialog from "@/components/shared/AuthenticationDialog";
 import EthAddress from "@/components/shared/EthAddress";
 import PageLoader from "@/components/shared/PageLoader";
 
-import TimezoneSelector from "./TimezoneSelector";
 import { getRandomAvatar } from "@/utils/GetRandomAvatar";
+
+import TimezoneSelector from "./TimezoneSelector";
 
 const firestore = getFirestore(firebaseApp);
 
@@ -81,7 +82,7 @@ export default function Profile() {
               src={profile.avatarUrl ?? getRandomAvatar(account!)}
               alt=""
             />
-            <div className="mt-5 rounded-md  text-center text-2xl font-bold disabled:border-0 disabled:bg-white">
+            <div className="mt-5 rounded-md  text-center text-2xl font-bold disabled:border-0 disabled:">
               {profile.name ?? "Domain name not set"}
             </div>
             {account && <EthAddress className="mt-5" account={account} />}

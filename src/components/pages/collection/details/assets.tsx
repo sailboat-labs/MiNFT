@@ -58,7 +58,7 @@ export default function Assets() {
         {assets.map((item, index) => (
           <div key={index}>
             <div className="flex h-44 cursor-pointer flex-col justify-end rounded-lg bg-green-200">
-              <div className=" flex w-full items-center gap-5 rounded-b-lg border-2 border-t-0 bg-white px-3 py-3">
+              <div className=" flex w-full items-center gap-5 rounded-b-lg border-2 border-t-0  px-3 py-3">
                 <div className="rounded-[50%] border-2 bg-gray-100 p-5"></div>
                 <div className="whitespace-wrap">{item.name}</div>
               </div>

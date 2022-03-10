@@ -24,7 +24,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   // });
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col bg-white dark:bg-black text-black dark:text-white">
       <Navbar />
       <div className="min-h-screen pt-[3.2rem]">{children}</div>
       <Footer className="bottom-0 w-full" />

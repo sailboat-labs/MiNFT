@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Menu, Transition } from "@headlessui/react";
@@ -21,6 +22,8 @@ import Web3 from "web3";
 import { firebaseApp } from "@/lib/firebase";
 
 import AuthenticationDialog from "@/components/shared/AuthenticationDialog";
+
+import { getRandomAvatar } from "@/utils/GetRandomAvatar";
 
 import { Comment } from "@/types";
 
@@ -133,18 +136,23 @@ export default function Comments({ collectionId }: ICommentsProps) {
     }
   };
 
-  async function verifyCommentAuthenticity(comment: string, signature: string, address:string) {
-    toast('Verifying authenticity');
+  async function verifyCommentAuthenticity(
+    comment: string,
+    signature: string,
+    address: string
+  ) {
+    toast("Verifying authenticity");
     toast.dismiss();
-    
-    if (!comment || !signature) return toast.error("Comment verification unsuccessful");
+
+    if (!comment || !signature)
+      return toast.error("Comment verification unsuccessful");
     //verify authenticity
     const _address = await web3.eth.personal.ecRecover(
       web3.utils.sha3(comment)!,
       signature
     );
 
-    toast.dismiss()
+    toast.dismiss();
     if (_address == address)
       return toast.success("Comment verification successful");
     return toast.error("Comment verification unsuccessful");
@@ -217,7 +225,7 @@ export default function Comments({ collectionId }: ICommentsProps) {
               leaveFrom="transform opacity-100 scale-100"
               leaveTo="transform opacity-0 scale-95"
             >
-              <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+              <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md  shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                 <div className="px-1 py-1 ">
                   <Menu.Item>
                     {({ active }) => (
@@ -324,9 +332,13 @@ export default function Comments({ collectionId }: ICommentsProps) {
           .map((item, index) => (
             <div
               key={index}
-              className="flex gap-5 rounded-lg bg-gray-50 px-5 py-3"
+              className="flex gap-5 rounded-lg bg-gray-50 px-5 py-3 dark:border-2 dark:border-gray-500 dark:bg-[#121212]"
             >
-              <div className="h-10 w-10 rounded-full border-2 border-red-200 bg-red-100"></div>
+              <img
+                className="rounded-full w-10 h-10 object-cover"
+                src={getRandomAvatar(item.owner)}
+                alt=""
+              />
               <div className="flex w-full flex-col gap-2">
                 <div className="flex w-full justify-between gap-5">
                   <div>{formatEthAddress(item.owner!)}</div>
@@ -346,7 +358,7 @@ export default function Comments({ collectionId }: ICommentsProps) {
                         leaveFrom="transform opacity-100 scale-100"
                         leaveTo="transform opacity-0 scale-95"
                       >
-                        <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                        <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md  shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                           <div className="px-1 py-1 ">
                             {account && item.owner == account && (
                               <Menu.Item>
@@ -394,7 +406,7 @@ export default function Comments({ collectionId }: ICommentsProps) {
                   </div>
                   {/* <span>Rating here</span> */}
                 </div>
-                <p className="max-w-3xl text-sm text-gray-500">
+                <p className="max-w-3xl text-sm text-gray-500 dark:text-white">
                   {item.comment}
                 </p>
                 <span

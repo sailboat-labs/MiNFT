@@ -15,11 +15,13 @@ export default function Footer({ className }: props) {
   const year = new Date().getUTCFullYear();
 
   return (
-    <div className={`mt-20 bg-primaryblue bg-opacity-20 ${className}`}>
+    <div
+      className={`mt-20 border-t-2 bg-gray-50 dark:border-gray-500 dark:bg-[#121212] ${className}`}
+    >
       <div className="contained flex flex-col items-center justify-between gap-5 py-10 text-center md:flex-row md:text-left">
         <div className="flex select-none flex-col gap-2">
           <Link passHref href="/">
-            <span className=" text-2xl font-black leading-none text-gray-900">
+            <span className=" text-2xl font-black leading-none text-gray-900 dark:text-gray-200">
               MiNFT<span className="text-indigo-600">.</span>
             </span>
           </Link>
@@ -28,7 +30,7 @@ export default function Footer({ className }: props) {
             The best way to discover, track, and analyze NFTs.
           </span>
         </div>
-        <div className="flex flex-col items-center gap-5 md:items-end">
+        <div className="flex flex-col items-center gap-5 dark:border-gray-500 md:items-end lg:border-l-2 lg:pl-20">
           <div className="flex gap-3">
             {links.map((link, index) => (
               <Link passHref href={link.route} key={index}>

@@ -17,10 +17,11 @@ import { firebaseApp } from "@/lib/firebase";
 
 import PageLoader from "@/components/shared/PageLoader";
 
+import { getRandomAvatar } from "@/utils/GetRandomAvatar";
+
 import ExploreCategories from "./categories";
 
 import { Collection } from "@/types";
-import { getRandomAvatar } from "@/utils/GetRandomAvatar";
 
 const firestore = getFirestore(firebaseApp);
 export default function LaunchingSoon() {
@@ -64,42 +65,42 @@ export default function LaunchingSoon() {
         <div className="mt-10 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
             <div className="overflow-hidden shadow sm:rounded-lg">
-              <table className="min-w-full">
-                <thead className="bg-gray-50 ">
+              <table className="min-w-full dark:border-2 dark:border-gray-700 rounded-lg">
+                <thead className="bg-gray-50 dark:bg-gray-700">
                   <tr>
                     <th
                       scope="col"
-                      className="py-3 px-6 text-left text-xs font-medium uppercase tracking-wider text-gray-700 "
+                      className="py-3 px-6 text-left text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-200 "
                     >
                       Collection Name
                     </th>
                     <th
                       scope="col"
-                      className="py-3 px-6 text-left text-xs font-medium uppercase tracking-wider text-gray-700 "
+                      className="py-3 px-6 text-left text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-200 "
                     >
                       Presale Mint Date & Time
                     </th>
                     <th
                       scope="col"
-                      className="py-3 px-6 text-left text-xs font-medium uppercase tracking-wider text-gray-700 "
+                      className="py-3 px-6 text-left text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-200 "
                     >
                       Public Mint Date & Time
                     </th>
                     <th
                       scope="col"
-                      className="py-3 px-6 text-left text-xs font-medium uppercase tracking-wider text-gray-700 "
+                      className="py-3 px-6 text-left text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-200 "
                     >
                       Whitelist Available
                     </th>
                     <th
                       scope="col"
-                      className="py-3 px-6 text-left text-xs font-medium uppercase tracking-wider text-gray-700 "
+                      className="py-3 px-6 text-left text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-200 "
                     >
                       Team Info
                     </th>
                     <th
                       scope="col"
-                      className="py-3 px-6 text-left text-xs font-medium uppercase tracking-wider text-gray-700 "
+                      className="py-3 px-6 text-left text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-200 "
                     >
                       Project Type
                     </th>
@@ -110,32 +111,34 @@ export default function LaunchingSoon() {
                     animateIntoView ? "hidden" : ""
                   }`}
                 >
+
+                  {/* Shimmer effects for loading state */}
                   {[...Array(5)].map((item, index) => (
                     <tr
                       key={index}
-                      className="animate-pulse cursor-pointer border-b bg-white"
+                      className="animate-pulse cursor-pointer border-b "
                     >
                       <td className="flex items-center gap-5 whitespace-nowrap py-4 px-6 text-sm font-medium text-gray-900">
                         <div className="h-10 w-10 flex-shrink-0 rounded-[50%] bg-gray-200"></div>
                         <div>
-                          <div className="w-48 whitespace-nowrap rounded-lg bg-gray-200 py-3 text-sm text-gray-500"></div>
-                          <div className="mt-2 w-48 whitespace-nowrap rounded-lg bg-gray-200 py-2 text-sm text-gray-500"></div>
+                          <div className="w-48 whitespace-nowrap rounded-lg bg-gray-200 py-3 text-sm text-gray-500 dark:text-gray-200"></div>
+                          <div className="mt-2 w-48 whitespace-nowrap rounded-lg bg-gray-200 py-2 text-sm text-gray-500 dark:text-gray-200"></div>
                         </div>
                       </td>
-                      <td className="whitespace-nowrap py-4 px-6 text-sm text-gray-500 ">
-                        <div className="w-48 whitespace-nowrap rounded-lg bg-gray-200 py-3 text-sm text-gray-500"></div>
+                      <td className="whitespace-nowrap py-4 px-6 text-sm text-gray-500 dark:text-gray-200 ">
+                        <div className="w-48 whitespace-nowrap rounded-lg bg-gray-200 py-3 text-sm text-gray-500 dark:text-gray-200"></div>
                       </td>
-                      <td className="whitespace-nowrap py-4 px-6 text-sm text-gray-500 ">
-                        <div className="w-48 whitespace-nowrap rounded-lg bg-gray-200 py-3 text-sm text-gray-500"></div>
+                      <td className="whitespace-nowrap py-4 px-6 text-sm text-gray-500 dark:text-gray-200 ">
+                        <div className="w-48 whitespace-nowrap rounded-lg bg-gray-200 py-3 text-sm text-gray-500 dark:text-gray-200"></div>
                       </td>
-                      <td className="whitespace-nowrap py-4 px-6 text-sm uppercase text-gray-500">
-                        <div className="w-36 whitespace-nowrap rounded-lg bg-gray-200 py-3 text-sm text-gray-500"></div>
+                      <td className="whitespace-nowrap py-4 px-6 text-sm uppercase text-gray-500 dark:text-gray-200">
+                        <div className="w-36 whitespace-nowrap rounded-lg bg-gray-200 py-3 text-sm text-gray-500 dark:text-gray-200"></div>
                       </td>
-                      <td className="whitespace-nowrap py-4 px-6 text-sm uppercase text-gray-500">
-                        <div className="w-36 whitespace-nowrap rounded-lg bg-gray-200 py-3 text-sm text-gray-500"></div>
+                      <td className="whitespace-nowrap py-4 px-6 text-sm uppercase text-gray-500 dark:text-gray-200">
+                        <div className="w-36 whitespace-nowrap rounded-lg bg-gray-200 py-3 text-sm text-gray-500 dark:text-gray-200"></div>
                       </td>
-                      <td className="whitespace-nowrap py-4 px-6 text-sm capitalize text-gray-500 ">
-                        <div className="w-36 whitespace-nowrap rounded-lg bg-gray-200 py-3 text-sm text-gray-500"></div>
+                      <td className="whitespace-nowrap py-4 px-6 text-sm capitalize text-gray-500 dark:text-gray-200 ">
+                        <div className="w-36 whitespace-nowrap rounded-lg bg-gray-200 py-3 text-sm text-gray-500 dark:text-gray-200"></div>
                       </td>
                     </tr>
                   ))}
@@ -163,7 +166,7 @@ export default function LaunchingSoon() {
                             onClick={() => {
                               setLoadingCollection(true);
                             }}
-                            className="cursor-pointer border-b bg-white transition-all hover:bg-gray-50"
+                            className="cursor-pointer border-b dark:bg-[#121212] transition-all hover:bg-gray-50 dark:hover:bg-gray-700"
                           >
                             <td className="flex items-center gap-5 whitespace-nowrap py-4 px-6 text-sm font-medium text-gray-900">
                               <div className="h-10 w-10 flex-shrink-0 rounded-[50%] bg-gray-100">
@@ -177,36 +180,36 @@ export default function LaunchingSoon() {
                                 />
                               </div>
                               <div>
-                                <div className="text-md">{collection.name}</div>
-                                <div className="whitespace-nowrap text-sm text-gray-500 ">
+                                <div className="text-md dark:text-white">{collection.name}</div>
+                                <div className="whitespace-nowrap text-sm text-gray-500 dark:text-gray-200 ">
                                   <span>{collection.supply}</span>
                                   <span>&nbsp;circulating supply</span>
                                 </div>
                               </div>
                             </td>
-                            <td className="whitespace-nowrap py-4 px-6 text-sm text-gray-500 ">
+                            <td className="whitespace-nowrap py-4 px-6 text-sm text-gray-500 dark:text-gray-200 ">
                               {collection.preMintDate
                                 ? dayjs(
                                     new Date(collection.preMintDate!)
-                                  ).format("DD/MM/YYYY, HH : MM ")
+                                  ).format("DD/MM/YYYY, HH : MM")
                                 : "N/A"}
                             </td>
-                            <td className="whitespace-nowrap py-4 px-6 text-sm text-gray-500 ">
+                            <td className="whitespace-nowrap py-4 px-6 text-sm text-gray-500 dark:text-gray-200 ">
                               {collection.publicMintDate
                                 ? dayjs(
                                     new Date(collection.publicMintDate!)
                                   ).format("DD/MM/YYYY, HH : MM ")
                                 : "N/A"}
                             </td>
-                            <td className="whitespace-nowrap py-4 px-6 text-sm uppercase text-gray-500">
+                            <td className="whitespace-nowrap py-4 px-6 text-sm uppercase text-gray-500 dark:text-gray-200">
                               {collection.whitelistAvailable == "yes"
                                 ? "true"
                                 : "false"}
                             </td>
-                            <td className="whitespace-nowrap py-4 px-6 text-sm uppercase text-gray-500">
+                            <td className="whitespace-nowrap py-4 px-6 text-sm uppercase text-gray-500 dark:text-gray-200">
                               {collection.teamInfo ? "true" : "false"}
                             </td>
-                            <td className="whitespace-nowrap py-4 px-6 text-sm capitalize text-gray-500 ">
+                            <td className="whitespace-nowrap py-4 px-6 text-sm capitalize text-gray-500 dark:text-gray-200 ">
                               {collection.projectType}
                             </td>
                           </tr>

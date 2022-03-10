@@ -28,7 +28,7 @@ export default function ProfileName({ name }: props) {
           name="name"
           disabled={true}
           placeholder="Verify ENS"
-          className="w-52  rounded-md border-2 bg-gray-50 text-center text-xl font-bold disabled:border-0 disabled:bg-white"
+          className="disabled:  w-52 rounded-md border-2 bg-gray-50 text-center text-xl font-bold disabled:border-0"
         />
       </Form>
     </Formik>

@@ -3,7 +3,7 @@ import { AppProps } from "next/app";
 import { Toaster } from "react-hot-toast";
 import { MoralisProvider } from "react-moralis";
 
-import "@/styles/globals.css";
+import "../styles/globals.css";
 
 /**
  * !STARTERCONF info

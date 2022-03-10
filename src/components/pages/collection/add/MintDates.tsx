@@ -6,8 +6,8 @@ import TextField, { TextFieldProps } from "@mui/material/TextField";
 export default function MintDates(props: any) {
   return (
     <div className="mt-10 flex flex-col gap-5">
-      <div className="flex items-center bg-white">
-        <span className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
+      <div className="flex items-center ">
+        <span className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 dark:text-gray-200 ">
           Pre-sale Mint date and time
         </span>
         <input
@@ -35,8 +35,8 @@ export default function MintDates(props: any) {
           </LocalizationProvider>
         </span>
       </div>
-      <div className="flex items-center bg-white">
-        <span className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
+      <div className="flex items-center ">
+        <span className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 dark:text-gray-200 ">
           Public Mint date and time
         </span>
         <input

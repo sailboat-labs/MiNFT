@@ -8,8 +8,6 @@ type props = {
 export default function UploadingPost({ show }: props) {
   const [isOpen, setIsOpen] = useState(false);
 
-  
-
   useEffect(() => {
     setIsOpen(show);
   }, [show]);
@@ -54,7 +52,7 @@ export default function UploadingPost({ show }: props) {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="my-8 inline-block w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+              <div className="my-8 inline-block w-full max-w-md transform overflow-hidden rounded-2xl  p-6 text-left align-middle shadow-xl transition-all">
                 <Dialog.Title
                   as="h3"
                   className="text-lg font-medium leading-6 text-gray-900"

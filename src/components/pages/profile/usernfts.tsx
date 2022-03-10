@@ -145,7 +145,7 @@ export default function UserNfts({ account }: props) {
                         leaveTo="transform opacity-0 scale-95"
                       >
                         <Menu.Items
-                          className={`absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none `}
+                          className={`absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md  shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none `}
                         >
                           <div className="px-1 py-1 ">
                             <Menu.Item>

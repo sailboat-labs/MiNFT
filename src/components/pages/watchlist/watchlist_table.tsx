@@ -126,7 +126,7 @@ export default function WatchListTable() {
                 </thead>
                 <tbody>
                   {collections.map((collection, index) => (
-                    <tr key={index} className="border-b bg-white ">
+                    <tr key={index} className="border-b  ">
                       <td className="flex items-center gap-5 whitespace-nowrap py-4 px-6 text-sm font-medium text-gray-900">
                         <div className="h-10 w-10 flex-shrink-0 rounded-[50%] bg-gray-100">
                           {/* <img

@@ -7,6 +7,7 @@ import VisibilitySensor from "react-visibility-sensor";
 import ProfileIcon from "@/components/shared/profile_icon";
 
 import AuthenticationDialog from "../../shared/AuthenticationDialog";
+import DarkModeMenu from "@/components/layout/DarkmodeToggle";
 
 // import DarkModeMenu from "../navbar/darkmode-toggle";
 
@@ -18,9 +19,9 @@ export default function Header() {
   const { account, isAuthenticated } = useMoralis();
 
   return (
-    <div className="bg-opacity-20 bg-gradient-to-b from-primaryblue  to-white">
+    <div className="bg-opacity-20 bg-gradient-to-b from-primaryblue to-white   dark:from-black dark:to-black">
       <img
-        className="absolute -mt-5 w-screen object-cover "
+        className="absolute -mt-5 w-screen object-cover dark:hidden"
         src="/images/Sprinkle.svg"
         alt=""
       />
@@ -30,14 +31,14 @@ export default function Header() {
         setShowAuthDialog={setShowAuthDialog}
       />
       <div
-        className={`fixed z-[2] flex h-screen w-full flex-col bg-white shadow  transition-all lg:hidden 
+        className={`fixed z-[2] flex h-screen w-full flex-col  shadow  transition-all lg:hidden 
       ${navOpen ? "translate-x-0" : "translate-x-full"}
       `}
       >
-        <div className="flex justify-between px-8 py-3">
+        <div className="flex justify-between px-8 py-3 dark:text-white">
           <Link href="/" passHref>
             <div className="flex w-fit justify-between">
-              <span className="flex cursor-pointer select-none items-center text-xl font-black leading-none text-gray-900 md:mb-0 lg:items-center lg:justify-center">
+              <span className="flex cursor-pointer select-none items-center text-xl font-black leading-none text-gray-900 dark:text-gray-200 md:mb-0 lg:items-center lg:justify-center">
                 MiNFT<span className="text-indigo-600">.</span>
               </span>
             </div>
@@ -66,7 +67,7 @@ export default function Header() {
               onClick={() => {
                 setShowAuthDialog(true);
               }}
-              className="gradient-button mr-5 cursor-pointer rounded px-3 py-1 text-xs font-medium leading-6  hover:text-gray-900"
+              className="gradient-button mr-5 cursor-pointer rounded px-3 py-1 text-xs font-medium leading-6  hover:text-gray-900 dark:text-gray-200"
             >
               Connect your wallet
             </div>
@@ -77,26 +78,23 @@ export default function Header() {
         </div>
       </div>
       <section
-        className={`fixed z-[3] w-full px-8  text-gray-700 transition-all ${
-          headerVisible ? "bg-transparent" : "bg-white  shadow"
+        className={`fixed z-[3] w-full px-8 text-gray-700 transition-all bg-white dark:bg-black ${
+          headerVisible
+            ? "bg-transparent dark:border-b-0 dark:border-transparent"
+            : "dark:border-b-2 shadow  dark:border-gray-500"
         }`}
       >
         <div className="contained flex  flex-col items-center justify-between py-3 md:flex-row">
           <div className="relative flex w-full flex-col md:flex-row lg:w-fit">
             <div className="relative z-[2] flex">
-              {/* <img
-              className="mx-auto w-10 h-10"
-              src="/logo.webp"
-              alt="feature image"
-            /> */}
               <div className="flex w-full flex-row justify-between">
                 <Link passHref href="/">
                   <span
-                    className={`mx-auto flex cursor-pointer select-none items-center text-xl font-black leading-none  text-gray-900  transition-all md:mb-0 lg:w-auto lg:items-center lg:justify-center 
+                    className={` flex cursor-pointer select-none items-center text-xl font-black leading-none  text-gray-900 transition-all  dark:text-gray-200 md:mb-0 lg:w-auto lg:items-center lg:justify-center 
                 ${
                   headerVisible
-                    ? "translate-y-12 scale-[2] md:translate-x-8"
-                    : "translate-y-0 scale-100"
+                    ? "mx-auto translate-y-12 scale-[2] md:translate-x-8"
+                    : " translate-y-0 scale-100"
                 }
                 `}
                   >
@@ -138,23 +136,23 @@ export default function Header() {
             </div>
             {/* <nav className=" relative z-[2] hidden md:flex flex-wrap items-center mb-5 text-base md:mb-0 md:pl-8 md:ml-8 md:border-l md:border-gray-200">
             <Link passHref href="/">
-              <div className="mr-5 cursor-pointer font-medium leading-6 text-gray-500 hover:text-gray-900">
+              <div className="mr-5 cursor-pointer font-medium leading-6 text-gray-500 hover:text-gray-900 dark:text-gray-200">
                 Home
               </div>
             </Link>
             <Link passHref href="/nft">
-              <div className="mr-5 cursor-pointer font-medium leading-6 text-gray-500 hover:text-gray-900">
+              <div className="mr-5 cursor-pointer font-medium leading-6 text-gray-500 hover:text-gray-900 dark:text-gray-200">
                 NFT
               </div>
             </Link>
             <Link passHref href="/nft/entries">
-              <div className="mr-5 cursor-pointer font-medium leading-6 text-gray-500 hover:text-gray-900">
+              <div className="mr-5 cursor-pointer font-medium leading-6 text-gray-500 hover:text-gray-900 dark:text-gray-200">
                 NFT Entries
               </div>
             </Link>
             <a
               href="#_"
-              className="mr-5 font-medium leading-6 text-gray-500 hover:text-gray-900"
+              className="mr-5 font-medium leading-6 text-gray-500 hover:text-gray-900 dark:text-gray-200"
             >
               About Us
             </a>
@@ -165,7 +163,7 @@ export default function Header() {
             {/* <DarkModeMenu className="md:mr-5" /> */}
             {account && isAuthenticated && (
               <Link passHref href="/collection/add">
-                <div className="mr-5 cursor-pointer rounded bg-gray-200 px-3 py-1 font-medium leading-6  hover:text-gray-900">
+                <div className="mr-5 cursor-pointer rounded bg-gray-200 dark:bg-gray-700 px-3 py-1 font-medium leading-6  hover:text-gray-900 dark:text-gray-200">
                   Add Project
                 </div>
               </Link>
@@ -175,12 +173,13 @@ export default function Header() {
                 onClick={() => {
                   setShowAuthDialog(true);
                 }}
-                className="gradient-button mr-5 cursor-pointer rounded px-3 py-1 text-xs font-medium leading-6  hover:text-gray-900"
+                className="gradient-button mr-5 cursor-pointer rounded px-3 py-1 text-xs font-medium leading-6  hover:text-gray-900 dark:text-gray-200"
               >
                 Connect your wallet
               </div>
             )}
             {account && isAuthenticated && <ProfileIcon />}
+            <DarkModeMenu/>
           </div>
         </div>
       </section>
@@ -195,7 +194,7 @@ export default function Header() {
         >
           <div className="-mt-5 p-10 "></div>
         </VisibilitySensor>
-        <div className="flex flex-col justify-center text-center lg:justify-start lg:text-left">
+        <div className="flex flex-col justify-center text-center dark:text-white lg:justify-start lg:text-left">
           <div className="mt-10 text-4xl font-bold">
             Discover, collect, and sell
           </div>

@@ -2,8 +2,8 @@ import { ErrorMessage, Field } from "formik";
 
 export default function WhitelistRequirements() {
   return (
-    <div className="mt-10 flex w-full items-center bg-white">
-      <div className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
+    <div className="mt-10 flex w-full items-center ">
+      <div className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 dark:text-gray-200 ">
         Whitelist requirements
       </div>
       <div className="w-full whitespace-nowrap py-2 px-6 text-sm text-gray-500">

@@ -9,7 +9,9 @@ export default function CollectionStats({ className, collectionStats }: props) {
   // example 1
   return (
     <>
-      <div className={`flex gap-10 rounded-lg border-2 px-5 py-3 ${className}`}>
+      <div
+        className={`flex gap-10 rounded-lg border-2 border-black px-5 py-3 dark:border-gray-500 ${className}`}
+      >
         <div className="flex flex-col items-center text-center">
           <span>Total Assets</span>
           <span className="text-lg font-bold">

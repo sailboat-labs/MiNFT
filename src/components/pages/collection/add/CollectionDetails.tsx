@@ -13,20 +13,20 @@ export default function CollectionDetails(props: any) {
       <div className="h-72 flex-1 ">
         <div className="overflow-hidden sm:rounded-lg">
           <table className="w-full">
-              <tr className="bg-white ">
-                <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
-                  Collection Image
-                </td>
-                <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
-                  <ImageUpload
-                    setImageUrl={props.setImageUrl}
-                    imageUrl={props.imageUrl}
-                  />
-                </td>
-              </tr>
+            <tr className=" ">
+              <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 dark:text-gray-200 ">
+                Collection Image
+              </td>
+              <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
+                <ImageUpload
+                  setImageUrl={props.setImageUrl}
+                  imageUrl={props.imageUrl}
+                />
+              </td>
+            </tr>
             <tbody>
-              <tr className="bg-white ">
-                <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
+              <tr className=" ">
+                <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 dark:text-gray-200 ">
                   Collection Name
                 </td>
                 <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
@@ -40,8 +40,8 @@ export default function CollectionDetails(props: any) {
                   </div>
                 </td>
               </tr>
-              <tr className="bg-white ">
-                <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
+              <tr className=" ">
+                <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 dark:text-gray-200 ">
                   Blockchain
                 </td>
                 <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
@@ -61,8 +61,8 @@ export default function CollectionDetails(props: any) {
         <div className="sm:rounded-lg">
           <table className="w-full">
             <tbody>
-              <tr className="w-full bg-white">
-                <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
+              <tr className="w-full ">
+                <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 dark:text-gray-200 ">
                   Project Type
                 </td>
                 <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
@@ -74,8 +74,8 @@ export default function CollectionDetails(props: any) {
                   />
                 </td>
               </tr>
-              <tr className="bg-white ">
-                <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
+              <tr className=" ">
+                <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 dark:text-gray-200 ">
                   Website
                 </td>
                 <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
@@ -89,8 +89,8 @@ export default function CollectionDetails(props: any) {
                   </div>
                 </td>
               </tr>
-              <tr className="bg-white ">
-                <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
+              <tr className=" ">
+                <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 dark:text-gray-200 ">
                   Twitter handle
                 </td>
                 <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
@@ -104,8 +104,8 @@ export default function CollectionDetails(props: any) {
                   </div>
                 </td>
               </tr>
-              <tr className="bg-white ">
-                <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
+              <tr className=" ">
+                <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 dark:text-gray-200 ">
                   Discord
                 </td>
                 <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
@@ -119,8 +119,8 @@ export default function CollectionDetails(props: any) {
                   </div>
                 </td>
               </tr>
-              <tr className="bg-white ">
-                <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
+              <tr className=" ">
+                <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 dark:text-gray-200 ">
                   Etherscan
                 </td>
                 <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
@@ -134,8 +134,8 @@ export default function CollectionDetails(props: any) {
                   </div>
                 </td>
               </tr>
-              <tr className="bg-white ">
-                <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
+              <tr className=" ">
+                <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 dark:text-gray-200 ">
                   Opensea
                 </td>
                 <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
@@ -149,8 +149,8 @@ export default function CollectionDetails(props: any) {
                   </div>
                 </td>
               </tr>
-              <tr className="bg-white ">
-                <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 ">
+              <tr className=" ">
+                <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 dark:text-gray-200 ">
                   Whitepaper
                 </td>
                 <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
