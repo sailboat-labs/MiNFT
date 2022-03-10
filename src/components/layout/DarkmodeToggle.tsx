@@ -27,7 +27,7 @@ export default function DarkModeMenu({ className }: props) {
   };
 
   return (
-    <div className="flex items-center justify-center px-0 text-sm font-medium dark:stroke-white">
+    <div className="flex items-center justify-center px-0 text-sm font-medium dark:stroke-white stroke-black">
       {theme === "light" ? (
         <svg
           onClick={() => {
