@@ -16,7 +16,7 @@ export default function FAQ() {
           Frequently Asked Questions
         </strong>
       </a>
-      <span className="text-gray-200 dark:text-gray-300">Here are answers to some frequently asked questions</span>
+      <span className="text-gray-700 dark:text-gray-300">Here are answers to some frequently asked questions</span>
       <div className="mt-5 flex flex-col gap-3">
         {FAQ.map((item, index) => (
           <div
