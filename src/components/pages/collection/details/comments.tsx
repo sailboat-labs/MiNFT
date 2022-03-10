@@ -141,8 +141,7 @@ export default function Comments({ collectionId }: ICommentsProps) {
     signature: string,
     address: string
   ) {
-    toast("Verifying authenticity");
-    toast.dismiss();
+
 
     if (!comment || !signature)
       return toast.error("Comment verification unsuccessful");
