@@ -8,13 +8,13 @@ export default function DarkModeMenu({ className }: props) {
   const [theme, setTheme] = useState("light");
 
   useEffect(() => {
-    setTheme(window.localStorage.getItem("sailboat-theme") || "light");
+    setTheme(window.localStorage.getItem("minft-theme") || "light");
 
-    if (window.localStorage.getItem("sailboat-theme") === "system") {
+    if (window.localStorage.getItem("minft-theme") === "system") {
       //do something
     }
 
-    if (window.localStorage.getItem("sailboat-theme") === "dark") {
+    if (window.localStorage.getItem("minft-theme") === "dark") {
       document.documentElement.classList.add("dark");
     } else {
       document.documentElement.classList.remove("dark");
@@ -23,11 +23,11 @@ export default function DarkModeMenu({ className }: props) {
 
   const handleTheme = (theme: "dark" | "light" | "system") => {
     setTheme(theme);
-    window.localStorage.setItem("sailboat-theme", theme);
+    window.localStorage.setItem("minft-theme", theme);
   };
 
   return (
-    <div className="flex items-center justify-center px-0 text-sm font-medium ">
+    <div className="flex items-center justify-center px-0 text-sm font-medium dark:stroke-white">
       {theme === "light" ? (
         <svg
           onClick={() => {
@@ -37,7 +37,6 @@ export default function DarkModeMenu({ className }: props) {
           className="translate h-6 translate-y-[0.35rem] transform cursor-pointer transition-all hover:rotate-180 hover:scale-125 md:translate-y-0"
           fill="none"
           viewBox="0 0 24 24"
-          stroke="currentColor"
         >
           <path
             strokeLinecap="round"
@@ -55,7 +54,6 @@ export default function DarkModeMenu({ className }: props) {
           className="translate h-6 w-6 translate-y-[0.35rem] cursor-pointer transition-all hover:scale-125 hover:fill-black md:translate-y-0"
           fill="none"
           viewBox="0 0 24 24"
-          stroke="currentColor"
         >
           <path
             strokeLinecap="round"
