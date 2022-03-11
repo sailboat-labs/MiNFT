@@ -4,10 +4,10 @@ import { useState } from "react";
 import { useMoralis } from "react-moralis";
 import VisibilitySensor from "react-visibility-sensor";
 
+import DarkModeMenu from "@/components/layout/DarkmodeToggle";
 import ProfileIcon from "@/components/shared/profile_icon";
 
 import AuthenticationDialog from "../../shared/AuthenticationDialog";
-import DarkModeMenu from "@/components/layout/DarkmodeToggle";
 
 // import DarkModeMenu from "../navbar/darkmode-toggle";
 
@@ -20,11 +20,15 @@ export default function Header() {
 
   return (
     <div className="bg-opacity-20 bg-gradient-to-b from-primaryblue to-white   dark:from-black dark:to-black">
-      <img
-        className="absolute -mt-5 w-screen object-cover dark:hidden"
-        src="/images/Sprinkle.svg"
-        alt=""
-      />
+      <div className="h-fit flex">
+        <img
+          className="translate-all absolute z-[1] -mt-5 w-screen object-cover"
+          src="/images/Sprinkle.svg"
+          alt=""
+        />
+
+        <div className="absolute z-[2] h-[27rem] w-full bg-gradient-to-b from-transparent to-black hidden dark:block"></div>
+      </div>
 
       <AuthenticationDialog
         showAuthDialog={showAuthDialog}
@@ -76,13 +80,13 @@ export default function Header() {
         <div className="flex justify-center">
           {account && isAuthenticated && <ProfileIcon />}
         </div>
-        <DarkModeMenu/>
+        <DarkModeMenu />
       </div>
       <section
-        className={`fixed z-[3] w-full bg-white px-8 text-gray-700 transition-all dark:bg-black ${
+        className={`fixed z-[3] w-full bg-white px-8 text-gray-700 transition-all  ${
           headerVisible
             ? "bg-transparent dark:border-b-0 dark:border-transparent"
-            : "shadow dark:border-b-2  dark:border-gray-500"
+            : "shadow dark:border-b-2  dark:border-gray-500 dark:bg-black"
         }`}
       >
         <div className="contained flex  flex-col items-center justify-between py-3 md:flex-row">
@@ -107,7 +111,7 @@ export default function Header() {
                     setNavOpen(true);
                   }}
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6 cursor-pointer transition-all hover:scale-105 lg:hidden dark:stroke-white stroke-black"
+                  className="h-6 w-6 cursor-pointer stroke-black transition-all hover:scale-105 dark:stroke-white lg:hidden"
                   fill="none"
                   viewBox="0 0 24 24"
                   strokeWidth="2"

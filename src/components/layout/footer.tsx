@@ -6,7 +6,7 @@ type props = {
 
 export default function Footer({ className }: props) {
   const links: { label: string; route: string }[] = [
-    { label: "FAQ", route: "/" },
+    { label: "FAQ", route: "/#faq" },
     { label: "Contact", route: "/" },
     { label: "Privacy", route: "/" },
     { label: "Terms", route: "/" },

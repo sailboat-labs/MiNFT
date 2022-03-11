@@ -38,7 +38,7 @@ export default function ProfileIcon() {
                 {({ active }: any) => (
                   <button
                     className={`${
-                      active ? "bg-primaryblue text-white" : "text-gray-900"
+                      active ? "bg-primaryblue text-white" : "text-gray-900 dark:text-white"
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm font-bold`}
                   >
                     {account && formatEthAddress(account)}
@@ -49,13 +49,13 @@ export default function ProfileIcon() {
                 {({ active }: any) => (
                   <div
                     className={`${
-                      active ? "bg-primaryblue text-white" : "text-gray-900"
+                      active ? "bg-primaryblue text-white" : "text-gray-900 dark:text-white"
                     } group flex w-full cursor-pointer items-center rounded-md px-2 py-2 text-sm `}
                   >
                     <Link href="/profile" passHref>
                       <div
                         className={`${
-                          active ? "bg-primaryblue text-white" : "text-gray-900"
+                          active ? "bg-primaryblue text-white" : "text-gray-900 dark:text-white"
                         } group flex w-full items-center rounded-md py-0 text-sm `}
                       >
                         Profile
@@ -68,7 +68,7 @@ export default function ProfileIcon() {
                 {({ active }: any) => (
                   <button
                     className={`${
-                      active ? "bg-primaryblue text-white" : "text-gray-900"
+                      active ? "bg-primaryblue text-white" : "text-gray-900 dark:text-white"
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                   >
                     Watchlist
@@ -79,7 +79,7 @@ export default function ProfileIcon() {
                 {({ active }: any) => (
                   <button
                     className={`${
-                      active ? "bg-primaryblue text-white" : "text-gray-900"
+                      active ? "bg-primaryblue text-white" : "text-gray-900 dark:text-white"
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                   >
                     My Comments
@@ -93,7 +93,7 @@ export default function ProfileIcon() {
                   <button
                     onClick={logout}
                     className={`${
-                      active ? "bg-primaryblue text-white" : "text-gray-900"
+                      active ? "bg-primaryblue text-white" : "text-gray-900 dark:text-white"
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                   >
                     Disconnect
