@@ -11,6 +11,7 @@ import DarkModeMenu from "./DarkmodeToggle";
 import { categories } from "../pages/landing/categories";
 import AuthenticationDialog from "../shared/AuthenticationDialog";
 import ProfileIcon from "../shared/profile_icon";
+import useAuthenticationDialog from "@/hooks/UseAuthDialog";
 
 type props = {
   className?: string;
@@ -24,7 +25,6 @@ export default function Navbar({ className }: props) {
 
   const requiredAuthPaths = ["/profile"];
 
-  const [showAuthDialog, setShowAuthDialog] = useState(false);
   const router = useRouter();
   const {
     // authenticate,
@@ -34,6 +34,8 @@ export default function Navbar({ className }: props) {
     // chainId,
     // logout,
   } = useMoralis();
+
+  const { AuthDialog, setShowAuthDialog } = useAuthenticationDialog();
 
   const [navOpen, setNavOpen] = useState(false);
 
@@ -46,10 +48,7 @@ export default function Navbar({ className }: props) {
     <section
       className={`fixed z-[999] w-full border-gray-500 bg-white text-gray-700 shadow transition-all  dark:border-b-2 dark:bg-black dark:text-white ${className}`}
     >
-      <AuthenticationDialog
-        showAuthDialog={showAuthDialog}
-        setShowAuthDialog={setShowAuthDialog}
-      />
+      <AuthDialog />
       <div
         className={`absolute z-[2] flex h-screen w-full flex-col bg-white shadow  transition-all  dark:bg-black lg:hidden 
       ${navOpen ? "translate-x-0" : "translate-x-full"}

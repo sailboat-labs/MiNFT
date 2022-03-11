@@ -11,6 +11,9 @@ import "../styles/globals.css";
  */
 
 function MyApp({ Component, pageProps }: AppProps) {
+
+  
+
   return (
     <MoralisProvider
       appId={process.env.NEXT_PUBLIC_MORALIS_APP_ID!}

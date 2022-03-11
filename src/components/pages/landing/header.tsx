@@ -5,21 +5,22 @@ import { useMoralis } from "react-moralis";
 import VisibilitySensor from "react-visibility-sensor";
 
 import { usePageLoader } from "@/hooks/pageloader";
+import useAuthenticationDialog from "@/hooks/UseAuthDialog";
 
 import DarkModeMenu from "@/components/layout/DarkmodeToggle";
 import ProfileIcon from "@/components/shared/profile_icon";
-
-import AuthenticationDialog from "../../shared/AuthenticationDialog";
 
 // import DarkModeMenu from "../navbar/darkmode-toggle";
 
 export default function Header() {
   const [headerVisible, setHeaderVisible] = useState(true);
   const [navOpen, setNavOpen] = useState(false);
-  const [showAuthDialog, setShowAuthDialog] = useState(false);
+  // const [showAuthDialog, setShowAuthDialog] = useState(false);
   const [Loader, loading, setLoading] = usePageLoader();
 
   const { account, isAuthenticated } = useMoralis();
+
+  const { AuthDialog, setShowAuthDialog } = useAuthenticationDialog();
 
   return (
     <div className="bg-opacity-20 bg-gradient-to-b from-primaryblue to-white   dark:from-black dark:to-black">
@@ -34,10 +35,7 @@ export default function Header() {
         <div className="absolute z-[2] hidden h-[27rem] w-full bg-gradient-to-b from-transparent to-black dark:block"></div>
       </div>
 
-      <AuthenticationDialog
-        showAuthDialog={showAuthDialog}
-        setShowAuthDialog={setShowAuthDialog}
-      />
+      <AuthDialog />
       <div
         className={`fixed z-[99] flex h-screen w-full flex-col bg-white shadow  transition-all  dark:bg-black lg:hidden 
       ${navOpen ? "translate-x-0" : "translate-x-full"}
