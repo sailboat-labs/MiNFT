@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useMoralis } from "react-moralis";
 import VisibilitySensor from "react-visibility-sensor";
 
+import { usePageLoader } from "@/hooks/pageloader";
+
 import DarkModeMenu from "@/components/layout/DarkmodeToggle";
 import ProfileIcon from "@/components/shared/profile_icon";
 
@@ -15,19 +17,21 @@ export default function Header() {
   const [headerVisible, setHeaderVisible] = useState(true);
   const [navOpen, setNavOpen] = useState(false);
   const [showAuthDialog, setShowAuthDialog] = useState(false);
+  const [Loader, loading, setLoading] = usePageLoader();
 
   const { account, isAuthenticated } = useMoralis();
 
   return (
     <div className="bg-opacity-20 bg-gradient-to-b from-primaryblue to-white   dark:from-black dark:to-black">
-      <div className="h-fit flex">
+      {loading && <Loader />}
+      <div className="flex h-fit">
         <img
           className="translate-all absolute z-[1] -mt-5 w-screen object-cover"
           src="/images/Sprinkle.svg"
           alt=""
         />
 
-        <div className="absolute z-[2] h-[27rem] w-full bg-gradient-to-b from-transparent to-black hidden dark:block"></div>
+        <div className="absolute z-[2] hidden h-[27rem] w-full bg-gradient-to-b from-transparent to-black dark:block"></div>
       </div>
 
       <AuthenticationDialog
@@ -167,7 +171,12 @@ export default function Header() {
             {/* <DarkModeMenu className="md:mr-5" /> */}
             {account && isAuthenticated && (
               <Link passHref href="/collection/add">
-                <div className="mr-5 cursor-pointer rounded bg-gray-200 px-3 py-1 font-medium leading-6 hover:text-gray-900  dark:bg-gray-700 dark:text-gray-200">
+                <div
+                  onClick={() => {
+                    setLoading(true);
+                  }}
+                  className="mr-5 cursor-pointer rounded bg-gray-200 px-3 py-1 font-medium leading-6 hover:text-gray-900  dark:bg-gray-700 dark:text-gray-200"
+                >
                   Add Project
                 </div>
               </Link>
