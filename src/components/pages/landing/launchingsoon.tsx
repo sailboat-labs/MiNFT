@@ -10,11 +10,12 @@ import {
   query,
 } from "firebase/firestore";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 
 import { firebaseApp } from "@/lib/firebase";
-
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import PageLoader from "@/components/shared/PageLoader";
 
 import { getRandomAvatar } from "@/utils/GetRandomAvatar";
@@ -52,8 +53,33 @@ export default function LaunchingSoon() {
     }, 500);
   }, [loading, snapshots]);
 
+  const soonWrapperElement = useRef<any>(null);
+  const q = gsap.utils.selector(soonWrapperElement);
+  gsap.registerPlugin(ScrollTrigger);
+
+  useEffect(() => {
+    const scrollButtonAnim = gsap.from("#soon-text", {
+      // rotate:-15,
+      y: 800,
+      // opacity: 0,
+
+      scrollTrigger: {
+        trigger: "#soon-text",
+        start: "top 100%",
+        end: "top start",
+        toggleActions: "restart pause resume reverse",
+        scrub: 0.8,
+        // markers: true,
+      },
+    });
+
+    return () => {
+      scrollButtonAnim.kill();
+    };
+  }, []);
+
   return (
-    <div className="contained mt-10">
+    <div ref={soonWrapperElement} className="contained mt-10">
       {loadingCollection && <PageLoader />}
 
       <div className={`mt-3 flex flex-col transition-all `}>
@@ -62,10 +88,17 @@ export default function LaunchingSoon() {
           setSelectedCategory={setSelectedCategory}
         />
 
+        <div
+          id="soon-text"
+          className="absolute -translate-x-[25rem] translate-y-[35rem] -rotate-90 text-8xl text-gray-200 dark:text-gray-700 lg:text-[6rem]"
+        >
+          Launching Soon
+        </div>
+
         <div className="mt-10 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
             <div className="overflow-hidden shadow sm:rounded-lg">
-              <table className="min-w-full dark:border-2 dark:border-gray-700 rounded-lg">
+              <table className="min-w-full rounded-lg dark:border-2 dark:border-gray-700">
                 <thead className="bg-gray-50 dark:bg-gray-700">
                   <tr>
                     <th
@@ -111,7 +144,6 @@ export default function LaunchingSoon() {
                     animateIntoView ? "hidden" : ""
                   }`}
                 >
-
                   {/* Shimmer effects for loading state */}
                   {[...Array(5)].map((item, index) => (
                     <tr
@@ -166,7 +198,7 @@ export default function LaunchingSoon() {
                             onClick={() => {
                               setLoadingCollection(true);
                             }}
-                            className="cursor-pointer border-b dark:bg-[#121212] transition-all hover:bg-gray-50 dark:hover:bg-gray-700"
+                            className="cursor-pointer border-b transition-all hover:bg-gray-50 dark:bg-[#121212] dark:hover:bg-gray-700"
                           >
                             <td className="flex items-center gap-5 whitespace-nowrap py-4 px-6 text-sm font-medium text-gray-900">
                               <div className="h-10 w-10 flex-shrink-0 rounded-[50%] bg-gray-100">
@@ -180,7 +212,9 @@ export default function LaunchingSoon() {
                                 />
                               </div>
                               <div>
-                                <div className="text-md dark:text-white">{collection.name}</div>
+                                <div className="text-md dark:text-white">
+                                  {collection.name}
+                                </div>
                                 <div className="whitespace-nowrap text-sm text-gray-500 dark:text-gray-200 ">
                                   <span>{collection.supply}</span>
                                   <span>&nbsp;circulating supply</span>

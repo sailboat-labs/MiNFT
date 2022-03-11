@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+
 import Link from "next/link";
 import { useState } from "react";
 import { useMoralis } from "react-moralis";
@@ -23,7 +24,10 @@ export default function Header() {
   const { AuthDialog, setShowAuthDialog } = useAuthenticationDialog();
 
   return (
-    <div className="bg-opacity-20 bg-gradient-to-b from-primaryblue to-white   dark:from-black dark:to-black">
+    <div
+      id="ref"
+      className="bg-opacity-20 bg-gradient-to-b from-primaryblue to-white   dark:from-black dark:to-black"
+    >
       {loading && <Loader />}
       <div className="flex h-fit">
         <img
