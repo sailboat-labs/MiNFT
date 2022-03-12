@@ -9,13 +9,14 @@ import {
   orderBy,
   query,
 } from "firebase/firestore";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 
 import { firebaseApp } from "@/lib/firebase";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+
 import PageLoader from "@/components/shared/PageLoader";
 
 import { getRandomAvatar } from "@/utils/GetRandomAvatar";
@@ -97,7 +98,15 @@ export default function LaunchingSoon() {
 
         <div className="mt-10 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
-            <div className="overflow-hidden shadow sm:rounded-lg">
+            <strong className="flex items-center justify-between gap-4 text-xl">
+              Launching Soon
+              <Link passHref href="/collections">
+                <div className="gradient-button text-sm font-normal">
+                  All Collections
+                </div>
+              </Link>
+            </strong>
+            <div className="mt-5 overflow-hidden shadow sm:rounded-lg">
               <table className="min-w-full rounded-lg dark:border-2 dark:border-gray-700">
                 <thead className="bg-gray-50 dark:bg-gray-700">
                   <tr>

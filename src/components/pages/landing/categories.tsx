@@ -6,6 +6,7 @@ type props = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   setSelectedCategory: any;
   selectedCategory: string;
+  dismissible?: boolean;
 };
 
 export const categories: { label: string; image: string }[] = [
@@ -22,13 +23,41 @@ export const categories: { label: string; image: string }[] = [
 export default function ExploreCategories({
   selectedCategory,
   setSelectedCategory,
+  dismissible = false,
 }: props) {
   const [hoveredCategory, setHoveredCategory] = useState(-1);
 
+  const [hideList, setHideList] = useState<boolean>(dismissible);
+
   return (
     <div className="mt-10">
-      <strong className="text-xl">Explore by Categories</strong>
-      <div className="mt-5 grid grid-cols-1 gap-8 md:grid-cols-3 xl:grid-cols-4 ">
+      <strong className="flex items-center gap-4 text-xl">
+        Explore by Categories{" "}
+        {dismissible && (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className={`h-6 w-6 cursor-pointer transition-all ${
+              hideList ? "rotate-0" : "rotate-180"
+            }`}
+            onClick={()=>{setHideList(!hideList)}}
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M19 9l-7 7-7-7"
+            />
+          </svg>
+        )}{" "}
+      </strong>
+      <div
+        className={`mt-5 grid grid-cols-1 gap-8 transition-all md:grid-cols-3 xl:grid-cols-4 select-none ${
+          hideList ? "-translate-y-8 pointer-events-none opacity-0 h-0" : "translate-y-0 pointer-events-auto opacity-100 h-fit"
+        }`}
+      >
         {categories.map((category, index) => (
           <div
             onClick={() => {

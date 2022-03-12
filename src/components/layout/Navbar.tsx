@@ -7,11 +7,11 @@ import { useRouter } from "next/router";
 import { Fragment, useEffect, useState } from "react";
 import { useMoralis } from "react-moralis";
 
+import useAuthenticationDialog from "@/hooks/UseAuthDialog";
+
 import DarkModeMenu from "./DarkmodeToggle";
 import { categories } from "../pages/landing/categories";
-import AuthenticationDialog from "../shared/AuthenticationDialog";
 import ProfileIcon from "../shared/profile_icon";
-import useAuthenticationDialog from "@/hooks/UseAuthDialog";
 
 type props = {
   className?: string;
@@ -196,15 +196,22 @@ export default function Navbar({ className }: props) {
                       {categories.map((item, index) => (
                         <Menu.Item key={index}>
                           {({ active }) => (
-                            <button
-                              className={`${
-                                active
-                                  ? "bg-primaryblue text-white"
-                                  : "text-gray-900"
-                              } group flex w-full items-center rounded-md px-2 py-2 text-sm capitalize dark:text-white`}
-                            >
-                              {item.label}
-                            </button>
+                            <div className="">
+                              <Link
+                                passHref
+                                href={`/collections?category=${item.label}`}
+                              >
+                                <button
+                                  className={`${
+                                    active
+                                      ? "bg-primaryblue text-white"
+                                      : "text-gray-900"
+                                  } group flex w-full items-center rounded-md px-2 py-2 text-sm capitalize dark:text-white`}
+                                >
+                                  {item.label}
+                                </button>
+                              </Link>
+                            </div>
                           )}
                         </Menu.Item>
                       ))}
