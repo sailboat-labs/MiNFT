@@ -116,10 +116,21 @@ export default function AllCollections() {
                   : "-translate-x-3 opacity-0"
               }`}
             >
-              {collections.length}
+              {selectedCategory != "null"
+                ? collections.filter((item) => {
+                    if (selectedCategory == "all" || !selectedCategory)
+                      return item.projectType;
+                    else return item.projectType == selectedCategory;
+                  }).length
+                : collections.length}
             </span>
           </div>
-          All Collections
+          <span className="flex flex-row capitalize">
+            {!selectedCategory || selectedCategory == "all"
+              ? "All"
+              : selectedCategory}{" "}
+            Collections
+          </span>
         </strong>
 
         <div className={`mt-3 flex flex-col transition-all `}>
