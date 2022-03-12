@@ -5,8 +5,10 @@ import { getLinkPreview } from "link-preview-js";
 import { NextApiRequest, NextApiResponse } from "next";
 
 import { extractUrls } from "@/utils/ExtractUrls";
+import { validURL } from "@/utils/ValidUrl";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+  
   try {
     if (req.method != "GET") return;
     const { text } = req.query;
@@ -19,11 +21,22 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     if (!matches) return res.status(200).json({ success: true, data: [] });
 
+
+    
+    
+
     for (let i = 0; i < matches.length; i++) {
-      await getLinkPreview(matches[i]).then((data) => {
+      let match = matches[i];
+      if(match.startsWith('www.')){
+        match = `https://${match.split("www.")[1]}`
+      }
+      if(!validURL(match)) continue;
+      await getLinkPreview(match).then((data) => {
         links.push(data);
       });
     }
+
+
 
     console.log(links);
 
