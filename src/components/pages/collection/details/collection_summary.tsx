@@ -15,6 +15,7 @@ import WishlistRequirements from "./wishlist_requirements";
 
 import { Collection, OpenSeaCollection } from "@/types";
 import { getRandomAvatar } from "@/utils/GetRandomAvatar";
+import useLinkExtractor from "@/hooks/UseLinkExtractor";
 
 interface SocialLInk {
   name: string;
@@ -73,6 +74,13 @@ export default function CollectionSummary({
     setSocialLinks(links);
   }, [collection]);
 
+
+  const { setText, LinkItems } = useLinkExtractor();
+
+  useEffect(() => {
+   collection && collection.description && setText(collection.description);
+  }, [collection]);
+  
   return (
     <>
       <div
@@ -112,6 +120,7 @@ export default function CollectionSummary({
           <div className="mt-3 text-sm text-gray-500 dark:text-gray-200">
             {collection.description}
           </div>
+          <LinkItems/>
           <div className="mt-5 grid grid-cols-2 gap-5 border-2 border-black dark:border-gray-500 rounded-md  px-5 py-3 md:grid-cols-3 xl:grid-cols-4">
             <div className="flex flex-col gap-2">
               <span className="font-bold">Presale Mint Date and Time</span>

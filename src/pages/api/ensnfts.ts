@@ -4,7 +4,6 @@ import axios from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  console.log("getting nfts");
 
   try {
     if (req.method != "GET") return;

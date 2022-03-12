@@ -90,7 +90,7 @@ export default function LaunchingSoon() {
 
         <div
           id="soon-text"
-          className="absolute -translate-x-[25rem] translate-y-[35rem] -rotate-90 text-8xl text-gray-200 dark:text-gray-700 lg:text-[6rem]"
+          className="absolute -translate-x-[25rem] translate-y-[25rem] -rotate-90 text-8xl text-gray-200 dark:text-gray-700 lg:text-[6rem]"
         >
           Launching Soon
         </div>

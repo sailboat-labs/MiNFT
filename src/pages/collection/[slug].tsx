@@ -55,6 +55,8 @@ const CollectionPage = ({ router }: any) => {
     // console.log(data);
   }
 
+  
+
   useEffect(() => {
     if (!collection || loading) return;
     setCollectionData(collection as Collection);
