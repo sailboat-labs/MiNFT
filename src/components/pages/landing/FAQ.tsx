@@ -88,7 +88,7 @@ export default function FAQ() {
       ),
     },
     {
-      title: "What if a project has mistakens? ",
+      title: "What if a project has mistakes? ",
       details: (
         <div className="flex flex-col gap-5">
           Click the comment/get in touch button and leave your feedback. We are
