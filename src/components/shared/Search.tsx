@@ -16,6 +16,7 @@ import { firebaseApp } from "@/lib/firebase";
 import { getRandomAvatar } from "@/utils/GetRandomAvatar";
 
 import { Collection } from "@/types";
+import Link from "next/link";
 
 const firestore = getFirestore(firebaseApp);
 
@@ -137,30 +138,43 @@ return (
 
               <div className="mt-5 flex flex-col gap-0">
                 {collections
-                  .filter((collection) =>
-                    collection.name
-                      ?.toLowerCase()
-                      .replace(" ", "")
-                      .includes(searchQuery.toLowerCase()) && searchQuery != ''
+                  .filter(
+                    (collection) =>
+                      collection.name
+                        ?.toLowerCase()
+                        .replace(" ", "")
+                        .includes(searchQuery.toLowerCase()) &&
+                      searchQuery != ""
                   )
                   .map((collection, index) => (
-                    <div
+                    <Link
                       key={index}
-                      className="flex cursor-pointer items-center gap-3 border-b-2 pb-3 transition-all hover:bg-gray-100 pt-3"
+                      passHref
+                      href={{
+                        pathname: `/collection/[slug]`,
+                        query: {
+                          slug: collection.slug!,
+                        },
+                      }}
                     >
-                      <div className="h-10 w-10 flex-shrink-0 rounded-[50%] bg-gray-100">
-                        <img
-                          className="h-full w-full rounded-[50%] object-cover"
-                          src={
-                            collection.image ??
-                            getRandomAvatar(collection.owner)
-                          }
-                          alt=""
-                        />
+                      <div
+                        key={index}
+                        className="flex cursor-pointer items-center gap-3 border-b-2 pb-3 pt-3 transition-all hover:bg-gray-100"
+                      >
+                        <div className="h-10 w-10 flex-shrink-0 rounded-[50%] bg-gray-100">
+                          <img
+                            className="h-full w-full rounded-[50%] object-cover"
+                            src={
+                              collection.image ??
+                              getRandomAvatar(collection.owner)
+                            }
+                            alt=""
+                          />
+                        </div>
+                        {collection.name}
+                        <div></div>
                       </div>
-                      {collection.name}
-                      <div></div>
-                    </div>
+                    </Link>
                   ))}
               </div>
             </div>

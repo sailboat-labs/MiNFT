@@ -36,6 +36,11 @@ export default function AllCollections() {
 
   const { category } = router.query;
 
+  const [sort, setSort] = useState<{ sortBy: string; isAsc: boolean }>({
+    sortBy: "presaleMintDate",
+    isAsc: true,
+  });
+
   const [selectedCategory, setSelectedCategory] = useState("all");
   const _query = query(
     collection(firestore, "collections"),
@@ -149,7 +154,7 @@ export default function AllCollections() {
 
           <div className="mt-5 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
-              <div className="overflow-hidden shadow sm:rounded-lg">
+              <div className="mt-5 overflow-hidden shadow sm:rounded-lg">
                 <table className="min-w-full rounded-lg dark:border-2 dark:border-gray-700">
                   <thead className="bg-gray-50 dark:bg-gray-700">
                     <tr>
@@ -157,19 +162,89 @@ export default function AllCollections() {
                         scope="col"
                         className="py-3 px-6 text-left text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-200 "
                       >
-                        Collection Name
+                        <div className="flex items-center">
+                          Collection Name
+                          <svg
+                            onClick={() => {
+                              setSort({
+                                sortBy: "name",
+                                isAsc: !sort.isAsc,
+                              });
+                            }}
+                            xmlns="http://www.w3.org/2000/svg"
+                            className={`h-5 w-5 cursor-pointer transition-all hover:scale-110 ${
+                              sort.sortBy == "name" && sort.isAsc
+                                ? "rotate-180"
+                                : "rotate-0"
+                            } `}
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                              clipRule="evenodd"
+                            />
+                          </svg>
+                        </div>
                       </th>
                       <th
                         scope="col"
-                        className="py-3 px-6 text-left text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-200 "
+                        className="flex flex-row items-center py-3 px-6 text-left text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-200"
                       >
                         Presale Mint Date & Time
+                        <svg
+                          onClick={() => {
+                            setSort({
+                              sortBy: "presaleMintDate",
+                              isAsc: !sort.isAsc,
+                            });
+                          }}
+                          xmlns="http://www.w3.org/2000/svg"
+                          className={`h-5 w-5 cursor-pointer transition-all hover:scale-110 ${
+                            sort.sortBy == "presaleMintDate" && sort.isAsc
+                              ? "rotate-180"
+                              : "rotate-0"
+                          } `}
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
                       </th>
                       <th
                         scope="col"
-                        className="py-3 px-6 text-left text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-200 "
+                        className=" py-3 px-6 text-left text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-200"
                       >
-                        Public Mint Date & Time
+                        <div className="flex items-center">
+                          Public Mint Date & Time
+                          <svg
+                            onClick={() => {
+                              setSort({
+                                sortBy: "publicMintDate",
+                                isAsc: !sort.isAsc,
+                              });
+                            }}
+                            xmlns="http://www.w3.org/2000/svg"
+                            className={`h-5 w-5 cursor-pointer transition-all hover:scale-110 ${
+                              sort.sortBy == "publicMintDate" && sort.isAsc
+                                ? "rotate-180"
+                                : "rotate-0"
+                            } `}
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                              clipRule="evenodd"
+                            />
+                          </svg>
+                        </div>
                       </th>
                       <th
                         scope="col"
@@ -185,9 +260,31 @@ export default function AllCollections() {
                       </th>
                       <th
                         scope="col"
-                        className="py-3 px-6 text-left text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-200 "
+                        className="flex items-center py-3 px-6 text-left text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-200"
                       >
                         Project Type
+                        <svg
+                          onClick={() => {
+                            setSort({
+                              sortBy: "projectType",
+                              isAsc: !sort.isAsc,
+                            });
+                          }}
+                          xmlns="http://www.w3.org/2000/svg"
+                          className={`h-5 w-5 cursor-pointer transition-all hover:scale-110 ${
+                            sort.sortBy == "projectType" && sort.isAsc
+                              ? "rotate-180"
+                              : "rotate-0"
+                          } `}
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
                       </th>
                     </tr>
                   </thead>
@@ -234,6 +331,55 @@ export default function AllCollections() {
                           if (selectedCategory == "all" || !selectedCategory)
                             return item.projectType;
                           else return item.projectType == selectedCategory;
+                        })
+                        .sort((a: any, b: any) => {
+                          switch (sort.sortBy) {
+                            case "name":
+                              if (sort.isAsc) {
+                                return ("" + a.name).localeCompare(
+                                  b.name ?? ""
+                                );
+                              }
+                              return ("" + b.name).localeCompare(a.name ?? "");
+
+                            case "projectType":
+                              if (sort.isAsc) {
+                                return ("" + a.projectType).localeCompare(
+                                  b.projectType ?? ""
+                                );
+                              }
+                              return ("" + b.projectType).localeCompare(
+                                a.projectType ?? ""
+                              );
+
+                            case "preMintDate":
+                              if (sort.isAsc) {
+                                return a.preMintDate.localeCompare(
+                                  b.preMintDate
+                                );
+                              }
+                              return b.preMintDate.localeCompare(a.preMintDate);
+
+                            case "publicMintDate":
+                              if (sort.isAsc) {
+                                return a.preMintDate?.localeCompare(
+                                  b.preMintDate!
+                                );
+                              }
+                              return b.preMintDate?.localeCompare(
+                                a.preMintDate!
+                              );
+
+                            default:
+                              if (sort.isAsc) {
+                                return ("" + a.preMintDate).localeCompare(
+                                  b.preMintDate ?? ""
+                                );
+                              }
+                              return ("" + b.preMintDate).localeCompare(
+                                a.preMintDate ?? ""
+                              );
+                          }
                         })
                         .map((collection, index) => (
                           <Link

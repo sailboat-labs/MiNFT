@@ -69,6 +69,19 @@ export default function FAQ() {
         </div>
       ),
     },
+    {
+      title: "What if a project has mistakens? ",
+      details: (
+        <div className="flex flex-col gap-5">
+          Click the comment/get in touch button and leave your feedback. We are
+          still working on a way to crowdsource accurate knowledge about each
+          project. In the future we plan to introduce edit functionality for
+          verified holders of the project and OG contributors similar to
+          Wikipedia but powered by our token. If you have ideas please reach
+          out!
+        </div>
+      ),
+    },
   ];
 
   const [selectedItem, setSelectedItem] = useState(-1);
