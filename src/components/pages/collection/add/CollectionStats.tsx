@@ -15,7 +15,7 @@ export default function CollectionStats(props: any) {
             <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
               <Field
                 type="number"
-                className="default-input w-full "
+                className="default-input dark:bg-black dark:text-white w-full "
                 placeholder="Pre-sale mint cost"
                 name="preSaleCost"
               />
@@ -31,7 +31,7 @@ export default function CollectionStats(props: any) {
             <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
               <Field
                 type="number"
-                className="default-input w-full "
+                className="default-input dark:bg-black dark:text-white w-full "
                 placeholder="public mint cost"
                 name="publicMintCost"
               />
@@ -48,7 +48,7 @@ export default function CollectionStats(props: any) {
             <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
               <Field
                 type="number"
-                className="default-input w-full "
+                className="default-input dark:bg-black dark:text-white w-full "
                 placeholder="Mints per Presale"
                 name="mintsPerPresale"
               />
@@ -82,7 +82,7 @@ export default function CollectionStats(props: any) {
             <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
               <Field
                 type="number"
-                className="default-input w-full "
+                className="default-input dark:bg-black dark:text-white w-full "
                 placeholder="supply"
                 name="supply"
               />
@@ -98,7 +98,7 @@ export default function CollectionStats(props: any) {
             <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
               <Field
                 type="number"
-                className="default-input w-full "
+                className="default-input dark:bg-black dark:text-white w-full "
                 placeholder="Mints per Transaction"
                 name="mintsPerTx"
               />

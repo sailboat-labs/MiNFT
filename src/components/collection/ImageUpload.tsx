@@ -104,7 +104,7 @@ const ImageUpload = ({
   return (
     <div {...getRootProps()} className={`relative ${className}`}>
       <div
-        className={`flex justify-center rounded-lg bg-gray-100 ${
+        className={`flex justify-center rounded-lg bg-gray-100 dark:bg-gray-700 ${
           imageUrl ? "h-fit w-fit" : "h-36 w-full"
         }`}
       >

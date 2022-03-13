@@ -9,7 +9,7 @@ export default function WhitelistRequirements() {
       <div className="w-full whitespace-nowrap py-2 px-6 text-sm text-gray-500">
         <Field
           as="textarea"
-          className=" min-h-[120px] w-full rounded-lg border-2"
+          className=" min-h-[120px] w-full rounded-lg border-2 dark:bg-black dark:text-white"
           placeholder="whitelist requirements"
           name="whitelistRequirements"
         />

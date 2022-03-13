@@ -28,7 +28,7 @@ export default function Dropdown({
           });
         }}
         data-dropdown-toggle="dropdown"
-        className={`inline-flex w-full items-center justify-between rounded-lg bg-gray-200 px-4 py-2.5 text-center text-sm font-medium capitalize focus:ring-4 focus:ring-blue-300 ${className}`}
+        className={`inline-flex w-full items-center justify-between rounded-lg bg-gray-200 px-4 py-2.5 text-center text-sm font-medium capitalize focus:ring-4 focus:ring-blue-300 dark:bg-gray-700 dark:text-white ${className}`}
         type="button"
       >
         {onParentClick.selected}
@@ -50,7 +50,7 @@ export default function Dropdown({
 
       <div
         id="dropdown"
-        className={`absolute z-10 mt-3 w-full list-none items-center divide-y divide-gray-100 rounded  text-base shadow transition-all  ${
+        className={`absolute z-10 mt-3 w-full list-none items-center divide-y divide-gray-100 rounded bg-white text-base shadow  transition-all dark:bg-gray-700 dark:text-white  ${
           onParentClick.show
             ? "pointer-events-auto translate-y-0 scale-100 opacity-100"
             : "pointer-events-none -translate-y-2 scale-95 opacity-0"
@@ -66,7 +66,7 @@ export default function Dropdown({
               }}
               key={index}
             >
-              <div className="block py-2 px-4 text-sm capitalize text-gray-700 hover:bg-gray-100">
+              <div className="block py-2 px-4 text-sm capitalize text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-500">
                 {option}
               </div>
             </li>

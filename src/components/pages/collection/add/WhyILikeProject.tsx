@@ -9,7 +9,7 @@ export default function WhyILikeProject() {
       <div className="mx-6 flex w-full flex-col">
         <Field
           as="textarea"
-          className=" min-h-[150px] w-full rounded-lg border-2"
+          className=" min-h-[150px] w-full rounded-lg border-2 dark:bg-black dark:text-white"
           placeholder="Why do you like this project"
           name="whyILikeProject"
         />

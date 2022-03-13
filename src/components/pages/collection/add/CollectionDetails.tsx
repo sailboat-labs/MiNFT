@@ -10,8 +10,8 @@ import Dropdown from "@/components/shared/dropdown";
 export default function CollectionDetails(props: any) {
   return (
     <div className="mt-10 flex flex-col md:flex-row">
-      <div className="h-72 flex-1 ">
-        <div className="overflow-hidden sm:rounded-lg">
+      <div className=" flex-1 ">
+        <div className=" sm:rounded-lg">
           <table className="w-full">
             <tr className=" ">
               <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 dark:text-gray-200 ">
@@ -32,7 +32,7 @@ export default function CollectionDetails(props: any) {
                 <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
                   <Field
                     name="name"
-                    className="default-input w-full"
+                    className="default-input w-full dark:bg-black dark:text-white "
                     placeholder="Collection Name"
                   />
                   <div className="text-red-500">
@@ -53,6 +53,7 @@ export default function CollectionDetails(props: any) {
                   />
                 </td>
               </tr>
+              
             </tbody>
           </table>
         </div>
@@ -81,7 +82,7 @@ export default function CollectionDetails(props: any) {
                 <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
                   <Field
                     name="website"
-                    className="default-input w-full"
+                    className="default-input w-full dark:bg-black dark:text-white"
                     placeholder="Website"
                   />
                   <div className="text-red-500">
@@ -96,7 +97,7 @@ export default function CollectionDetails(props: any) {
                 <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
                   <Field
                     name="twitter" // type="text"
-                    className="default-input w-full"
+                    className="default-input w-full dark:bg-black dark:text-white"
                     placeholder="Twitter"
                   />
                   <div className="text-red-500">
@@ -111,7 +112,7 @@ export default function CollectionDetails(props: any) {
                 <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
                   <Field
                     name="discord" // type="text"
-                    className="default-input w-full"
+                    className="default-input w-full dark:bg-black dark:text-white"
                     placeholder="Discord"
                   />
                   <div className="text-red-500">
@@ -125,7 +126,7 @@ export default function CollectionDetails(props: any) {
                 </td>
                 <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
                   <Field // type="text"
-                    className="default-input w-full"
+                    className="default-input w-full dark:bg-black dark:text-white"
                     placeholder="Etherscan"
                     name="etherscan"
                   />
@@ -140,7 +141,7 @@ export default function CollectionDetails(props: any) {
                 </td>
                 <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
                   <Field // type="text"
-                    className="default-input w-full"
+                    className="default-input w-full dark:bg-black dark:text-white"
                     placeholder="Opensea"
                     name="opensea"
                   />
@@ -155,7 +156,7 @@ export default function CollectionDetails(props: any) {
                 </td>
                 <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
                   <Field // type="text"
-                    className="default-input w-full"
+                    className="default-input w-full dark:bg-black dark:text-white"
                     placeholder="Whitepaper"
                     name="whitepaper"
                   />
