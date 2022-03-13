@@ -31,6 +31,24 @@ export default function FAQ() {
       ),
     },
     {
+      title: "What projects can I add to MiNFT?",
+      details: (
+        <div className="flex flex-col gap-5">
+          <p>
+            Any! MiNFT is a place to learn about NFT projects - from ones that
+            are still in stealth and only have a mysterious twitter account or
+            closed discord server to long established OG projects.
+          </p>
+          
+          <p>
+            We want MiNFT to be your number one place to find out about upcoming
+            mints the community is excited about as well as a trusted resource
+            to learn more about existing projects.
+          </p>
+        </div>
+      ),
+    },
+    {
       title: "How can I add a project",
       details: (
         <div>
