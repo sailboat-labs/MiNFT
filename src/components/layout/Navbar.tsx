@@ -8,10 +8,12 @@ import { Fragment, useEffect, useState } from "react";
 import { useMoralis } from "react-moralis";
 
 import useAuthenticationDialog from "@/hooks/UseAuthDialog";
+import UseSearch from "@/components/shared/Search";
 
 import DarkModeMenu from "./DarkmodeToggle";
 import { categories } from "../pages/landing/categories";
 import ProfileIcon from "../shared/profile_icon";
+import Search from "@/components/shared/Search";
 
 type props = {
   className?: string;
@@ -22,6 +24,7 @@ export default function Navbar({ className }: props) {
     { label: "Categories", route: "/" },
     { label: "All Collections", route: "/" },
   ];
+
 
   const requiredAuthPaths = ["/profile"];
 
@@ -175,7 +178,8 @@ export default function Navbar({ className }: props) {
                 </span>
               </Link>
             ))} */}
-            <div className="">
+            <div className="flex items-center gap-5">
+              <Search />
               <Menu as="div" className="relative inline-block text-left">
                 <div className="flex items-center gap-3">
                   <Menu.Button className="cursor-pointer  transition-all hover:scale-105">

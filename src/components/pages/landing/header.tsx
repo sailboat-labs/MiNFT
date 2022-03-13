@@ -10,6 +10,7 @@ import useAuthenticationDialog from "@/hooks/UseAuthDialog";
 
 import DarkModeMenu from "@/components/layout/DarkmodeToggle";
 import ProfileIcon from "@/components/shared/profile_icon";
+import Search from "@/components/shared/Search";
 
 // import DarkModeMenu from "../navbar/darkmode-toggle";
 
@@ -171,6 +172,7 @@ export default function Header() {
 
           <div className="ml-5 hidden items-center space-x-6 md:inline-flex lg:justify-end">
             {/* <DarkModeMenu className="md:mr-5" /> */}
+            <Search/>
             {account && isAuthenticated && (
               <Link passHref href="/collection/add">
                 <div
