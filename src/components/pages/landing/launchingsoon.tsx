@@ -54,6 +54,9 @@ export default function LaunchingSoon() {
       return acc;
     }, []);
 
+    console.log(data);
+    
+
     setCollections(data);
     setTimeout(() => {
       setAnimateIntoView(true);
