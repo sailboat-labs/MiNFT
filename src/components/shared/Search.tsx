@@ -147,25 +147,35 @@ return (
                       searchQuery != ""
                   )
                   .map((collection, index) => (
-                    <div
-                      onClick={() => {
-                        window.open(`/collection/${collection.slug!}`,"_self");
-                      }}
+                    <Link
                       key={index}
-                      className="flex cursor-pointer items-center gap-3 border-b-2 pb-3 pt-3 transition-all hover:bg-gray-100"
+                      passHref
+                      href={{
+                        pathname: `/collection/[slug]`,
+                        query: {
+                          slug: collection.slug!,
+                        },
+                      }}
                     >
-                      <div className="h-10 w-10 flex-shrink-0 rounded-[50%] bg-gray-100">
-                        <img
-                          className="h-full w-full rounded-[50%] object-cover"
-                          src={
-                            collection.image ??
-                            getRandomAvatar(collection.owner)
-                          }
-                          alt=""
-                        />
+                      <div
+                      onClick={()=>{setIsOpen(false)}}
+                        key={index}
+                        className="flex cursor-pointer items-center gap-3 border-b-2 pb-3 pt-3 transition-all hover:bg-gray-100"
+                      >
+                        <div className="h-10 w-10 flex-shrink-0 rounded-[50%] bg-gray-100">
+                          <img
+                            className="h-full w-full rounded-[50%] object-cover"
+                            src={
+                              collection.image ??
+                              getRandomAvatar(collection.owner)
+                            }
+                            alt=""
+                          />
+                        </div>
+                        {collection.name}
+                        <div></div>
                       </div>
-                      {collection.name}
-                    </div>
+                    </Link>
                   ))}
               </div>
             </div>

@@ -68,6 +68,7 @@ const CollectionPage = ({ router }: any) => {
   }, [collection]);
 
   useEffect(() => {
+    setShowHeader(false)
     if (slug) {
       const _query = query(
         fire(firestore, "collections"),
@@ -92,7 +93,7 @@ const CollectionPage = ({ router }: any) => {
             <div className="pb-20">
               <div
                 className={`h-36 transition-all duration-500 ${
-                  showHeader
+                  showHeader 
                     ? " translate-y-0 opacity-100"
                     : "h-0 -translate-y-10 opacity-0"
                 }`}
