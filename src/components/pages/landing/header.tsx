@@ -169,9 +169,7 @@ export default function Header() {
                   />
                 </svg>
               </div>
-            
             </div>
-            
           </div>
 
           <div className="ml-5 hidden items-center space-x-6 md:inline-flex lg:justify-end">
@@ -245,53 +243,57 @@ export default function Header() {
               <span>Learn More About NFT</span>
             </div>
           </div>
-          <div className="flex h-fit w-full flex-col  items-center lg:w-fit lg:items-end">
-            <span className="text-3xl font-bold">Leaderboard</span>
+          {collections && (
+            <div className="flex h-fit w-full flex-col  items-center lg:w-fit lg:items-end">
+              <span className="text-3xl font-bold">Leaderboard</span>
 
-            {/* Shimmer animation */}
-            <div
-              className={`mt-5 grid grid-cols-2 lg:flex lg:flex-row gap-3 transition-all ${
-                animateIntoView
-                  ? "absolute scale-95 opacity-0"
-                  : "relative scale-100 animate-pulse opacity-100 "
-              }`}
-            >
-              {[...Array(4)].map((collection, index) => (
-                <div className="flex items-center gap-3" key={index}>
-                  <div className="h-16 w-16 rounded-full border-2 bg-gray-200 dark:bg-gray-700"></div>
-                  <div className="flex flex-col gap-1">
-                    <span className="h-3 w-20 rounded-lg bg-gray-200 font-bold dark:bg-gray-500"></span>
-                    <span className="h-2 w-16 rounded-lg bg-gray-200 font-bold dark:bg-gray-500"></span>
+              {/* Shimmer animation */}
+              <div
+                className={`mt-5 grid grid-cols-2 gap-3 transition-all lg:flex lg:flex-row ${
+                  animateIntoView
+                    ? "absolute scale-95 opacity-0"
+                    : "relative scale-100 animate-pulse opacity-100 "
+                }`}
+              >
+                {[...Array(4)].map((collection, index) => (
+                  <div className="flex items-center gap-3" key={index}>
+                    <div className="h-16 w-16 rounded-full border-2 bg-gray-200 dark:bg-gray-700"></div>
+                    <div className="flex flex-col gap-1">
+                      <span className="h-3 w-20 rounded-lg bg-gray-200 font-bold dark:bg-gray-500"></span>
+                      <span className="h-2 w-16 rounded-lg bg-gray-200 font-bold dark:bg-gray-500"></span>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
 
               {/* Leaderboard Items */}
-            <div
-              className={`mt-5 grid grid-cols-2 lg:flex lg:flex-row gap-3 
+              <div
+                className={`mt-5 grid grid-cols-2 gap-3 lg:flex lg:flex-row 
             ${
               animateIntoView ? "scale-100 opacity-100" : "scale-95 opacity-0"
             }`}
-            >
-              {collections.map((collection, index) => (
-                <div className="flex items-center gap-3" key={index}>
-                  <img
-                    className="h-16 w-16 rounded-full object-cover"
-                    src={collection.image ?? getRandomAvatar(collection.owner)}
-                    alt=""
-                  />
-                  <div className="flex flex-col">
-                    <span className="font-bold">{collection.name}</span>
-                    <span>
-                      {collection.commentCount} comment
-                      {collection.commentCount == 1 ? "" : "s"}
-                    </span>
+              >
+                {collections.map((collection, index) => (
+                  <div className="flex items-center gap-3" key={index}>
+                    <img
+                      className="h-16 w-16 rounded-full object-cover"
+                      src={
+                        collection.image ?? getRandomAvatar(collection.owner)
+                      }
+                      alt=""
+                    />
+                    <div className="flex flex-col">
+                      <span className="font-bold">{collection.name}</span>
+                      <span>
+                        {collection.commentCount} comment
+                        {collection.commentCount == 1 ? "" : "s"}
+                      </span>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>
