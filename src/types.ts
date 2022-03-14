@@ -32,6 +32,7 @@ export interface Collection {
   dateCreated?: string;
   lastUpdated?: string;
   whitepaper?:string;
+  commentCount?:number;
   
 }
 
@@ -40,10 +41,11 @@ export interface Comment {
   comment?: string;
   owner?: string;
   imageUrl?: string;
+  collectionId: string;
   upVotes?: Map<string, boolean>;
   dateCreated?: string;
   lastUpdated?: string;
-  signature?:string;
+  signature?: string;
 }
 
 export interface User {

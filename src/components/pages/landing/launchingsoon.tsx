@@ -53,7 +53,6 @@ export default function LaunchingSoon() {
       return acc;
     }, []);
 
-
     setCollections(data);
     setTimeout(() => {
       setAnimateIntoView(true);
@@ -244,6 +243,36 @@ export default function LaunchingSoon() {
                         />
                       </svg>
                     </th>
+                    <th
+                      scope="col"
+                      className="py-3 px-6 text-left text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-200 "
+                    >
+                      <div className="flex items-center">
+                        Comment Count
+                        <svg
+                          onClick={() => {
+                            setSort({
+                              sortBy: "commentCount",
+                              isAsc: !sort.isAsc,
+                            });
+                          }}
+                          xmlns="http://www.w3.org/2000/svg"
+                          className={`h-5 w-5 cursor-pointer transition-all hover:scale-110 ${
+                            sort.sortBy == "commentCount" && sort.isAsc
+                              ? "rotate-180"
+                              : "rotate-0"
+                          } `}
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      </div>
+                    </th>
                   </tr>
                 </thead>
                 <tbody
@@ -313,6 +342,12 @@ export default function LaunchingSoon() {
                               return a.preMintDate.localeCompare(b.preMintDate);
                             }
                             return b.preMintDate.localeCompare(a.preMintDate);
+
+                          case "commentCount":
+                            if (sort.isAsc) {
+                              return a.commentCount ?? 0 - b.commentCount ?? 0;
+                            }
+                            return b.commentCount ?? 0 - a.commentCount ?? 0;
 
                           case "publicMintDate":
                             if (sort.isAsc) {
@@ -395,6 +430,9 @@ export default function LaunchingSoon() {
                             </td>
                             <td className="whitespace-nowrap py-4 px-6 text-sm capitalize text-gray-500 dark:text-gray-200 ">
                               {collection.projectType}
+                            </td>
+                            <td className="whitespace-nowrap py-4 px-6 text-sm capitalize text-gray-500 dark:text-gray-200 ">
+                              {collection.commentCount ?? 0}
                             </td>
                           </tr>
                         </Link>

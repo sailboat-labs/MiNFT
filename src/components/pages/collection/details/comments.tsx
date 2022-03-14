@@ -110,6 +110,7 @@ export default function Comments({ collectionId }: ICommentsProps) {
         id: editMode ? selectedComment!.id : v4(),
         comment: comment!,
         owner: account!,
+        collectionId,
         signature,
         upVotes: editMode ? selectedComment!.upVotes : upVotes,
         dateCreated: editMode ? selectedComment!.dateCreated : timestamp,
@@ -141,8 +142,6 @@ export default function Comments({ collectionId }: ICommentsProps) {
     signature: string,
     address: string
   ) {
-
-
     if (!comment || !signature)
       return toast.error("Comment verification unsuccessful");
     //verify authenticity
@@ -165,6 +164,7 @@ export default function Comments({ collectionId }: ICommentsProps) {
       const _comment: Comment = {
         id: id,
         upVotes: votes,
+        collectionId,
       };
 
       const { data } = await axios.put("/api/comments", {
@@ -334,7 +334,7 @@ export default function Comments({ collectionId }: ICommentsProps) {
               className="flex gap-5 rounded-lg bg-gray-50 px-5 py-3 dark:border-2 dark:border-gray-500 dark:bg-[#121212]"
             >
               <img
-                className="rounded-full w-10 h-10 object-cover"
+                className="h-10 w-10 rounded-full object-cover"
                 src={getRandomAvatar(item.owner)}
                 alt=""
               />
@@ -470,7 +470,7 @@ export default function Comments({ collectionId }: ICommentsProps) {
               </div>
 
               <textarea
-                className="w-full rounded-lg bg-gray-50 px-8 py-3"
+                className="w-full rounded-lg bg-gray-50 dark:bg-gray-700 dark:text-white px-8 py-3"
                 placeholder="Enter comment"
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
