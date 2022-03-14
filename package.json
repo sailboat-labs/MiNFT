@@ -39,6 +39,7 @@
     "formik": "^2.2.9",
     "framer-motion": "^6.2.8",
     "fs": "^0.0.1-security",
+    "get-twitter-followers": "^2.0.0",
     "gsap": "^3.9.1",
     "link-preview-js": "^2.1.13",
     "metamask-react": "^2.3.0",

@@ -1,11 +1,16 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @next/next/no-img-element */
+import axios from "axios";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useMoralis } from "react-moralis";
 
+import useLinkExtractor from "@/hooks/UseLinkExtractor";
+
 import EthAddress from "@/components/shared/EthAddress";
+
+import { getRandomAvatar } from "@/utils/GetRandomAvatar";
 
 import Roadmap from "./roadmap";
 import CollectionStats from "./stats";
@@ -14,8 +19,6 @@ import WhyILikeThisProject from "./WhyILikeProject";
 import WishlistRequirements from "./wishlist_requirements";
 
 import { Collection, OpenSeaCollection } from "@/types";
-import { getRandomAvatar } from "@/utils/GetRandomAvatar";
-import useLinkExtractor from "@/hooks/UseLinkExtractor";
 
 interface SocialLInk {
   name: string;
@@ -38,6 +41,8 @@ export default function CollectionSummary({
   const router = useRouter();
   const { account, isAuthenticated } = useMoralis();
   const [socialLinks, setSocialLinks] = useState<SocialLInk[]>([]);
+
+  const [twitterFolowers, setTwitterFolowers] = useState();
 
   useEffect(() => {
     const links = [];
@@ -74,13 +79,23 @@ export default function CollectionSummary({
     setSocialLinks(links);
   }, [collection]);
 
+  async function getTwitterFollowers() {
+    console.log(collection.twitter?.toString().split(".com/")[1]);
+    
+    const { data } = await axios.get("/api/twitter_followers", {
+      params: { username: collection.twitter?.toString().split(".com/")[1] },
+    });
+
+    return setTwitterFolowers(data.followers_count);
+  }
 
   const { setText, LinkItems } = useLinkExtractor();
 
   useEffect(() => {
-   collection && collection.description && setText(collection.description);
+    getTwitterFollowers();
+    collection && collection.description && setText(collection.description);
   }, [collection]);
-  
+
   return (
     <>
       <div
@@ -330,6 +345,7 @@ export default function CollectionSummary({
                       d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
                     />
                   </svg>
+                  <div className="text-black dark:text-white">{link.name == "Twitter" && twitterFolowers && `${twitterFolowers} followers`}</div>
                 </div>
               </div>
             ))}
