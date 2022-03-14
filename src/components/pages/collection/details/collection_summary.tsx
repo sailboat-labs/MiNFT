@@ -120,8 +120,8 @@ export default function CollectionSummary({
           <div className="mt-3 text-sm text-gray-500 dark:text-gray-200">
             {collection.description}
           </div>
-          <LinkItems/>
-          <div className="mt-5 grid grid-cols-2 gap-5 border-2 border-black dark:border-gray-500 rounded-md  px-5 py-3 md:grid-cols-3 xl:grid-cols-4">
+          <LinkItems />
+          <div className="mt-5 grid grid-cols-2 gap-5 rounded-md border-2 border-black px-5  py-3 dark:border-gray-500 md:grid-cols-3 xl:grid-cols-4">
             <div className="flex flex-col gap-2">
               <span className="font-bold">Presale Mint Date and Time</span>
               <span>
@@ -195,7 +195,7 @@ export default function CollectionSummary({
           <WhyILikeThisProject whyIlikeProject={collection.whyILikeProject} />
         </div>
         <div className=" w-full rounded lg:w-[20%]">
-          <div className="flex h-fit lg:h-72 w-full flex-col justify-end rounded-lg ">
+          <div className="flex h-fit w-full flex-col justify-end rounded-lg lg:h-72 ">
             <img
               className="rounded-t-2 min-h-72 h-auto w-full object-cover"
               src={
@@ -288,9 +288,20 @@ export default function CollectionSummary({
                   </td>
                 </tr>
               )}
+              <tr className=" ">
+                <td className="whitespace-nowrap py-2  text-sm font-medium text-gray-900 dark:text-gray-200">
+                  Added By
+                </td>
+                <td className="whitespace-nowrap py-2 px-6 text-sm capitalize text-gray-500 ">
+                  <EthAddress
+                    className="-translate-x-2 px-2 py-1"
+                    account={collection.owner}
+                  />
+                </td>
+              </tr>
             </tbody>
           </table>
-          <div className="mt-10 lg:flex lg:flex-col grid grid-cols-2 gap-5 border-t-2 pt-5">
+          <div className="mt-10 grid grid-cols-2 gap-5 border-t-2 pt-5 lg:flex lg:flex-col">
             {socialLinks.map((link, index) => (
               <div key={index} className="flex items-center gap-3">
                 <img

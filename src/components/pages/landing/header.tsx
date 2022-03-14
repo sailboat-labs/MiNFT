@@ -169,44 +169,9 @@ export default function Header() {
                   />
                 </svg>
               </div>
-              {/* <div
-                className={`ml-10 transition-all 
-              ${
-                headerVisible
-                  ? "translate-x-5 opacity-0"
-                  : "translate-x-0 opacity-100"
-              }
-              `}
-              >
-                <input
-                  className="rounded-lg bg-gray-100 px-8 py-2 transition-all focus:border-0 focus:px-10"
-                  placeholder="Search..."
-                />
-              </div> */}
+            
             </div>
-            {/* <nav className=" relative z-[2] hidden md:flex flex-wrap items-center mb-5 text-base md:mb-0 md:pl-8 md:ml-8 md:border-l md:border-gray-200">
-            <Link passHref href="/">
-              <div className="mr-5 cursor-pointer font-medium leading-6 text-gray-500 hover:text-gray-900 dark:text-gray-200">
-                Home
-              </div>
-            </Link>
-            <Link passHref href="/nft">
-              <div className="mr-5 cursor-pointer font-medium leading-6 text-gray-500 hover:text-gray-900 dark:text-gray-200">
-                NFT
-              </div>
-            </Link>
-            <Link passHref href="/nft/entries">
-              <div className="mr-5 cursor-pointer font-medium leading-6 text-gray-500 hover:text-gray-900 dark:text-gray-200">
-                NFT Entries
-              </div>
-            </Link>
-            <a
-              href="#_"
-              className="mr-5 font-medium leading-6 text-gray-500 hover:text-gray-900 dark:text-gray-200"
-            >
-              About Us
-            </a>
-          </nav> */}
+            
           </div>
 
           <div className="ml-5 hidden items-center space-x-6 md:inline-flex lg:justify-end">
@@ -302,6 +267,7 @@ export default function Header() {
               ))}
             </div>
 
+              {/* Leaderboard Items */}
             <div
               className={`mt-5 grid grid-cols-2 lg:flex lg:flex-row gap-3 
             ${

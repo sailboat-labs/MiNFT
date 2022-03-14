@@ -15,12 +15,11 @@ export default function FAQ() {
             after mint for the long-term ride.
           </p>
           <p>
-            We’re proposing to build the{" "}
-            <strong>Wikipedia of NFT projects</strong> - a decentralised,
-            crowd-sourced and living knowledge hub for all projects that we as a
-            community care about. The platform will combine quantitative project
-            metrics with qualitative descriptions of the projects by those who
-            know them the best - their holders.
+            MiNFT is like the product hunt, or amazon for NFT projects: - a
+            decentralized, crowd-sourced and living knowledge hub for all
+            projects that we as a community care about. The platform will
+            combine quantitative project metrics with qualitative descriptions
+            of the projects by those who know them the best - their holders.
           </p>
           <p>
             We aim to be the first port of call when you want to find out about
@@ -39,7 +38,7 @@ export default function FAQ() {
             are still in stealth and only have a mysterious twitter account or
             closed discord server to long established OG projects.
           </p>
-          
+
           <p>
             We want MiNFT to be your number one place to find out about upcoming
             mints the community is excited about as well as a trusted resource
