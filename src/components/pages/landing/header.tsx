@@ -250,7 +250,7 @@ export default function Header() {
         >
           <div className="-mt-5 p-10 "></div>
         </VisibilitySensor>
-        <div className="flex w-full flex-col justify-between gap-10 md:flex-row">
+        <div className="flex w-full flex-col justify-between gap-10 lg:flex-row">
           <div className="flex flex-col justify-center text-center dark:text-white lg:justify-start lg:text-left">
             <div className="mt-10 text-4xl font-bold">
               Discover, collect, and sell
@@ -280,9 +280,34 @@ export default function Header() {
               <span>Learn More About NFT</span>
             </div>
           </div>
-          <div className="flex h-72 w-fit flex-col items-end">
+          <div className="flex h-fit w-full flex-col  items-center lg:w-fit lg:items-end">
             <span className="text-3xl font-bold">Leaderboard</span>
-            <div className="mt-5 flex flex-row gap-3">
+
+            {/* Shimmer animation */}
+            <div
+              className={`mt-5 grid grid-cols-2 lg:flex lg:flex-row gap-3 transition-all ${
+                animateIntoView
+                  ? "absolute scale-95 opacity-0"
+                  : "relative scale-100 animate-pulse opacity-100 "
+              }`}
+            >
+              {[...Array(4)].map((collection, index) => (
+                <div className="flex items-center gap-3" key={index}>
+                  <div className="h-16 w-16 rounded-full border-2 bg-gray-200 dark:bg-gray-700"></div>
+                  <div className="flex flex-col gap-1">
+                    <span className="h-3 w-20 rounded-lg bg-gray-200 font-bold dark:bg-gray-500"></span>
+                    <span className="h-2 w-16 rounded-lg bg-gray-200 font-bold dark:bg-gray-500"></span>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div
+              className={`mt-5 grid grid-cols-2 lg:flex lg:flex-row gap-3 
+            ${
+              animateIntoView ? "scale-100 opacity-100" : "scale-95 opacity-0"
+            }`}
+            >
               {collections.map((collection, index) => (
                 <div className="flex items-center gap-3" key={index}>
                   <img
