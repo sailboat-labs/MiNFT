@@ -1,10 +1,20 @@
 /* eslint-disable @next/next/no-img-element */
 
+import {
+  collection,
+  DocumentData,
+  getFirestore,
+  limit,
+  orderBy,
+  query,
+} from "firebase/firestore";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useCollectionData } from "react-firebase-hooks/firestore";
 import { useMoralis } from "react-moralis";
 import VisibilitySensor from "react-visibility-sensor";
 
+import { firebaseApp } from "@/lib/firebase";
 import { usePageLoader } from "@/hooks/pageloader";
 import useAuthenticationDialog from "@/hooks/UseAuthDialog";
 
@@ -12,17 +22,46 @@ import DarkModeMenu from "@/components/layout/DarkmodeToggle";
 import ProfileIcon from "@/components/shared/profile_icon";
 import Search from "@/components/shared/Search";
 
+import { getRandomAvatar } from "@/utils/GetRandomAvatar";
+
+import { Collection } from "@/types";
+
 // import DarkModeMenu from "../navbar/darkmode-toggle";
+const firestore = getFirestore(firebaseApp);
 
 export default function Header() {
   const [headerVisible, setHeaderVisible] = useState(true);
   const [navOpen, setNavOpen] = useState(false);
   // const [showAuthDialog, setShowAuthDialog] = useState(false);
   const [Loader, loading, setLoading] = usePageLoader();
+  const [collections, setCollections] = useState<Collection[]>([]);
+  const [animateIntoView, setAnimateIntoView] = useState(false);
 
   const { account, isAuthenticated } = useMoralis();
 
   const { AuthDialog, setShowAuthDialog } = useAuthenticationDialog();
+
+  const _query = query(
+    collection(firestore, "collections"),
+    orderBy("commentCount", "desc"),
+    limit(4)
+  );
+  const [snapshots, collectionLoading] = useCollectionData(_query);
+
+  useEffect(() => {
+    if (collectionLoading) return;
+    if (!snapshots) return;
+
+    const data = snapshots.reduce((acc: Collection[], curr: DocumentData) => {
+      acc.push(curr as Collection);
+      return acc;
+    }, []);
+
+    setCollections(data);
+    setTimeout(() => {
+      setAnimateIntoView(true);
+    }, 500);
+  }, [collectionLoading, snapshots]);
 
   return (
     <div
@@ -172,7 +211,7 @@ export default function Header() {
 
           <div className="ml-5 hidden items-center space-x-6 md:inline-flex lg:justify-end">
             {/* <DarkModeMenu className="md:mr-5" /> */}
-            <Search/>
+            <Search />
             {account && isAuthenticated && (
               <Link passHref href="/collection/add">
                 <div
@@ -211,33 +250,56 @@ export default function Header() {
         >
           <div className="-mt-5 p-10 "></div>
         </VisibilitySensor>
-        <div className="flex flex-col justify-center text-center dark:text-white lg:justify-start lg:text-left">
-          <div className="mt-10 text-4xl font-bold">
-            Discover, collect, and sell
+        <div className="flex w-full flex-col justify-between gap-10 md:flex-row">
+          <div className="flex flex-col justify-center text-center dark:text-white lg:justify-start lg:text-left">
+            <div className="mt-10 text-4xl font-bold">
+              Discover, collect, and sell
+            </div>
+            <div className="text-4xl font-bold">extraordinary NFTs</div>
+            <div className="flex w-full cursor-pointer items-center justify-center gap-3 py-5 transition-all hover:translate-x-1 hover:scale-105 lg:w-fit lg:justify-start">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              <span>Learn More About NFT</span>
+            </div>
           </div>
-          <div className="text-4xl font-bold">extraordinary NFTs</div>
-          <div className="flex w-full cursor-pointer items-center justify-center gap-3 py-5 transition-all hover:translate-x-1 hover:scale-105 lg:w-fit lg:justify-start">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
-              />
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
-            <span>Learn More About NFT</span>
+          <div className="flex h-72 w-fit flex-col items-end">
+            <span className="text-3xl font-bold">Leaderboard</span>
+            <div className="mt-5 flex flex-row gap-3">
+              {collections.map((collection, index) => (
+                <div className="flex items-center gap-3" key={index}>
+                  <img
+                    className="h-16 w-16 rounded-full object-cover"
+                    src={collection.image ?? getRandomAvatar(collection.owner)}
+                    alt=""
+                  />
+                  <div className="flex flex-col">
+                    <span className="font-bold">{collection.name}</span>
+                    <span>
+                      {collection.commentCount} comment
+                      {collection.commentCount == 1 ? "" : "s"}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
