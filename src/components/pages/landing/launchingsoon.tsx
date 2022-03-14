@@ -339,23 +339,31 @@ export default function LaunchingSoon() {
 
                           case "preMintDate":
                             if (sort.isAsc) {
-                              return a.preMintDate.localeCompare(b.preMintDate);
+                              return (a.preMintDate ?? "").localeCompare(
+                                b.preMintDate ?? ""
+                              );
                             }
-                            return b.preMintDate.localeCompare(a.preMintDate);
+                            return (b.preMintDate ?? "").localeCompare(
+                              a.preMintDate ?? ""
+                            );
 
                           case "commentCount":
                             if (sort.isAsc) {
-                              return (a.commentCount ?? 0) - (b.commentCount ?? 0);
+                              return (
+                                (a.commentCount ?? 0) - (b.commentCount ?? 0)
+                              );
                             }
                             return b.commentCount ?? 0 - a.commentCount ?? 0;
 
                           case "publicMintDate":
                             if (sort.isAsc) {
-                              return a.preMintDate?.localeCompare(
-                                b.preMintDate!
+                              return a.publicMintDate?.localeCompare(
+                                b.publicMintDate!
                               );
                             }
-                            return b.preMintDate?.localeCompare(a.preMintDate!);
+                            return b.publicMintDate?.localeCompare(
+                              a.publicMintDate!
+                            );
 
                           default:
                             if (sort.isAsc) {
