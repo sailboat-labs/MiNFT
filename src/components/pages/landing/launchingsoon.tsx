@@ -345,7 +345,7 @@ export default function LaunchingSoon() {
 
                           case "commentCount":
                             if (sort.isAsc) {
-                              return a.commentCount ?? 0 - b.commentCount ?? 0;
+                              return (a.commentCount ?? 0) - (b.commentCount ?? 0);
                             }
                             return b.commentCount ?? 0 - a.commentCount ?? 0;
 
