@@ -3,6 +3,7 @@ import Layout from "@/components/layout/Layout";
 import FAQ from "@/components/pages/landing/FAQ";
 import Header from "@/components/pages/landing/header";
 import LaunchingSoon from "@/components/pages/landing/launchingsoon";
+import Leaderboard from "@/components/pages/landing/Leaderboard";
 import NewlyAdded from "@/components/pages/landing/newlyadded";
 import Seo from "@/components/Seo";
 
@@ -31,6 +32,7 @@ export default function HomePage() {
       <div>
         <Header />
         <NewlyAdded />
+        {/* <Leaderboard/> */}
         <LaunchingSoon />
         <FAQ/>
         <Footer />

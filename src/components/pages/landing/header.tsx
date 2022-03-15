@@ -1,20 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
 
-import {
-  collection,
-  DocumentData,
-  getFirestore,
-  limit,
-  orderBy,
-  query,
-} from "firebase/firestore";
+
+
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { useCollectionData } from "react-firebase-hooks/firestore";
+import { useState } from "react";
 import { useMoralis } from "react-moralis";
 import VisibilitySensor from "react-visibility-sensor";
 
-import { firebaseApp } from "@/lib/firebase";
 import { usePageLoader } from "@/hooks/pageloader";
 import useAuthenticationDialog from "@/hooks/UseAuthDialog";
 
@@ -22,46 +14,22 @@ import DarkModeMenu from "@/components/layout/DarkmodeToggle";
 import ProfileIcon from "@/components/shared/profile_icon";
 import Search from "@/components/shared/Search";
 
-import { getRandomAvatar } from "@/utils/GetRandomAvatar";
 
-import { Collection } from "@/types";
 
 // import DarkModeMenu from "../navbar/darkmode-toggle";
-const firestore = getFirestore(firebaseApp);
 
 export default function Header() {
   const [headerVisible, setHeaderVisible] = useState(true);
   const [navOpen, setNavOpen] = useState(false);
   // const [showAuthDialog, setShowAuthDialog] = useState(false);
   const [Loader, loading, setLoading] = usePageLoader();
-  const [collections, setCollections] = useState<Collection[]>([]);
-  const [animateIntoView, setAnimateIntoView] = useState(false);
+  
 
   const { account, isAuthenticated } = useMoralis();
 
   const { AuthDialog, setShowAuthDialog } = useAuthenticationDialog();
 
-  const _query = query(
-    collection(firestore, "collections"),
-    orderBy("commentCount", "desc"),
-    limit(4)
-  );
-  const [snapshots, collectionLoading] = useCollectionData(_query);
-
-  useEffect(() => {
-    if (collectionLoading) return;
-    if (!snapshots) return;
-
-    const data = snapshots.reduce((acc: Collection[], curr: DocumentData) => {
-      acc.push(curr as Collection);
-      return acc;
-    }, []);
-
-    setCollections(data);
-    setTimeout(() => {
-      setAnimateIntoView(true);
-    }, 500);
-  }, [collectionLoading, snapshots]);
+  
 
   return (
     <div
@@ -243,57 +211,7 @@ export default function Header() {
               <span>Learn More About NFT</span>
             </div>
           </div>
-          {collections && (
-            <div className="flex h-fit w-full flex-col  items-center lg:w-fit lg:items-end">
-              <span className="text-3xl font-bold">Leaderboard</span>
-
-              {/* Shimmer animation */}
-              <div
-                className={`mt-5 grid grid-cols-2 gap-3 transition-all lg:flex lg:flex-row ${
-                  animateIntoView
-                    ? "absolute scale-95 opacity-0"
-                    : "relative scale-100 animate-pulse opacity-100 "
-                }`}
-              >
-                {[...Array(4)].map((collection, index) => (
-                  <div className="flex items-center gap-3" key={index}>
-                    <div className="h-16 w-16 rounded-full border-2 bg-gray-200 dark:bg-gray-700"></div>
-                    <div className="flex flex-col gap-1">
-                      <span className="h-3 w-20 rounded-lg bg-gray-200 font-bold dark:bg-gray-500"></span>
-                      <span className="h-2 w-16 rounded-lg bg-gray-200 font-bold dark:bg-gray-500"></span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Leaderboard Items */}
-              <div
-                className={`mt-5 grid grid-cols-2 gap-3 lg:flex lg:flex-row 
-            ${
-              animateIntoView ? "scale-100 opacity-100" : "scale-95 opacity-0"
-            }`}
-              >
-                {collections.map((collection, index) => (
-                  <div className="flex items-center gap-3" key={index}>
-                    <img
-                      className="h-16 w-16 rounded-full object-cover"
-                      src={
-                        collection.image ?? getRandomAvatar(collection.owner)
-                      }
-                      alt=""
-                    />
-                    <div className="flex flex-col">
-                      <span className="font-bold">{collection.name}</span>
-                      <span>
-                        {collection.commentCount} comment
-                        {collection.commentCount == 1 ? "" : "s"}
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
+          
         </div>
       </div>
     </div>
