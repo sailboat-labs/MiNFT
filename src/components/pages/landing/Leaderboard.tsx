@@ -130,7 +130,7 @@ export default function Leaderboard() {
 
           {/* Leaderboard Items */}
           <div
-            className={`mt-10 grid grid-cols-2 gap-3 px-0 md:grid-cols-3 lg:grid-cols-4 lg:gap-8
+            className={`mt-10 grid grid-cols-1 gap-3 px-0 md:grid-cols-3 lg:grid-cols-4 lg:gap-8
             ${
               animateIntoView ? "scale-100 opacity-100" : "scale-95 opacity-0"
             }`}
