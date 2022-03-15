@@ -463,14 +463,18 @@ export default function Comments({ collectionId }: ICommentsProps) {
             {editMode ? "Update" : "Add new"} Comment
           </span>
           <div className="mt-2 flex gap-5 rounded-lg px-5 py-3">
-            <div className="h-10 w-10 rounded-[50%] border-2 border-red-200 bg-red-100"></div>
+            <img
+              className="h-full w-full rounded-[50%] object-cover"
+              src={getRandomAvatar(account)}
+              alt=""
+            />
             <div className="flex w-full flex-col gap-2">
               <div className="flex gap-5">
                 <span className="mx-5">{formatEthAddress(account)}</span>
               </div>
 
               <textarea
-                className="w-full rounded-lg bg-gray-50 dark:bg-gray-700 dark:text-white px-8 py-3"
+                className="w-full rounded-lg bg-gray-50 px-8 py-3 dark:bg-gray-700 dark:text-white"
                 placeholder="Enter comment"
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
