@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import { Menu, Transition } from "@headlessui/react";
 import axios from "axios";
 import { formatEthAddress } from "eth-address";
 import { collectionGroup, getFirestore, query } from "firebase/firestore";
@@ -7,7 +8,6 @@ import { Fragment, useEffect, useState } from "react";
 import { firebaseApp } from "@/lib/firebase";
 
 import { getRandomAvatar } from "@/utils/GetRandomAvatar";
-import { Menu, Transition } from "@headlessui/react";
 
 const firestore = getFirestore(firebaseApp);
 
@@ -137,6 +137,7 @@ export default function Leaderboard() {
           >
             {leaderboard &&
               leaderboard
+              .filter((item)=>(item.collectionCount > 0 || item.commentCount > 0))
                 .sort((a: any, b: any) => {
                   switch (sort) {
                     case "comment":
