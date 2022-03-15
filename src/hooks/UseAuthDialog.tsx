@@ -1,7 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @next/next/no-img-element */
+import { getRandomAvatar } from "@/utils/GetRandomAvatar";
 import { Dialog, Transition } from "@headlessui/react";
+import axios from "axios";
 import { Fragment, useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { useMoralis } from "react-moralis";
 
 export const connectors = [
@@ -72,6 +75,26 @@ export default function useAuthenticationDialog() {
   useEffect(() => {
     if (account && isAuthenticated) return setShowAuthDialog(false);
   }, [account, isAuthenticated, setShowAuthDialog]);
+
+
+
+  useEffect(() => {
+    if (!account || !isAuthenticated) return;
+    getRandomAvatar(account);
+
+    axios
+      .post("/api/user", { address: account.toString().toLowerCase() })
+      .then(() => {
+        return;
+      })
+      .catch((_) => {
+        toast.error("Unable to update user");
+        return;
+      });
+  }, [account, isAuthenticated]);
+
+
+  
 
   function AuthDialog() {
     return (
