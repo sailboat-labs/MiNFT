@@ -32,7 +32,7 @@ export default function HomePage() {
       <div>
         <Header />
         <NewlyAdded />
-        {/* <Leaderboard/> */}
+        <Leaderboard/>
         <LaunchingSoon />
         <FAQ/>
         <Footer />

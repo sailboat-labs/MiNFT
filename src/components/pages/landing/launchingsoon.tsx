@@ -40,7 +40,7 @@ export default function LaunchingSoon() {
   const _query = query(
     collection(firestore, "collections"),
     orderBy("lastUpdated", "desc"),
-    limit(100)
+    limit(15)
   );
   const [snapshots, loading] = useCollectionData(_query);
 

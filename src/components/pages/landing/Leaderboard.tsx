@@ -1,61 +1,52 @@
 /* eslint-disable @next/next/no-img-element */
+import axios from "axios";
 import {
-  collection,
-  DocumentData,
+  collectionGroup,
   getFirestore,
   query,
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { useCollectionData } from "react-firebase-hooks/firestore";
 
 import { firebaseApp } from "@/lib/firebase";
 
 import { getRandomAvatar } from "@/utils/GetRandomAvatar";
-import { groupBy } from "@/utils/GroupBy";
-
-import { Collection } from "@/types";
 import { formatEthAddress } from "eth-address";
+
 
 const firestore = getFirestore(firebaseApp);
 
 export default function Leaderboard() {
-  const [collections, setCollections] = useState<Collection[]>([]);
+  const [leaderboard, setLeaderboard] = useState<
+    { name: string; collectionCount: number; commentCount: number }[]
+  >([]);
   const [animateIntoView, setAnimateIntoView] = useState(false);
-  const [groupedData, setGroupedData] = useState<Map<string,Collection[]>>()
 
   const _query = query(
-    collection(firestore, "collections")
+    collectionGroup(firestore, "comments"),
     // orderBy("commentCount", "desc"),
     // limit(4)
   );
-  const [snapshots, collectionLoading] = useCollectionData(_query);
 
-  useEffect(() => {
-    if (collectionLoading) return;
-    if (!snapshots) return;
 
-    const data = snapshots.reduce((acc: Collection[], curr: DocumentData) => {
-      acc.push(curr as Collection);
-      return acc;
-    }, []);
+  async function getLeaderboard(){
+   const {data} = await axios.get("https://us-central1-minft-staging.cloudfunctions.net/Leaderboard/")
 
-    const grouped = groupBy(
-      data,
-      (data: Collection) => data.owner?.toLowerCase() ?? ""
-    );
+   setLeaderboard(data)
+   setTimeout(() => {
+     setAnimateIntoView(true)
+   }, 1000);
 
-    console.log(grouped);
-    setGroupedData(grouped)
+  }
 
-    setCollections(data);
-    setTimeout(() => {
-      setAnimateIntoView(true);
-    }, 500);
-  }, [collectionLoading, snapshots]);
+  useEffect(()=>{
+    getLeaderboard()
+  },[])
+
+ 
 
   return (
     <div>
-      {collections && (
+      {leaderboard && (
         <div className="contained mt-10 flex h-fit flex-col items-center">
           <span className="text-3xl font-bold">Leaderboard</span>
 
@@ -85,24 +76,24 @@ export default function Leaderboard() {
               animateIntoView ? "scale-100 opacity-100" : "scale-95 opacity-0"
             }`}
           >
-            {groupedData &&
-              Array.from(groupedData).map((collection, index) => (
+            {leaderboard &&
+              leaderboard.map((item, index) => (
                 <div className="flex items-center gap-5" key={index}>
                   <span className="text-lg font-bold  text-gray-500 dark:text-gray-200">
                     {index + 1}.
                   </span>
                   <img
                     className="h-16 w-16 rounded-full border-2 object-cover"
-                    src={collection[0] ?? getRandomAvatar(collection[0])}
+                    src={item.name ?? getRandomAvatar(item.name)}
                     alt=""
                   />
                   <div className="flex flex-col">
                     <span className="font-bold">
-                      {collection[0]}
+                      {formatEthAddress(item.name)}
                     </span>
                     <span>
-                      {collection[1].length} collections
-                      {/* {collection.commentCount == 1 ? "" : "s"} */}
+                      {item.collectionCount} collections
+                      {item.commentCount} comments
                     </span>
                   </div>
                 </div>
