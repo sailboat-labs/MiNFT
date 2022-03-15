@@ -20,7 +20,9 @@ export default function UserNfts({ account }: props) {
   async function getNFTS() {
     setLoadingNfts(true);
     try {
-      const { data } = await axios.get("/api/ensnfts", { params: { account } });
+      const { data } = await axios.get(
+        `https://us-central1-minft-staging.cloudfunctions.net/UserNFTsApi/user/nfts?account=${account}`
+      );
       setNfts(data.data);
       setLoadingNfts(false);
     } catch (error) {
