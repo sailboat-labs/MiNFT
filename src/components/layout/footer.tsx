@@ -7,16 +7,16 @@ type props = {
 export default function Footer({ className }: props) {
   const links: { label: string; route: string }[] = [
     { label: "FAQ", route: "/#faq" },
-    { label: "Contact", route: "/" },
-    { label: "Privacy", route: "/" },
-    { label: "Terms", route: "/" },
+    // { label: "Contact", route: "/" },
+    // { label: "Privacy", route: "/" },
+    // { label: "Terms", route: "/" },
   ];
 
   const year = new Date().getUTCFullYear();
 
   return (
     <div
-      className={`mt-20 border-t-2 bg-gray-50 dark:border-gray-500 dark:bg-[#121212] ${className}`}
+      className={`mt-20 border-t-2 bg-gray-50 dark:border-gray-500 dark:bg-[#121212] z-[998] ${className}`}
     >
       <div className="contained flex flex-col items-center justify-between gap-5 py-10 text-center md:flex-row md:text-left">
         <div className="flex select-none flex-col gap-2">
