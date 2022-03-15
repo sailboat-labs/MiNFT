@@ -166,7 +166,7 @@ export default function Leaderboard() {
                         {item.name ?? formatEthAddress(item.address)}
                       </span>
                       <div>
-                        <span className="flex items-center gap-1">
+                        <span className="flex items-center gap-1 ">
                           {item.collectionCount}{" "}
                           <svg
                             xmlns="http://www.w3.org/2000/svg"

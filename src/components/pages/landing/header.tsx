@@ -184,10 +184,19 @@ export default function Header() {
         <div className="flex w-full flex-col justify-between gap-10 lg:flex-row">
           <div className="flex flex-col justify-center text-center dark:text-white lg:justify-start lg:text-left">
             <div className="mt-10 text-4xl font-bold">
-              Discover, collect, and sell
+              The place for crowd-sourced
             </div>
-            <div className="text-4xl font-bold">extraordinary NFTs</div>
-            <div className="flex w-full cursor-pointer items-center justify-center gap-3 py-5 transition-all hover:translate-x-1 hover:scale-105 lg:w-fit lg:justify-start">
+            <div className="text-4xl font-bold">
+              alpha on the hottest NFT projects
+            </div>
+            <div
+              onClick={() => {
+                document.getElementById("faq")?.scrollIntoView({
+                  behavior: "smooth",
+                });
+              }}
+              className="flex w-full cursor-pointer items-center justify-center gap-3 py-5 transition-all hover:translate-x-1 hover:scale-105 lg:w-fit lg:justify-start"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6"
@@ -208,10 +217,9 @@ export default function Header() {
                   d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
               </svg>
-              <span>Learn More About NFT</span>
+              <span>Learn More About MiNFT</span>
             </div>
           </div>
-          
         </div>
       </div>
     </div>
