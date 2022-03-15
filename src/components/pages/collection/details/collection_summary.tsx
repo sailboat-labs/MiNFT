@@ -81,9 +81,16 @@ export default function CollectionSummary({
 
   async function getTwitterFollowers() {
     
+    if(!collection) return
+    if(!collection.twitter) return
+
+    const twitterHandle = collection.twitter.includes(".com/")
+      ? collection.twitter?.toString().split(".com/")[1]
+      : collection.twitter;
+
     const { data } = await axios.get(
       `https://us-central1-minft-staging.cloudfunctions.net/TwitterApi/twitter/followers?username=${
-        collection.twitter?.toString().split(".com/")[1]
+        twitterHandle
       }`
     );
 
