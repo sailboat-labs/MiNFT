@@ -25,16 +25,16 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     await axios(config)
       .then(function (response) {
-       return res.status(200).json(response.data);
+       return res.status(200).send(response.data);
       })
       .catch(function (error) {
         console.log(error);
       });
 
-    return res.status(200).json({ response: "data" });
+    return res.status(200).send({ response: "data" });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ success: false, error });
+    return res.status(500).send({ success: false, error });
   }
 };
 
