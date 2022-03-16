@@ -38,16 +38,16 @@ export default function ProfileIcon() {
   return (
     <div className="w-fit text-right dark:text-white">
       <div
-        className={`flex items-center justify-center transition-all ${
-          animateIntoView ? "opacity-0" : "animate-pulse"
+        className={`flex items-center h-full justify-center transition-all ${
+          animateIntoView ? "opacity-0 absolute" : "animate-pulse"
         }`}
       >
-        <div className={`absolute h-3 w-48 rounded-lg bg-gray-200 `}></div>
+        <div className={` h-3 w-48 rounded-lg bg-gray-200 `}></div>
       </div>
 
       <div
         className={`transition-all ${
-          animateIntoView ? "opacity-100" : "opacity-0"
+          animateIntoView ? "opacity-100" : "opacity-0 absolute"
         }`}
       >
         <Menu as="div" className="relative inline-block text-left">
@@ -76,9 +76,7 @@ export default function ProfileIcon() {
                   {({ active }: any) => (
                     <button
                       className={`${
-                        active
-                          ? " text-white"
-                          : "text-gray-900 dark:text-white"
+                        active ? " text-white" : "text-gray-900 dark:text-white"
                       } group flex w-full items-center rounded-md px-2 py-2 text-sm font-bold`}
                     >
                       {account && user ? user.name : formatEthAddress(account!)}
