@@ -1,7 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
 
-
-
 import Link from "next/link";
 import { useState } from "react";
 import { useMoralis } from "react-moralis";
@@ -14,8 +12,6 @@ import DarkModeMenu from "@/components/layout/DarkmodeToggle";
 import ProfileIcon from "@/components/shared/profile_icon";
 import Search from "@/components/shared/Search";
 
-
-
 // import DarkModeMenu from "../navbar/darkmode-toggle";
 
 export default function Header() {
@@ -23,13 +19,10 @@ export default function Header() {
   const [navOpen, setNavOpen] = useState(false);
   // const [showAuthDialog, setShowAuthDialog] = useState(false);
   const [Loader, loading, setLoading] = usePageLoader();
-  
 
   const { account, isAuthenticated } = useMoralis();
 
   const { AuthDialog, setShowAuthDialog } = useAuthenticationDialog();
-
-  
 
   return (
     <div

@@ -464,7 +464,7 @@ export default function Comments({ collectionId }: ICommentsProps) {
           </span>
           <div className="mt-2 flex gap-5 rounded-lg px-5 py-3">
             <img
-              className="h-full w-full rounded-[50%] object-cover"
+              className="h-10 w-10 rounded-[50%] object-cover"
               src={getRandomAvatar(account)}
               alt=""
             />
