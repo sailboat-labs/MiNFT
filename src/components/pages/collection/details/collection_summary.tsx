@@ -19,6 +19,7 @@ import WhyILikeThisProject from "./WhyILikeProject";
 import WishlistRequirements from "./wishlist_requirements";
 
 import { Collection, OpenSeaCollection } from "@/types";
+import toast from "react-hot-toast";
 
 interface SocialLInk {
   name: string;
@@ -43,6 +44,9 @@ export default function CollectionSummary({
   const [socialLinks, setSocialLinks] = useState<SocialLInk[]>([]);
 
   const [twitterFolowers, setTwitterFolowers] = useState();
+  
+  const [changingFavoriteState, setChangingFavoriteState] = useState(false)
+
 
   useEffect(() => {
     const links = [];
@@ -94,11 +98,35 @@ export default function CollectionSummary({
     return setTwitterFolowers(data.followers_count);
   }
 
+
+
+
+ async function setFavoriteState() {
+   //update favorite state
+
+   setChangingFavoriteState(true)
+
+   try {
+     const status = await axios.post(
+       "https://us-central1-minft-staging.cloudfunctions.net/Collections/favorite",
+       {
+         walletId: account,
+         collectionId: collection.id,
+       }
+     );
+
+     setChangingFavoriteState(false)
+   } catch (error) {
+     console.log(error);
+   }
+ }
+
   const { setText, LinkItems } = useLinkExtractor();
 
   useEffect(() => {
     getTwitterFollowers();
     collection && collection.description && setText(collection.description);
+    
   }, [collection]);
 
   return (
@@ -111,8 +139,34 @@ export default function CollectionSummary({
             !openSeaData && "-translate-y-20"
           }`}
         >
-          <div className="flex justify-between ">
-            <div className="mt-10 text-2xl font-bold">{collection.name}</div>
+          <div className="mt-10 flex items-center justify-between">
+            <div className={`flex gap-5 `}>
+              <div className=" text-2xl font-bold">{collection.name}</div>
+
+              {account && isAuthenticated && (
+                <div
+                onClick={()=>{setFavoriteState()}}
+                  className={`transition-all cursor-pointer hover:scale-105 ${
+                    collection.favorited?.some((walletId)=>(walletId.toLowerCase() == account.toLowerCase()))
+                      ? "fill-red-600 stroke-red-600"
+                      : "stroke-black dark:stroke-white"
+                  }`}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-7 w-6"
+                    viewBox="0 0 24 24"
+                    strokeWidth="2"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                    />
+                  </svg>
+                </div>
+              )}
+            </div>
 
             {account && isAuthenticated && account == collection.owner ? (
               <button
