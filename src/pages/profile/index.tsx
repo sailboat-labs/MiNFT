@@ -21,7 +21,7 @@ const firestore = getFirestore(firebaseApp);
 export default function Profile() {
   const [showAuthDialog, setShowAuthDialog] = useState(false);
 
-  const { account, chainId } = useMoralis();
+  const { account, chainId, isAuthenticated } = useMoralis();
   const ref = doc(firestore, `users/${account}`);
 
   const [user, loading, error] = useDocumentData(ref);
@@ -34,7 +34,7 @@ export default function Profile() {
     setProfile(user);
   }, [user, loading, account]);
 
-  if (!account) {
+  if (!account || !isAuthenticated) {
     return (
       <Layout>
         <div className="mt-20 flex h-full w-full flex-col items-center justify-center gap-5 px-10 text-center">

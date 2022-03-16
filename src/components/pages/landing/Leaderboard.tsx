@@ -33,9 +33,8 @@ export default function Leaderboard() {
 
   async function getLeaderboard() {
     const { data } = await axios.get(
-      "https://us-central1-minft-staging.cloudfunctions.net/Leaderboard/"
+      "https://us-central1-minft-production.cloudfunctions.net/Leaderboard/"
     );
-    console.log(data);
 
     setLeaderboard(data);
     setTimeout(() => {
@@ -137,7 +136,9 @@ export default function Leaderboard() {
           >
             {leaderboard &&
               leaderboard
-              .filter((item)=>(item.collectionCount > 0 || item.commentCount > 0))
+                .filter(
+                  (item) => item.collectionCount > 0 || item.commentCount > 0
+                )
                 .sort((a: any, b: any) => {
                   switch (sort) {
                     case "comment":

@@ -80,18 +80,15 @@ export default function CollectionSummary({
   }, [collection]);
 
   async function getTwitterFollowers() {
-    
-    if(!collection) return
-    if(!collection.twitter) return
+    if (!collection) return;
+    if (!collection.twitter) return;
 
     const twitterHandle = collection.twitter.includes(".com/")
       ? collection.twitter?.toString().split(".com/")[1]
       : collection.twitter;
 
     const { data } = await axios.get(
-      `https://us-central1-minft-staging.cloudfunctions.net/TwitterApi/twitter/followers?username=${
-        twitterHandle
-      }`
+      `https://us-central1-minft-production.cloudfunctions.net/TwitterApi/twitter/followers?username=${twitterHandle}`
     );
 
     return setTwitterFolowers(data.followers_count);
@@ -353,7 +350,11 @@ export default function CollectionSummary({
                       d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
                     />
                   </svg>
-                  <div className="text-black dark:text-white">{link.name == "Twitter" && twitterFolowers && `${twitterFolowers} followers`}</div>
+                  <div className="text-black dark:text-white">
+                    {link.name == "Twitter" &&
+                      twitterFolowers &&
+                      `${twitterFolowers} followers`}
+                  </div>
                 </div>
               </div>
             ))}

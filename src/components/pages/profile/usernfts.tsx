@@ -21,7 +21,7 @@ export default function UserNfts({ account }: props) {
     setLoadingNfts(true);
     try {
       const { data } = await axios.get(
-        `https://us-central1-minft-staging.cloudfunctions.net/UserNFTsApi/user/nfts?account=${account}`
+        `https://us-central1-minft-production.cloudfunctions.net/UserNFTsApi/user/nfts?account=${account}`
       );
       setNfts(data.data);
       setLoadingNfts(false);

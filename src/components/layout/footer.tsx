@@ -16,7 +16,7 @@ export default function Footer({ className }: props) {
 
   return (
     <div
-      className={`mt-20 border-t-2 bg-gray-50 dark:border-gray-500 dark:bg-[#121212] z-[998] ${className}`}
+      className={`z-[998] mt-20 border-t-2 bg-gray-50 dark:border-gray-500 dark:bg-[#121212] ${className}`}
     >
       <div className="contained flex flex-col items-center justify-between gap-5 py-10 text-center md:flex-row md:text-left">
         <div className="flex select-none flex-col gap-2">
@@ -40,7 +40,7 @@ export default function Footer({ className }: props) {
               </Link>
             ))}
           </div>
-          <div className="flex gap-2">
+          {/* <div className="flex gap-2">
             <input
               placeholder="Your email address"
               className="border-b border-primaryblue bg-transparent px-3 py-1 text-center placeholder:text-primaryblue"
@@ -48,7 +48,8 @@ export default function Footer({ className }: props) {
             <div className="rounded bg-primaryblue px-5 py-2 text-xs capitalize">
               Stay in the loop
             </div>
-          </div>
+          </div> */}
+          <span className="text-primaryblue">Built with ❤️ from 🇺🇦</span>
           <div className="text-primaryblue">
             © {year} MiNFT. All rights reserved.
           </div>
