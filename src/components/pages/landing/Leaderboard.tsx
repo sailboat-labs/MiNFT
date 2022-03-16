@@ -169,7 +169,7 @@ export default function Leaderboard() {
                       </span>
                       <div>
                         <span className="flex items-center gap-1 ">
-                          {item.collectionCount}{" "}
+                          {item.commentCount}{" "}
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             className="h-6 w-6"
@@ -186,7 +186,7 @@ export default function Leaderboard() {
                           </svg>
                         </span>
                         <span className="flex items-center gap-1">
-                          {item.commentCount}{" "}
+                          {item.collectionCount}{" "}
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             className="h-6 w-6"
