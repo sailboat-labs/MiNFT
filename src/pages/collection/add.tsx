@@ -18,6 +18,7 @@ import { v4 } from "uuid";
 import * as Yup from "yup";
 
 import { firebaseApp } from "@/lib/firebase";
+import useAuthenticationDialog from "@/hooks/UseAuthDialog";
 
 import Layout from "@/components/layout/Layout";
 import CollectionDescription from "@/components/pages/collection/add/CollectionDescription";
@@ -31,8 +32,6 @@ import WhitelistRequirements from "@/components/pages/collection/add/WhitelistRe
 import WhyILikeProject from "@/components/pages/collection/add/WhyILikeProject";
 
 import { Collection } from "@/types";
-import AuthenticationDialog from "@/components/shared/AuthenticationDialog";
-import useAuthenticationDialog from "@/hooks/UseAuthDialog";
 
 const firestore = getFirestore(firebaseApp);
 
@@ -51,12 +50,12 @@ export default function AddCollection({ collection }: any) {
     if (!snapshots) return;
 
     const data = snapshots.reduce((acc: string[], curr: DocumentData) => {
-      acc.push((curr.name as string).toLowerCase());
+      acc.push((curr.name as string)?.toLowerCase());
       return acc;
     }, []);
 
     if (collection) {
-      const index = data.indexOf(collection.name!.toLowerCase());
+      const index = data.indexOf(collection.name?.toLowerCase());
       data.splice(index, 1);
     }
 
