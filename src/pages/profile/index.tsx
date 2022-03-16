@@ -2,26 +2,25 @@
 import { doc, getFirestore } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useDocumentData } from "react-firebase-hooks/firestore";
-import { useMoralis } from "react-moralis";
 
 import { firebaseApp } from "@/lib/firebase";
+import useAuthenticationDialog from "@/hooks/UseAuthDialog";
 
 import Layout from "@/components/layout/Layout";
 import UserNfts from "@/components/pages/profile/usernfts";
-import AuthenticationDialog from "@/components/shared/AuthenticationDialog";
 import EthAddress from "@/components/shared/EthAddress";
 import PageLoader from "@/components/shared/PageLoader";
 
 import { getRandomAvatar } from "@/utils/GetRandomAvatar";
 
 import TimezoneSelector from "./TimezoneSelector";
-import useAuthenticationDialog from "@/hooks/UseAuthDialog";
 
 const firestore = getFirestore(firebaseApp);
 
 export default function Profile() {
   // const { account, chainId, isAuthenticated } = useMoralis();
-  const { AuthDialog, setShowAuthDialog,account,isAuthenticated } = useAuthenticationDialog();
+  const { AuthDialog, setShowAuthDialog, account, isAuthenticated } =
+    useAuthenticationDialog();
 
   const ref = doc(firestore, `users/${account}`);
 
@@ -33,7 +32,7 @@ export default function Profile() {
     if (!account || !isAuthenticated) return;
 
     setProfile(user);
-  }, [user, loading, account,isAuthenticated]);
+  }, [user, loading, account, isAuthenticated]);
 
   if (!account || !isAuthenticated) {
     return (
