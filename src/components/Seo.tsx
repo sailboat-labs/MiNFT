@@ -7,10 +7,9 @@ import { useRouter } from "next/router";
 const defaultMeta = {
   title: "MiNFT",
   siteName: "MiNFT",
-  description:
-    "A starter for Next.js, Tailwind CSS, and TypeScript with Absolute Import, Seo, Link component, pre-configured with Husky",
+  description: "The place for crowd-sourced alpha on the hottest NFT projects",
   /** Without additional '/' on the end, e.g. https://theodorusclarence.com */
-  url: "https://sailboatlabs.com",
+  url: "https://minft.me",
   type: "website",
   robots: "follow, index",
   /** No need to be filled, will be populated with openGraph function */
@@ -43,6 +42,7 @@ export default function Seo(props: SeoProps) {
   return (
     <Head>
       <title>{meta.title}</title>
+      <link rel="shortcut icon" href="/favicon/favicon.ico" />
       <meta name="robots" content={meta.robots} />
       <meta content={meta.description} name="description" />
       <meta property="og:url" content={`${meta.url}${router.asPath}`} />
