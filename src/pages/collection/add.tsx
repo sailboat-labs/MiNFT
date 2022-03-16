@@ -31,13 +31,17 @@ import WhitelistRequirements from "@/components/pages/collection/add/WhitelistRe
 import WhyILikeProject from "@/components/pages/collection/add/WhyILikeProject";
 
 import { Collection } from "@/types";
+import AuthenticationDialog from "@/components/shared/AuthenticationDialog";
+import useAuthenticationDialog from "@/hooks/UseAuthDialog";
 
 const firestore = getFirestore(firebaseApp);
 
 export default function AddCollection({ collection }: any) {
-  const { account } = useMoralis();
+  const { account, isAuthenticated } = useMoralis();
   const router = useRouter();
   const [names, setNames] = useState<string[]>([]);
+
+  const { AuthDialog, setShowAuthDialog } = useAuthenticationDialog();
 
   const _query = query(col(firestore, "collections"));
   const [snapshots, loading] = useCollectionData(_query);
@@ -82,7 +86,6 @@ export default function AddCollection({ collection }: any) {
 
   const [showPresaleDate, setShowPresaleDate] = useState(false);
   const [showPublicDate, setShowPublicDate] = useState(false);
-  
 
   const [collectionSubmitting, setCollectionSubmitting] = useState(false);
 
@@ -143,8 +146,8 @@ export default function AddCollection({ collection }: any) {
         owner: account!,
         name: values.name,
         slug: dashify(values.name),
-        blockchain: selectedBlockchain ?? 'ethereum',
-        projectType: selectedProjectType ?? 'collectible',
+        blockchain: selectedBlockchain ?? "ethereum",
+        projectType: selectedProjectType ?? "collectible",
         website: values.website,
         twitter: values.twitter,
         discord: values.discord,
@@ -225,6 +228,41 @@ export default function AddCollection({ collection }: any) {
   //     console.log(error);
   //   }
   // };
+
+  if (!account || !isAuthenticated) {
+    return (
+      <Layout>
+        <div className="mt-20 flex h-full w-full flex-col items-center justify-center gap-5 px-10 text-center">
+          <AuthDialog />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-20 w-20"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth="1"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          <div className="text-2xl font-bold text-gray-900 dark:text-white">
+            Connect your wallet to add a new collection
+          </div>
+          <div
+            onClick={() => {
+              setShowAuthDialog(true);
+            }}
+            className="gradient-button"
+          >
+            Connect your wallet
+          </div>
+        </div>
+      </Layout>
+    );
+  }
 
   return names ? (
     <Layout>
