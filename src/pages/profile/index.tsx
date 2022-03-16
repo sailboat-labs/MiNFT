@@ -15,13 +15,14 @@ import PageLoader from "@/components/shared/PageLoader";
 import { getRandomAvatar } from "@/utils/GetRandomAvatar";
 
 import TimezoneSelector from "./TimezoneSelector";
+import useAuthenticationDialog from "@/hooks/UseAuthDialog";
 
 const firestore = getFirestore(firebaseApp);
 
 export default function Profile() {
-  const [showAuthDialog, setShowAuthDialog] = useState(false);
+  // const { account, chainId, isAuthenticated } = useMoralis();
+  const { AuthDialog, setShowAuthDialog,account,isAuthenticated } = useAuthenticationDialog();
 
-  const { account, chainId, isAuthenticated } = useMoralis();
   const ref = doc(firestore, `users/${account}`);
 
   const [user, loading, error] = useDocumentData(ref);
@@ -29,19 +30,16 @@ export default function Profile() {
   const [profile, setProfile] = useState<any>();
 
   useEffect(() => {
-    if (!account) return;
+    if (!account || !isAuthenticated) return;
 
     setProfile(user);
-  }, [user, loading, account]);
+  }, [user, loading, account,isAuthenticated]);
 
   if (!account || !isAuthenticated) {
     return (
       <Layout>
         <div className="mt-20 flex h-full w-full flex-col items-center justify-center gap-5 px-10 text-center">
-          <AuthenticationDialog
-            showAuthDialog={showAuthDialog}
-            setShowAuthDialog={setShowAuthDialog}
-          />
+          <AuthDialog />
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-20 w-20"
@@ -82,7 +80,7 @@ export default function Profile() {
               src={profile.avatarUrl ?? getRandomAvatar(account!)}
               alt=""
             />
-            <div className="mt-5 rounded-md  text-center text-2xl font-bold disabled:border-0 disabled:">
+            <div className="disabled: mt-5  rounded-md text-center text-2xl font-bold disabled:border-0">
               {profile.name ?? "Domain name not set"}
             </div>
             {account && <EthAddress className="mt-5" account={account} />}
