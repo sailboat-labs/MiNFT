@@ -120,7 +120,7 @@ export default function LaunchingSoon() {
                       className="py-3 px-6 text-left text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-200 "
                     >
                       <div className="flex items-center">
-                        Collection Name
+                        Collection
                         <svg
                           onClick={() => {
                             setSort({
@@ -495,7 +495,39 @@ export default function LaunchingSoon() {
                               )}
                             </td>
                             <td className="whitespace-nowrap py-4 px-6 text-sm uppercase text-gray-500 dark:text-gray-200">
-                              {collection.teamInfo ? "true" : "false"}
+                              {collection.teamInfo ? (
+                                <div className="w-fit rounded-md bg-green-600 stroke-white">
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="h-5 w-5"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    strokeWidth="2"
+                                  >
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      d="M5 13l4 4L19 7"
+                                    />
+                                  </svg>
+                                </div>
+                              ) : (
+                                <div className="w-fit rounded-md bg-red-600 stroke-white">
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="h-5 w-5"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    strokeWidth="2"
+                                  >
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      d="M6 18L18 6M6 6l12 12"
+                                    />
+                                  </svg>
+                                </div>
+                              )}
                             </td>
                             <td className="whitespace-nowrap py-4 px-6 text-sm capitalize text-gray-500 dark:text-gray-200 ">
                               {collection.projectType}
