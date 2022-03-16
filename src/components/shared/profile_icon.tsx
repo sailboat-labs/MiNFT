@@ -38,8 +38,8 @@ export default function ProfileIcon() {
   return (
     <div className="w-fit text-right dark:text-white">
       <div
-        className={`flex items-center h-full justify-center transition-all ${
-          animateIntoView ? "opacity-0 absolute" : "animate-pulse"
+        className={`flex h-full items-center justify-center transition-all ${
+          animateIntoView ? "absolute opacity-0" : "animate-pulse"
         }`}
       >
         <div className={` h-3 w-48 rounded-lg bg-gray-200 `}></div>
@@ -47,7 +47,7 @@ export default function ProfileIcon() {
 
       <div
         className={`transition-all ${
-          animateIntoView ? "opacity-100" : "opacity-0 absolute"
+          animateIntoView ? "opacity-100" : "absolute opacity-0"
         }`}
       >
         <Menu as="div" className="relative inline-block text-left">
@@ -79,7 +79,7 @@ export default function ProfileIcon() {
                         active ? " text-white" : "text-gray-900 dark:text-white"
                       } group flex w-full items-center rounded-md px-2 py-2 text-sm font-bold`}
                     >
-                      {account && user ? user.name : formatEthAddress(account!)}
+                      {account && (user?.name ?? formatEthAddress(account!))}
                     </button>
                   )}
                 </Menu.Item>
@@ -108,18 +108,28 @@ export default function ProfileIcon() {
                 </Menu.Item>
                 <Menu.Item>
                   {({ active }: any) => (
-                    <button
+                    <div
                       className={`${
                         active
                           ? "bg-primaryblue text-white"
                           : "text-gray-900 dark:text-white"
-                      } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                      } group flex w-full cursor-pointer items-center rounded-md px-2 py-2 text-sm `}
                     >
-                      Watchlist
-                    </button>
+                      <Link href="/watchlist" passHref>
+                        <div
+                          className={`${
+                            active
+                              ? "bg-primaryblue text-white"
+                              : "text-gray-900 dark:text-white"
+                          } group flex w-full items-center rounded-md py-0 text-sm `}
+                        >
+                          Watchlist
+                        </div>
+                      </Link>
+                    </div>
                   )}
                 </Menu.Item>
-                <Menu.Item>
+                {/* <Menu.Item>
                   {({ active }: any) => (
                     <button
                       className={`${
@@ -131,7 +141,7 @@ export default function ProfileIcon() {
                       My Comments
                     </button>
                   )}
-                </Menu.Item>
+                </Menu.Item> */}
               </div>
               <div className="px-1 py-1">
                 <Menu.Item>

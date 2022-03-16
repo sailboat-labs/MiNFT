@@ -10,8 +10,8 @@ export function usePageLoader(defaultValue?: boolean) {
   }, [state]);
 
   function Loader() {
-    return <PageLoader />;
+    return <>{state ? <PageLoader/> : <></>}</>;
   }
 
-  return [Loader, state, setState] as const;
+  return { Loader, state, setState };
 }

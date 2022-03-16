@@ -24,12 +24,15 @@ import { getRandomAvatar } from "@/utils/GetRandomAvatar";
 import ExploreCategories from "./categories";
 
 import { Collection } from "@/types";
+import { useRouter } from "next/router";
 
 const firestore = getFirestore(firebaseApp);
 export default function LaunchingSoon() {
   const [collections, setCollections] = useState<Collection[]>([]);
   const [loadingCollection, setLoadingCollection] = useState(false);
   const [animateIntoView, setAnimateIntoView] = useState(false);
+
+  const router = useRouter();
 
   const [sort, setSort] = useState<{ sortBy: string; isAsc: boolean }>({
     sortBy: "presaleMintDate",
@@ -408,138 +411,129 @@ export default function LaunchingSoon() {
                         }
                       })
                       .map((collection, index) => (
-                        <Link
+                        <tr
                           key={index}
-                          href={{
-                            pathname: `/collection/[slug]`,
-                            query: {
-                              slug: collection.slug!,
-                            },
+                          onClick={() => {
+                            setLoadingCollection(true);
+                            router.push(`/collection/${collection.slug!}`);
                           }}
-                          passHref
+                          className="cursor-pointer border-b transition-all hover:bg-gray-50 dark:bg-[#121212] dark:hover:bg-gray-700"
                         >
-                          <tr
-                            onClick={() => {
-                              setLoadingCollection(true);
-                            }}
-                            className="cursor-pointer border-b transition-all hover:bg-gray-50 dark:bg-[#121212] dark:hover:bg-gray-700"
-                          >
-                            <td className="flex items-center gap-5 whitespace-nowrap py-4 px-6 text-sm font-medium text-gray-900">
-                              <div className="h-10 w-10 flex-shrink-0 rounded-[50%] bg-gray-100">
-                                <img
-                                  className="h-full w-full rounded-[50%] object-cover"
-                                  src={
-                                    collection.image ??
-                                    getRandomAvatar(collection.owner)
-                                  }
-                                  alt=""
-                                />
+                          <td className="flex items-center gap-5 whitespace-nowrap py-4 px-6 text-sm font-medium text-gray-900">
+                            <div className="h-10 w-10 flex-shrink-0 rounded-[50%] bg-gray-100">
+                              <img
+                                className="h-full w-full rounded-[50%] object-cover"
+                                src={
+                                  collection.image ??
+                                  getRandomAvatar(collection.owner)
+                                }
+                                alt=""
+                              />
+                            </div>
+                            <div>
+                              <div className="text-md dark:text-white">
+                                {collection.name}
                               </div>
-                              <div>
-                                <div className="text-md dark:text-white">
-                                  {collection.name}
-                                </div>
-                                <div className="whitespace-nowrap text-sm text-gray-500 dark:text-gray-200 ">
-                                  <span>{collection.supply}</span>
-                                  <span>&nbsp;circulating supply</span>
-                                </div>
+                              <div className="whitespace-nowrap text-sm text-gray-500 dark:text-gray-200 ">
+                                <span>{collection.supply}</span>
+                                <span>&nbsp;circulating supply</span>
                               </div>
-                            </td>
-                            <td className="whitespace-nowrap py-4 px-6 text-sm text-gray-500 dark:text-gray-200 ">
-                              {collection.preMintDate
-                                ? dayjs(
-                                    new Date(collection.preMintDate!)
-                                  ).format("DD/MM/YYYY")
-                                : "N/A"}
-                            </td>
-                            <td className="whitespace-nowrap py-4 px-6 text-sm text-gray-500 dark:text-gray-200 ">
-                              {collection.publicMintDate
-                                ? dayjs(
-                                    new Date(collection.publicMintDate!)
-                                  ).format("DD/MM/YYYY")
-                                : "N/A"}
-                            </td>
-                            <td className="whitespace-nowrap py-4 px-6 text-sm uppercase text-gray-500 dark:text-gray-200">
-                              {collection.whitelistAvailable == "yes" ? (
-                                <div className="w-fit rounded-md bg-green-600 stroke-white">
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="h-5 w-5"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    strokeWidth="2"
-                                  >
-                                    <path
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      d="M5 13l4 4L19 7"
-                                    />
-                                  </svg>
-                                </div>
-                              ) : (
-                                <div className="w-fit rounded-md bg-red-600 stroke-white">
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="h-5 w-5"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    strokeWidth="2"
-                                  >
-                                    <path
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      d="M6 18L18 6M6 6l12 12"
-                                    />
-                                  </svg>
-                                </div>
-                              )}
-                            </td>
-                            <td className="whitespace-nowrap py-4 px-6 text-sm uppercase text-gray-500 dark:text-gray-200">
-                              {collection.teamInfo ? (
-                                <div className="w-fit rounded-md bg-green-600 stroke-white">
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="h-5 w-5"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    strokeWidth="2"
-                                  >
-                                    <path
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      d="M5 13l4 4L19 7"
-                                    />
-                                  </svg>
-                                </div>
-                              ) : (
-                                <div className="w-fit rounded-md bg-red-600 stroke-white">
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="h-5 w-5"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    strokeWidth="2"
-                                  >
-                                    <path
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      d="M6 18L18 6M6 6l12 12"
-                                    />
-                                  </svg>
-                                </div>
-                              )}
-                            </td>
-                            <td className="whitespace-nowrap py-4 px-6 text-sm capitalize text-gray-500 dark:text-gray-200 ">
-                              {collection.projectType}
-                            </td>
-                            <td className="whitespace-nowrap py-4 px-6 text-sm capitalize text-gray-500 dark:text-gray-200 ">
-                              {collection.commentCount ?? 0}
-                            </td>
-                            <td className="whitespace-nowrap py-4 px-6 text-sm capitalize text-gray-500 dark:text-gray-200 ">
-                              {collection.commentCount ?? 0}
-                            </td>
-                          </tr>
-                        </Link>
+                            </div>
+                          </td>
+                          <td className="whitespace-nowrap py-4 px-6 text-sm text-gray-500 dark:text-gray-200 ">
+                            {collection.preMintDate
+                              ? dayjs(new Date(collection.preMintDate!)).format(
+                                  "DD/MM/YYYY"
+                                )
+                              : "N/A"}
+                          </td>
+                          <td className="whitespace-nowrap py-4 px-6 text-sm text-gray-500 dark:text-gray-200 ">
+                            {collection.publicMintDate
+                              ? dayjs(
+                                  new Date(collection.publicMintDate!)
+                                ).format("DD/MM/YYYY")
+                              : "N/A"}
+                          </td>
+                          <td className="whitespace-nowrap py-4 px-6 text-sm uppercase text-gray-500 dark:text-gray-200">
+                            {collection.whitelistAvailable == "yes" ? (
+                              <div className="w-fit rounded-md bg-green-600 stroke-white">
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  className="h-5 w-5"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  strokeWidth="2"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M5 13l4 4L19 7"
+                                  />
+                                </svg>
+                              </div>
+                            ) : (
+                              <div className="w-fit rounded-md bg-red-600 stroke-white">
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  className="h-5 w-5"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  strokeWidth="2"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M6 18L18 6M6 6l12 12"
+                                  />
+                                </svg>
+                              </div>
+                            )}
+                          </td>
+                          <td className="whitespace-nowrap py-4 px-6 text-sm uppercase text-gray-500 dark:text-gray-200">
+                            {collection.teamInfo ? (
+                              <div className="w-fit rounded-md bg-green-600 stroke-white">
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  className="h-5 w-5"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  strokeWidth="2"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M5 13l4 4L19 7"
+                                  />
+                                </svg>
+                              </div>
+                            ) : (
+                              <div className="w-fit rounded-md bg-red-600 stroke-white">
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  className="h-5 w-5"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  strokeWidth="2"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M6 18L18 6M6 6l12 12"
+                                  />
+                                </svg>
+                              </div>
+                            )}
+                          </td>
+                          <td className="whitespace-nowrap py-4 px-6 text-sm capitalize text-gray-500 dark:text-gray-200 ">
+                            {collection.projectType}
+                          </td>
+                          <td className="whitespace-nowrap py-4 px-6 text-sm capitalize text-gray-500 dark:text-gray-200 ">
+                            {collection.commentCount ?? 0}
+                          </td>
+                          <td className="whitespace-nowrap py-4 px-6 text-sm capitalize text-gray-500 dark:text-gray-200 ">
+                            {collection.commentCount ?? 0}
+                          </td>
+                        </tr>
                       ))}
                 </tbody>
               </table>

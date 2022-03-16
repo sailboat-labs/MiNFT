@@ -18,7 +18,7 @@ export default function Header() {
   const [headerVisible, setHeaderVisible] = useState(true);
   const [navOpen, setNavOpen] = useState(false);
   // const [showAuthDialog, setShowAuthDialog] = useState(false);
-  const [Loader, loading, setLoading] = usePageLoader();
+  const {Loader,setState} = usePageLoader(false);
 
   const { account, isAuthenticated } = useMoralis();
 
@@ -29,7 +29,7 @@ export default function Header() {
       id="ref"
       className="bg-opacity-20 bg-gradient-to-b from-primaryblue to-white   dark:from-black dark:to-black"
     >
-      {loading && <Loader />}
+      <Loader />
       <div className="flex h-fit">
         <img
           className="translate-all absolute z-[1] -mt-5 w-screen object-cover"
@@ -140,7 +140,7 @@ export default function Header() {
               <Link passHref href="/collection/add">
                 <div
                   onClick={() => {
-                    setLoading(true);
+                    setState(true);
                   }}
                   className="mr-5 cursor-pointer rounded bg-gray-200 px-3 py-1 font-medium leading-6 hover:text-gray-900  dark:bg-gray-700 dark:text-gray-200"
                 >
