@@ -56,7 +56,7 @@ export default function ProfileIcon() {
               <div className="flex cursor-pointer gap-3 rounded-[50%] p-1 transition-all hover:scale-105">
                 <span>Ethereum Mainnet</span>
                 <span className="border-l-2 border-gray-500 px-3">
-                  {account && user ? user.name : formatEthAddress(account!)}
+                  {account && (user?.name ?? formatEthAddress(account!))}
                 </span>
               </div>
             </Menu.Button>
