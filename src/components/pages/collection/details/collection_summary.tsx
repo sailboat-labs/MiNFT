@@ -108,9 +108,9 @@ export default function CollectionSummary({
 
    try {
      const status = await axios.post(
-       "https://us-central1-minft-staging.cloudfunctions.net/Collections/favorite",
+       "https://us-central1-minft-production.cloudfunctions.net/Collections/favorite",
        {
-         walletId: account,
+         walletId: account?.toString().toLowerCase(),
          collectionId: collection.id,
        }
      );
