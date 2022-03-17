@@ -36,7 +36,7 @@ export default function WatchList() {
   const [animateIntoView, setAnimateIntoView] = useState(false);
   const [loadingWatchList, setLoadingWatchList] = useState(true);
 
-  const { Loader, setState } = usePageLoader();
+  const { Loader,state, setState } = usePageLoader();
 
   const { account, AuthDialog, isAuthenticated, setShowAuthDialog } =
     useAuthenticationDialog();
@@ -158,6 +158,7 @@ export default function WatchList() {
       ) : (
         <div ref={soonWrapperElement} className="contained mt-10">
           {/* {loadingWatchList && <PageLoader />} */}
+          {state && <Loader />}
 
           <strong className="flex  flex-col gap-3 stroke-black text-2xl dark:stroke-white md:text-3xl">
             <div className="flex items-center gap-3">
@@ -200,7 +201,13 @@ export default function WatchList() {
           </strong>
 
           <div className={`mt-3 flex flex-col transition-all `}>
-            <div className="mt-10 w-fit rounded-lg bg-gray-100 px-5 py-5 dark:bg-gray-700">
+            <div
+              className={` w-fit rounded-lg bg-gray-100 px-5 py-5 transition-all dark:bg-gray-700 ${
+                collections.filter((item) => item.preMintDate).length < 1
+                  ? "h-0 opacity-0 hidden"
+                  : "mt-10 h-fit opacity-100"
+              }`}
+            >
               <div className="text-2xl font-semibold">Launching Soon</div>
 
               <div className="mt-5 flex gap-5 overflow-auto">
@@ -481,70 +488,61 @@ export default function WatchList() {
                             }
                           })
                           .map((collection, index) => (
-                            <Link
+                            <tr
                               key={index}
-                              href={{
-                                pathname: `/collection/[slug]`,
-                                query: {
-                                  slug: collection.slug!,
-                                },
+                              onClick={() => {
+                                setState(true);
+                                router.push(`/collection/${collection.slug}`);
                               }}
-                              passHref
+                              className="cursor-pointer border-b transition-all hover:bg-gray-50 dark:bg-[#121212] dark:hover:bg-gray-700"
                             >
-                              <tr
-                                onClick={() => {
-                                  setState(true);
-                                }}
-                                className="cursor-pointer border-b transition-all hover:bg-gray-50 dark:bg-[#121212] dark:hover:bg-gray-700"
-                              >
-                                <td className="flex items-center gap-5 whitespace-nowrap py-4 px-6 text-sm font-medium text-gray-900">
-                                  <div className="h-10 w-10 flex-shrink-0 rounded-[50%] bg-gray-100">
-                                    <img
-                                      className="h-full w-full rounded-[50%] object-cover"
-                                      src={
-                                        collection.image ??
-                                        getRandomAvatar(collection.owner)
-                                      }
-                                      alt=""
-                                    />
+                              <td className="flex items-center gap-5 whitespace-nowrap py-4 px-6 text-sm font-medium text-gray-900">
+                                <div className="h-10 w-10 flex-shrink-0 rounded-[50%] bg-gray-100">
+                                  <img
+                                    className="h-full w-full rounded-[50%] object-cover"
+                                    src={
+                                      collection.image ??
+                                      getRandomAvatar(collection.owner)
+                                    }
+                                    alt=""
+                                  />
+                                </div>
+                                <div>
+                                  <div className="text-md dark:text-white">
+                                    {collection.name}
                                   </div>
-                                  <div>
-                                    <div className="text-md dark:text-white">
-                                      {collection.name}
-                                    </div>
-                                    <div className="whitespace-nowrap text-sm text-gray-500 dark:text-gray-200 ">
-                                      <span>{collection.supply}</span>
-                                      <span>&nbsp;circulating supply</span>
-                                    </div>
+                                  <div className="whitespace-nowrap text-sm text-gray-500 dark:text-gray-200 ">
+                                    <span>{collection.supply}</span>
+                                    <span>&nbsp;circulating supply</span>
                                   </div>
-                                </td>
-                                <td className="whitespace-nowrap py-4 px-6 text-sm text-gray-500 dark:text-gray-200 ">
-                                  {collection.preMintDate
-                                    ? dayjs(
-                                        new Date(collection.preMintDate!)
-                                      ).format("DD/MM/YYYY, HH : MM")
-                                    : "N/A"}
-                                </td>
-                                <td className="whitespace-nowrap py-4 px-6 text-sm text-gray-500 dark:text-gray-200 ">
-                                  {collection.publicMintDate
-                                    ? dayjs(
-                                        new Date(collection.publicMintDate!)
-                                      ).format("DD/MM/YYYY, HH : MM ")
-                                    : "N/A"}
-                                </td>
-                                <td className="whitespace-nowrap py-4 px-6 text-sm uppercase text-gray-500 dark:text-gray-200">
-                                  {collection.whitelistAvailable == "yes"
-                                    ? "true"
-                                    : "false"}
-                                </td>
-                                <td className="whitespace-nowrap py-4 px-6 text-sm uppercase text-gray-500 dark:text-gray-200">
-                                  {collection.teamInfo ? "true" : "false"}
-                                </td>
-                                <td className="whitespace-nowrap py-4 px-6 text-sm capitalize text-gray-500 dark:text-gray-200 ">
-                                  {collection.projectType}
-                                </td>
-                              </tr>
-                            </Link>
+                                </div>
+                              </td>
+                              <td className="whitespace-nowrap py-4 px-6 text-sm text-gray-500 dark:text-gray-200 ">
+                                {collection.preMintDate
+                                  ? dayjs(
+                                      new Date(collection.preMintDate!)
+                                    ).format("DD/MM/YYYY, HH : MM")
+                                  : "N/A"}
+                              </td>
+                              <td className="whitespace-nowrap py-4 px-6 text-sm text-gray-500 dark:text-gray-200 ">
+                                {collection.publicMintDate
+                                  ? dayjs(
+                                      new Date(collection.publicMintDate!)
+                                    ).format("DD/MM/YYYY, HH : MM ")
+                                  : "N/A"}
+                              </td>
+                              <td className="whitespace-nowrap py-4 px-6 text-sm uppercase text-gray-500 dark:text-gray-200">
+                                {collection.whitelistAvailable == "yes"
+                                  ? "true"
+                                  : "false"}
+                              </td>
+                              <td className="whitespace-nowrap py-4 px-6 text-sm uppercase text-gray-500 dark:text-gray-200">
+                                {collection.teamInfo ? "true" : "false"}
+                              </td>
+                              <td className="whitespace-nowrap py-4 px-6 text-sm capitalize text-gray-500 dark:text-gray-200 ">
+                                {collection.projectType}
+                              </td>
+                            </tr>
                           ))}
                     </tbody>
                   </table>
