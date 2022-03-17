@@ -1,21 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
+import axios from "axios";
 import dayjs from "dayjs";
-import {
-  collection,
-  DocumentData,
-  getFirestore,
-  limit,
-  orderBy,
-  query,
-  where,
-} from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
-import { useCollectionData } from "react-firebase-hooks/firestore";
 
 import { firebaseApp } from "@/lib/firebase";
 import { usePageLoader } from "@/hooks/pageloader";
@@ -23,12 +14,10 @@ import useAuthenticationDialog from "@/hooks/UseAuthDialog";
 
 import Layout from "@/components/layout/Layout";
 import ExploreCategories from "@/components/pages/landing/categories";
-import PageLoader from "@/components/shared/PageLoader";
 
 import { getRandomAvatar } from "@/utils/GetRandomAvatar";
 
 import { Collection } from "@/types";
-import axios from "axios";
 
 const firestore = getFirestore(firebaseApp);
 export default function WatchList() {
@@ -36,7 +25,7 @@ export default function WatchList() {
   const [animateIntoView, setAnimateIntoView] = useState(false);
   const [loadingWatchList, setLoadingWatchList] = useState(true);
 
-  const { Loader,state, setState } = usePageLoader();
+  const { Loader, state, setState } = usePageLoader();
 
   const { account, AuthDialog, isAuthenticated, setShowAuthDialog } =
     useAuthenticationDialog();
@@ -52,35 +41,30 @@ export default function WatchList() {
 
   const [selectedCategory, setSelectedCategory] = useState("all");
 
-   async function getUserWatchList() {
-     setLoadingWatchList(true);
-     setAnimateIntoView(false)
-     try {
-       const { data } = await axios.get(
-         `https://us-central1-minft-production.cloudfunctions.net/User/watchlist?walletId=${account}`
-       );
-       setCollections(data.data);
+  async function getUserWatchList() {
+    setLoadingWatchList(true);
+    setAnimateIntoView(false);
+    try {
+      const { data } = await axios.get(
+        `${process.env.NEXT_PUBLIC_FIREBASE_FUNCTIONS_ENDPOINT}/User/watchlist?walletId=${account}`
+      );
 
-       console.log(data.data);
+      setCollections(data);
 
-       setCollections(data)
-       
-       setTimeout(() => {
-         setLoadingWatchList(false);
-         setAnimateIntoView(true)
-       }, 1000);
-     } catch (error) {
-       setLoadingWatchList(false);
-       setAnimateIntoView(false)
-     }
-   }
+      setTimeout(() => {
+        setLoadingWatchList(false);
+        setAnimateIntoView(true);
+      }, 1000);
+    } catch (error) {
+      setLoadingWatchList(false);
+      setAnimateIntoView(false);
+    }
+  }
 
   useEffect(() => {
     if (!account) return;
     getUserWatchList();
   }, [account]);
-
- 
 
   const soonWrapperElement = useRef<any>(null);
   gsap.registerPlugin(ScrollTrigger);
@@ -204,7 +188,7 @@ export default function WatchList() {
             <div
               className={` w-fit rounded-lg bg-gray-100 px-5 py-5 transition-all dark:bg-gray-700 ${
                 collections.filter((item) => item.preMintDate).length < 1
-                  ? "h-0 opacity-0 hidden"
+                  ? "hidden h-0 opacity-0"
                   : "mt-10 h-fit opacity-100"
               }`}
             >

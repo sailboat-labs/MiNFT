@@ -12,6 +12,7 @@ import {
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 
@@ -24,7 +25,6 @@ import { getRandomAvatar } from "@/utils/GetRandomAvatar";
 import ExploreCategories from "./categories";
 
 import { Collection } from "@/types";
-import { useRouter } from "next/router";
 
 const firestore = getFirestore(firebaseApp);
 export default function LaunchingSoon() {

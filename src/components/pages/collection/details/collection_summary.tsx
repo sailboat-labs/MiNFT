@@ -44,9 +44,8 @@ export default function CollectionSummary({
   const [socialLinks, setSocialLinks] = useState<SocialLInk[]>([]);
 
   const [twitterFolowers, setTwitterFolowers] = useState();
-  
-  const [changingFavoriteState, setChangingFavoriteState] = useState(false)
 
+  const [changingFavoriteState, setChangingFavoriteState] = useState(false);
 
   useEffect(() => {
     const links = [];
@@ -92,41 +91,37 @@ export default function CollectionSummary({
       : collection.twitter;
 
     const { data } = await axios.get(
-      `https://us-central1-minft-production.cloudfunctions.net/TwitterApi/twitter/followers?username=${twitterHandle}`
+      `${process.env.NEXT_PUBLIC_FIREBASE_FUNCTIONS_ENDPOINT}/TwitterApi/twitter/followers?username=${twitterHandle}`
     );
 
     return setTwitterFolowers(data.followers_count);
   }
 
+  async function setFavoriteState() {
+    //update favorite state
 
+    setChangingFavoriteState(true);
 
+    try {
+      const status = await axios.post(
+        "${process.env.NEXT_PUBLIC_FIREBASE_FUNCTIONS_ENDPOINT}/Collections/favorite",
+        {
+          walletId: account?.toString().toLowerCase(),
+          collectionId: collection.id,
+        }
+      );
 
- async function setFavoriteState() {
-   //update favorite state
-
-   setChangingFavoriteState(true)
-
-   try {
-     const status = await axios.post(
-       "https://us-central1-minft-production.cloudfunctions.net/Collections/favorite",
-       {
-         walletId: account?.toString().toLowerCase(),
-         collectionId: collection.id,
-       }
-     );
-
-     setChangingFavoriteState(false)
-   } catch (error) {
-     console.log(error);
-   }
- }
+      setChangingFavoriteState(false);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   const { setText, LinkItems } = useLinkExtractor();
 
   useEffect(() => {
     getTwitterFollowers();
     collection && collection.description && setText(collection.description);
-    
   }, [collection]);
 
   return (
@@ -145,9 +140,14 @@ export default function CollectionSummary({
 
               {account && isAuthenticated && (
                 <div
-                onClick={()=>{setFavoriteState()}}
-                  className={`transition-all cursor-pointer hover:scale-105 ${
-                    collection.favorited?.some((walletId)=>(walletId.toLowerCase() == account.toLowerCase()))
+                  onClick={() => {
+                    setFavoriteState();
+                  }}
+                  className={`cursor-pointer transition-all hover:scale-105 ${
+                    collection.favorited?.some(
+                      (walletId) =>
+                        walletId.toLowerCase() == account.toLowerCase()
+                    )
                       ? "fill-red-600 stroke-red-600"
                       : "stroke-black dark:stroke-white"
                   }`}

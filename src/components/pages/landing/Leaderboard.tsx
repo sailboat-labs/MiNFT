@@ -33,7 +33,7 @@ export default function Leaderboard() {
 
   async function getLeaderboard() {
     const { data } = await axios.get(
-      "https://us-central1-minft-production.cloudfunctions.net/Leaderboard/"
+      "${process.env.NEXT_PUBLIC_FIREBASE_FUNCTIONS_ENDPOINT}/Leaderboard/"
     );
 
     setLeaderboard(data);
