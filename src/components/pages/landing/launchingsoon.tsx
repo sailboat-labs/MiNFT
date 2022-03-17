@@ -25,12 +25,15 @@ import { getRandomAvatar } from "@/utils/GetRandomAvatar";
 import ExploreCategories from "./categories";
 
 import { Collection } from "@/types";
+import useAuthenticationDialog from "@/hooks/UseAuthDialog";
 
 const firestore = getFirestore(firebaseApp);
 export default function LaunchingSoon() {
   const [collections, setCollections] = useState<Collection[]>([]);
   const [loadingCollection, setLoadingCollection] = useState(false);
   const [animateIntoView, setAnimateIntoView] = useState(false);
+
+  const { account, isAuthenticated } = useAuthenticationDialog();
 
   const router = useRouter();
 
@@ -530,8 +533,36 @@ export default function LaunchingSoon() {
                           <td className="whitespace-nowrap py-4 px-6 text-sm capitalize text-gray-500 dark:text-gray-200 ">
                             {collection.commentCount ?? 0}
                           </td>
-                          <td className="whitespace-nowrap py-4 px-6 text-sm capitalize text-gray-500 dark:text-gray-200 ">
-                            {collection.favorited?.length ?? 0}
+                          <td className=" gap-2 whitespace-nowrap py-4 px-6 text-sm capitalize text-gray-500 dark:text-gray-200 ">
+                            <div className="flex items-center gap-5">
+                              {collection.favorited?.length ?? 0}
+                              {account && isAuthenticated && (
+                                <div
+                                  className={` ${
+                                    collection.favorited?.some(
+                                      (walletId) =>
+                                        walletId.toLowerCase() ==
+                                        account.toLowerCase()
+                                    )
+                                      ? "fill-red-600 stroke-red-600"
+                                      : "hidden stroke-black dark:stroke-white"
+                                  }`}
+                                >
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="h-4 w-4"
+                                    viewBox="0 0 24 24"
+                                    strokeWidth="2"
+                                  >
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                                    />
+                                  </svg>
+                                </div>
+                              )}
+                            </div>
                           </td>
                         </tr>
                       ))}
