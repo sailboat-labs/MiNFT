@@ -1,6 +1,9 @@
+import axios from "axios";
 import { formatEthAddress } from "eth-address";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+
+import { User } from "@/types";
 
 type props = {
   account?: string;
@@ -9,13 +12,34 @@ type props = {
 
 export default function EthAddress({ account, className }: props) {
   const [showCopy, setShowCopy] = useState(false);
+  const [ensName, setEnsName] = useState<any>();
+
+  async function getENSName() {
+    try {
+      const user = await axios.get(
+        `${process.env.NEXT_PUBLIC_FIREBASE_FUNCTIONS_ENDPOINT}/User?walletId=${account}`
+      );
+
+      
+      setEnsName(user.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    //Get ENS name
+    if (!account) return;
+    getENSName();
+  }, [account]);
+
   return (
     <>
       {account && (
         <div
           onClick={() => {
             navigator.clipboard.writeText(account);
-            toast.success('Copied to clipboard')
+            toast.success("Copied to clipboard");
           }}
           onMouseOver={() => {
             setShowCopy(true);
@@ -25,7 +49,7 @@ export default function EthAddress({ account, className }: props) {
           }}
           className={`flex cursor-pointer gap-2 rounded-xl hover:bg-gray-100 ${className}`}
         >
-          {formatEthAddress(account)}{" "}
+          {(ensName && ensName.name) ? ensName.name : formatEthAddress(account)}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className={`h-6 w-6 transition-all ${

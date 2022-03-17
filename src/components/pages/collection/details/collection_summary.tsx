@@ -379,7 +379,7 @@ export default function CollectionSummary({
                 <td className="whitespace-nowrap py-2  text-sm font-medium text-gray-900 dark:text-gray-200">
                   Added By
                 </td>
-                <td className="whitespace-nowrap py-2 px-6 text-sm capitalize text-gray-500 ">
+                <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
                   <EthAddress
                     className="-translate-x-2 px-2 py-1"
                     account={collection.owner}
