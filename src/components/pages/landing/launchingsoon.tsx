@@ -531,7 +531,7 @@ export default function LaunchingSoon() {
                             {collection.commentCount ?? 0}
                           </td>
                           <td className="whitespace-nowrap py-4 px-6 text-sm capitalize text-gray-500 dark:text-gray-200 ">
-                            {collection.commentCount ?? 0}
+                            {collection.favorited?.length ?? 0}
                           </td>
                         </tr>
                       ))}
