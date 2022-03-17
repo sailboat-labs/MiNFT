@@ -104,7 +104,7 @@ export default function CollectionSummary({
 
     try {
       const status = await axios.post(
-        "${process.env.NEXT_PUBLIC_FIREBASE_FUNCTIONS_ENDPOINT}/Collections/favorite",
+        `${process.env.NEXT_PUBLIC_FIREBASE_FUNCTIONS_ENDPOINT}/Collections/favorite`,
         {
           walletId: account?.toString().toLowerCase(),
           collectionId: collection.id,
