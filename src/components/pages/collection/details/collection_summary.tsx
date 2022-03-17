@@ -99,6 +99,8 @@ export default function CollectionSummary({
 
   async function setFavoriteState() {
     //update favorite state
+    console.log("changing");
+    
 
     setChangingFavoriteState(true);
 
@@ -110,6 +112,10 @@ export default function CollectionSummary({
           collectionId: collection.id,
         }
       );
+
+
+      console.log("changed");
+      
 
       setChangingFavoriteState(false);
     } catch (error) {
