@@ -97,9 +97,11 @@ export default function CollectionSummary({
     return setTwitterFolowers(data.followers_count);
   }
 
-  async function setFavoriteState() {
+  async function setFavoriteState(isLiked?:boolean) {
     //update favorite state
     console.log("changing");
+
+    toast(isLiked ? 'Removing from watchlist' : "Adding to watchlist")
     
 
     setChangingFavoriteState(true);
@@ -147,7 +149,12 @@ export default function CollectionSummary({
               {account && isAuthenticated && (
                 <div
                   onClick={() => {
-                    setFavoriteState();
+                    setFavoriteState(
+                      collection.favorited?.some(
+                        (walletId) =>
+                          walletId.toLowerCase() == account.toLowerCase()
+                      )
+                    );
                   }}
                   className={`cursor-pointer transition-all hover:scale-105 ${
                     collection.favorited?.some(
