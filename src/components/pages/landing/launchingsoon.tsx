@@ -160,13 +160,13 @@ export default function LaunchingSoon() {
                       <svg
                         onClick={() => {
                           setSort({
-                            sortBy: "presaleMintDate",
+                            sortBy: "preMintDate",
                             isAsc: !sort.isAsc,
                           });
                         }}
                         xmlns="http://www.w3.org/2000/svg"
                         className={`h-5 w-5 cursor-pointer transition-all hover:scale-110 ${
-                          sort.sortBy == "presaleMintDate" && sort.isAsc
+                          sort.sortBy == "preMintDate" && sort.isAsc
                             ? "rotate-180"
                             : "rotate-0"
                         } `}
@@ -388,7 +388,7 @@ export default function LaunchingSoon() {
                               a.projectType ?? ""
                             );
 
-                          case "presaleMintDate":
+                          case "preMintDate":
                             if (sort.isAsc) {
                               return a.preMintDate?.localeCompare(
                                 b.preMintDate!
