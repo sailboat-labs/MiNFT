@@ -7,7 +7,7 @@ export default function Feedback() {
       <div className=" border-solid">
         <div className="flex flex-col items-start border-0 border-gray-200 leading-7  lg:flex-row lg:items-center">
           <div className="box-border flex-1 border-solid text-center sm:text-left">
-            <h1 className="bg-gradient-to-r from-red-700 via-[#1B9CF0] to-[#1B9CF0] bg-clip-text text-4xl font-extrabold text-transparent dark:from-red-400 dark:via-[#1B9CF0]">
+            <h1 className="bg-gradient-to-r from-red-900 md:via-[#1B9CF0] to-[#1B9CF0] bg-clip-text text-4xl font-extrabold text-transparent dark:from-red-400 md:dark:via-[#1B9CF0]">
               Community built platform
             </h1>
             <p className="mg:text-2xl mt-5 border-0 border-gray-200 text-center text-lg md:text-left lg:text-2xl">
