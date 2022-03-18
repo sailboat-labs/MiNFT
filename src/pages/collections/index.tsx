@@ -398,7 +398,7 @@ export default function AllCollections() {
                               }}
                               className="cursor-pointer border-b transition-all hover:bg-gray-50 dark:bg-[#121212] dark:hover:bg-gray-700"
                             >
-                              <td className="flex items-center gap-5 whitespace-nowrap py-4 px-6 text-sm font-medium text-gray-900">
+                              <td className="flex items-center gap-5 whitespace-nowrap border-r py-4 px-6 text-sm font-medium text-gray-900">
                                 <div className="h-10 w-10 flex-shrink-0 rounded-[50%] bg-gray-100">
                                   <img
                                     className="h-full w-full rounded-[50%] object-cover"
@@ -419,26 +419,26 @@ export default function AllCollections() {
                                   </div>
                                 </div>
                               </td>
-                              <td className="whitespace-nowrap py-4 px-6 text-sm text-gray-500 dark:text-gray-200 ">
+                              <td className="whitespace-nowrap border-r py-4 px-6 text-sm text-gray-500 dark:text-gray-200">
                                 {collection.preMintDate
                                   ? dayjs(
                                       new Date(collection.preMintDate!)
                                     ).format("DD/MM/YYYY, HH : MM")
                                   : "N/A"}
                               </td>
-                              <td className="whitespace-nowrap py-4 px-6 text-sm text-gray-500 dark:text-gray-200 ">
+                              <td className="whitespace-nowrap border-r py-4 px-6 text-sm text-gray-500 dark:text-gray-200">
                                 {collection.publicMintDate
                                   ? dayjs(
                                       new Date(collection.publicMintDate!)
                                     ).format("DD/MM/YYYY, HH : MM ")
                                   : "N/A"}
                               </td>
-                              <td className="whitespace-nowrap py-4 px-6 text-sm uppercase text-gray-500 dark:text-gray-200">
+                              <td className="whitespace-nowrap border-r py-4 px-6 text-sm uppercase text-gray-500 dark:text-gray-200">
                                 {collection.whitelistAvailable == "yes"
                                   ? "true"
                                   : "false"}
                               </td>
-                              <td className="whitespace-nowrap py-4 px-6 text-sm uppercase text-gray-500 dark:text-gray-200">
+                              <td className="whitespace-nowrap border-r py-4 px-6 text-sm uppercase text-gray-500 dark:text-gray-200">
                                 {collection.teamInfo ? "true" : "false"}
                               </td>
                               <td className="whitespace-nowrap py-4 px-6 text-sm capitalize text-gray-500 dark:text-gray-200 ">
