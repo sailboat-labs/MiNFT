@@ -162,7 +162,7 @@ export default function CollectionSummary({
                         walletId.toLowerCase() == account.toLowerCase()
                     )
                       ? "fill-red-600 stroke-red-600"
-                      : "stroke-black dark:stroke-white"
+                      : "stroke-black fill-white dark:fill-black dark:stroke-white"
                   }`}
                 >
                   <svg

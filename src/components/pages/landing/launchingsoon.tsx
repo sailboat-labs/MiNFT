@@ -17,6 +17,7 @@ import { useEffect, useRef, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 
 import { firebaseApp } from "@/lib/firebase";
+import useAuthenticationDialog from "@/hooks/UseAuthDialog";
 
 import PageLoader from "@/components/shared/PageLoader";
 
@@ -24,8 +25,8 @@ import { getRandomAvatar } from "@/utils/GetRandomAvatar";
 
 import ExploreCategories from "./categories";
 
+import { formatInTimeZone } from "date-fns-tz";
 import { Collection } from "@/types";
-import useAuthenticationDialog from "@/hooks/UseAuthDialog";
 
 const firestore = getFirestore(firebaseApp);
 export default function LaunchingSoon() {
@@ -452,9 +453,11 @@ export default function LaunchingSoon() {
                           </td>
                           <td className="whitespace-nowrap py-4 px-6 text-sm text-gray-500 dark:text-gray-200 ">
                             {collection.publicMintDate
-                              ? dayjs(
-                                  new Date(collection.publicMintDate!)
-                                ).format("DD/MM/YYYY")
+                              ? formatInTimeZone(
+                                  collection.publicMintDate,
+                                  "America/New_York",
+                                  "yyyy-MM-dd HH:mm:ss zzz"
+                                )
                               : "N/A"}
                           </td>
                           <td className="whitespace-nowrap py-4 px-6 text-sm uppercase text-gray-500 dark:text-gray-200">

@@ -1,3 +1,4 @@
+import TimezoneSelector from "@/pages/profile/TimezoneSelector";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import DateTimePicker from "@mui/lab/DateTimePicker";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
@@ -62,6 +63,7 @@ export default function MintDates(props: any) {
               ) => <TextField {...params} />}
             />
           </LocalizationProvider>
+          <TimezoneSelector  />
         </span>
       </div>
     </div>
