@@ -395,6 +395,7 @@ export default function LaunchingSoon() {
                               );
                             }
                             return b.preMintDate?.localeCompare(a.preMintDate!);
+
                           case "commentCount":
                             if (sort.isAsc) {
                               return (
