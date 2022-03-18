@@ -147,7 +147,7 @@ export default function UserNfts({ account }: props) {
                         leaveTo="transform opacity-0 scale-95"
                       >
                         <Menu.Items
-                          className={`absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md  shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none `}
+                          className={`absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md  bg-white shadow-lg  ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-gray-700 `}
                         >
                           <div className="px-1 py-1 ">
                             <Menu.Item>
@@ -159,7 +159,7 @@ export default function UserNfts({ account }: props) {
                                   className={`${
                                     active
                                       ? "bg-primaryblue text-white"
-                                      : "text-gray-900"
+                                      : "text-gray-900 dark:text-white"
                                   } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                                 >
                                   <div
@@ -180,7 +180,7 @@ export default function UserNfts({ account }: props) {
                                     className={`${
                                       active
                                         ? "bg-primaryblue text-white"
-                                        : "text-gray-900"
+                                        : "text-gray-900 dark:text-white"
                                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                                   >
                                     <div
