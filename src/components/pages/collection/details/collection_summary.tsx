@@ -97,12 +97,11 @@ export default function CollectionSummary({
     return setTwitterFolowers(data.followers_count);
   }
 
-  async function setFavoriteState(isLiked?:boolean) {
+  async function setFavoriteState(isLiked?: boolean) {
     //update favorite state
     console.log("changing");
 
-    toast(isLiked ? 'Removing from watchlist' : "Adding to watchlist")
-    
+    toast(isLiked ? "Removing from watchlist" : "Adding to watchlist");
 
     setChangingFavoriteState(true);
 
@@ -115,9 +114,7 @@ export default function CollectionSummary({
         }
       );
 
-
       console.log("changed");
-      
 
       setChangingFavoriteState(false);
     } catch (error) {
@@ -162,7 +159,7 @@ export default function CollectionSummary({
                         walletId.toLowerCase() == account.toLowerCase()
                     )
                       ? "fill-red-600 stroke-red-600"
-                      : "stroke-black fill-white dark:fill-black dark:stroke-white"
+                      : "fill-white stroke-black dark:fill-black dark:stroke-white"
                   }`}
                 >
                   <svg
@@ -398,7 +395,18 @@ export default function CollectionSummary({
                 />
                 <div
                   onClick={() => {
-                    window.open(link.link, "_blank");
+                    if (link.name == "Twitter") {
+                      if (link.link.includes("https://twitter.com/")) {
+                        return window.open(link.link, "_blank");
+                      } else {
+                        return window.open(
+                          `https://twitter.com/${link.link}`,
+                          "_blank"
+                        );
+                      }
+                    }
+
+                   return window.open(link.link, "_blank");
                   }}
                   className="flex cursor-pointer items-center gap-2 whitespace-nowrap text-sm text-blue-500 transition-all hover:text-blue-900 "
                 >
