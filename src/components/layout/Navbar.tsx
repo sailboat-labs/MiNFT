@@ -14,6 +14,7 @@ import DarkModeMenu from "./DarkmodeToggle";
 import { categories } from "../pages/landing/categories";
 import ProfileIcon from "../shared/profile_icon";
 import Search from "@/components/shared/Search";
+import { usePageLoader } from "@/hooks/pageloader";
 
 type props = {
   className?: string;
@@ -24,7 +25,6 @@ export default function Navbar({ className }: props) {
     { label: "Categories", route: "/" },
     { label: "All Collections", route: "/" },
   ];
-
 
   const requiredAuthPaths = ["/profile"];
 
@@ -42,6 +42,8 @@ export default function Navbar({ className }: props) {
 
   const [navOpen, setNavOpen] = useState(false);
 
+  const { Loader, setState, state } = usePageLoader();
+
   useEffect(() => {
     if (!account && requiredAuthPaths.includes(router.pathname))
       setShowAuthDialog(true);
@@ -51,6 +53,7 @@ export default function Navbar({ className }: props) {
     <section
       className={`fixed z-[999] w-full border-gray-500 bg-white text-gray-700 shadow transition-all  dark:border-b-2 dark:bg-black dark:text-white ${className}`}
     >
+      {state && <Loader />}
       <AuthDialog />
       <div
         className={`absolute z-[2] flex h-screen w-full flex-col bg-white shadow  transition-all  dark:bg-black lg:hidden 
@@ -227,11 +230,15 @@ export default function Navbar({ className }: props) {
           </div>
 
           {account && isAuthenticated && router.pathname !== "/collection/add" && (
-            <Link passHref href="/collection/add">
-              <div className="mr-5 cursor-pointer rounded bg-gray-200 px-3 py-1 font-medium leading-6 hover:text-gray-900  dark:bg-gray-700 dark:text-gray-200">
-                Add Project
-              </div>
-            </Link>
+            <div
+              onClick={() => {
+                setState(true)
+                router.push("/collection/add");
+              }}
+              className="mr-5 cursor-pointer rounded bg-gray-200 px-3 py-1 font-medium leading-6 hover:text-gray-900  dark:bg-gray-700 dark:text-gray-200"
+            >
+              Add Project
+            </div>
           )}
           {!account && !isAuthenticating && (
             <div
