@@ -89,7 +89,7 @@ export default function CollectionSummary({
   useEffect(() => {
     if (!account || !isAuthenticated) return;
     setWalletId(account);
-  }, [account,isAuthenticated]);
+  }, [account, isAuthenticated]);
 
   async function getTwitterFollowers() {
     if (!collection) return;
