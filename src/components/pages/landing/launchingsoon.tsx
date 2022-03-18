@@ -1,32 +1,28 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { formatInTimeZone } from "date-fns-tz";
-import dayjs from "dayjs";
+
 import {
-  collection,
   DocumentData,
+  collection,
   getFirestore,
   limit,
   orderBy,
   query,
 } from "firebase/firestore";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
-import Link from "next/link";
-import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
-import { useCollectionData } from "react-firebase-hooks/firestore";
-
-import { firebaseApp } from "@/lib/firebase";
-import useAuthenticationDialog from "@/hooks/UseAuthDialog";
-
-import PageLoader from "@/components/shared/PageLoader";
-
-import { getRandomAvatar } from "@/utils/GetRandomAvatar";
-
-import ExploreCategories from "./categories";
 
 import { Collection } from "@/types";
+import ExploreCategories from "./categories";
+import Link from "next/link";
+import PageLoader from "@/components/shared/PageLoader";
+import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+import dayjs from "dayjs";
+import { firebaseApp } from "@/lib/firebase";
+import { getRandomAvatar } from "@/utils/GetRandomAvatar";
+import gsap from "gsap";
+import useAuthenticationDialog from "@/hooks/UseAuthDialog";
+import { useCollectionData } from "react-firebase-hooks/firestore";
+import { useRouter } from "next/router";
 
 const firestore = getFirestore(firebaseApp);
 export default function LaunchingSoon() {
@@ -122,6 +118,7 @@ export default function LaunchingSoon() {
               <table className="min-w-full rounded-lg dark:border-2 dark:border-gray-700">
                 <thead className="bg-gray-50 dark:bg-gray-700">
                   <tr>
+                    {/* Collection */}
                     <th
                       scope="col"
                       className="py-3 px-6 text-left text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-200 "
@@ -152,6 +149,8 @@ export default function LaunchingSoon() {
                         </svg>
                       </div>
                     </th>
+
+                    {/* Presale mint date and time */}
                     <th
                       scope="col"
                       className="flex flex-row items-center py-3 px-6 text-left text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-200"
@@ -181,6 +180,8 @@ export default function LaunchingSoon() {
                         />
                       </svg>
                     </th>
+
+                    {/* Public mint date and time */}
                     <th
                       scope="col"
                       className=" py-3 px-6 text-left text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-200"
@@ -211,18 +212,24 @@ export default function LaunchingSoon() {
                         </svg>
                       </div>
                     </th>
+
+                    {/* Whitelist */}
                     <th
                       scope="col"
                       className="py-3 px-6 text-left text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-200 "
                     >
                       Whitelist
                     </th>
+
+                    {/* Team Info */}
                     <th
                       scope="col"
                       className="py-3 px-6 text-left text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-200 "
                     >
                       Team Info
                     </th>
+
+                    {/* Project Type */}
                     <th
                       scope="col"
                       className="flex items-center py-3 px-6 text-left text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-200"
@@ -251,6 +258,8 @@ export default function LaunchingSoon() {
                         />
                       </svg>
                     </th>
+
+                    {/* Comments */}
                     <th
                       scope="col"
                       className="py-3 px-6 text-left text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-200 "
@@ -281,6 +290,8 @@ export default function LaunchingSoon() {
                         </svg>
                       </div>
                     </th>
+
+                    {/* favorited */}
                     <th
                       scope="col"
                       className="py-3 px-6 text-left text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-200 "
@@ -349,6 +360,8 @@ export default function LaunchingSoon() {
                     </tr>
                   ))}
                 </tbody>
+
+                {/* Table data */}
                 <tbody className={`${!animateIntoView ? "hidden" : ""}`}>
                   {collections &&
                     collections
@@ -375,16 +388,13 @@ export default function LaunchingSoon() {
                               a.projectType ?? ""
                             );
 
-                          case "preMintDate":
+                          case "presaleMintDate":
                             if (sort.isAsc) {
-                              return ("" + a.preMintDate).localeCompare(
-                                b.preMintDate ?? ""
+                              return a.preMintDate?.localeCompare(
+                                b.preMintDate!
                               );
                             }
-                            return ("" + b.preMintDate).localeCompare(
-                              a.preMintDate ?? ""
-                            );
-
+                            return b.preMintDate?.localeCompare(a.preMintDate!);
                           case "commentCount":
                             if (sort.isAsc) {
                               return (
