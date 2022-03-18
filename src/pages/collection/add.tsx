@@ -42,11 +42,15 @@ export default function AddCollection({ collection }: any) {
   const [names, setNames] = useState<string[]>([]);
   const { user, setWalletId } = useUserData();
 
-
   const { AuthDialog, setShowAuthDialog } = useAuthenticationDialog();
 
   const _query = query(col(firestore, "collections"));
   const [snapshots, loading] = useCollectionData(_query);
+
+  useEffect(() => {
+    if (!account) return;
+    setWalletId(account);
+  }, [account]);
 
   useEffect(() => {
     if (loading) return;

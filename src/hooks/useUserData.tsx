@@ -12,6 +12,7 @@ const firestore = getFirestore(firebaseApp);
 export default function useUserData() {
   const [user, setUser] = useState<User>();
   const [walletId, setWalletId] = useState<string>();
+  
 
   const ref = doc(firestore, `users/${walletId}`);
 
@@ -30,6 +31,9 @@ export default function useUserData() {
     if (!walletId || !userData || loading) return;
     getUserData();
   }, [userData, loading, walletId]);
+
+
+
 
   return {
     user,

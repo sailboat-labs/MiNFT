@@ -52,21 +52,23 @@ export default function UploadingPost({ show }: props) {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="my-8 inline-block w-full max-w-md transform bg-white dark:bg-gray-700 overflow-hidden rounded-2xl  p-6 text-left align-middle shadow-xl transition-all">
+              <div className="my-8 inline-block w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6  text-left align-middle shadow-xl transition-all dark:bg-gray-700">
                 <Dialog.Title
                   as="h3"
-                  className="text-lg font-medium leading-6 text-gray-900"
+                  className="text-lg font-medium leading-6 text-gray-900 dark:text-white"
                 >
                   Uploading your collection
                 </Dialog.Title>
                 <div className="mt-2">
-                  <p className="text-sm text-gray-500">Please wait...</p>
+                  <p className="text-sm text-gray-500 dark:text-white">
+                    Please wait...
+                  </p>
                 </div>
 
                 <div className="mt-4">
                   <svg
                     role="status"
-                    className="mr-2 h-8 w-8 animate-spin fill-blue-600 text-gray-200 "
+                    className="mr-2 h-8 w-8 animate-spin fill-blue-600 text-gray-200 dark:fill-blue-600"
                     viewBox="0 0 100 101"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"

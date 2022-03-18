@@ -34,7 +34,6 @@ export interface Collection {
   whitepaper?:string;
   commentCount?:number;
   favorited?:string[];
-  timeZone?:string
   
 }
 

@@ -2,11 +2,13 @@ import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import DateTimePicker from "@mui/lab/DateTimePicker";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import TextField, { TextFieldProps } from "@mui/material/TextField";
+import { useRouter } from "next/router";
 import { useEffect } from "react";
 
 import useAuthenticationDialog from "@/hooks/UseAuthDialog";
 import useUserData from "@/hooks/useUserData";
-import { useRouter } from "next/router";
+
+import { zonedTimeToUtc } from "date-fns-tz";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function MintDates(props: any) {
@@ -21,10 +23,10 @@ export default function MintDates(props: any) {
   }, [account]);
 
   return (
-    <div className="mt-10 flex flex-col gap-5">
+    <div className="mt-10 flex flex-col gap-5 capitalize">
       <div className="flex items-start ">
         <span className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 dark:text-gray-200 ">
-          Your TimeZone:
+          Your Timezone:
         </span>
         <div className="flex flex-col">
           {user?.timeZone}{" "}
@@ -32,7 +34,7 @@ export default function MintDates(props: any) {
             onClick={() => {
               router.push("/profile");
             }}
-            className="flex items-center gap-3 cursor-pointer text-xs text-blue-500 transition-all hover:text-blue-700 dark:hover:text-blue-500 dark:text-blue-300"
+            className="flex cursor-pointer items-center gap-2 text-xs text-blue-500 transition-all hover:text-blue-700 dark:text-blue-300 dark:hover:text-blue-500"
           >
             Go to your profile to change your timezone
             <svg
@@ -68,15 +70,23 @@ export default function MintDates(props: any) {
               : "pointer-events-none translate-x-5 opacity-0"
           }`}
         >
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <DateTimePicker
-              value={props.presaleMintDateTime}
-              onChange={props.setPresaleMintDateTime}
-              renderInput={(
-                params: JSX.IntrinsicAttributes & TextFieldProps
-              ) => <TextField {...params} />}
-            />
-          </LocalizationProvider>
+          <div>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <DateTimePicker
+                value={props.presaleMintDateTime}
+                onChange={props.setPresaleMintDateTime}
+                renderInput={(
+                  params: JSX.IntrinsicAttributes & TextFieldProps
+                ) => <TextField {...params} />}
+              />
+            </LocalizationProvider>
+            <span className="mt-2 flex cursor-pointer items-center gap-2 text-sm text-gray-500">
+              {zonedTimeToUtc(
+                props.presaleMintDateTime,
+                user?.timeZone ?? "Etc/GMT"
+              ).toString()}
+            </span>
+          </div>
         </span>
       </div>
       <div className="flex items-center ">
@@ -97,15 +107,23 @@ export default function MintDates(props: any) {
               : "pointer-events-none translate-x-5 opacity-0"
           }`}
         >
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <DateTimePicker
-              value={props.publicMintDateTime}
-              onChange={props.setPublicMintDateTime}
-              renderInput={(
-                params: JSX.IntrinsicAttributes & TextFieldProps
-              ) => <TextField {...params} />}
-            />
-          </LocalizationProvider>
+          <div>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <DateTimePicker
+                value={props.publicMintDateTime}
+                onChange={props.setPublicMintDateTime}
+                renderInput={(
+                  params: JSX.IntrinsicAttributes & TextFieldProps
+                ) => <TextField {...params} />}
+              />
+            </LocalizationProvider>
+            <span className="mt-2 flex cursor-pointer items-center gap-2 text-sm text-gray-500">
+              {zonedTimeToUtc(
+                props.publicMintDateTime,
+                user?.timeZone ?? "Etc/GMT"
+              ).toString()}
+            </span>
+          </div>
         </span>
       </div>
     </div>
