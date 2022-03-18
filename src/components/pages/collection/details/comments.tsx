@@ -43,12 +43,12 @@ export default function Comments({ collectionId }: ICommentsProps) {
 
   const [showAuthDialog, setShowAuthDialog] = useState(false);
 
-  const [sortBy, setSortBy] = useState("date");
+  const [sortBy, setSortBy] = useState("date created");
   const [sortAsc, setSortAsc] = useState(true);
 
   const _query = query(
     collection(firestore, `collections/${collectionId}/comments`),
-    orderBy("lastUpdated", "desc"),
+    orderBy("dateCreated", "desc"),
     limit(100)
   );
   const [snapshots, loading] = useCollectionData(_query);
