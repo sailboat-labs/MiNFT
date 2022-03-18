@@ -76,11 +76,11 @@ export default function AddCollection({ collection }: any) {
   );
 
   const [presaleMintDateTime, setPresaleMintDateTime] = useState<Date | null>(
-    new Date(collection?.preMintDate ?? "2014-08-18T21:11:54")
+    new Date(collection?.preMintDate ?? new Date())
   );
 
   const [publicMintDateTime, setPublicMintDateTime] = useState<Date | null>(
-    new Date(collection?.publicMintDate ?? "2014-08-18T21:11:54")
+    new Date(collection?.publicMintDate ?? new Date())
   );
 
   const [showPresaleDate, setShowPresaleDate] = useState(false);

@@ -4,24 +4,31 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 import { User } from "@/types";
+import { doc, getFirestore } from "firebase/firestore";
+import { firebaseApp } from "@/lib/firebase";
+import { useDocumentData } from "react-firebase-hooks/firestore";
 
 type props = {
   account?: string;
   className?: string;
 };
+const firestore = getFirestore(firebaseApp);
 
 export default function EthAddress({ account, className }: props) {
   const [showCopy, setShowCopy] = useState(false);
   const [ensName, setEnsName] = useState<any>();
 
+  const ref = doc(firestore, `users/${account}`);
+
+  const [user, loading, error] = useDocumentData(ref);
+
   async function getENSName() {
     try {
-      const user = await axios.get(
-        `${process.env.NEXT_PUBLIC_FIREBASE_FUNCTIONS_ENDPOINT}/User?walletId=${account}`
-      );
+      // const user = await axios.get(
+      //   `${process.env.NEXT_PUBLIC_FIREBASE_FUNCTIONS_ENDPOINT}/User?walletId=${account}`
+      // );
 
-      
-      setEnsName(user.data);
+      setEnsName(user);
     } catch (error) {
       console.log(error);
     }
@@ -29,9 +36,9 @@ export default function EthAddress({ account, className }: props) {
 
   useEffect(() => {
     //Get ENS name
-    if (!account) return;
+    if (!account || !user || loading) return;
     getENSName();
-  }, [account]);
+  }, [account, user, loading]);
 
   return (
     <>
@@ -49,7 +56,7 @@ export default function EthAddress({ account, className }: props) {
           }}
           className={`flex cursor-pointer gap-2 rounded-xl hover:bg-gray-100 ${className}`}
         >
-          {(ensName && ensName.name) ? ensName.name : formatEthAddress(account)}
+          {ensName && ensName.name ? ensName.name : formatEthAddress(account)}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className={`h-6 w-6 transition-all ${

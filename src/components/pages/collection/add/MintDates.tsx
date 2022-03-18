@@ -1,8 +1,9 @@
-import TimezoneSelector from "@/pages/profile/TimezoneSelector";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import DateTimePicker from "@mui/lab/DateTimePicker";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import TextField, { TextFieldProps } from "@mui/material/TextField";
+
+import TimezoneSelector from "@/pages/profile/TimezoneSelector";
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function MintDates(props: any) {
   return (
@@ -63,7 +64,7 @@ export default function MintDates(props: any) {
               ) => <TextField {...params} />}
             />
           </LocalizationProvider>
-          <TimezoneSelector  />
+          <TimezoneSelector />
         </span>
       </div>
     </div>
