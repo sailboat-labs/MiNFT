@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useMoralis } from "react-moralis";
 import TimezoneSelect from "react-timezone-select";
@@ -23,14 +23,22 @@ export default function TimezoneSelector({ timeZone }: ITimeZoneSelectorProps) {
       lastUpdated: new Date().toISOString(),
     };
 
+    
+
     const { data } = await axios.put("/api/user", { user });
 
     if (data.success) {
-      toast.success(`Updated`);
+      // toast.success(`Updated`);
     } else {
       toast.error(`Unable to update`);
     }
   }
+
+
+  useEffect(()=>{
+    if(!selectedTimezone) return;
+    updateTimeZone()
+  },[selectedTimezone])
 
   return (
     <div className="mt-10  flex flex-col items-center">
@@ -39,7 +47,6 @@ export default function TimezoneSelector({ timeZone }: ITimeZoneSelectorProps) {
         value={selectedTimezone}
         onChange={(e) => {
           setSelectedTimezone(e.value);
-          updateTimeZone();
         }}
       />
       <div className="mt-2">{JSON.stringify(selectedTimezone)}</div>
