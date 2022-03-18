@@ -2,31 +2,32 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 
+import { Menu, Transition } from "@headlessui/react";
+import axios from "axios";
 import {
-  DocumentData,
   collection,
+  DocumentData,
   getFirestore,
   limit,
   orderBy,
   query,
 } from "firebase/firestore";
 import { Fragment, useEffect, useState } from "react";
-import { Menu, Transition } from "@headlessui/react";
+import { useCollectionData } from "react-firebase-hooks/firestore";
+import toast from "react-hot-toast";
+import { useMoralis } from "react-moralis";
+import { v4 } from "uuid";
+import Web3 from "web3";
+
+import { firebaseApp } from "@/lib/firebase";
 
 import AuthenticationDialog from "@/components/shared/AuthenticationDialog";
 import Avatar from "@/components/shared/Avatar";
-import { Comment } from "@/types";
-import DotsVertical from "~/svg/dots-vertical.svg";
 import EthAddress from "@/components/shared/EthAddress";
-import Web3 from "web3";
-import axios from "axios";
-import { firebaseApp } from "@/lib/firebase";
-import { formatEthAddress } from "eth-address";
-import { getRandomAvatar } from "@/utils/GetRandomAvatar";
-import toast from "react-hot-toast";
-import { useCollectionData } from "react-firebase-hooks/firestore";
-import { useMoralis } from "react-moralis";
-import { v4 } from "uuid";
+
+import { Comment } from "@/types";
+
+import DotsVertical from "~/svg/dots-vertical.svg";
 
 interface ICommentsProps {
   collectionId: string;
@@ -473,10 +474,12 @@ export default function Comments({ collectionId }: ICommentsProps) {
             {editMode ? "Update" : "Add new"} Comment
           </span>
           <div className="mt-2 flex gap-5 rounded-lg px-5 py-3">
-            <Avatar account={account}/>
+            <Avatar account={account} />
             <div className="flex w-full flex-col gap-2">
               <div className="flex gap-5">
-                <span className="mx-0"><EthAddress account={account}/></span>
+                <span className="mx-0">
+                  <EthAddress account={account} />
+                </span>
               </div>
 
               <textarea
