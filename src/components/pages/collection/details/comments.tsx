@@ -1,35 +1,33 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { Menu, Transition } from "@headlessui/react";
-import axios from "axios";
-import { formatEthAddress } from "eth-address";
+
 import {
-  collection,
   DocumentData,
+  collection,
   getFirestore,
   limit,
   orderBy,
   query,
 } from "firebase/firestore";
 import { Fragment, useEffect, useState } from "react";
-import { useCollectionData } from "react-firebase-hooks/firestore";
-import toast from "react-hot-toast";
-import { useMoralis } from "react-moralis";
-import { v4 } from "uuid";
-import Web3 from "web3";
-
-import { firebaseApp } from "@/lib/firebase";
+import { Menu, Transition } from "@headlessui/react";
 
 import AuthenticationDialog from "@/components/shared/AuthenticationDialog";
-
-import { getRandomAvatar } from "@/utils/GetRandomAvatar";
-
+import Avatar from "@/components/shared/Avatar";
 import { Comment } from "@/types";
-
 import DotsVertical from "~/svg/dots-vertical.svg";
 import EthAddress from "@/components/shared/EthAddress";
-import Avatar from "@/components/shared/Avatar";
+import Web3 from "web3";
+import axios from "axios";
+import { firebaseApp } from "@/lib/firebase";
+import { formatEthAddress } from "eth-address";
+import { getRandomAvatar } from "@/utils/GetRandomAvatar";
+import toast from "react-hot-toast";
+import { useCollectionData } from "react-firebase-hooks/firestore";
+import { useMoralis } from "react-moralis";
+import { v4 } from "uuid";
+
 interface ICommentsProps {
   collectionId: string;
 }
@@ -186,6 +184,18 @@ export default function Comments({ collectionId }: ICommentsProps) {
     }
   };
 
+  const hasVoted = (upVotes: Map<string, boolean>): boolean => {
+    try {
+      const votes: any = upVotes;
+      const voted: boolean = votes[account!] ?? false;
+      return voted;
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+      return false;
+    }
+  };
+
   return (
     <div className="contained mt-10 rounded  py-5">
       <div className="mt-0 flex flex-col gap-2 text-2xl font-bold">
@@ -335,10 +345,10 @@ export default function Comments({ collectionId }: ICommentsProps) {
               key={index}
               className="flex gap-5 rounded-lg bg-gray-50 px-5 py-3 dark:border-2 dark:border-gray-500 dark:bg-[#121212]"
             >
-              <Avatar account={item.owner}/>
+              <Avatar account={item.owner} />
               <div className="flex w-full flex-col gap-2">
                 <div className="flex w-full justify-between gap-5">
-                  <EthAddress account={item.owner}/>
+                  <EthAddress account={item.owner} />
                   <div className="w-fit text-right">
                     <Menu as="div" className="relative inline-block text-left">
                       <div>
@@ -433,7 +443,7 @@ export default function Comments({ collectionId }: ICommentsProps) {
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="h-4 w-4"
-                        fill="none"
+                        fill={hasVoted(item.upVotes!) ? "#ffffff" : "none"}
                         viewBox="0 0 24 24"
                         stroke="currentColor"
                       >
@@ -444,7 +454,9 @@ export default function Comments({ collectionId }: ICommentsProps) {
                           d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"
                         />
                       </svg>
-                      <span className="text-xs">Helpful</span>
+                      <span className="text-xs">
+                        {hasVoted(item.upVotes!) ? "Cancel Vote" : "Helpful"}{" "}
+                      </span>
                     </div>
                     {/* <span className="text-sm">Report</span> */}
                   </div>
