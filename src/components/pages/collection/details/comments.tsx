@@ -461,14 +461,10 @@ export default function Comments({ collectionId }: ICommentsProps) {
             {editMode ? "Update" : "Add new"} Comment
           </span>
           <div className="mt-2 flex gap-5 rounded-lg px-5 py-3">
-            <img
-              className="h-10 w-10 rounded-[50%] object-cover"
-              src={getRandomAvatar(account)}
-              alt=""
-            />
+            <Avatar account={account}/>
             <div className="flex w-full flex-col gap-2">
               <div className="flex gap-5">
-                <span className="mx-5">{formatEthAddress(account)}</span>
+                <span className="mx-0"><EthAddress account={account}/></span>
               </div>
 
               <textarea
