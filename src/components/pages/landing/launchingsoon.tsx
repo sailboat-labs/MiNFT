@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { formatInTimeZone } from "date-fns-tz";
 import dayjs from "dayjs";
 import {
   collection,
@@ -25,7 +26,6 @@ import { getRandomAvatar } from "@/utils/GetRandomAvatar";
 
 import ExploreCategories from "./categories";
 
-import { formatInTimeZone } from "date-fns-tz";
 import { Collection } from "@/types";
 
 const firestore = getFirestore(firebaseApp);
@@ -290,7 +290,7 @@ export default function LaunchingSoon() {
                         <svg
                           onClick={() => {
                             setSort({
-                              sortBy: "commentCount",
+                              sortBy: "favorited",
                               isAsc: !sort.isAsc,
                             });
                           }}
@@ -377,11 +377,11 @@ export default function LaunchingSoon() {
 
                           case "preMintDate":
                             if (sort.isAsc) {
-                              return (a.preMintDate ?? "").localeCompare(
+                              return ("" + a.preMintDate).localeCompare(
                                 b.preMintDate ?? ""
                               );
                             }
-                            return (b.preMintDate ?? "").localeCompare(
+                            return ("" + b.preMintDate).localeCompare(
                               a.preMintDate ?? ""
                             );
 
@@ -392,6 +392,18 @@ export default function LaunchingSoon() {
                               );
                             }
                             return b.commentCount ?? 0 - a.commentCount ?? 0;
+
+                          case "favorited":
+                            if (sort.isAsc) {
+                              return (
+                                (a.favorited?.length ?? 0) -
+                                (b.favorited?.length ?? 0)
+                              );
+                            }
+                            return (
+                              (b.favorited?.length ?? 0) -
+                              (a.favorited?.length ?? 0)
+                            );
 
                           case "publicMintDate":
                             if (sort.isAsc) {
@@ -423,7 +435,7 @@ export default function LaunchingSoon() {
                           }}
                           className="cursor-pointer border-b transition-all hover:bg-gray-50 dark:bg-[#121212] dark:hover:bg-gray-700"
                         >
-                          <td className="flex items-center gap-5 whitespace-nowrap py-4 px-6 text-sm font-medium text-gray-900">
+                          <td className="flex items-center gap-5 whitespace-nowrap border-r py-4 px-6 text-sm font-medium text-gray-900">
                             <div className="h-10 w-10 flex-shrink-0 rounded-[50%] bg-gray-100">
                               <img
                                 className="h-full w-full rounded-[50%] object-cover"
@@ -444,23 +456,21 @@ export default function LaunchingSoon() {
                               </div>
                             </div>
                           </td>
-                          <td className="whitespace-nowrap py-4 px-6 text-sm text-gray-500 dark:text-gray-200 ">
+                          <td className="whitespace-nowrap border-r py-4 px-6 text-sm text-gray-500 dark:text-gray-200">
                             {collection.preMintDate
                               ? dayjs(new Date(collection.preMintDate!)).format(
                                   "DD/MM/YYYY"
                                 )
                               : "N/A"}
                           </td>
-                          <td className="whitespace-nowrap py-4 px-6 text-sm text-gray-500 dark:text-gray-200 ">
+                          <td className="whitespace-nowrap border-r py-4 px-6 text-sm text-gray-500 dark:text-gray-200">
                             {collection.publicMintDate
-                              ? formatInTimeZone(
-                                  collection.publicMintDate,
-                                  "America/New_York",
-                                  "yyyy-MM-dd HH:mm:ss zzz"
-                                )
+                              ? dayjs(
+                                  new Date(collection.publicMintDate!)
+                                ).format("DD/MM/YYYY")
                               : "N/A"}
                           </td>
-                          <td className="whitespace-nowrap py-4 px-6 text-sm uppercase text-gray-500 dark:text-gray-200">
+                          <td className="whitespace-nowrap border-r py-4 px-6 text-sm uppercase text-gray-500 dark:text-gray-200">
                             {collection.whitelistAvailable == "yes" ? (
                               <div className="w-fit rounded-md bg-green-600 stroke-white">
                                 <svg
@@ -495,7 +505,7 @@ export default function LaunchingSoon() {
                               </div>
                             )}
                           </td>
-                          <td className="whitespace-nowrap py-4 px-6 text-sm uppercase text-gray-500 dark:text-gray-200">
+                          <td className="whitespace-nowrap border-r py-4 px-6 text-sm uppercase text-gray-500 dark:text-gray-200">
                             {collection.teamInfo ? (
                               <div className="w-fit rounded-md bg-green-600 stroke-white">
                                 <svg
@@ -530,10 +540,10 @@ export default function LaunchingSoon() {
                               </div>
                             )}
                           </td>
-                          <td className="whitespace-nowrap py-4 px-6 text-sm capitalize text-gray-500 dark:text-gray-200 ">
+                          <td className="whitespace-nowrap border-r py-4 px-6 text-sm capitalize text-gray-500 dark:text-gray-200">
                             {collection.projectType}
                           </td>
-                          <td className="whitespace-nowrap py-4 px-6 text-sm capitalize text-gray-500 dark:text-gray-200 ">
+                          <td className="whitespace-nowrap border-r py-4 px-6 text-sm capitalize text-gray-500 dark:text-gray-200">
                             {collection.commentCount ?? 0}
                           </td>
                           <td className=" gap-2 whitespace-nowrap py-4 px-6 text-sm capitalize text-gray-500 dark:text-gray-200 ">
