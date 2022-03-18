@@ -1,6 +1,7 @@
 import Footer from "@/components/layout/footer";
 import Layout from "@/components/layout/Layout";
 import FAQ from "@/components/pages/landing/FAQ";
+import Feedback from "@/components/pages/landing/Feedback";
 import Header from "@/components/pages/landing/header";
 import LaunchingSoon from "@/components/pages/landing/launchingsoon";
 import Leaderboard from "@/components/pages/landing/Leaderboard";
@@ -35,6 +36,7 @@ export default function HomePage() {
         <Leaderboard/>
         <LaunchingSoon />
         <FAQ/>
+        <Feedback/>
         <Footer />
       </div>
     </div>
