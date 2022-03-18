@@ -1,11 +1,13 @@
+import useUserData from "@/hooks/useUserData";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import DateTimePicker from "@mui/lab/DateTimePicker";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import TextField, { TextFieldProps } from "@mui/material/TextField";
-
-import TimezoneSelector from "@/pages/profile/TimezoneSelector";
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function MintDates(props: any) {
+
+  const {user,setWalletId} = useUserData()
+
   return (
     <div className="mt-10 flex flex-col gap-5">
       <div className="flex items-center ">
@@ -64,7 +66,6 @@ export default function MintDates(props: any) {
               ) => <TextField {...params} />}
             />
           </LocalizationProvider>
-          <TimezoneSelector />
         </span>
       </div>
     </div>
