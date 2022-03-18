@@ -46,7 +46,7 @@ export default function EthAddress({ account, className }: props) {
         <div
           onClick={() => {
             navigator.clipboard.writeText(account);
-            toast.success("Copied to clipboard");
+            toast.success("Address Copied to clipboard");
           }}
           onMouseOver={() => {
             setShowCopy(true);
@@ -54,7 +54,7 @@ export default function EthAddress({ account, className }: props) {
           onMouseLeave={() => {
             setShowCopy(false);
           }}
-          className={`flex cursor-pointer gap-2 rounded-xl hover:bg-gray-100 ${className}`}
+          className={`flex cursor-pointer gap-2 transition-all rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 hover:px-3 ${className}`}
         >
           {ensName && ensName.name ? ensName.name : formatEthAddress(account)}
           <svg
