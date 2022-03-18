@@ -28,6 +28,8 @@ import { getRandomAvatar } from "@/utils/GetRandomAvatar";
 import { Comment } from "@/types";
 
 import DotsVertical from "~/svg/dots-vertical.svg";
+import EthAddress from "@/components/shared/EthAddress";
+import Avatar from "@/components/shared/Avatar";
 interface ICommentsProps {
   collectionId: string;
 }
@@ -333,14 +335,10 @@ export default function Comments({ collectionId }: ICommentsProps) {
               key={index}
               className="flex gap-5 rounded-lg bg-gray-50 px-5 py-3 dark:border-2 dark:border-gray-500 dark:bg-[#121212]"
             >
-              <img
-                className="h-10 w-10 rounded-full object-cover"
-                src={getRandomAvatar(item.owner)}
-                alt=""
-              />
+              <Avatar account={item.owner}/>
               <div className="flex w-full flex-col gap-2">
                 <div className="flex w-full justify-between gap-5">
-                  <div>{formatEthAddress(item.owner!)}</div>
+                  <EthAddress account={item.owner}/>
                   <div className="w-fit text-right">
                     <Menu as="div" className="relative inline-block text-left">
                       <div>
