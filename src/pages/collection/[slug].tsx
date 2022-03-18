@@ -21,6 +21,8 @@ import { getOpenSeaCollection } from "@/helpers/opensea";
 
 import { Collection, OpenSeaCollection } from "@/types";
 
+
+
 const firestore = getFirestore(firebaseApp);
 
 const CollectionPage = ({ router }: any) => {

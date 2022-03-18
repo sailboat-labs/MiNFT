@@ -1,12 +1,14 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @next/next/no-img-element */
 import axios from "axios";
-import dayjs from "dayjs";
+import { formatInTimeZone } from "date-fns-tz";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { useMoralis } from "react-moralis";
 
 import useLinkExtractor from "@/hooks/UseLinkExtractor";
+import useUserData from "@/hooks/useUserData";
 
 import EthAddress from "@/components/shared/EthAddress";
 
@@ -19,7 +21,6 @@ import WhyILikeThisProject from "./WhyILikeProject";
 import WishlistRequirements from "./wishlist_requirements";
 
 import { Collection, OpenSeaCollection } from "@/types";
-import toast from "react-hot-toast";
 
 interface SocialLInk {
   name: string;
@@ -46,6 +47,8 @@ export default function CollectionSummary({
   const [twitterFolowers, setTwitterFolowers] = useState();
 
   const [changingFavoriteState, setChangingFavoriteState] = useState(false);
+
+  const { user, setWalletId } = useUserData();
 
   useEffect(() => {
     const links = [];
@@ -82,6 +85,12 @@ export default function CollectionSummary({
     setSocialLinks(links);
   }, [collection]);
 
+  //Set Wallet Id to get user data
+  useEffect(() => {
+    if (!account || !isAuthenticated) return;
+    setWalletId(account);
+  }, [account, isAuthenticated]);
+
   async function getTwitterFollowers() {
     if (!collection) return;
     if (!collection.twitter) return;
@@ -99,7 +108,6 @@ export default function CollectionSummary({
 
   async function setFavoriteState(isLiked?: boolean) {
     //update favorite state
-    console.log("changing");
 
     toast(isLiked ? "Removing from watchlist" : "Adding to watchlist");
 
@@ -113,8 +121,6 @@ export default function CollectionSummary({
           collectionId: collection.id,
         }
       );
-
-      console.log("changed");
 
       setChangingFavoriteState(false);
     } catch (error) {
@@ -210,8 +216,12 @@ export default function CollectionSummary({
               <span className="font-bold">Presale Mint Date and Time</span>
               <span>
                 {collection.preMintDate
-                  ? dayjs(new Date(collection.preMintDate!)).format(
-                      "DD/MM/YYYY, HH : MM "
+                  ? formatInTimeZone(
+                      collection.preMintDate,
+                      account && isAuthenticated
+                        ? user?.timeZone ?? "Etc/GMT"
+                        : "Etc/GMT",
+                      "yyyy-MM-dd HH:mm zzz"
                     )
                   : "N/A"}
               </span>
@@ -220,8 +230,12 @@ export default function CollectionSummary({
               <span className="font-bold">Public Mint Date and Time</span>
               <span>
                 {collection.publicMintDate
-                  ? dayjs(new Date(collection.publicMintDate!)).format(
-                      "DD/MM/YYYY, HH : MM "
+                  ? formatInTimeZone(
+                      collection.publicMintDate,
+                      account && isAuthenticated
+                        ? user?.timeZone ?? "Etc/GMT"
+                        : "Etc/GMT",
+                      "yyyy-MM-dd HH:mm zzz"
                     )
                   : "N/A"}
               </span>
@@ -406,7 +420,7 @@ export default function CollectionSummary({
                       }
                     }
 
-                   return window.open(link.link, "_blank");
+                    return window.open(link.link, "_blank");
                   }}
                   className="flex cursor-pointer items-center gap-2 whitespace-nowrap text-sm text-blue-500 transition-all hover:text-blue-900 "
                 >
