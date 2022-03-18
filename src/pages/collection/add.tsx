@@ -32,6 +32,7 @@ import WhitelistRequirements from "@/components/pages/collection/add/WhitelistRe
 import WhyILikeProject from "@/components/pages/collection/add/WhyILikeProject";
 
 import { Collection } from "@/types";
+import useUserData from "@/hooks/useUserData";
 
 const firestore = getFirestore(firebaseApp);
 
@@ -39,6 +40,8 @@ export default function AddCollection({ collection }: any) {
   const { account, isAuthenticated } = useMoralis();
   const router = useRouter();
   const [names, setNames] = useState<string[]>([]);
+  const { user, setWalletId } = useUserData();
+
 
   const { AuthDialog, setShowAuthDialog } = useAuthenticationDialog();
 

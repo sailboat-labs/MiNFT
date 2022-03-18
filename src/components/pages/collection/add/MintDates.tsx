@@ -1,15 +1,30 @@
-import useUserData from "@/hooks/useUserData";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import DateTimePicker from "@mui/lab/DateTimePicker";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import TextField, { TextFieldProps } from "@mui/material/TextField";
+import { useEffect } from "react";
+
+import useAuthenticationDialog from "@/hooks/UseAuthDialog";
+import useUserData from "@/hooks/useUserData";
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function MintDates(props: any) {
+  const { user, setWalletId } = useUserData();
+  const { account } = useAuthenticationDialog();
 
-  const {user,setWalletId} = useUserData()
+  useEffect(() => {
+    if (!account) return;
+    setWalletId(account);
+  }, [account]);
 
   return (
     <div className="mt-10 flex flex-col gap-5">
+      <div className="flex items-center ">
+        <span className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 dark:text-gray-200 ">
+          Your TimeZone:
+        </span>
+        {user?.timeZone}
+      </div>
       <div className="flex items-center ">
         <span className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 dark:text-gray-200 ">
           Pre-sale Mint date and time

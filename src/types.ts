@@ -33,7 +33,8 @@ export interface Collection {
   lastUpdated?: string;
   whitepaper?:string;
   commentCount?:number;
-  favorited?:string[]
+  favorited?:string[];
+  timeZone?:string
   
 }
 
