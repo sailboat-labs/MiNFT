@@ -388,7 +388,7 @@ export default function LaunchingSoon() {
                               a.projectType ?? ""
                             );
 
-                          case "presaleMintDate":
+                          case "preMintDate":
                             if (sort.isAsc) {
                               return a.preMintDate?.localeCompare(
                                 b.preMintDate!
