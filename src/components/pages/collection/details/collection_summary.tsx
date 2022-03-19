@@ -397,6 +397,22 @@ export default function CollectionSummary({
                   />
                 </td>
               </tr>
+              <tr className=" ">
+                <td className="whitespace-nowrap py-2  text-sm font-medium text-gray-900 dark:text-gray-200">
+                  Last Updated
+                </td>
+                <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
+                  {collection.lastUpdated
+                    ? formatInTimeZone(
+                        collection.lastUpdated,
+                        account && isAuthenticated
+                          ? user?.timeZone ?? "Etc/GMT"
+                          : "Etc/GMT",
+                        "yyyy-MM-dd HH:mm zzz"
+                      )
+                    : "N/A"}
+                </td>
+              </tr>
             </tbody>
           </table>
           <div className="mt-10 grid grid-cols-2 gap-5 border-t-2 pt-5 lg:flex lg:flex-col">
