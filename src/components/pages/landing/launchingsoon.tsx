@@ -110,7 +110,7 @@ export default function LaunchingSoon() {
 
         <div className="mt-10 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
-            <strong className="mb-5 flex w-full flex-col justify-between xl:flex-row">
+            <strong className="mb-5 flex w-full flex-col justify-between lg:gap-3">
               <div className="gradient-header">Launching Soon</div>
               <Link passHref href="/collections">
                 <div className="gradient-button text-sm font-normal">
