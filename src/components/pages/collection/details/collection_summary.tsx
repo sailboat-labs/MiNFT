@@ -186,7 +186,7 @@ export default function CollectionSummary({
 
             {account && isAuthenticated && account == collection.owner ? (
               <button
-                className="gradient-button mt-10 rounded-lg bg-gray-200 px-6 font-bold"
+                className="gradient-button rounded-lg bg-gray-200 px-6 font-bold"
                 onClick={() => {
                   setLoadingPage(true);
                   router.push(
