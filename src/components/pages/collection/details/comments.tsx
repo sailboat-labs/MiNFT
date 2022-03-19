@@ -20,6 +20,7 @@ import { v4 } from "uuid";
 import Web3 from "web3";
 
 import { firebaseApp } from "@/lib/firebase";
+import useModal from "@/hooks/useModal";
 
 import AuthenticationDialog from "@/components/shared/AuthenticationDialog";
 import Avatar from "@/components/shared/Avatar";
@@ -38,6 +39,16 @@ export default function Comments({ collectionId }: ICommentsProps) {
   const web3 = new Web3(Web3.givenProvider);
 
   const { account, isAuthenticated } = useMoralis();
+
+  const {
+    Modal,
+    setTitle,
+    setDescription,
+    setIsOpen,
+    isOpen,
+   setCancel,
+    setConfirm,
+  } = useModal();
 
   // Get comments from firestore
   const [comments, setComments] = useState<Comment[]>([]);
@@ -204,6 +215,7 @@ export default function Comments({ collectionId }: ICommentsProps) {
       toast.dismiss();
 
       if (_address == address) {
+        toast("Deleting")
         const { data } = await axios.delete("/api/comments", {
           data: {
             id: id,
@@ -239,6 +251,7 @@ export default function Comments({ collectionId }: ICommentsProps) {
 
   return (
     <div className="contained mt-10 rounded  py-5">
+      {isOpen && <Modal />}
       <div className="mt-0 flex flex-col gap-2 text-2xl font-bold">
         Comments{" "}
         <div className="">
@@ -406,7 +419,7 @@ export default function Comments({ collectionId }: ICommentsProps) {
                         leaveFrom="transform opacity-100 scale-100"
                         leaveTo="transform opacity-0 scale-95"
                       >
-                        <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md  shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                        <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg  ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-gray-700">
                           <div className="px-1 py-1 ">
                             {account && item.owner == account && (
                               <Menu.Item>
@@ -419,7 +432,7 @@ export default function Comments({ collectionId }: ICommentsProps) {
                                     className={`${
                                       active
                                         ? "bg-primaryblue text-white"
-                                        : "text-gray-900"
+                                        : "text-gray-900 dark:text-white"
                                     } group flex w-full items-center rounded-md px-2 py-2 text-sm font-bold`}
                                   >
                                     Edit
@@ -440,7 +453,7 @@ export default function Comments({ collectionId }: ICommentsProps) {
                                   className={`${
                                     active
                                       ? "bg-primaryblue text-white"
-                                      : "text-gray-900"
+                                      : "text-gray-900 dark:text-white"
                                   } group flex w-full items-center rounded-md px-2 py-2 text-sm font-bold`}
                                 >
                                   Verify authenticity
@@ -451,18 +464,43 @@ export default function Comments({ collectionId }: ICommentsProps) {
                               <Menu.Item>
                                 {({ active }: any) => (
                                   <button
-                                    onClick={() =>
-                                      handleDeleteComment(
-                                        item.id,
-                                        item.comment!,
-                                        item.signature!,
-                                        item.owner!
-                                      )
-                                    }
+                                    onClick={() => {
+                                      setTitle("Delete Comment");
+                                      setDescription(
+                                        "Are you sure you want to delete this comment?"
+                                      );
+                                      setIsOpen(true);
+                                      setCancel(
+                                        <div
+                                          onClick={() => {
+                                            setIsOpen(false)
+                                          }}
+                                          className="w-fit cursor-pointer rounded-md border-2  border-gray-500 bg-gray-300 px-8 py-2 text-black transition-all hover:bg-gray-400 dark:bg-gray-600 dark:text-white dark:hover:bg-gray-700"
+                                        >
+                                          No
+                                        </div>
+                                      );
+                                      setConfirm(
+                                        <div
+                                          onClick={async () => {
+                                            await handleDeleteComment(
+                                               item.id,
+                                               item.comment!,
+                                               item.signature!,
+                                               item.owner!
+                                             );
+                                             setIsOpen(false)
+                                          }}
+                                          className="w-fit cursor-pointer rounded-md border-2  border-gray-500 bg-gray-300 px-8 py-2 text-black transition-all hover:bg-gray-400 dark:bg-gray-600 dark:text-white dark:hover:bg-gray-700"
+                                        >
+                                          Delete
+                                        </div>
+                                      );
+                                    }}
                                     className={`${
                                       active
                                         ? "bg-primaryblue text-white"
-                                        : "text-gray-900"
+                                        : "text-gray-900 dark:text-white"
                                     } group flex w-full items-center rounded-md px-2 py-2 text-sm font-bold`}
                                   >
                                     Delete
