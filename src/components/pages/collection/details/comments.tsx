@@ -214,6 +214,8 @@ export default function Comments({ collectionId }: ICommentsProps) {
 
       toast.dismiss();
 
+      
+
       if (_address == address) {
         toast("Deleting")
         const { data } = await axios.delete("/api/comments", {
