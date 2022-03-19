@@ -185,6 +185,46 @@ export default function Comments({ collectionId }: ICommentsProps) {
     }
   };
 
+  const handleDeleteComment = async (
+    id: string,
+    comment: string,
+    signature: string,
+    address: string
+  ) => {
+    try {
+      if (!comment || !signature)
+        return toast.error("Comment verification unsuccessful");
+
+      //verify authenticity
+      const _address = await web3.eth.personal.ecRecover(
+        web3.utils.sha3(comment)!,
+        signature
+      );
+
+      toast.dismiss();
+
+      if (_address == address) {
+        const { data } = await axios.delete("/api/comments", {
+          data: {
+            id: id,
+            collectionId,
+          },
+        });
+
+        if (data.success) {
+          return toast.success("Deleted");
+          setComment("");
+        } else {
+          return toast.error(`Unable to Delete comment`);
+        }
+      }
+      return toast.error("Comment verification unsuccessful");
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+    }
+  };
+
   const hasVoted = (upVotes: Map<string, boolean>): boolean => {
     try {
       const votes: any = upVotes;
@@ -407,6 +447,29 @@ export default function Comments({ collectionId }: ICommentsProps) {
                                 </button>
                               )}
                             </Menu.Item>
+                            {account && item.owner == account && (
+                              <Menu.Item>
+                                {({ active }: any) => (
+                                  <button
+                                    onClick={() =>
+                                      handleDeleteComment(
+                                        item.id,
+                                        item.comment!,
+                                        item.signature!,
+                                        item.owner!
+                                      )
+                                    }
+                                    className={`${
+                                      active
+                                        ? "bg-primaryblue text-white"
+                                        : "text-gray-900"
+                                    } group flex w-full items-center rounded-md px-2 py-2 text-sm font-bold`}
+                                  >
+                                    Delete
+                                  </button>
+                                )}
+                              </Menu.Item>
+                            )}
                           </div>
                         </Menu.Items>
                       </Transition>

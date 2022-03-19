@@ -1,12 +1,14 @@
 /* eslint-disable no-console */
+
+import { NextApiRequest, NextApiResponse } from "next";
 import {
   collection,
+  deleteDoc,
   doc,
   getFirestore,
   setDoc,
   updateDoc,
 } from "firebase/firestore";
-import { NextApiRequest, NextApiResponse } from "next";
 
 import { firebaseApp } from "@/lib/firebase";
 
@@ -38,6 +40,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         `collections/${collectionId}/comments/${comment.id}`
       );
       await updateDoc(_doc, comment);
+
+      return res.status(200).json({ success: true });
+    } else if (req.method == "DELETE") {
+      const { id } = req.body;
+
+      const _doc = doc(firestore, `collections/${collectionId}/comments/${id}`);
+      await deleteDoc(_doc);
 
       return res.status(200).json({ success: true });
     }
