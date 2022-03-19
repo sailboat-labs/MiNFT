@@ -1,28 +1,32 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 
+import dayjs from "dayjs";
 import {
-  DocumentData,
   collection,
+  DocumentData,
   getFirestore,
   limit,
   orderBy,
   query,
 } from "firebase/firestore";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
+import { useCollectionData } from "react-firebase-hooks/firestore";
+
+import { firebaseApp } from "@/lib/firebase";
+import useAuthenticationDialog from "@/hooks/UseAuthDialog";
+
+import PageLoader from "@/components/shared/PageLoader";
+
+import { getRandomAvatar } from "@/utils/GetRandomAvatar";
+
+import ExploreCategories from "./categories";
 
 import { Collection } from "@/types";
-import ExploreCategories from "./categories";
-import Link from "next/link";
-import PageLoader from "@/components/shared/PageLoader";
-import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
-import dayjs from "dayjs";
-import { firebaseApp } from "@/lib/firebase";
-import { getRandomAvatar } from "@/utils/GetRandomAvatar";
-import gsap from "gsap";
-import useAuthenticationDialog from "@/hooks/UseAuthDialog";
-import { useCollectionData } from "react-firebase-hooks/firestore";
-import { useRouter } from "next/router";
 
 const firestore = getFirestore(firebaseApp);
 export default function LaunchingSoon() {
@@ -106,8 +110,8 @@ export default function LaunchingSoon() {
 
         <div className="mt-10 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
-            <strong className="flex flex-col items-start justify-between gap-4 text-xl md:flex-row md:items-center">
-              Launching Soon
+            <strong className="mb-5 flex w-full flex-col justify-between xl:flex-row">
+              <div className="gradient-header">Launching Soon</div>
               <Link passHref href="/collections">
                 <div className="gradient-button text-sm font-normal">
                   All Collections

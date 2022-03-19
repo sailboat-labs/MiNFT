@@ -156,11 +156,13 @@ export default function NewlyAdded() {
   };
 
   return (
-    <div className="bg-white dark:bg-black relative z-[2]">
+    <div className="relative z-[2] bg-white dark:bg-black">
       <div id="newly_added" className="contained mt-10 overflow-hidden">
         {loadingCollection && <PageLoader />}
         <a href="#newly_added" className="flex w-full justify-center">
-          <strong className="text-2xl dark:text-white">Newly Added</strong>
+          <strong className="mb-5 gradient-header">
+            Newly Added
+          </strong>
         </a>
 
         <div

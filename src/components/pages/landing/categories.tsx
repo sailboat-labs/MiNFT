@@ -31,15 +31,19 @@ export default function ExploreCategories({
 
   return (
     <div className="mt-10">
-      <strong className="flex items-center gap-4 text-xl">
-        Explore by Categories{" "}
+      <strong className="mb-5 flex items-center gap-4">
+        <strong className="gradient-header">
+          Explore by Categories{" "}
+        </strong>
         {dismissible && (
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className={`h-6 w-6 cursor-pointer transition-all ${
               hideList ? "rotate-0" : "rotate-180"
             }`}
-            onClick={()=>{setHideList(!hideList)}}
+            onClick={() => {
+              setHideList(!hideList);
+            }}
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -54,8 +58,10 @@ export default function ExploreCategories({
         )}{" "}
       </strong>
       <div
-        className={`mt-5 grid grid-cols-1 gap-8 transition-all md:grid-cols-3 xl:grid-cols-4 select-none ${
-          hideList ? "-translate-y-8 pointer-events-none opacity-0 h-0" : "translate-y-0 pointer-events-auto opacity-100 h-fit"
+        className={`mt-5 grid select-none grid-cols-1 gap-8 transition-all md:grid-cols-3 xl:grid-cols-4 ${
+          hideList
+            ? "pointer-events-none h-0 -translate-y-8 opacity-0"
+            : "pointer-events-auto h-fit translate-y-0 opacity-100"
         }`}
       >
         {categories.map((category, index) => (

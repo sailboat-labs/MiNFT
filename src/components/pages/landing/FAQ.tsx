@@ -143,7 +143,7 @@ export default function FAQ() {
       </div>
       <div className="relative z-[2]">
         <a href="#faq" className="flex" id="faq-anim-trigger">
-          <strong className="text-xl dark:text-white">
+          <strong className="gradient-header mb-5">
             Frequently Asked Questions
           </strong>
         </a>

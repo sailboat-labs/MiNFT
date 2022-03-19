@@ -51,7 +51,9 @@ export default function Leaderboard() {
       {leaderboard && (
         <div className="contained mt-0 flex h-fit flex-col items-start">
           <div className="flex items-center gap-5">
-            <span className="text-2xl font-bold">Leaderboard</span>
+            <span className="gradient-header">
+              Leaderboard
+            </span>
 
             <Menu as="div" className="relative z-[10] inline-block text-left">
               <div className="flex items-center gap-3">
