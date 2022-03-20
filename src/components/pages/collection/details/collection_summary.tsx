@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @next/next/no-img-element */
+import { atcb_init } from "add-to-calendar-button";
 import axios from "axios";
 import { formatInTimeZone } from "date-fns-tz";
 import { useRouter } from "next/router";
@@ -91,6 +92,9 @@ export default function CollectionSummary({
     setWalletId(account);
   }, [account, isAuthenticated]);
 
+//   useEffect(()=>{
+// atcb_init;
+//   },[]);
   async function getTwitterFollowers() {
     if (!collection) return;
     if (!collection.twitter) return;
@@ -105,6 +109,16 @@ export default function CollectionSummary({
 
     return setTwitterFolowers(data.followers_count);
   }
+
+  useEffect(()=>{
+
+
+if (typeof window === "object") {
+  // Check if document is finally loaded
+  // document.addEventListener("DOMContentLoaded", atcb_init, false);
+
+}
+  },[])
 
   async function setFavoriteState(isLiked?: boolean) {
     //update favorite state
@@ -225,6 +239,16 @@ export default function CollectionSummary({
                     )
                   : "N/A"}
               </span>
+              <div className="atcb" style={{ display: "none" }}>
+                {JSON.stringify({
+                  name: "Some event",
+                  startDate: "2022-01-14",
+                  endDate: "2022-01-18",
+                  options: ["Apple", "Google"],
+                  trigger: "click",
+                  iCalFileName: "Reminder-Event",
+                })}
+              </div>
             </div>
             <div className="flex flex-col gap-2">
               <span className="font-bold">Public Mint Date and Time</span>

@@ -51,7 +51,7 @@ export default function Navbar({ className }: props) {
 
   return (
     <section
-      className={`fixed z-[999] w-full border-gray-500 bg-white text-gray-700 shadow transition-all  dark:border-b-2 dark:bg-black dark:text-white ${className}`}
+      className={`fixed z-[9999] w-full border-gray-500 bg-white text-gray-700 shadow transition-all  dark:border-b-2 dark:bg-black dark:text-white ${className}`}
     >
       {state && <Loader />}
       <AuthDialog />

@@ -129,7 +129,7 @@ export default function ProfileIcon() {
                     </div>
                   )}
                 </Menu.Item>
-                {/* <Menu.Item>
+                <Menu.Item>
                   {({ active }: any) => (
                     <button
                       className={`${
@@ -141,7 +141,7 @@ export default function ProfileIcon() {
                       My Comments
                     </button>
                   )}
-                </Menu.Item> */}
+                </Menu.Item>
               </div>
               <div className="px-1 py-1">
                 <Menu.Item>

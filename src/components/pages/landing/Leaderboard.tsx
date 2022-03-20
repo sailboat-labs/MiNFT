@@ -55,7 +55,7 @@ export default function Leaderboard() {
               Leaderboard
             </span>
 
-            <Menu as="div" className="relative z-[10] inline-block text-left">
+            <Menu as="div" className="relative z-[1] inline-block text-left">
               <div className="flex items-center gap-3">
                 <Menu.Button className="rounded bg-primaryblue px-2 py-1 text-sm capitalize text-white transition-all hover:scale-105">
                   {sort}
