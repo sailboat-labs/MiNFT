@@ -10,14 +10,14 @@ type props = {
 };
 
 export const categories: { label: string; image: string }[] = [
-  { label: "art", image: "/images/art_category.png" },
-  { label: "photography", image: "/images/photography_category.png" },
+  { label: "art", image: "/images/Art.png" },
+  { label: "photography", image: "/images/Photography.jpeg" },
   { label: "collectibles", image: "/images/collectibles_category.png" },
-  { label: "utility", image: "/images/utility_category.png" },
+  { label: "utility", image: "/images/Utility.png" },
   { label: "domain names", image: "/images/domain_names_category.png" },
-  { label: "music", image: "/images/music_category.png" },
-  { label: "gaming", image: "/images/music_category.png" },
-  { label: "pfp", image: "/images/music_category.png" },
+  { label: "music", image: "/images/Music.gif" },
+  { label: "gaming", image: "/images/Gaming.png" },
+  { label: "pfp", image: "/images/PFP.png" },
 ];
 
 export default function ExploreCategories({
@@ -96,7 +96,7 @@ export default function ExploreCategories({
             `}
             key={index}
           >
-            <div className="flex h-20 w-2/5 items-center rounded-l-lg bg-red-200">
+            <div className="flex h-20 w-2/5 items-center rounded-l-lg">
               <img
                 alt=""
                 src={category.image}

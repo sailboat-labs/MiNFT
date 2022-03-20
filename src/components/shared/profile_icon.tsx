@@ -131,15 +131,25 @@ export default function ProfileIcon() {
                 </Menu.Item>
                 <Menu.Item>
                   {({ active }: any) => (
-                    <button
+                    <div
                       className={`${
                         active
                           ? "bg-primaryblue text-white"
                           : "text-gray-900 dark:text-white"
-                      } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                      } group flex w-full cursor-pointer items-center rounded-md px-2 py-2 text-sm `}
                     >
-                      My Comments
-                    </button>
+                      <Link href="/comments" passHref>
+                        <div
+                          className={`${
+                            active
+                              ? "bg-primaryblue text-white"
+                              : "text-gray-900 dark:text-white"
+                          } group flex w-full items-center rounded-md py-0 text-sm `}
+                        >
+                          My Comments
+                        </div>
+                      </Link>
+                    </div>
                   )}
                 </Menu.Item>
               </div>
