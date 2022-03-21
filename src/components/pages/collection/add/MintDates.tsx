@@ -24,35 +24,8 @@ export default function MintDates(props: any) {
 
   return (
     <div className="mt-10 flex flex-col gap-5 capitalize">
-      <div className="flex items-start ">
-        <span className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 dark:text-gray-200 ">
-          Your Timezone:
-        </span>
-        <div className="flex flex-col">
-          {user?.timeZone}{" "}
-          <span
-            onClick={() => {
-              router.push("/profile");
-            }}
-            className="flex cursor-pointer items-center gap-2 text-xs text-blue-500 transition-all hover:text-blue-700 dark:text-blue-300 dark:hover:text-blue-500"
-          >
-            Go to your profile to change your timezone
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-3 w-3"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fillRule="evenodd"
-                d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z"
-                clipRule="evenodd"
-              />
-            </svg>
-          </span>
-        </div>
-      </div>
-      <div className="flex items-center ">
+      
+      <div className="flex flex-col items-center md:flex-row">
         <span className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 dark:text-gray-200 ">
           Pre-sale Mint date and time
         </span>
@@ -64,28 +37,58 @@ export default function MintDates(props: any) {
           className="focus:ring-3 h-4 w-4 rounded border border-gray-300 bg-gray-50 focus:ring-blue-300"
         />
         <span
-          className={`whitespace-nowrap py-2 px-6 text-sm text-gray-500 transition-all dark:ml-5 dark:rounded-lg dark:bg-white dark:text-white  ${
+          className={`whitespace-nowrap py-2 px-6 text-sm text-gray-500 transition-all dark:rounded-lg  dark:text-white  ${
             props.showPresaleDate
               ? "pointer-events-auto translate-x-0 opacity-100"
               : "pointer-events-none translate-x-5 opacity-0"
           }`}
         >
-          <div>
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <DateTimePicker
-                value={props.presaleMintDateTime}
-                onChange={props.setPresaleMintDateTime}
-                renderInput={(
-                  params: JSX.IntrinsicAttributes & TextFieldProps
-                ) => <TextField {...params} />}
-              />
-            </LocalizationProvider>
-            <span className="mt-2 flex cursor-pointer items-center gap-2 text-sm text-gray-500">
-              {zonedTimeToUtc(
-                props.presaleMintDateTime,
-                user?.timeZone ?? "Etc/GMT"
-              ).toString()}
-            </span>
+          <div className="flex flex-col items-center gap-5 md:flex-row">
+            <div className="rounded-lg dark:bg-white">
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DateTimePicker
+                  value={props.presaleMintDateTime}
+                  onChange={props.setPresaleMintDateTime}
+                  renderInput={(
+                    params: JSX.IntrinsicAttributes & TextFieldProps
+                  ) => <TextField {...params} />}
+                />
+              </LocalizationProvider>
+            </div>
+            <div className="flex flex-col">
+              {user?.timeZone}{" "}
+              <span
+                onClick={() => {
+                  router.push("/profile");
+                }}
+                className="flex cursor-pointer items-center gap-2 text-xs text-blue-500 transition-all hover:text-blue-700 dark:text-blue-300 dark:hover:text-blue-500"
+              >
+                Change your timezone
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-3 w-3"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </span>
+            </div>
+            <div className="flex flex-col md:border-l-2 md:pl-5">
+              <span className="flex cursor-pointer flex-col items-center gap-2 text-sm text-gray-700 dark:text-white md:flex-row">
+                {zonedTimeToUtc(
+                  props.presaleMintDateTime,
+                  user?.timeZone ?? "Etc/GMT"
+                ).toString()}
+              </span>
+              <span className="text-xs dark:text-gray-300">
+                This is how the date and time will be displayed by default
+              </span>
+            </div>
           </div>
         </span>
       </div>
@@ -101,28 +104,58 @@ export default function MintDates(props: any) {
           className="focus:ring-3 h-4 w-4 rounded border border-gray-300 bg-gray-50 focus:ring-blue-300"
         />
         <span
-          className={`whitespace-nowrap py-2 px-6 text-sm text-gray-500 transition-all dark:ml-5 dark:rounded-lg dark:bg-white dark:text-white ${
+          className={`whitespace-nowrap py-2 px-6 text-sm text-gray-500 transition-all dark:rounded-lg  dark:text-white ${
             props.showPublicDate
               ? "pointer-events-auto translate-x-0 opacity-100"
               : "pointer-events-none translate-x-5 opacity-0"
           }`}
         >
-          <div>
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <DateTimePicker
-                value={props.publicMintDateTime}
-                onChange={props.setPublicMintDateTime}
-                renderInput={(
-                  params: JSX.IntrinsicAttributes & TextFieldProps
-                ) => <TextField {...params} />}
-              />
-            </LocalizationProvider>
-            <span className="mt-2 flex cursor-pointer items-center gap-2 text-sm text-gray-500">
-              {zonedTimeToUtc(
-                props.publicMintDateTime,
-                user?.timeZone ?? "Etc/GMT"
-              ).toString()}
-            </span>
+          <div className="flex flex-col items-center gap-5 md:flex-row">
+            <div className="rounded-lg dark:bg-white">
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DateTimePicker
+                  value={props.publicMintDateTime}
+                  onChange={props.setPublicMintDateTime}
+                  renderInput={(
+                    params: JSX.IntrinsicAttributes & TextFieldProps
+                  ) => <TextField {...params} />}
+                />
+              </LocalizationProvider>
+            </div>
+            <div className="flex flex-col">
+              {user?.timeZone}{" "}
+              <span
+                onClick={() => {
+                  router.push("/profile");
+                }}
+                className="flex cursor-pointer items-center gap-2 text-xs text-blue-500 transition-all hover:text-blue-700 dark:text-blue-300 dark:hover:text-blue-500"
+              >
+                Change your timezone
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-3 w-3"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </span>
+            </div>
+            <div className="flex flex-col md:border-l-2 md:pl-5">
+              <span className="flex cursor-pointer flex-col items-center gap-2 text-sm text-gray-700 dark:text-white md:flex-row">
+                {zonedTimeToUtc(
+                  props.publicMintDateTime,
+                  user?.timeZone ?? "Etc/GMT"
+                ).toString()}
+              </span>
+              <span className="text-xs dark:text-gray-300">
+                This is how the date and time will be displayed by default
+              </span>
+            </div>
           </div>
         </span>
       </div>

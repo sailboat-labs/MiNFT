@@ -65,8 +65,8 @@ export default function useModal() {
                   )}
 
                   <div className="mt-5 flex items-center gap-5">
-                    {cancel}
                     {confirm}
+                    {cancel}
                   </div>
                 </div>
               </Transition.Child>
