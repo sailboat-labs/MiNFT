@@ -21,12 +21,12 @@ import Avatar from "@/components/shared/Avatar";
 import EthAddress from "@/components/shared/EthAddress";
 import PageLoader from "@/components/shared/PageLoader";
 
+import { getRandomAvatar } from "@/utils/GetRandomAvatar";
 import { groupBy } from "@/utils/GroupBy";
 
 import { Collection, Comment } from "@/types";
 
 import DotsVertical from "~/svg/dots-vertical.svg";
-import { getRandomAvatar } from "@/utils/GetRandomAvatar";
 
 const firestore = getFirestore(firebaseApp);
 export default function AllComments() {
@@ -242,7 +242,7 @@ export default function AllComments() {
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+                d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"
               />
             </svg>
             <span
