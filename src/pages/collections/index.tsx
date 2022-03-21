@@ -11,12 +11,12 @@ import {
 } from "firebase/firestore";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 
 import { firebaseApp } from "@/lib/firebase";
+import useAuthenticationDialog from "@/hooks/UseAuthDialog";
 
 import Layout from "@/components/layout/Layout";
 import ExploreCategories from "@/components/pages/landing/categories";
@@ -25,7 +25,6 @@ import PageLoader from "@/components/shared/PageLoader";
 import { getRandomAvatar } from "@/utils/GetRandomAvatar";
 
 import { Collection } from "@/types";
-import useAuthenticationDialog from "@/hooks/UseAuthDialog";
 
 const firestore = getFirestore(firebaseApp);
 export default function AllCollections() {
@@ -66,7 +65,6 @@ export default function AllCollections() {
   }, [loading, snapshots]);
 
   const { account, isAuthenticated } = useAuthenticationDialog();
-
 
   const soonWrapperElement = useRef<any>(null);
   const q = gsap.utils.selector(soonWrapperElement);
