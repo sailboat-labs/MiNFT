@@ -361,7 +361,7 @@ export default function AllComments() {
                               )}
                             </div>
                           </div>
-                          <div className="ml-14">
+                          <div className="md:ml-14">
                             {item[1].map((comment, index) => (
                               <div
                                 key={index}
