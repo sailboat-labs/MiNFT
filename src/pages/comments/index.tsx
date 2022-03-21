@@ -22,6 +22,7 @@ import PageLoader from "@/components/shared/PageLoader";
 import { Collection, Comment } from "@/types";
 
 import DotsVertical from "~/svg/dots-vertical.svg";
+import useAuthenticationDialog from "@/hooks/UseAuthDialog";
 
 const firestore = getFirestore(firebaseApp);
 export default function AllComments() {
@@ -32,10 +33,13 @@ export default function AllComments() {
   >([]);
   const [loadingCollection, setLoadingCollection] = useState(false);
   const [animateIntoView, setAnimateIntoView] = useState(false);
-  const { account, isAuthenticated } = useMoralis();
 
   const [selectedComment, setSelectedComment] = useState<Comment>();
   const [editMode, setEditMode] = useState<boolean>(false);
+
+    const { AuthDialog, setShowAuthDialog, account, isAuthenticated } =
+      useAuthenticationDialog();
+
 
   const {
     Modal,
@@ -56,7 +60,7 @@ export default function AllComments() {
 
   async function getCollectionComments() {
     const { data } = await axios.get(
-      `https://us-central1-minft-production.cloudfunctions.net/comments?walletId=0x3fe4def311c71edf776831155eb4f72816eaaf25`
+      `https://us-central1-minft-production.cloudfunctions.net/comments?walletId=${account?.toString().toLowerCase()}`
     );
 
 
@@ -157,6 +161,42 @@ export default function AllComments() {
       scrollButtonAnim.kill();
     };
   }, []);
+
+
+  if (!account || !isAuthenticated) {
+    return (
+      <Layout>
+        <div className="mt-20 flex h-full w-full flex-col items-center justify-center gap-5 px-10 text-center">
+          <AuthDialog />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-20 w-20"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth="1"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          <div className="text-2xl font-bold text-gray-900 dark:text-white">
+            Connect your wallet to view your comments
+          </div>
+          <div
+            onClick={() => {
+              setShowAuthDialog(true);
+            }}
+            className="gradient-button"
+          >
+            Connect your wallet
+          </div>
+        </div>
+      </Layout>
+    );
+  }
 
   return (
     <Layout>
