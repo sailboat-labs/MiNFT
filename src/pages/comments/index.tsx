@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Menu, Transition } from "@headlessui/react";
 import axios from "axios";
+import { getFirestore } from "firebase/firestore";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import { useRouter } from "next/router";
@@ -10,6 +11,7 @@ import toast from "react-hot-toast";
 import { useMoralis } from "react-moralis";
 import Web3 from "web3";
 
+import { firebaseApp } from "@/lib/firebase";
 import useModal from "@/hooks/useModal";
 
 import Layout from "@/components/layout/Layout";
@@ -17,17 +19,16 @@ import Avatar from "@/components/shared/Avatar";
 import EthAddress from "@/components/shared/EthAddress";
 import PageLoader from "@/components/shared/PageLoader";
 
-import { groupBy } from "@/utils/GroupBy";
-
 import { Collection, Comment } from "@/types";
 
 import DotsVertical from "~/svg/dots-vertical.svg";
 
+const firestore = getFirestore(firebaseApp);
 export default function AllComments() {
   const web3 = new Web3(Web3.givenProvider);
 
   const [collectionComments, setCollectionComments] = useState<
-    { 0: Collection; 1: Comment[] }[]
+    { comment: Comment; collection: Collection }[]
   >([]);
   const [loadingCollection, setLoadingCollection] = useState(false);
   const [animateIntoView, setAnimateIntoView] = useState(false);
@@ -58,18 +59,11 @@ export default function AllComments() {
       `https://us-central1-minft-production.cloudfunctions.net/comments?walletId=0x3fe4def311c71edf776831155eb4f72816eaaf25`
     );
 
-    console.log(data);
 
-    const grouped = groupBy(
-      data,
-      (item: { comment: Comment; collection: Collection }) =>
-        item.collection ?? "none"
-    );
-
-    console.log(Array.from(grouped));
-
-    setCollectionComments(Array.from(grouped));
-
+    setCollectionComments(data);
+    
+    
+    
     setTimeout(() => {
       setAnimateIntoView(true);
     }, 1000);
@@ -251,176 +245,170 @@ export default function AllComments() {
                       </tr>
                     ))}
                   </tbody>
-                  <tbody
-                    className={` flex flex-col gap-5 ${
-                      !animateIntoView ? "hidden" : ""
-                    }`}
-                  >
+                  <tbody className={` flex flex-col gap-5 ${!animateIntoView ? "hidden" : ""}`}>
                     {collectionComments &&
                       collectionComments.map((item, index) => (
                         <div key={index}>
                           <span className="text-xl font-bold">
-                            {item[0].name}
+                            {item.collection.name}
                           </span>
-                          {item[1].map((comment, index) => (
-                            <div
-                              key={index}
-                              className="mt-5 flex gap-5 rounded-lg bg-gray-50 px-5 py-3 dark:border-2 dark:border-gray-500 dark:bg-[#121212]"
-                            >
-                              <Avatar account={comment.owner} />
-                              <div className="flex w-full flex-col gap-2">
-                                <div className="flex w-full justify-between gap-5">
-                                  <EthAddress account={comment.owner} />
-                                  <div className="w-fit text-right">
-                                    <Menu
-                                      as="div"
-                                      className="relative inline-block text-left"
+                          <div className="mt-5 flex gap-5 rounded-lg bg-gray-50 px-5 py-3 dark:border-2 dark:border-gray-500 dark:bg-[#121212]">
+                            <Avatar account={item.comment.owner} />
+                            <div className="flex w-full flex-col gap-2">
+                              <div className="flex w-full justify-between gap-5">
+                                <EthAddress account={item.comment.owner} />
+                                <div className="w-fit text-right">
+                                  <Menu
+                                    as="div"
+                                    className="relative inline-block text-left"
+                                  >
+                                    <div>
+                                      <Menu.Button className="">
+                                        <DotsVertical />
+                                      </Menu.Button>
+                                    </div>
+                                    <Transition
+                                      as={Fragment}
+                                      enter="transition ease-out duration-100"
+                                      enterFrom="transform opacity-0 scale-95"
+                                      enterTo="transform opacity-100 scale-100"
+                                      leave="transition ease-in duration-75"
+                                      leaveFrom="transform opacity-100 scale-100"
+                                      leaveTo="transform opacity-0 scale-95"
                                     >
-                                      <div>
-                                        <Menu.Button className="">
-                                          <DotsVertical />
-                                        </Menu.Button>
-                                      </div>
-                                      <Transition
-                                        as={Fragment}
-                                        enter="transition ease-out duration-100"
-                                        enterFrom="transform opacity-0 scale-95"
-                                        enterTo="transform opacity-100 scale-100"
-                                        leave="transition ease-in duration-75"
-                                        leaveFrom="transform opacity-100 scale-100"
-                                        leaveTo="transform opacity-0 scale-95"
-                                      >
-                                        <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg  ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-gray-700">
-                                          <div className="px-1 py-1 ">
-                                            {account &&
-                                              comment.owner == account && (
-                                                <Menu.Item>
-                                                  {({ active }: any) => (
-                                                    <button
-                                                      onClick={() => {
-                                                        setSelectedComment(
-                                                          comment
-                                                        );
-                                                        setEditMode(true);
-                                                      }}
-                                                      className={`${
-                                                        active
-                                                          ? "bg-primaryblue text-white"
-                                                          : "text-gray-900 dark:text-white"
-                                                      } group flex w-full items-center rounded-md px-2 py-2 text-sm font-bold`}
-                                                    >
-                                                      Edit
-                                                    </button>
-                                                  )}
-                                                </Menu.Item>
-                                              )}
-                                            <Menu.Item>
-                                              {({ active }: any) => (
-                                                <button
-                                                  onClick={() => {
-                                                    verifyCommentAuthenticity(
-                                                      comment.comment!,
-                                                      comment.signature!,
-                                                      comment.owner!
-                                                    );
-                                                  }}
-                                                  className={`${
-                                                    active
-                                                      ? "bg-primaryblue text-white"
-                                                      : "text-gray-900 dark:text-white"
-                                                  } group flex w-full items-center rounded-md px-2 py-2 text-sm font-bold`}
-                                                >
-                                                  Verify authenticity
-                                                </button>
-                                              )}
-                                            </Menu.Item>
-                                            {account &&
-                                              comment.owner == account && (
-                                                <Menu.Item>
-                                                  {({ active }: any) => (
-                                                    <button
-                                                      onClick={() => {
-                                                        setTitle(
-                                                          "Delete Comment"
-                                                        );
-                                                        setDescription(
-                                                          "Are you sure you want to delete this comment?"
-                                                        );
-                                                        setIsOpen(true);
-                                                        setCancel(
-                                                          <div
-                                                            onClick={() => {
-                                                              setIsOpen(false);
-                                                            }}
-                                                            className="w-fit cursor-pointer rounded-md border-2  border-gray-500 bg-gray-300 px-8 py-2 text-black transition-all hover:bg-gray-400 dark:bg-gray-600 dark:text-white dark:hover:bg-gray-700"
-                                                          >
-                                                            No
-                                                          </div>
-                                                        );
-                                                        setConfirm(
-                                                          <div
-                                                            onClick={async () => {
-                                                              await handleDeleteComment(
-                                                                comment.id,
-                                                                comment.comment!,
-                                                                comment.signature!,
-                                                                comment.owner!,
-                                                                comment.collectionId
-                                                              );
-                                                              setIsOpen(false);
-                                                            }}
-                                                            className="w-fit cursor-pointer rounded-md border-2  border-gray-500 bg-gray-300 px-8 py-2 text-black transition-all hover:bg-gray-400 dark:bg-gray-600 dark:text-white dark:hover:bg-gray-700"
-                                                          >
-                                                            Delete
-                                                          </div>
-                                                        );
-                                                      }}
-                                                      className={`${
-                                                        active
-                                                          ? "bg-primaryblue text-white"
-                                                          : "text-gray-900 dark:text-white"
-                                                      } group flex w-full items-center rounded-md px-2 py-2 text-sm font-bold`}
-                                                    >
-                                                      Delete
-                                                    </button>
-                                                  )}
-                                                </Menu.Item>
-                                              )}
-                                          </div>
-                                        </Menu.Items>
-                                      </Transition>
-                                    </Menu>
-                                  </div>
-                                  {/* <span>Rating here</span> */}
+                                      <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg  ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-gray-700">
+                                        <div className="px-1 py-1 ">
+                                          {account &&
+                                            item.comment.owner == account && (
+                                              <Menu.Item>
+                                                {({ active }: any) => (
+                                                  <button
+                                                    onClick={() => {
+                                                      setSelectedComment(
+                                                        item.comment
+                                                      );
+                                                      setEditMode(true);
+                                                    }}
+                                                    className={`${
+                                                      active
+                                                        ? "bg-primaryblue text-white"
+                                                        : "text-gray-900 dark:text-white"
+                                                    } group flex w-full items-center rounded-md px-2 py-2 text-sm font-bold`}
+                                                  >
+                                                    Edit
+                                                  </button>
+                                                )}
+                                              </Menu.Item>
+                                            )}
+                                          <Menu.Item>
+                                            {({ active }: any) => (
+                                              <button
+                                                onClick={() => {
+                                                  verifyCommentAuthenticity(
+                                                    item.comment.comment!,
+                                                    item.comment.signature!,
+                                                    item.comment.owner!
+                                                  );
+                                                }}
+                                                className={`${
+                                                  active
+                                                    ? "bg-primaryblue text-white"
+                                                    : "text-gray-900 dark:text-white"
+                                                } group flex w-full items-center rounded-md px-2 py-2 text-sm font-bold`}
+                                              >
+                                                Verify authenticity
+                                              </button>
+                                            )}
+                                          </Menu.Item>
+                                          {account &&
+                                            item.comment.owner == account && (
+                                              <Menu.Item>
+                                                {({ active }: any) => (
+                                                  <button
+                                                    onClick={() => {
+                                                      setTitle(
+                                                        "Delete Comment"
+                                                      );
+                                                      setDescription(
+                                                        "Are you sure you want to delete this comment?"
+                                                      );
+                                                      setIsOpen(true);
+                                                      setCancel(
+                                                        <div
+                                                          onClick={() => {
+                                                            setIsOpen(false);
+                                                          }}
+                                                          className="w-fit cursor-pointer rounded-md border-2  border-gray-500 bg-gray-300 px-8 py-2 text-black transition-all hover:bg-gray-400 dark:bg-gray-600 dark:text-white dark:hover:bg-gray-700"
+                                                        >
+                                                          No
+                                                        </div>
+                                                      );
+                                                      setConfirm(
+                                                        <div
+                                                          onClick={async () => {
+                                                            await handleDeleteComment(
+                                                              item.comment.id,
+                                                              item.comment
+                                                                .comment!,
+                                                              item.comment
+                                                                .signature!,
+                                                              item.comment
+                                                                .owner!,
+                                                              item.collection.id
+                                                            );
+                                                            setIsOpen(false);
+                                                          }}
+                                                          className="w-fit cursor-pointer rounded-md border-2  border-gray-500 bg-gray-300 px-8 py-2 text-black transition-all hover:bg-gray-400 dark:bg-gray-600 dark:text-white dark:hover:bg-gray-700"
+                                                        >
+                                                          Delete
+                                                        </div>
+                                                      );
+                                                    }}
+                                                    className={`${
+                                                      active
+                                                        ? "bg-primaryblue text-white"
+                                                        : "text-gray-900 dark:text-white"
+                                                    } group flex w-full items-center rounded-md px-2 py-2 text-sm font-bold`}
+                                                  >
+                                                    Delete
+                                                  </button>
+                                                )}
+                                              </Menu.Item>
+                                            )}
+                                        </div>
+                                      </Menu.Items>
+                                    </Transition>
+                                  </Menu>
                                 </div>
-                                <p className="max-w-3xl text-sm text-gray-500 dark:text-white">
-                                  {comment.comment}
-                                </p>
-                                <span
-                                  className={`${
-                                    Object.values(comment.upVotes!).filter(
-                                      (value) => value
-                                    ).length! < 1
-                                      ? "hidden"
-                                      : "block"
-                                  } text-xs text-red-500`}
-                                >
-                                  {
-                                    Object.values(comment.upVotes!).filter(
-                                      (value) => value
-                                    ).length
-                                  }{" "}
-                                  degen
-                                  {Object.values(comment.upVotes!).filter(
-                                    (value) => value
-                                  ).length == 1
-                                    ? ""
-                                    : "s"}
-                                  &nbsp;found this helpful
-                                </span>
+                                {/* <span>Rating here</span> */}
                               </div>
+                              <p className="max-w-3xl text-sm text-gray-500 dark:text-white">
+                                {item.comment.comment}
+                              </p>
+                              <span
+                                className={`${
+                                  Object.values(item.comment.upVotes!).filter(
+                                    (value) => value
+                                  ).length! < 1
+                                    ? "hidden"
+                                    : "block"
+                                } text-xs text-red-500`}
+                              >
+                                {
+                                  Object.values(item.comment.upVotes!).filter(
+                                    (value) => value
+                                  ).length
+                                }{" "}
+                                degen
+                                {Object.values(item.comment.upVotes!).filter(
+                                  (value) => value
+                                ).length == 1
+                                  ? ""
+                                  : "s"}
+                                &nbsp;found this helpful
+                              </span>
                             </div>
-                          ))}
+                          </div>
                         </div>
                       ))}
                   </tbody>
