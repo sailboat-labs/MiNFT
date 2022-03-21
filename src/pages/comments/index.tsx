@@ -28,7 +28,6 @@ import { Collection, Comment } from "@/types";
 
 import DotsVertical from "~/svg/dots-vertical.svg";
 
-const firestore = getFirestore(firebaseApp);
 export default function AllComments() {
   const web3 = new Web3(Web3.givenProvider);
 
@@ -365,7 +364,7 @@ export default function AllComments() {
                             {item[1].map((comment, index) => (
                               <div
                                 key={index}
-                                className="mt-5 flex gap-5 border rounded-lg bg-gray-50 px-5 py-3 dark:border-2 dark:border-gray-500 dark:bg-[#121212]"
+                                className="mt-5 flex gap-5 rounded-lg border bg-gray-50 px-5 py-3 dark:border-2 dark:border-gray-500 dark:bg-[#121212]"
                               >
                                 <Avatar account={comment.comment.owner} />
                                 <div className="flex w-full flex-col gap-2">
