@@ -47,7 +47,7 @@ export default function Leaderboard() {
   }, []);
 
   return (
-    <div className="mt-10 bg-gray-50 py-12 dark:bg-gray-900">
+    <div className="mt-10 relative z-[2] bg-gray-50 py-12 dark:bg-gray-900">
       {leaderboard && (
         <div className="contained mt-0 flex h-fit flex-col items-start">
           <div className="flex items-center gap-5">

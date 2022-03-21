@@ -25,6 +25,7 @@ import PageLoader from "@/components/shared/PageLoader";
 import { getRandomAvatar } from "@/utils/GetRandomAvatar";
 
 import { Collection } from "@/types";
+import useAuthenticationDialog from "@/hooks/UseAuthDialog";
 
 const firestore = getFirestore(firebaseApp);
 export default function AllCollections() {
@@ -63,6 +64,9 @@ export default function AllCollections() {
       setAnimateIntoView(true);
     }, 500);
   }, [loading, snapshots]);
+
+  const { account, isAuthenticated } = useAuthenticationDialog();
+
 
   const soonWrapperElement = useRef<any>(null);
   const q = gsap.utils.selector(soonWrapperElement);
@@ -158,12 +162,13 @@ export default function AllCollections() {
                 <table className="min-w-full rounded-lg dark:border-2 dark:border-gray-700">
                   <thead className="bg-gray-50 dark:bg-gray-700">
                     <tr>
+                      {/* Collection */}
                       <th
                         scope="col"
                         className="py-3 px-6 text-left text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-200 "
                       >
                         <div className="flex items-center">
-                          Collection Name
+                          Collection
                           <svg
                             onClick={() => {
                               setSort({
@@ -188,11 +193,14 @@ export default function AllCollections() {
                           </svg>
                         </div>
                       </th>
+
+                      {/* Presale mint date and time */}
                       <th
                         scope="col"
                         className="flex flex-row items-center py-3 px-6 text-left text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-200"
                       >
-                        Presale Mint Date & Time
+                        Presale Mint
+                        <br /> Date & Time
                         <svg
                           onClick={() => {
                             setSort({
@@ -216,12 +224,14 @@ export default function AllCollections() {
                           />
                         </svg>
                       </th>
+
+                      {/* Public mint date and time */}
                       <th
                         scope="col"
                         className=" py-3 px-6 text-left text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-200"
                       >
                         <div className="flex items-center">
-                          Public Mint Date & Time
+                          Public Mint <br /> Date & Time
                           <svg
                             onClick={() => {
                               setSort({
@@ -246,18 +256,24 @@ export default function AllCollections() {
                           </svg>
                         </div>
                       </th>
+
+                      {/* Whitelist */}
                       <th
                         scope="col"
                         className="py-3 px-6 text-left text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-200 "
                       >
-                        Whitelist Available
+                        Whitelist
                       </th>
+
+                      {/* Team Info */}
                       <th
                         scope="col"
                         className="py-3 px-6 text-left text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-200 "
                       >
                         Team Info
                       </th>
+
+                      {/* Project Type */}
                       <th
                         scope="col"
                         className="flex items-center py-3 px-6 text-left text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-200"
@@ -285,6 +301,70 @@ export default function AllCollections() {
                             clipRule="evenodd"
                           />
                         </svg>
+                      </th>
+
+                      {/* Comments */}
+                      <th
+                        scope="col"
+                        className="py-3 px-6 text-left text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-200 "
+                      >
+                        <div className="flex items-center">
+                          Comments
+                          <svg
+                            onClick={() => {
+                              setSort({
+                                sortBy: "commentCount",
+                                isAsc: !sort.isAsc,
+                              });
+                            }}
+                            xmlns="http://www.w3.org/2000/svg"
+                            className={`h-5 w-5 cursor-pointer transition-all hover:scale-110 ${
+                              sort.sortBy == "commentCount" && sort.isAsc
+                                ? "rotate-180"
+                                : "rotate-0"
+                            } `}
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                              clipRule="evenodd"
+                            />
+                          </svg>
+                        </div>
+                      </th>
+
+                      {/* favorited */}
+                      <th
+                        scope="col"
+                        className="py-3 px-6 text-left text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-200 "
+                      >
+                        <div className="flex items-center">
+                          Favorited
+                          <svg
+                            onClick={() => {
+                              setSort({
+                                sortBy: "favorited",
+                                isAsc: !sort.isAsc,
+                              });
+                            }}
+                            xmlns="http://www.w3.org/2000/svg"
+                            className={`h-5 w-5 cursor-pointer transition-all hover:scale-110 ${
+                              sort.sortBy == "commentCount" && sort.isAsc
+                                ? "rotate-180"
+                                : "rotate-0"
+                            } `}
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                              clipRule="evenodd"
+                            />
+                          </svg>
+                        </div>
                       </th>
                     </tr>
                   </thead>
@@ -324,6 +404,8 @@ export default function AllCollections() {
                       </tr>
                     ))}
                   </tbody>
+
+                  {/* Table data */}
                   <tbody className={`${!animateIntoView ? "hidden" : ""}`}>
                     {collections &&
                       collections
@@ -354,20 +436,42 @@ export default function AllCollections() {
 
                             case "preMintDate":
                               if (sort.isAsc) {
-                                return a.preMintDate.localeCompare(
-                                  b.preMintDate
-                                );
-                              }
-                              return b.preMintDate.localeCompare(a.preMintDate);
-
-                            case "publicMintDate":
-                              if (sort.isAsc) {
                                 return a.preMintDate?.localeCompare(
                                   b.preMintDate!
                                 );
                               }
                               return b.preMintDate?.localeCompare(
                                 a.preMintDate!
+                              );
+
+                            case "commentCount":
+                              if (sort.isAsc) {
+                                return (
+                                  (a.commentCount ?? 0) - (b.commentCount ?? 0)
+                                );
+                              }
+                              return b.commentCount ?? 0 - a.commentCount ?? 0;
+
+                            case "favorited":
+                              if (sort.isAsc) {
+                                return (
+                                  (a.favorited?.length ?? 0) -
+                                  (b.favorited?.length ?? 0)
+                                );
+                              }
+                              return (
+                                (b.favorited?.length ?? 0) -
+                                (a.favorited?.length ?? 0)
+                              );
+
+                            case "publicMintDate":
+                              if (sort.isAsc) {
+                                return a.publicMintDate?.localeCompare(
+                                  b.publicMintDate!
+                                );
+                              }
+                              return b.publicMintDate?.localeCompare(
+                                a.publicMintDate!
                               );
 
                             default:
@@ -382,70 +486,157 @@ export default function AllCollections() {
                           }
                         })
                         .map((collection, index) => (
-                          <Link
+                          <tr
                             key={index}
-                            href={{
-                              pathname: `/collection/[slug]`,
-                              query: {
-                                slug: collection.slug!,
-                              },
+                            onClick={() => {
+                              setLoadingCollection(true);
+                              router.push(`/collection/${collection.slug!}`);
                             }}
-                            passHref
+                            className="cursor-pointer border-b transition-all hover:bg-gray-50 dark:bg-[#121212] dark:hover:bg-gray-700"
                           >
-                            <tr
-                              onClick={() => {
-                                setLoadingCollection(true);
-                              }}
-                              className="cursor-pointer border-b transition-all hover:bg-gray-50 dark:bg-[#121212] dark:hover:bg-gray-700"
-                            >
-                              <td className="flex items-center gap-5 whitespace-nowrap border-r py-4 px-6 text-sm font-medium text-gray-900">
-                                <div className="h-10 w-10 flex-shrink-0 rounded-[50%] bg-gray-100">
-                                  <img
-                                    className="h-full w-full rounded-[50%] object-cover"
-                                    src={
-                                      collection.image ??
-                                      getRandomAvatar(collection.owner)
-                                    }
-                                    alt=""
-                                  />
+                            <td className="flex items-center gap-5 whitespace-nowrap border-r py-4 px-6 text-sm font-medium text-gray-900">
+                              <div className="h-10 w-10 flex-shrink-0 rounded-[50%] bg-gray-100">
+                                <img
+                                  className="h-full w-full rounded-[50%] object-cover"
+                                  src={
+                                    collection.image ??
+                                    getRandomAvatar(collection.owner)
+                                  }
+                                  alt=""
+                                />
+                              </div>
+                              <div>
+                                <div className="text-md dark:text-white">
+                                  {collection.name}
                                 </div>
-                                <div>
-                                  <div className="text-md dark:text-white">
-                                    {collection.name}
-                                  </div>
-                                  <div className="whitespace-nowrap text-sm text-gray-500 dark:text-gray-200 ">
-                                    <span>{collection.supply}</span>
-                                    <span>&nbsp;circulating supply</span>
-                                  </div>
+                                <div className="whitespace-nowrap text-sm text-gray-500 dark:text-gray-200 ">
+                                  <span>{collection.supply}</span>
+                                  <span>&nbsp;circulating supply</span>
                                 </div>
-                              </td>
-                              <td className="whitespace-nowrap border-r py-4 px-6 text-sm text-gray-500 dark:text-gray-200">
-                                {collection.preMintDate
-                                  ? dayjs(
-                                      new Date(collection.preMintDate!)
-                                    ).format("DD/MM/YYYY, HH : MM")
-                                  : "N/A"}
-                              </td>
-                              <td className="whitespace-nowrap border-r py-4 px-6 text-sm text-gray-500 dark:text-gray-200">
-                                {collection.publicMintDate
-                                  ? dayjs(
-                                      new Date(collection.publicMintDate!)
-                                    ).format("DD/MM/YYYY, HH : MM ")
-                                  : "N/A"}
-                              </td>
-                              <td className="whitespace-nowrap border-r py-4 px-6 text-sm uppercase text-gray-500 dark:text-gray-200">
-                                {collection.whitelistAvailable == "yes"
-                                  ? "true"
-                                  : "false"}
-                              </td>
-                              <td className="whitespace-nowrap border-r py-4 px-6 text-sm uppercase text-gray-500 dark:text-gray-200">
-                                {collection.teamInfo ? "true" : "false"}
-                              </td>
-                              <td className="whitespace-nowrap py-4 px-6 text-sm capitalize text-gray-500 dark:text-gray-200 ">
-                                {collection.projectType}
-                              </td>
-                            </tr>
-                          </Link>
+                              </div>
+                            </td>
+                            <td className="whitespace-nowrap border-r py-4 px-6 text-sm text-gray-500 dark:text-gray-200">
+                              {collection.preMintDate
+                                ? dayjs(
+                                    new Date(collection.preMintDate!)
+                                  ).format("DD/MM/YYYY")
+                                : "N/A"}
+                            </td>
+                            <td className="whitespace-nowrap border-r py-4 px-6 text-sm text-gray-500 dark:text-gray-200">
+                              {collection.publicMintDate
+                                ? dayjs(
+                                    new Date(collection.publicMintDate!)
+                                  ).format("DD/MM/YYYY")
+                                : "N/A"}
+                            </td>
+                            <td className="whitespace-nowrap border-r py-4 px-6 text-sm uppercase text-gray-500 dark:text-gray-200">
+                              {collection.whitelistAvailable == "yes" ? (
+                                <div className="w-fit rounded-md bg-green-600 stroke-white">
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="h-5 w-5"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    strokeWidth="2"
+                                  >
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      d="M5 13l4 4L19 7"
+                                    />
+                                  </svg>
+                                </div>
+                              ) : (
+                                <div className="w-fit rounded-md bg-red-600 stroke-white">
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="h-5 w-5"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    strokeWidth="2"
+                                  >
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      d="M6 18L18 6M6 6l12 12"
+                                    />
+                                  </svg>
+                                </div>
+                              )}
+                            </td>
+                            <td className="whitespace-nowrap border-r py-4 px-6 text-sm uppercase text-gray-500 dark:text-gray-200">
+                              {collection.teamInfo ? (
+                                <div className="w-fit rounded-md bg-green-600 stroke-white">
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="h-5 w-5"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    strokeWidth="2"
+                                  >
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      d="M5 13l4 4L19 7"
+                                    />
+                                  </svg>
+                                </div>
+                              ) : (
+                                <div className="w-fit rounded-md bg-red-600 stroke-white">
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="h-5 w-5"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    strokeWidth="2"
+                                  >
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      d="M6 18L18 6M6 6l12 12"
+                                    />
+                                  </svg>
+                                </div>
+                              )}
+                            </td>
+                            <td className="whitespace-nowrap border-r py-4 px-6 text-sm capitalize text-gray-500 dark:text-gray-200">
+                              {collection.projectType}
+                            </td>
+                            <td className="whitespace-nowrap border-r py-4 px-6 text-sm capitalize text-gray-500 dark:text-gray-200">
+                              {collection.commentCount ?? 0}
+                            </td>
+                            <td className=" gap-2 whitespace-nowrap py-4 px-6 text-sm capitalize text-gray-500 dark:text-gray-200 ">
+                              <div className="flex items-center gap-5">
+                                {collection.favorited?.length ?? 0}
+                                {account && isAuthenticated && (
+                                  <div
+                                    className={` ${
+                                      collection.favorited?.some(
+                                        (walletId) =>
+                                          walletId.toLowerCase() ==
+                                          account.toLowerCase()
+                                      )
+                                        ? "fill-red-600 stroke-red-600"
+                                        : "hidden stroke-black dark:stroke-white"
+                                    }`}
+                                  >
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      className="h-4 w-4"
+                                      viewBox="0 0 24 24"
+                                      strokeWidth="2"
+                                    >
+                                      <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                                      />
+                                    </svg>
+                                  </div>
+                                )}
+                              </div>
+                            </td>
+                          </tr>
                         ))}
                   </tbody>
                 </table>

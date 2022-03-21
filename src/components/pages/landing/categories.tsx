@@ -32,9 +32,7 @@ export default function ExploreCategories({
   return (
     <div className="mt-10">
       <strong className="mb-5 flex items-center gap-4">
-        <strong className="gradient-header">
-          Explore by Categories{" "}
-        </strong>
+        <strong className="gradient-header">Explore by Categories </strong>
         {dismissible && (
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -58,7 +56,7 @@ export default function ExploreCategories({
         )}{" "}
       </strong>
       <div
-        className={`mt-5 grid select-none grid-cols-1 gap-8 transition-all md:grid-cols-3 xl:grid-cols-4 ${
+        className={`mt-5 grid select-none grid-cols-2 gap-8 transition-all md:grid-cols-3 xl:grid-cols-4 ${
           hideList
             ? "pointer-events-none h-0 -translate-y-8 opacity-0"
             : "pointer-events-auto h-fit translate-y-0 opacity-100"
@@ -79,7 +77,7 @@ export default function ExploreCategories({
             onMouseLeave={() => {
               setHoveredCategory(-1);
             }}
-            className={`flex cursor-pointer rounded-lg  transition-all hover:scale-105 
+            className={`flex cursor-pointer flex-col rounded-lg transition-all  hover:scale-105 md:flex-row 
             ${
               hoveredCategory == index || hoveredCategory == -1
                 ? "opacity-100"
@@ -96,11 +94,11 @@ export default function ExploreCategories({
             `}
             key={index}
           >
-            <div className="flex h-20 w-2/5 items-center rounded-l-lg">
+            <div className="flex h-20 w-full items-center rounded-t-lg md:w-2/5 md:rounded-l-lg">
               <img
                 alt=""
                 src={category.image}
-                className="h-full w-full rounded-l-lg object-cover"
+                className="h-full w-full rounded-t-lg object-cover md:rounded-l-lg md:rounded-t-sm"
               />
               <svg
                 xmlns="http://www.w3.org/2000/svg"
