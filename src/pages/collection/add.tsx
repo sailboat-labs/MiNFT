@@ -33,15 +33,19 @@ import WhitelistRequirements from "@/components/pages/collection/add/WhitelistRe
 import WhyILikeProject from "@/components/pages/collection/add/WhyILikeProject";
 
 import { Collection } from "@/types";
+import { usePageLoader } from "@/hooks/pageloader";
 
 const firestore = getFirestore(firebaseApp);
 
 export default function AddCollection({ collection }: any) {
   const { account, isAuthenticated } = useMoralis();
   const router = useRouter();
+  const { Loader, setState, state } = usePageLoader();
   const [names, setNames] = useState<string[]>([]);
   const { user, setWalletId } = useUserData();
-  const [collectionTimezone, setCollectionTimezone] = useState(collection?.timezone);
+  const [collectionTimezone, setCollectionTimezone] = useState(
+    collection?.timezone
+  );
 
   const { AuthDialog, setShowAuthDialog } = useAuthenticationDialog();
 
@@ -53,7 +57,6 @@ export default function AddCollection({ collection }: any) {
     setWalletId(account);
   }, [account]);
 
-  
   useEffect(() => {
     if (loading) return;
     if (!snapshots) return;
@@ -143,7 +146,7 @@ export default function AddCollection({ collection }: any) {
     mintsPerTx: collection?.mintsPerTx,
     whyILikeProject: collection?.whyILikeProject,
     whitepaper: collection?.whitepaper,
-    timezone:collection?.timezone
+    timezone: collection?.timezone,
   };
 
   async function formSubmit(values: any) {
@@ -201,6 +204,23 @@ export default function AddCollection({ collection }: any) {
 
       if (data.success) {
         toast.success(collection ? "Updated" : "Added");
+        setState(true);
+        setCollectionSubmitting(false);
+
+        try {
+          await axios.post(
+            `https://us-central1-minft-production.cloudfunctions.net/twitter/post`,
+            {
+              tweet: `#${_collection.owner} added a new project, ${
+                _collection.name
+              }, on MiNFT. Check it out. https://minft.me/collection/${dashify(
+                values.name
+              )}`,
+            }
+          );
+        } catch (error) {
+          console.log("Could not post to twitter");
+        }
       } else {
         toast.error(data.message);
       }
@@ -213,6 +233,7 @@ export default function AddCollection({ collection }: any) {
       console.error(error);
       toast.error("Unable to add collection");
       setCollectionSubmitting(false);
+      setState(false);
     }
   }
 
@@ -278,6 +299,7 @@ export default function AddCollection({ collection }: any) {
     <Layout>
       <>
         <UploadingPost show={collectionSubmitting} />
+        {state && <Loader />}
         {/* <AuthenticationDialog
           showAuthDialog={false}
           setShowAuthDialog={undefined}
