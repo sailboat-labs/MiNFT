@@ -41,7 +41,7 @@ export default function AddCollection({ collection }: any) {
   const router = useRouter();
   const [names, setNames] = useState<string[]>([]);
   const { user, setWalletId } = useUserData();
-  const [collectionTimezone, setCollectionTimezone] = useState();
+  const [collectionTimezone, setCollectionTimezone] = useState(collection?.timezone);
 
   const { AuthDialog, setShowAuthDialog } = useAuthenticationDialog();
 
@@ -53,10 +53,7 @@ export default function AddCollection({ collection }: any) {
     setWalletId(account);
   }, [account]);
 
-  useEffect(() => {
-    console.log(collectionTimezone);
-  }, [collectionTimezone]);
-
+  
   useEffect(() => {
     if (loading) return;
     if (!snapshots) return;
