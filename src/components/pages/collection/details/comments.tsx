@@ -46,7 +46,7 @@ export default function Comments({ collectionId }: ICommentsProps) {
     setDescription,
     setIsOpen,
     isOpen,
-   setCancel,
+    setCancel,
     setConfirm,
   } = useModal();
 
@@ -138,6 +138,7 @@ export default function Comments({ collectionId }: ICommentsProps) {
 
       if (data.success) {
         toast.success(`Comment ${editMode ? "Updated" : "Added"}`);
+        
         setComment("");
         if (editMode) setEditMode(false);
       } else {
@@ -214,10 +215,8 @@ export default function Comments({ collectionId }: ICommentsProps) {
 
       toast.dismiss();
 
-      
-
       if (_address == address) {
-        toast("Deleting")
+        toast("Deleting");
         const { data } = await axios.delete("/api/comments", {
           data: {
             id: id,
@@ -475,7 +474,7 @@ export default function Comments({ collectionId }: ICommentsProps) {
                                       setCancel(
                                         <div
                                           onClick={() => {
-                                            setIsOpen(false)
+                                            setIsOpen(false);
                                           }}
                                           className="w-fit cursor-pointer rounded-md border-2  border-gray-500 bg-gray-300 px-8 py-2 text-black transition-all hover:bg-gray-400 dark:bg-gray-600 dark:text-white dark:hover:bg-gray-700"
                                         >
@@ -486,12 +485,12 @@ export default function Comments({ collectionId }: ICommentsProps) {
                                         <div
                                           onClick={async () => {
                                             await handleDeleteComment(
-                                               item.id,
-                                               item.comment!,
-                                               item.signature!,
-                                               item.owner!
-                                             );
-                                             setIsOpen(false)
+                                              item.id,
+                                              item.comment!,
+                                              item.signature!,
+                                              item.owner!
+                                            );
+                                            setIsOpen(false);
                                           }}
                                           className="w-fit cursor-pointer rounded-md border-2  border-gray-500 bg-gray-300 px-8 py-2 text-black transition-all hover:bg-gray-400 dark:bg-gray-600 dark:text-white dark:hover:bg-gray-700"
                                         >

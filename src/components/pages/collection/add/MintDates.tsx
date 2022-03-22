@@ -24,7 +24,6 @@ export default function MintDates(props: any) {
 
   return (
     <div className="mt-10 flex flex-col gap-5 capitalize">
-      
       <div className="flex flex-col items-center md:flex-row">
         <span className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 dark:text-gray-200 ">
           Pre-sale Mint date and time
