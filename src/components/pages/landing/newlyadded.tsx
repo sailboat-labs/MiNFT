@@ -160,9 +160,7 @@ export default function NewlyAdded() {
       <div id="newly_added" className="contained mt-10 overflow-hidden">
         {loadingCollection && <PageLoader />}
         <a href="#newly_added" className="flex w-full justify-center">
-          <strong className="mb-5 gradient-header">
-            Newly Added
-          </strong>
+          <strong className="gradient-header mb-5">Newly Added</strong>
         </a>
 
         <div
