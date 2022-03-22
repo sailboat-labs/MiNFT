@@ -406,7 +406,9 @@ export default function LaunchingSoon() {
                                 (a.commentCount ?? 0) - (b.commentCount ?? 0)
                               );
                             }
-                            return b.commentCount ?? 0 - a.commentCount ?? 0;
+                            return (
+                              (b.commentCount ?? 0) - (a.commentCount ?? 0)
+                            );
 
                           case "favorited":
                             if (sort.isAsc) {
