@@ -16,7 +16,9 @@
     "format:check": "prettier -c .",
     "release": "standard-version",
     "push-release": "git push --follow-tags origin main",
-    "postbuild": "next-sitemap"
+    "postbuild": "next-sitemap",
+    "sync:production": "git push && git checkout production && git merge develop && git push && git checkout develop",
+    "sync:staging": "git push && git checkout staging && git merge develop && git push && git checkout develop"
   },
   "dependencies": {
     "@date-io/date-fns": "^2.13.1",
