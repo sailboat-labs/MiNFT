@@ -28,7 +28,7 @@ export default function Feedback() {
                 placeholder={
                   <div className={` h-3 w-48 rounded-lg bg-gray-200 `}></div>
                 }
-                screenName="EthMinft"
+                screenName="minftdotme"
               />
             </div>
           </div>
