@@ -233,8 +233,8 @@ if (typeof window === "object") {
                   ? formatInTimeZone(
                       collection.preMintDate,
                       account && isAuthenticated
-                        ? user?.timeZone ?? "Etc/GMT"
-                        : "Etc/GMT",
+                        ? user?.timeZone ?? collection.timezone ?? "Etc/GMT"
+                        : collection.timezone ?? "Etc/GMT",
                       "yyyy-MM-dd HH:mm zzz"
                     )
                   : "N/A"}
@@ -257,8 +257,8 @@ if (typeof window === "object") {
                   ? formatInTimeZone(
                       collection.publicMintDate,
                       account && isAuthenticated
-                        ? user?.timeZone ?? "Etc/GMT"
-                        : "Etc/GMT",
+                        ? user?.timeZone ?? collection.timezone ?? "Etc/GMT"
+                        : collection.timezone ?? "Etc/GMT",
                       "yyyy-MM-dd HH:mm zzz"
                     )
                   : "N/A"}

@@ -2,13 +2,14 @@ import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import DateTimePicker from "@mui/lab/DateTimePicker";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import TextField, { TextFieldProps } from "@mui/material/TextField";
+import { zonedTimeToUtc } from "date-fns-tz";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
 import useAuthenticationDialog from "@/hooks/UseAuthDialog";
 import useUserData from "@/hooks/useUserData";
-
-import { zonedTimeToUtc } from "date-fns-tz";
+import TimezoneSelector from "@/pages/profile/TimezoneSelector";
+import CollectionTimezoneSelector from "./CollectionTimeZone";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function MintDates(props: any) {
@@ -54,39 +55,22 @@ export default function MintDates(props: any) {
                 />
               </LocalizationProvider>
             </div>
-            <div className="flex flex-col">
-              {user?.timeZone}{" "}
-              <span
-                onClick={() => {
-                  router.push("/profile");
-                }}
-                className="flex cursor-pointer items-center gap-2 text-xs text-blue-500 transition-all hover:text-blue-700 dark:text-blue-300 dark:hover:text-blue-500"
-              >
-                Change your timezone
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-3 w-3"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
+            <div className="flex flex-row items-center gap-2">
+              <CollectionTimezoneSelector
+                setCollectionTimezone={props.setCollectionTimezone}
+                collectionTimezone={props.collectionTimezone}
+              />
+              <div className="flex flex-col">
+                <span
+                  onClick={() => {
+                    props.setCollectionTimezone(user?.timeZone);
+                    console.log(props.collectionTimezone);
+                  }}
+                  className="flex cursor-pointer items-center gap-2 text-xs text-blue-500 transition-all hover:text-blue-700 dark:text-blue-300 dark:hover:text-blue-500"
                 >
-                  <path
-                    fillRule="evenodd"
-                    d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </span>
-            </div>
-            <div className="flex flex-col md:border-l-2 md:pl-5">
-              <span className="flex cursor-pointer flex-col items-center gap-2 text-sm text-gray-700 dark:text-white md:flex-row">
-                {zonedTimeToUtc(
-                  props.presaleMintDateTime,
-                  user?.timeZone ?? "Etc/GMT"
-                ).toString()}
-              </span>
-              <span className="text-xs dark:text-gray-300">
-                This is how the date and time will be displayed by default
-              </span>
+                  Use your timezone
+                </span>
+              </div>
             </div>
           </div>
         </span>
@@ -121,39 +105,21 @@ export default function MintDates(props: any) {
                 />
               </LocalizationProvider>
             </div>
-            <div className="flex flex-col">
-              {user?.timeZone}{" "}
-              <span
-                onClick={() => {
-                  router.push("/profile");
-                }}
-                className="flex cursor-pointer items-center gap-2 text-xs text-blue-500 transition-all hover:text-blue-700 dark:text-blue-300 dark:hover:text-blue-500"
-              >
-                Change your timezone
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-3 w-3"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
+            <div className="flex flex-row items-center gap-2">
+              <CollectionTimezoneSelector
+                setCollectionTimezone={props.setCollectionTimezone}
+                collectionTimezone={props.collectionTimezone}
+              />
+              <div className="flex flex-col">
+                <span
+                  onClick={() => {
+                    props.setCollectionTimezone(user?.timeZone);
+                  }}
+                  className="flex cursor-pointer items-center gap-2 text-xs text-blue-500 transition-all hover:text-blue-700 dark:text-blue-300 dark:hover:text-blue-500"
                 >
-                  <path
-                    fillRule="evenodd"
-                    d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </span>
-            </div>
-            <div className="flex flex-col md:border-l-2 md:pl-5">
-              <span className="flex cursor-pointer flex-col items-center gap-2 text-sm text-gray-700 dark:text-white md:flex-row">
-                {zonedTimeToUtc(
-                  props.publicMintDateTime,
-                  user?.timeZone ?? "Etc/GMT"
-                ).toString()}
-              </span>
-              <span className="text-xs dark:text-gray-300">
-                This is how the date and time will be displayed by default
-              </span>
+                  Use your timezone
+                </span>
+              </div>
             </div>
           </div>
         </span>

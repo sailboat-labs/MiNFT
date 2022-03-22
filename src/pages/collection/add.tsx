@@ -19,6 +19,7 @@ import * as Yup from "yup";
 
 import { firebaseApp } from "@/lib/firebase";
 import useAuthenticationDialog from "@/hooks/UseAuthDialog";
+import useUserData from "@/hooks/useUserData";
 
 import Layout from "@/components/layout/Layout";
 import CollectionDescription from "@/components/pages/collection/add/CollectionDescription";
@@ -32,7 +33,6 @@ import WhitelistRequirements from "@/components/pages/collection/add/WhitelistRe
 import WhyILikeProject from "@/components/pages/collection/add/WhyILikeProject";
 
 import { Collection } from "@/types";
-import useUserData from "@/hooks/useUserData";
 
 const firestore = getFirestore(firebaseApp);
 
@@ -41,6 +41,7 @@ export default function AddCollection({ collection }: any) {
   const router = useRouter();
   const [names, setNames] = useState<string[]>([]);
   const { user, setWalletId } = useUserData();
+  const [collectionTimezone, setCollectionTimezone] = useState();
 
   const { AuthDialog, setShowAuthDialog } = useAuthenticationDialog();
 
@@ -51,6 +52,10 @@ export default function AddCollection({ collection }: any) {
     if (!account) return;
     setWalletId(account);
   }, [account]);
+
+  useEffect(() => {
+    console.log(collectionTimezone);
+  }, [collectionTimezone]);
 
   useEffect(() => {
     if (loading) return;
@@ -141,6 +146,7 @@ export default function AddCollection({ collection }: any) {
     mintsPerTx: collection?.mintsPerTx,
     whyILikeProject: collection?.whyILikeProject,
     whitepaper: collection?.whitepaper,
+    timezone:collection?.timezone
   };
 
   async function formSubmit(values: any) {
@@ -174,6 +180,7 @@ export default function AddCollection({ collection }: any) {
         image: imageUrl,
         dateCreated: collection?.dateCreated ?? timestamp,
         lastUpdated: timestamp,
+        timezone: collectionTimezone ?? user?.timeZone ?? "Etc/GMT",
       };
 
       if (showPresaleDate)
@@ -329,7 +336,11 @@ export default function AddCollection({ collection }: any) {
                   showPresaleDate={showPresaleDate}
                   setShowPresaleDate={setShowPresaleDate}
                   showPublicDate={showPublicDate}
+                  collectionTimezone={
+                    collectionTimezone ?? user?.timeZone ?? "Etc/GMT"
+                  }
                   setShowPublicDate={setShowPublicDate}
+                  setCollectionTimezone={setCollectionTimezone}
                 />
 
                 <CollectionStats
