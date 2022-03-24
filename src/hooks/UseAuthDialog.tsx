@@ -68,6 +68,8 @@ export default function useAuthenticationDialog() {
     chainId,
     logout,
     isLoggingOut,
+    isUnauthenticated,
+    authError
   } = useMoralis();
 
   const [showAuthDialog, setShowAuthDialog] = useState(false);
@@ -75,8 +77,6 @@ export default function useAuthenticationDialog() {
   useEffect(() => {
     if (account && isAuthenticated) return setShowAuthDialog(false);
   }, [account, isAuthenticated, setShowAuthDialog]);
-
-
 
   useEffect(() => {
     if (!account || !isAuthenticated) return;
@@ -92,9 +92,6 @@ export default function useAuthenticationDialog() {
         return;
       });
   }, [account, isAuthenticated]);
-
-
-  
 
   function AuthDialog() {
     return (
@@ -161,10 +158,10 @@ export default function useAuthenticationDialog() {
                               fill="#1C64F2"
                             ></path>
                           </svg>
-                          Connecting...
+                          Authenticating...
                         </div>
                       ) : isInitializing ? (
-                        "Please Wait"
+                        "Initializing"
                       ) : (
                         <div className="dark:text-white">
                           Connect your wallet
@@ -190,12 +187,17 @@ export default function useAuthenticationDialog() {
                     </div>
                   </Dialog.Title>
                   <div
-                    className={`grid grid-cols-2 gap-5 pb-5 transition-all ${
+                    className={`flex flex-col gap-5 pb-5 transition-all ${
                       isAuthenticating || isInitializing
                         ? "opacity-20"
                         : "opacity-100"
                     }`}
                   >
+                    <div className="rounded-lg p-3 bg-gray-100 dark:bg-gray-600 border-2">
+                      By connecting a wallet, you agree to MiNFT’s Terms
+                      of Service and acknowledge that you have read and
+                      understand the MiNFT Disclaimer.
+                    </div>
                     {connectors.map(({ title, icon, connectorId }, key) => (
                       <div
                         className="flex cursor-pointer items-center gap-5 transition-all hover:scale-105"
@@ -263,5 +265,7 @@ export default function useAuthenticationDialog() {
     isWeb3Enabled,
     network,
     isLoggingOut,
+    isUnauthenticated,
+    authError
   };
 }
