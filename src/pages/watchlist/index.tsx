@@ -346,31 +346,33 @@ export default function WatchList() {
                         </th>
                         <th
                           scope="col"
-                          className="flex items-center py-3 px-6 text-left text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-200"
+                          className=" py-0 px-6 text-left text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-200"
                         >
-                          Project Type
-                          <svg
-                            onClick={() => {
-                              setSort({
-                                sortBy: "projectType",
-                                isAsc: !sort.isAsc,
-                              });
-                            }}
-                            xmlns="http://www.w3.org/2000/svg"
-                            className={`h-5 w-5 cursor-pointer transition-all hover:scale-110 ${
-                              sort.sortBy == "projectType" && sort.isAsc
-                                ? "rotate-180"
-                                : "rotate-0"
-                            } `}
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                          >
-                            <path
-                              fillRule="evenodd"
-                              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                              clipRule="evenodd"
-                            />
-                          </svg>
+                          <div className="flex items-center justify-center gap-2">
+                            Project Type
+                            <svg
+                              onClick={() => {
+                                setSort({
+                                  sortBy: "projectType",
+                                  isAsc: !sort.isAsc,
+                                });
+                              }}
+                              xmlns="http://www.w3.org/2000/svg"
+                              className={`h-5 w-5 cursor-pointer transition-all hover:scale-110 ${
+                                sort.sortBy == "projectType" && sort.isAsc
+                                  ? "rotate-180"
+                                  : "rotate-0"
+                              } `}
+                              viewBox="0 0 20 20"
+                              fill="currentColor"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                clipRule="evenodd"
+                              />
+                            </svg>
+                          </div>
                         </th>
                       </tr>
                     </thead>
@@ -495,10 +497,13 @@ export default function WatchList() {
                                   <div className="text-md dark:text-white">
                                     {collection.name}
                                   </div>
-                                  <div className="whitespace-nowrap text-sm text-gray-500 dark:text-gray-200 ">
-                                    <span>{collection.supply}</span>
-                                    <span>&nbsp;circulating supply</span>
-                                  </div>
+                                  {collection.supply &&
+                                    parseInt(collection.supply ?? "0") > 0 && (
+                                      <div className="whitespace-nowrap text-sm text-gray-500 dark:text-gray-200 ">
+                                        <span>{collection.supply}</span>
+                                        <span>&nbsp;circulating supply</span>
+                                      </div>
+                                    )}
                                 </div>
                               </td>
                               <td className="whitespace-nowrap border-r py-4 px-6 text-sm text-gray-500 dark:text-gray-200">

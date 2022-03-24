@@ -21,8 +21,6 @@ import { getOpenSeaCollection } from "@/helpers/opensea";
 
 import { Collection, OpenSeaCollection } from "@/types";
 
-
-
 const firestore = getFirestore(firebaseApp);
 
 const CollectionPage = ({ router }: any) => {
@@ -36,7 +34,7 @@ const CollectionPage = ({ router }: any) => {
 
   const [openSeaData, setOpenSeaData] = useState<OpenSeaCollection>();
   const [showHeader, setShowHeader] = useState(false);
-  const [loadingPage, setLoadingPage] = useState(false)
+  const [loadingPage, setLoadingPage] = useState(false);
 
   async function getCollection() {
     if (!collection || !collection.opensea) return;
@@ -57,8 +55,6 @@ const CollectionPage = ({ router }: any) => {
     // console.log(data);
   }
 
-  
-
   useEffect(() => {
     if (!collection || loading) return;
     setCollectionData(collection as Collection);
@@ -70,7 +66,7 @@ const CollectionPage = ({ router }: any) => {
   }, [collection]);
 
   useEffect(() => {
-    setShowHeader(false)
+    setShowHeader(false);
     if (slug) {
       const _query = query(
         fire(firestore, "collections"),
@@ -95,8 +91,8 @@ const CollectionPage = ({ router }: any) => {
             <div className="pb-20">
               <div
                 className={`h-36 transition-all duration-500 ${
-                  showHeader 
-                    ? " translate-y-0 opacity-100"
+                  showHeader
+                    ? "translate-y-0 opacity-100"
                     : "h-0 -translate-y-10 opacity-0"
                 }`}
               >
@@ -107,7 +103,7 @@ const CollectionPage = ({ router }: any) => {
                 />
                 <div className="absolute h-36 w-full bg-gradient-to-r from-black to-transparent"></div>
 
-                <div className="absolute z-[2] flex h-36 items-center gap-3 lg:px-20 px-5 font-bold text-white">
+                <div className="absolute z-[2] flex h-36 items-center gap-3 px-5 font-bold text-white lg:px-20">
                   <img
                     className="h-10 w-10 rounded-[]"
                     src={openSeaData?.image_url}
@@ -121,7 +117,7 @@ const CollectionPage = ({ router }: any) => {
             <span>News</span>
           </div> */}
               <CollectionSummary
-              setLoadingPage={setLoadingPage}
+                setLoadingPage={setLoadingPage}
                 className={`${showHeader && "-translate-y-20"}`}
                 openSeaData={openSeaData}
                 collection={collectionData as Collection}
