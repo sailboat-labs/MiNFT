@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @next/next/no-img-element */
-import { getRandomAvatar } from "@/utils/GetRandomAvatar";
 import { Dialog, Transition } from "@headlessui/react";
 import axios from "axios";
 import { Fragment, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useMoralis } from "react-moralis";
+
+import { getRandomAvatar } from "@/utils/GetRandomAvatar";
 
 export const connectors = [
   {
@@ -69,10 +70,12 @@ export default function useAuthenticationDialog() {
     logout,
     isLoggingOut,
     isUnauthenticated,
-    authError
+    authError,
   } = useMoralis();
 
   const [showAuthDialog, setShowAuthDialog] = useState(false);
+
+  const [selectedWallet, setSelectedWallet] = useState("");
 
   useEffect(() => {
     if (account && isAuthenticated) return setShowAuthDialog(false);
@@ -193,16 +196,17 @@ export default function useAuthenticationDialog() {
                         : "opacity-100"
                     }`}
                   >
-                    <div className="rounded-lg p-3 bg-gray-100 dark:bg-gray-600 border-2">
-                      By connecting a wallet, you agree to MiNFT’s Terms
-                      of Service and acknowledge that you have read and
-                      understand the MiNFT Disclaimer.
+                    <div className="rounded-lg border-2 bg-gray-100 p-3 dark:bg-gray-600">
+                      By connecting a wallet, you agree to MiNFT’s Terms of
+                      Service and acknowledge that you have read and understand
+                      the MiNFT Disclaimer.
                     </div>
                     {connectors.map(({ title, icon, connectorId }, key) => (
                       <div
-                        className="flex cursor-pointer items-center gap-5 transition-all hover:scale-105"
+                        className={`flex cursor-pointer items-center gap-5 transition-all hover:scale-105 `}
                         key={key}
                         onClick={async () => {
+                          setSelectedWallet(title.toString());
                           if (!isAuthenticating && !isInitializing) {
                             try {
                               await authenticate({
@@ -266,6 +270,6 @@ export default function useAuthenticationDialog() {
     network,
     isLoggingOut,
     isUnauthenticated,
-    authError
+    authError,
   };
 }
