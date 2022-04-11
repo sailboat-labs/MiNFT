@@ -2,11 +2,11 @@
 import { TwitterMentionButton } from "react-twitter-embed";
 
 export default function Feedback() {
-  // function generateAuthToken() {
-  //   window.open(
-  //     `https://twitter.com/i/oauth2/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_TWITTER_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_DOMAIN_URL}/redirect/twitter&scope=tweet.read%20tweet.write%20users.read%20follows.read%20offline.access&state=state&code_challenge=challengeminft&code_challenge_method=plain`
-  //   );
-  // }
+  function generateAuthToken() {
+    window.open(
+      `https://twitter.com/i/oauth2/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_TWITTER_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_DOMAIN_URL}/redirect/twitter&scope=tweet.read%20tweet.write%20users.read%20follows.read%20offline.access&state=state&code_challenge=challengeminft&code_challenge_method=plain`
+    );
+  }
 
   return (
     <section className="contained py-20">
@@ -36,7 +36,7 @@ export default function Feedback() {
           <div className="mt-10 flex w-full items-center justify-center md:w-fit">
             <img
               onClick={() => {
-                // generateAuthToken();
+                generateAuthToken();
               }}
               className="h-28 w-28 rounded-full transition-all hover:-rotate-12 hover:scale-110 lg:h-48 lg:w-48"
               src="/images/twitter_logo.png"
