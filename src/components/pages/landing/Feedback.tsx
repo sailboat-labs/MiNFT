@@ -4,7 +4,7 @@ import { TwitterMentionButton } from "react-twitter-embed";
 export default function Feedback() {
   function generateAuthToken() {
     window.open(
-      `https://twitter.com/i/oauth2/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_TWITTER_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_DOMAIN_URL}/redirect/twitter&scope=tweet.read%20tweet.write%20users.read%20follows.read%20offline.access&state=state&code_challenge=challengeminft&code_challenge_method=plain`
+      `https://twitter.com/i/oauth2/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_TWITTER_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_DOMAIN_URL}/redirect/twitter&scope=tweet.read%20tweet.write%20follows.write%20users.read%20follows.read%20offline.access&state=state&code_challenge=challengeminft&code_challenge_method=plain`
     );
   }
 
