@@ -20,9 +20,12 @@ export default function TwitterRedirect() {
     setGeneratingCode(true);
 
     try {
-      const { data } = await axios.post(
-        `https://us-central1-minft-production.cloudfunctions.net/twitter/create-token?code=${code}`
-      );
+      // const { data } = await axios.post(
+      //   `https://us-central1-minft-production.cloudfunctions.net/twitter/create-token?code=${code}`
+      // );
+
+      const { data } = await axios.get(`/api/twitter`, { params: { code } });
+      console.log(data);
 
       if (data) {
         setToken(data.access_token);
