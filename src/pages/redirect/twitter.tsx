@@ -28,7 +28,7 @@ export default function TwitterRedirect() {
       console.log(data);
 
       if (data) {
-        setToken(data.refresh_token);
+        setToken(data.access_token);
       }
     } catch (error) {
       console.log(error);
@@ -68,7 +68,7 @@ export default function TwitterRedirect() {
 
           {token && (
             <>
-              <span className="mt-10">Refresh Token</span>
+              <span className="mt-10">Access Token</span>
               <span className="text-sm">{token}</span>
             </>
           )}
