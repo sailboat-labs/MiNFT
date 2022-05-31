@@ -1,13 +1,61 @@
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, useRef, useState } from "react";
+
+import TraitPreview from "./TraitPreview";
 
 const NewProperty = () => {
+  const [files, setFiles] = useState<File[]>([]);
+  const fileInput = useRef<HTMLInputElement>(null);
+  const [propertyName, setPropertyName] = useState<string>("");
   /**
    * handles change in file input
    *
    * @param evt - ChangeEvent
+   * @returns {undefined}
    */
   function handleFileChanged(evt: ChangeEvent<HTMLInputElement>) {
-    console.log(evt);
+    const fileListArray: File[] = [];
+    const files: FileList | null = evt.target.files;
+    // console.log(files?.length);
+    if (files !== null) {
+      for (let index = 0; index < files.length; index++) {
+        fileListArray.push(files[index]);
+      }
+      setFiles([]);
+    }
+  }
+  /**
+   * opens file Input
+   *
+   * @returns {undefined}
+   */
+  function openFileInput() {
+    if (fileInput.current) {
+      fileInput.current.click();
+    }
+  }
+  /**
+   * clears property details
+   *
+   * @returns {undefined}
+   */
+  function discardProperty() {
+    setPropertyName("");
+    setFiles([]);
+  }
+  /**
+   * saves entered property name
+   * saves uploaded trait files
+   *
+   * @returns {undefined}
+   */
+  function saveProperty() {
+    // todo: save Property name and uploaded trait files
+  }
+
+  function removeTrait(traitIndex: number) {
+    const newList: File[] = [...files];
+    newList.splice(traitIndex, 1);
+    setFiles(newList);
   }
 
   return (
@@ -19,11 +67,16 @@ const NewProperty = () => {
         <input
           type="text"
           placeholder="Name"
+          value={propertyName}
+          onChange={(evt) => setPropertyName(evt.target.value)}
           className="rounded-sm border-[color:var(--border-gray)]"
           id="newProperty"
         />
       </div>
-      <div className="relative mt-4 mb-4 w-full overflow-hidden rounded-md border-2 border-dashed border-[color:var(--indigo)] bg-[color:var(--bg-indigo)] py-2 hover:cursor-pointer">
+      <div
+        className="relative mt-8 mb-4 w-full overflow-hidden rounded-md border-2 border-dashed border-[color:var(--indigo)] bg-[color:var(--bg-indigo)] py-2 hover:cursor-pointer"
+        onClick={openFileInput}
+      >
         <div className="bg-indigo hover:bg-indigo-dark flex w-full items-center justify-center py-2 px-4 font-bold text-[color:var(--blue)]">
           <svg
             className="rotate-180 transform "
@@ -41,10 +94,37 @@ const NewProperty = () => {
         <input
           className="pin-r pin-t absolute block cursor-pointer opacity-0"
           type="file"
-          name="vacancyImageFiles"
           onChange={handleFileChanged}
           multiple
+          accept="image/*"
+          ref={fileInput}
         />
+      </div>
+      {files.length > 0 && (
+        <div className="mt-5 flex flex-wrap gap-6 rounded-md p-6 pb-0">
+          {Array.from(files).map((file: File, index: number) => (
+            <TraitPreview
+              file={file}
+              key={index}
+              traitIndex={index}
+              onRemove={removeTrait}
+            />
+          ))}
+        </div>
+      )}
+      <div className="mt-8 flex items-center justify-center gap-4">
+        <button
+          className="max-w-[130px] flex-1 rounded-md bg-[color:var(--blue)] py-2 text-white"
+          onClick={discardProperty}
+        >
+          Discard
+        </button>
+        <button
+          className="max-w-[130px] flex-1 rounded-md bg-[color:var(--blue)] py-2 text-white"
+          onClick={saveProperty}
+        >
+          Save
+        </button>
       </div>
     </form>
   );
