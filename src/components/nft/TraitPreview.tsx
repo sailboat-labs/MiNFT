@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 
 interface AppProps {
+  active?: boolean;
   traitIndex: number;
   file: string | File;
   onRemove?: (traitIndex: number) => void;
@@ -8,13 +9,16 @@ interface AppProps {
 
 const TraitPreview: FC<AppProps> = ({
   file,
-  onRemove: removeTrait,
   traitIndex,
+  active = false,
+  onRemove: removeTrait,
 }) => {
   const url = typeof file === "string" ? file : URL.createObjectURL(file);
 
   return (
-    <div className="relative">
+    <div
+      className={`${active && "border-[#30489C]"} relative rounded-lg border-2`}
+    >
       {removeTrait && (
         <svg
           xmlns="http://www.w3.org/1200/svg"
