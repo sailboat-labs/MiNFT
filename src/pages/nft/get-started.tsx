@@ -20,8 +20,6 @@ const GetStartedPage = () => {
               <PropertyGroup />
               <PropertyGroup />
               <PropertyGroup />
-              <PropertyGroup />
-              <PropertyGroup />
             </div>
           </section>
           <section className="max-w-[308px] flex-1">
@@ -37,7 +35,7 @@ const GetStartedPage = () => {
               </button>
             </div>
             {/* Project preview */}
-            <NFTPreview />
+            <NFTPreview className="mt-10" />
             {/* collection size */}
             {/* Generate collection */}
           </section>
