@@ -1,15 +1,33 @@
-import React from "react";
+import React, { FC } from "react";
 
 import TraitPreview from "./TraitPreview";
 
-const PropertyGroup = () => {
+interface AppProps {
+  name: string;
+  traits: string[];
+  onChange: ({
+    groupName,
+    traitIndex,
+  }: {
+    groupName: string;
+    traitIndex: number;
+  }) => void;
+  activeTraitIndex: number;
+}
+
+const PropertyGroup: FC<AppProps> = ({
+  name,
+  traits,
+  onChange,
+  activeTraitIndex,
+}) => {
   return (
     <div>
       {/* header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <button className="mr-4 flex items-center gap-2 rounded-md bg-[color:var(--blue)] py-2 px-4 text-white">
-            Group Name
+            {name}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"
@@ -30,22 +48,15 @@ const PropertyGroup = () => {
 
       {/* preview content */}
       <div className="mt-5 flex flex-wrap gap-6 rounded-md bg-[color:var(--bg-indigo)] p-6">
-        <TraitPreview file="" traitIndex={1} active />
-        <TraitPreview file="" traitIndex={1} />
-        <TraitPreview file="" traitIndex={1} />
-        <TraitPreview file="" traitIndex={1} />
-        <TraitPreview file="" traitIndex={1} />
-        <TraitPreview file="" traitIndex={1} />
-        <TraitPreview file="" traitIndex={1} />
-        <TraitPreview file="" traitIndex={1} />
-        <TraitPreview file="" traitIndex={1} />
-        <TraitPreview file="" traitIndex={1} />
-        <TraitPreview file="" traitIndex={1} />
-        <TraitPreview file="" traitIndex={1} />
-        <TraitPreview file="" traitIndex={1} />
-        <TraitPreview file="" traitIndex={1} />
-        <TraitPreview file="" traitIndex={1} />
-
+        {traits.map((trait, index) => (
+          <TraitPreview
+            key={index}
+            file={trait}
+            traitIndex={index}
+            onSelect={(traitIndex) => onChange({ traitIndex, groupName: name })}
+            active={activeTraitIndex === index}
+          />
+        ))}
         <div className="flex h-[76px] items-center gap-3">
           <button className="grid h-12 w-12 place-content-center rounded-full bg-white shadow-md">
             <svg

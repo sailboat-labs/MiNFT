@@ -5,19 +5,24 @@ interface AppProps {
   traitIndex: number;
   file: string | File;
   onRemove?: (traitIndex: number) => void;
+  onSelect?: (traitIndex: number) => void;
 }
 
 const TraitPreview: FC<AppProps> = ({
   file,
   traitIndex,
   active = false,
+  onSelect,
   onRemove: removeTrait,
 }) => {
   const url = typeof file === "string" ? file : URL.createObjectURL(file);
 
   return (
     <div
-      className={`${active && "border-[#30489C]"} relative rounded-lg border-2`}
+      onClick={() => onSelect && onSelect(traitIndex)}
+      className={`${
+        active && "border-[#30489C]"
+      } relative rounded-lg border-2 transition-all duration-150 hover:cursor-pointer hover:border-[#30489C]`}
     >
       {removeTrait && (
         <svg
@@ -27,7 +32,7 @@ const TraitPreview: FC<AppProps> = ({
           viewBox="0 0 24 24"
           stroke="currentColor"
           strokeWidth={2}
-          onClick={() => removeTrait!(traitIndex)}
+          onClick={() => removeTrait(traitIndex)}
         >
           <path
             strokeLinecap="round"
@@ -39,7 +44,7 @@ const TraitPreview: FC<AppProps> = ({
       <div className="h-[76px] w-[76px] overflow-hidden rounded-md">
         <img
           src={url}
-          alt="file preview"
+          // alt="file preview"
           className="h-full w-full object-cover"
         />
       </div>
