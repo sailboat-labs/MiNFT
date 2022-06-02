@@ -30,7 +30,7 @@ const PropertyGroup = () => {
 
       {/* preview content */}
       <div className="mt-5 flex flex-wrap gap-6 rounded-md bg-[color:var(--bg-indigo)] p-6">
-        <TraitPreview file="" traitIndex={1} />
+        <TraitPreview file="" traitIndex={1} active />
         <TraitPreview file="" traitIndex={1} />
         <TraitPreview file="" traitIndex={1} />
         <TraitPreview file="" traitIndex={1} />
