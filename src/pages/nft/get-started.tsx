@@ -181,15 +181,15 @@ const GetStartedPage = () => {
         <title>Get Started</title>
       </Head>
       <section className="box-border flex min-h-screen bg-white">
-        <div className="h-screen ">
+        {/* <div className="h-screen ">
           {outputImages.map((item, index) => (
             <div key={index}>
               <img className="w-36" src={item.url} alt="" />
               <div>{item.filename}</div>
             </div>
           ))}
-        </div>
-        <div className="container flex max-w-7xl items-start justify-between gap-8 p-12 px-4">
+        </div> */}
+        <div className="container mx-auto flex max-w-7xl items-start justify-between gap-8 p-12 px-4">
           <section className="flex-1">
             <NewProperty />
             {/* Group Previews */}
