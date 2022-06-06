@@ -1,10 +1,12 @@
 import React, { FC } from "react";
 
+import { IElement } from "@/interfaces/get-started";
+
 import TraitPreview from "./TraitPreview";
 
 interface AppProps {
   name: string;
-  traits: string[];
+  elements: IElement[];
   onChange: ({
     groupName,
     traitIndex,
@@ -12,15 +14,9 @@ interface AppProps {
     groupName: string;
     traitIndex: number;
   }) => void;
-  activeTraitIndex: number;
 }
 
-const PropertyGroup: FC<AppProps> = ({
-  name,
-  traits,
-  onChange,
-  activeTraitIndex,
-}) => {
+const PropertyGroup: FC<AppProps> = ({ name, elements, onChange }) => {
   return (
     <div>
       {/* header */}
@@ -48,13 +44,13 @@ const PropertyGroup: FC<AppProps> = ({
 
       {/* preview content */}
       <div className="mt-5 flex flex-wrap gap-6 rounded-md bg-[color:var(--bg-indigo)] p-6">
-        {traits.map((trait, index) => (
+        {elements.map((element, index) => (
           <TraitPreview
             key={index}
-            file={trait}
+            file={element.path}
             traitIndex={index}
             onSelect={(traitIndex) => onChange({ traitIndex, groupName: name })}
-            active={activeTraitIndex === index}
+            active={false}
           />
         ))}
         <div className="flex h-[76px] items-center gap-3">

@@ -20,7 +20,7 @@ const NewProperty = () => {
       for (let index = 0; index < files.length; index++) {
         fileListArray.push(files[index]);
       }
-      setFiles([]);
+      setFiles(fileListArray);
     }
   }
   /**

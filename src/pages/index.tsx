@@ -27,16 +27,16 @@ export default function HomePage() {
   //       });
   // });
   return (
-    <div className="dark:text-white bg-white dark:bg-black">
+    <div className="bg-white dark:bg-black dark:text-white">
       <Seo />
 
       <div>
         <Header />
         <NewlyAdded />
-        <Leaderboard/>
+        <Leaderboard />
         <LaunchingSoon />
-        <FAQ/>
-        <Feedback/>
+        <FAQ />
+        <Feedback />
         <Footer />
       </div>
     </div>
