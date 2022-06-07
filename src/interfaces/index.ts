@@ -1,15 +1,8 @@
-/**
- * checks NFT preview
- *
- * @author Paul
- */
-
 export interface ILayer {
   id: number;
   name: string;
   blendmode: string;
   opacity: 1;
-  elements: IElement[];
   bypassDNA: boolean;
 }
 

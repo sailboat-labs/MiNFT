@@ -18,6 +18,7 @@ import { v4 } from "uuid";
 import * as Yup from "yup";
 
 import { firebaseApp } from "@/lib/firebase";
+import { usePageLoader } from "@/hooks/pageloader";
 import useAuthenticationDialog from "@/hooks/UseAuthDialog";
 import useUserData from "@/hooks/useUserData";
 
@@ -33,7 +34,6 @@ import WhitelistRequirements from "@/components/pages/collection/add/WhitelistRe
 import WhyILikeProject from "@/components/pages/collection/add/WhyILikeProject";
 
 import { Collection } from "@/types";
-import { usePageLoader } from "@/hooks/pageloader";
 
 const firestore = getFirestore(firebaseApp);
 

@@ -1,12 +1,21 @@
-import React, { FC } from "react";
+import {
+  collection,
+  DocumentData,
+  getFirestore,
+  query,
+  where,
+} from "firebase/firestore";
+import React, { FC, useEffect, useState } from "react";
+import { useCollectionData } from "react-firebase-hooks/firestore";
 
-import { IElement } from "@/interfaces/get-started";
+import { firebaseApp } from "@/lib/firebase";
 
 import TraitPreview from "./TraitPreview";
+import UploadElement from "../pages/nft/token_generator/upload_element";
+import { IElement } from "@/types";
 
 interface AppProps {
   name: string;
-  elements: IElement[];
   onChange: ({
     groupName,
     traitIndex,
@@ -15,8 +24,32 @@ interface AppProps {
     traitIndex: number;
   }) => void;
 }
+const firestore = getFirestore(firebaseApp);
 
-const PropertyGroup: FC<AppProps> = ({ name, elements, onChange }) => {
+const PropertyGroup: FC<AppProps> = ({ name, onChange }) => {
+  const address = "francis";
+  const collectionName = "nozo";
+
+  const [elements, setElements] = useState<IElement[]>([]);
+
+  const _query = query(
+    collection(firestore, "art-engine/francis/nozo/input/elements"),
+    where("trait", "==", name)
+  );
+  const [snapshots, loading] = useCollectionData(_query);
+
+  useEffect(() => {
+    if (loading) return;
+    if (!snapshots) return;
+
+    const data = snapshots.reduce((acc: IElement[], curr: DocumentData) => {
+      acc.push(curr as IElement);
+      return acc;
+    }, []);
+
+    setElements(data);
+  }, [loading, snapshots]);
+
   return (
     <div>
       {/* header */}
@@ -34,7 +67,8 @@ const PropertyGroup: FC<AppProps> = ({ name, elements, onChange }) => {
             </svg>
           </button>
           <span>
-            <strong>Total</strong>: 14 traits
+            <strong>Total</strong>: {elements.length} trait
+            {elements.length == 1 ? "" : "s"}
           </span>
         </div>
         <button className="rounded-md border border-indigo-600 px-4 py-2 font-medium text-indigo-600">
@@ -45,32 +79,26 @@ const PropertyGroup: FC<AppProps> = ({ name, elements, onChange }) => {
       {/* preview content */}
       <div className="mt-5 flex flex-wrap gap-6 rounded-md bg-[color:var(--bg-indigo)] p-6">
         {elements.map((element, index) => (
-          <TraitPreview
-            key={index}
-            file={element.path}
-            traitIndex={index}
-            onSelect={(traitIndex) => onChange({ traitIndex, groupName: name })}
-            active={false}
-          />
+          <div key={index}>
+            <TraitPreview
+              key={index}
+              file={element.path}
+              traitIndex={index}
+              onSelect={(traitIndex) =>
+                onChange({ traitIndex, groupName: name })
+              }
+              active={false}
+            />
+          </div>
         ))}
         <div className="flex h-[76px] items-center gap-3">
-          <button className="grid h-12 w-12 place-content-center rounded-full bg-white shadow-md">
-            <svg
-              xmlns="http://www.w3.org/1200/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 4v16m8-8H4"
-              />
-            </svg>
-          </button>
-          <button className="grid h-12 w-12 place-content-center rounded-full bg-white shadow-md">
+          <UploadElement
+            layerName={name}
+            address={address}
+            collection={collectionName}
+          />
+
+          {/* <button className="grid h-12 w-12 place-content-center rounded-full bg-white shadow-md">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"
@@ -83,7 +111,7 @@ const PropertyGroup: FC<AppProps> = ({ name, elements, onChange }) => {
                 clipRule="evenodd"
               />
             </svg>
-          </button>
+          </button> */}
         </div>
       </div>
     </div>

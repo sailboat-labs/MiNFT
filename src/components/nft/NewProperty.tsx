@@ -1,21 +1,26 @@
+import { doc, getFirestore, setDoc } from "firebase/firestore";
 import React, { ChangeEvent, useRef, useState } from "react";
+import toast from "react-hot-toast";
+
+import { firebaseApp } from "@/lib/firebase";
 
 import TraitPreview from "./TraitPreview";
 
-const NewProperty = () => {
+const firestore = getFirestore(firebaseApp);
+
+type props = {
+  address: string;
+  collectionName: string;
+};
+
+const NewProperty = ({ address, collectionName }: props) => {
   const [files, setFiles] = useState<File[]>([]);
   const fileInput = useRef<HTMLInputElement>(null);
   const [propertyName, setPropertyName] = useState<string>("");
-  /**
-   * handles change in file input
-   *
-   * @param evt - ChangeEvent
-   * @returns {undefined}
-   */
+
   function handleFileChanged(evt: ChangeEvent<HTMLInputElement>) {
     const fileListArray: File[] = [];
     const files: FileList | null = evt.target.files;
-    // console.log(files?.length);
     if (files !== null) {
       for (let index = 0; index < files.length; index++) {
         fileListArray.push(files[index]);
@@ -23,33 +28,37 @@ const NewProperty = () => {
       setFiles(fileListArray);
     }
   }
-  /**
-   * opens file Input
-   *
-   * @returns {undefined}
-   */
+
   function openFileInput() {
     if (fileInput.current) {
       fileInput.current.click();
     }
   }
-  /**
-   * clears property details
-   *
-   * @returns {undefined}
-   */
+
   function discardProperty() {
     setPropertyName("");
     setFiles([]);
   }
-  /**
-   * saves entered property name
-   * saves uploaded trait files
-   *
-   * @returns {undefined}
-   */
-  function saveProperty() {
+
+  async function saveProperty() {
     // todo: save Property name and uploaded trait files
+    toast("Saving");
+
+    const _layer = {
+      id: 0,
+      name: propertyName,
+      blendmode: "source-over",
+      opacity: 1,
+      bypassDNA: false,
+    };
+
+    const _doc = doc(
+      firestore,
+      `art-engine/${address}/${collectionName}/input/layers/${propertyName}`
+    );
+    await setDoc(_doc, _layer);
+    toast.dismiss();
+    toast.success("Saved");
   }
 
   function removeTrait(traitIndex: number) {
@@ -59,7 +68,7 @@ const NewProperty = () => {
   }
 
   return (
-    <form className="rounded-xl border border-[color:var(--border-gray)] bg-[color:var(--bg-gray)] p-6">
+    <div className="rounded-xl border border-[color:var(--border-gray)] bg-[color:var(--bg-gray)] p-6">
       <div className="flex flex-col gap-3">
         <label htmlFor="newProperty" className="font-semibold">
           New Property
@@ -126,7 +135,7 @@ const NewProperty = () => {
           Save
         </button>
       </div>
-    </form>
+    </div>
   );
 };
 

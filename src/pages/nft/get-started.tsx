@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+
 import {
   collection,
   DocumentData,
@@ -12,10 +13,10 @@ import { useCollectionData } from "react-firebase-hooks/firestore";
 import { firebaseApp } from "@/lib/firebase";
 
 import NewProperty from "@/components/nft/NewProperty";
-import NFTPreview from "@/components/nft/NFTPreview";
 import PropertyGroup from "@/components/nft/PropertyGroup";
+import PreviewNFT from "@/components/pages/nft/token_generator/nft_preview";
 
-import { ILayer } from "@/interfaces/get-started";
+import { ILayer } from "@/interfaces";
 
 interface TraitGroup {
   [groupName: string]: {
@@ -28,7 +29,6 @@ const firestore = getFirestore(firebaseApp);
 
 const GetStartedPage = () => {
   const [NFT, setNFT] = useState<any>({});
-  const [outputImages, setOutputImages] = useState<any[]>([]);
   const [traitGroups, setTraitGroups] = useState<TraitGroup>({
     "group 1": {
       traits: ["img 1", "img 2", "img 3"],
@@ -44,83 +44,18 @@ const GetStartedPage = () => {
     },
   });
 
+  const address = "francis";
+  const collectionName = "nozo";
+
+  const [layers, setLayers] = useState<ILayer[]>([]);
+
   const _query = query(
-    collection(firestore, "art-engine/francis/test/output/images")
+    collection(
+      firestore,
+      `art-engine/${address}/${collectionName}/input/layers/`
+    )
   );
   const [snapshots, loading] = useCollectionData(_query);
-
-  const [layers, setLayers] = useState<ILayer[]>([
-    {
-      id: 0,
-      name: "Background",
-      blendmode: "source-over",
-      opacity: 1,
-      elements: [
-        {
-          sublayer: false,
-          weight: 1,
-          blendmode: "source-over",
-          opacity: 1,
-          id: 0,
-          name: "Background",
-          filename: "Background#001.png",
-          path: "https://firebasestorage.googleapis.com/v0/b/minft-staging.appspot.com/o/art-engine%2FBackground%23001.png?alt=media&token=1837643e-2743-4946-9fbe-573c8a626914",
-          zindex: "",
-          trait: "Background",
-          traitValue: "Background",
-        },
-        {
-          sublayer: false,
-          weight: 2,
-          blendmode: "source-over",
-          opacity: 1,
-          id: 1,
-          name: "Background",
-          filename: "Background#002.png",
-          path: "https://firebasestorage.googleapis.com/v0/b/minft-staging.appspot.com/o/art-engine%2FBackground%23002.png?alt=media&token=febb95a4-4861-4016-83ff-53b1c9abab38",
-          zindex: "",
-          trait: "Background",
-          traitValue: "Background",
-        },
-      ],
-      bypassDNA: false,
-    },
-    {
-      id: 1,
-      name: "Skin",
-      blendmode: "source-over",
-      opacity: 1,
-      elements: [
-        {
-          sublayer: false,
-          weight: 1,
-          blendmode: "source-over",
-          opacity: 1,
-          id: 0,
-          name: "Skin",
-          filename: "Skin#001.png",
-          path: "https://firebasestorage.googleapis.com/v0/b/minft-staging.appspot.com/o/art-engine%2FSkin%23001.png?alt=media&token=64bcf7f9-cbb8-42b4-b256-0a9025f4765e",
-          zindex: "",
-          trait: "Skin",
-          traitValue: "Skin",
-        },
-        {
-          sublayer: false,
-          weight: 2,
-          blendmode: "source-over",
-          opacity: 1,
-          id: 1,
-          name: "Skin",
-          filename: "Skin#002.png",
-          path: "https://firebasestorage.googleapis.com/v0/b/minft-staging.appspot.com/o/art-engine%2FSkin%23002.png?alt=media&token=c8a49558-e59a-4c4a-86b2-bd8870e53b95",
-          zindex: "",
-          trait: "Skin",
-          traitValue: "Skin",
-        },
-      ],
-      bypassDNA: false,
-    },
-  ]);
 
   useEffect(() => {
     if (loading) return;
@@ -131,27 +66,9 @@ const GetStartedPage = () => {
       return acc;
     }, []);
 
-    setOutputImages(data);
+    setLayers(data);
   }, [loading, snapshots]);
 
-  const addLayer = (name: string) => {
-    const _layer: ILayer = {
-      id: 0,
-      name: name,
-      blendmode: "source-over",
-      opacity: 1,
-      elements: [],
-      bypassDNA: false,
-    };
-
-    setLayers([...layers, _layer]);
-  };
-
-  /**
-   * handles change in a property group trait
-   *
-   * @param {Object.<string, string|number>} param0 - object of group name and traitIndex
-   */
   function handleTraitChanged({
     groupName,
     traitIndex,
@@ -172,19 +89,15 @@ const GetStartedPage = () => {
     });
   }
 
-  function fetchGenerated() {
-    //
-  }
-
   return (
-    <>
+    <div className="w-full">
       <Head>
         <title>Get Started</title>
       </Head>
       <section className="box-border flex min-h-screen bg-white">
-        <div className="container flex max-w-7xl items-start justify-between gap-8 p-12 px-4">
-          <section className="flex-1">
-            <NewProperty />
+        <div className=" flex w-full items-start justify-between gap-8 p-12 px-4">
+          <section className="max-w-6xl flex-1">
+            <NewProperty address={address} collectionName={collectionName} />
             {/* Group Previews */}
             <div className="mt-10 flex flex-col gap-10">
               {layers.map((item, index) => (
@@ -192,37 +105,22 @@ const GetStartedPage = () => {
                   key={index}
                   onChange={handleTraitChanged}
                   name={item.name}
-                  elements={item.elements}
                 />
               ))}
-              {/* <PropertyGroup
-                onChange={handleTraitChanged}
-                name="Group 1"
-                traits={[]}
-                activeTraitIndex={3}
-              />
-              <PropertyGroup
-                onChange={handleTraitChanged}
-                name="Group 2"
-                traits={[]}
-                activeTraitIndex={1}
-              /> */}
             </div>
           </section>
-          <section className="max-w-[308px] flex-1">
+          <section className="">
             {/* Project preview */}
-            <NFTPreview className="mt-10" layers={layers} />
+            {/* <NFTPreview className="mt-10" layers={layers} /> */}
             {/* collection size */}
             {/* Generate collection */}
           </section>
-        </div>
-        {outputImages.map((item, index) => (
-          <div className="w-fit" key={index}>
-            <img className="w-36" src={item.url} alt="" />
+          <div className="w-1/2">
+            <PreviewNFT address={address} collectionName={collectionName} />
           </div>
-        ))}
+        </div>
       </section>
-    </>
+    </div>
   );
 };
 

@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { FC } from "react";
 
-import { ILayer } from "@/interfaces/get-started";
+import { ILayer } from "@/interfaces";
 
 interface AppProps {
   className?: string;
@@ -20,7 +20,7 @@ const NFTPreview: FC<AppProps> = ({ className, layers }) => {
         {layers.map((layer, index) => (
           <div key={index}>
             <img
-              src={layer.elements[0].path}
+              // src={layer.elements[0].path}
               alt=""
               className="absolute h-52 object-cover"
             />
