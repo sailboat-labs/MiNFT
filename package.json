@@ -24,7 +24,7 @@
     "@date-io/date-fns": "^2.13.1",
     "@emotion/react": "^11.8.1",
     "@emotion/styled": "^11.8.1",
-    "@headlessui/react": "^1.5.0",
+    "@headlessui/react": "^1.6.4",
     "@mui/lab": "^5.0.0-alpha.71",
     "@mui/material": "^5.4.4",
     "@netlify/functions": "^1.0.0",
