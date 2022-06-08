@@ -115,7 +115,7 @@ const Homepage = () => {
                 <NewNFT
                   isOpen={isOpen}
                   closeModal={() => {
-                    setIsOpen(false); // if successful, redirect to get-started
+                    // setIsOpen(false); // if successful, redirect to get-started
                     // router.push("/nft/get-started");
                   }}
                 />

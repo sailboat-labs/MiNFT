@@ -48,8 +48,9 @@ const GetStartedPage = () => {
   });
 
   const _query = query(
-    collection(firestore, "art-engine/francis/test/output/images")
+    collection(firestore, `art-engine/users/${router.query.address}/${router.query.name}/layers`)
   );
+  
   const [snapshots, loading] = useCollectionData(_query);
 
   const [layers, setLayers] = useState<ILayer[]>([]);
@@ -63,7 +64,7 @@ const GetStartedPage = () => {
       return acc;
     }, []);
 
-    setOutputImages(data);
+    setLayers(data);
   }, [loading, snapshots]);
 
   /**
@@ -119,7 +120,6 @@ const GetStartedPage = () => {
                   key={index}
                   onChange={handleTraitChanged}
                   name={item.name}
-                  elements={item.elements}
                 />
               ))}
               {/* <PropertyGroup
@@ -138,7 +138,7 @@ const GetStartedPage = () => {
           </section>
           <section className="max-w-[308px] flex-1">
             {/* Project preview */}
-            <NFTPreview className="mt-10" layers={layers} />
+            {/* <NFTPreview className="mt-10" layers={layers} /> */}
             {/* collection size */}
             {/* Generate collection */}
           </section>

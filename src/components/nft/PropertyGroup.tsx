@@ -6,7 +6,6 @@ import TraitPreview from "./TraitPreview";
 
 interface AppProps {
   name: string;
-  elements: IElement[];
   onChange: ({
     groupName,
     traitIndex,
@@ -16,7 +15,7 @@ interface AppProps {
   }) => void;
 }
 
-const PropertyGroup: FC<AppProps> = ({ name, elements, onChange }) => {
+const PropertyGroup: FC<AppProps> = ({ name, onChange }) => {
   return (
     <div>
       {/* header */}
@@ -44,7 +43,7 @@ const PropertyGroup: FC<AppProps> = ({ name, elements, onChange }) => {
 
       {/* preview content */}
       <div className="mt-5 flex flex-wrap gap-6 rounded-md bg-[color:var(--bg-indigo)] p-6">
-        {elements.map((element, index) => (
+        {/* {elements.map((element, index) => (
           <TraitPreview
             key={index}
             file={element.path}
@@ -52,7 +51,7 @@ const PropertyGroup: FC<AppProps> = ({ name, elements, onChange }) => {
             onSelect={(traitIndex) => onChange({ traitIndex, groupName: name })}
             active={false}
           />
-        ))}
+        ))} */}
         <div className="flex h-[76px] items-center gap-3">
           <button className="grid h-12 w-12 place-content-center rounded-full bg-white shadow-md">
             <svg

@@ -1,8 +1,16 @@
+import { doc, getFirestore, setDoc } from "firebase/firestore";
 import React, { ChangeEvent, useRef, useState } from "react";
+import toast from "react-hot-toast";
+
+import { firebaseApp } from "@/lib/firebase";
 
 import TraitPreview from "./TraitPreview";
+import { useRouter } from "next/router";
+
+const firestore = getFirestore(firebaseApp);
 
 const NewProperty = () => {
+  const router = useRouter()
   const [files, setFiles] = useState<File[]>([]);
   const fileInput = useRef<HTMLInputElement>(null);
   const [propertyName, setPropertyName] = useState<string>("");
@@ -48,8 +56,39 @@ const NewProperty = () => {
    *
    * @returns {undefined}
    */
-  function saveProperty() {
+  async function saveProperty() {
+    if(router.query)
     // todo: save Property name and uploaded trait files
+    toast("Saving");
+
+    const address = router.query.address
+    const project = router.query?.name?.toString().toLowerCase();
+
+
+    
+
+    if(!address || !project) return
+    console.log({address,project});
+    
+    try {
+      const _layer = {
+        name: propertyName,
+        blendmode: "source-over",
+        opacity: 1,
+        bypassDNA: false,
+      };
+
+      const _doc = doc(
+        firestore,
+        `art-engine/users/${address}/${project}/layers/${propertyName}`
+      );
+      await setDoc(_doc, _layer);
+      toast.dismiss();
+      toast.success("Saved");
+    } catch (error) {
+      console.log(error);
+      
+    }
   }
 
   function removeTrait(traitIndex: number) {
@@ -119,12 +158,12 @@ const NewProperty = () => {
         >
           Discard
         </button>
-        <button
+        <div
           className="max-w-[130px] flex-1 rounded-md bg-[color:var(--blue)] py-2 text-white"
           onClick={saveProperty}
         >
           Save
-        </button>
+        </div>
       </div>
     </form>
   );
