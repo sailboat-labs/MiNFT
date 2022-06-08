@@ -17,7 +17,10 @@ const NFTPreview: FC<AppProps> = ({ className, layers }) => {
     <>
       <div className={` h-fit rounded-lg bg-[#E7ECF3] ${className}`}>
         <div className="flex justify-center">
-          <div className="inline-block -translate-y-4 transform rounded-md border border-[#E7ECF3] bg-[#F3F7FA] px-6 py-2 font-semibold text-indigo-700">
+          <div
+            onClick={() => setIsOpen(true)}
+            className="inline-block -translate-y-4 transform cursor-pointer rounded-md border border-[#E7ECF3] bg-[#F3F7FA] px-6 py-2 font-semibold text-indigo-700 hover:shadow-lg"
+          >
             Preview
           </div>
         </div>
