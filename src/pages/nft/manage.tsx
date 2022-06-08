@@ -5,6 +5,7 @@ import {
   query,
 } from "firebase/firestore";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 
@@ -15,7 +16,6 @@ import NFTPreview from "@/components/nft/NFTPreview";
 import PropertyGroup from "@/components/nft/PropertyGroup";
 
 import { ILayer } from "@/interfaces/get-started";
-import { useRouter } from "next/router";
 
 interface TraitGroup {
   [groupName: string]: {
@@ -27,9 +27,9 @@ interface TraitGroup {
 const firestore = getFirestore(firebaseApp);
 
 const GetStartedPage = () => {
-  const router = useRouter()
+  const router = useRouter();
   console.log(router.query);
-  
+
   const [NFT, setNFT] = useState<any>({});
   const [outputImages, setOutputImages] = useState<any[]>([]);
   const [traitGroups, setTraitGroups] = useState<TraitGroup>({
@@ -65,8 +65,6 @@ const GetStartedPage = () => {
 
     setOutputImages(data);
   }, [loading, snapshots]);
-
- 
 
   /**
    * handles change in a property group trait
