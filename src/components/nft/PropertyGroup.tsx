@@ -12,6 +12,7 @@ import { firebaseApp } from "@/lib/firebase";
 
 import TraitPreview from "./TraitPreview";
 import UploadElement from "../pages/nft/token_generator/upload_element";
+
 import { IElement } from "@/types";
 
 interface AppProps {
@@ -77,7 +78,7 @@ const PropertyGroup: FC<AppProps> = ({ name, onChange }) => {
       </div>
 
       {/* preview content */}
-      <div className="mt-5 flex flex-wrap gap-6 rounded-md bg-[color:var(--bg-indigo)] p-6">
+      <div className="mt-5 flex flex-wrap gap-6 overflow-x-auto rounded-md bg-[color:var(--bg-indigo)] p-6">
         {elements.map((element, index) => (
           <div key={index}>
             <TraitPreview
