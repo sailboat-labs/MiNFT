@@ -1,9 +1,13 @@
-import React, { FC } from "react";
+import { collection, DocumentData, query } from "firebase/firestore";
+import { useRouter } from "next/router";
+import React, { FC, useEffect, useState } from "react";
+import { useCollectionData } from "react-firebase-hooks/firestore";
 
 import { IElement } from "@/interfaces/get-started";
 
-import TraitPreview from "./TraitPreview";
+import { firestore } from "./NewProperty";
 import UploadElement from "./UploadElement";
+import TraitPreview from "./TraitPreview";
 
 interface AppProps {
   name: string;
@@ -17,6 +21,32 @@ interface AppProps {
 }
 
 const PropertyGroup: FC<AppProps> = ({ name, onChange }) => {
+  const router = useRouter();
+
+  const [elements, setElements] = useState<IElement[]>([]);
+
+  const address = router.query.address;
+  const project = router.query?.name?.toString().toLowerCase();
+
+  const _query = query(
+    collection(firestore, `art-engine/users/${address}/${project}/elements/`)
+  );
+
+  const [snapshots, loading] = useCollectionData(_query);
+
+  useEffect(() => {
+    if (loading) return;
+    if (!snapshots) return;
+
+    const data = snapshots.reduce((acc: IElement[], curr: DocumentData) => {
+      acc.push(curr as IElement);
+      return acc;
+    }, []);
+
+
+    setElements(data);
+  }, [loading, snapshots]);
+
   return (
     <div>
       {/* header */}
@@ -44,20 +74,17 @@ const PropertyGroup: FC<AppProps> = ({ name, onChange }) => {
 
       {/* preview content */}
       <div className="mt-5 flex flex-wrap gap-6 rounded-md bg-[color:var(--bg-indigo)] p-6">
-        {/* {elements.map((element, index) => (
+        {elements.map((element, index) => (
           <TraitPreview
             key={index}
             file={element.path}
             traitIndex={index}
-            onSelect={(traitIndex) => onChange({ traitIndex, groupName: name })}
+            // onSelect={(traitIndex) => onChange({ traitIndex, groupName: name })}
             active={false}
           />
-        ))} */}
+        ))}
         <div className="flex h-[76px] items-center gap-3">
-          <UploadElement
-            layerName={name}
-            
-          />
+          <UploadElement layerName={name} />
         </div>
       </div>
     </div>

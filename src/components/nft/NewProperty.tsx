@@ -7,7 +7,7 @@ import { firebaseApp } from "@/lib/firebase";
 import TraitPreview from "./TraitPreview";
 import { useRouter } from "next/router";
 
-const firestore = getFirestore(firebaseApp);
+export const firestore = getFirestore(firebaseApp);
 
 const NewProperty = () => {
   const router = useRouter()

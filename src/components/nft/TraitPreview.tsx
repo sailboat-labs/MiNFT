@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable jsx-a11y/alt-text */
 import React, { FC } from "react";
 
@@ -6,21 +7,18 @@ interface AppProps {
   traitIndex: number;
   file: string | File;
   onRemove?: (traitIndex: number) => void;
-  onSelect?: (traitIndex: number) => void;
 }
 
 const TraitPreview: FC<AppProps> = ({
   file,
   traitIndex,
   active = false,
-  onSelect,
   onRemove: removeTrait,
 }) => {
   const url = typeof file === "string" ? file : URL.createObjectURL(file);
 
   return (
     <div
-      onClick={() => onSelect && onSelect(traitIndex)}
       className={`${
         active && "border-[#30489C]"
       } relative rounded-lg border-2 transition-all duration-150 hover:cursor-pointer hover:border-[#30489C]`}
