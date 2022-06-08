@@ -11,9 +11,12 @@ import { useCollectionData } from "react-firebase-hooks/firestore";
 
 import { firebaseApp } from "@/lib/firebase";
 
+import FolderUploader from "@/components/buttons/FolderUploader";
 import NewNFT from "@/components/modals/NewNFT";
 
 import ellipsify from "@/utils/ellipsify";
+
+import { NFTLayer } from "@/types";
 const firestore = getFirestore(firebaseApp);
 
 const Homepage = () => {
@@ -37,6 +40,15 @@ const Homepage = () => {
     alert("connect to wallet");
   }
 
+  /**
+   * called when folder and its content are uploaded
+   *
+   * @param {NFTLayer[]} NFTLayers - array of NFTLayers
+   */
+  function onUploaded(NFTLayers: NFTLayer[]) {
+    console.log(NFTLayers);
+  }
+
   const _query = query(collection(firestore, "/art-engine/users/francis"));
 
   const [snapshots, loading] = useCollectionData(_query);
@@ -56,7 +68,7 @@ const Homepage = () => {
       []
     );
 
-    console.log(data);
+    // console.log(data);
 
     setLayers(data);
   }, [loading, snapshots]);
@@ -65,18 +77,21 @@ const Homepage = () => {
     <section>
       <header className="sticky top-0 z-20 flex items-center justify-between bg-white p-5">
         <strong className="text-3xl">MiNFT</strong>
-        {walletIsConnected ? (
-          <button className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600">
-            {ellipsify("0x71C7656EC7ab88b098defB751B7401B5f6d8976F")}
-          </button>
-        ) : (
-          <button
-            onClick={connectWallet}
-            className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
-          >
-            Connect Wallet
-          </button>
-        )}
+        <div className="flex items-center gap-2">
+          {walletIsConnected ? (
+            <button className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600">
+              {ellipsify("0x71C7656EC7ab88b098defB751B7401B5f6d8976F")}
+            </button>
+          ) : (
+            <button
+              onClick={connectWallet}
+              className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+            >
+              Connect Wallet
+            </button>
+          )}
+          <FolderUploader onUploaded={onUploaded} />
+        </div>
       </header>
       <main>
         {/* connect wallet ui content */}
@@ -115,21 +130,28 @@ const Homepage = () => {
                 <NewNFT
                   isOpen={isOpen}
                   closeModal={() => {
-                    // setIsOpen(false); // if successful, redirect to get-started
+                    setIsOpen(false); // if successful, redirect to get-started
                     // router.push("/nft/get-started");
                   }}
                 />
 
                 {layers.map((item, index) => (
                   <article
-                  onClick={()=>{
-                    router.push({pathname:"/nft/manage",query:{address:item.owner,name:item.name}})
-                  }}
+                    onClick={() => {
+                      router.push({
+                        pathname: "/nft/manage",
+                        query: { address: item.owner, name: item.name },
+                      });
+                    }}
                     key={index}
-                    className="border-gray2100 transition-all flex  flex-col rounded border bg-white duration-150 hover:border-collapse hover:cursor-pointer hover:shadow-md"
+                    className="border-gray2100 flex flex-col  rounded border bg-white transition-all duration-150 hover:border-collapse hover:cursor-pointer hover:shadow-md"
                   >
                     <div className="flex flex-1 items-center justify-center bg-gray-200">
-                      <img className="object-cover h-full rounded-t" src={item.preview} alt="" />
+                      <img
+                        className="h-full rounded-t object-cover"
+                        src={item.preview}
+                        alt=""
+                      />
                     </div>
                     <p className="p-3 text-center font-semibold">{item.name}</p>
                   </article>
