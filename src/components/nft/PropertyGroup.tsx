@@ -1,4 +1,4 @@
-import { collection, DocumentData, query } from "firebase/firestore";
+import { collection, DocumentData, query, where } from "firebase/firestore";
 import { useRouter } from "next/router";
 import React, { FC, useEffect, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
@@ -29,7 +29,7 @@ const PropertyGroup: FC<AppProps> = ({ name, onChange }) => {
   const project = router.query?.name?.toString().toLowerCase();
 
   const _query = query(
-    collection(firestore, `art-engine/users/${address}/${project}/elements/`)
+    collection(firestore, `art-engine/users/${address}/${project}/elements/`),where("trait", "==", name)
   );
 
   const [snapshots, loading] = useCollectionData(_query);
