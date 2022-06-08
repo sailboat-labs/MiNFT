@@ -20,7 +20,7 @@ const PropertyGroup: FC<AppProps> = ({ name, elements, onChange }) => {
   return (
     <div>
       {/* header */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between bg-white">
         <div className="flex items-center gap-4">
           <button className="mr-4 flex items-center gap-2 rounded-md bg-[color:var(--blue)] py-2 px-4 text-white">
             {name}
