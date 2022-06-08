@@ -8,27 +8,42 @@ interface AppProps {
 
 const FolderUploader = ({ onUploaded }: AppProps) => {
   const inputRef = React.useRef<HTMLInputElement>(null);
-
+  /**
+   * manually sets html5 attributes on the input element
+   */
   React.useEffect(() => {
     inputRef.current?.setAttribute("directory", "");
     inputRef.current?.setAttribute("mozDirectory", "");
     inputRef.current?.setAttribute("webkitDirectory", "");
   }, [inputRef]);
-
+  /**
+   * handles change in folder upload
+   *
+   * @param {ChangeEvent<HTMLInputElement>} evt - change event object
+   * @returns {undefined}
+   */
   function handleOnChange(evt: ChangeEvent<HTMLInputElement>): void {
     const files: FileList | null = evt.target.files;
-
+    // ignore if no files were uploaded
     if (files === null) return;
+
     const layers = Array.from(files)
+      /**
+       * filters all files that don't match the hierarchy parent -> layers-> traits
+       */
       .filter((file: File) => file.webkitRelativePath.split("/").length === 3)
+      /**
+       * group files per layer ie. sub directories in parent directory
+       */
       .reduce((acc: any, curr: any) => {
         (acc[curr.webkitRelativePath.split("/")[1]] =
           acc[curr.webkitRelativePath.split("/")[1]] || []).push(curr);
         return acc;
       }, {});
 
-    const refinedData = [];
+    // transform object into array
     let id = 1;
+    const refinedData = [];
     for (const key in layers) {
       refinedData.push({
         id,
@@ -38,6 +53,9 @@ const FolderUploader = ({ onUploaded }: AppProps) => {
       id++;
     }
 
+    /**
+     * relay data to onUploaded function
+     */
     if (onUploaded) {
       onUploaded(refinedData);
     }
