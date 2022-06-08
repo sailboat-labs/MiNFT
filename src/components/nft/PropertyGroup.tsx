@@ -6,8 +6,8 @@ import { useCollectionData } from "react-firebase-hooks/firestore";
 import { IElement } from "@/interfaces/get-started";
 
 import { firestore } from "./NewProperty";
-import UploadElement from "./UploadElement";
 import TraitPreview from "./TraitPreview";
+import UploadElement from "./UploadElement";
 
 interface AppProps {
   name: string;
@@ -29,7 +29,8 @@ const PropertyGroup: FC<AppProps> = ({ name, onChange }) => {
   const project = router.query?.name?.toString().toLowerCase();
 
   const _query = query(
-    collection(firestore, `art-engine/users/${address}/${project}/elements/`),where("trait", "==", name)
+    collection(firestore, `art-engine/users/${address}/${project}/elements/`),
+    where("trait", "==", name)
   );
 
   const [snapshots, loading] = useCollectionData(_query);
@@ -42,7 +43,6 @@ const PropertyGroup: FC<AppProps> = ({ name, onChange }) => {
       acc.push(curr as IElement);
       return acc;
     }, []);
-
 
     setElements(data);
   }, [loading, snapshots]);
