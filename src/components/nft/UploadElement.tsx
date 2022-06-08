@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import toast from "react-hot-toast";
+import { useMoralis } from "react-moralis";
 import { v4 } from "uuid";
 
 import { firebaseApp } from "@/lib/firebase";
@@ -30,7 +31,10 @@ IImageUploadProps) {
   const [uploading, setUploading] = useState(false);
   const [percentageComplete, setPercentageComplete] = useState(0);
 
-  const address = router.query.address;
+  const { account, logout, isAuthenticated } = useMoralis();
+
+  if (!isAuthenticated) router.push("/nft");
+
   const project = router.query?.name?.toString().toLowerCase();
 
   async function uploadFile(acceptedFiles: File[]) {
@@ -44,7 +48,7 @@ IImageUploadProps) {
 
       const storageRef = ref(
         storage,
-        `art-engine/users/${address}/${project}/elements/${_name}`
+        `art-engine/users/${account}/${project}/elements/${_name}`
       );
 
       const uploadTask = uploadBytesResumable(storageRef, file);
@@ -81,7 +85,7 @@ IImageUploadProps) {
 
           const _doc = doc(
             firestore,
-            `art-engine/users/${address}/${project}/elements/${_name}`
+            `art-engine/users/${account}/${project}/elements/${_name}`
           );
           await setDoc(_doc, _element);
           toast.dismiss();

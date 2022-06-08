@@ -16,6 +16,7 @@ import NFTPreview from "@/components/nft/NFTPreview";
 import PropertyGroup from "@/components/nft/PropertyGroup";
 
 import { ILayer } from "@/interfaces/get-started";
+import { useMoralis } from "react-moralis";
 
 interface TraitGroup {
   [groupName: string]: {
@@ -28,7 +29,10 @@ const firestore = getFirestore(firebaseApp);
 
 const GetStartedPage = () => {
   const router = useRouter();
-  console.log(router.query);
+
+   const { account, logout, isAuthenticated } = useMoralis();
+
+   if (!isAuthenticated) router.push("/nft");
 
   const [NFT, setNFT] = useState<any>({});
   const [outputImages, setOutputImages] = useState<any[]>([]);
@@ -48,7 +52,7 @@ const GetStartedPage = () => {
   });
 
   const _query = query(
-    collection(firestore, `art-engine/users/${router.query.address}/${router.query.name}/layers`)
+    collection(firestore, `art-engine/users/${account}/${router.query.name}/layers`)
   );
   
   const [snapshots, loading] = useCollectionData(_query);

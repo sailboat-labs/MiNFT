@@ -156,7 +156,7 @@ const Homepage = () => {
                   onClick={() => {
                     router.push({
                       pathname: "/nft/manage",
-                      query: { address: item.owner, name: item.name },
+                      query: {  name: item.name },
                     });
                   }}
                   key={index}

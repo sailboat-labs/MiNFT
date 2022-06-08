@@ -8,6 +8,7 @@ import { IElement } from "@/interfaces/get-started";
 import { firestore } from "./NewProperty";
 import TraitPreview from "./TraitPreview";
 import UploadElement from "./UploadElement";
+import { useMoralis } from "react-moralis";
 
 interface AppProps {
   name: string;
@@ -25,11 +26,14 @@ const PropertyGroup: FC<AppProps> = ({ name, onChange }) => {
 
   const [elements, setElements] = useState<IElement[]>([]);
 
-  const address = router.query.address;
+
+  const { account, logout, isAuthenticated } = useMoralis();
+
+
   const project = router.query?.name?.toString().toLowerCase();
 
   const _query = query(
-    collection(firestore, `art-engine/users/${address}/${project}/elements/`),
+    collection(firestore, `art-engine/users/${account}/${project}/elements/`),
     where("trait", "==", name)
   );
 
