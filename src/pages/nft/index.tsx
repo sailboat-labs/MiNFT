@@ -1,15 +1,29 @@
+/* eslint-disable @next/next/no-img-element */
+import {
+  collection,
+  DocumentData,
+  getFirestore,
+  query,
+} from "firebase/firestore";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useCollectionData } from "react-firebase-hooks/firestore";
+
+import { firebaseApp } from "@/lib/firebase";
 
 import NewNFT from "@/components/modals/NewNFT";
 
 import ellipsify from "@/utils/ellipsify";
+const firestore = getFirestore(firebaseApp);
 
 const Homepage = () => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [layers, setLayers] = useState<
+    { name: string; preview: string; owner: string }[]
+  >([]);
   // flag to determine if wallet is connected or not
-  const [walletIsConnected, setWalletIsConnected] = useState<boolean>(false);
+  const [walletIsConnected, setWalletIsConnected] = useState<boolean>(true);
   /**
    * handles mouse click on element
    * - connects to user's wallet
@@ -22,6 +36,30 @@ const Homepage = () => {
     // todo: code to connect wallet goes here
     alert("connect to wallet");
   }
+
+  const _query = query(collection(firestore, "/art-engine/users/francis"));
+
+  const [snapshots, loading] = useCollectionData(_query);
+
+  useEffect(() => {
+    if (loading) return;
+    if (!snapshots) return;
+
+    const data = snapshots.reduce(
+      (
+        acc: { name: string; preview: string; owner: string }[],
+        curr: DocumentData
+      ) => {
+        acc.push(curr as { name: string; preview: string; owner: string });
+        return acc;
+      },
+      []
+    );
+
+    console.log(data);
+
+    setLayers(data);
+  }, [loading, snapshots]);
 
   return (
     <section>
@@ -78,58 +116,24 @@ const Homepage = () => {
                   isOpen={isOpen}
                   closeModal={() => {
                     setIsOpen(false); // if successful, redirect to get-started
-                    router.push("/nft/get-started");
+                    // router.push("/nft/get-started");
                   }}
                 />
-                <article className="border-gray2100 transtion-all flex h-[250px] flex-col rounded border bg-white duration-150 hover:border-collapse hover:cursor-pointer hover:shadow-md">
-                  <div className="flex flex-1 items-center justify-center bg-gray-200">
-                    <img src="" alt="" />
-                  </div>
-                  <p className="p-3 text-center font-semibold">Project Name</p>
-                </article>
-                <article className="border-gray2100 transtion-all flex h-[250px] flex-col rounded border bg-white duration-150 hover:border-collapse hover:cursor-pointer hover:shadow-md">
-                  <div className="flex flex-1 items-center justify-center bg-gray-200">
-                    <img src="" alt="" />
-                  </div>
-                  <p className="p-3 text-center font-semibold">Project Name</p>
-                </article>
-                <article className="transtion-all flex h-[250px] flex-col rounded border border-gray-200 bg-white duration-150 hover:border-collapse hover:cursor-pointer hover:shadow-md">
-                  <div className="flex flex-1 items-center justify-center bg-gray-200">
-                    <img src="" alt="" />
-                  </div>
-                  <p className="p-3 text-center font-semibold">Project Name</p>
-                </article>
-                <article className="border-gray2100 transtion-all flex h-[250px] flex-col rounded border bg-white duration-150 hover:border-collapse hover:cursor-pointer hover:shadow-md">
-                  <div className="flex flex-1 items-center justify-center bg-gray-200">
-                    <img src="" alt="" />
-                  </div>
-                  <p className="p-3 text-center font-semibold">Project Name</p>
-                </article>
 
-                <article className="transtion-all flex h-[250px] flex-col rounded border border-gray-200 bg-white duration-150 hover:border-collapse hover:cursor-pointer hover:shadow-md">
-                  <div className="flex flex-1 items-center justify-center bg-gray-200">
-                    <img src="" alt="" />
-                  </div>
-                  <p className="p-3 text-center font-semibold">Project Name</p>
-                </article>
-                <article className="border-gray2100 transtion-all flex h-[250px] flex-col rounded border bg-white duration-150 hover:border-collapse hover:cursor-pointer hover:shadow-md">
-                  <div className="flex flex-1 items-center justify-center bg-gray-200">
-                    <img src="" alt="" />
-                  </div>
-                  <p className="p-3 text-center font-semibold">Project Name</p>
-                </article>
-                <article className="transtion-all flex h-[250px] flex-col rounded border border-gray-200 bg-white duration-150 hover:border-collapse hover:cursor-pointer hover:shadow-md">
-                  <div className="flex flex-1 items-center justify-center bg-gray-200">
-                    <img src="" alt="" />
-                  </div>
-                  <p className="p-3 text-center font-semibold">Project Name</p>
-                </article>
-                <article className="transtion-all flex h-[250px] flex-col rounded border border-gray-200 bg-white duration-150 hover:border-collapse hover:cursor-pointer hover:shadow-md">
-                  <div className="flex flex-1 items-center justify-center bg-gray-200">
-                    <img src="" alt="" />
-                  </div>
-                  <p className="p-3 text-center font-semibold">Project Name</p>
-                </article>
+                {layers.map((item, index) => (
+                  <article
+                  onClick={()=>{
+                    router.push({pathname:"/nft/manage",query:{address:item.owner,name:item.name}})
+                  }}
+                    key={index}
+                    className="border-gray2100 transition-all flex  flex-col rounded border bg-white duration-150 hover:border-collapse hover:cursor-pointer hover:shadow-md"
+                  >
+                    <div className="flex flex-1 items-center justify-center bg-gray-200">
+                      <img className="object-cover h-full rounded-t" src={item.preview} alt="" />
+                    </div>
+                    <p className="p-3 text-center font-semibold">{item.name}</p>
+                  </article>
+                ))}
               </div>
             </div>
           </section>
