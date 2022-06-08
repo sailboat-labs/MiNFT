@@ -7,7 +7,7 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { useRouter } from "next/router";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import toast from "react-hot-toast";
 import { useMoralis } from "react-moralis";
@@ -33,7 +33,10 @@ IImageUploadProps) {
 
   const { account, logout, isAuthenticated } = useMoralis();
 
-  if (!isAuthenticated) router.push("/nft");
+   useEffect(() => {
+     if (!isAuthenticated) router.push("/nft");
+   }, [isAuthenticated]);
+
 
   const project = router.query?.name?.toString().toLowerCase();
 

@@ -32,7 +32,6 @@ const GetStartedPage = () => {
 
    const { account, logout, isAuthenticated } = useMoralis();
 
-   if (!isAuthenticated) router.push("/nft");
 
   const [NFT, setNFT] = useState<any>({});
   const [outputImages, setOutputImages] = useState<any[]>([]);
@@ -70,6 +69,12 @@ const GetStartedPage = () => {
 
     setLayers(data);
   }, [loading, snapshots]);
+
+
+ useEffect(()=>{
+   if (!isAuthenticated) router.push('/nft');
+
+ },[isAuthenticated])
 
   /**
    * handles change in a property group trait
