@@ -26,7 +26,6 @@ export default function UploadFolderResultStructure({
 }: props) {
   const { account, logout, isAuthenticated } = useMoralis();
   const router = useRouter();
-  const project = router.query?.name?.toString().toLowerCase();
 
   function closeModal() {
     setShowLayerStructure(false);
@@ -39,7 +38,7 @@ export default function UploadFolderResultStructure({
   function uploadLayers() {
     //Recursively upload layers and its elements
 
-    if (!account || !project) return;
+    if (!account || !router.query?.name?.toString().toLowerCase()) return;
     const layers = data.map((item) => item.name);
     const elements = data.map((item) => item.elements);
 
@@ -57,7 +56,9 @@ export default function UploadFolderResultStructure({
 
         const _doc = doc(
           firestore,
-          `art-engine/users/${account}/${project}/layers/${layer}`
+          `art-engine/users/${account}/${router.query?.name
+            ?.toString()
+            .toLowerCase()}/layers/${layer}`
         );
         await setDoc(_doc, _layer);
         toast.dismiss();
@@ -82,7 +83,9 @@ export default function UploadFolderResultStructure({
 
           const storageRef = ref(
             storage,
-            `art-engine/users/${account}/${project}/elements/${_name}`
+            `art-engine/users/${account}/${router.query?.name
+              ?.toString()
+              .toLowerCase()}/elements/${_name}`
           );
 
           const uploadTask = uploadBytesResumable(storageRef, file);
@@ -119,7 +122,9 @@ export default function UploadFolderResultStructure({
 
               const _doc = doc(
                 firestore,
-                `art-engine/users/${account}/${project}/elements/${_name}`
+                `art-engine/users/${account}/${router.query?.name
+                  ?.toString()
+                  .toLowerCase()}/elements/${_name}`
               );
               await setDoc(_doc, _element);
               toast.dismiss();

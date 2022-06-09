@@ -37,8 +37,6 @@ IImageUploadProps) {
     if (!isAuthenticated) router.push("/nft");
   }, [isAuthenticated]);
 
-  const project = router.query?.name?.toString().toLowerCase();
-
   async function uploadFile(acceptedFiles: File[]) {
     try {
       toast("Uploading element");
@@ -50,7 +48,9 @@ IImageUploadProps) {
 
       const storageRef = ref(
         storage,
-        `art-engine/users/${account}/${project}/elements/${_name}`
+        `art-engine/users/${account}/${router.query?.name
+          ?.toString()
+          .toLowerCase()}/elements/${_name}`
       );
 
       const uploadTask = uploadBytesResumable(storageRef, file);
@@ -87,7 +87,9 @@ IImageUploadProps) {
 
           const _doc = doc(
             firestore,
-            `art-engine/users/${account}/${project}/elements/${_name}`
+            `art-engine/users/${account}/${router.query?.name
+              ?.toString()
+              .toLowerCase()}/elements/${_name}`
           );
           await setDoc(_doc, _element);
           toast.dismiss();

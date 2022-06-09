@@ -28,10 +28,13 @@ const PropertyGroup: FC<AppProps> = ({ name, onChange }) => {
 
   const { account, logout, isAuthenticated } = useMoralis();
 
-  const project = router.query?.name?.toString().toLowerCase();
-
   const _query = query(
-    collection(firestore, `art-engine/users/${account}/${project}/elements/`),
+    collection(
+      firestore,
+      `art-engine/users/${account}/${router.query?.name
+        ?.toString()
+        .toLowerCase()}/elements/`
+    ),
     where("trait", "==", name)
   );
 

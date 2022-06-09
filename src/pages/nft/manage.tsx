@@ -6,7 +6,6 @@ import {
   query,
 } from "firebase/firestore";
 import Head from "next/head";
-import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import toast from "react-hot-toast";
@@ -21,20 +20,12 @@ import PropertyGroup from "@/components/nft/PropertyGroup";
 
 import { ILayer } from "@/interfaces/get-started";
 
-interface TraitGroup {
-  [groupName: string]: {
-    traits: string[];
-    activeIndex: number;
-  };
-}
-
 const firestore = getFirestore(firebaseApp);
 
-const GetStartedPage = () => {
-  const router = useRouter();
+const GetStartedPage = ({ router }: any) => {
+  const { account, isAuthenticated } = useMoralis();
 
-  const { account, logout, isAuthenticated } = useMoralis();
-  const project = router.query?.name?.toString().toLowerCase();
+  console.log(router);
 
   const _query = query(
     collection(
@@ -91,7 +82,7 @@ const GetStartedPage = () => {
   function generateTokens() {
     const data = JSON.stringify({
       address: account,
-      collection: project,
+      collection: router.query?.name?.toString().toLowerCase(),
       layersOrder: [
         {
           name: "Background",
@@ -202,5 +193,15 @@ const GetStartedPage = () => {
     </>
   );
 };
+
+export function getServerSideProps({ query }: any) {
+  // if query object was received, return it as a router prop:
+  if (query.name) {
+    return { props: { router: { query } } };
+  }
+  // obtain slug elsewhere, redirect or fallback to some default value:
+  /* ... */
+  return { props: { router: { query: { name: "" } } } };
+}
 
 export default GetStartedPage;

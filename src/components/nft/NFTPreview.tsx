@@ -38,10 +38,13 @@ const NFTPreview: FC<AppProps> = ({ className, layers }) => {
     { name: "Head Accessory" },
   ];
 
-  const project = router.query?.name?.toString().toLowerCase();
-
   const _query = query(
-    collection(firestore, `art-engine/users/${account}/${project}/elements/`)
+    collection(
+      firestore,
+      `art-engine/users/${account}/${router.query?.name
+        ?.toString()
+        .toLowerCase()}/elements/`
+    )
   );
 
   const [snapshots, loading] = useCollectionData(_query);
