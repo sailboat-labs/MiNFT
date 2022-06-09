@@ -29,6 +29,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         firestore,
         `collections/${collectionId}/comments/${comment.id}`
       );
+
       await setDoc(_doc, comment);
 
       return res.status(200).json({ success: true });

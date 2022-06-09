@@ -3,6 +3,12 @@ export interface User {
   address?: string;
 }
 
+export interface NFTLayer {
+  id: number;
+  name: string;
+  elements: any;
+}
+
 export interface Collection {
   id: string;
   owner: string;
@@ -31,11 +37,10 @@ export interface Collection {
   image?: string;
   dateCreated?: string;
   lastUpdated?: string;
-  whitepaper?:string;
-  commentCount?:number;
-  favorited?:string[];
-  timezone?:string;
-  
+  whitepaper?: string;
+  commentCount?: number;
+  favorited?: string[];
+  timezone?: string;
 }
 
 export interface Comment {
