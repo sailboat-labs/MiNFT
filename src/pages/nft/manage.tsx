@@ -13,6 +13,7 @@ import { useMoralis } from "react-moralis";
 import { firebaseApp } from "@/lib/firebase";
 
 import FolderUploader from "@/components/nft/FolderUpload";
+import NFTPreview from "@/components/nft/NFTPreview";
 import PropertyGroup from "@/components/nft/PropertyGroup";
 
 import { ILayer } from "@/interfaces/get-started";
@@ -33,20 +34,6 @@ const GetStartedPage = () => {
 
   const [NFT, setNFT] = useState<any>({});
   const [outputImages, setOutputImages] = useState<any[]>([]);
-  const [traitGroups, setTraitGroups] = useState<TraitGroup>({
-    "group 1": {
-      traits: ["img 1", "img 2", "img 3"],
-      activeIndex: 0,
-    },
-    "group 2": {
-      traits: ["img 1", "img 2", "img 3", "img 4", "img 5"],
-      activeIndex: 1,
-    },
-    "group 3": {
-      traits: ["img 1", "img 2", "img 3", "img 4"],
-      activeIndex: 1,
-    },
-  });
 
   const _query = query(
     collection(
@@ -87,17 +74,17 @@ const GetStartedPage = () => {
     groupName: string;
     traitIndex: number;
   }): void {
-    setNFT({
-      ...NFT,
-      [groupName]: traitGroups[groupName]?.traits[traitIndex],
-    });
-    setTraitGroups({
-      ...traitGroups,
-      [groupName]: {
-        ...traitGroups[groupName],
-        activeIndex: traitIndex,
-      },
-    });
+    // setNFT({
+    //   ...NFT,
+    //   [groupName]: traitGroups[groupName]?.traits[traitIndex],
+    // });
+    // setTraitGroups({
+    //   ...traitGroups,
+    //   [groupName]: {
+    //     ...traitGroups[groupName],
+    //     activeIndex: traitIndex,
+    //   },
+    // });
   }
 
   function fetchGenerated() {
@@ -147,7 +134,7 @@ const GetStartedPage = () => {
           </section>
           <section className="max-w-[308px] flex-1">
             {/* Project preview */}
-            {/* <NFTPreview className="mt-10" layers={layers} /> */}
+            <NFTPreview className="mt-10" layers={layers} />
             {/* collection size */}
             {/* Generate collection */}
           </section>
