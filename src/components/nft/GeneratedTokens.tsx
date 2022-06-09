@@ -86,9 +86,13 @@ export default function ViewGeneratedTokens() {
                 <Dialog.Panel className="w-fit max-w-6xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                   <Dialog.Title
                     as="h3"
-                    className="text-lg font-medium leading-6 text-gray-900"
+                    className="text-xl font-medium leading-6 text-gray-900"
                   >
                     Generated Tokens
+                    <span className="ml-3 text-sm font-normal text-gray-500">
+                      {outputImages.length} image
+                      {outputImages.length == 1 ? "" : "s"}
+                    </span>
                   </Dialog.Title>
                   <div className="mt-5">
                     <div className="grid w-fit grid-flow-row grid-cols-12 gap-1">

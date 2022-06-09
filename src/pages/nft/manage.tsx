@@ -1,3 +1,4 @@
+import axios from "axios";
 import {
   collection,
   DocumentData,
@@ -8,6 +9,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
+import toast from "react-hot-toast";
 import { useMoralis } from "react-moralis";
 
 import { firebaseApp } from "@/lib/firebase";
@@ -32,8 +34,7 @@ const GetStartedPage = () => {
   const router = useRouter();
 
   const { account, logout, isAuthenticated } = useMoralis();
-
-  const [NFT, setNFT] = useState<any>({});
+  const project = router.query?.name?.toString().toLowerCase();
 
   const _query = query(
     collection(
@@ -87,6 +88,51 @@ const GetStartedPage = () => {
     // });
   }
 
+  function generateTokens() {
+    const data = JSON.stringify({
+      address: account,
+      collection: project,
+      layersOrder: [
+        {
+          name: "Background",
+        },
+        {
+          name: "Skin",
+        },
+        {
+          name: "Clothes",
+        },
+        {
+          name: "Eyes",
+        },
+        {
+          name: "Head Accessory",
+        },
+        {
+          name: "Bling",
+        },
+      ],
+    });
+
+    const config: any = {
+      method: "post",
+      url: "https://art-engine-qb27e.ondigitalocean.app/generate",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: data,
+    };
+
+    axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+        toast.success(response.data.toString());
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
   return (
     <>
       <Head>
@@ -105,7 +151,16 @@ const GetStartedPage = () => {
           <section className="flex-1">
             <div className="flex items-center gap-5">
               <FolderUploader />
-              {layers && <div className="gradient-button">Generate Tokens</div>}
+              {layers && (
+                <div
+                  onClick={() => {
+                    generateTokens();
+                  }}
+                  className="gradient-button"
+                >
+                  Generate Tokens
+                </div>
+              )}
               {layers && (
                 <div className="">
                   <ViewGeneratedTokens />
