@@ -77,7 +77,9 @@ const NFTPreview: FC<AppProps> = ({ className, layers }) => {
 
   return (
     <>
-      <div className={`h-fit w-72 rounded-t-lg bg-[#E7ECF3] ${className}`}>
+      <div
+        className={`h-fit w-72 rounded-t-lg bg-[#E7ECF3] ${className} relative`}
+      >
         <div className="flex justify-center">
           <div className="inline-block -translate-y-4 transform rounded-md border border-[#E7ECF3] bg-[#F3F7FA] px-6 py-2 font-semibold text-indigo-700">
             Preview
@@ -95,6 +97,7 @@ const NFTPreview: FC<AppProps> = ({ className, layers }) => {
           ))}
         </div>
       </div>
+
       {/* <EditTemplate isOpen={isOpen} closeModal={() => setIsOpen(false)} /> */}
     </>
   );

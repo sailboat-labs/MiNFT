@@ -13,6 +13,7 @@ import { useMoralis } from "react-moralis";
 import { firebaseApp } from "@/lib/firebase";
 
 import FolderUploader from "@/components/nft/FolderUpload";
+import ViewGeneratedTokens from "@/components/nft/GeneratedTokens";
 import NFTPreview from "@/components/nft/NFTPreview";
 import PropertyGroup from "@/components/nft/PropertyGroup";
 
@@ -33,7 +34,6 @@ const GetStartedPage = () => {
   const { account, logout, isAuthenticated } = useMoralis();
 
   const [NFT, setNFT] = useState<any>({});
-  const [outputImages, setOutputImages] = useState<any[]>([]);
 
   const _query = query(
     collection(
@@ -87,10 +87,6 @@ const GetStartedPage = () => {
     // });
   }
 
-  function fetchGenerated() {
-    //
-  }
-
   return (
     <>
       <Head>
@@ -106,16 +102,15 @@ const GetStartedPage = () => {
           ))}
         </div> */}
         <div className="container mx-auto flex max-w-7xl items-start justify-between gap-8 p-12 px-4">
-          <section className="max-w-[308px] flex-1">
-            {/* Project preview */}
-            <NFTPreview className="mt-10" layers={layers} />
-            {/* collection size */}
-            {/* Generate collection */}
-          </section>
           <section className="flex-1">
             <div className="flex items-center gap-5">
               <FolderUploader />
-              <div className="gradient-button">Generate Tokens</div>
+              {layers && <div className="gradient-button">Generate Tokens</div>}
+              {layers && (
+                <div className="">
+                  <ViewGeneratedTokens />
+                </div>
+              )}
             </div>
             {/* <NewProperty /> */}
             {/* Group Previews */}
@@ -140,6 +135,12 @@ const GetStartedPage = () => {
                 activeTraitIndex={1}
               /> */}
             </div>
+          </section>
+          <section className="max-w-[308px] flex-1">
+            {/* Project preview */}
+            <NFTPreview className="mt-10" layers={layers} />
+            {/* collection size */}
+            {/* Generate collection */}
           </section>
         </div>
       </section>
