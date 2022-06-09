@@ -106,8 +106,17 @@ const GetStartedPage = () => {
           ))}
         </div> */}
         <div className="container mx-auto flex max-w-7xl items-start justify-between gap-8 p-12 px-4">
+          <section className="max-w-[308px] flex-1">
+            {/* Project preview */}
+            <NFTPreview className="mt-10" layers={layers} />
+            {/* collection size */}
+            {/* Generate collection */}
+          </section>
           <section className="flex-1">
-            <FolderUploader />
+            <div className="flex items-center gap-5">
+              <FolderUploader />
+              <div className="gradient-button">Generate Tokens</div>
+            </div>
             {/* <NewProperty /> */}
             {/* Group Previews */}
             <div className="mt-10 flex flex-col gap-10">
@@ -131,12 +140,6 @@ const GetStartedPage = () => {
                 activeTraitIndex={1}
               /> */}
             </div>
-          </section>
-          <section className="max-w-[308px] flex-1">
-            {/* Project preview */}
-            <NFTPreview className="mt-10" layers={layers} />
-            {/* collection size */}
-            {/* Generate collection */}
           </section>
         </div>
       </section>
