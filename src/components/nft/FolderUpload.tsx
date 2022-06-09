@@ -1,4 +1,6 @@
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, useState } from "react";
+
+import UploadFolderResultStructure from "./UploadFolderResultStructure";
 
 import { NFTLayer } from "@/types";
 
@@ -8,6 +10,16 @@ interface AppProps {
 
 const FolderUploader = ({ onUploaded }: AppProps) => {
   const inputRef = React.useRef<HTMLInputElement>(null);
+  const [showLayerStructure, setShowLayerStructure] = useState(false);
+  const [layerStructure, setLayerStructure] = useState<any[]>([]);
+
+  function closeModal() {
+    setShowLayerStructure(false);
+  }
+
+  function openModal() {
+    setShowLayerStructure(true);
+  }
   /**
    * manually sets html5 attributes on the input element
    */
@@ -52,6 +64,10 @@ const FolderUploader = ({ onUploaded }: AppProps) => {
       });
       id++;
     }
+    console.log(refinedData);
+
+    setLayerStructure(refinedData);
+    setShowLayerStructure(true);
 
     /**
      * relay data to onUploaded function
@@ -63,8 +79,14 @@ const FolderUploader = ({ onUploaded }: AppProps) => {
 
   return (
     <div className="relative">
+      <UploadFolderResultStructure
+        data={layerStructure}
+        open={showLayerStructure}
+        setShowLayerStructure={setShowLayerStructure}
+      />
+
       <button
-        className="rounded-md bg-blue-500 px-5 py-2 text-white transition-all duration-150 hover:bg-blue-600"
+        className="gradient-button"
         onClick={() => inputRef.current?.click()}
       >
         Upload Folder

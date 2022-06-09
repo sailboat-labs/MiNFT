@@ -8,15 +8,14 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
+import { useMoralis } from "react-moralis";
 
 import { firebaseApp } from "@/lib/firebase";
 
-import NewProperty from "@/components/nft/NewProperty";
-import NFTPreview from "@/components/nft/NFTPreview";
+import FolderUploader from "@/components/nft/FolderUpload";
 import PropertyGroup from "@/components/nft/PropertyGroup";
 
 import { ILayer } from "@/interfaces/get-started";
-import { useMoralis } from "react-moralis";
 
 interface TraitGroup {
   [groupName: string]: {
@@ -30,8 +29,7 @@ const firestore = getFirestore(firebaseApp);
 const GetStartedPage = () => {
   const router = useRouter();
 
-   const { account, logout, isAuthenticated } = useMoralis();
-
+  const { account, logout, isAuthenticated } = useMoralis();
 
   const [NFT, setNFT] = useState<any>({});
   const [outputImages, setOutputImages] = useState<any[]>([]);
@@ -51,9 +49,12 @@ const GetStartedPage = () => {
   });
 
   const _query = query(
-    collection(firestore, `art-engine/users/${account}/${router.query.name}/layers`)
+    collection(
+      firestore,
+      `art-engine/users/${account}/${router.query.name}/layers`
+    )
   );
-  
+
   const [snapshots, loading] = useCollectionData(_query);
 
   const [layers, setLayers] = useState<ILayer[]>([]);
@@ -70,11 +71,9 @@ const GetStartedPage = () => {
     setLayers(data);
   }, [loading, snapshots]);
 
-
- useEffect(()=>{
-   if (!isAuthenticated) router.push('/nft');
-
- },[isAuthenticated])
+  useEffect(() => {
+    if (!isAuthenticated) router.push("/nft");
+  }, [isAuthenticated]);
 
   /**
    * handles change in a property group trait
@@ -121,7 +120,8 @@ const GetStartedPage = () => {
         </div> */}
         <div className="container mx-auto flex max-w-7xl items-start justify-between gap-8 p-12 px-4">
           <section className="flex-1">
-            <NewProperty />
+            <FolderUploader />
+            {/* <NewProperty /> */}
             {/* Group Previews */}
             <div className="mt-10 flex flex-col gap-10">
               {layers.map((item, index) => (

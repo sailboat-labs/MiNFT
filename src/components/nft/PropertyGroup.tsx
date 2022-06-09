@@ -2,13 +2,13 @@ import { collection, DocumentData, query, where } from "firebase/firestore";
 import { useRouter } from "next/router";
 import React, { FC, useEffect, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
+import { useMoralis } from "react-moralis";
 
 import { IElement } from "@/interfaces/get-started";
 
 import { firestore } from "./NewProperty";
 import TraitPreview from "./TraitPreview";
 import UploadElement from "./UploadElement";
-import { useMoralis } from "react-moralis";
 
 interface AppProps {
   name: string;
@@ -26,9 +26,7 @@ const PropertyGroup: FC<AppProps> = ({ name, onChange }) => {
 
   const [elements, setElements] = useState<IElement[]>([]);
 
-
   const { account, logout, isAuthenticated } = useMoralis();
-
 
   const project = router.query?.name?.toString().toLowerCase();
 
@@ -68,7 +66,7 @@ const PropertyGroup: FC<AppProps> = ({ name, onChange }) => {
             </svg>
           </button>
           <span>
-            <strong>Total</strong>: 14 traits
+            <strong>Total</strong>: {elements.length}
           </span>
         </div>
         <button className="rounded-md border border-indigo-600 px-4 py-2 font-medium text-indigo-600">

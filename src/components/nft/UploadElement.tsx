@@ -19,7 +19,7 @@ type IImageUploadProps = {
   className?: string;
   layerName: string;
 };
-const storage = getStorage(firebaseApp);
+export const storage = getStorage(firebaseApp);
 const firestore = getFirestore(firebaseApp);
 
 export default function UploadElement({
@@ -33,10 +33,9 @@ IImageUploadProps) {
 
   const { account, logout, isAuthenticated } = useMoralis();
 
-   useEffect(() => {
-     if (!isAuthenticated) router.push("/nft");
-   }, [isAuthenticated]);
-
+  useEffect(() => {
+    if (!isAuthenticated) router.push("/nft");
+  }, [isAuthenticated]);
 
   const project = router.query?.name?.toString().toLowerCase();
 
