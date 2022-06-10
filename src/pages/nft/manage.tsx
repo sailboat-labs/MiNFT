@@ -15,8 +15,6 @@ import { firebaseApp } from "@/lib/firebase";
 
 import FolderUploader from "@/components/nft/FolderUpload";
 import ViewGeneratedTokens from "@/components/nft/GeneratedTokens";
-import NFTPreview from "@/components/nft/NFTPreview";
-import PropertyGroup from "@/components/nft/PropertyGroup";
 
 import { ILayer } from "@/interfaces/get-started";
 
@@ -132,18 +130,18 @@ const GetStartedPage = ({ router }: any) => {
       <div className="flex">
         <div className="min-h-screen w-[20%] border-r">
           <div className="mt-10 flex flex-col gap-10">
-            {layers.map((item, index) => (
+            {/* {layers.map((item, index) => (
               <PropertyGroup
                 key={index}
                 onChange={handleTraitChanged}
                 name={item.name}
               />
-            ))}
+            ))} */}
           </div>
         </div>
         <div className="min-h-screen w-[60%]">
           <section className="flex flex-1 justify-center">
-            <NFTPreview className="mt-10" layers={layers} />
+            {/* <NFTPreview className="mt-10" layers={layers} /> */}
           </section>
         </div>
         <div className="min-h-screen w-[20%] border-l">
@@ -155,8 +153,8 @@ const GetStartedPage = ({ router }: any) => {
                   {layers && (
                     <div
                       onClick={() => {
-                        generateTokens();
-                        // axios.post("/api/nft/token_generator");
+                        // generateTokens();
+                        axios.post("/api/nft/token_generator");
                       }}
                       className="gradient-button"
                     >

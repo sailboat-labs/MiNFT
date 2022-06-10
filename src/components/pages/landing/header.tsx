@@ -18,7 +18,7 @@ export default function Header() {
   const [headerVisible, setHeaderVisible] = useState(true);
   const [navOpen, setNavOpen] = useState(false);
   // const [showAuthDialog, setShowAuthDialog] = useState(false);
-  const {Loader,setState} = usePageLoader(false);
+  const { Loader, setState } = usePageLoader(false);
 
   const { account, isAuthenticated } = useMoralis();
 
@@ -168,7 +168,9 @@ export default function Header() {
       <div className="contained relative z-[2] pt-20 pb-10">
         <VisibilitySensor
           // partialVisibility
-          onChange={(isVisible) => {
+          onChange={(
+            isVisible: boolean | ((prevState: boolean) => boolean)
+          ) => {
             setHeaderVisible(isVisible);
           }}
         >
