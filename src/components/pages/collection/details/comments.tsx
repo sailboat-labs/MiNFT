@@ -4,6 +4,7 @@
 
 import { Menu, Transition } from "@headlessui/react";
 import axios from "axios";
+import { formatInTimeZone } from "date-fns-tz";
 import {
   collection,
   DocumentData,
@@ -21,6 +22,7 @@ import Web3 from "web3";
 
 import { firebaseApp } from "@/lib/firebase";
 import useModal from "@/hooks/useModal";
+import useUserData from "@/hooks/useUserData";
 
 import AuthenticationDialog from "@/components/shared/AuthenticationDialog";
 import Avatar from "@/components/shared/Avatar";
@@ -49,6 +51,14 @@ export default function Comments({ collectionId }: ICommentsProps) {
     setCancel,
     setConfirm,
   } = useModal();
+
+  const { user, setWalletId } = useUserData();
+
+  //Set Wallet Id to get user data
+  useEffect(() => {
+    if (!account || !isAuthenticated) return;
+    setWalletId(account);
+  }, [account, isAuthenticated]);
 
   // Get comments from firestore
   const [comments, setComments] = useState<Comment[]>([]);
@@ -138,7 +148,7 @@ export default function Comments({ collectionId }: ICommentsProps) {
 
       if (data.success) {
         toast.success(`Comment ${editMode ? "Updated" : "Added"}`);
-        
+
         setComment("");
         if (editMode) setEditMode(false);
       } else {
@@ -519,6 +529,16 @@ export default function Comments({ collectionId }: ICommentsProps) {
                 <p className="max-w-3xl text-sm text-gray-500 dark:text-white">
                   {item.comment}
                 </p>
+                <span className="text-xs text-gray-500 dark:text-gray-400">
+                  {item.dateCreated &&
+                    formatInTimeZone(
+                      item.dateCreated,
+                      account && isAuthenticated
+                        ? user?.timeZone ?? "Etc/GMT"
+                        : "Etc/GMT",
+                      "yyyy-MM-dd HH:mm zzz"
+                    )}
+                </span>
                 <span
                   className={`${
                     Object.values(item.upVotes!).filter((value) => value)

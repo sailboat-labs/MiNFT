@@ -3,7 +3,6 @@
 import { Menu, Transition } from "@headlessui/react";
 import axios from "axios";
 import { formatInTimeZone } from "date-fns-tz";
-import { getFirestore } from "firebase/firestore";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import { useRouter } from "next/router";
@@ -11,7 +10,6 @@ import { Fragment, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import Web3 from "web3";
 
-import { firebaseApp } from "@/lib/firebase";
 import useAuthenticationDialog from "@/hooks/UseAuthDialog";
 import useModal from "@/hooks/useModal";
 import useUserData from "@/hooks/useUserData";

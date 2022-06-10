@@ -1,8 +1,11 @@
-import { firebaseApp } from "@/lib/firebase";
 import { Dialog, Transition } from "@headlessui/react";
-import { getFirestore, setDoc,doc } from "firebase/firestore";
+import { doc, getFirestore, setDoc } from "firebase/firestore";
+import { useRouter } from "next/router";
 import React, { FC, Fragment, useState } from "react";
 import toast from "react-hot-toast";
+import { useMoralis } from "react-moralis";
+
+import { firebaseApp } from "@/lib/firebase";
 
 interface AppProps {
   isOpen: boolean;
@@ -12,10 +15,10 @@ interface AppProps {
 const firestore = getFirestore(firebaseApp);
 
 const NewNFT: FC<AppProps> = ({ isOpen, closeModal }) => {
+  const router = useRouter();
   const [projectName, setProjectName] = useState<string>("");
   const [collectionCount, setCollectionCount] = useState<number>(1000);
-
-  const address = "francis"
+  const { account, logout, isAuthenticated } = useMoralis();
 
   function createProject(_evt: React.MouseEvent<HTMLButtonElement>) {
     // todo: code to create project goes here
@@ -28,20 +31,19 @@ const NewNFT: FC<AppProps> = ({ isOpen, closeModal }) => {
 
     const _layer = {
       name: projectName.toString().toLowerCase(),
-      owner: address,
+      owner: account,
       preview: 1,
     };
 
     const _doc = doc(
       firestore,
-      `art-engine/users/${address}/${projectName.toString().toLowerCase()}`
+      `art-engine/users/${account}/${projectName.toString().toLowerCase()}`
     );
     await setDoc(_doc, _layer);
     toast.dismiss();
     toast.success("Saved");
-    closeModal()
+    closeModal();
   }
-
 
   return (
     <Transition appear show={isOpen} as={Fragment}>

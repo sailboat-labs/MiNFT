@@ -1,9 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { FC, useState } from "react";
+import { collection, DocumentData, query } from "firebase/firestore";
+import { useRouter } from "next/router";
+import React, { FC, useEffect, useState } from "react";
+import { useCollectionData } from "react-firebase-hooks/firestore";
+import { useMoralis } from "react-moralis";
 
-import { ILayer } from "@/interfaces/get-started";
+import { IElement, ILayer } from "@/interfaces/get-started";
 
-import EditTemplate from "../modals/EditTemplate";
+import { firestore } from "./NewProperty";
 
 interface AppProps {
   className?: string;
@@ -11,11 +15,72 @@ interface AppProps {
 }
 
 const NFTPreview: FC<AppProps> = ({ className, layers }) => {
-  const [isOpen, setIsOpen] = useState<boolean>(true);
+  const [elements, setElements] = useState<IElement[]>([]);
+  const router = useRouter();
+  const { account, logout, isAuthenticated } = useMoralis();
+  const [preview, setPreview] = useState<string[]>([]);
+
+  const layersOrder = [
+    { name: "Background" },
+    { name: "Skin" },
+    { name: "Outfits" },
+    { name: "Eyes" },
+    { name: "Mouths" },
+    { name: "Beard" },
+  ];
+
+  const _layersOrder = [
+    { name: "Background" },
+    { name: "Skin" },
+    { name: "Clothes" },
+    { name: "Eyes" },
+    { name: "Bling" },
+    { name: "Head Accessory" },
+  ];
+
+  const _query = query(
+    collection(
+      firestore,
+      `art-engine/users/${account}/${router.query?.name
+        ?.toString()
+        .toLowerCase()}/elements/`
+    )
+  );
+
+  const [snapshots, loading] = useCollectionData(_query);
+
+  useEffect(() => {
+    if (loading) return;
+    if (!snapshots) return;
+
+    const data = snapshots.reduce((acc: IElement[], curr: DocumentData) => {
+      acc.push(curr as IElement);
+      return acc;
+    }, []);
+
+    setElements(data);
+
+    const previewlist = layersOrder.map((layer) => {
+      return data.filter((element) => element.trait == layer.name)[0]?.path;
+    });
+
+    setPreview(previewlist);
+  }, [loading, snapshots]);
+
+  function getPreview() {
+    //Preview previews
+    const preview: string[] = [];
+
+    const previewlist = layersOrder.map((layer) => {
+      return elements.find((element) => element.trait == layer.name)?.path[0];
+    });
+  }
 
   return (
     <>
-      <div className={` h-fit rounded-lg bg-[#E7ECF3] ${className}`}>
+      <div
+        className={`h-fit w-96 rounded-t-lg bg-[#E7ECF3] ${className} relative`}
+      >
         <div className="flex justify-center">
           <div
             onClick={() => setIsOpen(true)}
@@ -24,19 +89,20 @@ const NFTPreview: FC<AppProps> = ({ className, layers }) => {
             Preview
           </div>
         </div>
-        <div className="">
-          {layers.map((layer, index) => (
+        <div className="w-96">
+          {preview.map((url, index) => (
             <div key={index}>
               <img
-                src={layer.elements[0].path}
+                src={url}
                 alt=""
-                className="absolute h-52 object-cover"
+                className="absolute w-96 rounded-b-lg object-cover"
               />
             </div>
           ))}
         </div>
       </div>
-      <EditTemplate isOpen={isOpen} closeModal={() => setIsOpen(false)} />
+
+      {/* <EditTemplate isOpen={isOpen} closeModal={() => setIsOpen(false)} /> */}
     </>
   );
 };

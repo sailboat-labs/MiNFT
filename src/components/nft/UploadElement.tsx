@@ -7,9 +7,10 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { useRouter } from "next/router";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import toast from "react-hot-toast";
+import { useMoralis } from "react-moralis";
 import { v4 } from "uuid";
 
 import { firebaseApp } from "@/lib/firebase";
@@ -18,7 +19,7 @@ type IImageUploadProps = {
   className?: string;
   layerName: string;
 };
-const storage = getStorage(firebaseApp);
+export const storage = getStorage(firebaseApp);
 const firestore = getFirestore(firebaseApp);
 
 export default function UploadElement({
@@ -30,8 +31,11 @@ IImageUploadProps) {
   const [uploading, setUploading] = useState(false);
   const [percentageComplete, setPercentageComplete] = useState(0);
 
-  const address = router.query.address;
-  const project = router.query?.name?.toString().toLowerCase();
+  const { account, logout, isAuthenticated } = useMoralis();
+
+  useEffect(() => {
+    if (!isAuthenticated) router.push("/nft");
+  }, [isAuthenticated]);
 
   async function uploadFile(acceptedFiles: File[]) {
     try {
@@ -44,7 +48,9 @@ IImageUploadProps) {
 
       const storageRef = ref(
         storage,
-        `art-engine/users/${address}/${project}/elements/${_name}`
+        `art-engine/users/${account}/${router.query?.name
+          ?.toString()
+          .toLowerCase()}/elements/${_name}`
       );
 
       const uploadTask = uploadBytesResumable(storageRef, file);
@@ -81,7 +87,9 @@ IImageUploadProps) {
 
           const _doc = doc(
             firestore,
-            `art-engine/users/${address}/${project}/elements/${_name}`
+            `art-engine/users/${account}/${router.query?.name
+              ?.toString()
+              .toLowerCase()}/elements/${_name}`
           );
           await setDoc(_doc, _element);
           toast.dismiss();

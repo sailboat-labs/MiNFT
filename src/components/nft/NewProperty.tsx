@@ -1,17 +1,20 @@
 import { doc, getFirestore, setDoc } from "firebase/firestore";
+import { useRouter } from "next/router";
 import React, { ChangeEvent, useRef, useState } from "react";
 import toast from "react-hot-toast";
+import { useMoralis } from "react-moralis";
 
 import { firebaseApp } from "@/lib/firebase";
 
 import TraitPreview from "./TraitPreview";
-import { useRouter } from "next/router";
 
 export const firestore = getFirestore(firebaseApp);
 
 const NewProperty = () => {
-  const router = useRouter()
+  const router = useRouter();
   const [files, setFiles] = useState<File[]>([]);
+  const { account, logout, isAuthenticated } = useMoralis();
+
   const fileInput = useRef<HTMLInputElement>(null);
   const [propertyName, setPropertyName] = useState<string>("");
   /**
@@ -57,19 +60,14 @@ const NewProperty = () => {
    * @returns {undefined}
    */
   async function saveProperty() {
-    if(router.query)
-    // todo: save Property name and uploaded trait files
-    toast("Saving");
+    if (router.query)
+      // todo: save Property name and uploaded trait files
+      toast("Saving");
 
-    const address = router.query.address
     const project = router.query?.name?.toString().toLowerCase();
 
+    if (!account || !project) return;
 
-    
-
-    if(!address || !project) return
-    console.log({address,project});
-    
     try {
       const _layer = {
         name: propertyName,
@@ -80,14 +78,13 @@ const NewProperty = () => {
 
       const _doc = doc(
         firestore,
-        `art-engine/users/${address}/${project}/layers/${propertyName}`
+        `art-engine/users/${account}/${project}/layers/${propertyName}`
       );
       await setDoc(_doc, _layer);
       toast.dismiss();
       toast.success("Saved");
     } catch (error) {
       console.log(error);
-      
     }
   }
 

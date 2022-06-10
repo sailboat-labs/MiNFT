@@ -1,1 +1,1 @@
-export const blockchains: string[] = ["ethereum"];
+export const blockchains: string[] = ["ethereum","solana","avalanche","arbitrum","fantom","polygon"];
