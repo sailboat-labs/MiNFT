@@ -1,13 +1,13 @@
 /* eslint-disable no-console */
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { startCreating } from "../../../../art-engine/src/main";
+// import { startCreating } from "../../../../art-engine/src/main";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     if (req.method == "POST") {
       //
-      startCreating();
+      // startCreating();
       return res.send("generating");
     }
     return res.status(404).json({ success: false, message: "Not Found" });
