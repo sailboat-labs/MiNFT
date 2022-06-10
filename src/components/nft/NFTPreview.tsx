@@ -74,27 +74,25 @@ const NFTPreview: FC<AppProps> = ({ className, layers }) => {
     const previewlist = layersOrder.map((layer) => {
       return elements.find((element) => element.trait == layer.name)?.path[0];
     });
-
-    console.log({ previewlist });
   }
 
   return (
     <>
       <div
-        className={`h-fit w-72 rounded-t-lg bg-[#E7ECF3] ${className} relative`}
+        className={`h-fit w-96 rounded-t-lg bg-[#E7ECF3] ${className} relative`}
       >
         <div className="flex justify-center">
           <div className="inline-block -translate-y-4 transform rounded-md border border-[#E7ECF3] bg-[#F3F7FA] px-6 py-2 font-semibold text-indigo-700">
             Preview
           </div>
         </div>
-        <div className="w-72">
+        <div className="w-96">
           {preview.map((url, index) => (
             <div key={index}>
               <img
                 src={url}
                 alt=""
-                className="absolute w-72 rounded-b-lg object-cover"
+                className="absolute w-96 rounded-b-lg object-cover"
               />
             </div>
           ))}

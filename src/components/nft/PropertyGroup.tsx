@@ -56,29 +56,21 @@ const PropertyGroup: FC<AppProps> = ({ name, onChange }) => {
     <div>
       {/* header */}
       <div className="flex items-center justify-between bg-white">
-        <div className="flex items-center gap-4">
-          <button className="mr-4 flex items-center gap-2 rounded-md bg-[color:var(--blue)] py-2 px-4 text-white">
+        <div className="flex w-full items-center gap-4 border-y bg-gray-100 py-2">
+          <div className=" flex items-center gap-2 rounded-md   pl-4 text-lg ">
             {name}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
-            </svg>
-          </button>
-          <span>
-            <strong>Total</strong>: {elements.length}
+          </div>
+          <span className="text-sm text-gray-700">
+            {elements.length} variation{elements.length == 1 ? "" : "s"}
           </span>
         </div>
-        <button className="rounded-md border border-indigo-600 px-4 py-2 font-medium text-indigo-600">
+        {/* <button className="rounded-md border border-indigo-600 px-4 py-2 font-medium text-indigo-600">
           Change rarity
-        </button>
+        </button> */}
       </div>
 
       {/* preview content */}
-      <div className="mt-5 flex flex-wrap gap-6 rounded-md bg-[color:var(--bg-indigo)] p-6">
+      <div className="mt-5 flex flex-wrap gap-6 rounded-md  p-6">
         {elements.map((element, index) => (
           <TraitPreview
             key={index}

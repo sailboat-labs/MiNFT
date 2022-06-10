@@ -127,69 +127,55 @@ const GetStartedPage = ({ router }: any) => {
   return (
     <>
       <Head>
-        <title>Get Started</title>
+        <title>Manage</title>
       </Head>
-      <section className="box-border flex min-h-screen bg-white">
-        {/* <div className="h-screen ">
-          {outputImages.map((item, index) => (
-            <div key={index}>
-              <img className="w-36" src={item.url} alt="" />
-              <div>{item.filename}</div>
-            </div>
-          ))}
-        </div> */}
-        <div className="container mx-auto flex max-w-7xl items-start justify-between gap-8 p-12 px-4">
-          <section className="flex-1">
-            <div className="flex items-center gap-5">
-              <FolderUploader />
-              {layers && (
-                <div
-                  onClick={() => {
-                    generateTokens();
-                  }}
-                  className="gradient-button"
-                >
-                  Generate Tokens
-                </div>
-              )}
-              {layers && (
-                <div className="">
-                  <ViewGeneratedTokens />
-                </div>
-              )}
-            </div>
-            {/* <NewProperty /> */}
-            {/* Group Previews */}
-            <div className="mt-10 flex flex-col gap-10">
-              {layers.map((item, index) => (
-                <PropertyGroup
-                  key={index}
-                  onChange={handleTraitChanged}
-                  name={item.name}
-                />
-              ))}
-              {/* <PropertyGroup
-                onChange={handleTraitChanged}
-                name="Group 1"
-                traits={[]}
-                activeTraitIndex={3}
-              />
+      <div className="flex">
+        <div className="min-h-screen w-[20%] border-r">
+          <div className="mt-10 flex flex-col gap-10">
+            {layers.map((item, index) => (
               <PropertyGroup
+                key={index}
                 onChange={handleTraitChanged}
-                name="Group 2"
-                traits={[]}
-                activeTraitIndex={1}
-              /> */}
-            </div>
-          </section>
-          <section className="max-w-[308px] flex-1">
-            {/* Project preview */}
+                name={item.name}
+              />
+            ))}
+          </div>
+        </div>
+        <div className="min-h-screen w-[60%]">
+          <section className="flex flex-1 justify-center">
             <NFTPreview className="mt-10" layers={layers} />
-            {/* collection size */}
-            {/* Generate collection */}
           </section>
         </div>
-      </section>
+        <div className="min-h-screen w-[20%] border-l">
+          <section className="box-border flex min-h-screen bg-white">
+            <div className="container mx-auto flex max-w-7xl items-start justify-between gap-8 p-12 px-4">
+              <section className="flex-1">
+                <div className="flex flex-col items-center gap-5">
+                  <FolderUploader />
+                  {layers && (
+                    <div
+                      onClick={() => {
+                        generateTokens();
+                        // axios.post("/api/nft/token_generator");
+                      }}
+                      className="gradient-button"
+                    >
+                      Generate Tokens
+                    </div>
+                  )}
+                  {layers && (
+                    <div className="">
+                      <ViewGeneratedTokens />
+                    </div>
+                  )}
+                </div>
+                {/* <NewProperty /> */}
+                {/* Group Previews */}
+              </section>
+            </div>
+          </section>
+        </div>
+      </div>
     </>
   );
 };
