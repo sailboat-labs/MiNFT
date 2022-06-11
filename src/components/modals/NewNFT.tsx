@@ -20,11 +20,6 @@ const NewNFT: FC<AppProps> = ({ isOpen, closeModal }) => {
   const [collectionCount, setCollectionCount] = useState<number>(1000);
   const { account, logout, isAuthenticated } = useMoralis();
 
-  function createProject(_evt: React.MouseEvent<HTMLButtonElement>) {
-    // todo: code to create project goes here
-    closeModal();
-  }
-
   async function addProject() {
     // todo: save Property name and uploaded trait files
     toast("Creating");
