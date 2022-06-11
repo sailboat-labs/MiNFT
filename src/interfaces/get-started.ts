@@ -1,9 +1,3 @@
-/**
- * checks NFT preview
- *
- * @author Paul
- */
-
 export interface ILayer {
   id: number;
   name: string;
@@ -31,4 +25,15 @@ export interface IElement {
   zindex: string;
   trait: string;
   traitValue: string;
+}
+
+export interface Trait {
+  id: number;
+  name: string;
+  value: {
+    name: string;
+    path: string;
+    filename: string;
+  };
+  enabled: boolean;
 }
