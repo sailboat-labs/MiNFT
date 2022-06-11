@@ -6,6 +6,8 @@ import { useRouter } from "next/router";
 import { Fragment } from "react";
 import toast from "react-hot-toast";
 import { useMoralis } from "react-moralis";
+import { useDispatch } from "react-redux";
+import { setLayers } from "redux/reducers/slices/layers";
 import { v4 } from "uuid";
 
 import { firestore } from "./NewProperty";
@@ -26,6 +28,7 @@ export default function UploadFolderResultStructure({
 }: props) {
   const { account, logout, isAuthenticated } = useMoralis();
   const router = useRouter();
+  const dispatch = useDispatch();
 
   function closeModal() {
     setShowLayerStructure(false);
@@ -33,6 +36,18 @@ export default function UploadFolderResultStructure({
 
   function openModal() {
     setShowLayerStructure(true);
+  }
+
+  function fSetLayers() {
+    const layers = data.map((layer) => {
+      return {
+        id: layer.id,
+        name: layer.name,
+        elements: layer.elements.map((element) => URL.createObjectURL(element)),
+      };
+    });
+
+    dispatch(setLayers(layers));
   }
 
   function uploadLayers() {
@@ -186,7 +201,7 @@ export default function UploadFolderResultStructure({
                       <button
                         type="button"
                         className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 transition-all hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                        onClick={uploadLayers}
+                        onClick={fSetLayers}
                       >
                         Confirm
                       </button>

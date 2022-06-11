@@ -13,13 +13,6 @@ const FolderUploader = ({ onUploaded }: AppProps) => {
   const [showLayerStructure, setShowLayerStructure] = useState(false);
   const [layerStructure, setLayerStructure] = useState<any[]>([]);
 
-  function closeModal() {
-    setShowLayerStructure(false);
-  }
-
-  function openModal() {
-    setShowLayerStructure(true);
-  }
   /**
    * manually sets html5 attributes on the input element
    */
