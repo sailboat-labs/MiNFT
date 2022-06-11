@@ -58,6 +58,8 @@ const NFTLayering = () => {
     newIndex: number;
   }) {
     setTraits(arrayMove(traits, oldIndex, newIndex));
+
+    console.log(traits);
   }
 
   /**
