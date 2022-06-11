@@ -3,14 +3,12 @@ import { SortableContainer } from "react-sortable-hoc";
 
 import SortableItem from "./SortableItem";
 
-const SortableList = SortableContainer(() => {
+const SortableList = SortableContainer(({ items }: { items: string[] }) => {
   return (
     <ul>
-      <SortableItem index={1} value="Hey 1" />
-      <SortableItem index={2} value="Hey 2" />
-      {/* {items.map((value, index) => (
-        <SortableItem key={`item-${value}`} index={index} value={value} />
-      ))} */}
+      {items.map((item: string, index: number) => (
+        <SortableItem key={item + index} index={index} value={item} />
+      ))}
     </ul>
   );
 });
