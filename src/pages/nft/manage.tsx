@@ -13,6 +13,7 @@ import FolderUploader from "@/components/nft/FolderUpload";
 import ViewGeneratedTokens from "@/components/nft/GeneratedTokens";
 import NewProperty from "@/components/nft/NewProperty";
 import PropertyGroup from "@/components/nft/PropertyGroup";
+import { UiFileInputButton } from "@/components/nft/UIUpload";
 
 import { NFTLayer } from "@/types";
 
@@ -64,6 +65,53 @@ const GetStartedPage = ({ router }: any) => {
     //     activeIndex: traitIndex,
     //   },
     // });
+  }
+
+  const uploadToServer = async (event: any) => {
+    const body = new FormData();
+    body.append("file", event.target?.files);
+    const response = await fetch("/api/nft/file", {
+      method: "POST",
+      body,
+    });
+  };
+
+  const onChange = async (formData: any) => {
+    const config = {
+      headers: { "content-type": "multipart/form-data" },
+      onUploadProgress: (event: { loaded: number; total: number }) => {
+        console.log(
+          `Current progress:`,
+          Math.round((event.loaded * 100) / event.total)
+        );
+      },
+    };
+
+    const response = await axios.post(
+      "/api/nft/token_generator",
+      formData,
+      config
+    );
+
+    console.log("response", response.data);
+  };
+
+  async function loadFilesToArtEngine(formData: any) {
+    const config = {
+      headers: { "content-type": "multipart/form-data" },
+      onUploadProgress: (event: { loaded: number; total: number }) => {
+        console.log(
+          `Current progress:`,
+          Math.round((event.loaded * 100) / event.total)
+        );
+      },
+    };
+
+    const response = await axios.post(
+      "/api/nft/token_generator",
+      formData,
+      config
+    );
   }
 
   function generateTokens() {
@@ -118,6 +166,12 @@ const GetStartedPage = ({ router }: any) => {
       </Head>
       <div className="flex">
         <div className="min-h-screen w-[20%] border-r">
+          <UiFileInputButton
+            label="Upload Single File"
+            uploadFileName="theFiles"
+            allowMultipleFiles
+            onChange={uploadToServer}
+          />
           <FolderUploader />
 
           <div className="mt-10 flex flex-col gap-10">

@@ -32,6 +32,8 @@ const FolderUploader = ({ onUploaded }: AppProps) => {
     // ignore if no files were uploaded
     if (files === null) return;
 
+    console.log({ files });
+
     const layers = Array.from(files)
       /**
        * filters all files that don't match the hierarchy parent -> layers-> traits
@@ -57,7 +59,7 @@ const FolderUploader = ({ onUploaded }: AppProps) => {
       });
       id++;
     }
-    console.log(refinedData);
+    console.log(refinedData[0].elements[0]);
 
     setLayerStructure(refinedData);
     setShowLayerStructure(true);

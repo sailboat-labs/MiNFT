@@ -43,7 +43,7 @@ export default function UploadFolderResultStructure({
       return {
         id: layer.id,
         name: layer.name,
-        elements: layer.elements.map((element) => URL.createObjectURL(element)),
+        elements: layer.elements,
       };
     });
 
