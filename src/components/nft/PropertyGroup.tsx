@@ -1,17 +1,11 @@
-import { collection, DocumentData, query, where } from "firebase/firestore";
-import { useRouter } from "next/router";
-import React, { FC, useEffect, useState } from "react";
-import { useCollectionData } from "react-firebase-hooks/firestore";
-import { useMoralis } from "react-moralis";
+import React, { FC } from "react";
 
-import { IElement } from "@/interfaces/get-started";
-
-import { firestore } from "./NewProperty";
 import TraitPreview from "./TraitPreview";
 import UploadElement from "./UploadElement";
 
 interface AppProps {
   name: string;
+  elements: any[];
   onChange: ({
     groupName,
     traitIndex,
@@ -21,36 +15,8 @@ interface AppProps {
   }) => void;
 }
 
-const PropertyGroup: FC<AppProps> = ({ name, onChange }) => {
-  const router = useRouter();
-
-  const [elements, setElements] = useState<IElement[]>([]);
-
-  const { account, logout, isAuthenticated } = useMoralis();
-
-  const _query = query(
-    collection(
-      firestore,
-      `art-engine/users/${account}/${router.query?.name
-        ?.toString()
-        .toLowerCase()}/elements/`
-    ),
-    where("trait", "==", name)
-  );
-
-  const [snapshots, loading] = useCollectionData(_query);
-
-  useEffect(() => {
-    if (loading) return;
-    if (!snapshots) return;
-
-    const data = snapshots.reduce((acc: IElement[], curr: DocumentData) => {
-      acc.push(curr as IElement);
-      return acc;
-    }, []);
-
-    setElements(data);
-  }, [loading, snapshots]);
+const PropertyGroup: FC<AppProps> = ({ name, onChange, elements }) => {
+  // const { account, logout, isAuthenticated } = useMoralis();
 
   return (
     <div>
@@ -71,10 +37,10 @@ const PropertyGroup: FC<AppProps> = ({ name, onChange }) => {
 
       {/* preview content */}
       <div className="mt-5 flex flex-wrap gap-6 rounded-md  p-6">
-        {elements.map((element, index) => (
+        {elements.map((element: any, index: number) => (
           <TraitPreview
             key={index}
-            file={element.path}
+            file={element}
             traitIndex={index}
             // onSelect={(traitIndex) => onChange({ traitIndex, groupName: name })}
             active={false}

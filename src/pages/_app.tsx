@@ -1,7 +1,10 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { configureStore } from "@reduxjs/toolkit";
 import { AppProps } from "next/app";
 import { Toaster } from "react-hot-toast";
 import { MoralisProvider } from "react-moralis";
+import { Provider } from "react-redux";
+import rootReducer from "redux/reducers";
 
 import "../styles/globals.css";
 
@@ -11,8 +14,9 @@ import "../styles/globals.css";
  */
 
 function MyApp({ Component, pageProps }: AppProps) {
-
-  
+  const store = configureStore({
+    reducer: rootReducer,
+  });
 
   return (
     <MoralisProvider
@@ -21,7 +25,9 @@ function MyApp({ Component, pageProps }: AppProps) {
     >
       <Toaster />
 
-      <Component {...pageProps} />
+      <Provider store={store}>
+        <Component {...pageProps} />
+      </Provider>
     </MoralisProvider>
   );
 }

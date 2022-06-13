@@ -13,13 +13,6 @@ const FolderUploader = ({ onUploaded }: AppProps) => {
   const [showLayerStructure, setShowLayerStructure] = useState(false);
   const [layerStructure, setLayerStructure] = useState<any[]>([]);
 
-  function closeModal() {
-    setShowLayerStructure(false);
-  }
-
-  function openModal() {
-    setShowLayerStructure(true);
-  }
   /**
    * manually sets html5 attributes on the input element
    */
@@ -38,6 +31,8 @@ const FolderUploader = ({ onUploaded }: AppProps) => {
     const files: FileList | null = evt.target.files;
     // ignore if no files were uploaded
     if (files === null) return;
+
+    console.log({ files });
 
     const layers = Array.from(files)
       /**
@@ -64,7 +59,7 @@ const FolderUploader = ({ onUploaded }: AppProps) => {
       });
       id++;
     }
-    console.log(refinedData);
+    console.log(refinedData[0].elements[0]);
 
     setLayerStructure(refinedData);
     setShowLayerStructure(true);
