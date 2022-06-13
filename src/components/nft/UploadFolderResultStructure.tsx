@@ -107,12 +107,12 @@ export default function UploadFolderResultStructure({
 
           uploadTask.on(
             "state_changed",
-            (snapshot) => {
+            (snapshot: any) => {
               const progress =
                 (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
               // setPercentageComplete(progress);
             },
-            (error) => {
+            (error: any) => {
               toast.error(error.code);
             },
             async () => {

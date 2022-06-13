@@ -1,5 +1,6 @@
+// import { arrayMove } from "react-sortable-hoc";
+import { arrayMoveImmutable } from "array-move";
 import React, { useState } from "react";
-import { arrayMove } from "react-sortable-hoc";
 
 import { Trait } from "@/interfaces/get-started";
 
@@ -57,7 +58,7 @@ const NFTLayering = () => {
     oldIndex: number;
     newIndex: number;
   }) {
-    setTraits(arrayMove(traits, oldIndex, newIndex));
+    setTraits(arrayMoveImmutable(traits, oldIndex, newIndex));
   }
 
   /**
@@ -81,6 +82,8 @@ const NFTLayering = () => {
      * -- NFTName variable contains updated name of the NFT template being modified
      */
   }
+
+  console.log(traits);
 
   return (
     <div className="w-full max-w-5xl transform overflow-hidden rounded bg-white text-left align-middle transition-all">
