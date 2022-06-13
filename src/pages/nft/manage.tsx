@@ -22,7 +22,7 @@ const firestore = getFirestore(firebaseApp);
 const GetStartedPage = ({ router }: any) => {
   const { account, isAuthenticated } = useMoralis();
 
-  console.log(router);
+  // console.log(router);
 
   const _query = query(
     collection(
@@ -93,7 +93,7 @@ const GetStartedPage = ({ router }: any) => {
       config
     );
 
-    console.log("response", response.data);
+    // console.log("response", response.data);
   };
 
   async function loadFilesToArtEngine(formData: any) {

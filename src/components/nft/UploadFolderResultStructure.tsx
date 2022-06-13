@@ -57,7 +57,7 @@ export default function UploadFolderResultStructure({
     const layers = data.map((item) => item.name);
     const elements = data.map((item) => item.elements);
 
-    console.log({ layers, elements });
+    // console.log({ layers, elements });
     // return
 
     layers.forEach(async (layer) => {

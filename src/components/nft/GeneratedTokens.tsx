@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { Dialog, Transition } from "@headlessui/react";
 import { collection, DocumentData, query } from "firebase/firestore";
-import router from "next/router";
+import { useRouter } from "next/router";
 import { Fragment, useEffect, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { useMoralis } from "react-moralis";
@@ -11,10 +11,9 @@ import { IGeneratedTokens } from "@/interfaces/get-started";
 import { firestore } from "./NewProperty";
 
 export default function ViewGeneratedTokens() {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
-
   const { account, logout, isAuthenticated } = useMoralis();
-
   const [outputImages, setOutputImages] = useState<IGeneratedTokens[]>([]);
 
   const _query = query(
