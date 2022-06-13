@@ -13,9 +13,7 @@ import { firestore } from "./NewProperty";
 export default function ViewGeneratedTokens() {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
-
   const { account, logout, isAuthenticated } = useMoralis();
-
   const [outputImages, setOutputImages] = useState<IGeneratedTokens[]>([]);
 
   const _query = query(

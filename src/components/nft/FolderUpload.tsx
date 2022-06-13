@@ -57,8 +57,7 @@ const FolderUploader = ({ onUploaded }: AppProps) => {
       });
       id++;
     }
-
-    console.log(refinedData);
+    // console.log(refinedData[0].elements[0]);
 
     setLayerStructure(refinedData);
     setShowLayerStructure(true);
