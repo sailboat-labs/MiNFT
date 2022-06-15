@@ -83,6 +83,9 @@ const FolderUploader = ({ onUploaded }: AppProps) => {
     setLayerStructure(refinedData);
     setShowLayerStructure(true);
     setGroupedLayers(refinedData);
+    dispatch(setLayers(refinedData));
+
+    onLayerStructureConfirmed();
 
     /**
      * relay data to onUploaded function
@@ -122,7 +125,6 @@ const FolderUploader = ({ onUploaded }: AppProps) => {
         config
       );
       // console.log(response.data);
-      dispatch(setLayers(groupedLayers));
       setShowLayerStructure(false);
     } catch (err: any) {
       console.error(err.response);

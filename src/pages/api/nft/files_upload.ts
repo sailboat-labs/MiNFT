@@ -10,6 +10,9 @@ const storage = multer.diskStorage({
     if (!fs.existsSync(accountDir)) {
       fs.mkdirSync(accountDir);
     }
+
+    console.log(file);
+
     const layerName = file.originalname.split("/")[1];
     const fileUploadDir = accountDir.concat("/").concat(layerName);
     if (!fs.existsSync(fileUploadDir)) {
@@ -20,8 +23,18 @@ const storage = multer.diskStorage({
   },
   filename: function (req: any, file: any, cb: any) {
     cb(null, file.originalname.split("/")[2]);
+    // cb(
+    //   null,
+    //   `${file.originalname.split("/")[1]}#${padLeft(
+    //     file.originalname.split("/")[2].split(".")[0]
+    //   )}.png`
+    // );
   },
 });
+
+function padLeft(n: number) {
+  return (n < 10 ? "00" : n < 100 ? "0" : "") + n;
+}
 const uploader = multer({ storage, preservePath: true });
 
 const handler = nc<any, any>();

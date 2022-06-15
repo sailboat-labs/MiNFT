@@ -38,6 +38,7 @@ const SortableList = SortableContainer(({ items, setTraits }: AppProps) => {
           id={item.id}
           index={index}
           value={item.name}
+          elementLength={item.elements.length}
         />
       ))}
     </ul>

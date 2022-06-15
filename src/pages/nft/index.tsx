@@ -14,7 +14,6 @@ import { firebaseApp } from "@/lib/firebase";
 import useAuthenticationDialog from "@/hooks/UseAuthDialog";
 
 import NewNFT from "@/components/modals/NewNFT";
-import NFTLayering from "@/components/NFTLayering";
 import ProfileIcon from "@/components/shared/profile_icon";
 
 const firestore = getFirestore(firebaseApp);
@@ -168,7 +167,6 @@ const Homepage = () => {
                 </article>
               ))}
             </div>
-            <NFTLayering />
           </div>
         </section>
       </main>
