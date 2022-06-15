@@ -21,7 +21,7 @@ const TraitPreview: FC<AppProps> = ({
     <div
       className={`${
         active && "border-[#30489C]"
-      } relative rounded-lg bg-gray-50 transition-all duration-150 hover:cursor-pointer hover:border-[#30489C]`}
+      } relative rounded-lg border-2 border-[#30479c56] bg-gray-50 transition-all duration-150 hover:cursor-pointer hover:border-[#30489C]`}
     >
       {removeTrait && (
         <svg

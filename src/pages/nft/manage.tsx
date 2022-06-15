@@ -8,8 +8,8 @@ import { useSelector } from "react-redux";
 
 import { firebaseApp } from "@/lib/firebase";
 
+import FolderUploader from "@/components/buttons/FolderUploader";
 import TraitGroupNavigator from "@/components/layout/TraitGroupNavigator";
-import FolderUploader from "@/components/nft/FolderUpload";
 import ViewGeneratedTokens from "@/components/nft/GeneratedTokens";
 import NewProperty from "@/components/nft/NewProperty";
 import PropertyGroup from "@/components/nft/PropertyGroup";
@@ -165,7 +165,7 @@ const GetStartedPage = ({ router }: any) => {
       </Head>
       <div className="flex">
         <TraitGroupNavigator />
-        <div className="min-h-screen w-[20%] border-r">
+        <div className="overflow-y-overflow h-screen w-[20%] border-r">
           <UiFileInputButton
             label="Upload Single File"
             uploadFileName="theFiles"
@@ -174,7 +174,7 @@ const GetStartedPage = ({ router }: any) => {
           />
           <FolderUploader />
 
-          <div className="mt-10 h-[length:calc(100vh-100px)] flex-col gap-10 overflow-y-auto">
+          <div className="flex-col gap-10">
             {layersState && (
               <>
                 {layersState.layers.map((item: NFTLayer, index: number) => (
