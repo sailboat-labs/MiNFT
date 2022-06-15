@@ -30,10 +30,6 @@ export interface IElement {
 export interface Trait {
   id: number;
   name: string;
-  value: {
-    name: string;
-    path: string;
-    filename: string;
-  };
+  elements: any[];
   enabled: boolean;
 }

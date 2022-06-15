@@ -5,20 +5,20 @@ import { Fragment } from "react";
 import { useMoralis } from "react-moralis";
 import { useDispatch } from "react-redux";
 
+import NFTLayering from "../NFTLayering";
+
 import { NFTLayer } from "@/types";
 
 type props = {
   data: NFTLayer[];
   open: boolean;
   setShowLayerStructure: any;
-  onConfirm: () => void;
 };
 
 export default function UploadFolderResultStructure({
   data,
   open,
   setShowLayerStructure,
-  onConfirm,
 }: props) {
   const { account, logout, isAuthenticated } = useMoralis();
   const router = useRouter();
@@ -196,38 +196,14 @@ export default function UploadFolderResultStructure({
                         type="button"
                         className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 transition-all hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                         // onClick={fSetLayers}
-                        onClick={onConfirm}
+                        // onClick={onConfirm}
                       >
                         Confirm
                       </button>
                     </div>
                   </Dialog.Title>
                   <div className="mt-2 flex flex-col gap-5 p-6">
-                    {data.map((item, index) => (
-                      <p key={index} className="text-lg font-bold text-black">
-                        {item.name}
-                        <span className="ml-2 text-sm font-normal text-gray-500">
-                          {item.elements.length} element
-                          {item.elements.length == 1 ? "" : "s"}
-                        </span>
-                        <div className="mt-4 flex gap-2 overflow-x-auto">
-                          {item.elements.map((element: any, index: number) => (
-                            <div key={index} className="text-sm text-gray-500">
-                              <div className="hover:scale h-[76px] w-[76px] overflow-hidden rounded-md font-normal transition-all">
-                                <img
-                                  src={URL.createObjectURL(element)}
-                                  alt=""
-                                  className="h-full w-full rounded border object-cover"
-                                />
-                              </div>
-                              <span className="text-sm font-normal">
-                                {element.name}
-                              </span>
-                            </div>
-                          ))}
-                        </div>
-                      </p>
-                    ))}
+                    <NFTLayering />
                   </div>
                 </Dialog.Panel>
               </Transition.Child>

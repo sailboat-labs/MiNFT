@@ -12,7 +12,6 @@ import FolderUploader from "@/components/nft/FolderUpload";
 import ViewGeneratedTokens from "@/components/nft/GeneratedTokens";
 import NewProperty from "@/components/nft/NewProperty";
 import PropertyGroup from "@/components/nft/PropertyGroup";
-import { UiFileInputButton } from "@/components/nft/UIUpload";
 
 import { NFTLayer } from "@/types";
 
@@ -179,12 +178,6 @@ const GetStartedPage = ({ router }: any) => {
       </Head>
       <div className="flex">
         <div className="min-h-screen w-[20%] border-r">
-          <UiFileInputButton
-            label="Upload Single File"
-            uploadFileName="theFiles"
-            allowMultipleFiles
-            onChange={uploadToServer}
-          />
           <FolderUploader />
 
           <div className="mt-10 flex flex-col gap-10">
@@ -222,6 +215,7 @@ const GetStartedPage = ({ router }: any) => {
                         // generateTokens();
                         axios.post("/api/nft/token_generator", {
                           layers: layersState.layers,
+                          address: account,
                         });
                       }}
                       className="gradient-button"
