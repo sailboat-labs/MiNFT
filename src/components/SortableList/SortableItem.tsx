@@ -11,7 +11,7 @@ interface AppProps {
 
 const SortableItem = SortableElement(
   ({ value, enabled, toggleTrait, id }: AppProps) => (
-    <li className="flex cursor-grab list-none items-center justify-between gap-2 py-4 pr-4">
+    <li className="flex cursor-grab list-none items-center justify-between gap-2 py-4 pr-2">
       <div className="flex gap-2">
         <svg
           xmlns="http://www.w3.org/2000/svg"

@@ -1,15 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 import { Dialog, Transition } from "@headlessui/react";
-import { doc, setDoc } from "firebase/firestore";
-import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { useRouter } from "next/router";
 import { Fragment } from "react";
-import toast from "react-hot-toast";
 import { useMoralis } from "react-moralis";
-import { v4 } from "uuid";
-
-import { firestore } from "./NewProperty";
-import { storage } from "./UploadElement";
+import { useDispatch } from "react-redux";
 
 import { NFTLayer } from "@/types";
 
@@ -17,130 +11,145 @@ type props = {
   data: NFTLayer[];
   open: boolean;
   setShowLayerStructure: any;
+  onConfirm: () => void;
 };
 
 export default function UploadFolderResultStructure({
   data,
   open,
   setShowLayerStructure,
+  onConfirm,
 }: props) {
   const { account, logout, isAuthenticated } = useMoralis();
   const router = useRouter();
+  const dispatch = useDispatch();
 
   function closeModal() {
     setShowLayerStructure(false);
   }
 
-  function openModal() {
-    setShowLayerStructure(true);
-  }
+  // function openModal() {
+  //   setShowLayerStructure(true);
+  // }
 
-  function uploadLayers() {
-    //Recursively upload layers and its elements
+  // function fSetLayers() {
+  //   const layers = data.map((layer) => {
+  //     return {
+  //       id: layer.id,
+  //       name: layer.name,
+  //       elements: layer.elements,
+  //     };
+  //   });
 
-    if (!account || !router.query?.name?.toString().toLowerCase()) return;
-    const layers = data.map((item) => item.name);
-    const elements = data.map((item) => item.elements);
+  //   dispatch(setLayers(layers));
+  // }
 
-    console.log({ layers, elements });
-    // return
+  // function uploadLayers() {
+  //   //Recursively upload layers and its elements
 
-    layers.forEach(async (layer) => {
-      try {
-        const _layer = {
-          name: layer,
-          blendmode: "source-over",
-          opacity: 1,
-          bypassDNA: false,
-        };
+  //   if (!account || !router.query?.name?.toString().toLowerCase()) return;
+  //   const layers = data.map((item) => item.name);
+  //   const elements = data.map((item) => item.elements);
 
-        const _doc = doc(
-          firestore,
-          `art-engine/users/${account}/${router.query?.name
-            ?.toString()
-            .toLowerCase()}/layers/${layer}`
-        );
-        await setDoc(_doc, _layer);
-        toast.dismiss();
-      } catch (error) {
-        console.log(error);
-      }
-    });
+  //   // console.log({ layers, elements });
+  //   // return
 
-    uploadElements(data);
-  }
+  //   layers.forEach(async (layer) => {
+  //     try {
+  //       const _layer = {
+  //         name: layer,
+  //         blendmode: "source-over",
+  //         opacity: 1,
+  //         bypassDNA: false,
+  //       };
 
-  async function uploadElements(layersWithElements: NFTLayer[]) {
-    layersWithElements.forEach((layer) => {
-      const acceptedFiles = layer.elements;
+  //       const _doc = doc(
+  //         firestore,
+  //         `art-engine/users/${account}/${router.query?.name
+  //           ?.toString()
+  //           .toLowerCase()}/layers/${layer}`
+  //       );
+  //       await setDoc(_doc, _layer);
+  //       toast.dismiss();
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   });
 
-      acceptedFiles.forEach((file: File) => {
-        try {
-          const _name = v4() + "." + file.type.split("/").pop();
+  //   uploadElements(data);
+  // }
 
-          // setUploading(true);
-          // setPercentageComplete(0);
+  // async function uploadElements(layersWithElements: NFTLayer[]) {
+  //   layersWithElements.forEach((layer) => {
+  //     const acceptedFiles = layer.elements;
 
-          const storageRef = ref(
-            storage,
-            `art-engine/users/${account}/${router.query?.name
-              ?.toString()
-              .toLowerCase()}/elements/${_name}`
-          );
+  //     acceptedFiles.forEach((file: File) => {
+  //       try {
+  //         const _name = v4() + "." + file.type.split("/").pop();
 
-          const uploadTask = uploadBytesResumable(storageRef, file);
+  //         // setUploading(true);
+  //         // setPercentageComplete(0);
 
-          uploadTask.on(
-            "state_changed",
-            (snapshot) => {
-              const progress =
-                (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-              // setPercentageComplete(progress);
-            },
-            (error) => {
-              toast.error(error.code);
-            },
-            async () => {
-              const downloadUrl = await getDownloadURL(uploadTask.snapshot.ref);
-              // setImageUrl(downloadUrl);
-              console.log(downloadUrl);
+  //         const storageRef = ref(
+  //           storage,
+  //           `art-engine/users/${account}/${router.query?.name
+  //             ?.toString()
+  //             .toLowerCase()}/elements/${_name}`
+  //         );
 
-              //Upload image to firebase
+  //         const uploadTask = uploadBytesResumable(storageRef, file);
 
-              const _element = {
-                sublayer: false,
-                weight: 1,
-                blendmode: "source-over",
-                opacity: 1,
-                name: layer.name,
-                filename: _name,
-                path: downloadUrl,
-                zindex: "",
-                trait: layer.name,
-                traitValue: layer.name,
-              };
+  //         uploadTask.on(
+  //           "state_changed",
+  //           (snapshot: any) => {
+  //             const progress =
+  //               (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+  //             // setPercentageComplete(progress);
+  //           },
+  //           (error: any) => {
+  //             toast.error(error.code);
+  //           },
+  //           async () => {
+  //             const downloadUrl = await getDownloadURL(uploadTask.snapshot.ref);
+  //             // setImageUrl(downloadUrl);
+  //             console.log(downloadUrl);
 
-              const _doc = doc(
-                firestore,
-                `art-engine/users/${account}/${router.query?.name
-                  ?.toString()
-                  .toLowerCase()}/elements/${_name}`
-              );
-              await setDoc(_doc, _element);
-              toast.dismiss();
-              toast.success("Element uploaded");
-            }
-          );
-          // setUploading(false);
-        } catch (error) {
-          // setUploading(false);
-          // setPercentageComplete(0);
+  //             //Upload image to firebase
 
-          toast.error("Upload failed");
-        }
-      });
-    });
-  }
+  //             const _element = {
+  //               sublayer: false,
+  //               weight: 1,
+  //               blendmode: "source-over",
+  //               opacity: 1,
+  //               name: layer.name,
+  //               filename: _name,
+  //               path: downloadUrl,
+  //               zindex: "",
+  //               trait: layer.name,
+  //               traitValue: layer.name,
+  //             };
+
+  //             const _doc = doc(
+  //               firestore,
+  //               `art-engine/users/${account}/${router.query?.name
+  //                 ?.toString()
+  //                 .toLowerCase()}/elements/${_name}`
+  //             );
+  //             await setDoc(_doc, _element);
+  //             toast.dismiss();
+  //             toast.success("Element uploaded");
+  //           }
+  //         );
+  //         // setUploading(false);
+  //       } catch (error) {
+  //         // setUploading(false);
+  //         // setPercentageComplete(0);
+
+  //         toast.error("Upload failed");
+  //       }
+  //     });
+  //   });
+  // }
 
   return (
     <>
@@ -186,7 +195,8 @@ export default function UploadFolderResultStructure({
                       <button
                         type="button"
                         className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 transition-all hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                        onClick={uploadLayers}
+                        // onClick={fSetLayers}
+                        onClick={onConfirm}
                       >
                         Confirm
                       </button>

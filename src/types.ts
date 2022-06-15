@@ -6,7 +6,7 @@ export interface User {
 export interface NFTLayer {
   id: number;
   name: string;
-  elements: any;
+  elements: any[];
 }
 
 export interface Collection {
