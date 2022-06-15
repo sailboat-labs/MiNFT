@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 
 import { firebaseApp } from "@/lib/firebase";
 
+import TraitGroupNavigator from "@/components/layout/TraitGroupNavigator";
 import FolderUploader from "@/components/nft/FolderUpload";
 import ViewGeneratedTokens from "@/components/nft/GeneratedTokens";
 import NewProperty from "@/components/nft/NewProperty";
@@ -37,21 +38,6 @@ const GetStartedPage = ({ router }: any) => {
   useEffect(() => {
     if (!isAuthenticated) router.push("/nft");
   }, [isAuthenticated]);
-
-  // React.useEffect(() => {
-  //   const body = new FormData();
-  //   fetch("/api/nft/files_upload", {
-  //     body: JSON.stringify({ name: "Some body" }),
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => console.log(data))
-  //     .catch((err) => console.log(err));
-  // }, []);
-
   /**
    * handles change in a property group trait
    *
@@ -86,25 +72,25 @@ const GetStartedPage = ({ router }: any) => {
     });
   };
 
-  const onChange = async (formData: any) => {
-    const config = {
-      headers: { "content-type": "multipart/form-data" },
-      onUploadProgress: (event: { loaded: number; total: number }) => {
-        console.log(
-          `Current progress:`,
-          Math.round((event.loaded * 100) / event.total)
-        );
-      },
-    };
+  // const onChange = async (formData: any) => {
+  //   const config = {
+  //     headers: { "content-type": "multipart/form-data" },
+  //     onUploadProgress: (event: { loaded: number; total: number }) => {
+  //       console.log(
+  //         `Current progress:`,
+  //         Math.round((event.loaded * 100) / event.total)
+  //       );
+  //     },
+  //   };
 
-    const response = await axios.post(
-      "/api/nft/token_generator",
-      formData,
-      config
-    );
+  //   const response = await axios.post(
+  //     "/api/nft/token_generator",
+  //     formData,
+  //     config
+  //   );
 
-    // console.log("response", response.data);
-  };
+  //   // console.log("response", response.data);
+  // };
 
   // async function loadFilesToArtEngine(formData: any) {
   //   const config = {
@@ -177,10 +163,11 @@ const GetStartedPage = ({ router }: any) => {
         <title>Manage</title>
       </Head>
       <div className="flex">
+        <TraitGroupNavigator />
         <div className="min-h-screen w-[20%] border-r">
           <FolderUploader />
 
-          <div className="mt-10 flex flex-col gap-10">
+          <div className="mt-10 h-[length:calc(100vh-100px)] flex-col gap-10 overflow-y-auto">
             {layersState && (
               <>
                 {layersState.layers.map((item: NFTLayer, index: number) => (
