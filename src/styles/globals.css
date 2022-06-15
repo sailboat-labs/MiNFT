@@ -50,6 +50,10 @@
     --blue: #30489c;
   }
 
+  * {
+    scroll-behavior: smooth;
+  }
+
   .cursor-newtab {
     cursor: url("/images/new-tab.png") 10 10, pointer;
   }
