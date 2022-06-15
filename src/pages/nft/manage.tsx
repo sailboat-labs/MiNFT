@@ -3,7 +3,6 @@ import { collection, getFirestore, query } from "firebase/firestore";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import toast from "react-hot-toast";
 import { useMoralis } from "react-moralis";
 import { useSelector } from "react-redux";
 
@@ -22,8 +21,6 @@ const firestore = getFirestore(firebaseApp);
 const GetStartedPage = ({ router }: any) => {
   const { account, isAuthenticated } = useMoralis();
 
-  // console.log(router);
-
   const _query = query(
     collection(
       firestore,
@@ -41,6 +38,20 @@ const GetStartedPage = ({ router }: any) => {
   useEffect(() => {
     if (!isAuthenticated) router.push("/nft");
   }, [isAuthenticated]);
+
+  // React.useEffect(() => {
+  //   const body = new FormData();
+  //   fetch("/api/nft/files_upload", {
+  //     body: JSON.stringify({ name: "Some body" }),
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => console.log(data))
+  //     .catch((err) => console.log(err));
+  // }, []);
 
   /**
    * handles change in a property group trait
@@ -96,68 +107,70 @@ const GetStartedPage = ({ router }: any) => {
     // console.log("response", response.data);
   };
 
-  async function loadFilesToArtEngine(formData: any) {
-    const config = {
-      headers: { "content-type": "multipart/form-data" },
-      onUploadProgress: (event: { loaded: number; total: number }) => {
-        console.log(
-          `Current progress:`,
-          Math.round((event.loaded * 100) / event.total)
-        );
-      },
-    };
+  // async function loadFilesToArtEngine(formData: any) {
+  //   const config = {
+  //     headers: { "content-type": "multipart/form-data" },
+  //     onUploadProgress: (event: { loaded: number; total: number }) => {
+  //       console.log(
+  //         `Current progress:`,
+  //         Math.round((event.loaded * 100) / event.total)
+  //       );
+  //     },
+  //   };
 
-    const response = await axios.post(
-      "/api/nft/token_generator",
-      formData,
-      config
-    );
-  }
+  //   const response = await axios.post(
+  //     "/api/nft/files_upload",
+  //     formData,
+  //     config
+  //   );
 
-  function generateTokens() {
-    const data = JSON.stringify({
-      address: account,
-      collection: router.query?.name?.toString().toLowerCase(),
-      layersOrder: [
-        {
-          name: "Background",
-        },
-        {
-          name: "Skin",
-        },
-        {
-          name: "Outfits",
-        },
-        {
-          name: "Eyes",
-        },
-        {
-          name: "Mouths",
-        },
-        {
-          name: "Beard",
-        },
-      ],
-    });
+  //   console.log(response);
+  // }
 
-    const config: any = {
-      method: "post",
-      url: "https://art-engine-qb27e.ondigitalocean.app/generate",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: data,
-    };
+  // function generateTokens() {
+  //   const data = JSON.stringify({
+  //     address: account,
+  //     collection: router.query?.name?.toString().toLowerCase(),
+  //     layersOrder: [
+  //       {
+  //         name: "Background",
+  //       },
+  //       {
+  //         name: "Skin",
+  //       },
+  //       {
+  //         name: "Outfits",
+  //       },
+  //       {
+  //         name: "Eyes",
+  //       },
+  //       {
+  //         name: "Mouths",
+  //       },
+  //       {
+  //         name: "Beard",
+  //       },
+  //     ],
+  //   });
 
-    axios(config)
-      .then(function (response) {
-        // console.log(JSON.stringify(response.data));
-        toast.success(response.data.toString());
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }
+  //   const config: any = {
+  //     method: "post",
+  //     url: "https://art-engine-qb27e.ondigitalocean.app/generate",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     data: data,
+  //   };
+
+  //   axios(config)
+  //     .then(function (response) {
+  //       // console.log(JSON.stringify(response.data));
+  //       toast.success(response.data.toString());
+  //     })
+  //     .catch(function (error) {
+  //       console.log(error);
+  //     });
+  // }
 
   return (
     <>
