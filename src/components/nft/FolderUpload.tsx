@@ -1,4 +1,8 @@
-import React, { ChangeEvent, useState } from "react";
+import axios from "axios";
+import React, { ChangeEvent, useRef, useState } from "react";
+import { useMoralis } from "react-moralis";
+import { useDispatch } from "react-redux";
+import { setLayers } from "redux/reducers/slices/layers";
 
 import UploadFolderResultStructure from "./UploadFolderResultStructure";
 
@@ -9,9 +13,15 @@ interface AppProps {
 }
 
 const FolderUploader = ({ onUploaded }: AppProps) => {
+  const dispatch = useDispatch();
+  const { account } = useMoralis();
+  const formRef = useRef<HTMLFormElement | null>(null);
   const inputRef = React.useRef<HTMLInputElement>(null);
-  const [showLayerStructure, setShowLayerStructure] = useState(false);
+  const [groupedLayers, setGroupedLayers] = useState<NFTLayer[]>([]);
+
+  const [files, setFiles] = useState<File[]>([]);
   const [layerStructure, setLayerStructure] = useState<any[]>([]);
+  const [showLayerStructure, setShowLayerStructure] = useState(false);
 
   /**
    * manually sets html5 attributes on the input element
@@ -29,6 +39,9 @@ const FolderUploader = ({ onUploaded }: AppProps) => {
    */
   function handleOnChange(evt: ChangeEvent<HTMLInputElement>): void {
     const files: FileList | null = evt.target.files;
+    if (files) {
+      setFiles(Array.from(files));
+    }
     // ignore if no files were uploaded
     if (files === null) return;
 
@@ -46,6 +59,14 @@ const FolderUploader = ({ onUploaded }: AppProps) => {
         return acc;
       }, {});
 
+    setFiles(
+      Array.from(files)
+        /**
+         * filters all files that don't match the hierarchy parent -> layers-> traits
+         */
+        .filter((file: File) => file.webkitRelativePath.split("/").length === 3)
+    );
+
     // transform object into array
     let id = 1;
     const refinedData = [];
@@ -61,6 +82,7 @@ const FolderUploader = ({ onUploaded }: AppProps) => {
 
     setLayerStructure(refinedData);
     setShowLayerStructure(true);
+    setGroupedLayers(refinedData);
 
     /**
      * relay data to onUploaded function
@@ -70,16 +92,57 @@ const FolderUploader = ({ onUploaded }: AppProps) => {
     }
   }
 
+  /**
+   * upload files to server
+   *
+   * @returns {undefined}
+   */
+  async function onLayerStructureConfirmed() {
+    if (files === null || files.length === 0) return;
+
+    const config = {
+      headers: { "content-type": "multipart/form-data" },
+      onUploadProgress: (event: { loaded: number; total: number }) => {
+        console.log(
+          `Current progress:`,
+          Math.round((event.loaded * 100) / event.total)
+        );
+      },
+    };
+
+    const formData = new FormData();
+    files.forEach((file) => formData.append("files", file));
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const accountName = account as string;
+
+    try {
+      const response = await axios.post(
+        `/api/nft/files_upload?account=${accountName}`,
+        formData,
+        config
+      );
+      // console.log(response.data);
+      dispatch(setLayers(groupedLayers));
+      setShowLayerStructure(false);
+    } catch (err: any) {
+      console.error(err.response);
+    }
+
+    formRef.current?.reset();
+  }
+
   return (
-    <div className="relative">
+    <form className="relative" ref={formRef}>
       <UploadFolderResultStructure
         data={layerStructure}
         open={showLayerStructure}
         setShowLayerStructure={setShowLayerStructure}
+        onConfirm={onLayerStructureConfirmed}
       />
 
       <button
         className="gradient-button"
+        type="button"
         onClick={() => inputRef.current?.click()}
       >
         Upload Folder
@@ -89,10 +152,11 @@ const FolderUploader = ({ onUploaded }: AppProps) => {
         autoComplete="off"
         className=" pointer-events-none absolute opacity-0"
         ref={inputRef}
+        name="files"
         accept="images/png,application/svg+xml"
         onChange={handleOnChange}
       />
-    </div>
+    </form>
   );
 };
 
