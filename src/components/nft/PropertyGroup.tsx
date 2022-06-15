@@ -19,7 +19,7 @@ const PropertyGroup: FC<AppProps> = ({ name, onChange, elements }) => {
   // const { account, logout, isAuthenticated } = useMoralis();
 
   return (
-    <div>
+    <div id={`trait-group-${name}`}>
       {/* header */}
       <div className="flex items-center justify-between bg-white">
         <div className="flex w-full items-center gap-4 border-y bg-gray-100 py-2">
