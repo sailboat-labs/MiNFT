@@ -11,7 +11,7 @@ import { firestore } from "./NewProperty";
 
 interface AppProps {
   className?: string;
-  layers: ILayer[];
+  layers?: ILayer[];
 }
 
 const NFTPreview: FC<AppProps> = ({ className, layers }) => {
@@ -79,16 +79,8 @@ const NFTPreview: FC<AppProps> = ({ className, layers }) => {
   return (
     <>
       <div
-        className={`h-fit w-96 rounded-t-lg bg-[#E7ECF3] ${className} relative`}
+        className={`h-[60vh] w-full max-w-lg rounded-lg bg-gray-100 ${className} relative`}
       >
-        <div className="flex justify-center">
-          <div
-            onClick={() => setIsOpen(true)}
-            className="inline-block -translate-y-4 transform cursor-pointer rounded-md border border-[#E7ECF3] bg-[#F3F7FA] px-6 py-2 font-semibold text-indigo-700 hover:shadow-lg"
-          >
-            Preview
-          </div>
-        </div>
         <div className="w-96">
           {preview.map((url, index) => (
             <div key={index}>

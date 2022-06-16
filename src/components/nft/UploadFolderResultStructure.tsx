@@ -13,12 +13,14 @@ type props = {
   data: NFTLayer[];
   open: boolean;
   setShowLayerStructure: any;
+  onConfirm: any;
 };
 
 export default function UploadFolderResultStructure({
   data,
   open,
   setShowLayerStructure,
+  onConfirm,
 }: props) {
   const { account, logout, isAuthenticated } = useMoralis();
   const router = useRouter();

@@ -1,4 +1,3 @@
-import axios from "axios";
 import { collection, getFirestore, query } from "firebase/firestore";
 import Head from "next/head";
 import React, { useEffect } from "react";
@@ -10,10 +9,15 @@ import { useDispatch } from "react-redux";
 import { firebaseApp } from "@/lib/firebase";
 
 import TraitGroupNavigator from "@/components/layout/TraitGroupNavigator";
+<<<<<<< HEAD
 import FolderUploader from "@/components/nft/FolderUpload";
 import ViewGeneratedTokens from "@/components/nft/GeneratedTokens";
 import GenerateToken from "@/components/nft/GenerateToken";
+=======
+import NFTPreview from "@/components/nft/NFTPreview";
+>>>>>>> 823627a023bdb9932a77040d8b1a5b90a9520970
 import PropertyGroup from "@/components/nft/PropertyGroup";
+import TraitsSearchbar from "@/components/nft/TraitsSearchbar";
 
 import { ILayer } from "@/interfaces/get-started";
 
@@ -229,10 +233,12 @@ const GetStartedPage = ({ router }: any) => {
       <Head>
         <title>Manage</title>
       </Head>
-      <div className="flex">
+      <div className="flex h-screen overflow-y-hidden">
         <TraitGroupNavigator />
-        <div className="min-h-screen w-[20%] border-r">
-          <div className="mt-0 h-[length:calc(100vh-00px)] flex-col gap-10 overflow-y-auto">
+        <div className="h-screen w-[20%] overflow-y-auto overflow-x-hidden border-r">
+          <TraitsSearchbar />
+
+          <div className="flex-col gap-10">
             {layersState && (
               <>
                 {layersState.layers.map((item: NFTLayer, index: number) => (
@@ -261,7 +267,7 @@ const GetStartedPage = ({ router }: any) => {
             </div>
           </section>
         </div>
-        <div className="min-h-screen w-[20%] border-l">
+        {/* <div className="min-h-screen w-[20%] border-l">
           <section className="box-border flex min-h-screen bg-white">
             <div className="container mx-auto flex max-w-7xl items-start justify-between gap-8 p-12 px-4">
               <section className="flex-1">
@@ -297,7 +303,7 @@ const GetStartedPage = ({ router }: any) => {
               </section>
             </div>
           </section>
-        </div>
+        </div> */}
       </div>
     </>
   );
