@@ -4,16 +4,20 @@ const layerStore = createSlice({
   name: "layers",
   initialState: {
     layers: [],
+    dirHandle: "",
   },
   reducers: {
     setLayers: (state, param) => {
-      console.log("data", param.payload);
-
       const { payload } = param;
       state.layers = payload;
+    },
+
+    setDirHandle: (state, param) => {
+      const { payload } = param;
+      state.dirHandle = payload;
     },
   },
 });
 const { actions, reducer } = layerStore;
-export const { setLayers } = actions;
+export const { setLayers, setDirHandle } = actions;
 export default layerStore;

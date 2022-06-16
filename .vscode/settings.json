@@ -28,6 +28,7 @@
     "STARTERCONF",
     "typecheck",
     "walletconnect",
-    "Watchlist"
+    "Watchlist",
+    "zflag"
   ]
 }
