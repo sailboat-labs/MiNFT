@@ -96,7 +96,7 @@ const FolderUploader = ({ onUploaded }: AppProps) => {
   }
 
   /**
-   * upload files to server
+   * uploads files to server
    *
    * @returns {undefined}
    */
@@ -143,7 +143,7 @@ const FolderUploader = ({ onUploaded }: AppProps) => {
       />
 
       <button
-        className="gradient-button"
+        className="gradient-button mb-8 w-full rounded-none py-6"
         type="button"
         onClick={() => inputRef.current?.click()}
       >
