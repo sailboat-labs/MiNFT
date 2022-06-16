@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useRef, useState } from "react";
 
 import TraitPreview from "./TraitPreview";
 import UploadElement from "./UploadElement";
@@ -17,6 +17,7 @@ interface AppProps {
 
 const PropertyGroup: FC<AppProps> = ({ name, onChange, elements }) => {
   // const { account, logout, isAuthenticated } = useMoralis();
+  const accordionContent = useRef<HTMLDivElement | null>(null);
   const [collapsed, setCollapsed] = useState<boolean>(false);
 
   return (
@@ -27,7 +28,7 @@ const PropertyGroup: FC<AppProps> = ({ name, onChange, elements }) => {
         onClick={() => setCollapsed(!collapsed)}
       >
         <div className="flex w-full items-center gap-4 border-y bg-gray-100 py-2">
-          <div className=" flex items-center gap-2 rounded-md   pl-4 text-lg ">
+          <div className=" flex items-center gap-2 rounded-md   pl-4 text-base ">
             {name}
           </div>
           <span className="text-sm text-gray-700">
@@ -42,9 +43,12 @@ const PropertyGroup: FC<AppProps> = ({ name, onChange, elements }) => {
       {/* preview content */}
       <div
         style={{
-          maxHeight: collapsed ? 0 : undefined,
+          maxHeight: collapsed
+            ? 0
+            : accordionContent.current?.scrollHeight + "px",
         }}
         className="overflow-y-hidden transition-all  duration-200"
+        ref={accordionContent}
       >
         <div className={`mt-5 flex flex-wrap gap-6 rounded-md p-6 `}>
           {elements.map((element: any, index: number) => (

@@ -1,4 +1,3 @@
-import axios from "axios";
 import { collection, getFirestore, query } from "firebase/firestore";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
@@ -9,9 +8,9 @@ import { useSelector } from "react-redux";
 import { firebaseApp } from "@/lib/firebase";
 
 import TraitGroupNavigator from "@/components/layout/TraitGroupNavigator";
-import ViewGeneratedTokens from "@/components/nft/GeneratedTokens";
-import NewProperty from "@/components/nft/NewProperty";
+import NFTPreview from "@/components/nft/NFTPreview";
 import PropertyGroup from "@/components/nft/PropertyGroup";
+import TraitsSearchbar from "@/components/nft/TraitsSearchbar";
 
 import { NFTLayer } from "@/types";
 
@@ -164,7 +163,7 @@ const GetStartedPage = ({ router }: any) => {
       <div className="flex h-screen overflow-y-hidden">
         <TraitGroupNavigator />
         <div className="h-screen w-[20%] overflow-y-auto overflow-x-hidden border-r">
-          {/* <FolderUploader /> */}
+          <TraitsSearchbar />
 
           <div className="flex-col gap-10">
             {layersState && (
@@ -185,12 +184,10 @@ const GetStartedPage = ({ router }: any) => {
             )}
           </div>
         </div>
-        <div className="min-h-screen w-[60%]">
-          <section className="flex flex-1 justify-center">
-            {/* <NFTPreview className="mt-10" layers={layers} /> */}
-          </section>
+        <div className="flex min-h-screen w-[60%] items-center justify-center">
+          <NFTPreview />
         </div>
-        <div className="min-h-screen w-[20%] border-l">
+        {/* <div className="min-h-screen w-[20%] border-l">
           <section className="box-border flex min-h-screen bg-white">
             <div className="container mx-auto flex max-w-7xl items-start justify-between gap-8 p-12 px-4">
               <section className="flex-1">
@@ -216,11 +213,10 @@ const GetStartedPage = ({ router }: any) => {
                   )}
                 </div>
                 <NewProperty />
-                {/* Group Previews */}
               </section>
             </div>
           </section>
-        </div>
+        </div> */}
       </div>
     </>
   );

@@ -37,7 +37,7 @@ const TraitGroupNavigator: FC<Props> = () => {
       <ul>
         {traitGroups.map((groupName: string, index: number) => (
           <li
-            className={`relative my-2 ml-2 rounded-tl-full rounded-bl-full px-4 py-2 text-sm font-medium text-white transition-all duration-100 hover:bg-[#0d7ba3]  ${
+            className={`relative my-2 ml-2 rounded-tl-full rounded-bl-full  text-sm font-medium text-white transition-all duration-100 hover:bg-[#0d7ba3]  ${
               isActive(`#trait-group-${groupName}`) &&
               "bg-white  text-[#085E7D] hover:bg-white hover:tracking-wider"
             }`}
@@ -49,7 +49,7 @@ const TraitGroupNavigator: FC<Props> = () => {
             <a
               href={`#trait-group-${groupName}`}
               onClick={() => setActiveTraitID(`#trait-group-${groupName}`)}
-              className="block h-full w-full"
+              className="block h-full w-full px-4 py-2"
             >
               {groupName.charAt(0).toUpperCase().concat(groupName.slice(1))}
             </a>
