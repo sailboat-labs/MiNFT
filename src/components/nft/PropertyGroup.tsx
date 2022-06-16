@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 
 import TraitPreview from "./TraitPreview";
 import UploadElement from "./UploadElement";
@@ -17,11 +17,15 @@ interface AppProps {
 
 const PropertyGroup: FC<AppProps> = ({ name, onChange, elements }) => {
   // const { account, logout, isAuthenticated } = useMoralis();
+  const [collapsed, setCollapsed] = useState<boolean>(false);
 
   return (
     <div id={`trait-group-${name}`}>
       {/* header */}
-      <div className="flex items-center justify-between bg-white">
+      <div
+        className="flex items-center justify-between bg-white"
+        onClick={() => setCollapsed(!collapsed)}
+      >
         <div className="flex w-full items-center gap-4 border-y bg-gray-100 py-2">
           <div className=" flex items-center gap-2 rounded-md   pl-4 text-lg ">
             {name}
@@ -36,18 +40,25 @@ const PropertyGroup: FC<AppProps> = ({ name, onChange, elements }) => {
       </div>
 
       {/* preview content */}
-      <div className="mt-5 flex flex-wrap gap-6 rounded-md  p-6">
-        {elements.map((element: any, index: number) => (
-          <TraitPreview
-            key={index}
-            file={element}
-            traitIndex={index}
-            // onSelect={(traitIndex) => onChange({ traitIndex, groupName: name })}
-            active={false}
-          />
-        ))}
-        <div className="flex h-[76px] items-center gap-3">
-          <UploadElement layerName={name} />
+      <div
+        style={{
+          maxHeight: collapsed ? 0 : undefined,
+        }}
+        className="overflow-y-hidden transition-all  duration-200"
+      >
+        <div className={`mt-5 flex flex-wrap gap-6 rounded-md p-6 `}>
+          {elements.map((element: any, index: number) => (
+            <TraitPreview
+              key={index}
+              file={element}
+              traitIndex={index}
+              // onSelect={(traitIndex) => onChange({ traitIndex, groupName: name })}
+              active={false}
+            />
+          ))}
+          <div className="flex h-[76px] items-center gap-3">
+            <UploadElement layerName={name} />
+          </div>
         </div>
       </div>
     </div>
