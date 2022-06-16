@@ -8,7 +8,6 @@ import { useSelector } from "react-redux";
 
 import { firebaseApp } from "@/lib/firebase";
 
-import FolderUploader from "@/components/buttons/FolderUploader";
 import TraitGroupNavigator from "@/components/layout/TraitGroupNavigator";
 import ViewGeneratedTokens from "@/components/nft/GeneratedTokens";
 import NewProperty from "@/components/nft/NewProperty";
@@ -162,10 +161,10 @@ const GetStartedPage = ({ router }: any) => {
       <Head>
         <title>Manage</title>
       </Head>
-      <div className="flex">
+      <div className="flex h-screen overflow-y-hidden">
         <TraitGroupNavigator />
-        <div className="min-h-screen w-[20%] border-r">
-          <FolderUploader />
+        <div className="h-screen w-[20%] overflow-y-auto overflow-x-hidden border-r">
+          {/* <FolderUploader /> */}
 
           <div className="flex-col gap-10">
             {layersState && (
