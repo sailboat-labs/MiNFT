@@ -1,8 +1,6 @@
 /* eslint-disable no-console */
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { startCreating } from "../../../../art-engine/src/main";
-
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     if (req.method == "POST") {
@@ -34,8 +32,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
       // listAllFilesAndDirs(dirHandle);
       return;
-
-      startCreating(layers);
 
       return res.send("generating");
     }
