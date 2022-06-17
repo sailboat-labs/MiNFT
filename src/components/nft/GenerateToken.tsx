@@ -995,8 +995,6 @@ export default function GenerateToken() {
         files.push(...(await listAllFilesAndDirs(handle)));
       } else {
         const file = await handle.getFile();
-        // const content = await file.text();
-        // console.log(file);
 
         files.push({ name, handle, kind, file });
       }
