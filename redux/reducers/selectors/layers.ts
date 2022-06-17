@@ -7,3 +7,7 @@ import { NFTLayer } from "@/types";
  */
 export const getTraitGroups = (state: any) =>
   state.layersReducer.layers.map((layer: NFTLayer) => layer.name) ?? [];
+
+export const getLayers = (state: any) => state.layersReducer.layers ?? [];
+export const getPreviewLayers = (state: any) =>
+  state.layersReducer.previewLayers ?? [];

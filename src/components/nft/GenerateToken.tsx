@@ -225,51 +225,6 @@ export default function GenerateToken() {
     }
   };
 
-  // const layersSetup = (layersOrder: any[]) => {
-  //   const layers = layersOrder.map((layerObj: { [x: string]: any; name: any; display_type: undefined; options: { [x: string]: any; }; }, index: any) => {
-  //     return {
-  //       id: index,
-  //       name: layerObj.name,
-  //       blendmode:
-  //         layerObj["blend"] != undefined ? layerObj["blend"] : "source-over",
-  //       opacity: layerObj["opacity"] != undefined ? layerObj["opacity"] : 1,
-  //       elements: getElements(`${layersDir}/${layerObj.name}/`, layerObj),
-  //       ...(layerObj.display_type !== undefined && {
-  //         display_type: layerObj.display_type,
-  //       }),
-  //       bypassDNA:
-  //         layerObj.options?.["bypassDNA"] !== undefined
-  //           ? layerObj.options?.["bypassDNA"]
-  //           : false,
-  //     };
-  //   });
-
-  //   console.log(JSON.stringify(layers));
-
-  //   // const _layers = layers?.map((layer, layerIndex) => ({
-  //   //   id: layerIndex,
-  //   //   name: layer.name,
-  //   //   blendmode: "source-over",
-  //   //   opacity: 1,
-  //   //   bypassDNA: false,
-  //   //   elements: layer.elements.map((element, index) => ({
-  //   //     id: index,
-  //   //     sublayer: false,
-  //   //     weight: index + 1,
-  //   //     blendmode: "source-over",
-  //   //     opacity: 1,
-  //   //     name: layer.name,
-  //   //     filename: `${layer.name}#${padLeft(index + 1)}.png`,
-  //   //     path: element,
-  //   //     zindex: "",
-  //   //     trait: layer.name,
-  //   //     traitValue: layer.name,
-  //   //   })),
-  //   // }));
-
-  //   return layers;
-  // };
-
   const saveImage = (_editionCount: any) => {
     console.log("Saving image", _editionCount);
   };

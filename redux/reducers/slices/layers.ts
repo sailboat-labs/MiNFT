@@ -5,24 +5,30 @@ const layerStore = createSlice({
   initialState: {
     layers: [],
     previewLayers: [],
-    dirHandle: "",
   },
   reducers: {
     setLayers: (state, param) => {
       const { payload } = param;
       state.layers = payload;
     },
-    setPreviewLayer: (state, param) => {
-      const { payload } = param;
-      state.previewLayers = payload;
-    },
+    addPreviewLayer: (state, param) => {
+      // const { payload } = param;
+      const payload: { layer: string; element: string } = param.payload;
+      const isLayerExists = state.previewLayers.some(
+        (layer: { layer: string; element: string }) =>
+          layer.layer == payload.layer
+      );
+      if (isLayerExists) {
+        state.previewLayers = state.previewLayers.filter(
+          (layer: { layer: string; element: string }) =>
+            layer.layer !== payload.layer
+        );
+      }
 
-    setDirHandle: (state, param) => {
-      const { payload } = param;
-      state.dirHandle = payload;
+      state.previewLayers.push(payload);
     },
   },
 });
 const { actions, reducer } = layerStore;
-export const { setLayers, setDirHandle, setPreviewLayer } = actions;
+export const { setLayers, addPreviewLayer } = actions;
 export default layerStore;

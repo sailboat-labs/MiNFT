@@ -1,8 +1,7 @@
-import React, { FC, useState } from "react";
+import Link from "next/link";
+import React, { FC, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { getTraitGroups } from "redux/reducers/selectors/layers";
-
-import FolderUploader from "../nft/FolderUpload";
+import { getLayers, getTraitGroups } from "redux/reducers/selectors/layers";
 
 type Props = {
   name?: string;
@@ -10,6 +9,7 @@ type Props = {
 
 const TraitGroupNavigator: FC<Props> = () => {
   const traitGroups = useSelector(getTraitGroups);
+  const layers = useSelector(getLayers);
   const [activeTraitID, setActiveTraitID] = useState<string>("");
   /**
    * checks if element's id is active
@@ -21,20 +21,26 @@ const TraitGroupNavigator: FC<Props> = () => {
     return id.toLowerCase() === activeTraitID.toLowerCase();
   }
 
+  useEffect(() => {
+    if (activeTraitID == "" && layers.length > 0) {
+      setActiveTraitID(`#trait-group-${layers[0].name}`);
+    }
+  }, [layers]);
+
   return (
     <nav
       aria-label="traits-navbar"
       className="h-screen w-[200px] overflow-y-auto overflow-x-hidden bg-[#085E7D] text-white"
     >
-      {/* <div className="flex w-full items-center justify-center p-4">
+      <div className="flex w-full items-center justify-center p-4">
         <Link href="/" passHref>
           <span className="flex cursor-pointer select-none items-center justify-center text-xl font-black leading-none  text-white">
             MiNFT<span className="text-[#FFD32D]">.</span>
           </span>
         </Link>
-      </div> */}
-      <FolderUploader />
-      <ul>
+      </div>
+      {/* <FolderUploader /> */}
+      <ul className="mt-10">
         {traitGroups.map((groupName: string, index: number) => (
           <li
             className={`relative my-2 ml-2 rounded-tl-full rounded-bl-full  text-sm font-medium text-white transition-all duration-100 hover:bg-[#0d7ba3]  ${

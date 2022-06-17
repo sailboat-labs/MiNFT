@@ -1,7 +1,6 @@
 import React, { FC, useRef, useState } from "react";
 
 import TraitPreview from "./TraitPreview";
-import UploadElement from "./UploadElement";
 
 interface AppProps {
   name: string;
@@ -60,9 +59,6 @@ const PropertyGroup: FC<AppProps> = ({ name, onChange, elements }) => {
               active={false}
             />
           ))}
-          <div className="flex h-[76px] items-center gap-3">
-            <UploadElement layerName={name} />
-          </div>
         </div>
       </div>
     </div>
