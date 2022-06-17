@@ -25,7 +25,7 @@ const layerStore = createSlice({
         );
       }
 
-      state.previewLayers.push(payload);
+      state.previewLayers.push(payload as never);
     },
   },
 });

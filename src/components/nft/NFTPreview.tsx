@@ -449,7 +449,7 @@ const NFTPreview: FC<AppProps> = ({ className }) => {
     forcedDNA: any[],
     bypassDNA: string,
     zIndex: any
-  ) {
+  ): any {
     let totalWeight = 0;
     // Does this layer include a forcedDNA item? ya? just return it.
     const forcedPick = layer.elements.find((element: { name: any }) =>

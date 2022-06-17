@@ -443,7 +443,7 @@ export default function GenerateToken() {
     forcedDNA: any[],
     bypassDNA: string,
     zIndex: any
-  ) {
+  ): any {
     let totalWeight = 0;
     // Does this layer include a forcedDNA item? ya? just return it.
     const forcedPick = layer.elements.find((element: { name: any }) =>
@@ -902,7 +902,9 @@ export default function GenerateToken() {
       // excludeAcceptAllOption: true,
     };
     try {
-      const directoryHandle = await window.showDirectoryPicker(options);
+      const directoryHandle = await (window as any).showDirectoryPicker(
+        options
+      );
 
       const files = await listAllFilesAndDirs(directoryHandle);
       console.log("files", files);
