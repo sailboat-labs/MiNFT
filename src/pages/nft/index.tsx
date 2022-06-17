@@ -1,177 +1,279 @@
-/* eslint-disable @next/next/no-img-element */
-import { Layout } from "antd";
-import {
-  collection,
-  DocumentData,
-  getFirestore,
-  query,
-} from "firebase/firestore";
-import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
-import { useCollectionData } from "react-firebase-hooks/firestore";
+import axios from "axios";
+import { getFirestore } from "firebase/firestore";
+import Head from "next/head";
+import React from "react";
+import { useMoralis } from "react-moralis";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { firebaseApp } from "@/lib/firebase";
-import useAuthenticationDialog from "@/hooks/UseAuthDialog";
 
-import NewNFT from "@/components/modals/NewNFT";
-import ProfileIcon from "@/components/shared/profile_icon";
+import TraitGroupNavigator from "@/components/layout/TraitGroupNavigator";
+import GenerateToken from "@/components/nft/GenerateToken";
+import PropertyGroup from "@/components/nft/PropertyGroup";
+import TraitsSearchbar from "@/components/nft/TraitsSearchbar";
+
+import { ILayer } from "@/interfaces/get-started";
+
+import { NFTLayer } from "@/types";
 
 const firestore = getFirestore(firebaseApp);
 
-const Homepage = () => {
-  const router = useRouter();
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const { AuthDialog, setShowAuthDialog, account, isAuthenticated } =
-    useAuthenticationDialog();
-  const [layers, setLayers] = useState<
-    { name: string; preview: string; owner: string }[]
-  >([]);
+const Index = ({ router }: any) => {
+  const dispatch = useDispatch();
+  const { account, isAuthenticated } = useMoralis();
+  let _layers: ILayer[] = [];
 
-  const _query = query(collection(firestore, `/art-engine/users/${account}`));
+  // const [layers, setLayers] = useState<NFTLayer[]>([]);
 
-  const [snapshots, loading] = useCollectionData(_query);
+  const store = useSelector((state) => state) as any;
+  const layersState = store.layersReducer;
+  const generatedImagesState = store.generatedImagesReducer;
 
-  useEffect(() => {
-    if (loading) return;
-    if (!snapshots) return;
+  /**
+   * handles change in a property group trait
+   *
+   * @param {Object.<string, string|number>} param0 - object of group name and traitIndex
+   */
+  function handleTraitChanged({
+    groupName,
+    traitIndex,
+  }: {
+    groupName: string;
+    traitIndex: number;
+  }): void {}
 
-    const data = snapshots.reduce(
-      (
-        acc: { name: string; preview: string; owner: string }[],
-        curr: DocumentData
-      ) => {
-        acc.push(curr as { name: string; preview: string; owner: string });
-        return acc;
-      },
-      []
-    );
+  async function viewAllFiles() {
+    const options = {
+      types: [
+        {
+          description: "Images",
+          accept: {
+            "image/png": ".png",
+          },
+        },
+      ],
+      // excludeAcceptAllOption: true,
+    };
+    try {
+      const directoryHandle = await window.showDirectoryPicker(options);
 
-    // console.log(data);
+      const files = await listAllFilesAndDirs(directoryHandle);
+      console.log("files", files);
 
-    setLayers(data);
-  }, [loading, snapshots]);
+      console.log(_layers);
 
-  if (!account || !isAuthenticated) {
-    return (
-      <Layout>
-        <div className="mt-20 flex h-full w-full flex-col items-center justify-center gap-5 px-10 text-center">
-          <AuthDialog />
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-20 w-20"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth="1"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-          <div className="text-2xl font-bold text-gray-900 dark:text-white">
-            Connect your wallet to create a collection
-          </div>
-          <div
-            onClick={() => {
-              setShowAuthDialog(true);
-            }}
-            className="gradient-button"
-          >
-            Connect your wallet
-          </div>
-        </div>
-      </Layout>
-    );
+      axios.post("/api/nft/token_generator", {
+        layers: _layers,
+      });
+    } catch (e) {
+      console.log(e);
+    }
   }
 
-  return (
-    <section>
-      <header className="sticky top-0 z-20 flex items-center justify-between bg-white p-5">
-        <span className="flex cursor-pointer select-none items-center text-xl font-black leading-none  text-gray-900 dark:text-white md:mb-0 lg:items-center lg:justify-center">
-          MiNFT<span className="text-indigo-600">.</span>
-        </span>
-        {isAuthenticated ? (
-          <>{account && isAuthenticated && <ProfileIcon />}</>
-        ) : (
-          <button
-            onClick={() => {
-              setShowAuthDialog(true);
-            }}
-            className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
-          >
-            Connect Wallet
-          </button>
-        )}
-      </header>
-      <main>
-        <section>
-          <div className="max-w-8xl container mx-auto  px-4">
-            {/* header slider */}
-            <div className="mb-8 flex items-center gap-6 border-b-[3px] border-gray-200 py-8">
-              <h3 className="text-3xl">Art</h3>
-              <h3 className="text-3xl text-gray-300">Contract</h3>
-            </div>
-            {/* new nft project */}
-            <div className="mb-8 grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-4 lg:grid-cols-6">
-              <article
-                onClick={() => setIsOpen(true)}
-                className="flex h-[250px] transform flex-col rounded border border-gray-200 bg-white transition-all duration-150 hover:border-collapse hover:scale-105 hover:cursor-pointer "
-              >
-                <div className="relative z-10 flex flex-1 items-center justify-center bg-gray-200">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-7 w-7"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="gray"
-                    strokeWidth={2}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M12 4v16m8-8H4"
-                    />
-                  </svg>
-                </div>
-                <p className="p-3 text-center font-semibold">Create New</p>
-              </article>
-              <NewNFT
-                isOpen={isOpen}
-                closeModal={() => {
-                  // setIsOpen(false); // if successful, redirect to get-started
-                  // router.push("/nft/get-started");
-                }}
-              />
+  async function listAllFilesAndDirs(dirHandle: any) {
+    const layers: NFTLayer[] = [];
 
-              {layers.map((item, index) => (
-                <article
-                  onClick={() => {
-                    router.push({
-                      pathname: "/nft/manage",
-                      query: { name: item.name },
-                    });
-                  }}
-                  key={index}
-                  className="border-gray2100 flex flex-col  rounded border bg-white transition-all duration-150 hover:border-collapse hover:cursor-pointer hover:shadow-md"
-                >
-                  <div className="flex flex-1 items-center justify-center bg-gray-200">
-                    <img
-                      className="h-full rounded-t object-cover"
-                      src={item.preview}
-                      alt=""
-                    />
-                  </div>
-                  <p className="p-3 text-center font-semibold">{item.name}</p>
-                </article>
+    const files = [];
+    for await (const [name, handle] of dirHandle) {
+      const { kind } = handle;
+
+      if (handle.kind === "directory") {
+        files.push({ name, handle, kind });
+        layers.push({
+          name: handle.name,
+          elements: [...(await listAllFilesAndDirs(handle))],
+        });
+        files.push(...(await listAllFilesAndDirs(handle)));
+      } else {
+        const file = await handle.getFile();
+        // const content = await file.text();
+        // console.log(file);
+
+        files.push({ name, handle, kind });
+      }
+    }
+
+    _layers = layers?.map((layer, layerIndex) => ({
+      id: layerIndex,
+      name: layer.name,
+      blendmode: "source-over",
+      opacity: 1,
+      bypassDNA: false,
+      elements: layer.elements.map((element, index) => ({
+        id: index,
+        sublayer: false,
+        weight: index + 1,
+        blendmode: "source-over",
+        opacity: 1,
+        name: layer.name,
+        filename: `${layer.name}#${padLeft(index + 1)}.png`,
+        path: element,
+        zindex: "",
+        trait: layer.name,
+        traitValue: layer.name,
+      })),
+    }));
+
+    // dispatch(setLayers(_layers));
+
+    console.log({ files });
+
+    return files;
+  }
+
+  function padLeft(n: number) {
+    return (n < 10 ? "00" : n < 100 ? "0" : "") + n;
+  }
+
+  // const onChange = async (formData: any) => {
+  //   const config = {
+  //     headers: { "content-type": "multipart/form-data" },
+  //     onUploadProgress: (event: { loaded: number; total: number }) => {
+  //       console.log(
+  //         `Current progress:`,
+  //         Math.round((event.loaded * 100) / event.total)
+  //       );
+  //     },
+  //   };
+
+  //   const response = await axios.post(
+  //     "/api/nft/token_generator",
+  //     formData,
+  //     config
+  //   );
+
+  //   // console.log("response", response.data);
+  // };
+
+  // async function loadFilesToArtEngine(formData: any) {
+  //   const config = {
+  //     headers: { "content-type": "multipart/form-data" },
+  //     onUploadProgress: (event: { loaded: number; total: number }) => {
+  //       console.log(
+  //         `Current progress:`,
+  //         Math.round((event.loaded * 100) / event.total)
+  //       );
+  //     },
+  //   };
+
+  //   const response = await axios.post(
+  //     "/api/nft/files_upload",
+  //     formData,
+  //     config
+  //   );
+
+  //   console.log(response);
+  // }
+
+  // function generateTokens() {
+  //   const data = JSON.stringify({
+  //     address: account,
+  //     collection: router.query?.name?.toString().toLowerCase(),
+  //     layersOrder: [
+  //       {
+  //         name: "Background",
+  //       },
+  //       {
+  //         name: "Skin",
+  //       },
+  //       {
+  //         name: "Outfits",
+  //       },
+  //       {
+  //         name: "Eyes",
+  //       },
+  //       {
+  //         name: "Mouths",
+  //       },
+  //       {
+  //         name: "Beard",
+  //       },
+  //     ],
+  //   });
+
+  //   const config: any = {
+  //     method: "post",
+  //     url: "https://art-engine-qb27e.ondigitalocean.app/generate",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     data: data,
+  //   };
+
+  //   axios(config)
+  //     .then(function (response) {
+  //       // console.log(JSON.stringify(response.data));
+  //       toast.success(response.data.toString());
+  //     })
+  //     .catch(function (error) {
+  //       console.log(error);
+  //     });
+  // }
+
+  return (
+    <>
+      <Head>
+        <title>Manage</title>
+      </Head>
+      <div className="flex">
+        <TraitGroupNavigator />
+        <div className="h-screen w-[20%] overflow-y-auto overflow-x-hidden border-r">
+          <TraitsSearchbar />
+
+          <div className="mt-0 h-[length:calc(100vh-0px)] flex-col gap-10 overflow-y-auto">
+            {layersState && (
+              <>
+                {layersState.layers.map((item: NFTLayer, index: number) => (
+                  <PropertyGroup
+                    key={index}
+                    onChange={handleTraitChanged}
+                    name={item.name}
+                    elements={
+                      layersState.layers.find(
+                        (layer: NFTLayer) => layer.name == item.name
+                      )?.elements
+                    }
+                  />
+                ))}
+              </>
+            )}
+          </div>
+        </div>
+        <div className="min-h-screen w-[60%]">
+          <section className="flex flex-1 justify-center">
+            {/* <NFTPreview className="mt-10" layers={layers} /> */}
+            <div className="grid grid-cols-8">
+              {generatedImagesState.images.map((image: any, index: number) => (
+                <img className="h-32 w-32" key={index} src={image} alt="" />
               ))}
             </div>
-          </div>
-        </section>
-      </main>
-    </section>
+          </section>
+        </div>
+        <div className="min-h-screen w-[20%] border-l">
+          <section className="box-border flex min-h-screen bg-white">
+            <div className="container mx-auto flex max-w-7xl items-start justify-between gap-8 p-12 px-4">
+              <section className="flex-1">
+                <div className="flex flex-col items-center gap-5">
+                  <GenerateToken />
+                </div>
+              </section>
+            </div>
+          </section>
+        </div>
+      </div>
+    </>
   );
 };
 
-export default Homepage;
+export function getServerSideProps({ query }: any) {
+  // if query object was received, return it as a router prop:
+  if (query.name) {
+    return { props: { router: { query } } };
+  }
+  // obtain slug elsewhere, redirect or fallback to some default value:
+  /* ... */
+  return { props: { router: { query: { name: "" } } } };
+}
+
+export default Index;
