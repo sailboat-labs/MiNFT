@@ -1,4 +1,3 @@
-import axios from "axios";
 import { getFirestore } from "firebase/firestore";
 import Head from "next/head";
 import React from "react";
@@ -22,7 +21,7 @@ const firestore = getFirestore(firebaseApp);
 const Index = ({ router }: any) => {
   const dispatch = useDispatch();
   const { account, isAuthenticated } = useMoralis();
-  let _layers: ILayer[] = [];
+  const _layers: ILayer[] = [];
 
   // const [layers, setLayers] = useState<NFTLayer[]>([]);
 
@@ -42,174 +41,6 @@ const Index = ({ router }: any) => {
     groupName: string;
     traitIndex: number;
   }): void {}
-
-  async function viewAllFiles() {
-    const options = {
-      types: [
-        {
-          description: "Images",
-          accept: {
-            "image/png": ".png",
-          },
-        },
-      ],
-      // excludeAcceptAllOption: true,
-    };
-    try {
-      const directoryHandle = await window.showDirectoryPicker(options);
-
-      const files = await listAllFilesAndDirs(directoryHandle);
-      console.log("files", files);
-
-      console.log(_layers);
-
-      axios.post("/api/nft/token_generator", {
-        layers: _layers,
-      });
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
-  async function listAllFilesAndDirs(dirHandle: any) {
-    const layers: NFTLayer[] = [];
-
-    const files = [];
-    for await (const [name, handle] of dirHandle) {
-      const { kind } = handle;
-
-      if (handle.kind === "directory") {
-        files.push({ name, handle, kind });
-        layers.push({
-          name: handle.name,
-          elements: [...(await listAllFilesAndDirs(handle))],
-        });
-        files.push(...(await listAllFilesAndDirs(handle)));
-      } else {
-        const file = await handle.getFile();
-        // const content = await file.text();
-        // console.log(file);
-
-        files.push({ name, handle, kind });
-      }
-    }
-
-    _layers = layers?.map((layer, layerIndex) => ({
-      id: layerIndex,
-      name: layer.name,
-      blendmode: "source-over",
-      opacity: 1,
-      bypassDNA: false,
-      elements: layer.elements.map((element, index) => ({
-        id: index,
-        sublayer: false,
-        weight: index + 1,
-        blendmode: "source-over",
-        opacity: 1,
-        name: layer.name,
-        filename: `${layer.name}#${padLeft(index + 1)}.png`,
-        path: element,
-        zindex: "",
-        trait: layer.name,
-        traitValue: layer.name,
-      })),
-    }));
-
-    // dispatch(setLayers(_layers));
-
-    console.log({ files });
-
-    return files;
-  }
-
-  function padLeft(n: number) {
-    return (n < 10 ? "00" : n < 100 ? "0" : "") + n;
-  }
-
-  // const onChange = async (formData: any) => {
-  //   const config = {
-  //     headers: { "content-type": "multipart/form-data" },
-  //     onUploadProgress: (event: { loaded: number; total: number }) => {
-  //       console.log(
-  //         `Current progress:`,
-  //         Math.round((event.loaded * 100) / event.total)
-  //       );
-  //     },
-  //   };
-
-  //   const response = await axios.post(
-  //     "/api/nft/token_generator",
-  //     formData,
-  //     config
-  //   );
-
-  //   // console.log("response", response.data);
-  // };
-
-  // async function loadFilesToArtEngine(formData: any) {
-  //   const config = {
-  //     headers: { "content-type": "multipart/form-data" },
-  //     onUploadProgress: (event: { loaded: number; total: number }) => {
-  //       console.log(
-  //         `Current progress:`,
-  //         Math.round((event.loaded * 100) / event.total)
-  //       );
-  //     },
-  //   };
-
-  //   const response = await axios.post(
-  //     "/api/nft/files_upload",
-  //     formData,
-  //     config
-  //   );
-
-  //   console.log(response);
-  // }
-
-  // function generateTokens() {
-  //   const data = JSON.stringify({
-  //     address: account,
-  //     collection: router.query?.name?.toString().toLowerCase(),
-  //     layersOrder: [
-  //       {
-  //         name: "Background",
-  //       },
-  //       {
-  //         name: "Skin",
-  //       },
-  //       {
-  //         name: "Outfits",
-  //       },
-  //       {
-  //         name: "Eyes",
-  //       },
-  //       {
-  //         name: "Mouths",
-  //       },
-  //       {
-  //         name: "Beard",
-  //       },
-  //     ],
-  //   });
-
-  //   const config: any = {
-  //     method: "post",
-  //     url: "https://art-engine-qb27e.ondigitalocean.app/generate",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     data: data,
-  //   };
-
-  //   axios(config)
-  //     .then(function (response) {
-  //       // console.log(JSON.stringify(response.data));
-  //       toast.success(response.data.toString());
-  //     })
-  //     .catch(function (error) {
-  //       console.log(error);
-  //     });
-  // }
 
   return (
     <>

@@ -61,6 +61,7 @@ export default function GenerateToken() {
     smoothing: true, // set to false when up-scaling pixel art.
   };
   let _layers: any[] = [];
+  const layers: NFTLayer[] = [];
 
   const canvas = createCanvas(format.width, format.height);
   const ctxMain = canvas.getContext("2d");
@@ -952,6 +953,27 @@ export default function GenerateToken() {
       console.log("files", files);
       // startCreating();
 
+      _layers = layers?.map((layer, layerIndex) => ({
+        id: layerIndex,
+        name: layer.name,
+        blendmode: "source-over",
+        opacity: 1,
+        bypassDNA: false,
+        elements: layer.elements.map((element, index) => ({
+          id: index,
+          sublayer: false,
+          weight: index + 1,
+          blendmode: "source-over",
+          opacity: 1,
+          name: layer.name,
+          filename: `${layer.name}#${padLeft(index + 1)}.png`,
+          path: URL.createObjectURL(element.file),
+          zindex: "",
+          trait: layer.name,
+          traitValue: layer.name,
+        })),
+      }));
+
       dispatch(setLayers(_layers));
       console.log(_layers);
     } catch (e) {
@@ -960,8 +982,6 @@ export default function GenerateToken() {
   }
 
   async function listAllFilesAndDirs(dirHandle: any) {
-    const layers: NFTLayer[] = [];
-
     const files = [];
     for await (const [name, handle] of dirHandle) {
       const { kind } = handle;
@@ -981,27 +1001,6 @@ export default function GenerateToken() {
         files.push({ name, handle, kind, file });
       }
     }
-
-    _layers = layers?.map((layer, layerIndex) => ({
-      id: layerIndex,
-      name: layer.name,
-      blendmode: "source-over",
-      opacity: 1,
-      bypassDNA: false,
-      elements: layer.elements.map((element, index) => ({
-        id: index,
-        sublayer: false,
-        weight: index + 1,
-        blendmode: "source-over",
-        opacity: 1,
-        name: layer.name,
-        filename: `${layer.name}#${padLeft(index + 1)}.png`,
-        path: URL.createObjectURL(element.file),
-        zindex: "",
-        trait: layer.name,
-        traitValue: layer.name,
-      })),
-    }));
 
     // dispatch(setLayers(_layers));
 
