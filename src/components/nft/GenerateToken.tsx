@@ -21,7 +21,7 @@ export default function GenerateToken() {
 
   const layerConfigurations = [
     {
-      growEditionSizeTo: 64,
+      growEditionSizeTo: 1,
       resetNameIndex: false,
       namePrefix: "NZMX Club", // Use to add a name to Metadata `name:`
       layersOrder: [
