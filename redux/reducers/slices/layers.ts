@@ -4,12 +4,17 @@ const layerStore = createSlice({
   name: "layers",
   initialState: {
     layers: [],
+    previewLayers: [],
     dirHandle: "",
   },
   reducers: {
     setLayers: (state, param) => {
       const { payload } = param;
       state.layers = payload;
+    },
+    setPreviewLayer: (state, param) => {
+      const { payload } = param;
+      state.previewLayers = payload;
     },
 
     setDirHandle: (state, param) => {
@@ -19,5 +24,5 @@ const layerStore = createSlice({
   },
 });
 const { actions, reducer } = layerStore;
-export const { setLayers, setDirHandle } = actions;
+export const { setLayers, setDirHandle, setPreviewLayer } = actions;
 export default layerStore;

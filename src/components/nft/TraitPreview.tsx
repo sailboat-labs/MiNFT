@@ -2,10 +2,12 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React, { FC } from "react";
 
+import { IElement } from "@/interfaces/get-started";
+
 interface AppProps {
   active?: boolean;
   traitIndex: number;
-  file: string | File;
+  file: IElement;
   onRemove?: (traitIndex: number) => void;
 }
 
@@ -15,7 +17,7 @@ const TraitPreview: FC<AppProps> = ({
   active = false,
   onRemove: removeTrait,
 }) => {
-  const url = typeof file === "string" ? file : URL.createObjectURL(file);
+  // const url = typeof file === "string" ? file : URL.createObjectURL(file);
 
   return (
     <div
@@ -42,7 +44,7 @@ const TraitPreview: FC<AppProps> = ({
       )}
       <div className="h-[76px] w-[76px] overflow-hidden rounded-md">
         <img
-          src={url}
+          src={file.path}
           // alt="file preview"
           className="h-full w-full object-cover"
         />

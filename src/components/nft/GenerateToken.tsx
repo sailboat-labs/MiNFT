@@ -5,6 +5,7 @@ import keccak256 from "keccak256";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addGeneratedImage } from "redux/reducers/slices/generated-images";
+import { setLayers } from "redux/reducers/slices/layers";
 
 import { NFTLayer } from "@/types";
 
@@ -21,7 +22,7 @@ export default function GenerateToken() {
 
   const layerConfigurations = [
     {
-      growEditionSizeTo: 1,
+      growEditionSizeTo: 64,
       resetNameIndex: false,
       namePrefix: "NZMX Club", // Use to add a name to Metadata `name:`
       layersOrder: [
@@ -949,8 +950,9 @@ export default function GenerateToken() {
 
       const files = await listAllFilesAndDirs(directoryHandle);
       console.log("files", files);
-      startCreating();
+      // startCreating();
 
+      dispatch(setLayers(_layers));
       console.log(_layers);
     } catch (e) {
       console.log(e);

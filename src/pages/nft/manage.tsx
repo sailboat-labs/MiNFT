@@ -1,7 +1,7 @@
 import axios from "axios";
 import { collection, getFirestore, query } from "firebase/firestore";
 import Head from "next/head";
-import React, { useEffect } from "react";
+import React from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { useMoralis } from "react-moralis";
 import { useSelector } from "react-redux";
@@ -10,8 +10,6 @@ import { useDispatch } from "react-redux";
 import { firebaseApp } from "@/lib/firebase";
 
 import TraitGroupNavigator from "@/components/layout/TraitGroupNavigator";
-import FolderUploader from "@/components/nft/FolderUpload";
-import ViewGeneratedTokens from "@/components/nft/GeneratedTokens";
 import GenerateToken from "@/components/nft/GenerateToken";
 import PropertyGroup from "@/components/nft/PropertyGroup";
 import TraitsSearchbar from "@/components/nft/TraitsSearchbar";
@@ -41,9 +39,6 @@ const GetStartedPage = ({ router }: any) => {
   const layersState = store.layersReducer;
   const generatedImagesState = store.generatedImagesReducer;
 
-  useEffect(() => {
-    if (!isAuthenticated) router.push("/nft");
-  }, [isAuthenticated]);
   /**
    * handles change in a property group trait
    *
@@ -257,9 +252,9 @@ const GetStartedPage = ({ router }: any) => {
         <div className="min-h-screen w-[60%]">
           <section className="flex flex-1 justify-center">
             {/* <NFTPreview className="mt-10" layers={layers} /> */}
-            <div className="grid grid-cols-1">
+            <div className="grid grid-cols-8">
               {generatedImagesState.images.map((image: any, index: number) => (
-                <img className="h-72 w-72" key={index} src={image} alt="" />
+                <img className="h-32 w-32" key={index} src={image} alt="" />
               ))}
             </div>
           </section>
@@ -270,33 +265,7 @@ const GetStartedPage = ({ router }: any) => {
               <section className="flex-1">
                 <div className="flex flex-col items-center gap-5">
                   <GenerateToken />
-                  <div
-                    className="gradient-button"
-                    onClick={() => {
-                      viewAllFiles();
-                    }}
-                  >
-                    View all files
-                  </div>
-                  <FolderUploader />
-
-                  <div
-                    onClick={() => {
-                      // generateTokens();
-                      // axios.post("/api/nft/token_generator", {
-                      //   dirHandle: layersState.dirHandle,
-                      // });
-                    }}
-                    className="gradient-button"
-                  >
-                    Generate Tokens
-                  </div>
-                  <div className="">
-                    <ViewGeneratedTokens />
-                  </div>
                 </div>
-                {/* <NewProperty /> */}
-                {/* Group Previews */}
               </section>
             </div>
           </section>
