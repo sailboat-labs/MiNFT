@@ -1,17 +1,22 @@
 import { Switch } from "@headlessui/react";
 import React from "react";
-import { SortableElement } from "react-sortable-hoc";
 
 interface AppProps {
   id: number;
   value: string;
-  elementLength: number;
   enabled: boolean;
+  elementLength: number;
   toggleTrait: (index: number) => void;
 }
 
-const SortableItem = SortableElement(
-  ({ value, enabled, toggleTrait, id, elementLength }: AppProps) => (
+function SortableItem({
+  id,
+  enabled,
+  elementLength,
+  toggleTrait,
+  value,
+}: AppProps) {
+  return (
     <li className="flex cursor-grab list-none items-center justify-between gap-2 rounded py-4 pr-2 hover:bg-gray-100">
       <div className="flex items-end gap-2">
         <svg
@@ -48,7 +53,7 @@ const SortableItem = SortableElement(
         />
       </Switch>
     </li>
-  )
-);
+  );
+}
 
 export default SortableItem;

@@ -938,7 +938,7 @@ export default function GenerateToken() {
     }
   }
 
-  async function listAllFilesAndDirs(dirHandle: any) {
+  async function listAllFilesAndDirs(dirHandle: any): Promise<any> {
     const files = [];
     for await (const [name, handle] of dirHandle) {
       const { kind } = handle;

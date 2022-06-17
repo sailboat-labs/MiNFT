@@ -3,6 +3,8 @@ import { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setLayers } from "redux/reducers/slices/layers";
 
+import { NFTLayer } from "@/types";
+
 export default function SelectFolder() {
   const [isOpen, setIsOpen] = useState(true);
   let _layers: any[] = [];
@@ -38,7 +40,9 @@ export default function SelectFolder() {
       // excludeAcceptAllOption: true,
     };
     try {
-      const directoryHandle = await window.showDirectoryPicker(options);
+      const directoryHandle = await (window as any).showDirectoryPicker(
+        options
+      );
 
       const files = await listAllFilesAndDirs(directoryHandle);
       console.log("files", files);
@@ -75,7 +79,7 @@ export default function SelectFolder() {
     return (n < 10 ? "00" : n < 100 ? "0" : "") + n;
   }
 
-  async function listAllFilesAndDirs(dirHandle: any) {
+  async function listAllFilesAndDirs(dirHandle: any): Promise<any> {
     const files = [];
     for await (const [name, handle] of dirHandle) {
       const { kind } = handle;

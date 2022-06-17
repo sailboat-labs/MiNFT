@@ -41,7 +41,9 @@ const Index = ({ router }: any) => {
   }: {
     groupName: string;
     traitIndex: number;
-  }): void {}
+  }): void {
+    //
+  }
 
   return (
     <>

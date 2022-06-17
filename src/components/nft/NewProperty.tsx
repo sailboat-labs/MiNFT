@@ -138,7 +138,7 @@ const NewProperty = () => {
       </div>
       {files.length > 0 && (
         <div className="mt-5 flex flex-wrap gap-6 rounded-md p-6 pb-0">
-          {Array.from(files).map((file: File, index: number) => (
+          {Array.from(files).map((file: any, index: number) => (
             <TraitPreview
               file={file}
               key={index}

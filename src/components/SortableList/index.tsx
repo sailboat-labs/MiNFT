@@ -6,7 +6,7 @@ import { Trait } from "@/interfaces/get-started";
 import SortableItem from "./SortableItem";
 
 interface AppProps {
-  items: Trait[];
+  items: any[];
   setTraits: (traits: Trait[]) => void;
 }
 
@@ -36,7 +36,6 @@ const SortableList = SortableContainer(({ items, setTraits }: AppProps) => {
           toggleTrait={toggleTrait}
           key={item.id}
           id={item.id}
-          index={index}
           value={item.name}
           elementLength={item.elements.length}
         />

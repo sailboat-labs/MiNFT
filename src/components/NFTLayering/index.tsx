@@ -13,48 +13,7 @@ const NFTLayering = () => {
   const dispatch = useDispatch();
   const store = useSelector((state) => state) as any;
   const layersState = store.layersReducer;
-  const [traits, setTraits] = useState<Trait[]>([
-    {
-      id: 1,
-      name: "Background",
-      value: {
-        name: "Bg1.png",
-        path: "localhost/bg1.png",
-        filename: "bg1.png",
-      },
-      enabled: true,
-    },
-    {
-      id: 2,
-      name: "Eye",
-      value: {
-        name: "eye1.png",
-        path: "localhost/eye1.png",
-        filename: "eye1.png",
-      },
-      enabled: false,
-    },
-    {
-      id: 3,
-      name: "Body",
-      value: {
-        name: "Bg1.png",
-        path: "localhost/bg1.png",
-        filename: "bg1.png",
-      },
-      enabled: true,
-    },
-    {
-      id: 4,
-      name: "Accessory",
-      value: {
-        name: "eye1.png",
-        path: "localhost/eye1.png",
-        filename: "eye1.png",
-      },
-      enabled: true,
-    },
-  ]);
+  const [traits, setTraits] = useState<Trait[]>([]);
 
   function onSortEnd({
     oldIndex,
@@ -113,9 +72,9 @@ const NFTLayering = () => {
             <strong className="mt-5 mb-1 block">Attributes</strong>
             <div className="max-h-[400px] overflow-y-auto">
               <SortableList
-                items={layersState.layers}
+                // items={layersState.layers}
                 onSortEnd={onSortEnd}
-                setTraits={setTraits}
+                // setTraits={setTraits}
               />
             </div>
           </div>
