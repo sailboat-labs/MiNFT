@@ -933,7 +933,7 @@ const NFTPreview: FC<AppProps> = ({ className }) => {
           <img
             src={previewImage}
             alt=""
-            className="h-full w-full object-cover"
+            className="h-full w-full rounded-lg object-cover"
           />
         </div>
       </div>

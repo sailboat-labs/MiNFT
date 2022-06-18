@@ -24,11 +24,17 @@ const layerStore = createSlice({
             layer.layer !== payload.layer
         );
       }
-
       state.previewLayers.push(payload as never);
+    },
+    deletePreviewLayer: (state, param) => {
+      const { payload } = param;
+      state.previewLayers = state.previewLayers.filter(
+        (layer: { layer: string; element: string }) =>
+          layer.layer !== payload.layer
+      );
     },
   },
 });
 const { actions, reducer } = layerStore;
-export const { setLayers, addPreviewLayer } = actions;
+export const { setLayers, addPreviewLayer, deletePreviewLayer } = actions;
 export default layerStore;

@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { firebaseApp } from "@/lib/firebase";
 
 import TraitGroupNavigator from "@/components/layout/TraitGroupNavigator";
+import Generate from "@/components/nft/Generate";
 import NFTPreview from "@/components/nft/NFTPreview";
 import PropertyGroup from "@/components/nft/PropertyGroup";
 import SelectedTraits from "@/components/nft/SelectedTraits";
@@ -77,7 +78,7 @@ const Index = ({ router }: any) => {
         </div>
         <div className="min-h-screen w-[60%]">
           <section className="flex flex-1 justify-center">
-            <NFTPreview className="mt-10" />
+            <NFTPreview className="mt-20" />
             {/* <div className="grid grid-cols-8">
               {generatedImagesState.images.map((image: any, index: number) => (
                 <img className="h-32 w-32" key={index} src={image} alt="" />
@@ -87,11 +88,11 @@ const Index = ({ router }: any) => {
         </div>
         <div className="min-h-screen w-[20%] border-l">
           <section className="box-border flex min-h-screen bg-white">
-            <div className="container mx-auto flex max-w-7xl items-start justify-between gap-8 p-12 px-4">
+            <div className="container mx-auto flex max-w-7xl items-start justify-between gap-8">
               <section className="flex-1">
-                <div className="flex flex-col gap-5">
-                  {/* <GenerateToken /> */}
+                <div className="flex flex-col justify-between gap-5">
                   <SelectedTraits />
+                  <Generate />
                 </div>
               </section>
             </div>

@@ -1,16 +1,29 @@
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable no-async-promise-executor */
+import { Dialog, Transition } from "@headlessui/react";
 import { createCanvas, loadImage } from "canvas";
 import chalk from "chalk";
 import keccak256 from "keccak256";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { addGeneratedImage } from "redux/reducers/slices/generated-images";
-import { setLayers } from "redux/reducers/slices/layers";
-
-import { NFTLayer } from "@/types";
+import { Fragment, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getLayers } from "redux/reducers/selectors/layers";
 
 export default function GenerateToken() {
   const [images, setImages] = useState<any[]>([]);
+  let imagesList: any[] = [];
+
+  const layers = useSelector(getLayers);
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  function closeModal() {
+    setIsOpen(false);
+  }
+
+  function openModal() {
+    setIsOpen(true);
+  }
+
   const dispatch = useDispatch();
   const background = {
     generate: true,
@@ -60,8 +73,7 @@ export default function GenerateToken() {
     weight: 1,
     smoothing: true, // set to false when up-scaling pixel art.
   };
-  let _layers: any[] = [];
-  const layers: NFTLayer[] = [];
+  const _layers: any[] = [];
 
   const canvas = createCanvas(format.width, format.height);
   const ctxMain = canvas.getContext("2d");
@@ -736,7 +748,11 @@ export default function GenerateToken() {
       );
     });
     const image = canvas.toDataURL();
-    dispatch(addGeneratedImage(image));
+    // dispatch(addGeneratedImage(image));
+    // setImages([...images, image]);
+    imagesList = images;
+    imagesList.push(image);
+    setImages(imagesList);
 
     if (_background.generate) {
       canvasContext.globalCompositeOperation = "destination-over";
@@ -833,7 +849,6 @@ export default function GenerateToken() {
         //   layerConfigurations[layerConfigIndex].layersOrder
         // );
 
-        const layers = _layers;
         // return console.log("using data", JSON.stringify(layers));
 
         while (
@@ -889,96 +904,111 @@ export default function GenerateToken() {
     }
   };
 
-  async function viewAllFiles() {
-    const options = {
-      types: [
-        {
-          description: "Images",
-          accept: {
-            "image/png": ".png",
-          },
-        },
-      ],
-      // excludeAcceptAllOption: true,
-    };
-    try {
-      const directoryHandle = await (window as any).showDirectoryPicker(
-        options
-      );
-
-      const files = await listAllFilesAndDirs(directoryHandle);
-      console.log("files", files);
-      // startCreating();
-
-      _layers = layers?.map((layer, layerIndex) => ({
-        id: layerIndex,
-        name: layer.name,
-        blendmode: "source-over",
-        opacity: 1,
-        bypassDNA: false,
-        elements: layer.elements.map((element, index) => ({
-          id: index,
-          sublayer: false,
-          weight: index + 1,
-          blendmode: "source-over",
-          opacity: 1,
-          name: layer.name,
-          filename: `${layer.name}#${padLeft(index + 1)}.png`,
-          path: URL.createObjectURL(element.file),
-          zindex: "",
-          trait: layer.name,
-          traitValue: layer.name,
-        })),
-      }));
-
-      dispatch(setLayers(_layers));
-      console.log(_layers);
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
-  async function listAllFilesAndDirs(dirHandle: any): Promise<any> {
-    const files = [];
-    for await (const [name, handle] of dirHandle) {
-      const { kind } = handle;
-
-      if (handle.kind === "directory") {
-        files.push({ name, handle, kind });
-        layers.push({
-          name: handle.name,
-          elements: [...(await listAllFilesAndDirs(handle))],
-        });
-        files.push(...(await listAllFilesAndDirs(handle)));
-      } else {
-        const file = await handle.getFile();
-
-        files.push({ name, handle, kind, file });
-      }
-    }
-
-    // dispatch(setLayers(_layers));
-
-    return files;
-  }
-
   function padLeft(n: number) {
     return (n < 10 ? "00" : n < 100 ? "0" : "") + n;
   }
 
   return (
     <div>
-      {images.map((image, index) => (
-        <img className="h-10 w-10" key={index} src={image} alt="" />
-      ))}
       <div
-        className="gradient-button"
         onClick={() => {
-          viewAllFiles();
+          imagesList = [];
+          setImages([]);
+          openModal();
+          startCreating();
         }}
+        className="gradient-button mt-10"
       >
-        Embedded
+        Generate Tokens
       </div>
+
+      <Transition appear show={isOpen} as={Fragment}>
+        <Dialog
+          as="div"
+          className="relative z-10"
+          onClose={() => {
+            //
+          }}
+        >
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-black bg-opacity-25" />
+          </Transition.Child>
+
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-4 text-center">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <Dialog.Panel className="w-fit transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                  <Dialog.Title
+                    as="h3"
+                    className="text-lg font-medium leading-6 text-gray-900"
+                  >
+                    <div className="mb-5 flex w-full items-center justify-between">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
+                        />
+                      </svg>
+                      <svg
+                        onClick={() => {
+                          closeModal();
+                        }}
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6 cursor-pointer"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M6 18L18 6M6 6l12 12"
+                        />
+                      </svg>
+                    </div>
+                    Generating 64 images
+                  </Dialog.Title>
+                  <div className="mt-5 grid w-fit grid-cols-2 gap-2 md:grid-cols-6 lg:grid-cols-8">
+                    {images.map((image, index) => (
+                      <img
+                        key={index}
+                        src={image}
+                        alt=""
+                        className="h-20 w-20 rounded-lg object-cover"
+                      />
+                    ))}
+                  </div>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition>
     </div>
   );
 }
