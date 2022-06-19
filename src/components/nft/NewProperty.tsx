@@ -1,22 +1,20 @@
-//New Property
-
 import { doc, getFirestore, setDoc } from "firebase/firestore";
+import { useRouter } from "next/router";
 import React, { ChangeEvent, useRef, useState } from "react";
 import toast from "react-hot-toast";
+import { useMoralis } from "react-moralis";
 
 import { firebaseApp } from "@/lib/firebase";
 
 import TraitPreview from "./TraitPreview";
 
-const firestore = getFirestore(firebaseApp);
+export const firestore = getFirestore(firebaseApp);
 
-type props = {
-  address: string;
-  collectionName: string;
-};
-
-const NewProperty = ({ address, collectionName }: props) => {
+const NewProperty = () => {
+  const router = useRouter();
   const [files, setFiles] = useState<File[]>([]);
+  const { account, logout, isAuthenticated } = useMoralis();
+
   const fileInput = useRef<HTMLInputElement>(null);
   const [propertyName, setPropertyName] = useState<string>("");
 
@@ -41,26 +39,39 @@ const NewProperty = ({ address, collectionName }: props) => {
     setPropertyName("");
     setFiles([]);
   }
-
+  /**
+   * saves entered property name
+   * saves uploaded trait files
+   *
+   * @returns {undefined}
+   */
   async function saveProperty() {
-    // todo: save Property name and uploaded trait files
-    toast("Saving");
+    if (router.query)
+      // todo: save Property name and uploaded trait files
+      toast("Saving");
 
-    const _layer = {
-      id: 0,
-      name: propertyName,
-      blendmode: "source-over",
-      opacity: 1,
-      bypassDNA: false,
-    };
+    const project = router.query?.name?.toString().toLowerCase();
 
-    const _doc = doc(
-      firestore,
-      `art-engine/${address}/${collectionName}/input/layers/${propertyName}`
-    );
-    await setDoc(_doc, _layer);
-    toast.dismiss();
-    toast.success("Saved");
+    if (!account || !project) return;
+
+    try {
+      const _layer = {
+        name: propertyName,
+        blendmode: "source-over",
+        opacity: 1,
+        bypassDNA: false,
+      };
+
+      const _doc = doc(
+        firestore,
+        `art-engine/users/${account}/${project}/layers/${propertyName}`
+      );
+      await setDoc(_doc, _layer);
+      toast.dismiss();
+      toast.success("Saved");
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   function removeTrait(traitIndex: number) {
@@ -113,7 +124,7 @@ const NewProperty = ({ address, collectionName }: props) => {
       </div>
       {files.length > 0 && (
         <div className="mt-5 flex flex-wrap gap-6 rounded-md p-6 pb-0">
-          {Array.from(files).map((file: File, index: number) => (
+          {Array.from(files).map((file: any, index: number) => (
             <TraitPreview
               file={file}
               key={index}
@@ -130,12 +141,12 @@ const NewProperty = ({ address, collectionName }: props) => {
         >
           Discard
         </button>
-        <button
+        <div
           className="max-w-[130px] flex-1 rounded-md bg-[color:var(--blue)] py-2 text-white"
           onClick={saveProperty}
         >
           Save
-        </button>
+        </div>
       </div>
     </div>
   );

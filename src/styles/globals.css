@@ -41,13 +41,17 @@
   }
 
   html {
-    background-color: black;
+    /* background-color: black; */
 
     --bg-indigo: #e7ecf3;
     --bg-gray: #f3f7fa;
     --border-gray: #e3e8f1;
     --indigo: #aab7e8;
     --blue: #30489c;
+  }
+
+  * {
+    scroll-behavior: smooth;
   }
 
   .cursor-newtab {
@@ -140,4 +144,25 @@
   .animated-underline:focus-visible {
     background-size: 0 2px, 100% 2px;
   }
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(177, 177, 177);
+  @apply rounded-full;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(105, 105, 105);
 }

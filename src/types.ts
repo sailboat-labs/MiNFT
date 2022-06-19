@@ -4,6 +4,11 @@ export interface User {
   address?: string;
 }
 
+export interface NFTLayer {
+  name: string;
+  elements: any[];
+}
+
 export interface Collection {
   id: string;
   owner: string;

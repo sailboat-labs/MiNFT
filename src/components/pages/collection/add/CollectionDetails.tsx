@@ -122,12 +122,12 @@ export default function CollectionDetails(props: any) {
               </tr>
               <tr className=" ">
                 <td className="whitespace-nowrap py-2 px-6 text-sm font-medium text-gray-900 dark:text-gray-200 ">
-                  Etherscan
+                  Contract Address
                 </td>
                 <td className="whitespace-nowrap py-2 px-6 text-sm text-gray-500 ">
                   <Field // type="text"
                     className="default-input w-full dark:bg-black dark:text-white"
-                    placeholder="Etherscan"
+                    placeholder="Contract Address"
                     name="etherscan"
                   />
                   <div className="text-red-500">

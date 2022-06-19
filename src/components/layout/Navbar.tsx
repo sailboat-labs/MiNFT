@@ -7,14 +7,14 @@ import { useRouter } from "next/router";
 import { Fragment, useEffect, useState } from "react";
 import { useMoralis } from "react-moralis";
 
+import { usePageLoader } from "@/hooks/pageloader";
 import useAuthenticationDialog from "@/hooks/UseAuthDialog";
-import UseSearch from "@/components/shared/Search";
+
+import Search from "@/components/shared/Search";
 
 import DarkModeMenu from "./DarkmodeToggle";
 import { categories } from "../pages/landing/categories";
 import ProfileIcon from "../shared/profile_icon";
-import Search from "@/components/shared/Search";
-import { usePageLoader } from "@/hooks/pageloader";
 
 type props = {
   className?: string;
@@ -29,6 +29,7 @@ export default function Navbar({ className }: props) {
   const requiredAuthPaths = ["/profile"];
 
   const router = useRouter();
+
   const {
     // authenticate,
     isAuthenticating,
@@ -232,7 +233,7 @@ export default function Navbar({ className }: props) {
           {account && isAuthenticated && router.pathname !== "/collection/add" && (
             <div
               onClick={() => {
-                setState(true)
+                setState(true);
                 router.push("/collection/add");
               }}
               className="mr-5 cursor-pointer rounded bg-gray-200 px-3 py-1 font-medium leading-6 hover:text-gray-900  dark:bg-gray-700 dark:text-gray-200"

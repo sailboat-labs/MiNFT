@@ -1,25 +1,30 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable no-async-promise-executor */
+import { Dialog, Transition } from "@headlessui/react";
 import { createCanvas, loadImage } from "canvas";
 import chalk from "chalk";
 import keccak256 from "keccak256";
-import React, { FC, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { getPreviewLayers } from "redux/reducers/selectors/layers";
+import { Fragment, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getLayers } from "redux/reducers/selectors/layers";
 
-interface AppProps {
-  className?: string;
-}
+export default function GenerateToken() {
+  const [images, setImages] = useState<any[]>([]);
+  let imagesList: any[] = [];
 
-const NFTPreview: FC<AppProps> = ({ className }) => {
-  const previewLayer = useSelector(getPreviewLayers);
+  const layers = useSelector(getLayers);
 
-  const [previewImage, setPreviewImage] = useState<any>();
+  const [isOpen, setIsOpen] = useState(false);
 
-  useEffect(() => {
-    startCreating();
-  }, [previewLayer]);
+  function closeModal() {
+    setIsOpen(false);
+  }
 
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  const dispatch = useDispatch();
   const background = {
     generate: true,
     brightness: "100%",
@@ -30,7 +35,7 @@ const NFTPreview: FC<AppProps> = ({ className }) => {
 
   const layerConfigurations = [
     {
-      growEditionSizeTo: 1,
+      growEditionSizeTo: 64,
       resetNameIndex: false,
       namePrefix: "NZMX Club", // Use to add a name to Metadata `name:`
       layersOrder: [
@@ -68,6 +73,7 @@ const NFTPreview: FC<AppProps> = ({ className }) => {
     weight: 1,
     smoothing: true, // set to false when up-scaling pixel art.
   };
+  const _layers: any[] = [];
 
   const canvas = createCanvas(format.width, format.height);
   const ctxMain = canvas.getContext("2d");
@@ -601,10 +607,7 @@ const NFTPreview: FC<AppProps> = ({ className }) => {
       (acc: { normal: any; front: any; end: any }, layer: any) => {
         const zindex = parseZIndex(layer);
         if (!zindex)
-          return {
-            ...acc,
-            normal: [...(acc.normal ? acc.normal : []), layer],
-          };
+          return { ...acc, normal: [...(acc.normal ? acc.normal : []), layer] };
         // move negative z into `front`
         if (zindex < 0)
           return { ...acc, front: [...(acc.front ? acc.front : []), layer] };
@@ -745,7 +748,11 @@ const NFTPreview: FC<AppProps> = ({ className }) => {
       );
     });
     const image = canvas.toDataURL();
-    setPreviewImage(image);
+    // dispatch(addGeneratedImage(image));
+    // setImages([...images, image]);
+    imagesList = images;
+    imagesList.push(image);
+    setImages(imagesList);
 
     if (_background.generate) {
       canvasContext.globalCompositeOperation = "destination-over";
@@ -788,10 +795,6 @@ const NFTPreview: FC<AppProps> = ({ className }) => {
       _offset,
     };
   };
-
-  function padLeft(n: number) {
-    return (n < 10 ? "00" : n < 100 ? "0" : "") + n;
-  }
 
   const outputFiles = (abstractedIndexes: any[], layerData: any) => {
     const { newDna, layerConfigIndex } = layerData;
@@ -845,29 +848,6 @@ const NFTPreview: FC<AppProps> = ({ className }) => {
         // const layers = layersSetup(
         //   layerConfigurations[layerConfigIndex].layersOrder
         // );
-
-        const layers = previewLayer?.map((layer: any, layerIndex: number) => ({
-          id: layerIndex,
-          name: layer.layer,
-          blendmode: "source-over",
-          opacity: 1,
-          bypassDNA: false,
-          elements: [
-            {
-              id: 0,
-              sublayer: false,
-              weight: 1,
-              blendmode: "source-over",
-              opacity: 1,
-              name: layer.layer,
-              filename: `${layer.layer}#${padLeft(1)}.png`,
-              path: previewLayer[layerIndex].element,
-              zindex: "",
-              trait: layer.layer,
-              traitValue: layer.layer,
-            },
-          ],
-        }));
 
         // return console.log("using data", JSON.stringify(layers));
 
@@ -924,23 +904,111 @@ const NFTPreview: FC<AppProps> = ({ className }) => {
     }
   };
 
+  function padLeft(n: number) {
+    return (n < 10 ? "00" : n < 100 ? "0" : "") + n;
+  }
+
   return (
-    <>
+    <div>
       <div
-        className={`h-fit w-fit max-w-lg rounded-lg bg-gray-100 ${className} relative`}
+        onClick={() => {
+          imagesList = [];
+          setImages([]);
+          openModal();
+          startCreating();
+        }}
+        className="gradient-button mt-10"
       >
-        <div className="w-96">
-          <img
-            src={previewImage}
-            alt=""
-            className="h-full w-full rounded-lg object-cover"
-          />
-        </div>
+        Generate Tokens
       </div>
 
-      {/* <EditTemplate isOpen={isOpen} closeModal={() => setIsOpen(false)} /> */}
-    </>
-  );
-};
+      <Transition appear show={isOpen} as={Fragment}>
+        <Dialog
+          as="div"
+          className="relative z-10"
+          onClose={() => {
+            //
+          }}
+        >
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-black bg-opacity-25" />
+          </Transition.Child>
 
-export default NFTPreview;
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-4 text-center">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <Dialog.Panel className="w-fit transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                  <Dialog.Title
+                    as="h3"
+                    className="text-lg font-medium leading-6 text-gray-900"
+                  >
+                    <div className="mb-5 flex w-full items-center justify-between">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
+                        />
+                      </svg>
+                      <svg
+                        onClick={() => {
+                          closeModal();
+                        }}
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6 cursor-pointer"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M6 18L18 6M6 6l12 12"
+                        />
+                      </svg>
+                    </div>
+                    Generating 64 images
+                  </Dialog.Title>
+                  <div className="mt-5 grid w-fit grid-cols-2 gap-2 md:grid-cols-6 lg:grid-cols-8">
+                    {images.map((image, index) => (
+                      <img
+                        key={index}
+                        src={image}
+                        alt=""
+                        className="h-20 w-20 rounded-lg object-cover"
+                      />
+                    ))}
+                  </div>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition>
+    </div>
+  );
+}

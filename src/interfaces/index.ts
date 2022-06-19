@@ -6,6 +6,12 @@ export interface ILayer {
   bypassDNA: boolean;
 }
 
+export interface IGeneratedTokens {
+  createdOn: string;
+  filename: string | number;
+  url: string;
+}
+
 export interface IElement {
   sublayer: boolean;
   weight: number;
@@ -18,4 +24,11 @@ export interface IElement {
   zindex: string;
   trait: string;
   traitValue: string;
+}
+
+export interface Trait {
+  id: number;
+  name: string;
+  elements: any[];
+  enabled: boolean;
 }
