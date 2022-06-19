@@ -40,6 +40,16 @@
       U+2215, U+FEFF, U+FFFD;
   }
 
+  @font-face {
+    font-family: "DMSans";
+    src: url("../../public/fonts/DMSans-Regular.ttf");
+  }
+
+  @font-face {
+    font-family: "Montserrat";
+    src: url("../../public/fonts/Montserrat-Regular.ttf");
+  }
+
   html {
     /* background-color: black; */
 
