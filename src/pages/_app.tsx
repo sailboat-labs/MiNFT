@@ -2,7 +2,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { AppProps } from "next/app";
 import { Toaster } from "react-hot-toast";
-import { MoralisProvider } from "react-moralis";
 import { Provider } from "react-redux";
 import rootReducer from "redux/reducers";
 
@@ -19,16 +18,11 @@ function MyApp({ Component, pageProps }: AppProps) {
   });
 
   return (
-    <MoralisProvider
-      appId={process.env.NEXT_PUBLIC_MORALIS_APP_ID!}
-      serverUrl={process.env.NEXT_PUBLIC_MORALIS_SERVERURL!}
-    >
+    <Provider store={store}>
       <Toaster />
 
-      <Provider store={store}>
-        <Component {...pageProps} />
-      </Provider>
-    </MoralisProvider>
+      <Component {...pageProps} />
+    </Provider>
   );
 }
 

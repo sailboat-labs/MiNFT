@@ -1,7 +1,6 @@
 import { getFirestore } from "firebase/firestore";
 import Head from "next/head";
 import React from "react";
-import { useMoralis } from "react-moralis";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 
@@ -22,7 +21,6 @@ const firestore = getFirestore(firebaseApp);
 
 const Index = ({ router }: any) => {
   const dispatch = useDispatch();
-  const { account, isAuthenticated } = useMoralis();
   const _layers: ILayer[] = [];
 
   // const [layers, setLayers] = useState<NFTLayer[]>([]);

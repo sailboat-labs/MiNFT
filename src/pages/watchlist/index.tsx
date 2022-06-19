@@ -1,16 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import axios from "axios";
 import dayjs from "dayjs";
 import { getFirestore } from "firebase/firestore";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { firebaseApp } from "@/lib/firebase";
 import { usePageLoader } from "@/hooks/pageloader";
-import useAuthenticationDialog from "@/hooks/UseAuthDialog";
 
 import Layout from "@/components/layout/Layout";
 import ExploreCategories from "@/components/pages/landing/categories";
@@ -27,9 +23,6 @@ export default function WatchList() {
 
   const { Loader, state, setState } = usePageLoader();
 
-  const { account, AuthDialog, isAuthenticated, setShowAuthDialog } =
-    useAuthenticationDialog();
-
   const router = useRouter();
 
   const { category } = router.query;
@@ -41,106 +34,17 @@ export default function WatchList() {
 
   const [selectedCategory, setSelectedCategory] = useState("all");
 
-  async function getUserWatchList() {
-    setLoadingWatchList(true);
-    setAnimateIntoView(false);
-    try {
-      const { data } = await axios.get(
-        `${process.env.NEXT_PUBLIC_FIREBASE_FUNCTIONS_ENDPOINT}/User/watchlist?walletId=${account}`
-      );
-
-      setCollections(data);
-
-      setTimeout(() => {
-        setLoadingWatchList(false);
-        setAnimateIntoView(true);
-      }, 1000);
-    } catch (error) {
-      setLoadingWatchList(false);
-      setAnimateIntoView(false);
-    }
-  }
-
-  useEffect(() => {
-    if (!account) return;
-    getUserWatchList();
-  }, [account]);
-
-  const soonWrapperElement = useRef<any>(null);
-  gsap.registerPlugin(ScrollTrigger);
-
-  useEffect(() => {
-    const scrollButtonAnim = gsap.from("#soon-text", {
-      // rotate:-15,
-      y: 800,
-      // opacity: 0,
-
-      scrollTrigger: {
-        trigger: "#soon-text",
-        start: "top 100%",
-        end: "top start",
-        toggleActions: "restart pause resume reverse",
-        scrub: 0.8,
-        // markers: true,
-      },
-    });
-
-    return () => {
-      scrollButtonAnim.kill();
-    };
-  }, []);
-
   useEffect(() => {
     if (!category) return;
     setSelectedCategory(category as string);
   }, [category]);
-
-  if (!account || !isAuthenticated) {
-    return (
-      <Layout>
-        <div className="mt-20 flex h-full w-full flex-col items-center justify-center gap-5 px-10 text-center">
-          <AuthDialog />
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-20 w-20"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth="2"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-            />
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-            />
-          </svg>
-          <div className="text-2xl font-bold text-gray-900 dark:text-white">
-            Connect your wallet to view your watchlist
-          </div>
-          <div
-            onClick={() => {
-              setShowAuthDialog(true);
-            }}
-            className="gradient-button"
-          >
-            Connect your wallet
-          </div>
-        </div>
-      </Layout>
-    );
-  }
 
   return (
     <Layout>
       {!collections ? (
         <></>
       ) : (
-        <div ref={soonWrapperElement} className="contained mt-10">
+        <div className="contained mt-10">
           {/* {loadingWatchList && <PageLoader />} */}
           {state && <Loader />}
 

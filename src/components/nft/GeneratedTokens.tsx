@@ -1,43 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
 import { Dialog, Transition } from "@headlessui/react";
-import { collection, DocumentData, query } from "firebase/firestore";
 import { useRouter } from "next/router";
-import { Fragment, useEffect, useState } from "react";
-import { useCollectionData } from "react-firebase-hooks/firestore";
-import { useMoralis } from "react-moralis";
+import { Fragment, useState } from "react";
 
 import { IGeneratedTokens } from "@/interfaces/get-started";
-
-import { firestore } from "./NewProperty";
 
 export default function ViewGeneratedTokens() {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
-  const { account, logout, isAuthenticated } = useMoralis();
   const [outputImages, setOutputImages] = useState<IGeneratedTokens[]>([]);
-
-  const _query = query(
-    collection(
-      firestore,
-      `art-engine/users/${account}/${router.query.name}/generated`
-    )
-  );
-  const [snapshots, loading] = useCollectionData(_query);
-
-  useEffect(() => {
-    if (loading) return;
-    if (!snapshots) return;
-
-    const data = snapshots.reduce(
-      (acc: IGeneratedTokens[], curr: DocumentData) => {
-        acc.push(curr as IGeneratedTokens);
-        return acc;
-      },
-      []
-    );
-
-    setOutputImages(data);
-  }, [loading, snapshots]);
 
   function closeModal() {
     setIsOpen(false);

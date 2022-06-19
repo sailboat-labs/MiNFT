@@ -1,8 +1,7 @@
-import { doc, getFirestore, setDoc } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
 import { useRouter } from "next/router";
 import React, { ChangeEvent, useRef, useState } from "react";
 import toast from "react-hot-toast";
-import { useMoralis } from "react-moralis";
 
 import { firebaseApp } from "@/lib/firebase";
 
@@ -13,7 +12,6 @@ export const firestore = getFirestore(firebaseApp);
 const NewProperty = () => {
   const router = useRouter();
   const [files, setFiles] = useState<File[]>([]);
-  const { account, logout, isAuthenticated } = useMoralis();
 
   const fileInput = useRef<HTMLInputElement>(null);
   const [propertyName, setPropertyName] = useState<string>("");
@@ -65,27 +63,6 @@ const NewProperty = () => {
       toast("Saving");
 
     const project = router.query?.name?.toString().toLowerCase();
-
-    if (!account || !project) return;
-
-    try {
-      const _layer = {
-        name: propertyName,
-        blendmode: "source-over",
-        opacity: 1,
-        bypassDNA: false,
-      };
-
-      const _doc = doc(
-        firestore,
-        `art-engine/users/${account}/${project}/layers/${propertyName}`
-      );
-      await setDoc(_doc, _layer);
-      toast.dismiss();
-      toast.success("Saved");
-    } catch (error) {
-      console.log(error);
-    }
   }
 
   function removeTrait(traitIndex: number) {

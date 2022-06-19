@@ -15,7 +15,6 @@ interface AppProps {
 }
 
 const PropertyGroup: FC<AppProps> = ({ name, onChange, elements }) => {
-  // const { account, logout, isAuthenticated } = useMoralis();
   const accordionContent = useRef<HTMLDivElement | null>(null);
   const [collapsed, setCollapsed] = useState<boolean>(false);
 

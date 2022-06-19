@@ -1,11 +1,3 @@
-import Footer from "@/components/layout/footer";
-import Layout from "@/components/layout/Layout";
-import FAQ from "@/components/pages/landing/FAQ";
-import Feedback from "@/components/pages/landing/Feedback";
-import Header from "@/components/pages/landing/header";
-import LaunchingSoon from "@/components/pages/landing/launchingsoon";
-import Leaderboard from "@/components/pages/landing/Leaderboard";
-import NewlyAdded from "@/components/pages/landing/newlyadded";
 import Seo from "@/components/Seo";
 
 // Before you begin editing, follow all comments with `STARTERCONF`,
@@ -31,13 +23,13 @@ export default function HomePage() {
       <Seo />
 
       <div>
-        <Header />
+        {/* <Header />
         <NewlyAdded />
         <Leaderboard />
         <LaunchingSoon />
         <FAQ />
         <Feedback />
-        <Footer />
+        <Footer /> */}
       </div>
     </div>
   );
