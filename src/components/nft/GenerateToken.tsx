@@ -6,11 +6,17 @@ import chalk from "chalk";
 import keccak256 from "keccak256";
 import { Fragment, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getLayers } from "redux/reducers/selectors/layers";
+import { getGeneratedImages, getLayers } from "redux/reducers/selectors/layers";
+import {
+  addGeneratedImage,
+  clearGeneratedImages,
+} from "redux/reducers/slices/generated-images";
+
+import { IGeneratedTokens } from "@/interfaces";
 
 export default function GenerateToken() {
-  const [images, setImages] = useState<any[]>([]);
-  let imagesList: any[] = [];
+  const [selectedToken, setSelectedToken] = useState<IGeneratedTokens>();
+  const generatedTokens: IGeneratedTokens[] = useSelector(getGeneratedImages);
 
   const layers = useSelector(getLayers);
 
@@ -58,7 +64,7 @@ export default function GenerateToken() {
   };
   const hashImages = true;
   const extraMetadata = {};
-  const debugLogs = false;
+  const debugLogs = true;
 
   const uniqueDnaTorrance = 10000;
   const description =
@@ -721,12 +727,8 @@ export default function GenerateToken() {
   const paintLayers = (
     canvasContext: any,
     renderObjectArray: any[],
-    layerData: {
-      newDna?: any;
-      layerConfigIndex?: number;
-      abstractedIndexes: any;
-      _background: any;
-    }
+    layerData: any,
+    passedAbstractedIndexes: any
   ) => {
     debugLogs ? console.log("\nClearing canvas") : null;
     canvasContext.clearRect(0, 0, format.width, format.height);
@@ -748,11 +750,13 @@ export default function GenerateToken() {
       );
     });
     const image = canvas.toDataURL();
+    outputFiles(abstractedIndexes, layerData, image);
+
     // dispatch(addGeneratedImage(image));
     // setImages([...images, image]);
-    imagesList = images;
-    imagesList.push(image);
-    setImages(imagesList);
+    // imagesList = images;
+    // imagesList.push(image);
+    // setImages(imagesList);
 
     if (_background.generate) {
       canvasContext.globalCompositeOperation = "destination-over";
@@ -796,10 +800,13 @@ export default function GenerateToken() {
     };
   };
 
-  const outputFiles = (abstractedIndexes: any[], layerData: any) => {
+  const outputFiles = (
+    abstractedIndexes: any[],
+    layerData: any,
+    image: any
+  ) => {
     const { newDna, layerConfigIndex } = layerData;
     // Save the canvas buffer to file
-    saveImage(abstractedIndexes[0]);
 
     const { _imageHash, _prefix, _offset } = postProcessMetadata(layerData);
 
@@ -809,7 +816,19 @@ export default function GenerateToken() {
       _imageHash,
     });
 
-    saveMetaDataSingleFile(abstractedIndexes[0]);
+    const generatedToken: IGeneratedTokens = {
+      createdOn: new Date().toISOString(),
+      file: image,
+      edition: abstractedIndexes[0],
+      metadata: metadataList.find(
+        (meta: { edition: any }) => meta.edition == abstractedIndexes[0]
+      ),
+    };
+
+    // dispatch(addGeneratedImage(generatedToken));
+
+    dispatch(addGeneratedImage(generatedToken));
+
     console.log(
       chalk.cyan(
         `Created edition: ${abstractedIndexes[0]}, with DNA: ${hash(newDna)}`
@@ -858,7 +877,9 @@ export default function GenerateToken() {
           const newDna = createDna(layers);
           if (isDnaUnique(dnaList, newDna)) {
             const results = constructLayerToDna(newDna, layers);
-            debugLogs ? console.log("DNA:", newDna.split(DNA_DELIMITER)) : null;
+            debugLogs
+              ? console.log("Creating with DNA:", newDna.split(DNA_DELIMITER))
+              : null;
             const loadedElements: any[] = [];
             // reduce the stacked and nested layer into a single array
             const allImages = results.reduce((images: any, layer) => {
@@ -875,8 +896,12 @@ export default function GenerateToken() {
                 abstractedIndexes,
                 _background: background,
               };
-              paintLayers(ctxMain, renderObjectArray, layerData);
-              outputFiles(abstractedIndexes, layerData);
+              paintLayers(
+                ctxMain,
+                renderObjectArray,
+                layerData,
+                abstractedIndexes
+              );
             });
 
             dnaList.add(filterDNAOptions(newDna));
@@ -904,17 +929,12 @@ export default function GenerateToken() {
     }
   };
 
-  function padLeft(n: number) {
-    return (n < 10 ? "00" : n < 100 ? "0" : "") + n;
-  }
-
   return (
     <div>
       <div
         onClick={() => {
-          imagesList = [];
-          setImages([]);
-          openModal();
+          dispatch(clearGeneratedImages({}));
+
           startCreating();
         }}
         className="gradient-button mt-10"
@@ -923,11 +943,20 @@ export default function GenerateToken() {
       </div>
       <div
         onClick={() => {
+          // router.push("/nft/generate");
           openModal();
         }}
         className="gradient-button mt-10"
       >
         View Generated Tokens
+      </div>
+      <div
+        onClick={() => {
+          dispatch(clearGeneratedImages({}));
+        }}
+        className="gradient-button mt-10"
+      >
+        Clear Generated Tokens
       </div>
 
       <Transition appear show={isOpen} as={Fragment}>
@@ -951,7 +980,7 @@ export default function GenerateToken() {
           </Transition.Child>
 
           <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center p-4 text-center">
+            <div className="flex min-h-full items-center justify-center text-center">
               <Transition.Child
                 as={Fragment}
                 enter="ease-out duration-300"
@@ -961,32 +990,35 @@ export default function GenerateToken() {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-fit transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="min-h-screen w-screen transform overflow-hidden bg-white p-6 text-left align-middle shadow-xl transition-all">
                   <Dialog.Title
                     as="h3"
                     className="text-lg font-medium leading-6 text-gray-900"
                   >
                     <div className="mb-5 flex w-full items-center justify-between">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-6 w-6"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
-                        />
-                      </svg>
+                      <div className="flex items-center gap-5">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-10 w-10"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
+                          />
+                        </svg>
+                        <span className="text-3xl">Generated Images</span>
+                      </div>
                       <svg
                         onClick={() => {
                           closeModal();
                         }}
                         xmlns="http://www.w3.org/2000/svg"
-                        className="h-6 w-6 cursor-pointer"
+                        className="h-10 w-10 cursor-pointer rounded-xl bg-gray-200 p-2 transition-all hover:scale-105 hover:bg-gray-300"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -999,17 +1031,35 @@ export default function GenerateToken() {
                         />
                       </svg>
                     </div>
-                    Generating 64 images
+                    {generatedTokens?.length} tokens
                   </Dialog.Title>
-                  <div className="mt-5 grid w-fit grid-cols-2 gap-2 md:grid-cols-6 lg:grid-cols-8">
-                    {images.map((image, index) => (
-                      <img
-                        key={index}
-                        src={image}
-                        alt=""
-                        className="h-20 w-20 rounded-lg object-cover"
-                      />
-                    ))}
+                  <div className="flex w-full items-start">
+                    <div className="mt-5 grid w-1/2 grid-cols-4">
+                      {generatedTokens.map((token, index) => (
+                        <div
+                          onClick={() => {
+                            setSelectedToken(token);
+                          }}
+                          key={index}
+                          className="flex flex-col gap-1"
+                        >
+                          <img
+                            src={token.file}
+                            alt=""
+                            className="h-52 w-52 cursor-pointer rounded-lg object-cover transition-all hover:scale-105"
+                          />
+                          <div className="text-sm text-gray-700">
+                            Nozomix #{token.edition}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    <table>
+                      <tr>
+                        <td>Edition</td>
+                        <td>{selectedToken?.edition}</td>
+                      </tr>
+                    </table>
                   </div>
                 </Dialog.Panel>
               </Transition.Child>

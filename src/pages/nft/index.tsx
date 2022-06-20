@@ -1,11 +1,10 @@
-import { getFirestore } from "firebase/firestore";
+/* eslint-disable @next/next/no-img-element */
 import Head from "next/head";
 import React from "react";
 import { useMoralis } from "react-moralis";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-
-import { firebaseApp } from "@/lib/firebase";
+import { getGeneratedImages } from "redux/reducers/selectors/layers";
 
 import TraitGroupNavigator from "@/components/layout/TraitGroupNavigator";
 import Generate from "@/components/nft/Generate";
@@ -14,16 +13,14 @@ import PropertyGroup from "@/components/nft/PropertyGroup";
 import SelectedTraits from "@/components/nft/SelectedTraits";
 import SelectFolder from "@/components/nft/SelectFolder";
 
-import { ILayer } from "@/interfaces/get-started";
+import { IGeneratedTokens } from "@/interfaces";
 
 import { NFTLayer } from "@/types";
-
-const firestore = getFirestore(firebaseApp);
 
 const Index = ({ router }: any) => {
   const dispatch = useDispatch();
   const { account, isAuthenticated } = useMoralis();
-  const _layers: ILayer[] = [];
+  const generatedTokens: IGeneratedTokens[] = useSelector(getGeneratedImages);
 
   // const [layers, setLayers] = useState<NFTLayer[]>([]);
 
@@ -76,17 +73,8 @@ const Index = ({ router }: any) => {
             )}
           </div>
         </div>
-        <div className="min-h-screen w-[60%]">
-          <section className="flex flex-1 justify-center">
-            <NFTPreview className="mt-20" />
-            {/* <div className="grid grid-cols-8">
-              {generatedImagesState.images.map((image: any, index: number) => (
-                <img className="h-32 w-32" key={index} src={image} alt="" />
-              ))}
-            </div> */}
-          </section>
-        </div>
-        <div className="min-h-screen w-[20%] border-l">
+
+        <div className="min-h-screen w-[20%] border-r">
           <section className="box-border flex min-h-screen bg-white">
             <div className="container mx-auto flex max-w-7xl items-start justify-between gap-8">
               <section className="flex-1">
@@ -95,6 +83,62 @@ const Index = ({ router }: any) => {
                   <Generate />
                 </div>
               </section>
+            </div>
+          </section>
+        </div>
+        <div className="mt-0 min-h-screen w-[60%]">
+          <section className="grid grid-cols-2 px-0">
+            <div className="flex w-full justify-center">
+              <NFTPreview className="mt-20" />
+            </div>
+
+            <div
+              className={`border-l pt-5 pl-5 pr-0 transition-all duration-200 ${
+                generatedTokens.length > 0
+                  ? "translate-x-0 opacity-100"
+                  : "w-52 translate-x-52 opacity-0"
+              }`}
+            >
+              <div className="flex h-10 items-center gap-5">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
+                  />
+                </svg>
+                <span className="text-xl">Generated Images</span>
+              </div>
+              <div className="grid h-[length:calc(100vh-3.9rem)] w-full  grid-cols-4 flex-col gap-3 overflow-y-auto pt-5 ">
+                {generatedTokens
+                  .filter((token, index) => index < 40)
+                  .map((token, index) => (
+                    <div
+                      onClick={() => {
+                        // setSelectedToken(token);
+                        console.log(token);
+                      }}
+                      key={index}
+                      className="mb-5 flex flex-col gap-1"
+                    >
+                      <img
+                        src={token.file}
+                        alt=""
+                        className="h-32 w-32 cursor-pointer rounded-lg object-cover transition-all hover:scale-105"
+                      />
+                      <div className="text-sm text-gray-500">
+                        Nozomix #{token.edition}
+                      </div>
+                    </div>
+                  ))}
+              </div>
             </div>
           </section>
         </div>
