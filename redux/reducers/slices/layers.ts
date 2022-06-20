@@ -19,12 +19,13 @@ const layerStore = createSlice({
           layer.layer == payload.layer
       );
       if (isLayerExists) {
-        state.previewLayers = state.previewLayers.filter(
-          (layer: { layer: string; element: string }) =>
-            layer.layer !== payload.layer
-        );
+        //Ignore the red lines
+        state.previewLayers.find(
+          (layer) => layer.layer == payload.layer
+        ).element = payload.element;
+      } else {
+        state.previewLayers.push(payload as never);
       }
-      state.previewLayers.push(payload as never);
     },
     deletePreviewLayer: (state, param) => {
       const { payload } = param;

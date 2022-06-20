@@ -9,8 +9,24 @@ export interface ILayer {
 
 export interface IGeneratedTokens {
   createdOn: string;
-  filename: string | number;
-  url: string;
+  file: File;
+  edition: number;
+  metadata: IMetadata;
+}
+
+export interface IMetadata {
+  dna: string;
+  name: string;
+  description: string;
+  image: string;
+  imageHash: string;
+  edition: number;
+  date: number;
+  attributes: {
+    trait_type: string;
+    value: string;
+  }[];
+  compiler: string;
 }
 
 export interface IElement {

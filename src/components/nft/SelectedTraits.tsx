@@ -13,7 +13,13 @@ export default function SelectedTraits() {
   }
 
   return (
-    <div>
+    <div
+      className={`transition-all  ${
+        previewLayer.length < 1
+          ? "pointer-events-none -mt-14 opacity-0"
+          : "pointer-events-auto mt-0 opacity-100"
+      }`}
+    >
       <div className="border-y bg-gray-100 py-2 px-2">Traits</div>
       <div className="px-5">
         {previewLayer.map(

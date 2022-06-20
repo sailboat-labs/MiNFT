@@ -30,7 +30,7 @@ const TraitPreview: FC<AppProps> = ({
     >
       <div
         className={`${
-          active && ""
+          active && "border-[#30489C]"
         } relative w-fit rounded-lg border-2  bg-gray-50 transition-all duration-150 hover:cursor-pointer hover:border-[#30489C]`}
       >
         {removeTrait && (
