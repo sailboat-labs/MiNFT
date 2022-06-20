@@ -9,6 +9,7 @@ import { firebaseApp } from "@/lib/firebase";
 
 import TraitGroupNavigator from "@/components/layout/TraitGroupNavigator";
 import GenerateToken from "@/components/nft/GenerateToken";
+import PreviewLayers from "@/components/nft/PreviewLayers";
 import PropertyGroup from "@/components/nft/PropertyGroup";
 import TraitsSearchbar from "@/components/nft/TraitsSearchbar";
 
@@ -40,7 +41,9 @@ const Index = ({ router }: any) => {
   }: {
     groupName: string;
     traitIndex: number;
-  }): void {}
+  }): void {
+    console.log("handleTraitChanged");
+  }
 
   return (
     <>
@@ -49,10 +52,10 @@ const Index = ({ router }: any) => {
       </Head>
       <div className="flex">
         <TraitGroupNavigator />
-        <div className="h-screen w-[20%] overflow-y-auto overflow-x-hidden border-r">
+        <div className="h-screen w-[20%] overflow-hidden border-r">
           <TraitsSearchbar />
 
-          <div className="mt-0 h-[length:calc(100vh-0px)] flex-col gap-10 overflow-y-auto">
+          <div className="mt-0 h-[length:calc(100vh-55px)] flex-col gap-10 overflow-y-auto">
             {layersState && (
               <>
                 {layersState.layers.map((item: NFTLayer, index: number) => (
@@ -82,14 +85,11 @@ const Index = ({ router }: any) => {
           </section>
         </div>
         <div className="min-h-screen w-[20%] border-l">
-          <section className="box-border flex min-h-screen bg-white">
-            <div className="container mx-auto flex max-w-7xl items-start justify-between gap-8 p-12 px-4">
-              <section className="flex-1">
-                <div className="flex flex-col items-center gap-5">
-                  <GenerateToken />
-                </div>
-              </section>
+          <section className="container px-4">
+            <div className="p-12 px-4">
+              <GenerateToken />
             </div>
+            <PreviewLayers />
           </section>
         </div>
       </div>
