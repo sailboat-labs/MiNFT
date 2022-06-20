@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { createSlice } from "@reduxjs/toolkit";
 
 const layerStore = createSlice({
@@ -20,9 +21,12 @@ const layerStore = createSlice({
       );
       if (isLayerExists) {
         //Ignore the red lines
+
         state.previewLayers.find(
-          (layer) => layer.layer == payload.layer
-        ).element = payload.element;
+          (layer: any) => layer.layer == payload.layer
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+        )!.element = payload.element;
       } else {
         state.previewLayers.push(payload as never);
       }

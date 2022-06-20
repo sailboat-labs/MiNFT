@@ -1044,6 +1044,8 @@ export default function GenerateToken() {
                           className="flex flex-col gap-1"
                         >
                           <img
+                            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                            // @ts-ignore
                             src={token.file}
                             alt=""
                             className="h-52 w-52 cursor-pointer rounded-lg object-cover transition-all hover:scale-105"
