@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import Head from "next/head";
 import React from "react";
+import { useMoralis } from "react-moralis";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { getGeneratedImages } from "redux/reducers/selectors/layers";
@@ -15,7 +16,6 @@ import SelectFolder from "@/components/nft/SelectFolder";
 import { IGeneratedTokens } from "@/interfaces";
 
 import { NFTLayer } from "@/types";
-import { useMoralis } from "react-moralis";
 
 const Index = ({ router }: any) => {
   const dispatch = useDispatch();
@@ -129,7 +129,7 @@ const Index = ({ router }: any) => {
                       className="mb-5 flex flex-col gap-1"
                     >
                       <img
-                        src={token.file}
+                        src={URL.createObjectURL(token.file)}
                         alt=""
                         className="h-32 w-32 cursor-pointer rounded-lg object-cover transition-all hover:scale-105"
                       />

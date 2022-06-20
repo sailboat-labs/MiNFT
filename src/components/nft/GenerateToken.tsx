@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable no-async-promise-executor */
+import { IGeneratedTokens } from "@/interfaces";
 import { Dialog, Transition } from "@headlessui/react";
 import { createCanvas, loadImage } from "canvas";
 import chalk from "chalk";
@@ -12,7 +13,6 @@ import {
   clearGeneratedImages,
 } from "redux/reducers/slices/generated-images";
 
-import { IGeneratedTokens } from "@/interfaces";
 
 export default function GenerateToken() {
   const [selectedToken, setSelectedToken] = useState<IGeneratedTokens>();
@@ -943,18 +943,13 @@ export default function GenerateToken() {
       </div>
       <div
         onClick={() => {
-<<<<<<< HEAD
-=======
           // router.push("/nft/generate");
->>>>>>> main
           openModal();
         }}
         className="gradient-button mt-10"
       >
         View Generated Tokens
       </div>
-<<<<<<< HEAD
-=======
       <div
         onClick={() => {
           dispatch(clearGeneratedImages({}));
@@ -963,7 +958,6 @@ export default function GenerateToken() {
       >
         Clear Generated Tokens
       </div>
->>>>>>> main
 
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog
@@ -1050,7 +1044,7 @@ export default function GenerateToken() {
                           className="flex flex-col gap-1"
                         >
                           <img
-                            src={token.file}
+                            src={URL.createObjectURL(token.file)}
                             alt=""
                             className="h-52 w-52 cursor-pointer rounded-lg object-cover transition-all hover:scale-105"
                           />
