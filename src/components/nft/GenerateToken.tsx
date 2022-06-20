@@ -950,7 +950,6 @@ export default function GenerateToken() {
       const directoryHandle = await window.showDirectoryPicker(options);
 
       const files = await listAllFilesAndDirs(directoryHandle);
-      console.log("files", files);
       // startCreating();
 
       _layers = layers?.map((layer, layerIndex) => ({
@@ -975,7 +974,6 @@ export default function GenerateToken() {
       }));
 
       dispatch(setLayers(_layers));
-      console.log(_layers);
     } catch (e) {
       console.log(e);
     }
