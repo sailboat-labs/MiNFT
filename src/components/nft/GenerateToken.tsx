@@ -921,6 +921,14 @@ export default function GenerateToken() {
       >
         Generate Tokens
       </div>
+      <div
+        onClick={() => {
+          openModal();
+        }}
+        className="gradient-button mt-10"
+      >
+        View Generated Tokens
+      </div>
 
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog
