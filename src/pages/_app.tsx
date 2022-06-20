@@ -6,8 +6,10 @@ import { MoralisProvider } from "react-moralis";
 import { Provider } from "react-redux";
 import rootReducer from "redux/reducers";
 
-import "../styles/Styles.css";
-import "../styles/globals.css";
+import "@/styles/globals.css";
+import '@/styles/colors.css'
+import "@/styles/Styles.css";
+
 
 /**
  * !STARTERCONF info

@@ -2,7 +2,12 @@ import React from "react";
 
 import UnstyledLink from "../links/UnstyledLink";
 
-export default function Navbar() {
+type NavBarProps = {
+  title?: string;
+};
+
+export default function Navbar( { title }: NavBarProps) {
+
   return (
     // <div className="fixed ml-96 mt-12 w-full bg-white opacity-100">
     <div className="mt-12 w-full bg-white opacity-100">
@@ -32,11 +37,13 @@ export default function Navbar() {
           </UnstyledLink>
         </div>
 
-        <div className="mr-60 font-dmsans">
+        <div className="w-96 font-dmsans">
           <span className="pl-6 text-3xl font-bold text-gray-700">
-            Account Information
+            {title}
           </span>
         </div>
+
+        <span id="spacer" className='w-52'></span>
 
         <div className="ml-96 rounded-lg border border-gray-300 shadow">
           <UnstyledLink

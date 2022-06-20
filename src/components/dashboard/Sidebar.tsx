@@ -11,12 +11,15 @@ type SidebarProps = {
 export default function Sidebar({ currentPage }: SidebarProps) {
   const user = "Sarah Smith"; // Change this value to be dynamic after passing in props from Operations
 
+  const numNotifications = 5;
+
   const selectedPageStyles =
     "flex h-12 w-full items-center rounded-lg border-0 bg-white px-3 py-4 text-lg font-normal text-gray-500 shadow-none hover:bg-gray-200 hover:text-gray-500";
   const defaultStyles =
     "flex h-12 w-full items-center rounded-lg border-0 bg-gray-100 px-3 py-4 text-lg font-normal text-gray-500 shadow-none hover:bg-gray-200 hover:text-gray-500";
 
-  let [contractMaker, nftGenerator, projectBuilder, whiteList, support] = [
+  let [contractMaker, nftGenerator, projectBuilder, whiteList, support, registrations] = [
+    false,
     false,
     false,
     false,
@@ -34,13 +37,15 @@ export default function Sidebar({ currentPage }: SidebarProps) {
     whiteList = true;
   } else if (currentPage === "support") {
     support = true;
+  } else if (currentPage === "registrations") {
+    registrations = true;
   }
 
   return (
     <div className="mt-12 w-96 bg-gray-100 px-5 font-dmsans opacity-100 ">
       <div className="m-auto flex w-80 flex-col pt-5">
         <div className="box-border flex h-16 flex-row items-center pt-6">
-          <div className="h- h-20 w-24 rounded-full bg-indigo-800">
+          <div className="h-20 w-24 rounded-full bg-indigo-800">
             <ButtonLink
               href="#"
               className="m-0 flex h-full w-full items-center justify-center border-0 bg-transparent p-0 shadow-none"
@@ -61,10 +66,14 @@ export default function Sidebar({ currentPage }: SidebarProps) {
           </div>
 
           <div className="flex w-56 flex-col pt-1 pl-4 pr-7 font-dmsans">
-            <div className="text-lg font-normal text-gray-500">
+            <div className="text-base font-normal text-gray-500">
               Welcome back,
             </div>
-            <div className="text-2xl font-bold text-gray-600">{user}</div>
+            <div className="text-xl font-bold text-gray-600">{user}</div>
+          </div>
+
+          <div className='w-6 h-6 bg-red-700 '>
+            {numNotifications}
           </div>
 
           <ButtonLink
@@ -259,6 +268,49 @@ export default function Sidebar({ currentPage }: SidebarProps) {
             </svg>
           </ButtonLink>
         </div>
+
+        <div>
+          <ButtonLink
+            href="/dashboard/registrations"
+            className={
+              registrations
+                ? `mt-4 ${selectedPageStyles}`
+                : `mt-4 ${defaultStyles}`
+            }
+          >
+            <svg
+              className="ml-2 mr-4 h-6 w-6"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M15 11C14.447 11 14 11.448 14 12C14 13.103 13.103 14 12 14C10.897 14 10 13.103 10 12C10 11.448 9.553 11 9 11C8.447 11 8 11.448 8 12C8 14.206 9.794 16 12 16C14.206 16 16 14.206 16 12C16 11.448 15.553 11 15 11ZM18 19H6C5.448 19 5 18.551 5 18V9H19V18C19 18.551 18.552 19 18 19ZM8.121 5.293C8.308 5.107 8.565 5 8.828 5H15.172C15.435 5 15.692 5.107 15.879 5.293L17.586 7H6.414L8.121 5.293ZM20.121 6.707L17.293 3.879C16.727 3.312 15.973 3 15.172 3H8.828C8.027 3 7.273 3.312 6.707 3.879L3.879 6.707C3.312 7.273 3 8.027 3 8.829V18C3 19.654 4.346 21 6 21H18C19.654 21 21 19.654 21 18V8.829C21 8.027 20.688 7.273 20.121 6.707Z"
+                fill="#757D8A"
+              />
+            </svg>
+            <span className="w-52">Registrations</span>
+            <svg
+              className="h-6 w-6"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M3.94831 6H20.0513C20.5733 6 21.0003 6.427 21.0003 6.949V7.051C21.0003 7.573 20.5733 8 20.0513 8H3.94831C3.42631 8 3.00031 7.573 3.00031 7.051V6.949C3.00031 6.427 3.42631 6 3.94831 6ZM20.0513 11H3.94831C3.42631 11 3.00031 11.427 3.00031 11.949V12.051C3.00031 12.573 3.42631 13 3.94831 13H20.0513C20.5733 13 21.0003 12.573 21.0003 12.051V11.949C21.0003 11.427 20.5733 11 20.0513 11ZM20.0513 16H3.94831C3.42631 16 3.00031 16.427 3.00031 16.949V17.051C3.00031 17.573 3.42631 18 3.94831 18H20.0513C20.5733 18 21.0003 17.573 21.0003 17.051V16.949C21.0003 16.427 20.5733 16 20.0513 16Z"
+                fill="#757D8A"
+              />
+            </svg>
+          </ButtonLink>
+        </div>
       </div>
 
       <div id="Spacer-Div" className="h-80"></div>
@@ -268,7 +320,7 @@ export default function Sidebar({ currentPage }: SidebarProps) {
         <div>
           <ButtonLink
             href="/support"
-            className="ml-4 flex h-12 w-80 items-center rounded-lg border-0 bg-gray-100 text-lg font-normal text-gray-500 shadow-none hover:bg-gray-200 hover:text-gray-500"
+            className="ml-4 flex h-12 w-72 items-center rounded-lg border-0 bg-gray-100 text-lg font-normal text-gray-500 shadow-none hover:bg-gray-200 hover:text-gray-500"
           >
             <svg
               className="mr-4 h-6 w-6"
@@ -293,7 +345,7 @@ export default function Sidebar({ currentPage }: SidebarProps) {
           <ButtonLink
             href="/sign-out"
             // className="bg-currentColor flex h-12 w-72 flex-row items-center border-0 text-lg font-normal text-gray-500 shadow-none hover:bg-gray-200 hover:text-gray-500"
-            className="ml-4 mb-12 flex h-12 w-80 items-center rounded-lg border-0 bg-gray-100 text-lg font-normal text-gray-500 shadow-none hover:bg-gray-200 hover:text-gray-500"
+            className="ml-4 mb-12 flex h-12 w-72 items-center rounded-lg border-0 bg-gray-100 text-lg font-normal text-gray-500 shadow-none hover:bg-gray-200 hover:text-gray-500"
           >
             <svg
               className="mr-4 h-6 w-6"
