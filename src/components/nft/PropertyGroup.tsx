@@ -2,6 +2,8 @@
 
 import { getFirestore } from "firebase/firestore";
 import React, { FC, useRef, useState } from "react";
+import { useSelector } from "react-redux";
+import { getPreviewLayers } from "redux/reducers/selectors/layers";
 
 import { firebaseApp } from "@/lib/firebase";
 
@@ -24,6 +26,8 @@ const PropertyGroup: FC<AppProps> = ({ name, onChange, elements }) => {
   // const { account, logout, isAuthenticated } = useMoralis();
   const accordionContent = useRef<HTMLDivElement | null>(null);
   const [collapsed, setCollapsed] = useState<boolean>(false);
+
+  const previewLayers = useSelector(getPreviewLayers);
 
   return (
     <div id={`trait-group-${name}`}>
@@ -62,7 +66,12 @@ const PropertyGroup: FC<AppProps> = ({ name, onChange, elements }) => {
               file={element}
               traitIndex={index}
               // onSelect={(traitIndex) => onChange({ traitIndex, groupName: name })}
-              active={false}
+              active={
+                previewLayers.find(
+                  (layer: { layer: string; element: string }) =>
+                    layer.layer == name
+                )?.element == element.path
+              }
             />
           ))}
         </div>
