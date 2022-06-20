@@ -1,21 +1,11 @@
 //Property Group
 
-import {
-  collection,
-  DocumentData,
-  getFirestore,
-  query,
-  where,
-} from "firebase/firestore";
-import React, { FC, useEffect, useRef, useState } from "react";
-import { useCollectionData } from "react-firebase-hooks/firestore";
+import { getFirestore } from "firebase/firestore";
+import React, { FC, useRef, useState } from "react";
 
 import { firebaseApp } from "@/lib/firebase";
 
 import TraitPreview from "./TraitPreview";
-import UploadElement from "../pages/nft/token_generator/upload_element";
-
-import { IElement } from "@/types";
 
 interface AppProps {
   name: string;
@@ -29,30 +19,6 @@ interface AppProps {
   }) => void;
 }
 const firestore = getFirestore(firebaseApp);
-
-const PropertyGroup: FC<AppProps> = ({ name, onChange }) => {
-  const address = "francis";
-  const collectionName = "nozo";
-
-  const [elements, setElements] = useState<IElement[]>([]);
-
-  const _query = query(
-    collection(firestore, "art-engine/francis/nozo/input/elements"),
-    where("trait", "==", name)
-  );
-  const [snapshots, loading] = useCollectionData(_query);
-
-  useEffect(() => {
-    if (loading) return;
-    if (!snapshots) return;
-
-    const data = snapshots.reduce((acc: IElement[], curr: DocumentData) => {
-      acc.push(curr as IElement);
-      return acc;
-    }, []);
-
-    setElements(data);
-  }, [loading, snapshots]);
 
 const PropertyGroup: FC<AppProps> = ({ name, onChange, elements }) => {
   // const { account, logout, isAuthenticated } = useMoralis();
