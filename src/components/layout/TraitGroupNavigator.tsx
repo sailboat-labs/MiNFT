@@ -30,7 +30,7 @@ const TraitGroupNavigator: FC<Props> = () => {
   return (
     <nav
       aria-label="traits-navbar"
-      className="h-screen w-[200px] overflow-y-auto overflow-x-hidden bg-[#085E7D] text-white"
+      className="h-screen w-[200px] rounded-r-lg bg-gradient-to-b from-cyan-500 via-cyan-500 to-blue-500 "
     >
       <div className="flex w-full items-center justify-center p-4">
         <Link href="/" passHref>
@@ -50,7 +50,7 @@ const TraitGroupNavigator: FC<Props> = () => {
             key={groupName + index}
           >
             {isActive(`#trait-group-${groupName}`) && (
-              <div className="pointer-events-none absolute bottom-full left-0 h-2 w-full bg-white before:absolute before:h-full before:w-full before:rounded-br-full before:bg-[#085E7D]"></div>
+              <div className="pointer-events-none absolute bottom-full left-0 h-2 w-full bg-white before:absolute before:h-full before:w-full before:rounded-br-full before:bg-cyan-500"></div>
             )}
             <a
               href={`#trait-group-${groupName}`}
@@ -60,7 +60,7 @@ const TraitGroupNavigator: FC<Props> = () => {
               {groupName.charAt(0).toUpperCase().concat(groupName.slice(1))}
             </a>
             {isActive(`#trait-group-${groupName}`) && (
-              <div className="pointer-events-none absolute top-full left-0 h-2 w-full bg-white before:absolute before:h-full before:w-full before:rounded-tr-full before:bg-[#085E7D]"></div>
+              <div className="pointer-events-none absolute top-full left-0 h-2 w-full bg-white before:absolute before:h-full before:w-full before:rounded-tr-full before:bg-cyan-500"></div>
             )}
           </li>
         ))}
