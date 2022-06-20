@@ -1,6 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable no-async-promise-executor */
-import { IGeneratedTokens } from "@/interfaces";
 import { Dialog, Transition } from "@headlessui/react";
 import { createCanvas, loadImage } from "canvas";
 import chalk from "chalk";
@@ -13,6 +12,7 @@ import {
   clearGeneratedImages,
 } from "redux/reducers/slices/generated-images";
 
+import { IGeneratedTokens } from "@/interfaces";
 
 export default function GenerateToken() {
   const [selectedToken, setSelectedToken] = useState<IGeneratedTokens>();
@@ -1044,7 +1044,7 @@ export default function GenerateToken() {
                           className="flex flex-col gap-1"
                         >
                           <img
-                            src={URL.createObjectURL(token.file)}
+                            src={token.file}
                             alt=""
                             className="h-52 w-52 cursor-pointer rounded-lg object-cover transition-all hover:scale-105"
                           />
