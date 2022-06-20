@@ -12,20 +12,21 @@ export default function Sidebar({ currentPage }: SidebarProps) {
   const user = "Sarah Smith"; // Change this value to be dynamic after passing in props from Operations
 
   const numNotifications = 5;
+  const numRegistrations = 8;
 
   const selectedPageStyles =
     "flex h-12 w-full items-center rounded-lg border-0 bg-white px-3 py-4 text-lg font-normal text-gray-500 shadow-none hover:bg-gray-200 hover:text-gray-500";
   const defaultStyles =
     "flex h-12 w-full items-center rounded-lg border-0 bg-gray-100 px-3 py-4 text-lg font-normal text-gray-500 shadow-none hover:bg-gray-200 hover:text-gray-500";
 
-  let [contractMaker, nftGenerator, projectBuilder, whiteList, support, registrations] = [
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-  ];
+  let [
+    contractMaker,
+    nftGenerator,
+    projectBuilder,
+    whiteList,
+    support,
+    registrations,
+  ] = [false, false, false, false, false, false];
 
   if (currentPage === "contract-maker") {
     contractMaker = true;
@@ -45,7 +46,7 @@ export default function Sidebar({ currentPage }: SidebarProps) {
     <div className="mt-12 w-96 bg-gray-100 px-5 font-dmsans opacity-100 ">
       <div className="m-auto flex w-80 flex-col pt-5">
         <div className="box-border flex h-16 flex-row items-center pt-6">
-          <div className="h-20 w-24 rounded-full bg-indigo-800">
+          <div className="h-16 w-20 rounded-full bg-indigo-800">
             <ButtonLink
               href="#"
               className="m-0 flex h-full w-full items-center justify-center border-0 bg-transparent p-0 shadow-none"
@@ -65,14 +66,14 @@ export default function Sidebar({ currentPage }: SidebarProps) {
             </ButtonLink>
           </div>
 
-          <div className="flex w-56 flex-col pt-1 pl-4 pr-7 font-dmsans">
+          <div className="flex w-52 flex-col pt-1 pl-4 pr-4 font-dmsans">
             <div className="text-base font-normal text-gray-500">
               Welcome back,
             </div>
             <div className="text-xl font-bold text-gray-600">{user}</div>
           </div>
 
-          <div className='w-6 h-6 bg-red-700 '>
+          <div className="mr-3 flex h-6 w-8 items-center justify-center rounded-full bg-red-500 font-dmsans text-white">
             {numNotifications}
           </div>
 
@@ -293,7 +294,10 @@ export default function Sidebar({ currentPage }: SidebarProps) {
                 fill="#757D8A"
               />
             </svg>
-            <span className="w-52">Registrations</span>
+            <span className='w-40'>Registrations</span>
+            <div className="mx-3 flex h-6 w-6 items-center justify-center rounded-full bg-blue-500 font-dmsans text-white">
+              {numRegistrations}
+            </div>
             <svg
               className="h-6 w-6"
               width="24"
@@ -314,7 +318,7 @@ export default function Sidebar({ currentPage }: SidebarProps) {
       </div>
 
       <div id="Spacer-Div" className="h-80"></div>
-      <div id="Spacer-Div" className="h-52"></div>
+      <div id="Spacer-Div" className={whiteList ? 'hidden' : "h-32"}></div>
 
       <div>
         <div>

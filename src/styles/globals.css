@@ -164,6 +164,7 @@
 /* Track */
 ::-webkit-scrollbar-track {
   background: #f1f1f1;
+  @apply rounded-full;
 }
 
 /* Handle */
@@ -180,7 +181,9 @@
 input[id="emailInput"]:focus,
 input[id="firstname"]:focus,
 input[id="secondname"]:focus,
-input[id="twitterAccountInput"]:focus {
+input[id="twitterAccountInput"]:focus, 
+input[id="twitterAccount"]:focus,
+input[id="walletNumber"]:focus {
   border-width: 0px;
   outline: 0;
   -webkit-appearance: none;
