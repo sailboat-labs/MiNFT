@@ -16,7 +16,7 @@ export default function SelectedTraits() {
 
   return (
     <div
-      className={`flex pl-3 pt-20 transition-all  ${
+      className={`flex pl-3 pt-0 transition-all  ${
         previewLayer.length < 1
           ? "pointer-events-none -mt-14 opacity-0"
           : "pointer-events-auto mt-0 opacity-100"

@@ -2,7 +2,7 @@
 import { arrayMoveImmutable } from "array-move";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setLayers } from "redux/reducers/slices/layers";
+import { setLayerOrder } from "redux/reducers/slices/layers";
 
 import { Trait } from "@/interfaces/get-started";
 
@@ -23,7 +23,7 @@ const NFTLayering = () => {
     newIndex: number;
   }) {
     setTraits(arrayMoveImmutable(traits, oldIndex, newIndex));
-    dispatch(setLayers(traits));
+    dispatch(setLayerOrder(traits));
   }
 
   useEffect(() => {
@@ -71,25 +71,10 @@ const NFTLayering = () => {
             </div>
             <strong className="mt-5 mb-1 block">Attributes</strong>
             <div className="max-h-[400px] overflow-y-auto">
-              <SortableList
-                // items={layersState.layers}
-                onSortEnd={onSortEnd}
-                // setTraits={setTraits}
-              />
+              <SortableList onSortEnd={onSortEnd} />
             </div>
           </div>
         </article>
-        <div className="flex h-[350px] w-[350px] items-center justify-center rounded-xl bg-gray-100">
-          {/* {preview.map((url, index) => (
-            <div key={index}>
-              <img
-                src={url}
-                alt=""
-                className="absolute w-96 rounded-b-lg object-cover"
-              />
-            </div>
-          ))} */}
-        </div>
       </div>
     </div>
   );

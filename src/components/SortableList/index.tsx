@@ -1,43 +1,23 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { SortableContainer } from "react-sortable-hoc";
+import { getLayerOrder } from "redux/reducers/selectors/layers";
 
 import { Trait } from "@/interfaces/get-started";
 
 import SortableItem from "./SortableItem";
 
-interface AppProps {
-  items: any[];
-  setTraits: (traits: Trait[]) => void;
-}
-
-const SortableList = SortableContainer(({ items, setTraits }: AppProps) => {
-  /**
-   * toggles a specific trait
-   *
-   * @param {number} id - id of trait
-   * @returns {undefined}
-   */
-  function toggleTrait(id: number): void {
-    const temp = [...items];
-    const traitIndex = temp.findIndex((item) => item.id === id);
-    temp[traitIndex] = {
-      ...temp[traitIndex],
-      enabled: !temp[traitIndex].enabled,
-    };
-
-    setTraits(temp);
-  }
+const SortableList = SortableContainer(() => {
+  const layerOrder = useSelector(getLayerOrder);
 
   return (
     <ul>
-      {items.map((item: Trait, index: number) => (
+      {layerOrder.map((item: Trait, index: number) => (
         <SortableItem
           enabled={item.enabled}
-          toggleTrait={toggleTrait}
           key={item.id}
           id={item.id}
           value={item.name}
-          elementLength={item.elements.length}
         />
       ))}
     </ul>

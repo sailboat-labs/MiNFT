@@ -27,20 +27,12 @@ const Index = ({ router }: any) => {
   const layersState = store.layersReducer;
   const generatedImagesState = store.generatedImagesReducer;
 
-  /**
-   * handles change in a property group trait
-   *
-   * @param {Object.<string, string|number>} param0 - object of group name and traitIndex
-   */
-  function handleTraitChanged({
-    groupName,
-    traitIndex,
-  }: {
-    groupName: string;
-    traitIndex: number;
-  }): void {
-    //
-  }
+  const tabs: { label: string; route: string }[] = [
+    { label: "Preview", route: "" },
+    { label: "Manage", route: "" },
+    { label: "Settings", route: "" },
+    { label: "Generate", route: "" },
+  ];
 
   return (
     <>
@@ -48,6 +40,25 @@ const Index = ({ router }: any) => {
         <title>Manage</title>
       </Head>
       <SelectFolder />
+      {/* <div className="flex w-full justify-between py-5 px-5">
+        <Link href="/" passHref>
+          <span className="flex cursor-pointer select-none items-center justify-center text-xl font-black leading-none  text-black">
+            MiNFT<span className="text-[#FFD32D]">.</span>
+          </span>
+        </Link>
+        <div className="flex gap-5">
+          {tabs.map((tab, index) => (
+            <div key={index} className="rounded-2xl border px-5 py-2">
+              {tab.label}
+            </div>
+          ))}
+        </div>
+        <Link href="/" passHref>
+          <span className="flex cursor-pointer select-none items-center justify-center text-xl font-black leading-none  text-black">
+            MiNFT<span className="text-[#FFD32D]">.</span>
+          </span>
+        </Link>
+      </div> */}
       <div className="flex">
         <TraitGroupNavigator />
         <div className="h-screen w-[20%] overflow-y-auto overflow-x-hidden border-r">
@@ -59,7 +70,6 @@ const Index = ({ router }: any) => {
                 {layersState.layers.map((item: NFTLayer, index: number) => (
                   <PropertyGroup
                     key={index}
-                    onChange={handleTraitChanged}
                     name={item.name}
                     elements={
                       layersState.layers.find(
@@ -79,7 +89,7 @@ const Index = ({ router }: any) => {
               <section className="flex-1">
                 <div className="flex flex-col justify-between gap-5">
                   <SelectedTraits />
-                  {/* <Generate /> */}
+                  {/* <NFTLayering /> */}
                 </div>
               </section>
             </div>

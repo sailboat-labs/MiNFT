@@ -12,7 +12,7 @@ import TraitPreview from "./TraitPreview";
 interface AppProps {
   name: string;
   elements: any[];
-  onChange: ({
+  onChange?: ({
     groupName,
     traitIndex,
   }: {
