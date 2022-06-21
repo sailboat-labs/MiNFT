@@ -730,6 +730,8 @@ export default function GenerateToken() {
     layerData: any,
     passedAbstractedIndexes: any
   ) => {
+    debugLogs && console.log("LayerData", renderObjectArray);
+
     debugLogs ? console.log("\nClearing canvas") : null;
     canvasContext.clearRect(0, 0, format.width, format.height);
 
@@ -750,7 +752,7 @@ export default function GenerateToken() {
       );
     });
     const image = canvas.toDataURL();
-    outputFiles(abstractedIndexes, layerData, image);
+    outputFiles(abstractedIndexes, layerData, image, renderObjectArray);
 
     // dispatch(addGeneratedImage(image));
     // setImages([...images, image]);
@@ -803,7 +805,8 @@ export default function GenerateToken() {
   const outputFiles = (
     abstractedIndexes: any[],
     layerData: any,
-    image: any
+    image: any,
+    renderObjectArray: any[]
   ) => {
     const { newDna, layerConfigIndex } = layerData;
     // Save the canvas buffer to file
@@ -820,6 +823,7 @@ export default function GenerateToken() {
       createdOn: new Date().toISOString(),
       file: image,
       edition: abstractedIndexes[0],
+      renderObjects: renderObjectArray.map((item) => item.layer),
       metadata: metadataList.find(
         (meta: { edition: any }) => meta.edition == abstractedIndexes[0]
       ),

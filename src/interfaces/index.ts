@@ -3,6 +3,7 @@ export interface ILayer {
   name: string;
   blendmode: string;
   opacity: 1;
+  elements: IElement[];
   bypassDNA: boolean;
 }
 
@@ -11,6 +12,7 @@ export interface IGeneratedTokens {
   file: File;
   edition: number;
   metadata: IMetadata;
+  renderObjects: IElement[];
 }
 
 export interface IMetadata {

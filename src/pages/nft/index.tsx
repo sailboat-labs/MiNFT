@@ -8,6 +8,7 @@ import { getGeneratedImages } from "redux/reducers/selectors/layers";
 
 import TraitGroupNavigator from "@/components/layout/TraitGroupNavigator";
 import Generate from "@/components/nft/Generate";
+import GeneratedToken from "@/components/nft/GeneratedToken";
 import NFTPreview from "@/components/nft/NFTPreview";
 import PropertyGroup from "@/components/nft/PropertyGroup";
 import SelectedTraits from "@/components/nft/SelectedTraits";
@@ -120,25 +121,7 @@ const Index = ({ router }: any) => {
                 {generatedTokens
                   .filter((token, index) => index < 40)
                   .map((token, index) => (
-                    <div
-                      onClick={() => {
-                        // setSelectedToken(token);
-                        console.log(token);
-                      }}
-                      key={index}
-                      className="mb-5 flex flex-col gap-1"
-                    >
-                      <img
-                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                        // @ts-ignore
-                        src={token.file}
-                        alt=""
-                        className="h-32 w-32 cursor-pointer rounded-lg object-cover transition-all hover:scale-105"
-                      />
-                      <div className="text-sm text-gray-500">
-                        Nozomix #{token.edition}
-                      </div>
-                    </div>
+                    <GeneratedToken key={index} token={token} />
                   ))}
               </div>
             </div>
