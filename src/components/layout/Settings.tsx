@@ -53,7 +53,11 @@ const SettingsLayout: FC<AppProps> = ({ children }) => {
             <strong>Settings</strong>
           </div>
           <Link href="/settings">
-            <a className="flex w-full gap-2 p-4 text-left hover:bg-gray-100">
+            <a
+              className={`flex w-full gap-2 p-4 text-left hover:bg-gray-100 ${
+                router.asPath === "/settings" && "bg-gray-100"
+              }`}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6"
@@ -80,7 +84,11 @@ const SettingsLayout: FC<AppProps> = ({ children }) => {
             </a>
           </Link>
           <Link href="/settings/weighting">
-            <a className="flex w-full gap-2 p-4 text-left hover:bg-gray-100">
+            <a
+              className={`flex w-full gap-2 p-4 text-left hover:bg-gray-100 ${
+                router.asPath === "/settings/weighting" && "bg-gray-100"
+              }`}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6"
@@ -102,7 +110,11 @@ const SettingsLayout: FC<AppProps> = ({ children }) => {
             </a>
           </Link>
           <Link href="/settings/output">
-            <a className="flex w-full gap-2 p-4 text-left hover:bg-gray-100">
+            <a
+              className={`flex w-full gap-2 p-4 text-left hover:bg-gray-100 ${
+                router.asPath === "/settings/output" && "bg-gray-100"
+              }`}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6"
