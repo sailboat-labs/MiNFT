@@ -109,7 +109,7 @@ const OutputSettingsPage = () => {
                               className={({ active }) =>
                                 `relative cursor-default select-none py-2 pl-10 pr-4 ${
                                   active
-                                    ? "bg-[#085E7D] text-amber-900"
+                                    ? "bg-[#085e7d2c] text-[#085E7D]"
                                     : "text-gray-900"
                                 }`
                               }
@@ -130,7 +130,7 @@ const OutputSettingsPage = () => {
                                         xmlns="http://www.w3.org/2000/svg"
                                         className="h-5 w-5"
                                         viewBox="0 0 20 20"
-                                        fill="gray"
+                                        fill="#085E7D"
                                       >
                                         <path
                                           fillRule="evenodd"
