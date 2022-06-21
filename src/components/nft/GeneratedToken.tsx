@@ -66,7 +66,7 @@ export default function GeneratedToken({ token }: props) {
                       // @ts-ignore
                       src={token.file}
                       alt=""
-                      className="h-72 w-72  rounded-lg object-cover"
+                      className=" h-96 w-96  rounded-lg object-cover"
                     />
                     <div>
                       <div className="text-gray-500">Nozomix</div>
@@ -82,7 +82,7 @@ export default function GeneratedToken({ token }: props) {
                             key={index}
                             className="rounded-xl border bg-gray-50 p-3"
                           >
-                            <div className="text=gray-500 text-sm">
+                            <div className="text=gray-500 text-xs">
                               {object.trait}
                             </div>
                             <div>{object.filename?.split(".")[0]}</div>

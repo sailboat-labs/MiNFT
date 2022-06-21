@@ -74,12 +74,11 @@ export default function GenerateToken() {
   const outputJPEG = false; // if false, the generator outputs png's
 
   const format = {
-    width: 1024,
-    height: 1024,
+    width: 512,
+    height: 512,
     weight: 1,
     smoothing: true, // set to false when up-scaling pixel art.
   };
-  const _layers: any[] = [];
 
   const canvas = createCanvas(format.width, format.height);
   const ctxMain = canvas.getContext("2d");
@@ -941,27 +940,33 @@ export default function GenerateToken() {
 
           startCreating();
         }}
-        className="gradient-button mt-10"
+        className="mt-10 flex cursor-pointer items-center gap-3 rounded-lg bg-white px-5 py-2 transition-all hover:scale-105"
       >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          strokeWidth="2"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M13 10V3L4 14h7v7l9-11h-7z"
+          />
+        </svg>
         Generate Tokens
       </div>
-      <div
-        onClick={() => {
-          // router.push("/nft/generate");
-          openModal();
-        }}
-        className="gradient-button mt-10"
-      >
-        View Generated Tokens
-      </div>
-      <div
+
+      {/* <div
         onClick={() => {
           dispatch(clearGeneratedImages({}));
         }}
         className="gradient-button mt-10"
       >
         Clear Generated Tokens
-      </div>
+      </div> */}
 
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog

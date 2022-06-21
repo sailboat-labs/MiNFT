@@ -3,6 +3,8 @@ import React, { FC, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { getLayers, getTraitGroups } from "redux/reducers/selectors/layers";
 
+import Generate from "../nft/Generate";
+
 type Props = {
   name?: string;
 };
@@ -30,7 +32,7 @@ const TraitGroupNavigator: FC<Props> = () => {
   return (
     <nav
       aria-label="traits-navbar"
-      className="h-screen w-[200px] rounded-r-lg bg-gradient-to-b from-cyan-500 via-cyan-500 to-blue-500 "
+      className="h-screen w-[300px] rounded-r-lg bg-gradient-to-b from-cyan-500 via-cyan-500 to-blue-500 "
     >
       <div className="flex w-full items-center justify-center p-4">
         <Link href="/" passHref>
@@ -41,6 +43,8 @@ const TraitGroupNavigator: FC<Props> = () => {
       </div>
       {/* <FolderUploader /> */}
       <ul className="mt-10">
+        <Generate />
+
         {traitGroups.map((groupName: string, index: number) => (
           <li
             className={`relative my-2 ml-2 rounded-tl-full rounded-bl-full  text-sm font-medium text-white transition-all duration-100 hover:bg-[#0d7ba3]  ${

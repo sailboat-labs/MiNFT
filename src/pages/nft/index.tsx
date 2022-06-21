@@ -7,9 +7,7 @@ import { useDispatch } from "react-redux";
 import { getGeneratedImages } from "redux/reducers/selectors/layers";
 
 import TraitGroupNavigator from "@/components/layout/TraitGroupNavigator";
-import Generate from "@/components/nft/Generate";
 import GeneratedToken from "@/components/nft/GeneratedToken";
-import NFTPreview from "@/components/nft/NFTPreview";
 import PropertyGroup from "@/components/nft/PropertyGroup";
 import SelectedTraits from "@/components/nft/SelectedTraits";
 import SelectFolder from "@/components/nft/SelectFolder";
@@ -75,24 +73,20 @@ const Index = ({ router }: any) => {
           </div>
         </div>
 
-        <div className="min-h-screen w-[20%] border-r">
+        <div className="min-h-screen w-[40%] border-r">
           <section className="box-border flex min-h-screen bg-white">
             <div className="container mx-auto flex max-w-7xl items-start justify-between gap-8">
               <section className="flex-1">
                 <div className="flex flex-col justify-between gap-5">
                   <SelectedTraits />
-                  <Generate />
+                  {/* <Generate /> */}
                 </div>
               </section>
             </div>
           </section>
         </div>
-        <div className="mt-0 min-h-screen w-[60%]">
-          <section className="grid grid-cols-2 px-0">
-            <div className="flex w-full justify-center">
-              <NFTPreview className="mt-20" />
-            </div>
-
+        <div className="mt-0 min-h-screen w-[40%]">
+          <section className=" px-0">
             <div
               className={`border-l pt-5 pl-5 pr-0 transition-all duration-200 ${
                 generatedTokens.length > 0
@@ -117,7 +111,7 @@ const Index = ({ router }: any) => {
                 </svg>
                 <span className="text-xl">Generated Images</span>
               </div>
-              <div className="grid h-[length:calc(100vh-3.9rem)] w-full  grid-cols-4 flex-col gap-3 overflow-y-auto pt-5 ">
+              <div className="grid h-[length:calc(100vh-3.9rem)] w-full  grid-cols-5 flex-col gap-3 overflow-y-auto pt-5 ">
                 {generatedTokens
                   .filter((token, index) => index < 40)
                   .map((token, index) => (
