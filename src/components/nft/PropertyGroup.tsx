@@ -35,8 +35,8 @@ const PropertyGroup: FC<AppProps> = ({ name, onChange, elements }) => {
         className="flex items-center justify-between bg-white"
         onClick={() => setCollapsed(!collapsed)}
       >
-        <div className="flex w-full items-center gap-4 border-y bg-gray-100 py-2">
-          <div className=" flex items-center gap-2 rounded-md   pl-4 text-base ">
+        <div className="mt-5 flex w-full items-center  gap-4 py-2">
+          <div className="flex items-center gap-2 rounded-md   bg-[#30489C] px-4 py-1 text-base text-white">
             {name}
           </div>
           <span className="text-sm text-gray-700">
@@ -58,7 +58,9 @@ const PropertyGroup: FC<AppProps> = ({ name, onChange, elements }) => {
         className="overflow-y-hidden transition-all  duration-200"
         ref={accordionContent}
       >
-        <div className={`mt-5 flex flex-wrap gap-6 rounded-md p-6 `}>
+        <div
+          className={`mt-5 flex flex-wrap gap-6 rounded-md border-2 bg-gray-100 p-6 `}
+        >
           {elements.map((element: any, index: number) => (
             <TraitPreview
               key={index}

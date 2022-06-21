@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import Head from "next/head";
+import Link from "next/link";
 import React from "react";
 import { useMoralis } from "react-moralis";
 import { useSelector } from "react-redux";
@@ -40,7 +41,7 @@ const Index = ({ router }: any) => {
         <title>Manage</title>
       </Head>
       <SelectFolder />
-      {/* <div className="flex w-full justify-between py-5 px-5">
+      <div className="flex w-full justify-between py-5 px-5">
         <Link href="/" passHref>
           <span className="flex cursor-pointer select-none items-center justify-center text-xl font-black leading-none  text-black">
             MiNFT<span className="text-[#FFD32D]">.</span>
@@ -58,7 +59,7 @@ const Index = ({ router }: any) => {
             MiNFT<span className="text-[#FFD32D]">.</span>
           </span>
         </Link>
-      </div> */}
+      </div>
       <div className="flex">
         <TraitGroupNavigator />
         <div className="h-screen w-[20%] overflow-y-auto overflow-x-hidden border-r">

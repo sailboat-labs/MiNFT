@@ -934,13 +934,19 @@ export default function GenerateToken() {
 
   return (
     <div>
+      <div className="mt-5 rounded-lg bg-[#30489C] px-5 py-3">
+        <div className="text-white">Collection Size</div>
+        <div className="mt-2 rounded-lg bg-white">
+          <input placeholder="Supply" className="bg-transparent px-5 py-2" />
+          <span className="text-[#30489C]">Max</span>
+        </div>
+      </div>
       <div
         onClick={() => {
           dispatch(clearGeneratedImages({}));
-
           startCreating();
         }}
-        className="mt-10 flex cursor-pointer items-center gap-3 rounded-lg bg-white px-5 py-2 transition-all hover:scale-105"
+        className="mt-5 flex w-full cursor-pointer items-center justify-center gap-3 rounded-lg border-2 border-[#30489C] bg-white px-5 py-2 text-[#30489C] transition-all hover:scale-105"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
