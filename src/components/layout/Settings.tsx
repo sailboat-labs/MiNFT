@@ -15,11 +15,28 @@ const SettingsLayout: FC<AppProps> = ({ children }) => {
     <main>
       <div className="flex h-screen overflow-y-hidden">
         <section className="h-screen w-[200px] overflow-y-auto overflow-x-hidden bg-[#085E7D] text-white">
-          <NavTab>
-            <div className="px-4 py-3" onClick={() => router.push("/nft")}>
+          <button
+            className="group flex items-center gap-2 px-4 py-3"
+            onClick={() => router.push("/nft")}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6 translate-x-2 opacity-0 transition-all delay-150 duration-150 group-hover:translate-x-0 group-hover:opacity-100"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M7 16l-4-4m0 0l4-4m-4 4h18"
+              />
+            </svg>
+            <span className="-translate-x-8 duration-150 group-hover:translate-x-0">
               Back
-            </div>
-          </NavTab>
+            </span>
+          </button>
           <NavTab active={activeTab === "settings"}>
             <div className="px-4 py-3" onClick={() => router.push("/settings")}>
               Settings

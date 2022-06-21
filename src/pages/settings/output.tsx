@@ -1,21 +1,41 @@
 import { Listbox, Transition } from "@headlessui/react";
+import { useFormik } from "formik";
 import React, { Fragment, ReactElement, useState } from "react";
+import * as Yup from "yup";
 
 import BaseRadio from "@/components/input-controls/BaseRadio";
 import SettingsLayout from "@/components/layout/Settings";
 
 const formats = [
-  { id: 1, name: "Durward Reynolds", unavailable: false },
-  { id: 2, name: "Kenton Towne", unavailable: false },
-  { id: 3, name: "Therese Wunsch", unavailable: false },
-  { id: 4, name: "Benedict Kessler", unavailable: true },
-  { id: 5, name: "Katelyn Rohan", unavailable: false },
+  { id: 1, name: "PNG" },
+  { id: 2, name: "JPEG" },
 ];
 
-const qualities = [];
+const qualities = [
+  { percentage: 20, name: "Very Low" },
+  { percentage: 40, name: "Low" },
+  { percentage: 60, name: "Medium" },
+  { percentage: 80, name: "High" },
+  { percentage: 100, name: "Full" },
+];
 
 const OutputSettingsPage = () => {
   const [selectedFormat, setSelectedFormat] = useState(formats[0]);
+  const [selectedQuality, setSelectedQuality] = useState(qualities[0]);
+
+  const formik = useFormik({
+    initialValues: {
+      width: 0,
+      height: 0,
+    },
+    validationSchema: Yup.object({
+      width: Yup.number().required("width is required"),
+      height: Yup.number().required("height is required"),
+    }),
+    onSubmit: (values, helpers) => {
+      console.log("submitting output", values);
+    },
+  });
 
   return (
     <section className="flex-1 overflow-y-auto bg-gray-100">
@@ -89,7 +109,7 @@ const OutputSettingsPage = () => {
                               className={({ active }) =>
                                 `relative cursor-default select-none py-2 pl-10 pr-4 ${
                                   active
-                                    ? "bg-amber-100 text-amber-900"
+                                    ? "bg-[#085E7D] text-amber-900"
                                     : "text-gray-900"
                                 }`
                               }
@@ -131,7 +151,10 @@ const OutputSettingsPage = () => {
                 </div>
               </div>
             </div>
-            <div className="mt-6 grid grid-cols-2 items-start gap-6">
+            <form
+              onSubmit={formik.handleSubmit}
+              className="mt-6 grid grid-cols-2 items-start gap-6"
+            >
               <div className="flex flex-col">
                 <label className="mb-2 font-medium" htmlFor="width">
                   Width
@@ -144,17 +167,17 @@ const OutputSettingsPage = () => {
                 </label>
                 <input type="text" className="flex-1 rounded-lg" />
               </div>
-            </div>
+            </form>
           </div>
           <div className="py-10">
             <h4>Preview</h4>
             <p>Lower preview quality will make updates quicker</p>
-            <div className="relative w-full">
-              <Listbox value={selectedFormat} onChange={setSelectedFormat}>
+            <div className="relative w-1/3">
+              <Listbox value={selectedQuality} onChange={setSelectedQuality}>
                 <div className="relative mt-1">
                   <Listbox.Button className="relative w-full cursor-default rounded-lg  border border-gray-400 bg-gray-100 py-2 pl-3 pr-10 text-left transition-all duration-100 hover:bg-gray-200 focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
                     <span className="block truncate">
-                      {selectedFormat.name}
+                      {selectedQuality.name} ({selectedQuality.percentage}%)
                     </span>
                     <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                       <svg
@@ -178,26 +201,28 @@ const OutputSettingsPage = () => {
                     leaveTo="opacity-0"
                   >
                     <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                      {formats.map((format, formatIdx) => (
+                      {qualities.map((quality, qualityIdx) => (
                         <Listbox.Option
-                          key={formatIdx}
+                          key={qualityIdx}
                           className={({ active }) =>
                             `relative cursor-default select-none py-2 pl-10 pr-4 ${
                               active
-                                ? "bg-amber-100 text-amber-900"
+                                ? "bg-[#085e7d2c] text-[#085E7D]"
                                 : "text-gray-900"
                             }`
                           }
-                          value={format}
+                          value={quality}
                         >
                           {({ selected }) => (
                             <>
                               <span
                                 className={`block truncate ${
-                                  selected ? "font-medium" : "font-normal"
+                                  selected
+                                    ? "font-medium text-[#085E7D]"
+                                    : "font-normal"
                                 }`}
                               >
-                                {format.name}
+                                {quality.name} ({quality.percentage}%)
                               </span>
                               {selected ? (
                                 <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
@@ -205,7 +230,7 @@ const OutputSettingsPage = () => {
                                     xmlns="http://www.w3.org/2000/svg"
                                     className="h-5 w-5"
                                     viewBox="0 0 20 20"
-                                    fill="gray"
+                                    fill="#085E7D"
                                   >
                                     <path
                                       fillRule="evenodd"
