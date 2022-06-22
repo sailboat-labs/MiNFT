@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setLayers } from "redux/reducers/slices/layers";
 
-import { Trait } from "@/interfaces/get-started";
+import { LayerName } from "@/interfaces/get-started";
 
 import SortableList from "../SortableList";
 
@@ -13,45 +13,21 @@ const NFTLayering = () => {
   const dispatch = useDispatch();
   const store = useSelector((state) => state) as any;
   const layersState = store.layersReducer;
-  const [traits, setTraits] = useState<Trait[]>([
+  const [traits, setTraits] = useState<LayerName[]>([
     {
-      id: 1,
       name: "Background",
-      value: {
-        name: "Bg1.png",
-        path: "localhost/bg1.png",
-        filename: "bg1.png",
-      },
       enabled: true,
     },
     {
-      id: 2,
       name: "Eye",
-      value: {
-        name: "eye1.png",
-        path: "localhost/eye1.png",
-        filename: "eye1.png",
-      },
       enabled: false,
     },
     {
-      id: 3,
       name: "Body",
-      value: {
-        name: "Bg1.png",
-        path: "localhost/bg1.png",
-        filename: "bg1.png",
-      },
       enabled: true,
     },
     {
-      id: 4,
       name: "Accessory",
-      value: {
-        name: "eye1.png",
-        path: "localhost/eye1.png",
-        filename: "eye1.png",
-      },
       enabled: true,
     },
   ]);
@@ -112,11 +88,7 @@ const NFTLayering = () => {
             </div>
             <strong className="mt-5 mb-1 block">Attributes</strong>
             <div className="max-h-[400px] overflow-y-auto">
-              <SortableList
-                items={layersState.layers}
-                onSortEnd={onSortEnd}
-                setTraits={setTraits}
-              />
+              <SortableList items={traits} onSortEnd={onSortEnd} />
             </div>
           </div>
         </article>

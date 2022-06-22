@@ -12,6 +12,7 @@ import GenerateToken from "@/components/nft/GenerateToken";
 import PreviewLayers from "@/components/nft/PreviewLayers";
 import PropertyGroup from "@/components/nft/PropertyGroup";
 import TraitsSearchbar from "@/components/nft/TraitsSearchbar";
+import NFTLayering from "@/components/NFTLayering";
 
 import { ILayer } from "@/interfaces/get-started";
 
@@ -76,6 +77,7 @@ const Index = ({ router }: any) => {
         </div>
         <div className="min-h-screen w-[60%]">
           <section className="flex flex-1 justify-center">
+            <NFTLayering />
             {/* <NFTPreview className="mt-10" layers={layers} /> */}
             <div className="grid grid-cols-8">
               {generatedImagesState.images.map((image: any, index: number) => (

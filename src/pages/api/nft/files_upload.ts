@@ -11,8 +11,6 @@ const storage = multer.diskStorage({
       fs.mkdirSync(accountDir);
     }
 
-    console.log(file);
-
     const layerName = file.originalname.split("/")[1];
     const fileUploadDir = accountDir.concat("/").concat(layerName);
     if (!fs.existsSync(fileUploadDir)) {

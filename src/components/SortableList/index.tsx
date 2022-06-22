@@ -6,39 +6,37 @@ import { Trait } from "@/interfaces/get-started";
 import SortableItem from "./SortableItem";
 
 interface AppProps {
-  items: Trait[];
-  setTraits: (traits: Trait[]) => void;
+  items: any[];
+  // setTraits: (traits: LayerName[]) => void;
 }
 
-const SortableList = SortableContainer(({ items, setTraits }: AppProps) => {
+const SortableList = SortableContainer(({ items }: AppProps) => {
   /**
    * toggles a specific trait
    *
    * @param {number} id - id of trait
    * @returns {undefined}
    */
-  function toggleTrait(id: number): void {
+  function toggleTrait(name: string): void {
     const temp = [...items];
-    const traitIndex = temp.findIndex((item) => item.id === id);
+    const traitIndex = temp.findIndex((item) => item.name === name);
     temp[traitIndex] = {
       ...temp[traitIndex],
       enabled: !temp[traitIndex].enabled,
     };
 
-    setTraits(temp);
+    // setTraits(temp);
   }
 
   return (
     <ul>
       {items.map((item: Trait, index: number) => (
         <SortableItem
-          enabled={item.enabled}
           toggleTrait={toggleTrait}
-          key={item.id}
-          id={item.id}
-          index={index}
           value={item.name}
-          elementLength={item.elements.length}
+          enabled={item.enabled}
+          key={item.name + index}
+          index={index}
         />
       ))}
     </ul>

@@ -30,6 +30,11 @@ export interface IElement {
 export interface Trait {
   id: number;
   name: string;
-  elements: any[];
+  elements: any;
+  enabled: boolean;
+}
+
+export interface LayerName {
+  name: string;
   enabled: boolean;
 }

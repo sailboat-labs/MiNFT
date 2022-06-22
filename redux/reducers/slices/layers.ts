@@ -74,6 +74,7 @@ const layerStore = createSlice({
   reducers: {
     setLayers: (state, param) => {
       const { payload } = param;
+      console.log("setting layers", payload);
       state.layers = payload;
     },
     /**

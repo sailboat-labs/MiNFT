@@ -51,7 +51,7 @@ const PropertyGroup: FC<AppProps> = ({ name, onChange, elements }) => {
         ref={accordionContent}
       >
         <div className={`mt-5 flex flex-wrap gap-6 rounded-md p-6 `}>
-          {elements.map((element: any, index: number) => (
+          {elements?.map((element: any, index: number) => (
             <TraitPreview
               key={index}
               file={element}
