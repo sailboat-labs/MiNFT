@@ -14,6 +14,8 @@ import {
 
 import { IGeneratedTokens } from "@/interfaces";
 
+import GeneratedToken from "./GeneratedToken";
+
 export default function GenerateToken() {
   const [selectedToken, setSelectedToken] = useState<IGeneratedTokens>();
   const generatedTokens: IGeneratedTokens[] = useSelector(getGeneratedImages);
@@ -934,17 +936,18 @@ export default function GenerateToken() {
 
   return (
     <div>
-      <div className="mt-5 rounded-lg bg-[#30489C] px-5 py-3">
+      {/* <div className="mt-5 rounded-lg bg-[#30489C] px-5 py-3">
         <div className="text-white">Collection Size</div>
         <div className="mt-2 rounded-lg bg-white">
           <input placeholder="Supply" className="bg-transparent px-5 py-2" />
           <span className="text-[#30489C]">Max</span>
         </div>
-      </div>
+      </div> */}
       <div
         onClick={() => {
           dispatch(clearGeneratedImages({}));
           startCreating();
+          openModal();
         }}
         className="mt-5 flex w-full cursor-pointer items-center justify-center gap-3 rounded-lg border-2 border-[#30489C] bg-white px-5 py-2 text-[#30489C] transition-all hover:scale-105"
       >
@@ -1048,35 +1051,12 @@ export default function GenerateToken() {
                     </div>
                     {generatedTokens?.length} tokens
                   </Dialog.Title>
-                  <div className="flex w-full items-start">
-                    <div className="mt-5 grid w-1/2 grid-cols-4">
+                  <div className="flex w-full items-center justify-center">
+                    <div className="mt-5 grid w-fit grid-cols-10 gap-5">
                       {generatedTokens.map((token, index) => (
-                        <div
-                          onClick={() => {
-                            setSelectedToken(token);
-                          }}
-                          key={index}
-                          className="flex flex-col gap-1"
-                        >
-                          <img
-                            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                            // @ts-ignore
-                            src={token.file}
-                            alt=""
-                            className="h-52 w-52 cursor-pointer rounded-lg object-cover transition-all hover:scale-105"
-                          />
-                          <div className="text-sm text-gray-700">
-                            Nozomix #{token.edition}
-                          </div>
-                        </div>
+                        <GeneratedToken key={index} token={token} />
                       ))}
                     </div>
-                    <table>
-                      <tr>
-                        <td>Edition</td>
-                        <td>{selectedToken?.edition}</td>
-                      </tr>
-                    </table>
                   </div>
                 </Dialog.Panel>
               </Transition.Child>

@@ -9,6 +9,7 @@ import { getGeneratedImages } from "redux/reducers/selectors/layers";
 
 import TraitGroupNavigator from "@/components/layout/TraitGroupNavigator";
 import GeneratedToken from "@/components/nft/GeneratedToken";
+import PreviewLayers from "@/components/nft/PreviewLayers";
 import PropertyGroup from "@/components/nft/PropertyGroup";
 import SelectedTraits from "@/components/nft/SelectedTraits";
 import SelectFolder from "@/components/nft/SelectFolder";
@@ -65,7 +66,7 @@ const Index = ({ router }: any) => {
         <div className="h-screen w-[20%] overflow-y-auto overflow-x-hidden border-r">
           {/* <TraitsSearchbar /> */}
 
-          <div className="mt-0 h-[length:calc(100vh-0px)] flex-col gap-10 overflow-y-auto">
+          <div className="mt-0 h-[length:calc(100vh-55px)] flex-col gap-10 overflow-y-auto">
             {layersState && (
               <>
                 {layersState.layers.map((item: NFTLayer, index: number) => (
@@ -130,6 +131,7 @@ const Index = ({ router }: any) => {
                   ))}
               </div>
             </div>
+            <PreviewLayers />
           </section>
         </div>
       </div>

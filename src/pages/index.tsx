@@ -12,6 +12,7 @@ import GenerateToken from "@/components/nft/GenerateToken";
 import NFTPreview from "@/components/nft/NFTPreview";
 import PropertyGroup from "@/components/nft/PropertyGroup";
 import SelectFolder from "@/components/nft/SelectFolder";
+import NFTSettings from "@/components/nft/settings";
 
 import { NFTLayer } from "@/types";
 
@@ -29,7 +30,6 @@ const Index = ({ router }: any) => {
   const tabs: { label: string; route: string }[] = [
     { label: "Preview", route: "" },
     { label: "Manage", route: "" },
-    { label: "Settings", route: "/settings" },
     { label: "Generate", route: "" },
   ];
 
@@ -63,7 +63,7 @@ const Index = ({ router }: any) => {
           {tabs.map((tab, index) => (
             <div
               onClick={() => {
-                history.push(tab.route);
+                // history.push(tab.route);
               }}
               key={index}
               className="cursor-pointer rounded-2xl border px-5 py-2"
@@ -71,6 +71,7 @@ const Index = ({ router }: any) => {
               {tab.label}
             </div>
           ))}
+          <NFTSettings />
         </div>
         <Link href="/" passHref>
           <span className="flex cursor-pointer select-none items-center justify-center text-xl font-black leading-none  text-black">
