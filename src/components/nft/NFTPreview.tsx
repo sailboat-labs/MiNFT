@@ -926,14 +926,17 @@ const NFTPreview: FC<AppProps> = ({ className }) => {
 
   return (
     <>
-      <div
-        className={`h-fit w-fit max-w-lg rounded-lg bg-gray-100 ${className} relative`}
-      >
+      <div className={`h-fit w-fit max-w-lg rounded-lg  ${className} relative`}>
         <div className="w-96">
+          <div className="flex w-full translate-y-5 items-center justify-center">
+            <div className="w-fit rounded-2xl border-2 bg-gray-100 px-8 py-2">
+              Preview
+            </div>
+          </div>
           <img
             src={previewImage}
             alt=""
-            className="h-full w-full rounded-lg object-cover"
+            className="h-full w-full rounded-2xl object-cover"
           />
         </div>
       </div>

@@ -1,4 +1,3 @@
-import Link from "next/link";
 import React, { FC, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { getLayers, getTraitGroups } from "redux/reducers/selectors/layers";
@@ -34,13 +33,7 @@ const TraitGroupNavigator: FC<Props> = () => {
       aria-label="traits-navbar"
       className="h-screen w-[300px] rounded-r-lg bg-gradient-to-b from-cyan-500 via-cyan-500 to-blue-500 "
     >
-      <div className="flex w-full items-center justify-center p-4">
-        <Link href="/" passHref>
-          <span className="flex cursor-pointer select-none items-center justify-center text-xl font-black leading-none  text-white">
-            MiNFT<span className="text-[#FFD32D]">.</span>
-          </span>
-        </Link>
-      </div>
+      <div className="flex w-full items-center justify-center p-4"></div>
       {/* <FolderUploader /> */}
       <ul className="mt-10">
         <Generate />

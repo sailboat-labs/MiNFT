@@ -1,21 +1,12 @@
-import { Switch } from "@headlessui/react";
 import React from "react";
 
 interface AppProps {
   id: number;
   value: string;
   enabled: boolean;
-  elementLength: number;
-  toggleTrait: (index: number) => void;
 }
 
-function SortableItem({
-  id,
-  enabled,
-  elementLength,
-  toggleTrait,
-  value,
-}: AppProps) {
+function SortableItem({ id, enabled, value }: AppProps) {
   return (
     <li className="flex cursor-grab list-none items-center justify-between gap-2 rounded py-4 pr-2 hover:bg-gray-100">
       <div className="flex items-end gap-2">
@@ -34,11 +25,11 @@ function SortableItem({
           />
         </svg>
         <span className="font-bold"> {value}</span>
-        <span className="text-sm text-gray-700">
+        {/* <span className="text-sm text-gray-700">
           {elementLength} variations
-        </span>
+        </span> */}
       </div>
-      <Switch
+      {/* <Switch
         checked={enabled}
         onChange={() => toggleTrait(id)}
         className={`${
@@ -51,7 +42,7 @@ function SortableItem({
             enabled ? "translate-x-6" : "translate-x-1"
           } pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white transition-all duration-100`}
         />
-      </Switch>
+      </Switch> */}
     </li>
   );
 }

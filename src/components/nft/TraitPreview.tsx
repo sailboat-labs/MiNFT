@@ -24,10 +24,19 @@ const TraitPreview: FC<AppProps> = ({
 
   return (
     <div
+      className="flex flex-col items-center justify-center"
       onClick={() => {
         dispatch(addPreviewLayer({ layer: file.name, element: file.path }));
       }}
     >
+      <div
+        className={`text-xs font-semibold text-[#30489C] ${
+          active ? "opacity-100" : "opacity-0"
+        }`}
+      >
+        Preview
+      </div>
+
       <div
         className={`${
           active && "border-[#30489C]"

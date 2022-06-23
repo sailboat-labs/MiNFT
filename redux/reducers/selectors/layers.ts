@@ -13,3 +13,5 @@ export const getGeneratedImages = (state: any) =>
   state.generatedImagesReducer.images ?? [];
 export const getPreviewLayers = (state: any) =>
   state.layersReducer.previewLayers ?? [];
+export const getLayerOrder = (state: any) =>
+  state.layersReducer.layerOrder ?? [];

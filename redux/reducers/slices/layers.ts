@@ -6,11 +6,16 @@ const layerStore = createSlice({
   initialState: {
     layers: [],
     previewLayers: [],
+    layerOrder: [],
   },
   reducers: {
     setLayers: (state, param) => {
       const { payload } = param;
       state.layers = payload;
+    },
+    setLayerOrder: (state, param) => {
+      const { payload } = param;
+      state.layerOrder = payload;
     },
     addPreviewLayer: (state, param) => {
       // const { payload } = param;
@@ -41,5 +46,6 @@ const layerStore = createSlice({
   },
 });
 const { actions, reducer } = layerStore;
-export const { setLayers, addPreviewLayer, deletePreviewLayer } = actions;
+export const { setLayers, addPreviewLayer, deletePreviewLayer, setLayerOrder } =
+  actions;
 export default layerStore;
