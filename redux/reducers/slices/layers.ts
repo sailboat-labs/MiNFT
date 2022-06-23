@@ -9,15 +9,15 @@ const layerStore = createSlice({
     layerOrder: [],
   },
   reducers: {
-    setLayers: (state, param) => {
+    setLayers: (state: any, param: any) => {
       const { payload } = param;
       state.layers = payload;
     },
-    setLayerOrder: (state, param) => {
+    setLayerOrder: (state: any, param: any) => {
       const { payload } = param;
       state.layerOrder = payload;
     },
-    addPreviewLayer: (state, param) => {
+    addPreviewLayer: (state: any, param: any) => {
       // const { payload } = param;
       const payload: { layer: string; element: string } = param.payload;
       const isLayerExists = state.previewLayers.some(
@@ -36,7 +36,7 @@ const layerStore = createSlice({
         state.previewLayers.push(payload as never);
       }
     },
-    deletePreviewLayer: (state, param) => {
+    deletePreviewLayer: (state: any, param: any) => {
       const { payload } = param;
       state.previewLayers = state.previewLayers.filter(
         (layer: { layer: string; element: string }) =>
