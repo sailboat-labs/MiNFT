@@ -67,7 +67,7 @@ const TraitPreview: FC<AppProps> = ({
           />
         </div>
       </div>
-      <div className="w-20 overflow-hidden text-xs text-gray-600">
+      <div className="w-20 overflow-hidden text-center text-xs text-gray-600">
         {file.filename?.toString().split(".")[0]}
       </div>
     </div>
