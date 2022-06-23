@@ -72,9 +72,8 @@ export default function GenerateToken() {
   const debugLogs = true;
 
   const uniqueDnaTorrance = 10000;
-  const description =
-    "This is the description of your NFT project, remember to replace this";
-  const baseUri = "ipfs://NewUriToReplace";
+  const description = configuration.description;
+  const baseUri = configuration.externalLink;
 
   const outputJPEG = false; // if false, the generator outputs png's
 
@@ -952,6 +951,10 @@ export default function GenerateToken() {
             return toast.error("Enter collection name in settings");
           if (!configuration.supply)
             return toast.error("Enter supply in settings");
+          if (!configuration.description)
+            return toast.error("Enter description in settings");
+          if (!configuration.externalLink)
+            return toast.error("Enter external link in settings");
 
           dispatch(clearGeneratedImages({}));
           startCreating();
