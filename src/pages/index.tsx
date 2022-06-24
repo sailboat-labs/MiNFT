@@ -2,7 +2,6 @@ import { getFirestore } from "firebase/firestore";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 

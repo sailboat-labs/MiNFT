@@ -1,5 +1,3 @@
-//Property Group
-
 import { getFirestore } from "firebase/firestore";
 import React, { FC, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
