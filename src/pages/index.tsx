@@ -82,10 +82,10 @@ const Index = ({ router }: any) => {
       <SelectFolder />
       <div className="flex">
         {/* <TraitGroupNavigator /> */}
-        <div className="h-screen w-[60%] overflow-y-auto overflow-x-hidden border-r">
+        <div className="h-screen w-[60%] overflow-y-auto overflow-x-hidden border-r ">
           {/* <TraitsSearchbar /> */}
 
-          <div className="mt-0 h-[length:calc(100vh-0px)] flex-col gap-10 overflow-y-auto px-10">
+          <div className="mt-0 h-[length:calc(100vh-0px)] flex-col gap-10 overflow-y-auto px-10 pb-10">
             {layersState && (
               <>
                 {layersState.layers.map((item: NFTLayer, index: number) => (
