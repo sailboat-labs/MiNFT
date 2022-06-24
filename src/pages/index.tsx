@@ -91,6 +91,8 @@ const Index = ({ router }: any) => {
                 {layersState.layers.map((item: NFTLayer, index: number) => (
                   <PropertyGroup
                     key={index}
+                    index={index}
+                    layersCount={layersState.layers.length}
                     onChange={handleTraitChanged}
                     name={item.name}
                     elements={
