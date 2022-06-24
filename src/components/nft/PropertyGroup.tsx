@@ -1,9 +1,8 @@
 //Property Group
 
 import { getFirestore } from "firebase/firestore";
-import React, { FC, useRef, useState } from "react";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import React, { FC, useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   getPreviewLayers,
   getSelectedLayerName,
@@ -16,6 +15,8 @@ import TraitPreview from "./TraitPreview";
 
 interface AppProps {
   name: string;
+  index: number;
+  layersCount: number;
   elements: any[];
   onChange?: ({
     groupName,
@@ -27,7 +28,13 @@ interface AppProps {
 }
 const firestore = getFirestore(firebaseApp);
 
-const PropertyGroup: FC<AppProps> = ({ name, onChange, elements }) => {
+const PropertyGroup: FC<AppProps> = ({
+  name,
+  layersCount,
+  onChange,
+  index,
+  elements,
+}) => {
   const dispatch = useDispatch();
   const selectedLayerName = useSelector(getSelectedLayerName);
 
@@ -36,6 +43,7 @@ const PropertyGroup: FC<AppProps> = ({ name, onChange, elements }) => {
   const [groupName, setGroupName] = useState<string>(name);
   const [showEmptyNameError, setShowEmptyNameError] = useState<boolean>(false);
   const [collapsed, setCollapsed] = useState<boolean>(false);
+  const [accordionHeight, setAccordionHeight] = useState<number>();
 
   const previewLayers = useSelector(getPreviewLayers);
 
@@ -59,18 +67,59 @@ const PropertyGroup: FC<AppProps> = ({ name, onChange, elements }) => {
     if (!showEmptyNameError) return;
 
     // todo: code to update name goes here
+    // - state "groupName" has the most up to date version of name
+    console.log("updating group name");
   }
-
+  /**
+   * handles changes in group name
+   *
+   * @param evt - react ChangeEvent object
+   * @returns {undefined}
+   */
   function handleChange(evt: React.ChangeEvent<HTMLInputElement>) {
     setGroupName(evt.target.value);
     setShowEmptyNameError(groupName.trim() === "");
   }
-
+  /**
+   * checks if group's trait rarity is being changed
+   *
+   * @returns {boolean} - flag indicating whether groups trait rarity is being changed
+   */
   function changingRarity(): boolean {
     if (selectedLayerName === null) return false;
 
     return groupName === selectedLayerName;
   }
+  /**
+   * deletes trait at @param traitIndex -index
+   *
+   * @param {number} traitIndex - index of trait to delete
+   */
+  function removeTrait(traitIndex: number) {
+    alert("File: PropertyGroup, line 77");
+    // todo: code to remove a trait goes here
+  }
+
+  function updateLayer() {
+    console.log("update layer");
+  }
+  /**
+   * moves layer up or down the hierarchy
+   *
+   * @param {boolean} up - flag to move layer up or down
+   * @returns {undefined}
+   */
+  function moveLayer(up = true) {
+    if (up) {
+      console.log("move layer up");
+    } else {
+      console.log("move layer down");
+    }
+  }
+
+  useEffect(() => {
+    setAccordionHeight(accordionContent.current?.scrollHeight);
+  }, [selectedLayerName]);
 
   // useEffect(() => {
   //   if (selectedLayerName !== null) {
@@ -81,31 +130,37 @@ const PropertyGroup: FC<AppProps> = ({ name, onChange, elements }) => {
   return (
     <div className="flex gap-6" id={`trait-group-${name}`}>
       <div className="mt-20 flex flex-col items-center justify-center text-gray-500">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-6 w-6 transform cursor-pointer duration-100 hover:-translate-y-2"
-          viewBox="0 0 20 20"
-          fill="gray"
-        >
-          <path
-            fillRule="evenodd"
-            d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
-            clipRule="evenodd"
-          />
-        </svg>
+        {index > 0 && (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6 transform cursor-pointer duration-100 hover:-translate-y-2"
+            viewBox="0 0 20 20"
+            fill="gray"
+            onClick={() => moveLayer()}
+          >
+            <path
+              fillRule="evenodd"
+              d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
+              clipRule="evenodd"
+            />
+          </svg>
+        )}
         Move
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-6 w-6 transform cursor-pointer duration-100 hover:translate-y-2"
-          viewBox="0 0 20 20"
-          fill="gray"
-        >
-          <path
-            fillRule="evenodd"
-            d="M14.707 12.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 14.586V3a1 1 0 012 0v11.586l2.293-2.293a1 1 0 011.414 0z"
-            clipRule="evenodd"
-          />
-        </svg>
+        {index < layersCount - 1 && (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6 transform cursor-pointer duration-100 hover:translate-y-2"
+            viewBox="0 0 20 20"
+            fill="gray"
+            onClick={() => moveLayer(false)}
+          >
+            <path
+              fillRule="evenodd"
+              d="M14.707 12.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 14.586V3a1 1 0 012 0v11.586l2.293-2.293a1 1 0 011.414 0z"
+              clipRule="evenodd"
+            />
+          </svg>
+        )}
       </div>
 
       <div className="flex-1">
@@ -206,9 +261,7 @@ const PropertyGroup: FC<AppProps> = ({ name, onChange, elements }) => {
         </div>
         <div
           style={{
-            maxHeight: collapsed
-              ? 0
-              : accordionContent.current?.scrollHeight + "px",
+            maxHeight: collapsed ? 0 : accordionHeight + "px",
           }}
           className="overflow-y-hidden transition-all  duration-200"
           ref={accordionContent}
@@ -221,7 +274,7 @@ const PropertyGroup: FC<AppProps> = ({ name, onChange, elements }) => {
                   file={element}
                   traitIndex={index}
                   rarityMode={groupName === selectedLayerName}
-                  // onSelect={(traitIndex) => onChange({ traitIndex, groupName: name })}
+                  onRemove={removeTrait}
                   active={
                     previewLayers.find(
                       (layer: { layer: string; element: string }) =>
@@ -232,11 +285,17 @@ const PropertyGroup: FC<AppProps> = ({ name, onChange, elements }) => {
               ))}
             </div>
             {changingRarity() && (
-              <div className="flex  items-center gap-x-4 p-6">
-                <button className="rounded-md border border-[#30489c] bg-white  px-6 py-2 font-medium text-[#30489C]">
+              <div className="mb-4  flex items-center justify-center gap-x-4 px-6">
+                <button
+                  className="rounded-md border border-[#30489c] bg-white  px-6 py-2 font-medium text-[#30489C] transition-all duration-100 hover:bg-[#30479c09]"
+                  onClick={() => dispatch(setSelectedLayerName(null))}
+                >
                   Discard
                 </button>
-                <button className="rounded-md bg-[#30489C] px-6  py-2 text-white">
+                <button
+                  onClick={() => updateLayer()}
+                  className="rounded-md bg-[#30489C] px-6 py-2 text-white transition-all  duration-100 hover:bg-[#223474]"
+                >
                   Save
                 </button>
               </div>

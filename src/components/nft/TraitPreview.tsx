@@ -1,9 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable jsx-a11y/alt-text */
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { useDispatch } from "react-redux";
-import ReactSlider from "react-slider";
 import { addPreviewLayer } from "redux/reducers/slices/layers";
+import swal from "sweetalert";
 
 import { IElement } from "@/interfaces/get-started";
 
@@ -24,6 +24,7 @@ const TraitPreview: FC<AppProps> = ({
 }) => {
   // const url = typeof file === "string" ? file : URL.createObjectURL(file);
   const dispatch = useDispatch();
+  const [rarity, setRarity] = useState<number>();
   /**
    * handles removal of trait
    *
@@ -33,8 +34,27 @@ const TraitPreview: FC<AppProps> = ({
   function handleRemoveTrait(evt: React.MouseEvent<SVGSVGElement>) {
     evt.stopPropagation();
     if (onRemove) {
-      onRemove(traitIndex);
+      swal({
+        title: "Warning",
+        text: "You are deleting a trait. Action is irreversible.\n Do you want to continue?",
+        icon: "warning",
+        dangerMode: true,
+        buttons: ["Cancel", "Ok"],
+      }).then((value) => {
+        if (value) {
+          onRemove(traitIndex);
+        }
+      });
     }
+  }
+  /**
+   * handles changes in range input
+   *
+   * @param {Object} evt - React's ChangeEvent object
+   * @returns {undefined}
+   */
+  function onRangeChanged(evt: React.ChangeEvent<HTMLInputElement>) {
+    setRarity(parseInt(evt.target.value));
   }
 
   return (
@@ -88,23 +108,61 @@ const TraitPreview: FC<AppProps> = ({
         </div>
       )}
       {rarityMode && (
-        <ReactSlider
-          className="horizontal-slider mt-3 w-full"
-          marks={[20, 40, 60, 80, 100]}
-          markClassName="h-2 w-[2px] bg-[#30489C]"
-          // renderTrack={(props: any, state: any) => (
-          //   <div
-          //     {...props}
-          //     className={`${state.value <= state.index && "bg-red-500"}`}
-          //   ></div>
-          // )}
-          min={0}
-          max={100}
-          step={20}
-          thumbClassName="w-2 -top-2 -bottom-4 rounded-full bg-[#30489C]"
-          trackClassName="h-2 bg-white border border-[#30489C] rounded-full "
-          renderThumb={(props, state) => <div {...props}></div>}
-        />
+        <div className="mt-2 flex gap-2">
+          <input
+            className="max-w-[60px] flex-1"
+            type="range"
+            onChange={onRangeChanged}
+            value={rarity}
+            step={20}
+            min={0}
+            max={100}
+          />
+          <output className="text-xs">{rarity}</output>
+        </div>
+        // <Range
+        //   step={20}
+        //   min={0}
+        //   max={100}
+        //   values={[0, 20]}
+        //   onChange={(values) => console.log(values)}
+        //   renderTrack={({ props, children }) => (
+        //     <div
+        //       {...props}
+        //       className="w-full"
+        //       style={{
+        //         ...props.style,
+        //         // height: "6px",
+        //         // width: "100%",
+        //         // backgroundColor: "#ccc",
+        //       }}
+        //     >
+        //       {children}
+        //     </div>
+        //   )}
+        //   renderThumb={({ props }) => (
+        //     <div
+        //       {...props}
+        //       style={{
+        //         ...props.style,
+        //         height: "6px",
+        //         width: "6px",
+        //         backgroundColor: "#999",
+        //       }}
+        //     />
+        //   )}
+        // />
+        // <ReactSlider
+        //   className="horizontal-slider mt-3 w-full"
+        //   marks={[20, 40, 60, 80, 100]}
+        //   markClassName="h-2 w-[2px] bg-[#30489C]"
+        //   min={0}
+        //   max={100}
+        //   step={20}
+        //   thumbClassName="w-2 -top-2 -bottom-4 rounded-full bg-[#30489C]"
+        //   trackClassName="h-2 bg-white border border-[#30489C] rounded-full "
+        //   renderThumb={(props, state) => <div {...props}></div>}
+        // />
       )}
     </div>
   );
