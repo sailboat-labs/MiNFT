@@ -377,7 +377,6 @@ export default function GenerateToken() {
       const layerImages = dna.filter(
         (element: string) => element.split(".")[0] == layer.id
       );
-      console.log({ layerImages });
 
       layerImages.forEach((img: any) => {
         selectedElements.push(
@@ -386,11 +385,6 @@ export default function GenerateToken() {
           )
         );
       });
-
-      console.log({ selectedElements });
-
-      // If there is more than one item whose root address indicies match the layer ID,
-      // continue to loop through them an return an array of selectedElements
 
       return {
         name: layer.name,
