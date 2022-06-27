@@ -1,9 +1,10 @@
+/* eslint-disable @next/next/no-img-element */
 import React from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { getPreviewLayers } from "redux/reducers/selectors/layers";
 
-import { ILayer } from "@/interfaces/get-started";
+import { ILayer } from "@/interfaces";
 
 const traitNotVisibleAnim = {
   transform: "translateX(-100%)",

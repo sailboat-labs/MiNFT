@@ -14,7 +14,7 @@ import PropertyGroup from "@/components/nft/PropertyGroup";
 import SelectedTraits from "@/components/nft/SelectedTraits";
 import SelectFolder from "@/components/nft/SelectFolder";
 
-import { IGeneratedTokens } from "@/interfaces";
+import { IGeneratedTokens, ILayer } from "@/interfaces";
 
 import { NFTLayer } from "@/types";
 
@@ -69,15 +69,17 @@ const Index = ({ router }: any) => {
           <div className="mt-0 h-[length:calc(100vh-55px)] flex-col gap-10 overflow-y-auto">
             {layersState && (
               <>
-                {layersState.layers.map((item: NFTLayer, index: number) => (
+                {layersState.layers.map((item: ILayer, index: number) => (
                   <PropertyGroup
                     key={index}
-                    name={item.name}
+                    layer={item}
                     elements={
                       layersState.layers.find(
                         (layer: NFTLayer) => layer.name == item.name
                       )?.elements
                     }
+                    index={index}
+                    layersCount={item.elements.length}
                   />
                 ))}
               </>

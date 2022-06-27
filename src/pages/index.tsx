@@ -13,6 +13,8 @@ import PropertyGroup from "@/components/nft/PropertyGroup";
 import SelectFolder from "@/components/nft/SelectFolder";
 import NFTSettings from "@/components/nft/settings";
 
+import { ILayer } from "@/interfaces";
+
 import { NFTLayer } from "@/types";
 
 const firestore = getFirestore(firebaseApp);
@@ -87,13 +89,13 @@ const Index = ({ router }: any) => {
           <div className="mt-0 h-[length:calc(100vh-0px)] flex-col gap-10 overflow-y-auto px-10 pb-10">
             {layersState && (
               <>
-                {layersState.layers.map((item: NFTLayer, index: number) => (
+                {layersState.layers.map((item: ILayer, index: number) => (
                   <PropertyGroup
                     key={index}
                     index={index}
                     layersCount={layersState.layers.length}
                     onChange={handleTraitChanged}
-                    name={item.name}
+                    layer={item}
                     elements={
                       layersState.layers.find(
                         (layer: NFTLayer) => layer.name == item.name
