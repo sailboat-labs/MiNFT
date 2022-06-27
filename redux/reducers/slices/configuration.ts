@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const userStore = createSlice({
+const configurationStore = createSlice({
   name: "configuration",
   initialState: {
     configuration: {},
@@ -8,12 +8,13 @@ const userStore = createSlice({
   reducers: {
     setConfiguration: (state, param) => {
       const { payload } = param;
+
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       state.configuration[payload.key] = payload.value;
     },
   },
 });
-const { actions, reducer } = userStore;
+const { actions, reducer } = configurationStore;
 export const { setConfiguration } = actions;
-export default userStore;
+export default configurationStore;

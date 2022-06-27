@@ -15,20 +15,10 @@ export type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
 };
 
-type AppPropsWithLayout = AppProps & {
-  Component: NextPageWithLayout;
-};
-/**
- * !STARTERCONF info
- * ? `Layout` component is called in every page using `np` snippets. If you have consistent layout across all page, you can add it here too
- */
-
 function MyApp({ Component, pageProps }: AppProps) {
   const store = configureStore({
     reducer: rootReducer,
   });
-
-  const getLayout = Component.getLayout ?? ((page: ReactElement) => page);
 
   return (
     <MoralisProvider
@@ -38,7 +28,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Toaster />
 
       <Provider store={store}>
-        {getLayout(<Component {...pageProps} />)}
+        <Component {...pageProps} />
       </Provider>
     </MoralisProvider>
   );

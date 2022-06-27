@@ -1,6 +1,5 @@
 import { getFirestore } from "firebase/firestore";
 import Head from "next/head";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
@@ -52,7 +51,7 @@ const Index = ({ router }: any) => {
       <Head>
         <title>Manage</title>
       </Head>
-      <div className="flex w-full justify-between border-b-2 py-5 px-5">
+      {/* <div className="flex w-full justify-between border-b-2 py-5 px-5">
         <Link href="/" passHref>
           <span className="flex cursor-pointer select-none items-center justify-center text-xl font-black leading-none  text-black">
             MiNFT<span className="text-[#FFD32D]">.</span>
@@ -77,7 +76,7 @@ const Index = ({ router }: any) => {
             MiNFT<span className="text-[#FFD32D]">.</span>
           </span>
         </Link>
-      </div>
+      </div> */}
       <SelectFolder />
       <div className="flex">
         {/* <TraitGroupNavigator /> */}
@@ -107,7 +106,21 @@ const Index = ({ router }: any) => {
         </div>
         <div className="min-h-screen w-[40%]">
           <section className="flex w-[29rem] flex-col justify-center pl-20">
-            <NFTPreview className="mt-20" />
+            <div className="flex gap-5 pt-10">
+              {/* {tabs.map((tab, index) => (
+                <div
+                  onClick={() => {
+                    // history.push(tab.route);
+                  }}
+                  key={index}
+                  className="cursor-pointer rounded-2xl border px-5 py-2"
+                >
+                  {tab.label}
+                </div>
+              ))} */}
+              <NFTSettings />
+            </div>
+            <NFTPreview className="mt-10" />
             <GenerateToken />
           </section>
         </div>

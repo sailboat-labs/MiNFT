@@ -69,7 +69,9 @@ export default function GeneratedToken({ token }: props) {
                       className=" h-96 w-96  rounded-lg object-cover"
                     />
                     <div>
-                      <div className="text-gray-500">Nozomix</div>
+                      <div className="text-gray-500">
+                        {token.metadata?.name?.split("#")[0]}
+                      </div>
                       <Dialog.Title
                         as="h3"
                         className="text-xl font-medium leading-6 text-gray-900"

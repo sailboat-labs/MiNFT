@@ -5,8 +5,10 @@ import { createCanvas, loadImage } from "canvas";
 import chalk from "chalk";
 import keccak256 from "keccak256";
 import { Fragment, useState } from "react";
+import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { getGeneratedImages, getLayers } from "redux/reducers/selectors/layers";
+import { getConfiguration } from "redux/reducers/selectors/settings";
 import {
   addGeneratedImage,
   clearGeneratedImages,
@@ -17,7 +19,6 @@ import { IGeneratedTokens } from "@/interfaces";
 import GeneratedToken from "./GeneratedToken";
 
 export default function GenerateToken() {
-  const [selectedToken, setSelectedToken] = useState<IGeneratedTokens>();
   const generatedTokens: IGeneratedTokens[] = useSelector(getGeneratedImages);
 
   const layers = useSelector(getLayers);
@@ -33,6 +34,8 @@ export default function GenerateToken() {
   }
 
   const dispatch = useDispatch();
+  const configuration = useSelector(getConfiguration);
+
   const background = {
     generate: true,
     brightness: "100%",
@@ -43,9 +46,9 @@ export default function GenerateToken() {
 
   const layerConfigurations = [
     {
-      growEditionSizeTo: 64,
+      growEditionSizeTo: configuration.supply,
       resetNameIndex: false,
-      namePrefix: "NZMX Club", // Use to add a name to Metadata `name:`
+      namePrefix: configuration.name, // Use to add a name to Metadata `name:`
       layersOrder: [
         { name: "Background" },
         { name: "Skin" },
@@ -69,9 +72,8 @@ export default function GenerateToken() {
   const debugLogs = true;
 
   const uniqueDnaTorrance = 10000;
-  const description =
-    "This is the description of your NFT project, remember to replace this";
-  const baseUri = "ipfs://NewUriToReplace";
+  const description = configuration.description;
+  const baseUri = configuration.externalLink;
 
   const outputJPEG = false; // if false, the generator outputs png's
 
@@ -945,6 +947,15 @@ export default function GenerateToken() {
       </div> */}
       <div
         onClick={() => {
+          if (!configuration.name)
+            return toast.error("Enter collection name in settings");
+          if (!configuration.supply)
+            return toast.error("Enter supply in settings");
+          if (!configuration.description)
+            return toast.error("Enter description in settings");
+          if (!configuration.externalLink)
+            return toast.error("Enter external link in settings");
+
           dispatch(clearGeneratedImages({}));
           startCreating();
           openModal();

@@ -2,7 +2,6 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { getPreviewLayers } from "redux/reducers/selectors/layers";
-import { removePreviewLayer } from "redux/reducers/slices/layers";
 
 import { ILayer } from "@/interfaces/get-started";
 
@@ -50,7 +49,7 @@ const PreviewLayers = () => {
             <p>{layer.elements[0].name}</p>
           </div>
           <button
-            onClick={() => dispatch(removePreviewLayer(layer.name))}
+            // onClick={() => dispatch(removePreviewLayer(layer.name))}
             className="group flex h-8 w-8 items-center justify-center self-center rounded-full bg-red-200"
           >
             <svg

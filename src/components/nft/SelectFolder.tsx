@@ -60,7 +60,7 @@ export default function SelectFolder() {
           blendmode: "source-over",
           opacity: 1,
           name: layer.name,
-          filename: `${layer.name}#${padLeft(index + 1)}.png`,
+          filename: `${element.file.name}`,
           path: URL.createObjectURL(element.file),
           zindex: "",
           trait: layer.name,
