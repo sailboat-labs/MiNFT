@@ -1,6 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getGeneratedImages } from "redux/reducers/selectors/layers";
+import { setGeneratedImagesFilter } from "redux/reducers/slices/generated-images";
 
 import { IGeneratedTokens } from "@/interfaces";
 
@@ -9,7 +12,9 @@ type props = {
 };
 
 export default function GeneratedToken({ token }: props) {
+  const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
+  const generatedTokens = useSelector(getGeneratedImages);
 
   function closeModal() {
     setIsOpen(false);
@@ -18,8 +23,20 @@ export default function GeneratedToken({ token }: props) {
   function openModal() {
     setIsOpen(true);
   }
-
-  console.log(token);
+  /**
+   * calculates how many times trait was used in the whole collection of generated tokens
+   *
+   * @param traitValue - trait value to be matched
+   * @returns {Number} - percentage of trait value is in the collection
+   */
+  function getTraitUsagePecentage(traitValue: string) {
+    const usageCount = generatedTokens.filter((token: IGeneratedTokens) =>
+      token.renderObjects.some(
+        (object) => object.filename.split(".")[0] === traitValue
+      )
+    ).length;
+    return ((usageCount / generatedTokens.length) * 100).toFixed(1);
+  }
 
   return (
     <>
@@ -80,15 +97,43 @@ export default function GeneratedToken({ token }: props) {
                       </Dialog.Title>
                       <div className="mt-5 grid grid-cols-3 gap-3">
                         {token.renderObjects.map((object, index) => (
-                          <div
+                          <button
                             key={index}
-                            className="rounded-xl border bg-gray-50 p-3"
+                            onClick={() => {
+                              dispatch(
+                                setGeneratedImagesFilter(
+                                  `${object.filename?.split(".")[0]}|||${
+                                    object.trait
+                                  }`
+                                )
+                              );
+                              setIsOpen(false);
+                            }}
+                            className="rounded-xl border bg-gray-50 p-3 text-left"
                           >
-                            <div className="text=gray-500 text-xs">
-                              {object.trait}
+                            <div className="text-xs text-gray-500">
+                              <span>{object.trait}</span>
                             </div>
                             <div>{object.filename?.split(".")[0]}</div>
-                          </div>
+                            <div className="flex items-center gap-1 text-xs">
+                              <em>
+                                {getTraitUsagePecentage(
+                                  object.filename.split(".")[0]
+                                )}
+                                %
+                              </em>
+                              <div className="h-2 w-full rounded-full border ">
+                                <div
+                                  style={{
+                                    width: `${getTraitUsagePecentage(
+                                      object.filename.split(".")[0]
+                                    )}%`,
+                                  }}
+                                  className="h-full rounded-full bg-green-500"
+                                ></div>
+                              </div>
+                            </div>
+                          </button>
                         ))}
                       </div>
 

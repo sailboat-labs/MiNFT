@@ -4,6 +4,7 @@ const generatedImagesStore = createSlice({
   name: "generatedImages",
   initialState: {
     images: [],
+    filter: null,
     attributeOccurrence: [],
   },
   reducers: {
@@ -13,6 +14,9 @@ const generatedImagesStore = createSlice({
     },
     clearGeneratedImages: (state, _) => {
       state.images = [];
+    },
+    setGeneratedImagesFilter: (state, action) => {
+      state.filter = action.payload;
     },
     setAttributeOccurrence: (state, param) => {
       const payload = param.payload as any as never;
@@ -25,5 +29,6 @@ export const {
   addGeneratedImage,
   clearGeneratedImages,
   setAttributeOccurrence,
+  setGeneratedImagesFilter,
 } = actions;
 export default generatedImagesStore;

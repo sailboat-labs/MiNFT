@@ -9,7 +9,7 @@ import * as Yup from "yup";
 const CollectionSettings = () => {
   const dispatch = useDispatch();
   const configuration = useSelector(getConfiguration);
-  console.log(configuration);
+  // console.log(configuration);
 
   const formik: any = useFormik({
     initialValues: {
