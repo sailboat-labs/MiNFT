@@ -7,6 +7,10 @@ export interface ILayer {
   bypassDNA: boolean;
 }
 
+export interface IDashboardState {
+  selectedSidebar: string;
+}
+
 export interface IGeneratedTokens {
   createdOn: string;
   file: File;
