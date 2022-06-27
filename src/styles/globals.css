@@ -44,6 +44,16 @@
       U+2215, U+FEFF, U+FFFD;
   }
 
+  @font-face {
+    font-family: "DMSans";
+    src: url("../../public/fonts/DMSans-Regular.ttf");
+  }
+
+  @font-face {
+    font-family: "Montserrat";
+    src: url("../../public/fonts/Montserrat-Regular.ttf");
+  }
+
   html {
     /* background-color: black; */
 
@@ -162,11 +172,23 @@
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: rgb(177, 177, 177);
+  background: rgb(67 56 202);
   @apply rounded-full;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: rgb(105, 105, 105);
+  background: rgb(49 46 129);
+}
+
+input[id="emailInput"]:focus,
+input[id="firstname"]:focus,
+input[id="secondname"]:focus,
+input[id="twitterAccountInput"]:focus {
+  border-width: 0px;
+  outline: 0;
+  -webkit-appearance: none;
+  box-shadow: none;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
 }

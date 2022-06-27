@@ -56,7 +56,7 @@ export default function GenerateToken() {
   const configuration = useSelector(getConfiguration);
 
   const background = {
-    generate: true,
+    generate: false,
     brightness: "100%",
   };
   const emptyLayerName = "NONE";
@@ -68,14 +68,6 @@ export default function GenerateToken() {
       growEditionSizeTo: configuration.supply,
       resetNameIndex: false,
       namePrefix: configuration.name, // Use to add a name to Metadata `name:`
-      layersOrder: [
-        { name: "Background" },
-        { name: "Skin" },
-        { name: "Eyes" },
-        { name: "Clothes" },
-        { name: "Head Accessory" },
-        { name: "Bling" },
-      ],
     },
   ];
   const incompatible: any = {
@@ -88,7 +80,7 @@ export default function GenerateToken() {
   };
   const hashImages = true;
   const extraMetadata = {};
-  const debugLogs = true;
+  const debugLogs = false;
 
   const uniqueDnaTorrance = 10000;
   const description = configuration.description;
@@ -863,6 +855,7 @@ export default function GenerateToken() {
 
   const startCreating = async () => {
     const storedDNA = null;
+    dispatch(setGeneratedImagesFilter(null));
     try {
       console.log("Generating");
       // if (storedDNA) {
@@ -889,11 +882,7 @@ export default function GenerateToken() {
         ? console.log("Editions left to create: ", abstractedIndexes)
         : null;
       while (layerConfigIndex < layerConfigurations.length) {
-        // const layers = layersSetup(
-        //   layerConfigurations[layerConfigIndex].layersOrder
-        // );
-
-        // return console.log("using data", JSON.stringify(layers));
+        console.log(layers);
 
         while (
           editionCount <=

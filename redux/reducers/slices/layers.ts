@@ -18,6 +18,14 @@ const layerStore = createSlice({
       const { payload } = param;
       state.layerOrder = payload;
     },
+    reOrderLayer: (state: any, param: any) => {
+      const { payload } = param;
+      const currentIndex = payload.currentIndex;
+      const nextIndex = payload.nextIndex;
+      const layerToMove = state.layers[currentIndex];
+      state.layers.splice(currentIndex, 1);
+      state.layers.splice(nextIndex, 0, layerToMove);
+    },
     addPreviewLayer: (state: any, param: any) => {
       // const { payload } = param;
       const payload: { layer: string; element: string } = param.payload;
@@ -56,5 +64,6 @@ export const {
   deletePreviewLayer,
   setSelectedLayerName,
   setLayerOrder,
+  reOrderLayer,
 } = actions;
 export default layerStore;
