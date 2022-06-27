@@ -1,10 +1,7 @@
 import { getFirestore } from "firebase/firestore";
 import React, { FC, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getPreviewLayers,
-  getSelectedLayerName,
-} from "redux/reducers/selectors/layers";
+import { getSelectedLayerName } from "redux/reducers/selectors/layers";
 import {
   reOrderLayer,
   setSelectedLayerName,
@@ -12,7 +9,7 @@ import {
 
 import { firebaseApp } from "@/lib/firebase";
 
-import { ILayer } from "@/interfaces";
+import { IElement, ILayer } from "@/interfaces";
 
 import TraitPreview from "./TraitPreview";
 
@@ -46,8 +43,6 @@ const PropertyGroup: FC<AppProps> = ({
   const [showEmptyNameError, setShowEmptyNameError] = useState<boolean>(false);
   const [collapsed, setCollapsed] = useState<boolean>(false);
   const [accordionHeight, setAccordionHeight] = useState<number>();
-
-  const previewLayers = useSelector(getPreviewLayers);
 
   function onDisplayNameClick(evt: React.MouseEvent<HTMLDivElement>) {
     evt.stopPropagation();
@@ -273,19 +268,14 @@ const PropertyGroup: FC<AppProps> = ({
         >
           <div className="rounded-md border-2 bg-gray-100">
             <div className={`mt-5 flex flex-wrap gap-6    p-6 `}>
-              {elements.map((element: any, index: number) => (
+              {elements.map((element: IElement, index: number) => (
                 <TraitPreview
                   key={index}
                   file={element}
                   traitIndex={index}
                   rarityMode={layer.name === selectedLayerName}
                   onRemove={removeTrait}
-                  active={
-                    previewLayers.find(
-                      (item: { layer: string; element: string }) =>
-                        item.layer == layer.name
-                    )?.element == element.path
-                  }
+                  active={element.isSelected}
                 />
               ))}
             </div>

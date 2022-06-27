@@ -2,10 +2,12 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React, { FC, useState } from "react";
 import { useDispatch } from "react-redux";
-import { addPreviewLayer } from "redux/reducers/slices/layers";
+import { useSelector } from "react-redux";
+import { getLayers } from "redux/reducers/selectors/layers";
+import { selectTraitForPreview } from "redux/reducers/slices/layers";
 import swal from "sweetalert";
 
-import { IElement } from "@/interfaces/get-started";
+import { IElement } from "@/interfaces";
 
 interface AppProps {
   active?: boolean;
@@ -25,6 +27,7 @@ const TraitPreview: FC<AppProps> = ({
   // const url = typeof file === "string" ? file : URL.createObjectURL(file);
   const dispatch = useDispatch();
   const [rarity, setRarity] = useState<number>();
+  const layers = useSelector(getLayers);
   /**
    * handles removal of trait
    *
@@ -61,7 +64,12 @@ const TraitPreview: FC<AppProps> = ({
     <div
       className="flex flex-col items-center justify-center"
       onClick={() => {
-        dispatch(addPreviewLayer({ layer: file.name, element: file.path }));
+        dispatch(
+          selectTraitForPreview({
+            layer: file.name,
+            elementName: file.filename,
+          })
+        );
       }}
     >
       <div

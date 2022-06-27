@@ -1,7 +1,7 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setLayerOrder, setLayers } from "redux/reducers/slices/layers";
+import { setLayers } from "redux/reducers/slices/layers";
 
 import { NFTLayer } from "@/types";
 
@@ -73,7 +73,6 @@ export default function SelectFolder() {
       }));
 
       dispatch(setLayers(_layers));
-      dispatch(setLayerOrder(_layerOrder));
       console.log(_layerOrder);
     } catch (e) {
       console.log(e);

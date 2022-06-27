@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { createSlice } from "@reduxjs/toolkit";
 
+import { IElement, ILayer } from "@/interfaces";
+
 const layerStore = createSlice({
   name: "layers",
   initialState: {
     layers: [],
-    layerOrder: [],
-    previewLayers: [],
     selectedLayerName: null,
   },
   reducers: {
@@ -14,10 +14,7 @@ const layerStore = createSlice({
       const { payload } = param;
       state.layers = payload;
     },
-    setLayerOrder: (state: any, param: any) => {
-      const { payload } = param;
-      state.layerOrder = payload;
-    },
+
     reOrderLayer: (state: any, param: any) => {
       const { payload } = param;
       const currentIndex = payload.currentIndex;
@@ -26,24 +23,32 @@ const layerStore = createSlice({
       state.layers.splice(currentIndex, 1);
       state.layers.splice(nextIndex, 0, layerToMove);
     },
-    addPreviewLayer: (state: any, param: any) => {
+    selectTraitForPreview: (state: any, param: any) => {
       // const { payload } = param;
-      const payload: { layer: string; element: string } = param.payload;
-      const isLayerExists = state.previewLayers.some(
-        (layer: { layer: string; element: string }) =>
-          layer.layer == payload.layer
-      );
-      if (isLayerExists) {
-        //Ignore the red lines
+      const payload: { layer: string; elementName: string } = param.payload;
 
-        state.previewLayers.find(
-          (layer: any) => layer.layer == payload.layer
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-        )!.element = payload.element;
-      } else {
-        state.previewLayers.push(payload as never);
+      //If there are already selected traits in a layer, deselect them and select the new one
+      if (
+        (
+          state.layers.find(
+            (layer: ILayer) => layer.name == payload.layer
+          ) as ILayer
+        ).elements.some(
+          (element: IElement) => element.filename == payload.elementName
+        )
+      ) {
+        state.layers
+          .find((layer: ILayer) => layer.name == payload.layer)
+          .elements.forEach((element: IElement) => {
+            element.isSelected = false;
+          });
       }
+
+      state.layers
+        .find((layer: ILayer) => layer.name == payload.layer)
+        .elements.find(
+          (element: IElement) => element.filename == `${payload.elementName}`
+        ).isSelected = true;
     },
     deletePreviewLayer: (state: any, param: any) => {
       const { payload } = param;
@@ -60,10 +65,9 @@ const layerStore = createSlice({
 const { actions, reducer } = layerStore;
 export const {
   setLayers,
-  addPreviewLayer,
+  selectTraitForPreview,
   deletePreviewLayer,
   setSelectedLayerName,
-  setLayerOrder,
   reOrderLayer,
 } = actions;
 export default layerStore;
