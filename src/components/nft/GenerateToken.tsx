@@ -7,11 +7,16 @@ import keccak256 from "keccak256";
 import { Fragment, useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
-import { getGeneratedImages, getLayers } from "redux/reducers/selectors/layers";
+import {
+  getGeneratedImages,
+  getGeneratedImagesFilter,
+  getLayers,
+} from "redux/reducers/selectors/layers";
 import { getConfiguration } from "redux/reducers/selectors/settings";
 import {
   addGeneratedImage,
   clearGeneratedImages,
+  setGeneratedImagesFilter,
 } from "redux/reducers/slices/generated-images";
 
 import { IGeneratedTokens } from "@/interfaces";
@@ -20,6 +25,20 @@ import GeneratedToken from "./GeneratedToken";
 
 export default function GenerateToken() {
   const generatedTokens: IGeneratedTokens[] = useSelector(getGeneratedImages);
+  const generatedTokenFilter = useSelector(getGeneratedImagesFilter);
+
+  let filteredTokens = [];
+  if (generatedTokenFilter === null) {
+    filteredTokens = generatedTokens;
+  } else {
+    filteredTokens = [...generatedTokens].filter((token: IGeneratedTokens) => {
+      return token.renderObjects.some(
+        (element) =>
+          element.filename.split(".")[0] ===
+          generatedTokenFilter.split("|||")[0]
+      );
+    });
+  }
 
   const layers = useSelector(getLayers);
 
@@ -725,7 +744,6 @@ export default function GenerateToken() {
    *
    * @param {Array} renderObjectArray Array of render elements to draw to canvas
    * @param {Object} layerData data passed from the current iteration of the loop or configured dna-set
-   *
    */
   const paintLayers = (
     canvasContext: any,
@@ -1060,11 +1078,41 @@ export default function GenerateToken() {
                         />
                       </svg>
                     </div>
-                    {generatedTokens?.length} tokens
+
+                    <div className="flex items-center gap-3 font-normal">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-5 w-5 cursor-pointer rounded-xl transition-all hover:-rotate-45"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        onClick={() => dispatch(setGeneratedImagesFilter(null))}
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                      {generatedTokenFilter ? (
+                        <p>
+                          Showing {filteredTokens.length} results where{" "}
+                          <strong>
+                            &apos;{generatedTokenFilter.split("|||")[1]}&apos;
+                          </strong>{" "}
+                          is &apos;
+                          <strong>
+                            {generatedTokenFilter.split("|||")[0]}
+                          </strong>
+                          &apos;
+                        </p>
+                      ) : (
+                        <>{generatedTokens?.length} tokens</>
+                      )}
+                    </div>
                   </Dialog.Title>
-                  <div className="flex w-full items-center justify-center">
+                  <div className="mt-8 flex w-full items-center justify-center">
                     <div className="mt-5 grid w-fit grid-cols-10 gap-5">
-                      {generatedTokens.map((token, index) => (
+                      {filteredTokens.map((token, index) => (
                         <GeneratedToken key={index} token={token} />
                       ))}
                     </div>
