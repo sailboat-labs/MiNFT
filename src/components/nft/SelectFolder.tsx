@@ -74,14 +74,10 @@ export default function SelectFolder() {
 
       dispatch(setLayers(_layers));
       dispatch(setLayerOrder(_layerOrder));
-      console.log(_layers);
+      console.log(_layerOrder);
     } catch (e) {
       console.log(e);
     }
-  }
-
-  function padLeft(n: number) {
-    return (n < 10 ? "00" : n < 100 ? "0" : "") + n;
   }
 
   async function listAllFilesAndDirs(dirHandle: any): Promise<any> {
