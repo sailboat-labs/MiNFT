@@ -4,8 +4,6 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setLayerOrder } from "redux/reducers/slices/layers";
 
-import { Trait } from "@/interfaces/get-started";
-
 import SortableList from "../SortableList";
 
 const NFTLayering = () => {
@@ -13,7 +11,7 @@ const NFTLayering = () => {
   const dispatch = useDispatch();
   const store = useSelector((state) => state) as any;
   const layersState = store.layersReducer;
-  const [traits, setTraits] = useState<Trait[]>([]);
+  const [traits, setTraits] = useState([]);
 
   function onSortEnd({
     oldIndex,

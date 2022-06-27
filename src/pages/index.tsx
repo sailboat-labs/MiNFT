@@ -1,13 +1,11 @@
 import { getFirestore } from "firebase/firestore";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import React from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 
 import { firebaseApp } from "@/lib/firebase";
 
-import TraitGroupNavigator from "@/components/layout/TraitGroupNavigator";
 import GenerateToken from "@/components/nft/GenerateToken";
 import NFTPreview from "@/components/nft/NFTPreview";
 import PropertyGroup from "@/components/nft/PropertyGroup";
@@ -81,16 +79,18 @@ const Index = ({ router }: any) => {
       </div> */}
       <SelectFolder />
       <div className="flex">
-        <TraitGroupNavigator />
-        <div className="h-screen w-[60%] overflow-y-auto overflow-x-hidden border-r">
+        {/* <TraitGroupNavigator /> */}
+        <div className="h-screen w-[60%] overflow-y-auto overflow-x-hidden border-r ">
           {/* <TraitsSearchbar /> */}
 
-          <div className="mt-0 h-[length:calc(100vh-0px)] flex-col gap-10 overflow-y-auto px-10">
+          <div className="mt-0 h-[length:calc(100vh-0px)] flex-col gap-10 overflow-y-auto px-10 pb-10">
             {layersState && (
               <>
                 {layersState.layers.map((item: NFTLayer, index: number) => (
                   <PropertyGroup
                     key={index}
+                    index={index}
+                    layersCount={layersState.layers.length}
                     onChange={handleTraitChanged}
                     name={item.name}
                     elements={

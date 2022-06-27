@@ -27,6 +27,10 @@
   /* #endregion  /**======== Primary Color =========== */
 }
 
+.swal-text {
+  text-align: center !important;
+}
+
 @layer base {
   /* inter var - latin */
   @font-face {
