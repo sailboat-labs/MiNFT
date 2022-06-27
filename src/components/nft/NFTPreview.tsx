@@ -865,7 +865,6 @@ const NFTPreview: FC<AppProps> = ({ className }) => {
               opacity: layer.opacity,
               selectedElements: layer.elements,
             }));
-            console.log({ results });
 
             debugLogs ? console.log("DNA:", newDna.split(DNA_DELIMITER)) : null;
             const loadedElements: any[] = [];
