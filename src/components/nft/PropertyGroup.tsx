@@ -5,14 +5,19 @@ import {
   getPreviewLayers,
   getSelectedLayerName,
 } from "redux/reducers/selectors/layers";
-import { setSelectedLayerName } from "redux/reducers/slices/layers";
+import {
+  reOrderLayer,
+  setSelectedLayerName,
+} from "redux/reducers/slices/layers";
 
 import { firebaseApp } from "@/lib/firebase";
+
+import { ILayer } from "@/interfaces";
 
 import TraitPreview from "./TraitPreview";
 
 interface AppProps {
-  name: string;
+  layer: ILayer;
   index: number;
   layersCount: number;
   elements: any[];
@@ -27,7 +32,7 @@ interface AppProps {
 const firestore = getFirestore(firebaseApp);
 
 const PropertyGroup: FC<AppProps> = ({
-  name,
+  layer,
   layersCount,
   onChange,
   index,
@@ -38,7 +43,6 @@ const PropertyGroup: FC<AppProps> = ({
 
   const accordionContent = useRef<HTMLDivElement | null>(null);
   const [editName, setEditName] = useState<boolean>(false);
-  const [groupName, setGroupName] = useState<string>(name);
   const [showEmptyNameError, setShowEmptyNameError] = useState<boolean>(false);
   const [collapsed, setCollapsed] = useState<boolean>(false);
   const [accordionHeight, setAccordionHeight] = useState<number>();
@@ -55,19 +59,19 @@ const PropertyGroup: FC<AppProps> = ({
    *
    * @returns {undefined}
    */
-  function saveGroupName() {
-    if (groupName === name) {
-      setEditName(false);
-      return;
-    }
+  // function saveGroupName() {
+  //   if (groupName === name) {
+  //     setEditName(false);
+  //     return;
+  //   }
 
-    setShowEmptyNameError(groupName.trim() === "");
-    if (!showEmptyNameError) return;
+  //   setShowEmptyNameError(groupName.trim() === "");
+  //   if (!showEmptyNameError) return;
 
-    // todo: code to update name goes here
-    // - state "groupName" has the most up to date version of name
-    console.log("updating group name");
-  }
+  //   // todo: code to update name goes here
+  //   // - state "groupName" has the most up to date version of name
+  //   console.log("updating group name");
+  // }
   /**
    * handles changes in group name
    *
@@ -75,8 +79,8 @@ const PropertyGroup: FC<AppProps> = ({
    * @returns {undefined}
    */
   function handleChange(evt: React.ChangeEvent<HTMLInputElement>) {
-    setGroupName(evt.target.value);
-    setShowEmptyNameError(groupName.trim() === "");
+    // setGroupName(evt.target.value);
+    // setShowEmptyNameError(groupName.trim() === "");
   }
   /**
    * checks if group's trait rarity is being changed
@@ -86,7 +90,7 @@ const PropertyGroup: FC<AppProps> = ({
   function changingRarity(): boolean {
     if (selectedLayerName === null) return false;
 
-    return groupName === selectedLayerName;
+    return layer.name === selectedLayerName;
   }
   /**
    * deletes trait at @param traitIndex -index
@@ -107,11 +111,14 @@ const PropertyGroup: FC<AppProps> = ({
    * @param {boolean} up - flag to move layer up or down
    * @returns {undefined}
    */
-  function moveLayer(up = true) {
-    if (up) {
-      console.log("move layer up");
+  function moveLayer(isMoveUp: boolean, index: number) {
+    if (isMoveUp) {
+      console.log(name, "wants to move up to", --index);
+
+      dispatch(reOrderLayer({ currentIndex: index, nextIndex: ++index }));
     } else {
-      console.log("move layer down");
+      console.log(name, "wants to move down to", ++index);
+      dispatch(reOrderLayer({ currentIndex: index, nextIndex: --index }));
     }
   }
 
@@ -134,7 +141,7 @@ const PropertyGroup: FC<AppProps> = ({
             className="h-6 w-6 transform cursor-pointer duration-100 hover:-translate-y-2"
             viewBox="0 0 20 20"
             fill="gray"
-            onClick={() => moveLayer()}
+            onClick={() => moveLayer(true, index)}
           >
             <path
               fillRule="evenodd"
@@ -150,7 +157,7 @@ const PropertyGroup: FC<AppProps> = ({
             className="h-6 w-6 transform cursor-pointer duration-100 hover:translate-y-2"
             viewBox="0 0 20 20"
             fill="gray"
-            onClick={() => moveLayer(false)}
+            onClick={() => moveLayer(false, index)}
           >
             <path
               fillRule="evenodd"
@@ -173,7 +180,7 @@ const PropertyGroup: FC<AppProps> = ({
               <div className="flex items-center">
                 <input
                   type="text"
-                  value={groupName}
+                  value={layer.name}
                   onChange={handleChange}
                   className="rounded-md border border-[#30489C] py-1 text-sm"
                 />
@@ -187,7 +194,7 @@ const PropertyGroup: FC<AppProps> = ({
                   className="mx-1 h-4 w-4 cursor-pointer duration-100 hover:scale-125"
                   viewBox="0 0 20 20"
                   fill="gray"
-                  onClick={() => setGroupName("")}
+                  // onClick={() => setGroupName("")}
                 >
                   <path
                     fillRule="evenodd"
@@ -202,7 +209,7 @@ const PropertyGroup: FC<AppProps> = ({
                   viewBox="0 0 24 24"
                   stroke="gray"
                   strokeWidth={2}
-                  onClick={() => saveGroupName()}
+                  // onClick={() => saveGroupName()}
                 >
                   <path
                     strokeLinecap="round"
@@ -218,7 +225,7 @@ const PropertyGroup: FC<AppProps> = ({
                   className="flex items-center gap-2 rounded-md   bg-[#30489C] px-4 py-1 text-base text-white"
                   onClick={onDisplayNameClick}
                 >
-                  <span>{groupName}</span>
+                  <span>{layer.name}</span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-4 w-4 translate-x-2 transform cursor-pointer duration-100 hover:scale-125"
@@ -237,7 +244,7 @@ const PropertyGroup: FC<AppProps> = ({
 
           {/* Rarity button */}
           <button
-            onClick={() => dispatch(setSelectedLayerName(groupName))}
+            onClick={() => dispatch(setSelectedLayerName(layer.name))}
             className={`my-2 flex items-center gap-1 rounded-md border border-indigo-600 px-4 py-1 text-base font-medium text-indigo-600 ${
               changingRarity() && "bg-[#30489C] !text-white"
             }`}
@@ -271,12 +278,12 @@ const PropertyGroup: FC<AppProps> = ({
                   key={index}
                   file={element}
                   traitIndex={index}
-                  rarityMode={groupName === selectedLayerName}
+                  rarityMode={layer.name === selectedLayerName}
                   onRemove={removeTrait}
                   active={
                     previewLayers.find(
-                      (layer: { layer: string; element: string }) =>
-                        layer.layer == name
+                      (item: { layer: string; element: string }) =>
+                        item.layer == layer.name
                     )?.element == element.path
                   }
                 />

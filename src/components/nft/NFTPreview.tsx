@@ -5,7 +5,7 @@ import chalk from "chalk";
 import keccak256 from "keccak256";
 import React, { FC, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { getPreviewLayers } from "redux/reducers/selectors/layers";
+import { getLayers, getPreviewLayers } from "redux/reducers/selectors/layers";
 
 interface AppProps {
   className?: string;
@@ -13,15 +13,16 @@ interface AppProps {
 
 const NFTPreview: FC<AppProps> = ({ className }) => {
   const previewLayer = useSelector(getPreviewLayers);
+  const layersState = useSelector(getLayers);
 
   const [previewImage, setPreviewImage] = useState<any>();
 
   useEffect(() => {
     startCreating();
-  }, [previewLayer]);
+  }, [previewLayer, layersState]);
 
   const background = {
-    generate: true,
+    generate: false,
     brightness: "100%",
   };
   const emptyLayerName = "NONE";
@@ -33,14 +34,6 @@ const NFTPreview: FC<AppProps> = ({ className }) => {
       growEditionSizeTo: 1,
       resetNameIndex: false,
       namePrefix: "NZMX Club", // Use to add a name to Metadata `name:`
-      layersOrder: [
-        { name: "Background" },
-        { name: "Skin" },
-        { name: "Eyes" },
-        { name: "Clothes" },
-        { name: "Head Accessory" },
-        { name: "Bling" },
-      ],
     },
   ];
   const incompatible: any = {
@@ -846,28 +839,48 @@ const NFTPreview: FC<AppProps> = ({ className }) => {
         //   layerConfigurations[layerConfigIndex].layersOrder
         // );
 
-        const layers = previewLayer?.map((layer: any, layerIndex: number) => ({
-          id: layerIndex,
-          name: layer.layer,
-          blendmode: "source-over",
-          opacity: 1,
-          bypassDNA: false,
-          elements: [
-            {
-              id: 0,
-              sublayer: false,
-              weight: 1,
-              blendmode: "source-over",
-              opacity: 1,
-              name: layer.layer,
-              filename: `${layer.layer}#${padLeft(1)}.png`,
-              path: previewLayer[layerIndex].element,
-              zindex: "",
-              trait: layer.layer,
-              traitValue: layer.layer,
-            },
-          ],
-        }));
+        let layers: any[] = previewLayer?.map(
+          (layer: any, layerIndex: number) => ({
+            id: layerIndex,
+            name: layer.layer,
+            blendmode: "source-over",
+            opacity: 1,
+            bypassDNA: false,
+            elements: [
+              {
+                id: 0,
+                sublayer: false,
+                weight: 1,
+                blendmode: "source-over",
+                opacity: 1,
+                name: layer.layer,
+                filename: `${layer.layer}#${padLeft(1)}.png`,
+                path: previewLayer[layerIndex].element,
+                zindex: "",
+                trait: layer.layer,
+                traitValue: layer.layer,
+              },
+            ],
+          })
+        );
+
+        const reOrderedLayers: any[] = [];
+
+        console.log({ layers });
+
+        layersState.forEach((element: { name: any }) => {
+          const layerToPush = layers.find((item) => item.name == element.name);
+          if (layerToPush) {
+            reOrderedLayers.push(
+              layers.find((item) => item.name == element.name)
+            );
+          }
+        });
+
+        console.log({ reOrderedLayers });
+
+        layers = reOrderedLayers;
+        console.log({ layers });
 
         // return console.log("using data", JSON.stringify(layers));
 

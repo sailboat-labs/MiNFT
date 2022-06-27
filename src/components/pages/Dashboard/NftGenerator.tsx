@@ -1,8 +1,8 @@
 import { getFirestore } from "firebase/firestore";
 import Head from "next/head";
-import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
+import { getLayers } from "redux/reducers/selectors/layers";
 
 import { firebaseApp } from "@/lib/firebase";
 
@@ -12,24 +12,16 @@ import PropertyGroup from "@/components/nft/PropertyGroup";
 import SelectFolder from "@/components/nft/SelectFolder";
 import NFTSettings from "@/components/nft/settings";
 
+import { ILayer } from "@/interfaces";
+
 import { NFTLayer } from "@/types";
 
 const firestore = getFirestore(firebaseApp);
 
 const NFTGenerator = ({ router }: any) => {
   const dispatch = useDispatch();
-  const history = useRouter();
-  // const [layers, setLayers] = useState<NFTLayer[]>([]);
 
-  const store = useSelector((state) => state) as any;
-  const layersState = store.layersReducer;
-  const generatedImagesState = store.generatedImagesReducer;
-
-  const tabs: { label: string; route: string }[] = [
-    { label: "Preview", route: "" },
-    { label: "Manage", route: "" },
-    { label: "Generate", route: "" },
-  ];
+  const layers = useSelector(getLayers);
 
   /**
    * handles change in a property group trait
@@ -58,24 +50,21 @@ const NFTGenerator = ({ router }: any) => {
           {/* <TraitsSearchbar /> */}
 
           <div className="mt-0 h-[length:calc(100vh-0px)] w-full min-w-[900px] flex-col gap-10 overflow-y-auto px-10 pb-10">
-            {layersState && (
-              <>
-                {layersState.layers.map((item: NFTLayer, index: number) => (
-                  <PropertyGroup
-                    key={index}
-                    index={index}
-                    layersCount={layersState.layers.length}
-                    onChange={handleTraitChanged}
-                    name={item.name}
-                    elements={
-                      layersState.layers.find(
-                        (layer: NFTLayer) => layer.name == item.name
-                      )?.elements
-                    }
-                  />
-                ))}
-              </>
-            )}
+            <>
+              {layers.map((item: ILayer, index: number) => (
+                <PropertyGroup
+                  key={index}
+                  index={index}
+                  layersCount={layers.length}
+                  onChange={handleTraitChanged}
+                  layer={item}
+                  elements={
+                    layers.find((layer: NFTLayer) => layer.name == item.name)
+                      ?.elements
+                  }
+                />
+              ))}
+            </>
           </div>
         </div>
         <div className="min-h-screen w-[40%]">
