@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 
 import { firebaseApp } from "@/lib/firebase";
 
+import TraitGroupNavigator from "@/components/layout/TraitGroupNavigator";
 import GenerateToken from "@/components/nft/GenerateToken";
 import NFTPreview from "@/components/nft/NFTPreview";
 import PropertyGroup from "@/components/nft/PropertyGroup";
@@ -79,7 +80,7 @@ const Index = ({ router }: any) => {
       </div> */}
       <SelectFolder />
       <div className="flex">
-        {/* <TraitGroupNavigator /> */}
+        <TraitGroupNavigator />
         <div className="h-screen w-[60%] overflow-y-auto overflow-x-hidden border-r ">
           {/* <TraitsSearchbar /> */}
 
