@@ -119,7 +119,7 @@ const PropertyGroup: FC<AppProps> = ({
 
   useEffect(() => {
     setAccordionHeight(accordionContent.current?.scrollHeight);
-  }, [selectedLayerName]);
+  }, [selectedLayerName, elements]);
 
   // useEffect(() => {
   //   if (selectedLayerName !== null) {
@@ -238,26 +238,28 @@ const PropertyGroup: FC<AppProps> = ({
           </div>
 
           {/* Rarity button */}
-          <button
-            onClick={() => dispatch(setSelectedLayerName(layer.name))}
-            className={`my-2 flex items-center gap-1 rounded-md border border-indigo-600 px-4 py-1 text-base font-medium text-indigo-600 ${
-              changingRarity() && "bg-[#30489C] !text-white"
-            }`}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              viewBox="0 0 20 20"
-              fill="currentColor"
+          {elements.length > 0 && (
+            <button
+              onClick={() => dispatch(setSelectedLayerName(layer.name))}
+              className={`my-2 flex items-center gap-1 rounded-md border border-indigo-600 px-4 py-1 text-base font-medium text-indigo-600 ${
+                changingRarity() && "bg-[#30489C] !text-white"
+              }`}
             >
-              <path
-                fillRule="evenodd"
-                d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm0 10a1 1 0 011 1v1h1a1 1 0 110 2H6v1a1 1 0 11-2 0v-1H3a1 1 0 110-2h1v-1a1 1 0 011-1zM12 2a1 1 0 01.967.744L14.146 7.2 17.5 9.134a1 1 0 010 1.732l-3.354 1.935-1.18 4.455a1 1 0 01-1.933 0L9.854 12.8 6.5 10.866a1 1 0 010-1.732l3.354-1.935 1.18-4.455A1 1 0 0112 2z"
-                clipRule="evenodd"
-              />
-            </svg>
-            Change rarity
-          </button>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm0 10a1 1 0 011 1v1h1a1 1 0 110 2H6v1a1 1 0 11-2 0v-1H3a1 1 0 110-2h1v-1a1 1 0 011-1zM12 2a1 1 0 01.967.744L14.146 7.2 17.5 9.134a1 1 0 010 1.732l-3.354 1.935-1.18 4.455a1 1 0 01-1.933 0L9.854 12.8 6.5 10.866a1 1 0 010-1.732l3.354-1.935 1.18-4.455A1 1 0 0112 2z"
+                  clipRule="evenodd"
+                />
+              </svg>
+              Change rarity
+            </button>
+          )}
         </div>
         <div
           style={{
@@ -267,7 +269,11 @@ const PropertyGroup: FC<AppProps> = ({
           ref={accordionContent}
         >
           <div className="rounded-md border-2 bg-gray-100">
-            <div className={`mt-5 flex flex-wrap gap-6    p-6 `}>
+            <div
+              className={`flex flex-wrap gap-6 p-6 transition-all ${
+                elements.length < 1 ? "mt-0" : "mt-0"
+              }`}
+            >
               {elements.map((element: IElement, index: number) => (
                 <TraitPreview
                   key={index}
@@ -278,6 +284,26 @@ const PropertyGroup: FC<AppProps> = ({
                   active={element.isSelected}
                 />
               ))}
+
+              {elements.length < 1 && (
+                <div className="flex items-center gap-3">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-10 w-10 rounded-full border-2 border-red-500 bg-red-200 p-2"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="red"
+                    strokeWidth="2"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
+                    />
+                  </svg>
+                  No element added
+                </div>
+              )}
             </div>
             {changingRarity() && (
               <div className="mb-4  flex items-center justify-center gap-x-4 px-6">
