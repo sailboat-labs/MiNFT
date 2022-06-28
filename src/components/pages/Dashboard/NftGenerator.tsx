@@ -40,7 +40,7 @@ const NFTGenerator = ({ router }: any) => {
   }
 
   return (
-    <div>
+    <>
       <Head>
         <title>NFT Trait Generator</title>
       </Head>
@@ -61,7 +61,7 @@ const NFTGenerator = ({ router }: any) => {
             </div>
 
             {layers.length > 0 && (
-              <div className="mt-0 h-[length:calc(100vh-0px)] w-full min-w-[900px] flex-col gap-10 overflow-y-auto px-10 pb-10">
+              <div className=" w-full min-w-[900px] flex-col gap-10 overflow-y-auto px-10 pb-10">
                 <>
                   {layers.map((item: ILayer, index: number) => (
                     <PropertyGroup
@@ -103,7 +103,7 @@ const NFTGenerator = ({ router }: any) => {
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 };
 

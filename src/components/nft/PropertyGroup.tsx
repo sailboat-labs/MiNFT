@@ -1,8 +1,10 @@
 import React, { ChangeEvent, FC, useEffect, useRef, useState } from "react";
+import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { getSelectedLayerName } from "redux/reducers/selectors/layers";
 import {
   addTraitsToLayer,
+  changeLayerName,
   reOrderLayer,
   setSelectedLayerName,
 } from "redux/reducers/slices/layers";
@@ -41,6 +43,7 @@ const PropertyGroup: FC<AppProps> = ({
   const [collapsed, setCollapsed] = useState<boolean>(false);
   const [accordionHeight, setAccordionHeight] = useState<number>();
   const fileInput = useRef<HTMLInputElement>(null);
+  const [newName, setNewName] = useState<string>();
 
   function onDisplayNameClick(evt: React.MouseEvent<HTMLDivElement>) {
     evt.stopPropagation();
@@ -109,7 +112,7 @@ const PropertyGroup: FC<AppProps> = ({
    * @returns {undefined}
    */
   function handleChange(evt: React.ChangeEvent<HTMLInputElement>) {
-    // setGroupName(evt.target.value);
+    setNewName(evt.target.value);
     // setShowEmptyNameError(groupName.trim() === "");
   }
   /**
@@ -163,7 +166,7 @@ const PropertyGroup: FC<AppProps> = ({
   // }, selectedLayerName);
 
   return (
-    <div className="flex gap-6" id={`trait-group-${name}`}>
+    <div className="flex gap-6" id={`trait-group-${name} h-fit`}>
       <div className="mt-20 flex flex-col items-center justify-center text-gray-500">
         {index > 0 && (
           <svg
@@ -210,7 +213,7 @@ const PropertyGroup: FC<AppProps> = ({
               <div className="flex items-center">
                 <input
                   type="text"
-                  value={layer.name}
+                  defaultValue={layer.name}
                   onChange={handleChange}
                   className="rounded-md border border-[#30489C] py-1 text-sm"
                 />
@@ -224,7 +227,7 @@ const PropertyGroup: FC<AppProps> = ({
                   className="mx-1 h-4 w-4 cursor-pointer duration-100 hover:scale-125"
                   viewBox="0 0 20 20"
                   fill="gray"
-                  // onClick={() => setGroupName("")}
+                  onClick={() => setEditName(false)}
                 >
                   <path
                     fillRule="evenodd"
@@ -238,13 +241,22 @@ const PropertyGroup: FC<AppProps> = ({
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="gray"
-                  strokeWidth={2}
-                  // onClick={() => saveGroupName()}
+                  strokeWidth="2"
+                  onClick={() => {
+                    dispatch(
+                      changeLayerName({
+                        currentName: layer.name,
+                        newName: newName,
+                      })
+                    );
+                    setEditName(false);
+                    toast.success("Layer name changed");
+                  }}
                 >
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    d="M17 16v2a2 2 0 01-2 2H5a2 2 0 01-2-2v-7a2 2 0 012-2h2m3-4H9a2 2 0 00-2 2v7a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-1m-1 4l-3 3m0 0l-3-3m3 3V3"
+                    d="M5 13l4 4L19 7"
                   />
                 </svg>
               </div>

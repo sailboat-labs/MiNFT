@@ -93,6 +93,28 @@ const layerStore = createSlice({
         .find((layer: ILayer) => layer.name == layerName)
         .elements.push(...elements);
     },
+
+    changeLayerName: (state: any, param: any) => {
+      const { payload } = param;
+      const currentName = payload.currentName;
+      const newName = payload.newName;
+
+      const elementData = state.layers.find(
+        (layer: ILayer) => layer.name == currentName
+      )?.elements;
+      if (elementData) {
+        const elements = elementData.map((element: IElement) => ({
+          ...element,
+          trait: newName,
+        }));
+        state.layers.find(
+          (layer: ILayer) => layer.name == currentName
+        ).elements = elements;
+      }
+
+      state.layers.find((layer: ILayer) => layer.name == currentName).name =
+        newName;
+    },
   },
 });
 const { actions, reducer } = layerStore;
@@ -104,5 +126,6 @@ export const {
   reOrderLayer,
   deleteTrait,
   addTraitsToLayer,
+  changeLayerName,
 } = actions;
 export default layerStore;

@@ -63,17 +63,7 @@ const TraitPreview: FC<AppProps> = ({
   }
 
   return (
-    <div
-      className="flex flex-col items-center justify-center"
-      onClick={() => {
-        dispatch(
-          selectTraitForPreview({
-            layer: file.name,
-            elementName: file.filename,
-          })
-        );
-      }}
-    >
+    <div className="flex flex-col items-center justify-center">
       <div
         className={`text-xs font-semibold text-[#30489C] transition-all ${
           active && !rarityMode ? "opacity-100" : "opacity-0"
@@ -90,7 +80,17 @@ const TraitPreview: FC<AppProps> = ({
         }`}
       >
         <DeleteTraitModal trait={file} />
-        <div className="h-[76px] w-[76px] overflow-hidden rounded-md">
+        <div
+          onClick={() => {
+            dispatch(
+              selectTraitForPreview({
+                layer: file.name,
+                elementName: file.filename,
+              })
+            );
+          }}
+          className="h-[76px] w-[76px] overflow-hidden rounded-md"
+        >
           <img
             src={file.path}
             // alt="file preview"

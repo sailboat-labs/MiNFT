@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
+import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { deleteTrait } from "redux/reducers/slices/layers";
 
@@ -120,6 +121,7 @@ export default function DeleteTraitModal({ trait }: props) {
                               })
                             );
                             closeModal();
+                            toast.success("Trait Deleted");
                           }}
                         >
                           Delete
