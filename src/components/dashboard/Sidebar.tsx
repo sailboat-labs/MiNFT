@@ -133,7 +133,7 @@ export default function Sidebar({ currentPage }: SidebarProps) {
   ];
 
   return (
-    <div className="mt-0 flex h-screen w-72 flex-col justify-between bg-gray-100 px-5 font-dmsans opacity-100">
+    <div className="z-[9999] mt-0 flex h-screen w-72 flex-col justify-between bg-gray-100 px-5 font-dmsans opacity-100">
       <div className="flex flex-col pt-5">
         <div className="box-border flex h-16 flex-row items-center pt-6">
           <div className="h-20 w-20 rounded-full bg-indigo-800">

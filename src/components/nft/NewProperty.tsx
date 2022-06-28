@@ -1,7 +1,5 @@
 import { getFirestore } from "firebase/firestore";
-import { useRouter } from "next/router";
 import React, { ChangeEvent, useRef, useState } from "react";
-import toast from "react-hot-toast";
 
 import { firebaseApp } from "@/lib/firebase";
 
@@ -9,8 +7,11 @@ import TraitPreview from "./TraitPreview";
 
 export const firestore = getFirestore(firebaseApp);
 
-const NewProperty = () => {
-  const router = useRouter();
+type props = {
+  onDiscard?: any;
+};
+
+const NewProperty = ({ onDiscard }: props) => {
   const [files, setFiles] = useState<File[]>([]);
 
   const fileInput = useRef<HTMLInputElement>(null);
@@ -50,6 +51,8 @@ const NewProperty = () => {
   function discardProperty() {
     setPropertyName("");
     setFiles([]);
+
+    onDiscard();
   }
   /**
    * saves entered property name
@@ -58,11 +61,7 @@ const NewProperty = () => {
    * @returns {undefined}
    */
   async function saveProperty() {
-    if (router.query)
-      // todo: save Property name and uploaded trait files
-      toast("Saving");
-
-    const project = router.query?.name?.toString().toLowerCase();
+    //
   }
 
   function removeTrait(traitIndex: number) {
@@ -72,10 +71,10 @@ const NewProperty = () => {
   }
 
   return (
-    <form className="rounded-xl border border-[color:var(--border-gray)] bg-[color:var(--bg-gray)] p-6">
+    <form className="w-full rounded-xl border border-[color:var(--border-gray)] bg-[color:var(--bg-gray)] p-6">
       <div className="flex flex-col gap-3">
         <label htmlFor="newProperty" className="font-semibold">
-          New Property
+          New Layer
         </label>
         <input
           type="text"
@@ -126,14 +125,14 @@ const NewProperty = () => {
         </div>
       )}
       <div className="mt-8 flex items-center justify-center gap-4">
-        <button
-          className="max-w-[130px] flex-1 rounded-md bg-[color:var(--blue)] py-2 text-white"
-          onClick={discardProperty}
+        <div
+          className="flex max-w-[130px] flex-1 cursor-pointer items-center justify-center rounded-md bg-[color:var(--blue)] py-2 text-white"
+          onClick={() => discardProperty()}
         >
           Discard
-        </button>
+        </div>
         <div
-          className="max-w-[130px] flex-1 rounded-md bg-[color:var(--blue)] py-2 text-white"
+          className="flex max-w-[130px] flex-1 cursor-pointer items-center justify-center rounded-md bg-[color:var(--blue)] py-2 text-white"
           onClick={saveProperty}
         >
           Save

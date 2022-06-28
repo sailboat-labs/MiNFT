@@ -1,12 +1,20 @@
-import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setLayers } from "redux/reducers/slices/layers";
 
+import NewProperty from "./NewProperty";
+
 import { NFTLayer } from "@/types";
 
-export default function SelectFolder() {
+type props = {
+  className?: string;
+};
+
+export default function SelectFolder({ className }: props) {
   const [isOpen, setIsOpen] = useState(true);
+  const [currentStep, setCurrentStep] = useState<
+    "select-folder" | "new-property"
+  >("select-folder");
   let _layers: any[] = [];
   const layers: NFTLayer[] = [];
   const dispatch = useDispatch();
@@ -104,84 +112,99 @@ export default function SelectFolder() {
   }
 
   return (
-    <>
-      <Transition appear show={isOpen} as={Fragment}>
-        <Dialog
-          as="div"
-          className="relative z-10"
-          onClose={() => {
-            //
-          }}
-        >
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
+    <div className={`flex items-center justify-center  ${className}`}>
+      <div
+        className={`absolute z-[2] w-full max-w-md transform overflow-hidden rounded-2xl border-2 bg-white p-6 text-left align-middle transition-all duration-300 ${
+          currentStep != "select-folder"
+            ? "pointer-events-none -translate-x-[150%] opacity-30"
+            : "pointer-events-auto translate-x-0 opacity-100"
+        }`}
+      >
+        <div className="text-lg font-medium leading-6 text-gray-900">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth="2"
           >
-            <div className="fixed inset-0 bg-black bg-opacity-25" />
-          </Transition.Child>
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
+            />
+          </svg>
+          Let&apos;s get started
+        </div>
+        <div className="mt-2">
+          <p className="text-sm text-gray-500">
+            Select a folder to import. Selected folder should contain a folder
+            for each trait with a file for each trait variation
+          </p>
+        </div>
 
-          <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center p-4 text-center">
-              <Transition.Child
-                as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0 scale-95"
-                enterTo="opacity-100 scale-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100 scale-100"
-                leaveTo="opacity-0 scale-95"
-              >
-                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                  <Dialog.Title
-                    as="h3"
-                    className="text-lg font-medium leading-6 text-gray-900"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
-                      />
-                    </svg>
-                    Let&apos;s get started
-                  </Dialog.Title>
-                  <div className="mt-2">
-                    <p className="text-sm text-gray-500">
-                      Select a folder to import. Selected folder should contain
-                      a folder for each trait with a file for each trait
-                      variation
-                    </p>
-                  </div>
+        <div className="mt-4 flex w-full ">
+          <button
+            type="button"
+            className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+            onClick={() => {
+              viewAllFiles();
+            }}
+          >
+            Select Folder
+          </button>
+        </div>
 
-                  <div className="mt-4 flex w-full justify-center">
-                    <button
-                      type="button"
-                      className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                      onClick={() => {
-                        viewAllFiles();
-                      }}
-                    >
-                      Select Folder
-                    </button>
-                  </div>
-                </Dialog.Panel>
-              </Transition.Child>
-            </div>
-          </div>
-        </Dialog>
-      </Transition>
-    </>
+        <div className="my-5 h-1 flex-1 rounded-xl border-2 "></div>
+        <p className="text-lg font-medium leading-6 text-gray-900">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+            />
+          </svg>
+          Add Layers and traits manually
+        </p>
+        <div className="mt-2">
+          <p className="text-sm text-gray-500">
+            Add a new layer and select traits for them. More can be added later
+          </p>
+        </div>
+        <div className="mt-4 flex w-full">
+          <button
+            type="button"
+            className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+            onClick={() => {
+              setCurrentStep("new-property");
+            }}
+          >
+            Add New Layer
+          </button>
+        </div>
+      </div>
+
+      <div
+        className={`w-2/5 transition-all duration-500 ${
+          currentStep == "new-property"
+            ? "pointer-events-auto translate-x-0 opacity-100"
+            : "pointer-events-none translate-x-52 opacity-0"
+        }`}
+      >
+        <NewProperty
+          onDiscard={() => {
+            setCurrentStep("select-folder");
+          }}
+        />
+      </div>
+    </div>
   );
 }

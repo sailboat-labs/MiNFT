@@ -39,38 +39,45 @@ const NFTGenerator = ({ router }: any) => {
   }
 
   return (
-    <>
+    <div>
       <Head>
         <title>NFT Trait Generator</title>
       </Head>
 
-      <SelectFolder />
-      <div className="flex w-full">
-        <div className="h-screen w-full overflow-y-auto overflow-x-hidden border-r ">
-          {/* <TraitsSearchbar /> */}
+      {layers.length < 1 && (
+        <SelectFolder className="mt-52 w-[length:calc(100vw-30rem)] flex-1" />
+      )}
 
-          <div className="mt-0 h-[length:calc(100vh-0px)] w-full min-w-[900px] flex-col gap-10 overflow-y-auto px-10 pb-10">
-            <>
-              {layers.map((item: ILayer, index: number) => (
-                <PropertyGroup
-                  key={index}
-                  index={index}
-                  layersCount={layers.length}
-                  onChange={handleTraitChanged}
-                  layer={item}
-                  elements={
-                    layers.find((layer: NFTLayer) => layer.name == item.name)
-                      ?.elements
-                  }
-                />
-              ))}
-            </>
+      {layers.length > 0 && (
+        <div className="flex w-full">
+          <div className="h-screen w-full overflow-y-auto overflow-x-hidden border-r ">
+            {/* <TraitsSearchbar /> */}
+
+            {layers.length > 0 && (
+              <div className="mt-0 h-[length:calc(100vh-0px)] w-full min-w-[900px] flex-col gap-10 overflow-y-auto px-10 pb-10">
+                <>
+                  {layers.map((item: ILayer, index: number) => (
+                    <PropertyGroup
+                      key={index}
+                      index={index}
+                      layersCount={layers.length}
+                      onChange={handleTraitChanged}
+                      layer={item}
+                      elements={
+                        layers.find(
+                          (layer: NFTLayer) => layer.name == item.name
+                        )?.elements
+                      }
+                    />
+                  ))}
+                </>
+              </div>
+            )}
           </div>
-        </div>
-        <div className="min-h-screen w-[40%]">
-          <section className="flex w-[29rem] flex-col justify-center pl-20">
-            <div className="flex gap-5 pt-10">
-              {/* {tabs.map((tab, index) => (
+          <div className="min-h-screen w-[40%]">
+            <section className="flex w-[29rem] flex-col justify-center pl-20">
+              <div className="flex gap-5 pt-10">
+                {/* {tabs.map((tab, index) => (
                 <div
                   onClick={() => {
                     // history.push(tab.route);
@@ -81,14 +88,15 @@ const NFTGenerator = ({ router }: any) => {
                   {tab.label}
                 </div>
               ))} */}
-              <NFTSettings />
-            </div>
-            <NFTPreview className="mt-10" />
-            <GenerateToken />
-          </section>
+                <NFTSettings />
+              </div>
+              <NFTPreview className="mt-10" />
+              <GenerateToken />
+            </section>
+          </div>
         </div>
-      </div>
-    </>
+      )}
+    </div>
   );
 };
 
