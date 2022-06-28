@@ -82,6 +82,17 @@ const layerStore = createSlice({
           ?.elements.splice(elementIndex!, 1);
       }
     },
+    deleteLayer: (state: any, param: any) => {
+      const { payload } = param;
+
+      const layerIndex = (state.layers as ILayer[]).findIndex(
+        (layer) => layer.name == payload
+      );
+
+      if (layerIndex != -1) {
+        (state.layers as ILayer[]).splice(layerIndex!, 1);
+      }
+    },
 
     addTraitsToLayer: (state: any, param: any) => {
       const { payload } = param;
@@ -127,5 +138,6 @@ export const {
   deleteTrait,
   addTraitsToLayer,
   changeLayerName,
+  deleteLayer,
 } = actions;
 export default layerStore;
