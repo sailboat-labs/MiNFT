@@ -60,6 +60,28 @@ const layerStore = createSlice({
     setSelectedLayerName: (state: any, action: any) => {
       state.selectedLayerName = action.payload;
     },
+    deleteTrait: (state: any, param: any) => {
+      const { payload } = param;
+
+      const layerName = payload.layerName;
+      const elementName = payload.elementName;
+
+      console.log({ layerName, elementName });
+
+      const layer = (state.layers as ILayer[]).find(
+        (layer) => layer.name == layerName
+      );
+      const elementIndex = layer?.elements.findIndex(
+        (element) => element.filename == elementName
+      );
+      console.log(elementIndex);
+
+      if (elementIndex != -1) {
+        (state.layers as ILayer[])
+          .find((layer) => layer.name == layerName)
+          ?.elements.splice(elementIndex!, 1);
+      }
+    },
   },
 });
 const { actions, reducer } = layerStore;
@@ -69,5 +91,6 @@ export const {
   deletePreviewLayer,
   setSelectedLayerName,
   reOrderLayer,
+  deleteTrait,
 } = actions;
 export default layerStore;

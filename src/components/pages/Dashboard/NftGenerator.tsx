@@ -6,6 +6,7 @@ import { getLayers } from "redux/reducers/selectors/layers";
 
 import { firebaseApp } from "@/lib/firebase";
 
+import AddLayer from "@/components/nft/AddLayer";
 import GenerateToken from "@/components/nft/GenerateToken";
 import NFTPreview from "@/components/nft/NFTPreview";
 import PropertyGroup from "@/components/nft/PropertyGroup";
@@ -50,8 +51,14 @@ const NFTGenerator = ({ router }: any) => {
 
       {layers.length > 0 && (
         <div className="flex w-full">
-          <div className="h-screen w-full overflow-y-auto overflow-x-hidden border-r ">
+          <div className="h-screen w-full overflow-x-hidden overflow-y-hidden border-r">
             {/* <TraitsSearchbar /> */}
+
+            {/* <NewProperty /> */}
+
+            <div className="border-b-2 px-20 py-2">
+              <AddLayer />
+            </div>
 
             {layers.length > 0 && (
               <div className="mt-0 h-[length:calc(100vh-0px)] w-full min-w-[900px] flex-col gap-10 overflow-y-auto px-10 pb-10">
