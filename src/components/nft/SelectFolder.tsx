@@ -57,7 +57,6 @@ export default function SelectFolder({ className }: props) {
       );
 
       const files = await listAllFilesAndDirs(directoryHandle);
-      console.log("files", files);
 
       _layers = layers?.map((layer, layerIndex) => ({
         id: layerIndex,

@@ -1,13 +1,11 @@
-import { getFirestore } from "firebase/firestore";
-import React, { FC, useEffect, useRef, useState } from "react";
+import React, { ChangeEvent, FC, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getSelectedLayerName } from "redux/reducers/selectors/layers";
 import {
+  addTraitsToLayer,
   reOrderLayer,
   setSelectedLayerName,
 } from "redux/reducers/slices/layers";
-
-import { firebaseApp } from "@/lib/firebase";
 
 import { IElement, ILayer } from "@/interfaces";
 
@@ -26,7 +24,6 @@ interface AppProps {
     traitIndex: number;
   }) => void;
 }
-const firestore = getFirestore(firebaseApp);
 
 const PropertyGroup: FC<AppProps> = ({
   layer,
@@ -43,10 +40,48 @@ const PropertyGroup: FC<AppProps> = ({
   const [showEmptyNameError, setShowEmptyNameError] = useState<boolean>(false);
   const [collapsed, setCollapsed] = useState<boolean>(false);
   const [accordionHeight, setAccordionHeight] = useState<number>();
+  const fileInput = useRef<HTMLInputElement>(null);
 
   function onDisplayNameClick(evt: React.MouseEvent<HTMLDivElement>) {
     evt.stopPropagation();
     setEditName(true);
+  }
+
+  function openFileInput() {
+    if (fileInput.current) {
+      fileInput.current.click();
+    }
+  }
+
+  function handleFileChanged(evt: ChangeEvent<HTMLInputElement>) {
+    const fileListArray: File[] = [];
+    const files: FileList | null = evt.target.files;
+    // console.log(files?.length);
+    if (files !== null) {
+      for (let index = 0; index < files.length; index++) {
+        fileListArray.push(files[index]);
+      }
+    }
+
+    if (files) {
+      const elements = fileListArray.map((file, index) => ({
+        id: index,
+        sublayer: false,
+        weight: index + 1,
+        blendmode: "source-over",
+        opacity: 1,
+        name: layer.name,
+        filename: `${file.name}`,
+        path: URL.createObjectURL(file),
+        zindex: "",
+        trait: layer.name,
+        traitValue: file.name?.split(".")[0],
+      }));
+    }
+
+    dispatch(addTraitsToLayer({ layerName: layer.name, elements: elements }));
+
+    console.log(elements);
   }
 
   /**
@@ -269,7 +304,7 @@ const PropertyGroup: FC<AppProps> = ({
           ref={accordionContent}
         >
           <div className="rounded-md border-2 bg-gray-100">
-            <div>
+            <div className="flex items-center gap-3">
               <div
                 className={`flex flex-wrap gap-6 p-6 transition-all ${
                   elements.length < 1 ? "mt-0" : "mt-0"
@@ -287,7 +322,7 @@ const PropertyGroup: FC<AppProps> = ({
                 ))}
 
                 {elements.length < 1 && (
-                  <div className="flex items-center gap-3">
+                  <div className=" flex items-center gap-3">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="h-10 w-10 rounded-full border-2 border-red-500 bg-red-200 p-2"
@@ -305,6 +340,35 @@ const PropertyGroup: FC<AppProps> = ({
                     No element added
                   </div>
                 )}
+              </div>
+              <div
+                className="mr-5 h-10 w-10 cursor-pointer rounded-full border-2 bg-gray-100 p-2 transition-all hover:scale-105"
+                onClick={openFileInput}
+              >
+                <div className="flex items-center justify-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-full w-full"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                    />
+                  </svg>
+                </div>
+                <input
+                  className="pin-r pin-t absolute block cursor-pointer opacity-0"
+                  type="file"
+                  onChange={handleFileChanged}
+                  multiple
+                  accept="image/*"
+                  ref={fileInput}
+                />
               </div>
             </div>
             {changingRarity() && (

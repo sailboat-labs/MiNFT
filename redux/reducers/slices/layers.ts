@@ -82,6 +82,17 @@ const layerStore = createSlice({
           ?.elements.splice(elementIndex!, 1);
       }
     },
+
+    addTraitsToLayer: (state: any, param: any) => {
+      const { payload } = param;
+
+      const layerName = payload.layerName;
+      const elements = payload.elements;
+
+      state.layers
+        .find((layer: ILayer) => layer.name == layerName)
+        .elements.push(...elements);
+    },
   },
 });
 const { actions, reducer } = layerStore;
@@ -92,5 +103,6 @@ export const {
   setSelectedLayerName,
   reOrderLayer,
   deleteTrait,
+  addTraitsToLayer,
 } = actions;
 export default layerStore;
