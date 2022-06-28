@@ -80,7 +80,7 @@ export default function GenerateToken() {
   };
   const hashImages = true;
   const extraMetadata = {};
-  const debugLogs = false;
+  const debugLogs = true;
 
   const uniqueDnaTorrance = 10000;
   const description = configuration.description;
