@@ -1,7 +1,9 @@
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getLayers } from "redux/reducers/selectors/layers";
+import { setShowSettings } from "redux/reducers/slices/settings";
 
 import AddLayer from "@/components/nft/AddLayer";
 import GenerateToken from "@/components/nft/GenerateToken";
@@ -17,7 +19,7 @@ import { NFTLayer } from "@/types";
 const NFTGenerator = ({ router }: any) => {
   const layers = useSelector(getLayers);
   const [animateLayersIn, setAnimateLayersIn] = useState(false);
-
+  const dispatch = useDispatch();
   function handleTraitChanged({
     groupName,
     traitIndex,
@@ -97,6 +99,12 @@ const NFTGenerator = ({ router }: any) => {
                   {tab.label}
                 </div>
               ))} */}
+              </div>
+              <div
+                className="gradient-button"
+                onClick={() => dispatch(setShowSettings(true))}
+              >
+                Settings
               </div>
               <NFTPreview className="mt-10" />
               <GenerateToken />

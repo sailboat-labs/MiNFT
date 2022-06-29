@@ -3,3 +3,6 @@ export const getBlockchainType = (state: any) =>
 
 export const getConfiguration = (state: any) =>
   state.configurationsReducer.configuration;
+
+export const getShowSettings = (state: any) =>
+  state.settingsReducer.showSettings;
