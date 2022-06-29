@@ -67,6 +67,7 @@ const NewProperty = ({ onDiscard }: props) => {
    * @returns {undefined}
    */
   async function saveProperty() {
+    if (propertyName.length < 1) return toast.error("Add property name");
     const layer: ILayer = {
       name: propertyName,
       blendmode: "source-over",
@@ -175,8 +176,14 @@ const NewProperty = ({ onDiscard }: props) => {
           Discard
         </div>
         <div
-          className="flex max-w-[130px] flex-1 cursor-pointer items-center justify-center rounded-md bg-[color:var(--blue)] py-2 text-white"
-          onClick={saveProperty}
+          className={`flex max-w-[130px] flex-1  items-center justify-center rounded-md py-2  text-white transition-all ${
+            propertyName.length < 1
+              ? "cursor-not-allowed bg-gray-500"
+              : "cursor-pointer bg-[color:var(--blue)]"
+          }`}
+          onClick={() => {
+            propertyName.length > 1 && saveProperty();
+          }}
         >
           Save
         </div>
