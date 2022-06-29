@@ -7,6 +7,7 @@ const ContractTypeStep = () => {
   return (
     <section>
       <ContractStepHeader
+        selectOptions={[]}
         title="Contract maker"
         onChange={(value) => setSelected(value)}
       />

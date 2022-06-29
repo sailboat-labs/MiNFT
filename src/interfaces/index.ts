@@ -55,3 +55,7 @@ export interface Trait {
   elements: any[];
   enabled: boolean;
 }
+
+export interface SelectOption {
+  name: string | number;
+}

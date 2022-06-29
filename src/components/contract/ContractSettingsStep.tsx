@@ -11,6 +11,7 @@ const ContractSettingsStep = () => {
     <section>
       <ContractStepHeader
         title="Whitelist"
+        selectOptions={[]}
         onChange={(value) => setSelected(value)}
       />
       <div className="divide-y divide-indigo-800">
@@ -43,9 +44,9 @@ const ContractSettingsStep = () => {
               <div className="mt-3">
                 <strong>Time</strong>
                 <div className="grid grid-cols-4 gap-3">
-                  <BaseSelect />
-                  <BaseSelect />
-                  <BaseSelect />
+                  <BaseSelect options={[]} />
+                  <BaseSelect options={[]} />
+                  <BaseSelect options={[]} />
                 </div>
               </div>
             </div>
@@ -64,7 +65,7 @@ const ContractSettingsStep = () => {
         </div>
         <div className="pt-8">
           <h2 className="text-xl text-indigo-800">Dutch auction</h2>
-          <section className="mt-6 grid max-w-[90%] grid-cols-4 gap-x-10">
+          <section className="mt-6 grid grid-cols-4 gap-x-10">
             <div className="flex flex-col">
               <strong>Quantity of collection</strong>
               <BaseInput wrapperClass="mt-2" />
@@ -101,7 +102,7 @@ const ContractSettingsStep = () => {
               />
             </div>
           </section>
-          <section className="mt-10 flex max-w-[90%]  gap-10">
+          <section className="mt-10 flex  gap-10">
             <div className=" box-content grid flex-1 grid-cols-2 gap-x-10 rounded-md bg-white p-5 ring-1 ring-gray-200">
               <div className="my-3">
                 <strong>Start on a specific date & time</strong>
@@ -127,9 +128,9 @@ const ContractSettingsStep = () => {
                 <div className="mt-3">
                   <strong>Time</strong>
                   <div className="grid grid-cols-4 gap-3">
-                    <BaseSelect />
-                    <BaseSelect />
-                    <BaseSelect />
+                    <BaseSelect options={[]} />
+                    <BaseSelect options={[]} />
+                    <BaseSelect options={[]} />
                   </div>
                 </div>
               </div>
@@ -157,16 +158,20 @@ const ContractSettingsStep = () => {
                 <div className="mt-3">
                   <strong>Time</strong>
                   <div className="grid grid-cols-4 gap-3">
-                    <BaseSelect />
-                    <BaseSelect />
-                    <BaseSelect />
+                    <BaseSelect options={[]} />
+                    <BaseSelect options={[]} />
+                    <BaseSelect options={[]} />
                   </div>
                 </div>
               </div>
             </div>
             <div className=" max-w-[300px] flex-1 rounded-md bg-white p-5 ring-1 ring-gray-200">
               <strong>Minutes</strong>
-              <BaseSelect />
+              <BaseSelect
+                options={[]}
+                buttonClass="!bg-white ring-1 ring-gray-200 !text-gray-800"
+                selectorIconColor="black"
+              />
             </div>
           </section>
         </div>

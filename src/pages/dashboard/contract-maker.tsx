@@ -20,7 +20,7 @@ const ContractMakerView = () => {
   return (
     <main className="flex-1">
       {/* <Stepper stepsCount={6} activeStep={3} /> */}
-      <div className="my-10 rounded-md bg-indigo-50 p-6">
+      <div className="my-10 mx-auto max-w-7xl rounded-md bg-indigo-50 p-6">
         {STEPS[activeStep]}
         <section className="flex items-center justify-center gap-3 pt-16">
           {activeStep > 1 && (
