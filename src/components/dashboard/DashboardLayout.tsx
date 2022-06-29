@@ -14,7 +14,7 @@ export default function DashboardLayout({ child }: props) {
       {/* <Header /> */}
       <div className="flex flex-row">
         <Sidebar currentPage="/" />
-        <div>
+        <div className="flex-1 px-6">
           {/* <Navbar title="Account Information" /> */}
           {child}
         </div>
