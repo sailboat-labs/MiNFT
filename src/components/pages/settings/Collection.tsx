@@ -1,15 +1,53 @@
 import { useFormik } from "formik";
 import React from "react";
+import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+import { getLayers } from "redux/reducers/selectors/layers";
 import { getConfiguration } from "redux/reducers/selectors/settings";
 import { setConfiguration } from "redux/reducers/slices/configuration";
 import * as Yup from "yup";
+
+import { ILayer } from "@/interfaces";
 
 const CollectionSettings = () => {
   const dispatch = useDispatch();
   const configuration = useSelector(getConfiguration);
   // console.log(configuration);
+  const layers = useSelector(getLayers) as ILayer[];
+
+  function setMaximumSupply() {
+    let maxSupply = 1;
+    for (let i = 0; i < layers.length; i++) {
+      maxSupply *= layers[i].elements.length;
+    }
+    dispatch(setConfiguration({ key: "supply", value: maxSupply }));
+    toast.success(`Supply set to ${maxSupply}`);
+  }
+
+  function getMaximumSupply() {
+    let maxSupply = 1;
+    for (let i = 0; i < layers.length; i++) {
+      maxSupply *= layers[i].elements.length;
+    }
+    return maxSupply;
+  }
+
+  function handleSupplyChange(supply: number) {
+    if (supply < 0) return;
+    if (supply > getMaximumSupply()) {
+      toast.dismiss();
+      toast.error(`Maximum supply is ${getMaximumSupply()}`);
+      dispatch(
+        setConfiguration({
+          key: "supply",
+          value: getMaximumSupply(),
+        })
+      );
+    } else {
+      dispatch(setConfiguration({ key: "supply", value: supply }));
+    }
+  }
 
   const formik: any = useFormik({
     initialValues: {
@@ -102,18 +140,30 @@ const CollectionSettings = () => {
           </div>
           <div className="flex flex-col">
             <label className="mb-2 font-medium" htmlFor="supply">
-              Supply
+              Supply{" "}
+              <span className="text-xs text-gray-500">
+                Max: {getMaximumSupply()}
+              </span>
             </label>
-            <input
-              defaultValue={configuration.supply}
-              type="number"
-              className="flex-1 rounded-lg"
-              onChange={(e) => {
-                dispatch(
-                  setConfiguration({ key: "supply", value: e.target.value })
-                );
-              }}
-            />
+            <div className="flex items-center gap-3">
+              <input
+                defaultValue={configuration.supply}
+                value={configuration.supply}
+                type="number"
+                className="flex-1 rounded-lg"
+                onChange={(e) => {
+                  handleSupplyChange(parseInt(e.target.value));
+                }}
+              />
+              <div
+                className="gradient-button"
+                onClick={() => {
+                  setMaximumSupply();
+                }}
+              >
+                Max
+              </div>
+            </div>
             <p className="mt-2 text-sm">Number of tokens to generate.</p>
           </div>
         </div>
