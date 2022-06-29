@@ -1,16 +1,17 @@
-import { getFirestore } from "firebase/firestore";
-import React, { FC, useEffect, useRef, useState } from "react";
+import React, { ChangeEvent, FC, useEffect, useRef, useState } from "react";
+import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { getSelectedLayerName } from "redux/reducers/selectors/layers";
 import {
+  addTraitsToLayer,
+  changeLayerName,
   reOrderLayer,
   setSelectedLayerName,
 } from "redux/reducers/slices/layers";
 
-import { firebaseApp } from "@/lib/firebase";
-
 import { IElement, ILayer } from "@/interfaces";
 
+import LayerContextMenu from "./LayerContextMenu";
 import TraitPreview from "./TraitPreview";
 
 interface AppProps {
@@ -26,7 +27,6 @@ interface AppProps {
     traitIndex: number;
   }) => void;
 }
-const firestore = getFirestore(firebaseApp);
 
 const PropertyGroup: FC<AppProps> = ({
   layer,
@@ -43,10 +43,49 @@ const PropertyGroup: FC<AppProps> = ({
   const [showEmptyNameError, setShowEmptyNameError] = useState<boolean>(false);
   const [collapsed, setCollapsed] = useState<boolean>(false);
   const [accordionHeight, setAccordionHeight] = useState<number>();
+  const fileInput = useRef<HTMLInputElement>(null);
+  const [newName, setNewName] = useState<string>();
 
   function onDisplayNameClick(evt: React.MouseEvent<HTMLDivElement>) {
     evt.stopPropagation();
     setEditName(true);
+  }
+
+  function openFileInput() {
+    if (fileInput.current) {
+      fileInput.current.click();
+    }
+  }
+
+  function handleFileChanged(evt: ChangeEvent<HTMLInputElement>) {
+    const fileListArray: File[] = [];
+    const files: FileList | null = evt.target.files;
+    // console.log(files?.length);
+    if (files !== null) {
+      for (let index = 0; index < files.length; index++) {
+        fileListArray.push(files[index]);
+      }
+    }
+
+    if (files) {
+      const elements = fileListArray.map((file, index) => ({
+        id: index,
+        sublayer: false,
+        weight: index + 1,
+        blendmode: "source-over",
+        opacity: 1,
+        name: layer.name,
+        filename: `${file.name}`,
+        path: URL.createObjectURL(file),
+        zindex: "",
+        trait: layer.name,
+        traitValue: file.name?.split(".")[0],
+      }));
+    }
+
+    dispatch(addTraitsToLayer({ layerName: layer.name, elements: elements }));
+
+    console.log(elements);
   }
 
   /**
@@ -74,7 +113,7 @@ const PropertyGroup: FC<AppProps> = ({
    * @returns {undefined}
    */
   function handleChange(evt: React.ChangeEvent<HTMLInputElement>) {
-    // setGroupName(evt.target.value);
+    setNewName(evt.target.value);
     // setShowEmptyNameError(groupName.trim() === "");
   }
   /**
@@ -119,7 +158,7 @@ const PropertyGroup: FC<AppProps> = ({
 
   useEffect(() => {
     setAccordionHeight(accordionContent.current?.scrollHeight);
-  }, [selectedLayerName]);
+  }, [selectedLayerName, elements]);
 
   // useEffect(() => {
   //   if (selectedLayerName !== null) {
@@ -128,7 +167,7 @@ const PropertyGroup: FC<AppProps> = ({
   // }, selectedLayerName);
 
   return (
-    <div className="flex gap-6" id={`trait-group-${name}`}>
+    <div className="flex gap-6" id={`trait-group-${name} h-fit`}>
       <div className="mt-20 flex flex-col items-center justify-center text-gray-500">
         {index > 0 && (
           <svg
@@ -175,7 +214,7 @@ const PropertyGroup: FC<AppProps> = ({
               <div className="flex items-center">
                 <input
                   type="text"
-                  value={layer.name}
+                  defaultValue={layer.name}
                   onChange={handleChange}
                   className="rounded-md border border-[#30489C] py-1 text-sm"
                 />
@@ -189,7 +228,7 @@ const PropertyGroup: FC<AppProps> = ({
                   className="mx-1 h-4 w-4 cursor-pointer duration-100 hover:scale-125"
                   viewBox="0 0 20 20"
                   fill="gray"
-                  // onClick={() => setGroupName("")}
+                  onClick={() => setEditName(false)}
                 >
                   <path
                     fillRule="evenodd"
@@ -203,13 +242,22 @@ const PropertyGroup: FC<AppProps> = ({
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="gray"
-                  strokeWidth={2}
-                  // onClick={() => saveGroupName()}
+                  strokeWidth="2"
+                  onClick={() => {
+                    dispatch(
+                      changeLayerName({
+                        currentName: layer.name,
+                        newName: newName,
+                      })
+                    );
+                    setEditName(false);
+                    toast.success("Layer name changed");
+                  }}
                 >
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    d="M17 16v2a2 2 0 01-2 2H5a2 2 0 01-2-2v-7a2 2 0 012-2h2m3-4H9a2 2 0 00-2 2v7a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-1m-1 4l-3 3m0 0l-3-3m3 3V3"
+                    d="M5 13l4 4L19 7"
                   />
                 </svg>
               </div>
@@ -236,28 +284,32 @@ const PropertyGroup: FC<AppProps> = ({
               </>
             )}
           </div>
-
-          {/* Rarity button */}
-          <button
-            onClick={() => dispatch(setSelectedLayerName(layer.name))}
-            className={`my-2 flex items-center gap-1 rounded-md border border-indigo-600 px-4 py-1 text-base font-medium text-indigo-600 ${
-              changingRarity() && "bg-[#30489C] !text-white"
-            }`}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fillRule="evenodd"
-                d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm0 10a1 1 0 011 1v1h1a1 1 0 110 2H6v1a1 1 0 11-2 0v-1H3a1 1 0 110-2h1v-1a1 1 0 011-1zM12 2a1 1 0 01.967.744L14.146 7.2 17.5 9.134a1 1 0 010 1.732l-3.354 1.935-1.18 4.455a1 1 0 01-1.933 0L9.854 12.8 6.5 10.866a1 1 0 010-1.732l3.354-1.935 1.18-4.455A1 1 0 0112 2z"
-                clipRule="evenodd"
-              />
-            </svg>
-            Change rarity
-          </button>
+          <div className="flex items-center gap-2">
+            {/* Rarity button */}
+            {elements.length > 0 && (
+              <button
+                onClick={() => dispatch(setSelectedLayerName(layer.name))}
+                className={`my-2 flex items-center gap-1 rounded-md border border-indigo-600 px-4 py-1 text-base font-medium text-indigo-600 ${
+                  changingRarity() && "bg-[#30489C] !text-white"
+                }`}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm0 10a1 1 0 011 1v1h1a1 1 0 110 2H6v1a1 1 0 11-2 0v-1H3a1 1 0 110-2h1v-1a1 1 0 011-1zM12 2a1 1 0 01.967.744L14.146 7.2 17.5 9.134a1 1 0 010 1.732l-3.354 1.935-1.18 4.455a1 1 0 01-1.933 0L9.854 12.8 6.5 10.866a1 1 0 010-1.732l3.354-1.935 1.18-4.455A1 1 0 0112 2z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                Change rarity
+              </button>
+            )}
+            <LayerContextMenu layer={layer} />
+          </div>
         </div>
         <div
           style={{
@@ -267,17 +319,72 @@ const PropertyGroup: FC<AppProps> = ({
           ref={accordionContent}
         >
           <div className="rounded-md border-2 bg-gray-100">
-            <div className={`mt-5 flex flex-wrap gap-6    p-6 `}>
-              {elements.map((element: IElement, index: number) => (
-                <TraitPreview
-                  key={index}
-                  file={element}
-                  traitIndex={index}
-                  rarityMode={layer.name === selectedLayerName}
-                  onRemove={removeTrait}
-                  active={element.isSelected}
+            <div className="flex items-center gap-3">
+              <div
+                className={`flex flex-wrap gap-6 p-6 transition-all ${
+                  elements.length < 1 ? "mt-0" : "mt-0"
+                }`}
+              >
+                {elements.map((element: IElement, index: number) => (
+                  <TraitPreview
+                    key={index}
+                    file={element}
+                    traitIndex={index}
+                    rarityMode={layer.name === selectedLayerName}
+                    onRemove={removeTrait}
+                    active={element.isSelected}
+                  />
+                ))}
+
+                {elements.length < 1 && (
+                  <div className=" flex items-center gap-3">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-10 w-10 rounded-full border-2 border-red-500 bg-red-200 p-2"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="red"
+                      strokeWidth="2"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
+                      />
+                    </svg>
+                    No element added
+                  </div>
+                )}
+              </div>
+              <div
+                className="mr-5 h-10 w-10 cursor-pointer rounded-full border-2 bg-gray-100 p-2 transition-all hover:scale-105"
+                onClick={openFileInput}
+              >
+                <div className="flex items-center justify-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-full w-full"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                    />
+                  </svg>
+                </div>
+                <input
+                  className="pin-r pin-t absolute block cursor-pointer opacity-0"
+                  type="file"
+                  onChange={handleFileChanged}
+                  multiple
+                  accept="image/*"
+                  ref={fileInput}
                 />
-              ))}
+              </div>
             </div>
             {changingRarity() && (
               <div className="mb-4  flex items-center justify-center gap-x-4 px-6">

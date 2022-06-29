@@ -1,5 +1,5 @@
 export interface ILayer {
-  id: number;
+  id?: number;
   name: string;
   blendmode: string;
   opacity: 1;

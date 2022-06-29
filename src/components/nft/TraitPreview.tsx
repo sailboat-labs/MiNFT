@@ -9,6 +9,8 @@ import swal from "sweetalert";
 
 import { IElement } from "@/interfaces";
 
+import DeleteTraitModal from "./DeleteTraitModal";
+
 interface AppProps {
   active?: boolean;
   traitIndex: number;
@@ -61,19 +63,9 @@ const TraitPreview: FC<AppProps> = ({
   }
 
   return (
-    <div
-      className="flex flex-col items-center justify-center"
-      onClick={() => {
-        dispatch(
-          selectTraitForPreview({
-            layer: file.name,
-            elementName: file.filename,
-          })
-        );
-      }}
-    >
+    <div className="flex flex-col items-center justify-center">
       <div
-        className={`text-xs font-semibold text-[#30489C] ${
+        className={`text-xs font-semibold text-[#30489C] transition-all ${
           active && !rarityMode ? "opacity-100" : "opacity-0"
         }`}
       >
@@ -87,22 +79,18 @@ const TraitPreview: FC<AppProps> = ({
           rarityMode && "scale-100"
         }`}
       >
-        <svg
-          xmlns="http://www.w3.org/1200/svg"
-          className="absolute -left-2 -top-2 h-6 w-6 rotate-45 scale-0  transform rounded-full bg-white p-1 shadow-md transition duration-150 hover:rotate-[135deg] hover:cursor-pointer hover:border hover:border-gray-200 hover:shadow-none group-hover:scale-100"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth={2}
-          onClick={handleRemoveTrait}
+        <DeleteTraitModal trait={file} />
+        <div
+          onClick={() => {
+            dispatch(
+              selectTraitForPreview({
+                layer: file.name,
+                elementName: file.filename,
+              })
+            );
+          }}
+          className="h-[76px] w-[76px] overflow-hidden rounded-md"
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M12 4v16m8-8H4"
-          />
-        </svg>
-        <div className="h-[76px] w-[76px] overflow-hidden rounded-md">
           <img
             src={file.path}
             // alt="file preview"

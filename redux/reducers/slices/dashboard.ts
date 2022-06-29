@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const dashboardStore = createSlice({
-  name: "user",
+  name: "dashboard",
   initialState: {
-    selectedSidebar: "",
+    selectedSidebar: "nft-generator",
   },
   reducers: {
     setSelectedSidebar: (state, param) => {

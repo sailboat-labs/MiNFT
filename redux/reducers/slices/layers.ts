@@ -15,6 +15,11 @@ const layerStore = createSlice({
       state.layers = payload;
     },
 
+    addLayer: (state: any, param: any) => {
+      const { payload } = param;
+      state.layers.push(payload);
+    },
+
     reOrderLayer: (state: any, param: any) => {
       const { payload } = param;
       const currentIndex = payload.currentIndex;
@@ -60,6 +65,72 @@ const layerStore = createSlice({
     setSelectedLayerName: (state: any, action: any) => {
       state.selectedLayerName = action.payload;
     },
+    deleteTrait: (state: any, param: any) => {
+      const { payload } = param;
+
+      const layerName = payload.layerName;
+      const elementName = payload.elementName;
+
+      console.log({ layerName, elementName });
+
+      const layer = (state.layers as ILayer[]).find(
+        (layer) => layer.name == layerName
+      );
+      const elementIndex = layer?.elements.findIndex(
+        (element) => element.filename == elementName
+      );
+      console.log(elementIndex);
+
+      if (elementIndex != -1) {
+        (state.layers as ILayer[])
+          .find((layer) => layer.name == layerName)
+          ?.elements.splice(elementIndex!, 1);
+      }
+    },
+    deleteLayer: (state: any, param: any) => {
+      const { payload } = param;
+
+      const layerIndex = (state.layers as ILayer[]).findIndex(
+        (layer) => layer.name == payload
+      );
+
+      if (layerIndex != -1) {
+        (state.layers as ILayer[]).splice(layerIndex!, 1);
+      }
+    },
+
+    addTraitsToLayer: (state: any, param: any) => {
+      const { payload } = param;
+
+      const layerName = payload.layerName;
+      const elements = payload.elements;
+
+      state.layers
+        .find((layer: ILayer) => layer.name == layerName)
+        .elements.push(...elements);
+    },
+
+    changeLayerName: (state: any, param: any) => {
+      const { payload } = param;
+      const currentName = payload.currentName;
+      const newName = payload.newName;
+
+      const elementData = state.layers.find(
+        (layer: ILayer) => layer.name == currentName
+      )?.elements;
+      if (elementData) {
+        const elements = elementData.map((element: IElement) => ({
+          ...element,
+          trait: newName,
+        }));
+        state.layers.find(
+          (layer: ILayer) => layer.name == currentName
+        ).elements = elements;
+      }
+
+      state.layers.find((layer: ILayer) => layer.name == currentName).name =
+        newName;
+    },
   },
 });
 const { actions, reducer } = layerStore;
@@ -69,5 +140,10 @@ export const {
   deletePreviewLayer,
   setSelectedLayerName,
   reOrderLayer,
+  deleteTrait,
+  addTraitsToLayer,
+  changeLayerName,
+  deleteLayer,
+  addLayer,
 } = actions;
 export default layerStore;
