@@ -79,11 +79,11 @@ const NewProperty = ({ onDiscard }: props) => {
         weight: index + 1,
         blendmode: "source-over",
         opacity: 1,
-        name: layer.name,
+        name: propertyName,
         filename: `${file.name}`,
         path: URL.createObjectURL(file),
         zindex: "",
-        trait: layer.name,
+        trait: propertyName,
         traitValue: file.name?.split(".")[0],
       })),
     };
