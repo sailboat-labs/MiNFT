@@ -14,9 +14,10 @@ export const firestore = getFirestore(firebaseApp);
 
 type props = {
   onDiscard?: any;
+  onSave?: any;
 };
 
-const NewProperty = ({ onDiscard }: props) => {
+const NewProperty = ({ onDiscard, onSave }: props) => {
   const [files, setFiles] = useState<File[]>([]);
   const dispatch = useDispatch();
   const fileInput = useRef<HTMLInputElement>(null);
@@ -67,6 +68,7 @@ const NewProperty = ({ onDiscard }: props) => {
    * @returns {undefined}
    */
   async function saveProperty() {
+    if (propertyName.length < 1) return toast.error("Add property name");
     const layer: ILayer = {
       name: propertyName,
       blendmode: "source-over",
@@ -78,17 +80,18 @@ const NewProperty = ({ onDiscard }: props) => {
         weight: index + 1,
         blendmode: "source-over",
         opacity: 1,
-        name: layer.name,
+        name: propertyName,
         filename: `${file.name}`,
         path: URL.createObjectURL(file),
         zindex: "",
-        trait: layer.name,
+        trait: propertyName,
         traitValue: file.name?.split(".")[0],
       })),
     };
 
     dispatch(addLayer(layer));
     toast.success("New Layer Added");
+    onSave && onSave();
   }
 
   function removeTrait(traitIndex: number) {
@@ -175,8 +178,14 @@ const NewProperty = ({ onDiscard }: props) => {
           Discard
         </div>
         <div
-          className="flex max-w-[130px] flex-1 cursor-pointer items-center justify-center rounded-md bg-[color:var(--blue)] py-2 text-white"
-          onClick={saveProperty}
+          className={`flex max-w-[130px] flex-1  items-center justify-center rounded-md py-2  text-white transition-all ${
+            propertyName.length < 1
+              ? "cursor-not-allowed bg-gray-500"
+              : "cursor-pointer bg-[color:var(--blue)]"
+          }`}
+          onClick={() => {
+            propertyName.length > 1 && saveProperty();
+          }}
         >
           Save
         </div>
