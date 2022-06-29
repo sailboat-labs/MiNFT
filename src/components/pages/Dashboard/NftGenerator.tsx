@@ -1,10 +1,7 @@
-import { getFirestore } from "firebase/firestore";
 import Head from "next/head";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
 import { getLayers } from "redux/reducers/selectors/layers";
-
-import { firebaseApp } from "@/lib/firebase";
 
 import AddLayer from "@/components/nft/AddLayer";
 import GenerateToken from "@/components/nft/GenerateToken";
@@ -17,18 +14,10 @@ import { ILayer } from "@/interfaces";
 
 import { NFTLayer } from "@/types";
 
-const firestore = getFirestore(firebaseApp);
-
 const NFTGenerator = ({ router }: any) => {
-  const dispatch = useDispatch();
-
   const layers = useSelector(getLayers);
+  const [animateLayersIn, setAnimateLayersIn] = useState(false);
 
-  /**
-   * handles change in a property group trait
-   *
-   * @param {Object.<string, string|number>} param0 - object of group name and traitIndex
-   */
   function handleTraitChanged({
     groupName,
     traitIndex,
@@ -38,6 +27,16 @@ const NFTGenerator = ({ router }: any) => {
   }): void {
     //
   }
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (animateLayersIn) {
+        setAnimateLayersIn(true);
+      } else {
+        setAnimateLayersIn(false);
+      }
+    }, 1000);
+  }, [animateLayersIn]);
 
   return (
     <>
