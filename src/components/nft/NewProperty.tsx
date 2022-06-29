@@ -14,9 +14,10 @@ export const firestore = getFirestore(firebaseApp);
 
 type props = {
   onDiscard?: any;
+  onSave?: any;
 };
 
-const NewProperty = ({ onDiscard }: props) => {
+const NewProperty = ({ onDiscard, onSave }: props) => {
   const [files, setFiles] = useState<File[]>([]);
   const dispatch = useDispatch();
   const fileInput = useRef<HTMLInputElement>(null);
@@ -90,6 +91,7 @@ const NewProperty = ({ onDiscard }: props) => {
 
     dispatch(addLayer(layer));
     toast.success("New Layer Added");
+    onSave && onSave();
   }
 
   function removeTrait(traitIndex: number) {
