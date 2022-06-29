@@ -1,5 +1,8 @@
 import { getFirestore } from "firebase/firestore";
 import React, { ChangeEvent, useRef, useState } from "react";
+import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { addLayer } from "redux/reducers/slices/layers";
 
 import { firebaseApp } from "@/lib/firebase";
 
@@ -15,7 +18,7 @@ type props = {
 
 const NewProperty = ({ onDiscard }: props) => {
   const [files, setFiles] = useState<File[]>([]);
-
+  const dispatch = useDispatch();
   const fileInput = useRef<HTMLInputElement>(null);
   const [propertyName, setPropertyName] = useState<string>("");
 
@@ -83,6 +86,9 @@ const NewProperty = ({ onDiscard }: props) => {
         traitValue: file.name?.split(".")[0],
       })),
     };
+
+    dispatch(addLayer(layer));
+    toast.success("New Layer Added");
   }
 
   function removeTrait(traitIndex: number) {

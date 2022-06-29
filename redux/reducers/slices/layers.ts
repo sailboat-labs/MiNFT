@@ -15,6 +15,11 @@ const layerStore = createSlice({
       state.layers = payload;
     },
 
+    addLayer: (state: any, param: any) => {
+      const { payload } = param;
+      state.layers.push(payload);
+    },
+
     reOrderLayer: (state: any, param: any) => {
       const { payload } = param;
       const currentIndex = payload.currentIndex;
@@ -139,5 +144,6 @@ export const {
   addTraitsToLayer,
   changeLayerName,
   deleteLayer,
+  addLayer,
 } = actions;
 export default layerStore;
