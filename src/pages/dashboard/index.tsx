@@ -18,14 +18,12 @@ export default function DashboardHomePage() {
   ];
 
   return (
-    <div className="">
-      <DashboardLayout
-        child={
-          content.find((item) => item.value == selectedSidebar)?.component ?? (
-            <></>
-          )
-        }
-      />
-    </div>
+    <DashboardLayout
+      child={
+        content.find((item) => item.value == selectedSidebar)?.component ?? (
+          <></>
+        )
+      }
+    />
   );
 }
