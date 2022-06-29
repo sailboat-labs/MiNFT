@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { SortableContainer } from "react-sortable-hoc";
 import { getLayerOrder } from "redux/reducers/selectors/layers";
 
-import { Trait } from "@/interfaces/get-started";
+import { Trait } from "@/interfaces";
 
 import SortableItem from "./SortableItem";
 

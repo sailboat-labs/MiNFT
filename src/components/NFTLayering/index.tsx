@@ -2,7 +2,6 @@
 import { arrayMoveImmutable } from "array-move";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setLayerOrder } from "redux/reducers/slices/layers";
 
 import SortableList from "../SortableList";
 
@@ -21,7 +20,6 @@ const NFTLayering = () => {
     newIndex: number;
   }) {
     setTraits(arrayMoveImmutable(traits, oldIndex, newIndex));
-    dispatch(setLayerOrder(traits));
   }
 
   useEffect(() => {

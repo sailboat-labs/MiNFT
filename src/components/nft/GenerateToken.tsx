@@ -19,7 +19,7 @@ import {
   setGeneratedImagesFilter,
 } from "redux/reducers/slices/generated-images";
 
-import { IGeneratedTokens } from "@/interfaces";
+import { IElement, IGeneratedTokens } from "@/interfaces";
 
 import GeneratedToken from "./GeneratedToken";
 
@@ -56,7 +56,7 @@ export default function GenerateToken() {
   const configuration = useSelector(getConfiguration);
 
   const background = {
-    generate: false,
+    generate: true,
     brightness: "100%",
   };
   const emptyLayerName = "NONE";
@@ -377,26 +377,14 @@ export default function GenerateToken() {
       const layerImages = dna.filter(
         (element: string) => element.split(".")[0] == layer.id
       );
+
       layerImages.forEach((img: any) => {
-        const indexAddress = cleanDna(img);
-
-        //
-
-        const indices = indexAddress!.toString().split(".");
-        // const firstAddress = indices.shift();
-        const lastAddress = indices.pop(); // 1
-        // recursively go through each index to get the nested item
-        const parentElement = indices.reduce((r: any, nestedIndex: any) => {
-          if (!r[nestedIndex]) {
-            throw new Error("wtf");
-          }
-          return r[nestedIndex].elements;
-        }, _layers);
-
-        selectedElements.push(parentElement[lastAddress!]);
+        selectedElements.push(
+          layer.elements.find(
+            (element: IElement) => element.filename == img.split(":")[1]
+          )
+        );
       });
-      // If there is more than one item whose root address indicies match the layer ID,
-      // continue to loop through them an return an array of selectedElements
 
       return {
         name: layer.name,

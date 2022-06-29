@@ -5,21 +5,24 @@ import chalk from "chalk";
 import keccak256 from "keccak256";
 import React, { FC, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { getLayers, getPreviewLayers } from "redux/reducers/selectors/layers";
+import { getLayers } from "redux/reducers/selectors/layers";
+
+import { IElement, ILayer } from "@/interfaces";
 
 interface AppProps {
   className?: string;
 }
 
 const NFTPreview: FC<AppProps> = ({ className }) => {
-  const previewLayer = useSelector(getPreviewLayers);
   const layersState = useSelector(getLayers);
 
   const [previewImage, setPreviewImage] = useState<any>();
 
   useEffect(() => {
+    console.log("layers here", layersState);
+
     startCreating();
-  }, [previewLayer, layersState]);
+  }, [layersState]);
 
   const background = {
     generate: false,
@@ -298,7 +301,7 @@ const NFTPreview: FC<AppProps> = ({ className }) => {
     attributesList.push(layerAttributes);
   };
 
-  const loadLayerImg = async (_layer: { path: any }) => {
+  const loadLayerImg = async (_layer: any) => {
     return new Promise(async (resolve) => {
       // selected elements is an array.
       const image = await loadImage(`${_layer.path}`).catch((err: any) =>
@@ -835,54 +838,20 @@ const NFTPreview: FC<AppProps> = ({ className }) => {
         ? console.log("Editions left to create: ", abstractedIndexes)
         : null;
       while (layerConfigIndex < layerConfigurations.length) {
-        // const layers = layersSetup(
-        //   layerConfigurations[layerConfigIndex].layersOrder
-        // );
-
-        let layers: any[] = previewLayer?.map(
-          (layer: any, layerIndex: number) => ({
+        const layers: ILayer[] = layersState
+          .filter((layer: ILayer) =>
+            layer.elements.some((element: IElement) => element.isSelected)
+          )
+          .map((layer: ILayer, layerIndex: number) => ({
             id: layerIndex,
-            name: layer.layer,
+            name: layer.name,
             blendmode: "source-over",
             opacity: 1,
             bypassDNA: false,
-            elements: [
-              {
-                id: 0,
-                sublayer: false,
-                weight: 1,
-                blendmode: "source-over",
-                opacity: 1,
-                name: layer.layer,
-                filename: `${layer.layer}#${padLeft(1)}.png`,
-                path: previewLayer[layerIndex].element,
-                zindex: "",
-                trait: layer.layer,
-                traitValue: layer.layer,
-              },
-            ],
-          })
-        );
+            elements: layer.elements.filter((element) => element.isSelected),
+          }));
 
-        const reOrderedLayers: any[] = [];
-
-        console.log({ layers });
-
-        layersState.forEach((element: { name: any }) => {
-          const layerToPush = layers.find((item) => item.name == element.name);
-          if (layerToPush) {
-            reOrderedLayers.push(
-              layers.find((item) => item.name == element.name)
-            );
-          }
-        });
-
-        console.log({ reOrderedLayers });
-
-        layers = reOrderedLayers;
-        console.log({ layers });
-
-        // return console.log("using data", JSON.stringify(layers));
+        console.log("using data", layers);
 
         while (
           editionCount <=
@@ -890,14 +859,22 @@ const NFTPreview: FC<AppProps> = ({ className }) => {
         ) {
           const newDna = createDna(layers);
           if (isDnaUnique(dnaList, newDna)) {
-            const results = constructLayerToDna(newDna, layers);
+            const results = layers.map((layer) => ({
+              name: layer.name,
+              blendmode: layer.blendmode,
+              opacity: layer.opacity,
+              selectedElements: layer.elements,
+            }));
+
             debugLogs ? console.log("DNA:", newDna.split(DNA_DELIMITER)) : null;
             const loadedElements: any[] = [];
             // reduce the stacked and nested layer into a single array
             const allImages = results.reduce((images: any, layer) => {
               return [...images, ...layer.selectedElements];
             }, []);
-            sortZIndex(allImages).forEach((layer: any) => {
+            console.log({ allImages });
+
+            sortZIndex(allImages).forEach((layer: ILayer) => {
               loadedElements.push(loadLayerImg(layer));
             });
 

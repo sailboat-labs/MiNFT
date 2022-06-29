@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { SetStateAction, useState } from "react";
 
 import ButtonLink from "../links/ButtonLink";
 
@@ -6,7 +6,7 @@ export default function DashboardHome() {
   const [profilePhoto, setProfilePhoto] = useState("");
 
   const changeProfilePhoto = () => {
-    document.getElementById("profilePhoto").click();
+    document.getElementById("profilePhoto")?.click();
   };
 
   const [error, setError] = useState("hidden");
@@ -41,24 +41,30 @@ export default function DashboardHome() {
 
   const [firstname, setFirstName] = useState("");
 
-  const clearFirstName = (e) => {
+  const clearFirstName = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     setFirstName("");
   };
 
-  const updateFirstName = (e) => {
+  const updateFirstName = (e: {
+    preventDefault: () => void;
+    target: { value: SetStateAction<string> };
+  }) => {
     e.preventDefault();
     setFirstName(e.target.value);
   };
 
   const [secondname, setSecondName] = useState("");
 
-  const clearSecondName = (e) => {
+  const clearSecondName = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     setSecondName("");
   };
 
-  const updateSecondName = (e) => {
+  const updateSecondName = (e: {
+    preventDefault: () => void;
+    target: { value: SetStateAction<string> };
+  }) => {
     e.preventDefault();
     setSecondName(e.target.value);
   };

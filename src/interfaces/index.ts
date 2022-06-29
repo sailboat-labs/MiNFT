@@ -46,6 +46,7 @@ export interface IElement {
   zindex: string;
   trait: string;
   traitValue: string;
+  isSelected?: boolean;
 }
 
 export interface Trait {
