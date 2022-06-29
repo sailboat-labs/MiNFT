@@ -1,4 +1,5 @@
 import React from "react";
+import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { getBlockchainType } from "redux/reducers/selectors/settings";
@@ -20,7 +21,7 @@ const BasicSettings = () => {
         <BaseRadio
           className="flex-1"
           checked={selectedBlockChain === "solana"}
-          onClick={() => dispatch(setBlockchain("solana"))}
+          onClick={() => toast("Support for Solana will be added soon")}
         >
           <div className="p-5 font-semibold">Solana</div>
         </BaseRadio>
@@ -34,7 +35,7 @@ const BasicSettings = () => {
         <BaseRadio
           className="flex-1"
           checked={selectedBlockChain === "polygon"}
-          onClick={() => dispatch(setBlockchain("polygon"))}
+          onClick={() => toast("Support for Polygon will be added soon")}
         >
           <div className="p-5 font-semibold">Polygon</div>
         </BaseRadio>

@@ -6,3 +6,6 @@ export const getConfiguration = (state: any) =>
 
 export const getShowSettings = (state: any) =>
   state.settingsReducer.showSettings;
+
+export const getShowGeneratedTokensPreview = (state: any) =>
+  state.settingsReducer.showGeneratedTokensPreview;

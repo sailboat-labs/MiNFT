@@ -46,7 +46,7 @@ export default function GeneratedToken({ token }: props) {
           // @ts-ignore
           src={token.file}
           alt=""
-          className="h-32 w-32 cursor-pointer rounded-lg object-cover transition-all hover:scale-105"
+          className="h-76 w-76 cursor-pointer rounded-lg object-cover transition-all hover:scale-105"
         />
         <div className="text-sm text-gray-500">{token.metadata.name}</div>
       </div>

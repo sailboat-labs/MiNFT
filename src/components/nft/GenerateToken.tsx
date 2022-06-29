@@ -1002,7 +1002,7 @@ export default function GenerateToken() {
             <div className="fixed inset-0 bg-black bg-opacity-25" />
           </Transition.Child>
 
-          <div className="fixed inset-0 overflow-y-auto">
+          <div className="fixed inset-0 ml-72 overflow-y-auto">
             <div className="flex min-h-full items-center justify-center text-center">
               <Transition.Child
                 as={Fragment}
@@ -1013,7 +1013,7 @@ export default function GenerateToken() {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="min-h-screen w-screen transform overflow-hidden bg-white p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className=" min-h-screen w-screen transform overflow-hidden bg-white p-6 text-left align-middle shadow-xl transition-all">
                   <Dialog.Title
                     as="h3"
                     className="text-lg font-medium leading-6 text-gray-900"
@@ -1054,7 +1054,6 @@ export default function GenerateToken() {
                         />
                       </svg>
                     </div>
-
                     <div className="flex items-center gap-3 font-normal">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -1087,10 +1086,15 @@ export default function GenerateToken() {
                     </div>
                   </Dialog.Title>
                   <div className="mt-8 flex w-full items-center justify-center">
-                    <div className="mt-5 grid w-fit grid-cols-10 gap-5">
-                      {filteredTokens.map((token, index) => (
-                        <GeneratedToken key={index} token={token} />
-                      ))}
+                    <div className="mt-5 grid w-fit grid-cols-2 gap-5 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5">
+                      {filteredTokens
+                        .filter(
+                          (_, index) => index + 11 > filteredTokens.length
+                        )
+                        .reverse()
+                        .map((token, index) => (
+                          <GeneratedToken key={index} token={token} />
+                        ))}
                     </div>
                   </div>
                 </Dialog.Panel>
