@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import React from "react";
+import React, { useEffect } from "react";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
@@ -22,7 +22,6 @@ const CollectionSettings = () => {
       maxSupply *= layers[i].elements.length;
     }
     dispatch(setConfiguration({ key: "supply", value: maxSupply }));
-    toast.success(`Supply set to ${maxSupply}`);
   }
 
   function getMaximumSupply() {
@@ -70,14 +69,12 @@ const CollectionSettings = () => {
       console.log("submitting", values);
     },
   });
-  /**
-   *
-   * @param {string} fieldName - field in form to check
-   * @returns {boolean} - true or false
-   */
-  // function hasError(fieldName: string) {
-  //   return formik.touched[fieldName] && formik.errors[fieldName];
-  // }
+
+  useEffect(() => {
+    if (getMaximumSupply() < configuration.supply) {
+      setMaximumSupply();
+    }
+  }, [layers]);
 
   return (
     <div className="py-12">
