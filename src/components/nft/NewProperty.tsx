@@ -3,6 +3,8 @@ import React, { ChangeEvent, useRef, useState } from "react";
 
 import { firebaseApp } from "@/lib/firebase";
 
+import { ILayer } from "@/interfaces";
+
 import TraitPreview from "./TraitPreview";
 
 export const firestore = getFirestore(firebaseApp);
@@ -16,6 +18,7 @@ const NewProperty = ({ onDiscard }: props) => {
 
   const fileInput = useRef<HTMLInputElement>(null);
   const [propertyName, setPropertyName] = useState<string>("");
+
   /**
    * handles change in file input
    *
@@ -24,13 +27,13 @@ const NewProperty = ({ onDiscard }: props) => {
    */
   function handleFileChanged(evt: ChangeEvent<HTMLInputElement>) {
     const fileListArray: File[] = [];
-    const files: FileList | null = evt.target.files;
+    const _files: FileList | null = evt.target.files;
     // console.log(files?.length);
-    if (files !== null) {
-      for (let index = 0; index < files.length; index++) {
-        fileListArray.push(files[index]);
+    if (_files !== null) {
+      for (let index = 0; index < _files.length; index++) {
+        fileListArray.push(_files[index]);
       }
-      setFiles(fileListArray);
+      setFiles([...files, ...fileListArray]);
     }
   }
   /**
@@ -52,7 +55,7 @@ const NewProperty = ({ onDiscard }: props) => {
     setPropertyName("");
     setFiles([]);
 
-    onDiscard();
+    onDiscard && onDiscard();
   }
   /**
    * saves entered property name
@@ -61,7 +64,25 @@ const NewProperty = ({ onDiscard }: props) => {
    * @returns {undefined}
    */
   async function saveProperty() {
-    //
+    const layer: ILayer = {
+      name: propertyName,
+      blendmode: "source-over",
+      opacity: 1,
+      bypassDNA: false,
+      elements: files.map((file, index) => ({
+        id: index,
+        sublayer: false,
+        weight: index + 1,
+        blendmode: "source-over",
+        opacity: 1,
+        name: layer.name,
+        filename: `${file.name}`,
+        path: URL.createObjectURL(file),
+        zindex: "",
+        trait: layer.name,
+        traitValue: file.name?.split(".")[0],
+      })),
+    };
   }
 
   function removeTrait(traitIndex: number) {
@@ -85,43 +106,59 @@ const NewProperty = ({ onDiscard }: props) => {
           id="newProperty"
         />
       </div>
-      <div
-        className="relative mt-8 mb-4 w-full overflow-hidden rounded-md border-2 border-dashed border-[color:var(--indigo)] bg-[color:var(--bg-indigo)] py-2 hover:cursor-pointer"
-        onClick={openFileInput}
-      >
-        <div className="bg-indigo hover:bg-indigo-dark flex w-full items-center justify-center py-2 px-4 font-bold text-[color:var(--blue)]">
-          <svg
-            className="rotate-180 transform "
-            fill="#30489C"
-            height="18"
-            viewBox="0 0 24 24"
-            width="18"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path d="M0 0h24v24H0z" fill="none" />
-            <path d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z" />
-          </svg>
-          <span className="ml-2">Add your traits here</span>
+      {propertyName.length > 0 && (
+        <div
+          className="relative mt-8 mb-4 w-full overflow-hidden rounded-md border-2 border-dashed border-[color:var(--indigo)] bg-[color:var(--bg-indigo)] py-2 hover:cursor-pointer"
+          onClick={openFileInput}
+        >
+          <div className="bg-indigo hover:bg-indigo-dark flex w-full items-center justify-center py-2 px-4 font-bold text-[color:var(--blue)]">
+            <svg
+              className="rotate-180 transform "
+              fill="#30489C"
+              height="18"
+              viewBox="0 0 24 24"
+              width="18"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z" />
+            </svg>
+            <span className="ml-2">Add your traits here</span>
+          </div>
+          <input
+            className="pin-r pin-t absolute block cursor-pointer opacity-0"
+            type="file"
+            onChange={handleFileChanged}
+            multiple
+            accept="image/*"
+            ref={fileInput}
+          />
         </div>
-        <input
-          className="pin-r pin-t absolute block cursor-pointer opacity-0"
-          type="file"
-          onChange={handleFileChanged}
-          multiple
-          accept="image/*"
-          ref={fileInput}
-        />
-      </div>
-      {files.length > 0 && (
+      )}
+      {propertyName.length > 0 && files.length > 0 && (
         <div className="mt-5 flex flex-wrap gap-6 rounded-md p-6 pb-0">
-          {Array.from(files).map((file: any, index: number) => (
-            <TraitPreview
-              file={file}
-              key={index}
-              traitIndex={index}
-              onRemove={removeTrait}
-            />
-          ))}
+          {files
+            .map((file, index) => ({
+              id: index,
+              sublayer: false,
+              weight: index + 1,
+              blendmode: "source-over",
+              opacity: 1,
+              name: propertyName,
+              filename: `${file.name}`,
+              path: URL.createObjectURL(file),
+              zindex: "",
+              trait: propertyName,
+              traitValue: file.name?.split(".")[0],
+            }))
+            .map((file: any, index: number) => (
+              <TraitPreview
+                file={file}
+                key={index}
+                traitIndex={index}
+                onRemove={removeTrait}
+              />
+            ))}
         </div>
       )}
       <div className="mt-8 flex items-center justify-center gap-4">
