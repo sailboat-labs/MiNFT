@@ -118,7 +118,7 @@ const NFTGenerator = ({ router }: any) => {
               <SlideInModal
                 show={sampleModal}
                 onClose={() => setSampleModal(false)}
-                slideFrom="left" // todo: can also assume the value 'right'
+                slideFrom="right" // todo: can also assume the value 'right'
               >
                 <>
                   Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui
