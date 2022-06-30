@@ -32,28 +32,35 @@ const layerStore = createSlice({
       // const { payload } = param;
       const payload: { layer: string; elementName: string } = param.payload;
 
-      //If there are already selected traits in a layer, deselect them and select the new one
-      if (
-        (
-          state.layers.find(
-            (layer: ILayer) => layer.name == payload.layer
-          ) as ILayer
-        ).elements.some(
-          (element: IElement) => element.filename == payload.elementName
-        )
-      ) {
-        state.layers
-          .find((layer: ILayer) => layer.name == payload.layer)
-          .elements.forEach((element: IElement) => {
-            element.isSelected = false;
-          });
-      }
-
-      state.layers
+      const isElementSelected = state.layers
         .find((layer: ILayer) => layer.name == payload.layer)
         .elements.find(
           (element: IElement) => element.filename == `${payload.elementName}`
-        ).isSelected = true;
+        ).isSelected;
+
+      //If there are already selected traits in a layer, deselect them and select the new one
+      state.layers
+        .find((layer: ILayer) => layer.name == payload.layer)
+        .elements.filter(
+          (element: IElement) => element.filename != payload.elementName
+        )
+        .forEach((element: IElement) => {
+          element.isSelected = false;
+        });
+
+      if (isElementSelected) {
+        state.layers
+          .find((layer: ILayer) => layer.name == payload.layer)
+          .elements.find(
+            (element: IElement) => element.filename == `${payload.elementName}`
+          ).isSelected = false;
+      } else {
+        state.layers
+          .find((layer: ILayer) => layer.name == payload.layer)
+          .elements.find(
+            (element: IElement) => element.filename == `${payload.elementName}`
+          ).isSelected = true;
+      }
     },
     deletePreviewLayer: (state: any, param: any) => {
       const { payload } = param;

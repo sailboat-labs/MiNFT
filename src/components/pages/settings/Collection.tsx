@@ -19,7 +19,9 @@ const CollectionSettings = () => {
   function setMaximumSupply() {
     let maxSupply = 1;
     for (let i = 0; i < layers.length; i++) {
-      maxSupply *= layers[i].elements.length;
+      if (layers[i].elements.length > 0) {
+        maxSupply *= layers[i].elements.length;
+      }
     }
     dispatch(setConfiguration({ key: "supply", value: maxSupply }));
   }
@@ -27,7 +29,9 @@ const CollectionSettings = () => {
   function getMaximumSupply() {
     let maxSupply = 1;
     for (let i = 0; i < layers.length; i++) {
-      maxSupply *= layers[i].elements.length;
+      if (layers[i].elements?.length > 0) {
+        maxSupply *= layers[i].elements.length;
+      }
     }
     return maxSupply;
   }
