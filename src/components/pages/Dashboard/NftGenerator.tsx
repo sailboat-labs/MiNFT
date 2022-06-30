@@ -46,7 +46,6 @@ const NFTGenerator = ({ router }: any) => {
         <title>NFT Trait Generator</title>
       </Head>
       <NFTSettings />
-
       {layers.length < 1 && (
         <SelectFolder className="mt-72 w-[length:calc(100vw-30rem)] flex-1" />
       )}
