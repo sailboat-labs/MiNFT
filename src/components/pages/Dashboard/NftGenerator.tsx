@@ -41,14 +41,14 @@ const NFTGenerator = ({ router }: any) => {
   }, [animateLayersIn]);
 
   return (
-    <>
+    <div>
       <Head>
         <title>NFT Trait Generator</title>
       </Head>
       <NFTSettings />
 
       {layers.length < 1 && (
-        <SelectFolder className="mt-52 w-[length:calc(100vw-30rem)] flex-1" />
+        <SelectFolder className="mt-72 w-[length:calc(100vw-30rem)] flex-1" />
       )}
 
       {layers.length > 0 && (
@@ -83,7 +83,7 @@ const NFTGenerator = ({ router }: any) => {
               </div>
             )}
           </div>
-          <div className="min-h-screen w-[40%]">
+          <div className="h-screen w-[40%]">
             <section className="flex w-[29rem] flex-col justify-center pl-20">
               <div className="flex gap-5 pt-10">
                 {/* {tabs.map((tab, index) => (
@@ -110,7 +110,7 @@ const NFTGenerator = ({ router }: any) => {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

@@ -15,7 +15,7 @@ export default function Index() {
   ];
 
   return (
-    <div className="">
+    <>
       <DashboardLayout
         child={
           content.find((item) => item.value == selectedSidebar)?.component ?? (
@@ -23,6 +23,6 @@ export default function Index() {
           )
         }
       />
-    </div>
+    </>
   );
 }

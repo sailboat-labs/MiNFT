@@ -88,49 +88,17 @@ const PropertyGroup: FC<AppProps> = ({
     console.log(elements);
   }
 
-  /**
-   * updates group name
-   *
-   * @returns {undefined}
-   */
-  // function saveGroupName() {
-  //   if (groupName === name) {
-  //     setEditName(false);
-  //     return;
-  //   }
-
-  //   setShowEmptyNameError(groupName.trim() === "");
-  //   if (!showEmptyNameError) return;
-
-  //   // todo: code to update name goes here
-  //   // - state "groupName" has the most up to date version of name
-  //   console.log("updating group name");
-  // }
-  /**
-   * handles changes in group name
-   *
-   * @param evt - react ChangeEvent object
-   * @returns {undefined}
-   */
   function handleChange(evt: React.ChangeEvent<HTMLInputElement>) {
     setNewName(evt.target.value);
     // setShowEmptyNameError(groupName.trim() === "");
   }
-  /**
-   * checks if group's trait rarity is being changed
-   *
-   * @returns {boolean} - flag indicating whether groups trait rarity is being changed
-   */
+
   function changingRarity(): boolean {
     if (selectedLayerName === null) return false;
 
     return layer.name === selectedLayerName;
   }
-  /**
-   * deletes trait at @param traitIndex -index
-   *
-   * @param {number} traitIndex - index of trait to delete
-   */
+
   function removeTrait(traitIndex: number) {
     alert("File: PropertyGroup, line 77");
     // todo: code to remove a trait goes here
@@ -139,12 +107,7 @@ const PropertyGroup: FC<AppProps> = ({
   function updateLayer() {
     console.log("update layer");
   }
-  /**
-   * moves layer up or down the hierarchy
-   *
-   * @param {boolean} up - flag to move layer up or down
-   * @returns {undefined}
-   */
+
   function moveLayer(isMoveUp: boolean, index: number) {
     if (isMoveUp) {
       console.log(name, "wants to move up to", --index);
