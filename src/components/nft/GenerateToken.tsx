@@ -226,15 +226,18 @@ export default function GenerateToken() {
                           &apos;
                         </p>
                       ) : (
-                        <>{generatedTokens?.length} tokens</>
+                        <>
+                          {generatedTokens.length > 100 && "Showing 100 of"}{" "}
+                          {generatedTokens?.length} tokens
+                        </>
                       )}
                     </div>
                   </Dialog.Title>
                   <div className="mt-8 flex w-full items-center justify-center">
-                    <div className="mt-5 grid w-fit grid-cols-2 gap-5 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5">
+                    <div className="mt-5 grid w-fit grid-cols-2 gap-5 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 2xl:grid-cols-10">
                       {filteredTokens
                         .filter(
-                          (_, index) => index + 11 > filteredTokens.length
+                          (_, index) => index + 100 > filteredTokens.length
                         )
                         .reverse()
                         .map((token, index) => (
