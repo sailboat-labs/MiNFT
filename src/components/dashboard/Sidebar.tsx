@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 // !Needs the user's name to display each user's name
 
 import React from "react";
@@ -5,6 +6,8 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { getDashboardState } from "redux/reducers/selectors/dashboard";
 import { setSelectedSidebar } from "redux/reducers/slices/dashboard";
+
+import { PROFILE_IMAGE } from "@/data/DemoProject";
 
 import ButtonLink from "@/components/links/ButtonLink";
 
@@ -121,9 +124,9 @@ const sidebarItems: { label: string; icon: any; value: string }[] = [
 ];
 
 const selectedPageStyles =
-  "flex h-12 cursor-pointer transition-all items-center rounded-lg border-0 bg-indigo-800 text-white px-3 py-4 text-lg font-normal stroke-white shadow-none hover:bg-opacity-90";
+  "flex h-12 cursor-pointer transition-all items-center rounded-lg border-0 bg-indigo-800 text-white px-3 py-4 text-base font-normal stroke-white shadow-none hover:bg-opacity-90";
 const defaultStyles =
-  "flex h-12 cursor-pointer transition-all stroke-[#757D8A] items-center bg-gray-100 rounded-lg border-0  px-3 py-4 text-lg font-normal text-gray-500 shadow-none hover:bg-gray-200 hover:text-gray-500";
+  "flex h-12 cursor-pointer transition-all stroke-[#757D8A] items-center bg-gray-100 rounded-lg border-0  px-3 py-4 text-base font-normal text-black shadow-none hover:bg-gray-200 hover:text-gray-500";
 
 export default function Sidebar({ currentPage }: SidebarProps) {
   const user = "Francis"; // Change this value to be dynamic after passing in props from Operations
@@ -133,61 +136,28 @@ export default function Sidebar({ currentPage }: SidebarProps) {
   const dispatch = useDispatch();
 
   return (
-    <div className="z-1  mt-0 flex h-screen w-72 flex-col justify-between bg-gray-100 px-5 font-dmsans opacity-100">
+    <div className="z-1  mt-0 flex h-screen w-[15rem] flex-col justify-between bg-gray-100 px-5 font-dmsans opacity-100">
       <div className="flex flex-col pt-5">
         <div className="box-border flex h-16 flex-row items-center pt-6">
-          <div className="h-20 w-20 rounded-full bg-indigo-800">
+          <div className="h-16 w-16 rounded-full bg-indigo-800">
             <ButtonLink
               href="#"
-              className="m-0 flex h-20 w-20 items-center justify-center border-0 bg-transparent p-0 shadow-none"
+              className="m-0 flex h-16 w-16 items-center justify-center border-0 bg-transparent p-0 shadow-none"
             >
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M10.1243 2.06901C10.7686 0.327778 13.2314 0.327776 13.8757 2.06901L15.7322 7.08616C15.9348 7.63359 16.3664 8.06522 16.9138 8.26779L21.931 10.1243C23.6722 10.7686 23.6722 13.2314 21.931 13.8757L16.9138 15.7322C16.3664 15.9348 15.9348 16.3664 15.7322 16.9138L13.8757 21.931C13.2314 23.6722 10.7686 23.6722 10.1243 21.931L8.26779 16.9138C8.06522 16.3664 7.63359 15.9348 7.08616 15.7322L2.06901 13.8757C0.327778 13.2314 0.327776 10.7686 2.06901 10.1243L7.08616 8.26779C7.63359 8.06522 8.06522 7.63359 8.26779 7.08616L10.1243 2.06901Z"
-                  fill="white"
-                />
-              </svg>
+              <img
+                className="h-full w-full rounded-full"
+                src={PROFILE_IMAGE}
+                alt=""
+              />
             </ButtonLink>
           </div>
 
-          <div className="flex w-56 flex-col pt-1 pl-4 pr-7 font-dmsans">
-            <div className="text-base font-normal text-gray-500">
+          <div className="flex w-[15rem] flex-col pt-1 pl-4 pr-0 font-dmsans">
+            <div className="text-sm font-normal text-gray-500">
               Welcome back,
             </div>
-            <div className="text-xl font-bold text-gray-600">{user}</div>
+            <div className="text-lg font-bold text-gray-600">{user}</div>
           </div>
-
-          {/* <div className='w-6 h-6 bg-red-700 '>
-            {numNotifications}
-          </div> */}
-
-          {/* <ButtonLink
-            href="/settings"
-            className="box-border flex h-12 w-16 items-center justify-center rounded-lg border border-gray-300 bg-white text-gray-500 shadow-sm hover:border-gray-300 hover:bg-gray-300"
-          >
-            <div>
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M11.3745 20H12.6255V19.233C12.6255 18.298 13.2005 17.458 14.0895 17.091C15.0095 16.708 16.0145 16.896 16.6765 17.562L17.2155 18.103L18.1035 17.215L17.5585 16.671C16.8955 16.009 16.7085 15.005 17.0815 14.114C17.0815 14.114 17.0825 14.113 17.0825 14.112L17.0935 14.084C17.4575 13.201 18.2985 12.625 19.2335 12.625H19.9995V11.375H19.2335C18.2985 11.375 17.4575 10.8 17.0915 9.911C16.7065 8.991 16.8955 7.986 17.5615 7.323L18.1025 6.784L17.2155 5.897L16.6705 6.442C16.0085 7.104 15.0055 7.291 14.1145 6.919C13.2015 6.542 12.6255 5.702 12.6255 4.767V4H11.3745V4.767C11.3745 5.702 10.7995 6.542 9.9105 6.909C8.9915 7.294 7.9865 7.105 7.3235 6.438L6.7845 5.897L5.8965 6.785L6.4415 7.329C7.1035 7.991 7.2915 8.995 6.9185 9.886C6.5425 10.799 5.7015 11.375 4.7665 11.375H3.9995V12.625H4.7665C5.7015 12.625 6.5425 13.2 6.9085 14.089C7.2935 15.009 7.1045 16.014 6.4385 16.677L5.8975 17.216L6.7845 18.103L7.3295 17.558C7.9915 16.896 8.9945 16.709 9.8855 17.081C10.7985 17.458 11.3745 18.298 11.3745 19.233V20ZM12.9425 22H11.0505C10.1265 22 9.3745 21.248 9.3745 20.324V19.233C9.3745 19.086 9.2575 18.985 9.1475 18.94C9.0035 18.881 8.8495 18.869 8.7435 18.972L7.9735 19.743C7.3175 20.397 6.2515 20.399 5.5965 19.743L4.2565 18.403C3.9385 18.085 3.7645 17.663 3.7645 17.213C3.7655 16.764 3.9405 16.342 4.2595 16.024L5.0275 15.259C5.1325 15.154 5.1215 15 5.0745 14.889C5.0145 14.742 4.9145 14.625 4.7665 14.625H3.6825C2.7545 14.625 1.9995 13.871 1.9995 12.943V11.051C1.9995 10.126 2.7515 9.375 3.6765 9.375H4.7665C4.9135 9.375 5.0145 9.257 5.0595 9.147C5.1195 9.003 5.1315 8.848 5.0275 8.744L4.2565 7.974C3.6025 7.317 3.6025 6.251 4.2565 5.597L5.5965 4.257C5.9145 3.939 6.3355 3.765 6.7845 3.765H6.7865C7.2355 3.765 7.6585 3.94 7.9755 4.259L8.7405 5.028C8.8455 5.134 9.0005 5.122 9.1115 5.075C9.2575 5.014 9.3745 4.914 9.3745 4.767V3.683C9.3745 2.755 10.1295 2 11.0575 2H12.9495C13.8735 2 14.6255 2.752 14.6255 3.676V4.767C14.6255 4.914 14.7425 5.015 14.8525 5.06C14.9975 5.12 15.1515 5.133 15.2565 5.028L16.0265 4.257C16.6825 3.603 17.7485 3.601 18.4035 4.257L19.7445 5.598C20.0625 5.915 20.2365 6.337 20.2355 6.787C20.2355 7.235 20.0605 7.658 19.7415 7.975L18.9725 8.741C18.8675 8.846 18.8785 9 18.9255 9.111C18.9855 9.258 19.0855 9.375 19.2335 9.375H20.3175C21.2455 9.375 21.9995 10.129 21.9995 11.057V12.949C21.9995 13.874 21.2485 14.625 20.3235 14.625H19.2335C19.0865 14.625 18.9855 14.743 18.9405 14.853C18.9395 14.854 18.9275 14.884 18.9265 14.886C18.8805 14.997 18.8685 15.152 18.9725 15.256L19.7435 16.026C20.3975 16.683 20.3975 17.749 19.7435 18.403L18.4035 19.743C18.0855 20.061 17.6645 20.235 17.2155 20.235H17.2135C16.7645 20.235 16.3415 20.06 16.0245 19.741L15.2595 18.972C15.1545 18.867 14.9985 18.879 14.8885 18.925C14.7425 18.986 14.6255 19.086 14.6255 19.233V20.317C14.6255 21.245 13.8705 22 12.9425 22ZM12 10.5C11.173 10.5 10.5 11.173 10.5 12C10.5 12.827 11.173 13.5 12 13.5C12.827 13.5 13.5 12.827 13.5 12C13.5 11.173 12.827 10.5 12 10.5ZM12 15.5C10.07 15.5 8.5 13.93 8.5 12C8.5 10.07 10.07 8.5 12 8.5C13.93 8.5 15.5 10.07 15.5 12C15.5 13.93 13.93 15.5 12 15.5Z"
-                  fill="#757D8A"
-                />
-              </svg>
-            </div>
-          </ButtonLink> */}
         </div>
 
         <div className="mt-12 flex flex-col gap-5">
@@ -211,7 +181,7 @@ export default function Sidebar({ currentPage }: SidebarProps) {
         </div>
       </div>
 
-      <div>
+      {/* <div>
         <div>
           <ButtonLink
             href="/support"
@@ -260,7 +230,7 @@ export default function Sidebar({ currentPage }: SidebarProps) {
             <span>Sign out</span>
           </ButtonLink>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
