@@ -843,6 +843,7 @@ export default function GenerateToken() {
 
   const startCreating = async () => {
     const storedDNA = null;
+    dispatch(setGeneratedImagesFilter(null));
     try {
       console.log("Generating");
       // if (storedDNA) {

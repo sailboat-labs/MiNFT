@@ -9,16 +9,16 @@ type props = {
 
 export default function DashboardLayout({ child }: props) {
   return (
-    <div>
+    <main>
       <Seo templateTitle="Dashboard" />
       {/* <Header /> */}
-      <div className="flex flex-row">
+      <div className="flex h-screen flex-row overflow-y-hidden">
         <Sidebar currentPage="/" />
-        <div>
+        <div className="h-screen flex-1 overflow-y-hidden px-6">
           {/* <Navbar title="Account Information" /> */}
           {child}
         </div>
       </div>
-    </div>
+    </main>
   );
 }

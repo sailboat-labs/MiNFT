@@ -53,7 +53,7 @@ const NFTGenerator = ({ router }: any) => {
 
       {layers.length > 0 && (
         <div className="flex w-full">
-          <div className="h-screen w-full overflow-x-hidden overflow-y-hidden border-r">
+          <div className="h-screen w-full overflow-y-hidden border-r">
             {/* <TraitsSearchbar /> */}
 
             {/* <NewProperty /> */}
@@ -63,7 +63,7 @@ const NFTGenerator = ({ router }: any) => {
             </div>
 
             {layers.length > 0 && (
-              <div className="mt-0 h-[length:calc(100vh-0px)] w-full min-w-[900px] flex-col gap-10 overflow-y-auto px-10 pb-10">
+              <div className="mt-0 h-[length:calc(100vh-60px)] w-full min-w-[900px] flex-col gap-10 overflow-y-auto px-10 pb-10">
                 <>
                   {layers.map((item: ILayer, index: number) => (
                     <PropertyGroup
