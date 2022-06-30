@@ -2,7 +2,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { NextPage } from "next";
 import { AppProps } from "next/app";
-import { ReactElement, ReactNode } from "react";
+import { ReactElement, ReactNode, useEffect } from "react";
 import { Toaster } from "react-hot-toast";
 import { MoralisProvider } from "react-moralis";
 import { Provider } from "react-redux";
@@ -21,6 +21,17 @@ function MyApp({ Component, pageProps }: AppProps) {
   const store = configureStore({
     reducer: rootReducer,
   });
+
+  useEffect(() => {
+    const unloadCallback = (event: any) => {
+      event.preventDefault();
+      event.returnValue = "";
+      return "";
+    };
+
+    window.addEventListener("beforeunload", unloadCallback);
+    return () => window.removeEventListener("beforeunload", unloadCallback);
+  }, []);
 
   return (
     <MoralisProvider
