@@ -87,14 +87,15 @@ const NFTPreview: FC<AppProps> = ({ className }) => {
                 </div>
               ))}
 
-          {previewImage.length > 0 &&
-            previewImage[0].renderObjects.length > 0 && (
-              <img
-                src={previewImage[0].file}
-                alt=""
-                className="h-full w-full rounded-2xl bg-gray-100 object-cover"
-              />
-            )}
+          {previewImage.length > 0 && previewImage[0].renderObjects.length > 0 && (
+            <img
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
+              src={previewImage[0].file}
+              alt=""
+              className="h-full w-full rounded-2xl bg-gray-100 object-cover"
+            />
+          )}
         </div>
       </div>
 
