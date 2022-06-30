@@ -108,12 +108,12 @@ const NFTGenerator = ({ router }: any) => {
               >
                 Settings
               </div>
-              <div
+              {/* <div
                 className="gradient-button"
                 onClick={() => setSampleModal(true)}
               >
                 Modal
-              </div>
+              </div> */}
 
               <SlideInModal
                 show={sampleModal}
