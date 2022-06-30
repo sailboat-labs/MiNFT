@@ -124,9 +124,9 @@ const sidebarItems: { label: string; icon: any; value: string }[] = [
 ];
 
 const selectedPageStyles =
-  "flex h-12 cursor-pointer transition-all items-center rounded-lg border-0 bg-indigo-800 text-white px-3 py-4 text-base font-normal stroke-white shadow-none hover:bg-opacity-90";
+  "flex h-12 cursor-pointer transition-all items-center border-r-4 border-y bg-gray-50 border-y-gray-100 border-black hover:bg-gray-300 border-0 px-3 py-4 text-base font-normal stroke-gray-500 shadow-none hover:bg-opacity-90";
 const defaultStyles =
-  "flex h-12 cursor-pointer transition-all stroke-[#757D8A] items-center bg-gray-100 rounded-lg border-0  px-3 py-4 text-base font-normal text-black shadow-none hover:bg-gray-200 hover:text-gray-500";
+  "flex h-12 cursor-pointer transition-all stroke-[#757D8A] items-center text-gray-500  border-0  px-3 py-4 text-base font-normal text-black shadow-none hover:bg-gray-200 hover:text-gray-500";
 
 export default function Sidebar({ currentPage }: SidebarProps) {
   const user = "Francis"; // Change this value to be dynamic after passing in props from Operations
@@ -136,9 +136,9 @@ export default function Sidebar({ currentPage }: SidebarProps) {
   const dispatch = useDispatch();
 
   return (
-    <div className="z-1  mt-0 flex h-screen w-[15rem] flex-col justify-between bg-gray-100 px-5 font-dmsans opacity-100">
+    <div className="z-1  mt-0 flex h-screen w-[15rem] flex-col justify-between border-r bg-white  font-dmsans opacity-100">
       <div className="flex flex-col pt-5">
-        <div className="box-border flex h-16 flex-row items-center pt-6">
+        <div className="box-border flex h-16 flex-row items-center px-5 pt-6">
           <div className="h-16 w-16 rounded-full bg-indigo-800">
             <ButtonLink
               href="#"
@@ -160,7 +160,7 @@ export default function Sidebar({ currentPage }: SidebarProps) {
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col gap-5">
+        <div className="mt-12 flex w-full flex-col gap-5 ">
           {sidebarItems.map((item, index) => (
             <div
               onClick={() => {

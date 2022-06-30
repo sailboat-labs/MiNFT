@@ -79,7 +79,10 @@ const TraitPreview: FC<AppProps> = ({
           rarityMode && "scale-100"
         }`}
       >
+        {/* <TraitContextMenu /> */}
+
         <DeleteTraitModal trait={file} />
+
         <div
           onClick={() => {
             dispatch(
