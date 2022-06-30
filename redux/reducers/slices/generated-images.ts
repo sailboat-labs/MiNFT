@@ -12,11 +12,15 @@ const generatedImagesStore = createSlice({
       const payload = param.payload as any as never;
       state.images.push(payload);
     },
+
     clearGeneratedImages: (state, _) => {
       state.images = [];
     },
     setGeneratedImagesFilter: (state, action) => {
       state.filter = action.payload;
+    },
+    setGeneratedImages: (state, action) => {
+      state.images = action.payload;
     },
     setAttributeOccurrence: (state, param) => {
       const payload = param.payload as any as never;
@@ -30,5 +34,6 @@ export const {
   clearGeneratedImages,
   setAttributeOccurrence,
   setGeneratedImagesFilter,
+  setGeneratedImages,
 } = actions;
 export default generatedImagesStore;
