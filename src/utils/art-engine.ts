@@ -61,8 +61,8 @@ export function generateTokens({
     const outputJPEG = false; // if false, the generator outputs png's
 
     const format = {
-      width: 512,
-      height: 512,
+      width: configuration.format?.width ?? 1024,
+      height: configuration.format?.height ?? 1024,
       weight: 1,
       smoothing: true, // set to false when up-scaling pixel art.
     };

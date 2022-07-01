@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { getLayers } from "redux/reducers/selectors/layers";
 
-import SlideInModal from "@/components/modals/SlideIn";
 import GenerateToken from "@/components/nft/GenerateToken";
 import NFTPreview from "@/components/nft/NFTPreview";
 import PropertyGroup from "@/components/nft/PropertyGroup";
@@ -12,9 +11,6 @@ import SelectFolder from "@/components/nft/SelectFolder";
 import NFTSettings from "@/components/nft/settings";
 
 import { ILayer } from "@/interfaces";
-
-import BasicSettings from "../settings/BasicSettings";
-import CollectionSettings from "../settings/Collection";
 
 import { NFTLayer } from "@/types";
 
@@ -103,21 +99,6 @@ const NFTGenerator = ({ router }: any) => {
               ))} */}
               </div>
 
-              <div
-                className="gradient-button"
-                onClick={() => setSampleModal(true)}
-              >
-                Settings
-              </div>
-
-              <SlideInModal
-                show={sampleModal}
-                onClose={() => setSampleModal(false)}
-                slideFrom="right" // todo: can also assume the value 'right'
-              >
-                <BasicSettings />
-                <CollectionSettings />
-              </SlideInModal>
               <NFTPreview className="mt-10" />
               <GenerateToken />
             </section>
