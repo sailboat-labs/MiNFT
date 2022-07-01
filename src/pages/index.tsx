@@ -3,8 +3,9 @@ import Features from "@/components/pages/homepage/Features";
 
 export default function Index() {
   return (
-    <div className="overflow-y-auto">
+    <div className="overflow-y-auto overflow-x-hidden bg-gradient-to-r from-[#040832] via-[#171340] to-[#190424]">
       <Banner />
+
       <Features />
     </div>
   );

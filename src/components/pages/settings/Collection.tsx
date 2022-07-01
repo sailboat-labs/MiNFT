@@ -186,7 +186,7 @@ const CollectionSettings = () => {
           </label>
           <input
             type="text"
-            placeholder="(optional)"
+            placeholder="External URL"
             className="flex-1 rounded-lg"
             defaultValue={configuration[enumNFTGenConfig.BASE_URL]}
             onChange={(e) => {

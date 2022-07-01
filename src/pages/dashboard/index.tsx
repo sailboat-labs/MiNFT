@@ -12,6 +12,7 @@ import NFTGenerator from "@/components/pages/Dashboard/NftGenerator";
 import { IDashboardState } from "@/interfaces";
 
 import ContractMakerView from "./contract-maker";
+import DashboardHome from "./dashboard-home";
 
 export default function DashboardHomePage() {
   const dashboardState = useSelector(getDashboardState) as IDashboardState;
@@ -24,9 +25,14 @@ export default function DashboardHomePage() {
     titleOptions?: any;
   }[] = [
     {
+      component: <DashboardHome />,
+      value: "dashboard-home",
+      label: "Dashboard",
+    },
+    {
       component: <NFTGenerator />,
       value: "nft-generator",
-      label: "NFT Generator",
+      label: "Trait Mixer",
       titleOptions: <NFTGeneratorTitleOptions />,
     },
     {

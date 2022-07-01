@@ -18,12 +18,16 @@ export default function Navbar({ title, endChildren }: NavBarProps) {
           <span className="pl-6 text-xl font-bold text-gray-700">{title}</span>
           <div className="flex items-center gap-5">
             {endChildren}
-            <div className="h-10 border-l-2 pl-5">
+            <div className="flex h-10 items-center gap-3 border-l-2 pl-5">
               <img
-                className="h-full w-full rounded-full"
+                className="h-full w-fit rounded-full"
                 src={PROFILE_IMAGE}
                 alt=""
               />
+              <div className="flex flex-col">
+                <span className="text-base">Francis Eshun</span>
+                <span className="-mt-1 text-xs text-gray-500">Free Plan</span>
+              </div>
             </div>
           </div>
         </div>

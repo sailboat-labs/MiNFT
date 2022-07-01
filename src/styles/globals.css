@@ -172,7 +172,7 @@
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: rgb(67 56 202);
+  background: rgb(000 000 000);
   @apply rounded-full;
 }
 

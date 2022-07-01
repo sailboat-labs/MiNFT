@@ -9,15 +9,38 @@ import { setSelectedSidebar } from "redux/reducers/slices/dashboard";
 
 import { PROFILE_IMAGE } from "@/data/DemoProject";
 
-import ButtonLink from "@/components/links/ButtonLink";
-
 import { IDashboardState } from "@/interfaces";
+
+import ButtonLink from "../links/ButtonLink";
 
 type SidebarProps = {
   currentPage?: string;
 };
 
 const sidebarItems: { label: string; icon: any; value: string }[] = [
+  {
+    label: "Dashboard",
+    value: "dashboard-home",
+    icon: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="ml-2 mr-4 h-6 w-6"
+        fill="none"
+        width="21"
+        height="21"
+        viewBox="0 0 21 21"
+        stroke="currentColor"
+        strokeWidth="2"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"
+        />
+      </svg>
+    ),
+  },
+
   {
     label: "Contract Maker",
     value: "contract-maker",
@@ -40,7 +63,7 @@ const sidebarItems: { label: string; icon: any; value: string }[] = [
     ),
   },
   {
-    label: "NFT Generator",
+    label: "Trait Mixer",
     value: "nft-generator",
     icon: (
       <svg
@@ -124,7 +147,7 @@ const sidebarItems: { label: string; icon: any; value: string }[] = [
 ];
 
 const selectedPageStyles =
-  "flex h-12 cursor-pointer transition-all items-center border-r-4 border-y bg-gray-50 border-y-gray-100 border-black hover:bg-gray-300 border-0 px-3 py-4 text-base font-normal stroke-gray-500 shadow-none hover:bg-opacity-90";
+  "flex h-12 cursor-pointer transition-all items-center border-r-4 border-y bg-indigo-50 border-y-indigo-100 border-indigo-500 hover:bg-indigo-200 border-0 px-3 py-4 text-base font-normal stroke-gray-500 shadow-none hover:bg-opacity-90";
 const defaultStyles =
   "flex h-12 cursor-pointer transition-all stroke-[#757D8A] items-center text-gray-500  border-0  px-3 py-4 text-base font-normal text-black shadow-none hover:bg-gray-200 hover:text-gray-500";
 
@@ -160,7 +183,10 @@ export default function Sidebar({ currentPage }: SidebarProps) {
           </div>
         </div>
 
-        <div className="mt-12 flex w-full flex-col gap-5 ">
+        <div className="mt-20 px-5 text-xs text-indigo-500">
+          Product Features
+        </div>
+        <div className="mt-5 flex w-full flex-col gap-5">
           {sidebarItems.map((item, index) => (
             <div
               onClick={() => {
