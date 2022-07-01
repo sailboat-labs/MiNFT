@@ -10,6 +10,9 @@ export const getTraitGroups = (state: any) =>
 
 export const getLayers = (state: any) => state.layersReducer.layers ?? [];
 
+export const getSearchFilter = (state: any) =>
+  state.layersReducer.searchFilter ?? "";
+
 export const getGeneratedImages = (state: any) =>
   state.generatedImagesReducer.images ?? [];
 

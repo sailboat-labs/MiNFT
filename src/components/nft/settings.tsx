@@ -4,6 +4,8 @@ import { useDispatch } from "react-redux";
 import { getShowSettings } from "redux/reducers/selectors/settings";
 import { setShowSettings } from "redux/reducers/slices/settings";
 
+import OutputSettingsPage from "@/pages/settings/output";
+
 import BasicSettings from "../pages/settings/BasicSettings";
 import CollectionSettings from "../pages/settings/Collection";
 
@@ -43,6 +45,7 @@ export default function NFTSettings() {
       >
         <BasicSettings />
         <CollectionSettings />
+        <OutputSettingsPage />
       </div>
     </div>
   );

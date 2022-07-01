@@ -81,7 +81,7 @@ const CollectionSettings = () => {
   }, [layers]);
 
   return (
-    <div className="py-12">
+    <div className="pt-12">
       <h4>Collection</h4>
       <p>Metadata for this collection of NFTs</p>
       <form action="#" className="mt-6" onSubmit={formik.handleSubmit}>

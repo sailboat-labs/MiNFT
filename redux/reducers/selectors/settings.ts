@@ -9,3 +9,6 @@ export const getShowSettings = (state: any) =>
 
 export const getShowGeneratedTokensPreview = (state: any) =>
   state.settingsReducer.showGeneratedTokensPreview;
+
+export const getRenderSettings = (state: any) =>
+  state.settingsReducer.renderSettings;
