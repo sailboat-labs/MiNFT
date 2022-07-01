@@ -3,16 +3,11 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { getLayers, getSearchFilter } from "redux/reducers/selectors/layers";
-import { setShowSettings } from "redux/reducers/slices/settings";
 
-import SlideInModal from "@/components/modals/SlideIn";
-import AddLayer from "@/components/nft/AddLayer";
 import GenerateToken from "@/components/nft/GenerateToken";
 import NFTPreview from "@/components/nft/NFTPreview";
 import PropertyGroup from "@/components/nft/PropertyGroup";
 import SelectFolder from "@/components/nft/SelectFolder";
-import NFTSettings from "@/components/nft/settings";
-import TraitsSearchbar from "@/components/nft/TraitsSearchbar";
 
 import { IElement, ILayer } from "@/interfaces";
 
@@ -50,7 +45,6 @@ const NFTGenerator = ({ router }: any) => {
       <Head>
         <title>NFT Trait Generator</title>
       </Head>
-      <NFTSettings />
       {layers.length < 1 && (
         <SelectFolder className="mt-72 w-[length:calc(100vw-30rem)] flex-1" />
       )}
@@ -60,12 +54,12 @@ const NFTGenerator = ({ router }: any) => {
           <div className="h-screen w-full overflow-y-hidden border-r">
             {/* <NewProperty /> */}
 
-            <div className="flex gap-x-20 border-b-2 px-20 py-2">
+            {/* <div className="flex gap-x-20 border-b-2 px-20 py-2">
               <AddLayer />
               <div className="flex-1">
                 <TraitsSearchbar />
               </div>
-            </div>
+            </div> */}
 
             {layers.length > 0 && (
               <div className="mt-0 h-[length:calc(100vh-60px)] w-full min-w-[900px] flex-col gap-10 overflow-y-auto px-10 pb-10">
@@ -119,31 +113,7 @@ const NFTGenerator = ({ router }: any) => {
                 </div>
               ))} */}
               </div>
-              <div
-                className="gradient-button"
-                onClick={() => dispatch(setShowSettings(true))}
-              >
-                Settings
-              </div>
-              {/* <div
-                className="gradient-button"
-                onClick={() => setSampleModal(true)}
-              >
-                Modal
-              </div> */}
 
-              <SlideInModal
-                show={sampleModal}
-                onClose={() => setSampleModal(false)}
-                slideFrom="right" // todo: can also assume the value 'right'
-              >
-                <>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui
-                  iure voluptatem fugit magnam, ipsum laudantium a, quisquam
-                  similique veritatis hic dolor quaerat quos aliquam accusantium
-                  dignissimos porro eligendi ratione aspernatur.
-                </>
-              </SlideInModal>
               <NFTPreview className="mt-10" />
               <GenerateToken />
             </section>

@@ -25,7 +25,7 @@ class MyDocument extends Document {
             crossOrigin="anonymous"
           />
         </Head>
-        <body className="h-screen overflow-hidden">
+        <body>
           <Main />
           <NextScript />
         </body>

@@ -1,31 +1,11 @@
-import { useSelector } from "react-redux";
-import { getDashboardState } from "redux/reducers/selectors/dashboard";
-
-import DashboardLayout from "@/components/dashboard/DashboardLayout";
-import NFTGenerator from "@/components/pages/Dashboard/NftGenerator";
-
-import { IDashboardState } from "@/interfaces";
-
-import ContractMakerView from "./dashboard/contract-maker";
+import Banner from "@/components/pages/homepage/Banner";
+import Features from "@/components/pages/homepage/Features";
 
 export default function Index() {
-  const dashboardState = useSelector(getDashboardState) as IDashboardState;
-  const selectedSidebar = dashboardState.selectedSidebar;
-
-  const content: { component: any; value: string }[] = [
-    { component: <NFTGenerator />, value: "nft-generator" },
-    { component: <ContractMakerView />, value: "contract-maker" },
-  ];
-
   return (
-    <>
-      <DashboardLayout
-        child={
-          content.find((item) => item.value == selectedSidebar)?.component ?? (
-            <></>
-          )
-        }
-      />
-    </>
+    <div className="overflow-y-auto">
+      <Banner />
+      <Features />
+    </div>
   );
 }

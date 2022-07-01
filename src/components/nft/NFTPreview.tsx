@@ -2,8 +2,8 @@
 /* eslint-disable no-async-promise-executor */
 import React, { FC, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { getConfiguration } from "redux/reducers/selectors/configuration";
 import { getLayers } from "redux/reducers/selectors/layers";
-import { getConfiguration } from "redux/reducers/selectors/settings";
 
 import { IElement, IGeneratedTokens, ILayer } from "@/interfaces";
 import { generateTokens } from "@/utils/art-engine";

@@ -3,6 +3,7 @@ import chalk from "chalk";
 import keccak256 from "keccak256";
 import { toast } from "react-toastify";
 
+import { enumNFTGenConfig } from "@/enums/nft-gen-configurations";
 import { IElement, IGeneratedTokens } from "@/interfaces";
 
 let toastId: any;
@@ -37,9 +38,9 @@ export function generateTokens({
 
     const layerConfigurations = [
       {
-        growEditionSizeTo: configuration.supply,
+        growEditionSizeTo: configuration[enumNFTGenConfig.SUPPLY],
         resetNameIndex: false,
-        namePrefix: configuration.name, // Use to add a name to Metadata `name:`
+        namePrefix: configuration[enumNFTGenConfig.NAME], // Use to add a name to Metadata `name:`
       },
     ];
     const incompatible: any = {
@@ -55,14 +56,17 @@ export function generateTokens({
     const debugLogs = false;
 
     const uniqueDnaTorrance = 10000;
-    const description = configuration.description;
-    const baseUri = configuration.externalLink;
+    const description = configuration[enumNFTGenConfig.DESCRIPTION];
+    const baseUri = configuration[enumNFTGenConfig.BASE_URL];
 
-    const outputJPEG = false; // if false, the generator outputs png's
+    const outputJPEG =
+      configuration[enumNFTGenConfig.OUTPUT_IMAGE_TYPE]
+        ?.toString()
+        .toLowerCase() ?? "png"; // if false, the generator outputs png's
 
     const format = {
-      width: 512,
-      height: 512,
+      width: configuration[enumNFTGenConfig.RENDER_FORMAT_WIDTH] ?? 1024,
+      height: configuration[enumNFTGenConfig.RENDER_FORMAT_HEIGHT] ?? 1024,
       weight: 1,
       smoothing: true, // set to false when up-scaling pixel art.
     };
