@@ -2,8 +2,6 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React, { FC, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
-import { getLayers } from "redux/reducers/selectors/layers";
 import { selectTraitForPreview } from "redux/reducers/slices/layers";
 import swal from "sweetalert";
 
@@ -28,8 +26,7 @@ const TraitPreview: FC<AppProps> = ({
 }) => {
   // const url = typeof file === "string" ? file : URL.createObjectURL(file);
   const dispatch = useDispatch();
-  const [rarity, setRarity] = useState<number>();
-  const layers = useSelector(getLayers);
+  const [rarity, setRarity] = useState<number>(0);
   /**
    * handles removal of trait
    *
@@ -59,7 +56,7 @@ const TraitPreview: FC<AppProps> = ({
    * @returns {undefined}
    */
   function onRangeChanged(evt: React.ChangeEvent<HTMLInputElement>) {
-    setRarity(parseInt(evt.target.value));
+    setRarity(parseFloat(evt.target.value));
   }
 
   return (
@@ -105,6 +102,7 @@ const TraitPreview: FC<AppProps> = ({
       )}
       {rarityMode && (
         <div className="mt-2 flex gap-2">
+          {/* <input type="number" step={0.1} /> */}
           <input
             className="max-w-[60px] flex-1"
             type="range"
@@ -114,7 +112,7 @@ const TraitPreview: FC<AppProps> = ({
             min={0}
             max={100}
           />
-          <output className="text-xs">{rarity}</output>
+          <output className="text-xs">{rarity}%</output>
         </div>
         // <Range
         //   step={20}
