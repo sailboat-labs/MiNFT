@@ -8,6 +8,7 @@ const layerStore = createSlice({
   initialState: {
     layers: [],
     selectedLayerName: null,
+    searchFilter: "",
   },
   reducers: {
     setLayers: (state: any, param: any) => {
@@ -18,6 +19,10 @@ const layerStore = createSlice({
     addLayer: (state: any, param: any) => {
       const { payload } = param;
       state.layers.push(payload);
+    },
+
+    setSearchFilter: (state: any, param: any) => {
+      state.searchFilter = param.payload;
     },
 
     reOrderLayer: (state: any, param: any) => {
@@ -150,6 +155,7 @@ export const {
   deleteTrait,
   addTraitsToLayer,
   changeLayerName,
+  setSearchFilter,
   deleteLayer,
   addLayer,
 } = actions;
