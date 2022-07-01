@@ -38,8 +38,8 @@ const OutputSettingsPage = () => {
   });
 
   return (
-    <section className="flex-1 overflow-y-auto bg-gray-100">
-      <div className="container mx-auto max-w-2xl divide-y divide-gray-200 bg-gray-100 py-10">
+    <section className="flex-1 overflow-y-auto">
+      <div className="container mx-auto max-w-2xl divide-y divide-gray-200 py-10">
         <div className="py-12">
           <h3 className="mb-2 text-4xl font-bold">Render Settings</h3>
           <div className="mt-8 flex gap-6">
