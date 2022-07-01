@@ -2,7 +2,7 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { getLayers } from "redux/reducers/selectors/layers";
+import { getLayers, getSearchFilter } from "redux/reducers/selectors/layers";
 import { setShowSettings } from "redux/reducers/slices/settings";
 
 import SlideInModal from "@/components/modals/SlideIn";
@@ -14,12 +14,13 @@ import SelectFolder from "@/components/nft/SelectFolder";
 import NFTSettings from "@/components/nft/settings";
 import TraitsSearchbar from "@/components/nft/TraitsSearchbar";
 
-import { ILayer } from "@/interfaces";
+import { IElement, ILayer } from "@/interfaces";
 
 import { NFTLayer } from "@/types";
 
 const NFTGenerator = ({ router }: any) => {
   const layers = useSelector(getLayers);
+  const searchFilter = useSelector(getSearchFilter);
   const [animateLayersIn, setAnimateLayersIn] = useState(false);
   const dispatch = useDispatch();
   const [sampleModal, setSampleModal] = useState(false);
@@ -69,20 +70,36 @@ const NFTGenerator = ({ router }: any) => {
             {layers.length > 0 && (
               <div className="mt-0 h-[length:calc(100vh-60px)] w-full min-w-[900px] flex-col gap-10 overflow-y-auto px-10 pb-10">
                 <>
-                  {layers.map((item: ILayer, index: number) => (
-                    <PropertyGroup
-                      key={index}
-                      index={index}
-                      layersCount={layers.length}
-                      onChange={handleTraitChanged}
-                      layer={item}
-                      elements={
-                        layers.find(
-                          (layer: NFTLayer) => layer.name == item.name
-                        )?.elements
-                      }
-                    />
-                  ))}
+                  {layers
+                    .filter((layer: ILayer) => {
+                      const matchesLayerName = new RegExp(
+                        `^${searchFilter}`,
+                        "gi"
+                      ).test(layer.name);
+
+                      const matchesTraitValue =
+                        layer.elements.findIndex((element: IElement) =>
+                          new RegExp(`^${searchFilter}`, "gi").test(
+                            element.traitValue
+                          )
+                        ) > -1;
+
+                      return matchesLayerName || matchesTraitValue;
+                    })
+                    .map((item: ILayer, index: number) => (
+                      <PropertyGroup
+                        key={index}
+                        index={index}
+                        layersCount={layers.length}
+                        onChange={handleTraitChanged}
+                        layer={item}
+                        elements={
+                          layers.find(
+                            (layer: NFTLayer) => layer.name == item.name
+                          )?.elements
+                        }
+                      />
+                    ))}
                 </>
               </div>
             )}
