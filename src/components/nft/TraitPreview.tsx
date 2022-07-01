@@ -26,6 +26,7 @@ const TraitPreview: FC<AppProps> = ({
 }) => {
   // const url = typeof file === "string" ? file : URL.createObjectURL(file);
   const dispatch = useDispatch();
+  const [inputMode, setInputMode] = useState(false);
   const [rarity, setRarity] = useState<number>(0);
   /**
    * handles removal of trait
@@ -68,7 +69,6 @@ const TraitPreview: FC<AppProps> = ({
       >
         Preview
       </div>
-
       <div
         className={`${
           active && "border-[#30489C]"
@@ -101,18 +101,37 @@ const TraitPreview: FC<AppProps> = ({
         </div>
       )}
       {rarityMode && (
-        <div className="mt-2 flex gap-2">
-          {/* <input type="number" step={0.1} /> */}
-          <input
-            className="max-w-[60px] flex-1"
-            type="range"
-            onChange={onRangeChanged}
-            value={rarity}
-            step={20}
-            min={0}
-            max={100}
-          />
-          <output className="text-xs">{rarity}%</output>
+        <div className="mt-2 flex items-center gap-2">
+          {inputMode ? (
+            <input
+              type="number"
+              className="w-[40px] flex-1 appearance-none rounded-lg py-1"
+              step={0.1}
+            />
+          ) : (
+            <div className="flex items-center gap-2">
+              <input
+                className="max-w-[80px] flex-1"
+                type="range"
+                onChange={onRangeChanged}
+                value={rarity}
+                step={20}
+                min={0}
+                max={100}
+              />
+            </div>
+          )}
+
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-3 w-3"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            onClick={() => setInputMode(!inputMode)}
+          >
+            <path d="M5 12a1 1 0 102 0V6.414l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L5 6.414V12zM15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z" />
+          </svg>
+          {/* <div className="flex items-center gap-2"></div> */}
         </div>
         // <Range
         //   step={20}
