@@ -8,7 +8,6 @@ import GenerateToken from "@/components/nft/GenerateToken";
 import NFTPreview from "@/components/nft/NFTPreview";
 import PropertyGroup from "@/components/nft/PropertyGroup";
 import SelectFolder from "@/components/nft/SelectFolder";
-import NFTSettings from "@/components/nft/settings";
 
 import { IElement, ILayer } from "@/interfaces";
 
@@ -46,7 +45,6 @@ const NFTGenerator = ({ router }: any) => {
       <Head>
         <title>NFT Trait Generator</title>
       </Head>
-      <NFTSettings />
       {layers.length < 1 && (
         <SelectFolder className="mt-72 w-[length:calc(100vw-30rem)] flex-1" />
       )}

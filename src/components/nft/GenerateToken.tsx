@@ -5,18 +5,19 @@ import { Fragment, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 // import toast from "react-hot-toast";
 import { toast } from "react-toastify";
+import { getConfiguration } from "redux/reducers/selectors/configuration";
 import {
   getGeneratedImages,
   getGeneratedImagesFilter,
   getLayers,
 } from "redux/reducers/selectors/layers";
-import { getConfiguration } from "redux/reducers/selectors/settings";
 import {
   clearGeneratedImages,
   setGeneratedImages,
   setGeneratedImagesFilter,
 } from "redux/reducers/slices/generated-images";
 
+import { enumNFTGenConfig } from "@/enums/nft-gen-configurations";
 import { IGeneratedTokens } from "@/interfaces";
 import { generateTokens } from "@/utils/art-engine";
 
@@ -81,13 +82,13 @@ export default function GenerateToken() {
       </div> */}
       <div
         onClick={async () => {
-          if (!configuration.name)
+          if (!configuration[enumNFTGenConfig.NAME])
             return toast.error("Enter collection name in settings");
-          if (!configuration.supply)
+          if (!configuration[enumNFTGenConfig.SUPPLY])
             return toast.error("Enter supply in settings");
-          if (!configuration.description)
+          if (!configuration[enumNFTGenConfig.DESCRIPTION])
             return toast.error("Enter description in settings");
-          if (!configuration.externalLink)
+          if (!configuration[enumNFTGenConfig.BASE_URL])
             return toast.error("Enter external link in settings");
           dispatch(clearGeneratedImages({}));
 

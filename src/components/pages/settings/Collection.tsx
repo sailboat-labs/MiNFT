@@ -3,11 +3,12 @@ import React, { useEffect } from "react";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+import { getConfiguration } from "redux/reducers/selectors/configuration";
 import { getLayers } from "redux/reducers/selectors/layers";
-import { getConfiguration } from "redux/reducers/selectors/settings";
 import { setConfiguration } from "redux/reducers/slices/configuration";
 import * as Yup from "yup";
 
+import { enumNFTGenConfig } from "@/enums/nft-gen-configurations";
 import { ILayer } from "@/interfaces";
 
 const CollectionSettings = () => {
@@ -23,7 +24,9 @@ const CollectionSettings = () => {
         maxSupply *= layers[i].elements.length;
       }
     }
-    dispatch(setConfiguration({ key: "supply", value: maxSupply }));
+    dispatch(
+      setConfiguration({ key: enumNFTGenConfig.SUPPLY, value: maxSupply })
+    );
   }
 
   function getMaximumSupply() {
@@ -91,10 +94,13 @@ const CollectionSettings = () => {
               Name
             </label>
             <input
-              defaultValue={configuration.name}
+              defaultValue={configuration[enumNFTGenConfig.NAME]}
               onChange={(e) => {
                 dispatch(
-                  setConfiguration({ key: "name", value: e.target.value })
+                  setConfiguration({
+                    key: enumNFTGenConfig.NAME,
+                    value: e.target.value,
+                  })
                 );
               }}
               type="text"
@@ -110,10 +116,13 @@ const CollectionSettings = () => {
               placeholder="(optional)"
               type="text"
               className="flex-1 rounded-lg"
-              defaultValue={configuration.family}
+              defaultValue={configuration[enumNFTGenConfig.FAMILY]}
               onChange={(e) => {
                 dispatch(
-                  setConfiguration({ key: "family", value: e.target.value })
+                  setConfiguration({
+                    key: enumNFTGenConfig.FAMILY,
+                    value: e.target.value,
+                  })
                 );
               }}
             />
@@ -129,11 +138,14 @@ const CollectionSettings = () => {
             </label>
             <input
               type="text"
-              defaultValue={configuration.symbol}
+              defaultValue={configuration[enumNFTGenConfig.SYMBOL]}
               className="flex-1 rounded-lg"
               onChange={(e) => {
                 dispatch(
-                  setConfiguration({ key: "symbol", value: e.target.value })
+                  setConfiguration({
+                    key: enumNFTGenConfig.SYMBOL,
+                    value: e.target.value,
+                  })
                 );
               }}
             />
@@ -148,7 +160,7 @@ const CollectionSettings = () => {
             </label>
             <div className="flex items-center gap-3">
               <input
-                defaultValue={configuration.supply}
+                defaultValue={configuration[enumNFTGenConfig.SUPPLY]}
                 value={configuration.supply}
                 type="number"
                 className="flex-1 rounded-lg"
@@ -176,10 +188,13 @@ const CollectionSettings = () => {
             type="text"
             placeholder="(optional)"
             className="flex-1 rounded-lg"
-            defaultValue={configuration.externalLink}
+            defaultValue={configuration[enumNFTGenConfig.BASE_URL]}
             onChange={(e) => {
               dispatch(
-                setConfiguration({ key: "externalLink", value: e.target.value })
+                setConfiguration({
+                  key: enumNFTGenConfig.BASE_URL,
+                  value: e.target.value,
+                })
               );
             }}
           />
@@ -195,10 +210,13 @@ const CollectionSettings = () => {
             rows={6}
             placeholder="Enter description"
             className="flex-1 rounded-lg"
-            defaultValue={configuration.description}
+            defaultValue={configuration[enumNFTGenConfig.DESCRIPTION]}
             onChange={(e) => {
               dispatch(
-                setConfiguration({ key: "description", value: e.target.value })
+                setConfiguration({
+                  key: enumNFTGenConfig.DESCRIPTION,
+                  value: e.target.value,
+                })
               );
             }}
           ></textarea>

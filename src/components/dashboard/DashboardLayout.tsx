@@ -9,6 +9,7 @@ import Sidebar from "./Sidebar";
 import SlideInModal from "../modals/SlideIn";
 import BasicSettings from "../pages/settings/BasicSettings";
 import CollectionSettings from "../pages/settings/Collection";
+import OutputSettingsPage from "../pages/settings/RenderSettings";
 import Seo from "../Seo";
 
 type props = {
@@ -32,6 +33,7 @@ export default function DashboardLayout({
         <div>
           <BasicSettings />
           <CollectionSettings />
+          <OutputSettingsPage />
         </div>
       ),
     },

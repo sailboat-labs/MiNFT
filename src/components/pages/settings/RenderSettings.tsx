@@ -1,20 +1,17 @@
 import { Listbox, Transition } from "@headlessui/react";
 import { useFormik } from "formik";
-import React, { Fragment, ReactElement } from "react";
+import React, { Fragment, ReactElement, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { getRenderSettings } from "redux/reducers/selectors/settings";
-import {
-  setRenderFormat,
-  setRenderHeight,
-  setRenderQuality,
-  setRenderSystem,
-  setRenderWidth,
-} from "redux/reducers/slices/settings";
+import { toast } from "react-toastify";
+import { getConfiguration } from "redux/reducers/selectors/configuration";
+import { setConfiguration } from "redux/reducers/slices/configuration";
 import * as Yup from "yup";
 
 import BaseRadio from "@/components/input-controls/BaseRadio";
 import SettingsLayout from "@/components/layout/Settings";
+
+import { enumNFTGenConfig } from "@/enums/nft-gen-configurations";
 
 const formats = ["PNG", "JPEG"];
 
@@ -28,7 +25,11 @@ const qualities = [
 
 const OutputSettingsPage = () => {
   const dispatch = useDispatch();
-  const renderSettings = useSelector(getRenderSettings);
+  const configuration = useSelector(getConfiguration);
+
+  useEffect(() => {
+    console.log(configuration);
+  }, [configuration]);
 
   const formik = useFormik({
     initialValues: {
@@ -58,8 +59,15 @@ const OutputSettingsPage = () => {
         <div className="mt-8 flex gap-6">
           <BaseRadio
             className="flex-1"
-            checked={renderSettings.system === "canvas"}
-            onClick={() => dispatch(setRenderSystem("canvas"))}
+            checked={configuration[enumNFTGenConfig.RENDER_FORMAT] === "canvas"}
+            onClick={() => {
+              dispatch(
+                setConfiguration({
+                  key: enumNFTGenConfig.RENDER_FORMAT,
+                  value: "canvas",
+                })
+              );
+            }}
           >
             <div className="p-6">
               <strong>Canvas</strong>
@@ -70,8 +78,8 @@ const OutputSettingsPage = () => {
           </BaseRadio>
           <BaseRadio
             className="flex-1"
-            checked={renderSettings.system === "FFmpeg"}
-            onClick={() => dispatch(setRenderSystem("FFmpeg"))}
+            checked={configuration[enumNFTGenConfig.RENDER_FORMAT] === "FFmpeg"}
+            onClick={() => toast("Support for FFmpeg will come soon")}
           >
             <div className="p-6">
               <strong>FFmpeg</strong>
@@ -96,13 +104,20 @@ const OutputSettingsPage = () => {
               </label>
               <div className="relative w-full">
                 <Listbox
-                  value={renderSettings.format}
-                  onChange={(value) => dispatch(setRenderFormat(value))}
+                  value={configuration[enumNFTGenConfig.OUTPUT_IMAGE_TYPE]}
+                  onChange={(value) => {
+                    dispatch(
+                      setConfiguration({
+                        key: enumNFTGenConfig.OUTPUT_IMAGE_TYPE,
+                        value: value,
+                      })
+                    );
+                  }}
                 >
                   <div className="relative mt-1">
                     <Listbox.Button className="relative w-full cursor-default rounded-lg  border border-gray-400 bg-gray-100 py-2 pl-3 pr-10 text-left transition-all duration-100 hover:bg-gray-200 focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
                       <span className="block truncate">
-                        {renderSettings.format}
+                        {configuration[enumNFTGenConfig.OUTPUT_IMAGE_TYPE]}
                       </span>
                       <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                         <svg
@@ -184,15 +199,15 @@ const OutputSettingsPage = () => {
               </label>
               <input
                 type="number"
-                onChange={(evt) =>
+                value={configuration[enumNFTGenConfig.RENDER_FORMAT_WIDTH]}
+                onChange={(evt) => {
                   dispatch(
-                    setRenderWidth(
-                      evt.target.value.trim().length > 1
-                        ? parseFloat(evt.target.value)
-                        : 0
-                    )
-                  )
-                }
+                    setConfiguration({
+                      key: enumNFTGenConfig.RENDER_FORMAT_WIDTH,
+                      value: evt.target.value,
+                    })
+                  );
+                }}
                 className="flex-1 rounded-lg"
               />
             </div>
@@ -202,15 +217,15 @@ const OutputSettingsPage = () => {
               </label>
               <input
                 type="number"
-                onChange={(evt) =>
+                value={configuration[enumNFTGenConfig.RENDER_FORMAT_HEIGHT]}
+                onChange={(evt) => {
                   dispatch(
-                    setRenderHeight(
-                      evt.target.value.trim().length > 1
-                        ? parseFloat(evt.target.value)
-                        : 0
-                    )
-                  )
-                }
+                    setConfiguration({
+                      key: enumNFTGenConfig.RENDER_FORMAT_HEIGHT,
+                      value: evt.target.value,
+                    })
+                  );
+                }}
                 className="flex-1 rounded-lg"
               />
             </div>
@@ -221,14 +236,22 @@ const OutputSettingsPage = () => {
           <p>Lower preview quality will make updates quicker</p>
           <div className="relative w-1/3">
             <Listbox
-              value={renderSettings.quality}
-              onChange={(value) => dispatch(setRenderQuality(value))}
+              value={configuration[enumNFTGenConfig.RENDER_QUALITY]}
+              onChange={(value) => {
+                dispatch(
+                  setConfiguration({
+                    key: enumNFTGenConfig.RENDER_QUALITY,
+                    value: value,
+                  })
+                );
+              }}
             >
               <div className="relative mt-1">
                 <Listbox.Button className="relative w-full cursor-default rounded-lg  border border-gray-400 bg-gray-100 py-2 pl-3 pr-10 text-left transition-all duration-100 hover:bg-gray-200 focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
                   <span className="block truncate">
-                    {renderSettings.quality.name} (
-                    {renderSettings.quality.percentage}%)
+                    {configuration[enumNFTGenConfig.RENDER_QUALITY]?.name} (
+                    {configuration[enumNFTGenConfig.RENDER_QUALITY]?.percentage}
+                    %)
                   </span>
                   <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                     <svg
