@@ -1,31 +1,64 @@
+/* eslint-disable @next/next/no-img-element */
 import { useState } from "react";
 
 export default function Banner() {
   const [hovered, setHovered] = useState(false);
   return (
     <div className="flex h-[70vh] flex-col items-center justify-center  font-dmsans text-white">
-      <div className="absolute left-0 top-20 -ml-16 flex  h-[40rem]">
-        <div className="-left-[5rem] z-[1] h-[12vw] w-[12vw]  translate-y-[9rem] rounded-lg bg-green-400"></div>
+      <div className="absolute left-0 top-20 hidden  h-[40rem] lg:flex ">
+        <img
+          className="left-[5rem] z-[1] h-[12vw] w-[6vw]  translate-y-[9rem] rounded-r-lg bg-green-400"
+          alt=""
+          src="/images/left_left.png"
+        />
         <div className="-ml-10">
-          <div className=" h-[13vw] w-[13vw] rounded-lg bg-red-400"></div>
+          <img
+            className="h-[13vw] w-[13vw] rounded-lg "
+            alt=""
+            src="/images/left_top.png"
+          />
 
-          <div className=" relative z-[2] mt-10 h-[10vw] w-[10vw] rounded-lg bg-amber-400"></div>
+          <img
+            className="relative z-[2] mt-10 h-[10vw] w-[10vw] rounded-lg  "
+            alt=""
+            src="/images/left_bottom.png"
+          />
         </div>
-        <div className="mt-72 h-[8vw] w-[8vw] rounded-lg bg-blue-400"></div>
+        <img
+          className="mt-72 h-[8vw] w-[8vw] rounded-lg "
+          alt=""
+          src="/images/left_bottom_right.png"
+        />
       </div>
-      <div className="absolute right-0 top-20 flex h-[40rem]  translate-x-[4rem]">
-        <div className="mt-72 h-[8vw] w-[8vw] rounded-lg bg-blue-400"></div>
+      <div className="absolute right-0 top-20 hidden h-[40rem] lg:flex ">
+        <img
+          className="mt-72 h-[8vw] w-[8vw] rounded-lg "
+          alt=""
+          src="/images/right_bottom_left.png"
+        />
 
-        <div className="-mr-10 flex flex-col items-end">
-          <div className=" h-[13vw] w-[13vw] rounded-lg bg-red-400"></div>
+        <div className="-mr-20 flex flex-col items-end">
+          <img
+            className="h-[13vw] w-[13vw] rounded-lg"
+            alt=""
+            src="/images/right_top.png"
+          />
 
-          <div className=" relative z-[2] mt-10 h-[10vw] w-[10vw] rounded-lg bg-amber-400"></div>
+          <img
+            className=" relative z-[2] mt-10 h-[10vw] w-[10vw] rounded-lg"
+            alt=""
+            src="/images/right_bottom.png"
+          />
         </div>
-        <div className="-left-[5rem] z-[1] h-[12vw] w-[12vw]  translate-y-[9rem] rounded-lg bg-green-400"></div>
+        <img
+          className="-left-[5rem] z-[1] h-[15vw] w-[6vw]  translate-y-[9rem] rounded-lg "
+          alt=""
+          src="/images/right_right.png"
+        />
       </div>
       {/* <div className=" h-72 w-96 -translate-y-32 "></div> */}
       <div className=" text-center text-4xl">
-        Become an <strong></strong> creator without code
+        Become an <strong>NFT</strong> creator without code
       </div>
       <div className="mt-3 text-2xl">
         You do the art, we&apos;ll do the rest

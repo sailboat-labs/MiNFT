@@ -1,4 +1,8 @@
+import { useState } from "react";
+
 export default function Features() {
+  const [selectedId, setSelectedId] = useState(null);
+
   const features: { title: string; description: string; icon?: any }[] = [
     {
       title: "Easy To Use",
