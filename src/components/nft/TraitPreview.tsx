@@ -2,7 +2,10 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React, { FC, useState } from "react";
 import { useDispatch } from "react-redux";
-import { selectTraitForPreview } from "redux/reducers/slices/layers";
+import {
+  changeElementCount,
+  selectTraitForPreview,
+} from "redux/reducers/slices/layers";
 import swal from "sweetalert";
 
 import { IElement } from "@/interfaces";
@@ -104,62 +107,38 @@ const TraitPreview: FC<AppProps> = ({
         </div>
       )}
       {rarityMode && (
-        <div className="mt-2 flex gap-2">
-          {/* <input type="number" step={0.1} /> */}
+        <div className="flex flex-col items-center">
+          <div className="mt-2 flex gap-2">
+            {/* <input type="number" step={0.1} /> */}
+            <input
+              className="max-w-[60px] flex-1"
+              type="range"
+              onChange={onRangeChanged}
+              value={rarity}
+              step={20}
+              min={0}
+              max={100}
+            />
+            <output className=" text-xs">{rarity}%</output>
+          </div>
           <input
-            className="max-w-[60px] flex-1"
-            type="range"
-            onChange={onRangeChanged}
-            value={rarity}
-            step={20}
+            className="mt-4 w-20 rounded border-none bg-gray-50"
+            value={file.count}
             min={0}
-            max={100}
+            onChange={(e) => {
+              dispatch(
+                changeElementCount({
+                  layerName: file.trait,
+                  elementName: file.filename,
+                  newCount: isNaN(parseInt(e.target.value))
+                    ? 0
+                    : parseInt(e.target.value ?? "0"),
+                })
+              );
+            }}
+            type="number"
           />
-          <output className="text-xs">{rarity}%</output>
         </div>
-        // <Range
-        //   step={20}
-        //   min={0}
-        //   max={100}
-        //   values={[0, 20]}
-        //   onChange={(values) => console.log(values)}
-        //   renderTrack={({ props, children }) => (
-        //     <div
-        //       {...props}
-        //       className="w-full"
-        //       style={{
-        //         ...props.style,
-        //         // height: "6px",
-        //         // width: "100%",
-        //         // backgroundColor: "#ccc",
-        //       }}
-        //     >
-        //       {children}
-        //     </div>
-        //   )}
-        //   renderThumb={({ props }) => (
-        //     <div
-        //       {...props}
-        //       style={{
-        //         ...props.style,
-        //         height: "6px",
-        //         width: "6px",
-        //         backgroundColor: "#999",
-        //       }}
-        //     />
-        //   )}
-        // />
-        // <ReactSlider
-        //   className="horizontal-slider mt-3 w-full"
-        //   marks={[20, 40, 60, 80, 100]}
-        //   markClassName="h-2 w-[2px] bg-[#30489C]"
-        //   min={0}
-        //   max={100}
-        //   step={20}
-        //   thumbClassName="w-2 -top-2 -bottom-4 rounded-full bg-[#30489C]"
-        //   trackClassName="h-2 bg-white border border-[#30489C] rounded-full "
-        //   renderThumb={(props, state) => <div {...props}></div>}
-        // />
       )}
     </div>
   );

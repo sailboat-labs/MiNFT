@@ -1,7 +1,10 @@
 import React, { ChangeEvent, FC, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
-import { getSelectedLayerName } from "redux/reducers/selectors/layers";
+import {
+  getLayers,
+  getSelectedLayerName,
+} from "redux/reducers/selectors/layers";
 import {
   addTraitsToLayer,
   changeLayerName,
@@ -45,6 +48,7 @@ const PropertyGroup: FC<AppProps> = ({
   const [accordionHeight, setAccordionHeight] = useState<number>();
   const fileInput = useRef<HTMLInputElement>(null);
   const [newName, setNewName] = useState<string>();
+  const layers = useSelector(getLayers) as ILayer[];
 
   function onDisplayNameClick(evt: React.MouseEvent<HTMLDivElement>) {
     evt.stopPropagation();
@@ -117,6 +121,20 @@ const PropertyGroup: FC<AppProps> = ({
       console.log(name, "wants to move down to", ++index);
       dispatch(reOrderLayer({ currentIndex: index, nextIndex: --index }));
     }
+  }
+
+  function getCountPerElement() {
+    //
+  }
+
+  function getMaximumSupply() {
+    let maxSupply = 1;
+    for (let i = 0; i < layers.length; i++) {
+      if (layers[i].elements?.length > 0) {
+        maxSupply *= layers[i].elements.length;
+      }
+    }
+    return maxSupply;
   }
 
   useEffect(() => {

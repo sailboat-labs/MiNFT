@@ -47,6 +47,8 @@ export interface IElement {
   trait: string;
   traitValue: string;
   isSelected?: boolean;
+  isCountTouched?: boolean;
+  count?: number;
 }
 
 export interface Trait {

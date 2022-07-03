@@ -143,6 +143,54 @@ const layerStore = createSlice({
       state.layers.find((layer: ILayer) => layer.name == currentName).name =
         newName;
     },
+
+    changeElementCount: (state: any, param: any) => {
+      const { payload } = param;
+
+      const layerName = payload.layerName;
+      const elementName = payload.elementName;
+      const newCount = payload.newCount;
+
+      //Find the count difference to change the count of other untouched elements
+      const oldCount = state.layers
+        .find((layer: ILayer) => layer.name == layerName)
+        .elements.find(
+          (element: IElement) => element.filename == elementName
+        ).count;
+      const newCountDifference = newCount - oldCount;
+
+      state.layers
+        .find((layer: ILayer) => layer.name == layerName)
+        .elements.find(
+          (element: IElement) => element.filename == elementName
+        ).count = newCount;
+
+      //Change the count of other untouched elements in trait group
+      //If new count difference is positive, find the next untouched element with the highest count, and subtract newCountDifference
+
+      const traitElements = state.layers
+        .find((layer: ILayer) => layer.name == layerName)
+        .elements.filter((element: IElement) => element.filename != elementName)
+        .map((element: IElement) => element.count);
+
+      if (newCountDifference > 0) {
+        const maxCount = Math.max(...traitElements);
+        const elementIndex = traitElements.indexOf(maxCount);
+        state.layers
+          .find((layer: ILayer) => layer.name == layerName)
+          .elements.find(
+            (element: IElement, index: number) => index == elementIndex
+          ).count -= newCountDifference;
+      } else if (newCountDifference < 0) {
+        const maxCount = Math.min(...traitElements);
+        const elementIndex = traitElements.indexOf(maxCount);
+        state.layers
+          .find((layer: ILayer) => layer.name == layerName)
+          .elements.find(
+            (element: IElement, index: number) => index == elementIndex
+          ).count += newCountDifference * -1;
+      }
+    },
   },
 });
 const { actions, reducer } = layerStore;
@@ -158,5 +206,6 @@ export const {
   setSearchFilter,
   deleteLayer,
   addLayer,
+  changeElementCount,
 } = actions;
 export default layerStore;
