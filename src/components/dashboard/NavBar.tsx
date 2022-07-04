@@ -3,6 +3,8 @@ import React from "react";
 
 import { PROFILE_IMAGE } from "@/data/DemoProject";
 
+import ProfileIcon from "../shared/ProfileIcon";
+
 type NavBarProps = {
   title?: string;
   endChildren?: any;
@@ -25,7 +27,9 @@ export default function Navbar({ title, endChildren }: NavBarProps) {
                 alt=""
               />
               <div className="flex flex-col">
-                <span className="text-base">Francis Eshun</span>
+                <div>
+                  <ProfileIcon />
+                </div>
                 <span className="-mt-1 text-xs text-gray-500">Free Plan</span>
               </div>
             </div>

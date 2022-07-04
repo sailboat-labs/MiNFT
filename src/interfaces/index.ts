@@ -61,3 +61,10 @@ export interface Trait {
 export interface SelectOption {
   name: string | number;
 }
+
+export interface INewProject {
+  projectName: string;
+  tokenSupply: string;
+  baseUrl: string;
+  description: string;
+}

@@ -1,7 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 // !Needs the user's name to display each user's name
 
+import { formatEthAddress } from "eth-address";
 import React from "react";
+import { useMoralis } from "react-moralis";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { getDashboardState } from "redux/reducers/selectors/dashboard";
@@ -152,7 +154,7 @@ const defaultStyles =
   "flex h-12 cursor-pointer transition-all stroke-[#757D8A] items-center text-gray-500  border-0  px-3 py-4 text-base font-normal text-black shadow-none hover:bg-gray-200 hover:text-gray-500";
 
 export default function Sidebar({ currentPage }: SidebarProps) {
-  const user = "Francis"; // Change this value to be dynamic after passing in props from Operations
+  const { account, logout, isAuthenticated } = useMoralis();
 
   const dashboardState = useSelector(getDashboardState) as IDashboardState;
   const selectedSidebar = dashboardState.selectedSidebar;
@@ -179,7 +181,9 @@ export default function Sidebar({ currentPage }: SidebarProps) {
             <div className="text-sm font-normal text-gray-500">
               Welcome back,
             </div>
-            <div className="text-lg font-bold text-gray-600">{user}</div>
+            <div className="text-lg font-bold text-gray-600">
+              {account && formatEthAddress(account!)}
+            </div>
           </div>
         </div>
 
