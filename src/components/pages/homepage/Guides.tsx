@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 import ButtonLink from "@/components/links/ButtonLink";
 
 export default function Guides() {
@@ -12,21 +14,21 @@ export default function Guides() {
       description:
         "Follow the steps, hit generate, then watch your NFT collection come to life in seconds. Layers not quite right? Change the order and preview it again. You, the creator, have total control in one easy-to-use tool.",
       button: "Start now",
-      image: "Image still cookin'",
+      image: "/images/homepage/guide_1.png",
     },
     {
       title: "MiNFT Contract",
       description:
         "We've made it so easy to deploy your smart contract, you'll want to put our wallet address in your royalty box just to thank us! Follow our seamless process, test and adjust your parameters as many times as you need, then deploy when ready.",
       button: "Start now",
-      image: "Image still cookin'",
+      image: "/images/homepage/guide_2.png",
     },
     {
       title: "MiNFT List",
       description:
         "An NFT launch needs two things to succeed: hype and community. Lucky for you, our Discord and Twitter verification make it super easy to let the humans in and keep the bots out of your pre-sale list.",
       button: "Start now",
-      image: "Image still cookin'",
+      image: "/images/homepage/guide_3.png",
     },
   ];
 
@@ -46,14 +48,14 @@ export default function Guides() {
               <div className="">
                 <ButtonLink
                   className="mt-7 flex h-10 w-48 items-center justify-center rounded-lg border-0 bg-white text-base font-bold text-indigo-800 hover:bg-indigo-500"
-                  href="#"
+                  href={index == 0 ? '/get-started' : index == 1 ? '/dashboard/contract-maker' : '#'}
                 >
                   {guide.button}
                 </ButtonLink>
               </div>
             </div>
-            <div className="flex h-72 w-72 items-center justify-center rounded-xl bg-gray-200 font-bold text-indigo-800">
-              {guide.image}
+            <div className="flex h-80 w-80 items-center justify-center rounded-xl">
+              <Image src={guide.image} alt="Preview" width={320} height={320} />
             </div>
           </div>
         ))}

@@ -1,23 +1,31 @@
+// ! Change the links in the footer to point to the correct page when flows are done. 
+// ! Also update the links to social media pages
+
 import UnstyledLink from "../../links/UnstyledLink";
 
 export default function Footer() {
+
+  const date = new Date()
+  const currentYear = date.getFullYear()
+
   return (
     <div className="h-52 w-full bg-indigo-800 font-montserrat text-white">
       <div className="m-auto flex w-10/12 flex-row justify-between pt-10">
         <div className="h-10 w-96 text-base text-white opacity-100">
-          <div>Copyright &copy; {2022}</div>
+          <div>Copyright &copy; {currentYear}</div>
           <div>NFT Trait Combo. All rights reserved.</div>
         </div>
 
         <div>
           <div className="flex w-96 flex-row justify-between">
-            <UnstyledLink href="/main">Get Started</UnstyledLink>
+            <UnstyledLink href="/get-started">Get Started</UnstyledLink>
             <UnstyledLink href="/contact-us">Contact us</UnstyledLink>
             <UnstyledLink href="/about-us">About us</UnstyledLink>
           </div>
 
           <div className="float-right mt-10 -mr-2 flex flex-row items-center justify-between">
-            <UnstyledLink href="#" target="_blank">
+            {/* Link to Facebook */}
+            <UnstyledLink href="#" target="_blank"> 
               <svg
                 className="bg-transparent "
                 fill="#ffffff"
@@ -33,6 +41,8 @@ export default function Footer() {
                 />
               </svg>
             </UnstyledLink>
+
+            {/* Link to Twitter */}
             <UnstyledLink href="#" target="_blank">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -48,6 +58,8 @@ export default function Footer() {
                 ></path>
               </svg>
             </UnstyledLink>
+
+            {/* Link to Pinterest */}
             <UnstyledLink href="#" target="_blank">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -63,6 +75,8 @@ export default function Footer() {
                 ></path>
               </svg>
             </UnstyledLink>
+
+            {/* Link to LinkedIn */}
             <UnstyledLink href="#" target="_blank">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -78,6 +92,8 @@ export default function Footer() {
                 ></path>
               </svg>
             </UnstyledLink>
+
+            {/* Link to YouTube */}
             <UnstyledLink href="#" target="_blank">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -93,6 +109,8 @@ export default function Footer() {
                 ></path>
               </svg>
             </UnstyledLink>
+
+            {/* Link to Instagram */}
             <UnstyledLink href="#" target="_blank">
               <svg
                 xmlns="http://www.w3.org/2000/svg"

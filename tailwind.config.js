@@ -21,6 +21,12 @@ module.exports = {
         dmsans: ["DMSans", "sans-serif"],
         montserrat: ["Montserrat", "sans-serif"],
       },
+      boxShadow: {
+        "3xl": "3px -1px 27px 8px rgba(83, 224, 255, 0.4)",
+      },
+      margin: {
+        396: "462px",
+      },
       colors: {
         primary: {
           // Customize it on globals.css :root
