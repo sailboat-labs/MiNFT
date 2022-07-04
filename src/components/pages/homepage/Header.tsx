@@ -23,7 +23,7 @@ export default function Header() {
       </UnstyledLink>
       <span className="w-1/2"></span>
       <div className="text-base">
-        <UnstyledLink href="/main" className="mr-14 w-24">
+        <UnstyledLink href="/get-started" className="mr-14 w-24">
           Get started
         </UnstyledLink>
         <UnstyledLink href="/contact-us" className="w-24">

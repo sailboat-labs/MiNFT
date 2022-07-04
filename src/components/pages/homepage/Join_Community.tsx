@@ -13,13 +13,13 @@ export default function Join_Community() {
       <div className="flex flex-row justify-between">
         <ButtonLink
           href="/dashboard"
-          className="mr-10 flex h-14 w-56 items-center justify-center rounded-xl border-0 bg-indigo-500 text-base font-bold text-white hover:bg-indigo-800"
+          className="mr-10 flex h-14 w-56 items-center justify-center rounded-xl border-0 bg-indigo-500 text-base font-bold text-white hover:bg-indigo-700"
         >
           Join Discord
         </ButtonLink>
         <ButtonLink
           href="/dashboard"
-          className="flex h-14 w-56 items-center justify-center rounded-xl border-0 bg-white text-base font-bold text-indigo-800 hover:bg-indigo-100 hover:text-indigo-800"
+          className="flex h-14 w-56 items-center justify-center rounded-xl border-0 bg-white text-base font-bold text-indigo-800 hover:bg-indigo-300 hover:text-indigo-800"
         >
           Join Waitlist
         </ButtonLink>
