@@ -9,7 +9,6 @@ import useAuthenticationDialog from "@/hooks/UseAuthDialog";
 
 import { PROFILE_IMAGE } from "@/data/DemoProject";
 
-import Layout from "@/components/layout/Layout";
 import PageLoader from "@/components/shared/PageLoader";
 
 import { INewProject } from "@/interfaces";
@@ -53,53 +52,18 @@ export default function DashboardGetStarted() {
     // setProfile(user);
   }, [account, isAuthenticated]);
 
-  if (!account || !isAuthenticated) {
-    return (
-      <Layout>
-        <div className="mt-20 flex h-full w-full flex-col items-center justify-center gap-5 px-10 text-center">
-          <AuthDialog />
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-20 w-20"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth="1"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-          <div className="text-2xl font-bold text-gray-900 dark:text-white">
-            Connect your wallet to view your profile
-          </div>
-          <div
-            onClick={() => {
-              setShowAuthDialog(true);
-            }}
-            className="gradient-button"
-          >
-            Connect your wallet
-          </div>
-        </div>
-      </Layout>
-    );
-  }
-
   return (
     <div
-      className={`flex h-screen flex-col overflow-hidden transition-all lg:flex-row ${
+      className={`flex h-screen flex-col overflow-hidden font-dmsans transition-all lg:flex-row ${
         isCreatingProjectStarted ? "bg-indigo-200" : "bg-white"
       }`}
     >
-      <div className="h-screen xl:w-1/2 ">
+      <div className="h-screen lg:w-1/2 ">
         <div
-          className={`container mx-auto mt-52  transition-all duration-300  ${
+          className={`container mx-auto mt-36  transition-all duration-300  ${
             isCreatingProjectStarted
-              ? "pointer-events-none px-5 opacity-30 lg:px-52 lg:pl-36"
-              : "pointer-events-auto px-10 opacity-100 lg:px-52"
+              ? "pointer-events-none px-5 opacity-30 lg:px-36 lg:pl-24"
+              : "pointer-events-auto px-10 opacity-100 lg:px-36"
           }`}
         >
           <div>
@@ -126,7 +90,7 @@ export default function DashboardGetStarted() {
             </div>
           </div>
 
-          <div className="mt-52 flex h-52 w-72 cursor-pointer flex-col justify-between rounded-lg border-2 bg-white px-10 py-5 transition-all hover:scale-105 hover:bg-gray-50">
+          <div className="mt-36 flex h-52 w-72 cursor-pointer flex-col justify-between rounded-lg border-2 bg-white px-10 py-5 transition-all hover:scale-105 hover:bg-gray-50">
             <div className="font-dmsans text-xl">Explore a demo project</div>
             <div className="flex items-center gap-5">
               <img
@@ -301,15 +265,6 @@ function ProjectDetails({
   const [description, setDescription] = useState("");
   const [isCreatingProject, setIsCreatingProject] = useState(false);
 
-  useEffect(() => {
-    if (currentStep != "project-details") {
-      setIsCreatingProject(false);
-      setTokenSupply("");
-      setBaseUrl("");
-      setDescription("");
-    }
-  }, [currentStep]);
-
   async function handleCreateProject() {
     //
     if (!account) return;
@@ -343,7 +298,7 @@ function ProjectDetails({
 
   return (
     <div
-      className={`${
+      className={` pr-20 ${
         currentStep == "project-details"
           ? "pointer-events-auto"
           : "pointer-events-none"
