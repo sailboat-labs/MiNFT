@@ -1,7 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable jsx-a11y/alt-text */
 import React, { FC, useState } from "react";
+import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { getLayers } from "redux/reducers/selectors/layers";
 import {
   changeElementCount,
   selectTraitForPreview,
@@ -9,6 +12,7 @@ import {
 import swal from "sweetalert";
 
 import { IElement } from "@/interfaces";
+import { getMaximumSupply } from "@/utils/module_utils/nft";
 
 import DeleteTraitModal from "./DeleteTraitModal";
 
@@ -30,6 +34,7 @@ const TraitPreview: FC<AppProps> = ({
   // const url = typeof file === "string" ? file : URL.createObjectURL(file);
   const dispatch = useDispatch();
   const [rarity, setRarity] = useState<number>(0);
+  const layers = useSelector(getLayers);
   /**
    * handles removal of trait
    *
@@ -58,8 +63,27 @@ const TraitPreview: FC<AppProps> = ({
    * @param {Object} evt - React's ChangeEvent object
    * @returns {undefined}
    */
-  function onRangeChanged(evt: React.ChangeEvent<HTMLInputElement>) {
-    setRarity(parseFloat(evt.target.value));
+  function onRangeChanged(e: React.ChangeEvent<HTMLInputElement>) {
+    if (parseInt(e.target.value) > getMaximumSupply(layers)) return;
+    if (parseInt(e.target.value) > getMaximumSupply(layers)) {
+      dispatch(
+        changeElementCount({
+          layerName: file.trait,
+          elementName: file.filename,
+          newCount: getMaximumSupply(layers),
+        })
+      );
+      return toast.error(`Maximum can be ${getMaximumSupply(layers)}`);
+    }
+    dispatch(
+      changeElementCount({
+        layerName: file.trait,
+        elementName: file.filename,
+        newCount: isNaN(parseInt(e.target.value))
+          ? 0
+          : parseInt(e.target.value ?? "0"),
+      })
+    );
   }
 
   return (
@@ -110,22 +134,44 @@ const TraitPreview: FC<AppProps> = ({
         <div className="flex flex-col items-center">
           <div className="mt-2 flex gap-2">
             {/* <input type="number" step={0.1} /> */}
-            <input
+            {/* <input
               className="max-w-[60px] flex-1"
               type="range"
               onChange={onRangeChanged}
-              value={rarity}
+              value={file.count}
               step={20}
               min={0}
               max={100}
-            />
-            <output className=" text-xs">{rarity}%</output>
+            /> */}
+            <output className=" text-xs">
+              {parseFloat(
+                (
+                  (parseInt(file.count?.toString() ?? "0") /
+                    getMaximumSupply(layers)) *
+                  100
+                ).toFixed(2)
+              )}
+              %
+            </output>
           </div>
           <input
             className="mt-4 w-20 rounded border-none bg-gray-50"
             value={file.count}
             min={0}
+            max={getMaximumSupply(layers)}
             onChange={(e) => {
+              if (parseInt(e.target.value) > getMaximumSupply(layers)) {
+                dispatch(
+                  changeElementCount({
+                    layerName: file.trait,
+                    elementName: file.filename,
+                    newCount: getMaximumSupply(layers),
+                  })
+                );
+                return toast.error(
+                  `Maximum can be ${getMaximumSupply(layers)}`
+                );
+              }
               dispatch(
                 changeElementCount({
                   layerName: file.trait,

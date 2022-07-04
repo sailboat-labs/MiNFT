@@ -269,7 +269,12 @@ const PropertyGroup: FC<AppProps> = ({
             {/* Rarity button */}
             {elements.length > 0 && (
               <button
-                onClick={() => dispatch(setSelectedLayerName(layer.name))}
+                onClick={() => {
+                  if (changingRarity()) {
+                    return dispatch(setSelectedLayerName(null));
+                  }
+                  dispatch(setSelectedLayerName(layer.name));
+                }}
                 className={`my-2 flex items-center gap-1 rounded-md border border-indigo-600 px-4 py-1 text-base font-medium text-indigo-600 ${
                   changingRarity() && "bg-[#30489C] !text-white"
                 }`}
@@ -367,7 +372,7 @@ const PropertyGroup: FC<AppProps> = ({
                 />
               </div>
             </div>
-            {changingRarity() && (
+            {/* {changingRarity() && (
               <div className="mb-4  flex items-center justify-center gap-x-4 px-6">
                 <button
                   className="rounded-md border border-[#30489c] bg-white  px-6 py-2 font-medium text-[#30489C] transition-all duration-100 hover:bg-[#30479c09]"
@@ -382,7 +387,7 @@ const PropertyGroup: FC<AppProps> = ({
                   Save
                 </button>
               </div>
-            )}
+            )} */}
           </div>
         </div>
       </div>

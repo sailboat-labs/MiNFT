@@ -3,6 +3,7 @@ import { useState } from "react";
 
 export default function Banner() {
   const [hovered, setHovered] = useState(false);
+
   return (
     <div className="flex h-[70vh] flex-col items-center justify-center  font-dmsans text-white">
       <div className="absolute left-0 top-20 hidden  h-[40rem] lg:flex ">
