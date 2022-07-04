@@ -1,5 +1,15 @@
 /* eslint-disable no-console */
+import {
+  collection,
+  doc,
+  getDocs,
+  query,
+  setDoc,
+  where,
+} from "firebase/firestore";
 import { NextApiRequest, NextApiResponse } from "next";
+
+import { firestore } from "@/components/nft/NewProperty";
 
 import { INewProject } from "@/interfaces";
 
@@ -30,8 +40,22 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
 export default handler;
 
-function createNewProject(account: string, project: INewProject) {
-  //
+async function createNewProject(account: string, project: INewProject) {
+  const _query = query(
+    collectionsCollection,
+    where("slug", "==", collection.slug)
+  );
+
+  const exists = (await getDocs(_query)).docs.length > 0;
+
+  if (!exists) {
+    const _doc = doc(firestore, `collections/${collection.id}`);
+    await setDoc(_doc, collection);
+
+    return { success: true };
+  } else {
+    return { success: false, message: "Project already exists" };
+  }
 }
 
 function responder(success: boolean, response: any) {
