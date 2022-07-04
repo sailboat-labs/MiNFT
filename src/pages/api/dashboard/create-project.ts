@@ -52,7 +52,7 @@ async function createNewProject(account: string, project: INewProject) {
 
   const _query = query(
     dashboardCollection,
-    where("projectName", "==", project.projectName)
+    where("projectName", "==", project.projectName.toString().toLowerCase())
   );
 
   const exists = (await getDocs(_query)).docs.length > 0;
