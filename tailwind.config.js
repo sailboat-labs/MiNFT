@@ -21,6 +21,9 @@ module.exports = {
         dmsans: ["DMSans", "sans-serif"],
         montserrat: ["Montserrat", "sans-serif"],
       },
+      width: {
+        '692': '692px',
+      },
       colors: {
         primary: {
           // Customize it on globals.css :root
