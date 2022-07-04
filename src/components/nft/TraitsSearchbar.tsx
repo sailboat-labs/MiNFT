@@ -8,13 +8,13 @@ const TraitsSearchbar = () => {
 
   return (
     <div
-      className={`group sticky top-1 z-20 my-1 flex overflow-hidden rounded-full bg-white py-1 px-2 ring-1 ring-gray-300  ${
+      className={`group z-20 my-1 flex h-8 overflow-hidden rounded bg-white py-1 px-2 ring-1 ring-gray-300  ${
         inputIsFocused && "!ring-indigo-800"
       }`}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        className={`ml-2 h-7  w-7 self-center fill-gray-300  ${
+        className={`ml-2 h-5  w-5 self-center fill-gray-300  ${
           inputIsFocused && "fill-indigo-800"
         }`}
         viewBox="0 0 20 20"

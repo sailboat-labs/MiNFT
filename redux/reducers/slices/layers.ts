@@ -151,44 +151,81 @@ const layerStore = createSlice({
       const elementName = payload.elementName;
       const newCount = payload.newCount;
 
+      console.log({ layerName, elementName, newCount });
+
+      //-------------------------------------------------------------------------
       //Find the count difference to change the count of other untouched elements
+      //-------------------------------------------------------------------------
+
+      //Get old Count
       const oldCount = state.layers
         .find((layer: ILayer) => layer.name == layerName)
         .elements.find(
           (element: IElement) => element.filename == elementName
         ).count;
+      //Get count difference
       const newCountDifference = newCount - oldCount;
 
+      //Set the element's count to the new count
       state.layers
         .find((layer: ILayer) => layer.name == layerName)
         .elements.find(
           (element: IElement) => element.filename == elementName
         ).count = newCount;
-
-      //Change the count of other untouched elements in trait group
-      //If new count difference is positive, find the next untouched element with the highest count, and subtract newCountDifference
-
-      const traitElements = state.layers
+      state.layers
         .find((layer: ILayer) => layer.name == layerName)
-        .elements.filter((element: IElement) => element.filename != elementName)
-        .map((element: IElement) => element.count);
+        .elements.find(
+          (element: IElement) => element.filename == elementName
+        ).isCountTouched = true;
 
-      if (newCountDifference > 0) {
-        const maxCount = Math.max(...traitElements);
-        const elementIndex = traitElements.indexOf(maxCount);
-        state.layers
-          .find((layer: ILayer) => layer.name == layerName)
-          .elements.find(
-            (element: IElement, index: number) => index == elementIndex
-          ).count -= newCountDifference;
-      } else if (newCountDifference < 0) {
-        const maxCount = Math.min(...traitElements);
-        const elementIndex = traitElements.indexOf(maxCount);
-        state.layers
-          .find((layer: ILayer) => layer.name == layerName)
-          .elements.find(
-            (element: IElement, index: number) => index == elementIndex
-          ).count += newCountDifference * -1;
+      //-------------------------------------------------------------------------
+      //Change the count of other untouched elements in trait group
+      //-------------------------------------------------------------------------
+
+      //If new count difference is positive, find the next untouched element with the highest count, and subtract count difference
+      const unTouchedElements = state.layers
+        .find((layer: ILayer) => layer.name == layerName)
+        .elements.filter((element: IElement) => element.isCountTouched != true);
+
+      console.log({ unTouchedElements });
+
+      if (unTouchedElements?.length > 0) {
+        if (newCountDifference >= 0) {
+          //Find the index of the next highest untouched element count
+          const maxUntouchedElement = Math.max(
+            ...unTouchedElements
+              .filter((element: IElement) => element.filename != elementName)
+              .map((element: IElement) => element.count)
+          );
+
+          if (maxUntouchedElement > 0) {
+            state.layers
+              .find((layer: ILayer) => layer.name == layerName)
+              .elements.find(
+                (element: IElement, index: number) =>
+                  element.count == maxUntouchedElement &&
+                  element.isCountTouched != true
+              ).count -= newCountDifference;
+          }
+        } else if (newCountDifference < 0) {
+          //Find the index of the next highest untouched element count
+          const maxUntouchedElement = Math.min(
+            ...unTouchedElements
+              .filter((element: IElement) => element.filename != elementName)
+              .map((element: IElement) => element.count)
+          );
+          console.log({ maxUntouchedElement });
+
+          if (maxUntouchedElement > 0) {
+            state.layers
+              .find((layer: ILayer) => layer.name == layerName)
+              .elements.find(
+                (element: IElement, index: number) =>
+                  element.count == maxUntouchedElement &&
+                  element.isCountTouched != true
+              ).count -= newCountDifference;
+          }
+        }
       }
     },
   },

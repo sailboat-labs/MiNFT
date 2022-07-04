@@ -84,6 +84,8 @@ const PropertyGroup: FC<AppProps> = ({
         zindex: "",
         trait: layer.name,
         traitValue: file.name?.split(".")[0],
+        count: getMaximumSupply() / layer.elements.length ?? 0,
+        isCountTouched: false,
       }));
     }
 
