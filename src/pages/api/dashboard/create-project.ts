@@ -29,9 +29,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           .status(403)
           .send(responder(false, "Authentication required"));
 
-      createNewProject(account, project);
+      const result = await createNewProject(account, project);
 
-      return res.send("Saving new project");
+      return res.send(result);
     }
     return res.status(404).json({ success: false, message: "Not Found" });
   } catch (error) {
@@ -52,14 +52,21 @@ async function createNewProject(account: string, project: INewProject) {
 
   const _query = query(
     dashboardCollection,
-    where("slug", "==", dashify(project.projectName))
+    where("projectName", "==", project.projectName)
   );
 
   const exists = (await getDocs(_query)).docs.length > 0;
 
   if (!exists) {
-    const _doc = doc(firestore, `dashboard/${account}/${project.projectName}`);
-    await setDoc(_doc, collection);
+    const _doc = doc(
+      firestore,
+      `dashboard/${account}/${dashify(project.projectName)}/overview`
+    );
+    const data = {
+      ...project,
+      slug: dashify(project.projectName),
+    };
+    await setDoc(_doc, data);
 
     return { success: true };
   } else {

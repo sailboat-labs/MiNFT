@@ -3,12 +3,14 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useMoralis } from "react-moralis";
+import { toast } from "react-toastify";
 
 import useAuthenticationDialog from "@/hooks/UseAuthDialog";
 
 import { PROFILE_IMAGE } from "@/data/DemoProject";
 
 import Layout from "@/components/layout/Layout";
+import PageLoader from "@/components/shared/PageLoader";
 
 import { INewProject } from "@/interfaces";
 
@@ -90,8 +92,8 @@ export default function DashboardGetStarted() {
         <div
           className={`container mx-auto mt-52 transition-all duration-300  ${
             isCreatingProjectStarted
-              ? "px-5 opacity-30 lg:px-52 lg:pl-36"
-              : "px-10 opacity-100 lg:px-52"
+              ? "pointer-events-none px-5 opacity-30 lg:px-52 lg:pl-36"
+              : "pointer-events-auto px-10 opacity-100 lg:px-52"
           }`}
         >
           <div>
@@ -108,7 +110,11 @@ export default function DashboardGetStarted() {
                   "project-name"
                 );
               }}
-              className="mt-5 w-fit cursor-pointer rounded-lg border-2 px-5 py-2"
+              className={`mt-5 w-fit cursor-pointer rounded-lg border-2 px-5 py-2 transition-all ${
+                isCreatingProjectStarted
+                  ? "pointer-events-none -translate-x-2 opacity-0"
+                  : "pointer-events-auto translate-x-0 opacity-100"
+              }`}
             >
               Create Project
             </div>
@@ -128,19 +134,40 @@ export default function DashboardGetStarted() {
         </div>
       </div>
       <div
-        className={`min-h-screen border-l px-20 pt-36 transition-all duration-500 xl:w-1/2 ${
+        className={`min-h-screen border-l px-20 pt-24 transition-all duration-500 xl:w-1/2 ${
           isCreatingProjectStarted
-            ? "translate-x-0 opacity-100"
-            : "translate-x-20 opacity-0"
+            ? "pointer-events-auto translate-x-0 opacity-100"
+            : "pointer-events-none translate-x-20 opacity-0"
         }`}
       >
+        <div
+          onClick={() => {
+            setIsCreatingProjectStarted(false);
+          }}
+          className="mb-16 w-fit cursor-pointer rounded-full  p-2 transition-all hover:scale-105"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </div>
         <div className="mb-14 flex gap-10">
           {steps.map((step, index) => (
             <div
               key={index}
               className={`flex h-10 w-10 items-center justify-center rounded-full border-2 transition-all ${
                 currentStep == step.label
-                  ? "bg-gray-100 "
+                  ? "border-indigo-300 bg-indigo-100 "
                   : "border-gray-100 bg-white "
               }`}
             >
@@ -176,6 +203,7 @@ export default function DashboardGetStarted() {
               }`}
             >
               <ProjectDetails
+                currentStep={currentStep}
                 setCurrentStep={setCurrentStep}
                 setCurrentStepTitle={setCurrentStepTitle}
                 setIsCreatingProjectStarted={setIsCreatingProjectStarted}
@@ -208,11 +236,14 @@ function ProjectName({
 
       <div
         onClick={() => {
+          if (project.length < 3) return;
           setCurrentStep("project-details");
           setCurrentStepTitle("Project Details");
           setProjectName(project);
         }}
-        className="gradient-button mt-20 text-base"
+        className={` mt-20 text-base ${
+          project.length > 2 ? "gradient-button" : "disabled-button w-fit"
+        }`}
       >
         Continue
       </div>
@@ -226,17 +257,29 @@ function ProjectDetails({
   setCurrentStepTitle,
   setProjectName,
   projectName,
+  currentStep,
 }: any) {
   const { account, logout, isAuthenticated } = useMoralis();
 
   const [tokenSupply, setTokenSupply] = useState("");
   const [baseUrl, setBaseUrl] = useState("");
   const [description, setDescription] = useState("");
+  const [isCreatingProject, setIsCreatingProject] = useState(false);
 
-  function handleCreateProject() {
+  useEffect(() => {
+    if (currentStep != "project-details") {
+      setIsCreatingProject(false);
+      setTokenSupply("");
+      setBaseUrl("");
+      setDescription("");
+    }
+  }, [currentStep]);
+
+  async function handleCreateProject() {
     //
     if (!account) return;
-
+    setIsCreatingProject(true);
+    setCurrentStepTitle("Creating Project");
     const data: INewProject = {
       projectName,
       tokenSupply,
@@ -246,66 +289,111 @@ function ProjectDetails({
 
     if (!data) return;
 
-    axios.post("/api/dashboard/create-project", {
+    const response = await axios.post("/api/dashboard/create-project", {
       project: data,
       account,
     });
+
+    if (response.data.success) {
+      toast.success("Account created");
+    } else {
+      toast.error(
+        response.data.message ?? "An error occurred creating account"
+      );
+      setIsCreatingProject(false);
+    }
   }
 
   return (
-    <div>
-      <input
-        className="mt-10  w-full rounded border px-5 py-2"
-        placeholder="Enter your token supply*"
-        onChange={(e) => {
-          setTokenSupply(e.target.value);
-        }}
-      />
-      <div className="mt-1 font-dmsans text-sm text-gray-500">
-        Can be changed later in settings
+    <div
+      className={`${
+        currentStep == "project-details"
+          ? "pointer-events-auto"
+          : "pointer-events-none"
+      }`}
+    >
+      <div
+        className={`absolute mt-10 flex items-center transition-all ${
+          !isCreatingProject
+            ? "pointer-events-none scale-105 opacity-0"
+            : "pointer-events-auto scale-100 opacity-100"
+        }`}
+      >
+        <PageLoader className=" w-fit" />
+        <span className="text-sm">Hold on a second...</span>
       </div>
-
-      <input
-        className="mt-10  w-full rounded border px-5 py-2"
-        placeholder="Enter your base URL*"
-        onChange={(e) => {
-          setBaseUrl(e.target.value);
-        }}
-      />
-      <div className="mt-1 font-dmsans text-sm text-gray-500">
-        Can be changed later in settings
-      </div>
-
-      <textarea
-        className="mt-10 w-full rounded border px-5 py-2 text-2xl  "
-        placeholder="Description*"
-        onChange={(e) => {
-          setDescription(e.target.value);
-        }}
-      />
-      <div className="mt-1 font-dmsans text-sm text-gray-500">
-        Can be changed later in settings
-      </div>
-
-      <div className="flex gap-5">
-        <div
-          onClick={() => {
-            setCurrentStep("project-name");
-            setCurrentStepTitle("Let's start with a name for your project");
-            setProjectName("");
+      <div
+        className={`transition-all ${
+          isCreatingProject
+            ? "pointer-events-none scale-95 opacity-0"
+            : "pointer-events-auto scale-100 opacity-100"
+        }`}
+      >
+        <input
+          className="mt-10  w-full rounded border px-5 py-2"
+          placeholder="Enter your token supply*"
+          onChange={(e) => {
+            setTokenSupply(e.target.value);
           }}
-          className="gradient-button mt-20 text-base"
-        >
-          Back
+        />
+        <div className="mt-1 font-dmsans text-sm text-gray-500">
+          Can be changed later in settings
         </div>
-        <div
-          onClick={() => {
-            // setIsCreatingProjectStarted(false);
-            handleCreateProject();
+
+        <input
+          className="mt-10  w-full rounded border px-5 py-2"
+          placeholder="Enter your base URL*"
+          onChange={(e) => {
+            setBaseUrl(e.target.value);
           }}
-          className="gradient-button mt-20 text-base"
-        >
-          Let&apos;s go
+        />
+        <div className="mt-1 font-dmsans text-sm text-gray-500">
+          Can be changed later in settings
+        </div>
+
+        <textarea
+          className="mt-10 w-full rounded border px-5 py-2 text-2xl  "
+          placeholder="Description*"
+          onChange={(e) => {
+            setDescription(e.target.value);
+          }}
+        />
+        <div className="mt-1 font-dmsans text-sm text-gray-500">
+          Can be changed later in settings
+        </div>
+
+        <div className="flex gap-5">
+          <div
+            onClick={() => {
+              setCurrentStep("project-name");
+              setCurrentStepTitle("Let's start with a name for your project");
+              setProjectName("");
+            }}
+            className="gradient-button mt-20 text-base"
+          >
+            Back
+          </div>
+          <div
+            onClick={() => {
+              // setIsCreatingProjectStarted(false);
+              if (
+                tokenSupply.length > 0 &&
+                baseUrl.length > 0 &&
+                description.length > 0
+              ) {
+                handleCreateProject();
+              }
+            }}
+            className={` mt-20 text-base ${
+              tokenSupply.length > 0 &&
+              baseUrl.length > 0 &&
+              description.length > 0
+                ? "gradient-button"
+                : "disabled-button w-fit"
+            }`}
+          >
+            Let&apos;s go
+          </div>
         </div>
       </div>
     </div>
