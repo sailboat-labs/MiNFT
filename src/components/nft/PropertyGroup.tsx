@@ -340,7 +340,7 @@ const PropertyGroup: FC<AppProps> = ({
                   </svg>
                 </div>
                 <input
-                  className="pin-r pin-t absolute block cursor-pointer opacity-0"
+                  className="pin-r pin-t pointer-events-none absolute block cursor-pointer opacity-0"
                   type="file"
                   onChange={handleFileChanged}
                   multiple
