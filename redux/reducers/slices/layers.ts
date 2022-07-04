@@ -151,8 +151,6 @@ const layerStore = createSlice({
       const elementName = payload.elementName;
       const newCount = payload.newCount;
 
-      console.log({ layerName, elementName, newCount });
-
       //-------------------------------------------------------------------------
       //Find the count difference to change the count of other untouched elements
       //-------------------------------------------------------------------------
@@ -182,16 +180,14 @@ const layerStore = createSlice({
       //Change the count of other untouched elements in trait group
       //-------------------------------------------------------------------------
 
-      //If new count difference is positive, find the next untouched element with the highest count, and subtract count difference
+      //Get all elements that have an untouched count
       const unTouchedElements = state.layers
         .find((layer: ILayer) => layer.name == layerName)
         .elements.filter((element: IElement) => element.isCountTouched != true);
 
-      console.log({ unTouchedElements });
-
       if (unTouchedElements?.length > 0) {
         if (newCountDifference >= 0) {
-          //Find the index of the next highest untouched element count
+          //Find the next highest untouched element count
           const maxUntouchedElement = Math.max(
             ...unTouchedElements
               .filter((element: IElement) => element.filename != elementName)
@@ -202,25 +198,24 @@ const layerStore = createSlice({
             state.layers
               .find((layer: ILayer) => layer.name == layerName)
               .elements.find(
-                (element: IElement, index: number) =>
+                (element: IElement) =>
                   element.count == maxUntouchedElement &&
                   element.isCountTouched != true
               ).count -= newCountDifference;
           }
         } else if (newCountDifference < 0) {
-          //Find the index of the next highest untouched element count
+          //Find the next lowest untouched element count
           const maxUntouchedElement = Math.min(
             ...unTouchedElements
               .filter((element: IElement) => element.filename != elementName)
               .map((element: IElement) => element.count)
           );
-          console.log({ maxUntouchedElement });
 
           if (maxUntouchedElement > 0) {
             state.layers
               .find((layer: ILayer) => layer.name == layerName)
               .elements.find(
-                (element: IElement, index: number) =>
+                (element: IElement) =>
                   element.count == maxUntouchedElement &&
                   element.isCountTouched != true
               ).count -= newCountDifference;

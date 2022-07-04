@@ -125,8 +125,12 @@ const PropertyGroup: FC<AppProps> = ({
     }
   }
 
-  function getCountPerElement() {
-    //
+  function getElementCountTotal() {
+    let total = 0;
+    layer.elements.forEach((element) => {
+      total += element.count ?? 0;
+    });
+    return total;
   }
 
   function getMaximumSupply() {
@@ -374,22 +378,14 @@ const PropertyGroup: FC<AppProps> = ({
                 />
               </div>
             </div>
-            {/* {changingRarity() && (
-              <div className="mb-4  flex items-center justify-center gap-x-4 px-6">
-                <button
-                  className="rounded-md border border-[#30489c] bg-white  px-6 py-2 font-medium text-[#30489C] transition-all duration-100 hover:bg-[#30479c09]"
-                  onClick={() => dispatch(setSelectedLayerName(null))}
-                >
-                  Discard
-                </button>
-                <button
-                  onClick={() => updateLayer()}
-                  className="rounded-md bg-[#30489C] px-6 py-2 text-white transition-all  duration-100 hover:bg-[#223474]"
-                >
-                  Save
-                </button>
+            {changingRarity() && getElementCountTotal() != getMaximumSupply() && (
+              <div className="mb-4  flex w-full gap-x-4 px-6">
+                <div className="rounded bg-red-100 px-5 py-2 text-sm text-red-500">
+                  Total element counts must equal {getMaximumSupply()}{" "}
+                  (currently {getElementCountTotal()})
+                </div>
               </div>
-            )} */}
+            )}
           </div>
         </div>
       </div>
