@@ -1,17 +1,21 @@
 /* eslint-disable no-console */
+import dashify from "dashify";
 import {
   collection,
   doc,
   getDocs,
+  getFirestore,
   query,
   setDoc,
   where,
 } from "firebase/firestore";
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { firestore } from "@/components/nft/NewProperty";
+import { firebaseApp } from "@/lib/firebase";
 
 import { INewProject } from "@/interfaces";
+
+const firestore = getFirestore(firebaseApp);
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -41,15 +45,20 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 export default handler;
 
 async function createNewProject(account: string, project: INewProject) {
+  const dashboardCollection = collection(
+    firestore,
+    `dashboard/${account}/${dashify(project.projectName)}`
+  );
+
   const _query = query(
-    collectionsCollection,
-    where("slug", "==", collection.slug)
+    dashboardCollection,
+    where("slug", "==", dashify(project.projectName))
   );
 
   const exists = (await getDocs(_query)).docs.length > 0;
 
   if (!exists) {
-    const _doc = doc(firestore, `collections/${collection.id}`);
+    const _doc = doc(firestore, `dashboard/${account}/${project.projectName}`);
     await setDoc(_doc, collection);
 
     return { success: true };
@@ -58,9 +67,9 @@ async function createNewProject(account: string, project: INewProject) {
   }
 }
 
-function responder(success: boolean, response: any) {
+function responder(success: boolean, message: any) {
   return {
     success,
-    response,
+    message,
   };
 }
