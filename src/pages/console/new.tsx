@@ -285,10 +285,10 @@ function ProjectDetails({
   const [baseUrl, setBaseUrl] = useState("");
   const [description, setDescription] = useState("");
   const [isCreatingProject, setIsCreatingProject] = useState(false);
+  const router = useRouter();
 
   async function handleCreateProject() {
     //
-    const account = "0x65cF0585bD7B236b635DA7077624431DD9cec35e".toLowerCase();
     if (!account) return toast.error("No account provided");
     setIsCreatingProject(true);
     setCanCreateModalBeDiscarded(false);
@@ -311,6 +311,7 @@ function ProjectDetails({
       toast.success("Account created");
       setIsCreatingProjectStarted(false);
       setIsCreatingProject(false);
+      router.push("/console");
     } else {
       toast.error(
         response.data.message ?? "An error occurred creating account"

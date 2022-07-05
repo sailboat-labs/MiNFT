@@ -8,7 +8,7 @@ type props = {
 const PageLoader = ({ className }: props) => {
   return (
     <div
-      className={`z-[1000] flex items-center justify-center bg-white  bg-opacity-60 dark:bg-black   dark:opacity-80 ${className}`}
+      className={`z-[1000] flex items-center justify-center bg-white  bg-opacity-60  ${className}`}
     >
       <div className="flex items-center gap-4 rounded-lg">
         <div className="relative flex h-[60px] w-[60px] items-center justify-center p-3">
