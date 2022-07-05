@@ -40,7 +40,7 @@ export default function Console() {
       return acc;
     }, []);
 
-    if (data.length < 1) router.push("/console/new");
+    if (account && data.length < 1) router.push("/console/new");
 
     setAllProjects(data);
   }, [loading, snapshots]);
