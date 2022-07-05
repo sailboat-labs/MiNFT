@@ -89,13 +89,17 @@ export default function DashboardGetStarted() {
   }
 
   return (
-    <div className="flex flex-col  overflow-x-hidden md:flex-row">
-      <div className="min-h-screen lg:w-1/2 ">
+    <div
+      className={`flex h-screen flex-col overflow-hidden font-dmsans transition-all lg:flex-row ${
+        isCreatingProjectStarted ? "bg-indigo-200" : "bg-white"
+      }`}
+    >
+      <div className="h-screen lg:w-1/2 ">
         <div
-          className={`container mx-auto mt-52 transition-all duration-300  ${
+          className={`container mx-auto mt-36  transition-all duration-300  ${
             isCreatingProjectStarted
-              ? "pointer-events-none px-5 opacity-30 lg:px-52 lg:pl-36"
-              : "pointer-events-auto px-10 opacity-100 lg:px-52"
+              ? "pointer-events-none px-5 opacity-30 lg:px-36 lg:pl-24"
+              : "pointer-events-auto px-10 opacity-100 lg:px-36"
           }`}
         >
           <div>
@@ -122,7 +126,7 @@ export default function DashboardGetStarted() {
             </div>
           </div>
 
-          <div className="mt-52 flex h-52 w-72 cursor-pointer flex-col justify-between rounded-lg border-2 bg-white px-10 py-5 transition-all hover:scale-105 hover:bg-gray-50">
+          <div className="mt-36 flex h-52 w-72 cursor-pointer flex-col justify-between rounded-lg border-2 bg-white px-10 py-5 transition-all hover:scale-105 hover:bg-gray-50">
             <div className="font-dmsans text-xl">Explore a demo project</div>
             <div className="flex items-center gap-5">
               <img
@@ -136,35 +140,56 @@ export default function DashboardGetStarted() {
         </div>
       </div>
       <div
-        className={`min-h-screen border-l px-20 pt-24 transition-all duration-500 lg:w-1/2 ${
+        className={`min-h-screen border-l bg-white px-20 pt-10 transition-all duration-500 xl:w-1/2 ${
           isCreatingProjectStarted
             ? "pointer-events-auto translate-x-0 opacity-100"
             : "pointer-events-none translate-x-20 opacity-0"
         }`}
       >
-        {canCreateModalBeDiscarded && (
-          <div
-            onClick={() => {
-              setIsCreatingProjectStarted(false);
-            }}
-            className="mb-16 w-fit cursor-pointer rounded-full  p-2 transition-all hover:scale-105"
+        <img
+          className={`absolute -bottom-20 -right-20 h-[30vw] w-[30vw] transition-all ${
+            currentStep == "project-name"
+              ? "translate-x-0 opacity-100"
+              : "-translate-x-5 opacity-0"
+          }`}
+          src="/svg/project_name.svg"
+          alt=""
+        />
+
+        <img
+          className={`absolute -bottom-20 -right-20 h-[30vw] w-[30vw] transition-all ${
+            currentStep == "project-details"
+              ? "translate-x-0 opacity-100"
+              : "translate-x-5 opacity-0"
+          }`}
+          src="/svg/project-details.svg"
+          alt=""
+        />
+        <div
+          onClick={() => {
+            setIsCreatingProjectStarted(false);
+          }}
+          className={`mb-10 w-fit cursor-pointer rounded-full  p-2 transition-all hover:scale-105 ${
+            canCreateModalBeDiscarded
+              ? "pointer-events-auto opacity-100"
+              : "pointer-events-none opacity-0"
+          }`}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth="2"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth="2"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          </div>
-        )}
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </div>
         <div className="mb-14 flex gap-10">
           {steps.map((step, index) => (
             <div
@@ -181,8 +206,12 @@ export default function DashboardGetStarted() {
         </div>
 
         <div className="h-36 w-[25rem] font-dmsans text-2xl">
-          <div className="font-dmsans text-sm text-gray-500">{projectName}</div>
-          {currentStepTitle}
+          {currentStep == "project-details" && (
+            <div className="font-dmsans text-sm text-gray-500">
+              {projectName}
+            </div>
+          )}
+          <div className="text-4xl">{currentStepTitle}</div>
           <div>
             <div
               className={`absolute transition-all duration-500 ${
@@ -272,18 +301,9 @@ function ProjectDetails({
   const [description, setDescription] = useState("");
   const [isCreatingProject, setIsCreatingProject] = useState(false);
 
-  useEffect(() => {
-    if (currentStep != "project-details") {
-      setIsCreatingProject(false);
-      setTokenSupply("");
-      setBaseUrl("");
-      setDescription("");
-    }
-  }, [currentStep]);
-
   async function handleCreateProject() {
     //
-    if (!account) return;
+    if (!account) return toast.error("No account provided");
     setIsCreatingProject(true);
     setCanCreateModalBeDiscarded(false);
     setCurrentStepTitle("Creating Project");
@@ -296,7 +316,7 @@ function ProjectDetails({
 
     if (!data) return;
 
-    const response = await axios.post("/api/dashboard/create-project", {
+    const response = await axios.post("/api/dashboard/console/create-project", {
       project: data,
       account,
     });
@@ -308,12 +328,13 @@ function ProjectDetails({
         response.data.message ?? "An error occurred creating account"
       );
       setIsCreatingProject(false);
+      setCanCreateModalBeDiscarded(true);
     }
   }
 
   return (
     <div
-      className={`${
+      className={` pr-20 ${
         currentStep == "project-details"
           ? "pointer-events-auto"
           : "pointer-events-none"
