@@ -16,23 +16,23 @@ const contractTypes = [
   },
 
   {
-    name: "Dutch auction",
+    name: "Dutch Auction",
     whitelist: false,
   },
   {
-    name: "Dutch auction",
+    name: "Dutch Auction",
     whitelist: true,
   },
   {
-    name: "Fair dutch auction",
+    name: "Fair Dutch Auction",
     whitelist: false,
   },
   {
-    name: "Fair dutch auction",
+    name: "Fair Dutch Auction",
     whitelist: true,
   },
   {
-    name: "Pure whitelist",
+    name: "Pure Whitelist",
     whitelist: true,
   },
 ];
@@ -57,7 +57,7 @@ const ContractTypeStep = () => {
             type={contract.name}
             checked={
               new RegExp(`^${contractState.type}$`, "ig").test(contract.name) &&
-              contract.whitelist === contractState.whitelist
+              contract.whitelist === contractState.whitelisted
             }
             whitelist={contract.whitelist}
             key={index}
