@@ -1,31 +1,30 @@
-// ! Change the links in the footer to point to the correct page when flows are done. 
+// ! Change the links in the footer to point to the correct page when flows are done.
 // ! Also update the links to social media pages
 
 import UnstyledLink from "../../links/UnstyledLink";
 
 export default function Footer() {
-
-  const date = new Date()
-  const currentYear = date.getFullYear()
+  const date = new Date();
+  const currentYear = date.getFullYear();
 
   return (
-    <div className="h-52 w-full bg-indigo-800 font-montserrat text-white">
-      <div className="m-auto flex w-10/12 flex-row justify-between pt-10">
+    <div className="h-auto w-full bg-indigo-800 pb-10 font-montserrat text-white">
+      <div className="m-auto flex w-10/12 flex-col justify-between pt-10 sm:flex-row">
         <div className="h-10 w-96 text-base text-white opacity-100">
           <div>Copyright &copy; {currentYear}</div>
           <div>NFT Trait Combo. All rights reserved.</div>
         </div>
 
         <div>
-          <div className="flex w-96 flex-row justify-between">
+          <div className="mt-5 flex w-96 flex-col justify-between text-base sm:mt-0 sm:flex-row">
             <UnstyledLink href="/get-started">Get Started</UnstyledLink>
             <UnstyledLink href="/contact-us">Contact us</UnstyledLink>
             <UnstyledLink href="/about-us">About us</UnstyledLink>
           </div>
 
-          <div className="float-right mt-10 -mr-2 flex flex-row items-center justify-between">
+          <div className="m-auto mt-10 -mr-2 flex flex-row items-center justify-between lg:float-right">
             {/* Link to Facebook */}
-            <UnstyledLink href="#" target="_blank"> 
+            <UnstyledLink href="#" target="_blank">
               <svg
                 className="bg-transparent "
                 fill="#ffffff"

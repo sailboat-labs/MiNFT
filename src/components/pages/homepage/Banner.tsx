@@ -7,7 +7,19 @@ export default function Banner() {
   const [hovered, setHovered] = useState(false);
   return (
     <div>
-      <div className="flex h-[70vh] flex-col items-center justify-center  font-dmsans text-white">
+      <div className="flex h-[40rem] xl:h-[70vh] flex-col items-center justify-center  font-dmsans text-white">
+        <div className="absolute top-12 hidden w-3/5 justify-between lg:flex">
+          <img
+            className="ml-5 h-[6vw] w-[10vw] rounded-b-lg"
+            alt=""
+            src="/images/left_top_top.png"
+          />
+          <img
+            className="mr-5 h-[6vw] w-[10vw] rounded-b-lg"
+            alt=""
+            src="/images/right_top_top.png"
+          />
+        </div>
         <div className="absolute left-0 top-20 hidden h-[40rem] lg:flex ">
           <img
             className="left-[5rem] z-[1] h-[12vw] w-[6vw] translate-y-[9rem] rounded-r-lg bg-green-400"
@@ -33,18 +45,7 @@ export default function Banner() {
             src="/images/left_bottom_right.png"
           />
         </div>
-        <div className="absolute -mt-396 hidden w-3/5 justify-between lg:flex">
-          <img
-            className="ml-5 h-[6vw] w-[10vw] rounded-b-lg"
-            alt=""
-            src="/images/left_top_top.png"
-          />
-          <img
-            className="mr-5 h-[6vw] w-[10vw] rounded-b-lg"
-            alt=""
-            src="/images/right_top_top.png"
-          />
-        </div>
+
         <div className="absolute right-0 top-20 hidden h-[40rem] lg:flex ">
           <img
             className="mt-72 h-[10vw] w-[10vw] rounded-lg "

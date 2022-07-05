@@ -30,7 +30,7 @@ export default function Features() {
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-24 w-24"
+          className="h-16 w-16 md:h-24 md:w-24"
           fill="#30489C"
           viewBox="0 0 24 24"
           stroke="#30489C"
@@ -68,9 +68,9 @@ export default function Features() {
       description:
         "In a large collection, you may not want to apply a layer on every NFT. ",
       icon: (
-        <div className="h-28 w-24">
+        <div className="m-auto pr-3 lg:pr-3">
           <svg
-            className="mx-auto mt-5"
+            className="mx-auto mt-3 lg:mt-5"
             width="45"
             height="46"
             viewBox="0 0 45 46"
@@ -118,19 +118,14 @@ export default function Features() {
       <div className="grid w-fit grid-cols-1 gap-10 px-10 md:grid-cols-2">
         {features.map((feature, index) => (
           <div key={index} className="flex items-center gap-5">
-            {/* <span className="w-7 text-6xl text-white">{index + 1}</span> */}
-            <span className="w-7 text-6xl text-white">
-              {index + 1 == 2 ? 3 : index + 1 == 3 ? 2 : index + 1}
-            </span>
-            <div className="flex max-w-lg gap-5 rounded-lg border bg-gray-100 px-10 py-5 pr-20">
+            <span className="w-5 text-5xl text-white">{index + 1}</span>
+            <div className="flex max-w-lg gap-5 rounded-lg border bg-gray-100 px-5 py-3 lg:px-10 lg:py-5 lg:pr-20">
               <div className="flex items-center ">{feature.icon}</div>
               <div>
                 <div className="text-xl font-semibold text-indigo-800">
                   {feature.title}
                 </div>
-                <div className="mt-2 text-lg font-medium">
-                  {feature.description}
-                </div>
+                <div className="mt-2 ">{feature.description}</div>
               </div>
             </div>
           </div>
