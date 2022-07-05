@@ -1,113 +1,130 @@
 /* eslint-disable @next/next/no-img-element */
 import { useState } from "react";
 
+import ButtonLink from "@/components/links/ButtonLink";
+
 export default function Banner() {
   const [hovered, setHovered] = useState(false);
 
   return (
-    <div className="flex h-[70vh] flex-col items-center justify-center  font-dmsans text-white">
-      <div className="absolute left-0 top-20 hidden  h-[40rem] lg:flex ">
-        <img
-          className="left-[5rem] z-[1] h-[12vw] w-[6vw]  translate-y-[9rem] rounded-r-lg bg-green-400"
-          alt=""
-          src="/images/left_left.png"
-        />
-        <div className="-ml-10">
+    <div>
+      <div className="flex h-[40rem] xl:h-[70vh] flex-col items-center justify-center  font-dmsans text-white">
+        <div className="absolute top-12 hidden w-3/5 justify-between lg:flex">
           <img
-            className="h-[13vw] w-[13vw] rounded-lg "
+            className="ml-5 h-[6vw] w-[10vw] rounded-b-lg"
             alt=""
-            src="/images/left_top.png"
+            src="/images/left_top_top.png"
           />
-
           <img
-            className="relative z-[2] mt-10 h-[10vw] w-[10vw] rounded-lg  "
+            className="mr-5 h-[6vw] w-[10vw] rounded-b-lg"
             alt=""
-            src="/images/left_bottom.png"
+            src="/images/right_top_top.png"
           />
         </div>
-        <img
-          className="mt-72 h-[8vw] w-[8vw] rounded-lg "
-          alt=""
-          src="/images/left_bottom_right.png"
-        />
-      </div>
-      <div className="absolute right-0 top-20 hidden h-[40rem] lg:flex ">
-        <img
-          className="mt-72 h-[8vw] w-[8vw] rounded-lg "
-          alt=""
-          src="/images/right_bottom_left.png"
-        />
-
-        <div className="-mr-20 flex flex-col items-end">
+        <div className="absolute left-0 top-20 hidden h-[40rem] lg:flex ">
           <img
-            className="h-[13vw] w-[13vw] rounded-lg"
+            className="left-[5rem] z-[1] h-[12vw] w-[6vw] translate-y-[9rem] rounded-r-lg bg-green-400"
             alt=""
-            src="/images/right_top.png"
+            src="/images/left_left.png"
           />
+          <div className="-ml-10">
+            <img
+              className="h-[15vw] w-[15vw] rounded-lg "
+              alt=""
+              src="/images/left_top.png"
+            />
 
+            <img
+              className="relative z-[2] mt-10 h-[12vw] w-[12vw] rounded-lg  "
+              alt=""
+              src="/images/left_bottom.png"
+            />
+          </div>
           <img
-            className=" relative z-[2] mt-10 h-[10vw] w-[10vw] rounded-lg"
+            className="mt-72 h-[10vw] w-[10vw] rounded-lg "
             alt=""
-            src="/images/right_bottom.png"
+            src="/images/left_bottom_right.png"
           />
         </div>
-        <img
-          className="-left-[5rem] z-[1] h-[15vw] w-[6vw]  translate-y-[9rem] rounded-lg "
-          alt=""
-          src="/images/right_right.png"
-        />
-      </div>
-      {/* <div className=" h-72 w-96 -translate-y-32 "></div> */}
-      <div className=" text-center text-4xl">
-        Become an <strong>NFT</strong> creator without code
-      </div>
-      <div className="mt-3 text-2xl">
-        You do the art, we&apos;ll do the rest
-      </div>
-      <div className="mt-5">
-        <div
-          className={`absolute translate-x-12 translate-y-[3rem] transition-all ${
-            hovered ? "scale-100 opacity-100" : "scale-95 opacity-0"
-          }`}
-        >
-          <div
-            className={`absolute translate-x-3 opacity-80 transition-all ${
-              hovered ? "-translate-y-12 " : "translate-y-0 "
-            }`}
-          >
-            <ETHSVG />
+
+        <div className="absolute right-0 top-20 hidden h-[40rem] lg:flex ">
+          <img
+            className="mt-72 h-[10vw] w-[10vw] rounded-lg "
+            alt=""
+            src="/images/right_bottom_left.png"
+          />
+          <div className="-mr-20 flex flex-col items-end">
+            <img
+              className="h-[15vw] w-[15vw] rounded-lg"
+              alt=""
+              src="/images/right_top.png"
+            />
+
+            <img
+              className=" relative z-[2] mt-10 h-[12vw] w-[12vw] rounded-lg"
+              alt=""
+              src="/images/right_bottom.png"
+            />
           </div>
-          <div
-            className={`absolute opacity-80 transition-all ${
-              hovered
-                ? "-translate-x-20 -translate-y-5 -rotate-45"
-                : " translate-x-0 translate-y-0 rotate-0"
-            }`}
-          >
-            <CONTRACTSVG />
-          </div>
-          <div
-            className={`absolute opacity-80 transition-all ${
-              hovered
-                ? "translate-x-24 -translate-y-5 rotate-0"
-                : " translate-x-0 translate-y-0 -rotate-90"
-            }`}
-          >
-            <WRENCHSVG />
-          </div>
+          <img
+            className="-left-[5rem] z-[1] h-[18vw] w-[8vw] translate-y-[9rem] rounded-l-lg "
+            alt=""
+            src="/images/right_right.png"
+          />
         </div>
-        <div
-          onMouseEnter={() => {
-            setHovered(true);
-          }}
-          onMouseLeave={() => {
-            setHovered(false);
-          }}
-          className={`relative z-[2] mt-16 cursor-pointer rounded-xl border bg-white px-6 py-3 text-lg font-bold text-black transition-all hover:scale-110 ${
-            hovered ? "bg-opacity-90" : "bg-opacity-100"
-          }`}
-        >
-          Start Creating
+        {/* <div className=" h-72 w-96 -translate-y-32 "></div> */}
+        <div className=" text-center text-4xl">
+          Become an <strong>NFT creator</strong> without code
+        </div>
+        <div className="mt-3 text-2xl">
+          You do the art, we&apos;ll do the rest
+        </div>
+        <div className="mt-5">
+          <div
+            className={`absolute translate-x-12 translate-y-[3rem] transition-all ${
+              hovered ? "scale-100 opacity-100" : "scale-95 opacity-0"
+            }`}
+          >
+            <div
+              className={`absolute translate-x-3 opacity-80 transition-all ${
+                hovered ? "-translate-y-12 " : "translate-y-0 "
+              }`}
+            >
+              <ETHSVG />
+            </div>
+            <div
+              className={`absolute opacity-80 transition-all ${
+                hovered
+                  ? "-translate-x-20 -translate-y-5 -rotate-45"
+                  : " translate-x-0 translate-y-0 rotate-0"
+              }`}
+            >
+              <CONTRACTSVG />
+            </div>
+            <div
+              className={`absolute opacity-80 transition-all ${
+                hovered
+                  ? "translate-x-24 -translate-y-5 rotate-0"
+                  : " translate-x-0 translate-y-0 -rotate-90"
+              }`}
+            >
+              <WRENCHSVG />
+            </div>
+          </div>
+          <ButtonLink
+            href="/dashboard"
+            onMouseEnter={() => {
+              setHovered(true);
+            }}
+            onMouseLeave={() => {
+              setHovered(false);
+            }}
+            className={`relative z-[2] mt-16 cursor-pointer rounded-xl border bg-white px-10 py-4 text-xl font-bold text-indigo-800 shadow-3xl transition-all hover:scale-110 hover:bg-white hover:text-indigo-800 ${
+              hovered ? "bg-opacity-90" : "bg-opacity-100"
+            }`}
+          >
+            Start Creating
+          </ButtonLink>
         </div>
       </div>
     </div>

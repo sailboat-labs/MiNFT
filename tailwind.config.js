@@ -21,8 +21,11 @@ module.exports = {
         dmsans: ["DMSans", "sans-serif"],
         montserrat: ["Montserrat", "sans-serif"],
       },
-      width: {
-        '692': '692px',
+      boxShadow: {
+        "3xl": "3px -1px 27px 8px rgba(83, 224, 255, 0.4)",
+      },
+      margin: {
+        396: "462px",
       },
       colors: {
         primary: {
