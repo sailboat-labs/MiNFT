@@ -62,9 +62,10 @@ export interface SelectOption {
   name: string | number;
 }
 
-export interface INewProject {
+export interface IProject {
   projectName: string;
   tokenSupply: string;
   baseUrl: string;
+  slug?: string;
   description: string;
 }

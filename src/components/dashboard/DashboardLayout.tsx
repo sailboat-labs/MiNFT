@@ -1,19 +1,17 @@
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { getSlideInModalState } from "redux/reducers/selectors/dashboard";
 import { setSlideInModalConfig } from "redux/reducers/slices/dashboard";
 
-import useAuthenticationDialog from "@/hooks/UseAuthDialog";
-
 import Navbar from "./NavBar";
 import Sidebar from "./Sidebar";
-import Layout from "../layout/Layout";
 import SlideInModal from "../modals/SlideIn";
 import BasicSettings from "../pages/settings/BasicSettings";
 import CollectionSettings from "../pages/settings/Collection";
 import OutputSettingsPage from "../pages/settings/RenderSettings";
 import Seo from "../Seo";
+import AuthGuard from "../shared/AuthGuard";
 
 type props = {
   child: ReactNode;
@@ -43,53 +41,8 @@ export default function DashboardLayout({
     },
   ];
 
-  // const { account, chainId, isAuthenticated } = useMoralis();
-  const { AuthDialog, setShowAuthDialog, account, isAuthenticated } =
-    useAuthenticationDialog();
-
-  useEffect(() => {
-    if (!account || !isAuthenticated) return;
-
-    // setProfile(user);
-  }, [account, isAuthenticated]);
-
-  if (!account || !isAuthenticated) {
-    return (
-      <Layout>
-        <div className="mt-20 flex h-full w-full flex-col items-center justify-center gap-5 px-10 text-center">
-          <AuthDialog />
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-20 w-20"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth="1"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-          <div className="text-2xl font-bold text-gray-900 dark:text-white">
-            Connect your wallet to view your profile
-          </div>
-          <div
-            onClick={() => {
-              setShowAuthDialog(true);
-            }}
-            className="gradient-button"
-          >
-            Connect your wallet
-          </div>
-        </div>
-      </Layout>
-    );
-  }
-
   return (
-    <main>
+    <AuthGuard>
       <Seo templateTitle="Dashboard" />
       {/* <Header /> */}
       <SlideInModal
@@ -112,6 +65,6 @@ export default function DashboardLayout({
           {child}
         </div>
       </div>
-    </main>
+    </AuthGuard>
   );
 }

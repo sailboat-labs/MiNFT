@@ -13,14 +13,14 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 import { firebaseApp } from "@/lib/firebase";
 
-import { INewProject } from "@/interfaces";
+import { IProject } from "@/interfaces";
 
 const firestore = getFirestore(firebaseApp);
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     if (req.method == "POST") {
-      const project = req.body?.project as INewProject;
+      const project = req.body?.project as IProject;
       const { account } = req.body;
       if (!project)
         return res.status(403).send(responder(false, "No project provided"));
@@ -44,15 +44,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
 export default handler;
 
-async function createNewProject(account: string, project: INewProject) {
-  const dashboardCollection = collection(
-    firestore,
-    `dashboard/${account}/${dashify(project.projectName)}`
-  );
+async function createNewProject(account: string, project: IProject) {
+  const dashboardCollection = collection(firestore, `Projects`);
 
   const _query = query(
     dashboardCollection,
-    where("projectName", "==", project.projectName.toString().toLowerCase())
+    where("slug", "==", dashify(project.projectName.toLowerCase()))
   );
 
   const exists = (await getDocs(_query)).docs.length > 0;
@@ -60,11 +57,12 @@ async function createNewProject(account: string, project: INewProject) {
   if (!exists) {
     const _doc = doc(
       firestore,
-      `dashboard/${account}/${dashify(project.projectName)}/overview`
+      `Projects/${dashify(project.projectName.toLowerCase())}`
     );
     const data = {
       ...project,
       slug: dashify(project.projectName),
+      owner: account,
     };
     await setDoc(_doc, data);
 
