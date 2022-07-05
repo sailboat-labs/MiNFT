@@ -18,7 +18,7 @@ const ContractTypeRadio: FC<AppProps> = ({ checked, whitelist, type }) => {
       }`}
       onClick={() => {
         dispatch(setContract({ key: "type", value: type }));
-        dispatch(setContract({ key: "whitelist", value: whitelist }));
+        dispatch(setContract({ key: "whitelisted", value: whitelist }));
       }}
     >
       <h2 className={`text-xl font-semibold ${checked && "text-indigo-800"}`}>
