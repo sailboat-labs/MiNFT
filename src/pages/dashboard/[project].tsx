@@ -69,11 +69,7 @@ export default function DashboardHomePage() {
 
   const _query = query(
     collection(firestore, `Projects`),
-    where(
-      "owner",
-      "==",
-      "0x65cF0585bD7B236b635DA7077624431DD9cec35e".toLowerCase()
-    ),
+    where("owner", "==", account ?? ""),
     where("slug", "==", dashify((router?.query?.project as string) ?? "")),
 
     limit(1)

@@ -20,11 +20,7 @@ export default function AllProjects() {
 
   const _query = query(
     collection(firestore, `Projects`),
-    where(
-      "owner",
-      "==",
-      "0x65cF0585bD7B236b635DA7077624431DD9cec35e".toLowerCase()
-    ),
+    where("owner", "==", account),
     limit(100)
   );
   const [snapshots, loading] = useCollectionData(_query);
