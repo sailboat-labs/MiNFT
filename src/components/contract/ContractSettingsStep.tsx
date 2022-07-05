@@ -36,12 +36,14 @@ const ContractSettingsStep = () => {
       />
       <div className="divide-y divide-indigo-800">
         {TEMPLATES[type]}
-        <div>
-          {type.toLowerCase().trim() !== "pure whitelist" && (
-            <h2 className="pt-8 text-xl text-indigo-800">Whitelist</h2>
-          )}
-          {whitelisted && <WhitelistForm />}
-        </div>
+        {type.toLowerCase().trim() !== "pure whitelist" ||
+          (whitelisted && (
+            <div>
+              <h2 className="pt-8 text-xl text-indigo-800">Whitelist</h2>
+              {whitelisted && <WhitelistForm />}
+            </div>
+          ))}
+        <WhitelistForm />
       </div>
     </section>
   );
