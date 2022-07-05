@@ -1,11 +1,11 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const userStore = createSlice({
-  name: 'user',
+  name: "user",
   initialState: {
-    email: '',
-    name: '',
-    category:'group'
+    email: "",
+    name: "",
+    category: "group",
   },
   reducers: {
     setUser: (state, param) => {
