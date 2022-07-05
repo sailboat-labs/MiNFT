@@ -17,12 +17,14 @@ type props = {
   child: ReactNode;
   title: string;
   titleBarEndChildren?: any;
+  showTitleBar?: boolean;
 };
 
 export default function DashboardLayout({
   child,
   title,
   titleBarEndChildren,
+  showTitleBar = true,
 }: props) {
   const slideInModalState = useSelector(getSlideInModalState);
   const dispatch = useDispatch();
@@ -61,7 +63,9 @@ export default function DashboardLayout({
       <div className="flex h-screen flex-row overflow-y-hidden">
         <Sidebar currentPage="/" />
         <div className="h-screen flex-1 overflow-y-hidden">
-          <Navbar endChildren={titleBarEndChildren} title={title} />
+          {showTitleBar && (
+            <Navbar endChildren={titleBarEndChildren} title={title} />
+          )}
           {child}
         </div>
       </div>

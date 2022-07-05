@@ -5,6 +5,7 @@ import configurationStore from "./slices/configuration";
 import dashboardStore from "./slices/dashboard";
 import generatedImagesStore from "./slices/generated-images";
 import layerStore from "./slices/layers";
+import projectStore from "./slices/project";
 
 const rootReducer = combineReducers({
   userReducer: userStore.reducer,
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
   generatedImagesReducer: generatedImagesStore.reducer,
   configurationsReducer: configurationStore.reducer,
   dashboardReducer: dashboardStore.reducer,
+  projectReducer: projectStore.reducer,
 });
 
 export default rootReducer;

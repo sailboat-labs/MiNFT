@@ -68,6 +68,9 @@ export default function Console() {
           {allProjects.map((project, index) => (
             <div
               key={index}
+              onClick={() => {
+                router.push(`/dashboard/${project.slug}`);
+              }}
               className="cursor-pointer rounded-lg border bg-gray-50 px-5 py-5 transition-all hover:bg-gray-100"
             >
               <div className="pr-20 font-dmsans text-xl">

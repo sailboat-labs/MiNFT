@@ -1,24 +1,42 @@
+import dashify from "dashify";
+import {
+  collection,
+  DocumentData,
+  limit,
+  query,
+  where,
+} from "firebase/firestore";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+import { useCollectionData } from "react-firebase-hooks/firestore";
+import { useMoralis } from "react-moralis";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getDashboardState,
   getSlideInModalState,
 } from "redux/reducers/selectors/dashboard";
 import { setSlideInModalConfig } from "redux/reducers/slices/dashboard";
+import { setProject } from "redux/reducers/slices/project";
 
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
 import Whitelist from "@/components/dashboard/Whitelist";
 import AddLayer from "@/components/nft/AddLayer";
 import TraitsSearchbar from "@/components/nft/TraitsSearchbar";
 import NFTGenerator from "@/components/pages/Dashboard/NftGenerator";
+import PageLoader from "@/components/shared/PageLoader";
 
-import { IDashboardState } from "@/interfaces";
+import { IDashboardState, IProject } from "@/interfaces";
 
 import ContractMakerView from "./contract-maker";
 import DashboardHome from "./dashboard-home";
+import { firestore } from "../console/new";
 
 export default function DashboardHomePage() {
   const dashboardState = useSelector(getDashboardState) as IDashboardState;
   const selectedSidebar = dashboardState.selectedSidebar;
+  const router = useRouter();
+  const { account, logout, isAuthenticated } = useMoralis();
+  const dispatch = useDispatch();
 
   const content: {
     component: any;
@@ -49,8 +67,46 @@ export default function DashboardHomePage() {
     },
   ];
 
+  const _query = query(
+    collection(firestore, `Projects`),
+    where(
+      "owner",
+      "==",
+      "0x65cF0585bD7B236b635DA7077624431DD9cec35e".toLowerCase()
+    ),
+    where("slug", "==", dashify((router?.query?.project as string) ?? "")),
+
+    limit(1)
+  );
+  const [snapshots, loading] = useCollectionData(_query);
+
+  useEffect(() => {
+    // if (!account) return;
+    if (loading) return;
+    if (!snapshots) return;
+
+    const data = snapshots.reduce((acc: IProject[], curr: DocumentData) => {
+      acc.push(curr as IProject);
+      return acc;
+    }, []);
+
+    if (data.length < 1) {
+      router.push("/console");
+    } else {
+      dispatch(setProject(data[0]));
+    }
+  }, [loading, snapshots]);
+
+  if (loading)
+    return (
+      <div className="flex h-screen w-screen items-center justify-center">
+        <PageLoader />
+      </div>
+    );
+
   return (
     <DashboardLayout
+      showTitleBar={selectedSidebar == "dashboard-home" ? false : true}
       title={content.find((item) => item.value == selectedSidebar)?.label ?? ""}
       titleBarEndChildren={
         content.find((item) => item.value == selectedSidebar)?.titleOptions ??

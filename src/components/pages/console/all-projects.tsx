@@ -5,6 +5,7 @@ import {
   query,
   where,
 } from "firebase/firestore";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { useMoralis } from "react-moralis";
@@ -15,6 +16,7 @@ import { firestore } from "@/pages/console";
 export default function AllProjects() {
   const [allProjects, setAllProjects] = useState<IProject[]>([]);
   const { account, logout, isAuthenticated } = useMoralis();
+  const router = useRouter();
 
   const _query = query(
     collection(firestore, `Projects`),
@@ -45,7 +47,13 @@ export default function AllProjects() {
     <div>
       <div>
         {allProjects.map((project, index) => (
-          <div key={index} className="rounded-lg border bg-gray-50 px-5 py-5 ">
+          <div
+            key={index}
+            onClick={() => {
+              router.push(`/dashboard/${project.slug}`);
+            }}
+            className="rounded-lg border bg-gray-50 px-5 py-5 "
+          >
             <div className="pr-20 font-dmsans text-xl">
               {project.projectName}
             </div>
