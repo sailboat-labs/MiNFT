@@ -5,10 +5,11 @@ import { useState } from "react";
 import VisibilitySensor from "react-visibility-sensor";
 
 import { usePageLoader } from "@/hooks/pageloader";
-import useAuthenticationDialog from "@/hooks/UseAuthDialog";
 
 import DarkModeMenu from "@/components/layout/DarkmodeToggle";
 import Search from "@/components/shared/Search";
+
+import useAuthenticationDialog from "../../../hooks/useAuthDialog";
 
 // import DarkModeMenu from "../navbar/darkmode-toggle";
 

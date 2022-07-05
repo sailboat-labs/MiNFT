@@ -1,6 +1,7 @@
 import {
   collection,
   DocumentData,
+  getFirestore,
   limit,
   query,
   where,
@@ -10,8 +11,11 @@ import { useEffect, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { useMoralis } from "react-moralis";
 
+import { firebaseApp } from "@/lib/firebase";
+
 import { IProject } from "@/interfaces";
-import { firestore } from "@/pages/console";
+
+const firestore = getFirestore(firebaseApp);
 
 export default function AllProjects() {
   const [allProjects, setAllProjects] = useState<IProject[]>([]);

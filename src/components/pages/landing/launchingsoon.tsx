@@ -18,13 +18,13 @@ import { useEffect, useRef, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 
 import { firebaseApp } from "@/lib/firebase";
-import useAuthenticationDialog from "@/hooks/UseAuthDialog";
 
 import PageLoader from "@/components/shared/PageLoader";
 
 import { getRandomAvatar } from "@/utils/GetRandomAvatar";
 
 import ExploreCategories from "./categories";
+import useAuthenticationDialog from "../../../hooks/useAuthDialog";
 
 import { Collection } from "@/types";
 
