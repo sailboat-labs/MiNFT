@@ -58,6 +58,17 @@ const TraitPreview: FC<AppProps> = ({
     }
   }
   /**
+   * handles changed in rarity number input
+   *
+   * @param {Object} evt - ChangeEvent Object
+   * @returns {undefined}
+   */
+  function handleOnRarityInputed(evt: React.ChangeEvent<HTMLInputElement>) {
+    const value: number = parseFloat(evt.target.value);
+
+    setRarity(value ? Math.abs(value) : 0);
+  }
+  /**
    * handles changes in range input
    *
    * @param {Object} evt - React's ChangeEvent object
@@ -126,7 +137,7 @@ const TraitPreview: FC<AppProps> = ({
         </div>
       </div>
       {!rarityMode && (
-        <div className="w-20 overflow-hidden text-xs text-gray-600">
+        <div className="w-20 overflow-hidden text-center text-xs text-gray-600">
           {file.filename?.toString().split(".")[0]}
         </div>
       )}

@@ -1,179 +1,46 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { getContract } from "redux/reducers/selectors/contract";
+import { updateWhitelistDetails } from "redux/reducers/slices/contract";
 
 import ContractStepHeader from "./StepHeader";
-import BaseInput from "../controls/BaseInput";
-import BaseSelect from "../controls/BaseSelect";
+import ClassicMint from "./templates/ClassicMint";
+import DutchAuction from "./templates/DutchAuction";
+import FairDutchAuction from "./templates/FairDuctchAuction";
+import WhitelistForm from "./templates/Whitelist";
+
+const TEMPLATES: {
+  [key: string]: JSX.Element;
+} = {
+  "Classic Mint": <ClassicMint />,
+  "Dutch Auction": <DutchAuction />,
+  "Fair Dutch Auction": <FairDutchAuction />,
+};
 
 const ContractSettingsStep = () => {
   const [selected, setSelected] = useState();
+  const { type, whitelisted } = useSelector(getContract);
+
+  useEffect(() => {
+    if (whitelisted) {
+      updateWhitelistDetails(null);
+    }
+  }, [whitelisted]);
 
   return (
     <section>
       <ContractStepHeader
-        title="Whitelist"
-        selectOptions={[]}
-        onChange={(value) => setSelected(value)}
+        title={type}
+        selectOptions={[{ name: "Admin" }]}
+        onChange={(value: any) => console.log(value)}
       />
       <div className="divide-y divide-indigo-800">
-        <div className="mt-8 grid grid-cols-2 gap-8 pb-8">
-          <article>
-            <strong>Launch Time</strong>
-            <div>The same as for classic participants</div>
-            <div>Special time</div>
-            <div className="my-3 inline-block rounded-md bg-white p-5">
-              <strong>Start on a specific date & time</strong>
-              <div className="grid grid-cols-4 gap-3">
-                <div>Day</div>
-                <div>Month</div>
-                <div>Year</div>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="gray"
-                  strokeWidth={2}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                  />
-                </svg>
-              </div>
-              <div className="mt-3">
-                <strong>Time</strong>
-                <div className="grid grid-cols-4 gap-3">
-                  <BaseSelect options={[]} />
-                  <BaseSelect options={[]} />
-                  <BaseSelect options={[]} />
-                </div>
-              </div>
-            </div>
-          </article>
-          <article>
-            <strong>Mint price</strong>
-            <div>The same as for classic participants</div>
-            <div>Special time</div>
-            <BaseInput
-              wrapperClass="mt-3"
-              postfix={
-                <span className="font-semibold text-indigo-800">ETH</span>
-              }
-            />
-          </article>
-        </div>
-        <div className="pt-8">
-          <h2 className="text-xl text-indigo-800">Dutch auction</h2>
-          <section className="mt-6 grid grid-cols-4 gap-x-10">
-            <div className="flex flex-col">
-              <strong>Quantity of collection</strong>
-              <BaseInput wrapperClass="mt-2" />
-            </div>
-
-            <div className="flex flex-col">
-              <strong>Starting Price</strong>
-              <BaseInput
-                wrapperClass="mt-2"
-                placeholder="starting price"
-                postfix={
-                  <span className="font-semibold text-indigo-800">ETH</span>
-                }
-              />
-            </div>
-            <div className="flex flex-col">
-              <strong>Ending Price</strong>
-              <BaseInput
-                wrapperClass="mt-2"
-                placeholder="ending price"
-                postfix={
-                  <span className="font-semibold text-indigo-800">ETH</span>
-                }
-              />
-            </div>
-            <div className="flex flex-col">
-              <strong>Amount Decrement</strong>
-              <BaseInput
-                wrapperClass="mt-2"
-                placeholder="amount"
-                postfix={
-                  <span className="font-semibold text-indigo-800">ETH</span>
-                }
-              />
-            </div>
-          </section>
-          <section className="mt-10 flex  gap-10">
-            <div className=" box-content grid flex-1 grid-cols-2 gap-x-10 rounded-md bg-white p-5 ring-1 ring-gray-200">
-              <div className="my-3">
-                <strong>Start on a specific date & time</strong>
-                <div className="grid grid-cols-4 gap-3">
-                  <div>Day</div>
-                  <div>Month</div>
-                  <div>Year</div>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="gray"
-                    strokeWidth={2}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                    />
-                  </svg>
-                </div>
-                <div className="mt-3">
-                  <strong>Time</strong>
-                  <div className="grid grid-cols-4 gap-3">
-                    <BaseSelect options={[]} />
-                    <BaseSelect options={[]} />
-                    <BaseSelect options={[]} />
-                  </div>
-                </div>
-              </div>
-              <div className="my-3">
-                <strong>Start on a specific date & time</strong>
-                <div className="grid grid-cols-4 gap-3">
-                  <div>Day</div>
-                  <div>Month</div>
-                  <div>Year</div>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="gray"
-                    strokeWidth={2}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                    />
-                  </svg>
-                </div>
-                <div className="mt-3">
-                  <strong>Time</strong>
-                  <div className="grid grid-cols-4 gap-3">
-                    <BaseSelect options={[]} />
-                    <BaseSelect options={[]} />
-                    <BaseSelect options={[]} />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className=" max-w-[300px] flex-1 rounded-md bg-white p-5 ring-1 ring-gray-200">
-              <strong>Minutes</strong>
-              <BaseSelect
-                options={[]}
-                buttonClass="!bg-white ring-1 ring-gray-200 !text-gray-800"
-                selectorIconColor="black"
-              />
-            </div>
-          </section>
+        {TEMPLATES[type]}
+        <div>
+          {type.toLowerCase().trim() !== "pure whitelist" && (
+            <h2 className="pt-8 text-xl text-indigo-800">Whitelist</h2>
+          )}
+          {whitelisted && <WhitelistForm />}
         </div>
       </div>
     </section>
