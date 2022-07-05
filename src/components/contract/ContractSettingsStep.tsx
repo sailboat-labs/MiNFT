@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { getContractByField } from "redux/reducers/selectors/contract";
 
-import WhitelistForm from "./whitelist";
+import WhitelistForm from "./Whitelist";
 import BaseInput from "../controls/BaseInput";
 import BaseSelect from "../controls/BaseSelect";
 
