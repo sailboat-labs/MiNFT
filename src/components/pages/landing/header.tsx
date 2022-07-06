@@ -9,8 +9,6 @@ import { usePageLoader } from "@/hooks/pageloader";
 import DarkModeMenu from "@/components/layout/DarkmodeToggle";
 import Search from "@/components/shared/Search";
 
-import useAuthenticationDialog from "../../../hooks/useAuthDialog";
-
 // import DarkModeMenu from "../navbar/darkmode-toggle";
 
 export default function Header() {
@@ -18,8 +16,6 @@ export default function Header() {
   const [navOpen, setNavOpen] = useState(false);
   // const [showAuthDialog, setShowAuthDialog] = useState(false);
   const { Loader, setState } = usePageLoader(false);
-
-  const { AuthDialog, setShowAuthDialog } = useAuthenticationDialog();
 
   return (
     <div
@@ -37,7 +33,6 @@ export default function Header() {
         <div className="absolute z-[2] hidden h-[27rem] w-full bg-gradient-to-b from-transparent to-black dark:block"></div>
       </div>
 
-      <AuthDialog />
       <div
         className={`fixed z-[99] flex h-screen w-full flex-col bg-white shadow  transition-all  dark:bg-black lg:hidden 
       ${navOpen ? "translate-x-0" : "translate-x-full"}
