@@ -42,7 +42,7 @@ const ContractTypeStep = () => {
   const contractState = useSelector(getContract);
 
   return (
-    <section>
+    <section className="mx-auto max-w-5xl">
       <ContractStepHeader
         selectOptions={[{ name: "Admin" }]}
         title="Contract maker"
