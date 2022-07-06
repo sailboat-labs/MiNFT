@@ -7,12 +7,14 @@ import ContractStepHeader from "./StepHeader";
 import ClassicMint from "./templates/ClassicMint";
 import DutchAuction from "./templates/DutchAuction";
 import FairDutchAuction from "./templates/FairDuctchAuction";
+import PureWhitelist from "./templates/PureWhitelist";
 import WhitelistForm from "./templates/Whitelist";
 
 const TEMPLATES: {
   [key: string]: JSX.Element;
 } = {
   "Classic Mint": <ClassicMint />,
+  "Pure Whitelist": <PureWhitelist />,
   "Dutch Auction": <DutchAuction />,
   "Fair Dutch Auction": <FairDutchAuction />,
 };

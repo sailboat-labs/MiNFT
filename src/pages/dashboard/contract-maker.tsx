@@ -23,11 +23,11 @@ const ContractMakerView = () => {
       <Stepper stepsCount={3} activeStep={1} onStep={nextStep} />
       <div className="my-10 mx-6 rounded-md bg-[#F3F7FA] p-10 py-14">
         {STEPS[activeStep]}
-        <section className="flex items-center justify-center gap-3 pt-16">
+        <section className="flex items-center justify-center gap-6 pt-16">
           {activeStep > 1 && (
             <button
               onClick={() => nextStep(-1)}
-              className="min-w-[150px] rounded-md bg-indigo-800 py-2 text-white transition-all duration-150 hover:bg-indigo-900"
+              className="min-w-[150px] rounded-md  border border-indigo-800 py-2 text-indigo-800 transition-all duration-150"
             >
               Back
             </button>

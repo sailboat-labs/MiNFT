@@ -119,7 +119,7 @@ export default function Banner() {
             onMouseLeave={() => {
               setHovered(false);
             }}
-            className={`relative z-[2] mt-16 cursor-pointer rounded-xl border bg-white px-10 py-4 text-xl font-bold text-indigo-800 shadow-3xl transition-all hover:scale-110 hover:bg-white hover:text-indigo-800 ${
+            className={`relative z-[2] mt-16 cursor-pointer rounded-xl border bg-white px-10 py-4 text-xl font-bold text-indigo-800 shadow-3xl transition-all hover:scale-110 hover:bg-white hover:text-indigo-800 active:bg-white active:text-indigo-800 ${
               hovered ? "bg-opacity-90" : "bg-opacity-100"
             }`}
           >

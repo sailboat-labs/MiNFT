@@ -1,7 +1,9 @@
 import React from "react";
 
+import DutchAuction from "./DutchAuction";
+
 const FairDutchAuction = () => {
-  return <div>Fair Dutch Auction</div>;
+  return <DutchAuction />;
 };
 
 export default FairDutchAuction;
