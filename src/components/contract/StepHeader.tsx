@@ -17,7 +17,7 @@ const ContractStepHeader = ({ title, selectOptions, onChange }: AppProps) => {
       <div className="flex items-center gap-2">
         <span className="font-medium text-indigo-800">Choose role:</span>
         <div className="min-w-[150px]">
-          <BaseSelect options={selectOptions} />
+          <BaseSelect options={selectOptions} theme="dark" />
         </div>
       </div>
     </div>
