@@ -19,7 +19,6 @@ import { firebaseApp } from "@/lib/firebase";
 
 import { PROFILE_IMAGE } from "@/data/DemoProject";
 
-import Navbar from "@/components/dashboard/NavBar";
 import ProjectDetails from "@/components/pages/Dashboard/home/project-details";
 import ProjectName from "@/components/pages/Dashboard/home/project-name";
 import AuthGuard from "@/components/shared/AuthGuard";
@@ -85,7 +84,15 @@ export default function DashboardGetStarted() {
 
   return (
     <AuthGuard>
-      {!isCreatingProjectStarted && <Navbar />}
+      {/* <div
+        className={`transition-all ${
+          isCreatingProjectStarted
+            ? "pointer-events-none -z-[999] opacity-0"
+            : "pointer-events-auto opacity-100"
+        }`}
+      >
+        <Navbar />
+      </div> */}
       <div
         className={` flex h-screen flex-col overflow-hidden pb-20 font-dmsans transition-all lg:flex-row ${
           isCreatingProjectStarted ? "bg-indigo-200" : "bg-white"
