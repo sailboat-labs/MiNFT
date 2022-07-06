@@ -46,7 +46,6 @@ export default handler;
 
 async function createNewProject(account: string, project: IProject) {
   const dashboardCollection = collection(firestore, `Projects`);
-  console.log(project);
 
   const _query = query(
     dashboardCollection,
