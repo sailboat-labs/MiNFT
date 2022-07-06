@@ -47,7 +47,7 @@ export default function ProjectDetails({
     });
 
     if (response.data.success) {
-      toast.success("Account created");
+      toast.success("Project created");
       setIsCreatingProjectStarted(false);
       setIsCreatingProject(false);
       router.push(`/dashboard/${dashify(projectName)}`);

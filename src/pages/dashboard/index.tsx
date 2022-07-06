@@ -1,5 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 
+import axios from "axios";
+import dashify from "dashify";
 import {
   collection,
   DocumentData,
@@ -35,6 +37,7 @@ export default function DashboardGetStarted() {
   const [currentStepTitle, setCurrentStepTitle] = useState(
     "Let's start with a name for your project"
   );
+  const [isCreatingProject, setIsCreatingProject] = useState(false);
   const [allProjects, setAllProjects] = useState<IProject[]>([]);
 
   const router = useRouter();
@@ -77,10 +80,44 @@ export default function DashboardGetStarted() {
       return acc;
     }, []);
 
-    if (account && data.length < 1) router.push("/console/new");
-
     setAllProjects(data);
   }, [loading, snapshots]);
+
+  async function createDemoProject() {
+    setIsCreatingProject(true);
+    const data: IProject = {
+      projectName: "Nozomix Extreme",
+      tokenSupply: "64",
+      baseUrl: "https://baseurl.com/",
+      description: "This is the MiNFT demo project: Nozomix Extreme",
+      isDemo: true,
+    };
+
+    if (!data || !account) return;
+
+    const response = await axios.post("/api/dashboard/console/create-project", {
+      project: data,
+      account,
+    });
+
+    if (response.data.success) {
+      toast.success("Demo project created");
+      setIsCreatingProjectStarted(false);
+      setIsCreatingProject(false);
+      router.push(
+        `/dashboard/${dashify("Nozomix Extreme")}-${account.substring(
+          0,
+          9
+        )}${account.substring(account.length - 9, account.length - 1)}`
+      );
+    } else {
+      toast.error(
+        response.data.message ?? "An error occurred creating account"
+      );
+      setIsCreatingProject(false);
+      setCanCreateModalBeDiscarded(true);
+    }
+  }
 
   return (
     <AuthGuard>
@@ -137,21 +174,24 @@ export default function DashboardGetStarted() {
                 </div>
                 <div
                   onClick={() => {
-                    toast("coming soon");
+                    createDemoProject();
                   }}
                   className=" flex h-52 w-72 cursor-pointer flex-col justify-between rounded-lg border-2 bg-white px-10 py-5 transition-all hover:scale-105 hover:bg-gray-50"
                 >
                   <div className="font-dmsans text-xl">
                     Explore a demo project
                   </div>
-                  <div className="flex items-center gap-5">
-                    <img
-                      className="h-16 w-16 rounded-full"
-                      alt=""
-                      src={PROFILE_IMAGE}
-                    />
-                    <span>Nozomix</span>
-                  </div>
+                  {isCreatingProject && <PageLoader />}
+                  {!isCreatingProject && (
+                    <div className="flex items-center gap-5">
+                      <img
+                        className="h-16 w-16 rounded-full"
+                        alt=""
+                        src={PROFILE_IMAGE}
+                      />
+                      <span>Nozomix</span>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -163,6 +203,12 @@ export default function DashboardGetStarted() {
               {loading && (
                 <div className="flex w-full">
                   <PageLoader />
+                </div>
+              )}
+
+              {allProjects.length < 1 && account && (
+                <div className="mt-10 font-dmsans text-2xl">
+                  No Project Created
                 </div>
               )}
               <div className="3xl:grid-cols-4 grid grid-cols-1 gap-5 xl:grid-cols-2 2xl:grid-cols-3">

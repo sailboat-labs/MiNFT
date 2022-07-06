@@ -46,10 +46,20 @@ export default handler;
 
 async function createNewProject(account: string, project: IProject) {
   const dashboardCollection = collection(firestore, `Projects`);
+  console.log(project);
 
   const _query = query(
     dashboardCollection,
-    where("slug", "==", dashify(project.projectName.toLowerCase()))
+    where(
+      "slug",
+      "==",
+      project.isDemo
+        ? `${dashify(project.projectName)}-${account.substring(
+            0,
+            9
+          )}${account.substring(account.length - 9, account.length - 1)}`
+        : dashify(project.projectName)
+    )
   );
 
   const exists = (await getDocs(_query)).docs.length > 0;
@@ -57,11 +67,23 @@ async function createNewProject(account: string, project: IProject) {
   if (!exists) {
     const _doc = doc(
       firestore,
-      `Projects/${dashify(project.projectName.toLowerCase())}`
+      `Projects/${
+        project.isDemo
+          ? `${dashify(project.projectName)}-${account.substring(
+              0,
+              9
+            )}${account.substring(account.length - 9, account.length - 1)}`
+          : dashify(project.projectName)
+      }`
     );
     const data = {
       ...project,
-      slug: dashify(project.projectName),
+      slug: project.isDemo
+        ? `${dashify(project.projectName)}-${account.substring(
+            0,
+            9
+          )}${account.substring(account.length - 9, account.length - 1)}`
+        : dashify(project.projectName),
       owner: account,
     };
     await setDoc(_doc, data);

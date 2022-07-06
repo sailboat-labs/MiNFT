@@ -68,4 +68,5 @@ export interface IProject {
   baseUrl: string;
   slug?: string;
   description: string;
+  isDemo?: boolean;
 }
