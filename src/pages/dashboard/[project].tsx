@@ -25,13 +25,12 @@ import DashboardLayout from "@/components/dashboard/DashboardLayout";
 import Whitelist from "@/components/dashboard/Whitelist";
 import AddLayer from "@/components/nft/AddLayer";
 import TraitsSearchbar from "@/components/nft/TraitsSearchbar";
+import ContractMakerView from "@/components/pages/Dashboard/contract-maker";
+import DashboardHome from "@/components/pages/Dashboard/dashboard-home";
 import NFTGenerator from "@/components/pages/Dashboard/NftGenerator";
 import PageLoader from "@/components/shared/PageLoader";
 
 import { IDashboardState, IProject } from "@/interfaces";
-
-import ContractMakerView from "./contract-maker";
-import DashboardHome from "./dashboard-home";
 
 const firestore = getFirestore(firebaseApp);
 
