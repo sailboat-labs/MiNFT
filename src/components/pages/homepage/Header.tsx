@@ -4,7 +4,6 @@ import UnstyledLink from "../../links/UnstyledLink";
 
 export default function Header() {
   return (
-    // <div className="flex h-12 w-full flex-row items-center bg-indigo-800 font-montserrat font-bold text-white">
     <div className="flex h-12 w-full flex-row items-center bg-indigo-800 font-montserrat font-bold text-white">
       <svg
         width="24"
