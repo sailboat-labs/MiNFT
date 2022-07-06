@@ -112,7 +112,7 @@ export default function Banner() {
             </div>
           </div>
           <ButtonLink
-            href="/console"
+            href="/dashboard"
             onMouseEnter={() => {
               setHovered(true);
             }}

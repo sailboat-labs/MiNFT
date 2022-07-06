@@ -2,6 +2,7 @@ import dashify from "dashify";
 import {
   collection,
   DocumentData,
+  getFirestore,
   limit,
   query,
   where,
@@ -18,6 +19,8 @@ import {
 import { setSlideInModalConfig } from "redux/reducers/slices/dashboard";
 import { setProject } from "redux/reducers/slices/project";
 
+import { firebaseApp } from "@/lib/firebase";
+
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
 import Whitelist from "@/components/dashboard/Whitelist";
 import AddLayer from "@/components/nft/AddLayer";
@@ -29,7 +32,8 @@ import { IDashboardState, IProject } from "@/interfaces";
 
 import ContractMakerView from "./contract-maker";
 import DashboardHome from "./dashboard-home";
-import { firestore } from "../console/new";
+
+const firestore = getFirestore(firebaseApp);
 
 export default function DashboardHomePage() {
   const dashboardState = useSelector(getDashboardState) as IDashboardState;
@@ -77,7 +81,7 @@ export default function DashboardHomePage() {
   const [snapshots, loading] = useCollectionData(_query);
 
   useEffect(() => {
-    // if (!account) return;
+    if (!account) return;
     if (loading) return;
     if (!snapshots) return;
 
@@ -86,12 +90,12 @@ export default function DashboardHomePage() {
       return acc;
     }, []);
 
-    if (data.length < 1) {
-      router.push("/console");
+    if (data.length < 1 && account) {
+      router.push("/dashboard");
     } else {
       dispatch(setProject(data[0]));
     }
-  }, [loading, snapshots]);
+  }, [loading, snapshots, account]);
 
   if (loading)
     return (
