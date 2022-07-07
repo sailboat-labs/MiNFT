@@ -16,6 +16,7 @@ import {
   getDashboardState,
   getSlideInModalState,
 } from "redux/reducers/selectors/dashboard";
+import { setConfiguration } from "redux/reducers/slices/configuration";
 import { setSlideInModalConfig } from "redux/reducers/slices/dashboard";
 import { setProject } from "redux/reducers/slices/project";
 
@@ -30,6 +31,7 @@ import DashboardHome from "@/components/pages/Dashboard/dashboard-home";
 import NFTGenerator from "@/components/pages/Dashboard/NftGenerator";
 import PageLoader from "@/components/shared/PageLoader";
 
+import { enumNFTGenConfig } from "@/enums/nft-gen-configurations";
 import { IDashboardState, IProject } from "@/interfaces";
 
 const firestore = getFirestore(firebaseApp);
@@ -93,6 +95,34 @@ export default function DashboardHomePage() {
       router.push("/dashboard");
     } else {
       dispatch(setProject(data[0]));
+
+      dispatch(
+        setConfiguration({
+          key: enumNFTGenConfig.NAME,
+          value: data[0].projectName,
+        })
+      );
+
+      dispatch(
+        setConfiguration({
+          key: enumNFTGenConfig.SUPPLY,
+          value: data[0].tokenSupply,
+        })
+      );
+
+      dispatch(
+        setConfiguration({
+          key: enumNFTGenConfig.DESCRIPTION,
+          value: data[0].description,
+        })
+      );
+
+      dispatch(
+        setConfiguration({
+          key: enumNFTGenConfig.BASE_URL,
+          value: data[0].baseUrl,
+        })
+      );
     }
   }, [loading, snapshots, account]);
 
