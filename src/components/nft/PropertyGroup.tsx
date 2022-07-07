@@ -1,6 +1,7 @@
 import React, { ChangeEvent, FC, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
+import { getConfiguration } from "redux/reducers/selectors/configuration";
 import {
   getLayers,
   getSelectedLayerName,
@@ -12,6 +13,7 @@ import {
   setSelectedLayerName,
 } from "redux/reducers/slices/layers";
 
+import { enumNFTGenConfig } from "@/enums/nft-gen-configurations";
 import { IElement, ILayer } from "@/interfaces";
 
 import LayerContextMenu from "./LayerContextMenu";
@@ -50,6 +52,8 @@ const PropertyGroup: FC<AppProps> = ({
   const [newName, setNewName] = useState<string>();
   const layers = useSelector(getLayers) as ILayer[];
 
+  const configuration = useSelector(getConfiguration);
+
   function onDisplayNameClick(evt: React.MouseEvent<HTMLDivElement>) {
     evt.stopPropagation();
     setEditName(true);
@@ -75,7 +79,6 @@ const PropertyGroup: FC<AppProps> = ({
       const elements = fileListArray.map((file, index) => ({
         id: index,
         sublayer: false,
-        weight: index + 1,
         blendmode: "source-over",
         opacity: 1,
         name: layer.name,
@@ -84,8 +87,8 @@ const PropertyGroup: FC<AppProps> = ({
         zindex: "",
         trait: layer.name,
         traitValue: file.name?.split(".")[0],
-        count: getMaximumSupply() / layer.elements.length ?? 0,
-        isCountTouched: false,
+        weight: getMaximumSupply() / layer.elements.length ?? 0,
+        isWeightTouched: false,
       }));
     }
 
@@ -128,7 +131,7 @@ const PropertyGroup: FC<AppProps> = ({
   function getElementCountTotal() {
     let total = 0;
     layer.elements.forEach((element) => {
-      total += element.count ?? 0;
+      total += element.weight ?? 0;
     });
     return total;
   }
@@ -145,7 +148,7 @@ const PropertyGroup: FC<AppProps> = ({
 
   useEffect(() => {
     setAccordionHeight(accordionContent.current?.scrollHeight);
-  }, [selectedLayerName, elements]);
+  }, [selectedLayerName, elements, configuration]);
 
   // useEffect(() => {
   //   if (selectedLayerName !== null) {
@@ -378,14 +381,17 @@ const PropertyGroup: FC<AppProps> = ({
                 />
               </div>
             </div>
-            {changingRarity() && getElementCountTotal() != getMaximumSupply() && (
-              <div className="mb-4  flex w-full gap-x-4 px-6">
-                <div className="rounded bg-red-100 px-5 py-2 text-sm text-red-500">
-                  Total element counts must equal {getMaximumSupply()}{" "}
-                  (currently {getElementCountTotal()})
+            {changingRarity() &&
+              getElementCountTotal() !=
+                configuration[enumNFTGenConfig.SUPPLY] && (
+                <div className="mb-4  flex w-full gap-x-4 px-6">
+                  <div className="rounded bg-red-100 px-5 py-2 text-sm text-red-500">
+                    Total element counts must equal{" "}
+                    {configuration[enumNFTGenConfig.SUPPLY]} (currently{" "}
+                    {getElementCountTotal()})
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
           </div>
         </div>
       </div>

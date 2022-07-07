@@ -4,13 +4,13 @@ import keccak256 from "keccak256";
 import { toast } from "react-toastify";
 
 import { enumNFTGenConfig } from "@/enums/nft-gen-configurations";
-import { IElement, IGeneratedTokens } from "@/interfaces";
+import { IElement, IGeneratedTokens, ILayer } from "@/interfaces";
 
 let toastId: any;
 
 type generateTokensProps = {
   configuration: any;
-  layers: any;
+  layers: ILayer[];
   showToast?: boolean;
   component?: any;
 };
@@ -53,7 +53,7 @@ export function generateTokens({
     };
     const hashImages = true;
     const extraMetadata = {};
-    const debugLogs = false;
+    const debugLogs = true;
 
     const uniqueDnaTorrance = 10000;
     const description = configuration[enumNFTGenConfig.DESCRIPTION];
@@ -110,22 +110,6 @@ export function generateTokens({
 
     const zflag = /(z-?\d*,)/;
 
-    const getRarityWeight = (_path: string) => {
-      // check if there is an extension, if not, consider it a directory
-      const exp = /#(\d*)/;
-      const weight = exp.exec(_path);
-      const weightNumber = weight ? Number(weight[1]) : null;
-      if (!weightNumber || isNaN(weightNumber)) {
-        return "required";
-      }
-      return weightNumber;
-    };
-
-    const cleanDna = (_str: string) => {
-      const dna = _str.split(":").shift();
-      return dna;
-    };
-
     const cleanName = (_str: string) => {
       const hasZ = zflag.test(_str);
 
@@ -140,30 +124,6 @@ export function generateTokens({
         .split(rarityDelimiter)
         .shift();
       return nameWithoutWeight;
-    };
-
-    const parseQueryString = (filename: string, layer: any, sublayer: any) => {
-      const query = /\?(.*)\./;
-      const querystring = query.exec(filename);
-      if (!querystring) {
-        return getElementOptions(layer, sublayer);
-      }
-
-      const layerstyles: any = querystring[1]
-        .split("&")
-        .reduce((r, setting) => {
-          const keyPairs = setting.split("=");
-          return { ...r, [keyPairs[0]]: keyPairs[1] };
-        }, []);
-
-      return {
-        blendmode: layerstyles.blend
-          ? layerstyles.blend
-          : getElementOptions(layer, sublayer).blendmode,
-        opacity: layerstyles.opacity
-          ? layerstyles.opacity / 100
-          : getElementOptions(layer, sublayer).opacity,
-      };
     };
 
     /**
@@ -184,59 +144,10 @@ export function generateTokens({
      * @param {String} sublayer Clean name of the current layer
      * @returns {blendmode, opaticty} options object
      */
-    const getElementOptions = (
-      layer: {
-        sublayerOptions: { [x: string]: any };
-        blend: string | undefined;
-        opacity: number | undefined;
-      },
-      sublayer: string | number
-    ) => {
-      let blendmode = "source-over";
-      let opacity = 1;
-      if (layer.sublayerOptions?.[sublayer]) {
-        const options = layer.sublayerOptions[sublayer];
-        options.blend !== undefined ? (blendmode = options.blend) : null;
-        options.opacity !== undefined ? (opacity = options.opacity) : null;
-      } else {
-        // inherit parent blend mode
-        blendmode = layer.blend != undefined ? layer.blend : "source-over";
-        opacity = layer.opacity != undefined ? layer.opacity : 1;
-      }
-      return { blendmode, opacity };
-    };
 
     const parseZIndex = (str: any) => {
       const z = zflag.exec(str);
       return z ? parseInt(z[0].match(/-?\d+/)![0]) : null;
-    };
-
-    const getTraitValueFromPath = (
-      element: {
-        sublayer: any;
-        weight: any;
-        blendmode?: any;
-        opacity?: number;
-        id?: any;
-        name: any;
-        filename?: any;
-        path?: string;
-        zindex?: any;
-      },
-      lineage: string | any[]
-    ) => {
-      // If the element is a required png. then, the trait property = the parent path
-      // if the element is a non-required png. black%50.png, then element.name is the value and the parent Dir is the prop
-      if (element.weight !== "required") {
-        return element.name;
-      } else if (element.weight === "required") {
-        // if the element is a png that is required, get the traitValue from the parent Dir
-        return element.sublayer ? true : cleanName(lineage[lineage.length - 2]);
-      }
-    };
-
-    const saveImage = (_editionCount: any) => {
-      debugLogs && console.log("Saving image", _editionCount);
     };
 
     const genColor = () => {
@@ -854,8 +765,47 @@ export function generateTokens({
         );
     };
 
+    function getRandomInt(min: number, max: number) {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    const customDNA: any[] = [];
+
+    function getRandomElements(nextLayerIndex: number) {
+      //
+      console.log("lae", layers);
+
+      const randomElementsPad: IElement[] = [];
+      for (let i = 0; i < layers.length; i++) {
+        console.log(getRandomInt(0, layers[i].elements.length));
+
+        randomElementsPad.push(
+          layers[i].elements[getRandomInt(0, layers[i].elements.length)]
+        );
+      }
+
+      console.log({ randomElementsPad });
+
+      return;
+    }
+
+    const dnaHere = [
+      "0.2:Pink.png*1.1:Gray Skin.png*2.1:Black Shirt.png*3.1:Cowboy Hat.png*4.0:Green Chain.png*5.1:Fully Open.png",
+      "0.2:Pink.png*1.1:Gray Skin.png*2.0:Green Shirt.png*3.1:Cowboy Hat.png*4.0:Green Chain.png*5.1:Fully Open.png",
+      "0.2:Pink.png*1.1:Gray Skin.png*2.1:Black Shirt.png*3.0:Black Hat.png*4.1:Gold Chain.png*5.1:Fully Open.png",
+      // "0.0:Gray.png*1.1:Gray Skin.png*2.0:Green Shirt.png*3.0:Black Hat.png*4.1:Gold Chain.png*5.0:Partially Open.png",
+      // "0.0:Gray.png*1.1:Gray Skin.png*2.1:Black Shirt.png*3.0:Black Hat.png*4.0:Green Chain.png*5.1:Fully Open.png",
+      // "0.0:Gray.png*1.0:Brown Skin.png*2.1:Black Shirt.png*3.1:Cowboy Hat.png*4.1:Gold Chain.png*5.1:Fully Open.png",
+      // "0.0:Gray.png*1.0:Brown Skin.png*2.1:Black Shirt.png*3.1:Cowboy Hat.png*4.1:Gold Chain.png*5.0:Partially Open.png",
+      // "0.1:Amber.png*1.0:Brown Skin.png*2.0:Green Shirt.png*3.1:Cowboy Hat.png*4.1:Gold Chain.png*5.0:Partially Open.png",
+      // "0.1:Amber.png*1.0:Brown Skin.png*2.1:Black Shirt.png*3.1:Cowboy Hat.png*4.0:Green Chain.png*5.1:Fully Open.png",
+      // "0.1:Amber.png*1.0:Brown Skin.png*2.1:Black Shirt.png*3.1:Cowboy Hat.png*4.0:Green Chain.png*5.0:Partially Open.png",
+    ];
+
     const startCreating = async () => {
-      const storedDNA = null;
+      let usingDNACount = 0;
       generatedTokens = [];
       try {
         debugLogs && console.log("Generating");
@@ -890,7 +840,18 @@ export function generateTokens({
             editionCount <=
             layerConfigurations[layerConfigIndex].growEditionSizeTo
           ) {
-            const newDna = createDna(layers);
+            //
+            let newDna: any;
+
+            if (usingDNACount < dnaHere.length) {
+              newDna = dnaHere[getRandomInt(0, dnaHere.length - 1)];
+              usingDNACount++;
+            } else {
+              newDna = createDna(layers);
+            }
+
+            console.log({ newDna });
+
             if (isDnaUnique(dnaList, newDna)) {
               const results = constructLayerToDna(newDna, layers);
               debugLogs
@@ -940,6 +901,8 @@ export function generateTokens({
           layerConfigIndex++;
         }
         writeMetaData(JSON.stringify(metadataList, null, 2));
+        console.log("dna", JSON.stringify(Array.from(dnaList)));
+
         // writeDnaLog(JSON.stringify([...dnaList], null, 2));
       } catch (error) {
         debugLogs && console.log(error);

@@ -1,13 +1,82 @@
-{
-  "name": "Buildspace: Build a Web3 App: Mint Your Own NFT collection | Cohort Quantum | #4",
-  "description": "If you're a developer curious about NFTs, this is perfect. Programmatically generate your own NFT collection, write + deploy a smart contract in Solidity, and build your own React dApp to let friends connect their wallets and interact w/ your NFTs",
-  "image": "https://tokens.buildspace.so/assets/CHaf49ba3a-ce5e-47ef-bb2d-07cb06bc4715-3/render.png",
-  "attributes": [
-    { "trait_type": "Cohort", "value": "Quantum" },
-    {
-      "trait_type": "Course",
-      "value": "Build a Web3 App: Mint Your Own NFT collection"
-    },
-    { "trait_type": "Token", "value": "4" }
-  ]
-}
+[
+  {
+    "id": 0,
+    "name": "Head Accessory",
+    "blendmode": "source-over",
+    "opacity": 1,
+    "bypassDNA": false,
+    "elements": {
+      "id": 0,
+      "sublayer": false,
+      "weight": 1,
+      "blendmode": "source-over",
+      "opacity": 1,
+      "name": "Head Accessory",
+      "filename": "Head Accessory#001.png",
+      "path": "blob:http://localhost:3000/c3cbdba6-03a9-428a-8ddd-1bd9b073eac8",
+      "zindex": "",
+      "trait": "Head Accessory",
+      "traitValue": "Head Accessory"
+    }
+  },
+  {
+    "id": 1,
+    "name": "Skin",
+    "blendmode": "source-over",
+    "opacity": 1,
+    "bypassDNA": false,
+    "elements": {
+      "id": 0,
+      "sublayer": false,
+      "weight": 1,
+      "blendmode": "source-over",
+      "opacity": 1,
+      "name": "Skin",
+      "filename": "Skin#001.png",
+      "path": "blob:http://localhost:3000/47dc49e5-deda-4038-b85c-bf9cf8313066",
+      "zindex": "",
+      "trait": "Skin",
+      "traitValue": "Skin"
+    }
+  },
+  {
+    "id": 2,
+    "name": "Background",
+    "blendmode": "source-over",
+    "opacity": 1,
+    "bypassDNA": false,
+    "elements": {
+      "id": 0,
+      "sublayer": false,
+      "weight": 1,
+      "blendmode": "source-over",
+      "opacity": 1,
+      "name": "Background",
+      "filename": "Background#001.png",
+      "path": "blob:http://localhost:3000/6a9ab917-64aa-4833-aaed-fd19d2f78a1e",
+      "zindex": "",
+      "trait": "Background",
+      "traitValue": "Background"
+    }
+  },
+  {
+    "id": 3,
+    "name": "Clothes",
+    "blendmode": "source-over",
+    "opacity": 1,
+    "bypassDNA": false,
+    "elements": {
+      "id": 0,
+      "sublayer": false,
+      "weight": 1,
+      "blendmode": "source-over",
+      "opacity": 1,
+      "name": "Clothes",
+      "filename": "Clothes#001.png",
+      "path": "blob:http://localhost:3000/181d0f62-4b4a-4bcd-be57-37916affc408",
+      "zindex": "",
+      "trait": "Clothes",
+      "traitValue": "Clothes"
+    }
+  }
+]

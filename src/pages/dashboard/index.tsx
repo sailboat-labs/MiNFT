@@ -81,6 +81,8 @@ export default function DashboardGetStarted() {
       return acc;
     }, []);
 
+    console.log(data);
+
     setAllProjects(data);
   }, [loading, snapshots]);
 

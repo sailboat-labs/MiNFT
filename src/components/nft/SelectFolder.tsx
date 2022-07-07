@@ -77,7 +77,7 @@ export default function SelectFolder({ className }: props) {
         elements: layer.elements.map((element: any, index: number) => ({
           id: index,
           sublayer: false,
-          weight: index + 1,
+          weight: getMaximumSupply() / layer.elements.length ?? 0,
           blendmode: "source-over",
           opacity: 1,
           name: layer.name,
@@ -86,8 +86,7 @@ export default function SelectFolder({ className }: props) {
           zindex: "",
           trait: layer.name,
           traitValue: layer.name,
-          count: getMaximumSupply() / layer.elements.length ?? 0,
-          isCountTouched: false,
+          isWeightTouched: false,
         })),
       }));
 
