@@ -2,6 +2,7 @@
 
 import axios from "axios";
 import dashify from "dashify";
+import { formatEthAddress } from "eth-address";
 import {
   collection,
   DocumentData,
@@ -197,9 +198,10 @@ export default function DashboardGetStarted() {
             </div>
             {/* Right section */}
             <div className="mt-10 pb-20">
-              <div className="mb-10 pt-10 font-dmsans text-2xl">
-                Recent Projects
+              <div className="pt-10 font-dmsans text-xl text-gray-500">
+                {account && formatEthAddress(account)}
               </div>
+              <div className="mb-10  font-dmsans text-2xl">Recent Projects</div>
               {loading && (
                 <div className="flex w-full">
                   <PageLoader />
