@@ -139,7 +139,7 @@ export default function DashboardGetStarted() {
           <div
             className={` flex flex-col gap-36 transition-all duration-300 xl:flex-row  ${
               isCreatingProjectStarted
-                ? "pointer-events-none px-5 opacity-30 lg:px-36 lg:pl-24"
+                ? "pointer-events-auto px-10 opacity-30 lg:px-36"
                 : "pointer-events-auto px-10 opacity-100 lg:px-36"
             }`}
           >
@@ -234,7 +234,7 @@ export default function DashboardGetStarted() {
           className={`relative flex min-h-screen w-full justify-end border-l transition-all duration-500 ${
             isCreatingProjectStarted
               ? "pointer-events-auto translate-x-0 opacity-100"
-              : "pointer-events-none -z-[9999] translate-x-20 opacity-0"
+              : "pointer-events-none  translate-x-full opacity-0"
           }`}
         >
           <div className="min-h-screen w-1/2  border-l bg-white px-20 pt-10">
