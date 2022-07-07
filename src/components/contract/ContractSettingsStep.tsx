@@ -7,12 +7,14 @@ import ContractStepHeader from "./StepHeader";
 import ClassicMint from "./templates/ClassicMint";
 import DutchAuction from "./templates/DutchAuction";
 import FairDutchAuction from "./templates/FairDuctchAuction";
+import PureWhitelist from "./templates/PureWhitelist";
 import WhitelistForm from "./templates/Whitelist";
 
 const TEMPLATES: {
   [key: string]: JSX.Element;
 } = {
   "Classic Mint": <ClassicMint />,
+  "Pure Whitelist": <PureWhitelist />,
   "Dutch Auction": <DutchAuction />,
   "Fair Dutch Auction": <FairDutchAuction />,
 };
@@ -28,7 +30,7 @@ const ContractSettingsStep = () => {
   }, [whitelisted]);
 
   return (
-    <section>
+    <section className="mx-auto max-w-4xl">
       <ContractStepHeader
         title={type}
         selectOptions={[{ name: "Admin" }]}
@@ -36,12 +38,12 @@ const ContractSettingsStep = () => {
       />
       <div className="divide-y divide-indigo-800">
         {TEMPLATES[type]}
-        <div>
-          {type.toLowerCase().trim() !== "pure whitelist" && (
+        {type.toLowerCase().trim() !== "pure whitelist" && whitelisted && (
+          <div>
             <h2 className="pt-8 text-xl text-indigo-800">Whitelist</h2>
-          )}
-          {whitelisted && <WhitelistForm />}
-        </div>
+            {whitelisted && <WhitelistForm />}
+          </div>
+        )}
       </div>
     </section>
   );

@@ -8,7 +8,7 @@ interface AppProps {
 
 const Stepper = ({ activeStep = 1, stepsCount, onStep }: AppProps) => {
   return (
-    <div className="relative mx-auto my-10 flex max-w-7xl items-center justify-between">
+    <div className="relative mx-auto my-10 flex max-w-5xl items-center justify-between">
       <button
         className="group h-6 w-6 rounded-full bg-white disabled:!fill-gray-200"
         // disabled={activeStep === 1}

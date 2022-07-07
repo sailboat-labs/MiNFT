@@ -8,6 +8,7 @@ interface AppProps {
   showCheck?: boolean;
   buttonClass?: string;
   selectorIconColor?: string;
+  theme?: "light" | "dark";
   onChange?: (value: SelectOption) => void;
 }
 
@@ -15,6 +16,7 @@ const BaseSelect = ({
   options,
   onChange,
   buttonClass,
+  theme = "light",
   showCheck = true,
   selectorIconColor = "white",
 }: AppProps) => {
@@ -32,16 +34,20 @@ const BaseSelect = ({
     <Listbox value={selected} onChange={setSelected}>
       <div className="relative mt-1">
         <Listbox.Button
-          className={`relative w-full cursor-default rounded-lg bg-indigo-800 py-2 pl-3 pr-10 text-left text-white focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 sm:text-sm ${buttonClass}`}
+          className={`${
+            theme === "light"
+              ? "bg-white text-gray-800"
+              : "bg-indigo-800 text-white"
+          } relative w-full cursor-default rounded-lg  py-2 pl-3 pr-10 text-left  ring-1 ring-gray-200 focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 sm:text-sm ${buttonClass}`}
         >
           <span className="block truncate">{selected.name}</span>
           <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"
+              stroke={theme === "light" ? "#3730A3" : selectorIconColor}
               fill="none"
               viewBox="0 0 24 24"
-              stroke={selectorIconColor}
               strokeWidth={2}
             >
               <path

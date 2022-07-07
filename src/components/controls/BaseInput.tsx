@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 
 interface AppProps {
+  type?: string;
   inputClass?: string;
+  placeholder?: string;
   wrapperClass?: string;
   postfixClass?: string;
   postfix?: React.ReactNode;
-  placeholder?: string;
 }
 
 const BaseInput = ({
@@ -13,6 +14,7 @@ const BaseInput = ({
   wrapperClass,
   inputClass,
   placeholder,
+  type = "text",
   postfixClass,
 }: AppProps) => {
   const [isFocused, setIsFocused] = useState<boolean>(false);
@@ -28,7 +30,7 @@ const BaseInput = ({
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
         placeholder={placeholder}
-        type="text"
+        type={type}
       />
       <div className={`box-content p-2 ${postfixClass}`}>{postfix}</div>
     </div>
