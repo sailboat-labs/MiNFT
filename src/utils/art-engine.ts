@@ -841,7 +841,7 @@ export function generateTokens({
             layerConfigurations[layerConfigIndex].growEditionSizeTo
           ) {
             //
-            let newDna: any;
+            let newDna: string;
 
             if (usingDNACount < dnaHere.length) {
               newDna = dnaHere[getRandomInt(0, dnaHere.length - 1)];
