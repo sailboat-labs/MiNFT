@@ -33,7 +33,6 @@ export default function Markplace() {
   return (
     <div className="flex flex-row flex-wrap">
       {markplaces.map((markplace, index) => (
-        // <div key={index} className="bg-[#2e0b41]">
         <div
           key={index}
           className="m-0.5 flex h-28 w-72 max-w-lg items-center justify-center bg-slate-800"

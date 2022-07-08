@@ -1,5 +1,6 @@
 import Banner from "@/components/pages/Homepage/Banner";
 import Best_Works from "@/components/pages/Homepage/Best_Works"
+import Contact from "@/components/pages/Homepage/Contact";
 import Features from "@/components/pages/Homepage/Features";
 import Footer from "@/components/pages/Homepage/Footer";
 import Guides from "@/components/pages/Homepage/Guides";
@@ -23,6 +24,7 @@ export default function Index() {
       <Newsletter />
       <Metadata />
       <Zero_Upload />
+      <Contact />
       <Footer />
     </div>
   );

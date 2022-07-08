@@ -21,14 +21,19 @@ export default function Header() {
       <UnstyledLink href="/" className="w-24 text-xl lg:mr-14">
         MiNFT
       </UnstyledLink>
-      <span className="hidden sm:w-2/5 md:inline md:w-1/2"></span>
-      <div className="text-base lg:ml-0">
-        <UnstyledLink href="/get-started" className=" mr-10 w-24 lg:mr-14">
-          Get started
-        </UnstyledLink>
-        <UnstyledLink href="/contact-us" className="w-24">
+      <span className=" w-10 sm:w-2/5 md:inline md:w-1/2"></span>
+      <div className="w-96 text-base lg:ml-0">
+        <a
+          href="https://r3c9oapreew.typeform.com/to/RDOUdJXk"
+          className="mr-3 sm:mr-10 lg:mr-14"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Register interest
+        </a>
+        <a href="#contact" className="mr-3 sm:mr-10 w-24">
           Contact us
-        </UnstyledLink>
+        </a>
       </div>
     </div>
   );

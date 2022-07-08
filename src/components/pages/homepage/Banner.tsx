@@ -111,7 +111,8 @@ export default function Banner() {
             </div>
           </div>
           <ButtonLink
-            href="/dashboard"
+            href="https://r3c9oapreew.typeform.com/to/RDOUdJXk"
+            target='_blank'
             onMouseEnter={() => {
               setHovered(true);
             }}

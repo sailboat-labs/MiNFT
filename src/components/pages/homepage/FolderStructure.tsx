@@ -5,7 +5,7 @@ import RootfolderSVG from "~/svg/homepage/root-folder.svg";
 export default function FolderStructure() {
   return (
     <div className="">
-      <div className="flex flex-col items-center rounded-lg bg-slate-800 py-14 px-10 sm:py-28 sm:px-20">
+      <div className="flex flex-col items-center rounded-lg bg-slate-800 py-14 px-8 sm:py-28 sm:px-20">
         <div className="flex w-64 flex-col items-center justify-center rounded-lg bg-slate-700 py-5 text-xs">
           <RootfolderSVG className="h-6 w-6" />
           <span className="pt-2 pb-1">ROOT FOLDER</span>

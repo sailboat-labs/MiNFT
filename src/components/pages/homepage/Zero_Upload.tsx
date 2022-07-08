@@ -4,7 +4,7 @@ import CheckmarkSVG from "~/svg/homepage/checkmark.svg";
 
 export default function Zero_Upload() {
   return (
-    <div className="mx-auto my-20 w-4/5 font-montserrat text-white lg:my-40 lg:w-3/4">
+    <div className="mx-auto my-20 w-4/5 font-montserrat text-white lg:mt-40 lg:w-3/4">
       <div className="flex flex-col items-center justify-between lg:flex-row">
         <div className="w-full lg:w-auto">
           <h1 className="text-5xl font-medium lg:text-6xl ">Zero Upload.</h1>
@@ -48,7 +48,7 @@ export default function Zero_Upload() {
             </button>
           </div>
         </div>
-        <div className="lg:w-auto">
+        <div className="sm:w-full lg:w-auto">
           <FolderStructure />
         </div>
       </div>

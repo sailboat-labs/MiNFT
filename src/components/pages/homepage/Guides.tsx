@@ -49,13 +49,8 @@ export default function Guides() {
               <div className="">
                 <ButtonLink
                   className="mt-7 flex h-10 w-48 items-center justify-center rounded-lg border-0 bg-white text-base font-bold text-indigo-800 hover:bg-indigo-500"
-                  href={
-                    index == 0
-                      ? "/get-started"
-                      : index == 1
-                      ? "/dashboard/contract-maker"
-                      : "#"
-                  }
+                  href="https://r3c9oapreew.typeform.com/to/RDOUdJXk"
+                  target='_blank'
                 >
                   {guide.button}
                 </ButtonLink>

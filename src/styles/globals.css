@@ -184,11 +184,18 @@
 input[id="emailInput"]:focus,
 input[id="firstname"]:focus,
 input[id="secondname"]:focus,
-input[id="twitterAccountInput"]:focus {
+input[id="twitterAccountInput"]:focus,
+input[id="contact-input"]:focus,
+textarea[id="contact-input"]:focus {
   border-width: 0px;
   outline: 0;
   -webkit-appearance: none;
   box-shadow: none;
   -moz-box-shadow: none;
   -webkit-box-shadow: none;
+}
+
+.required::after {
+  content: " *";
+  color: rgb(199 210 254);
 }

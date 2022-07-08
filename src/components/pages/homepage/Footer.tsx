@@ -24,8 +24,10 @@ export default function Footer() {
 
         <div>
           <div className="mt-5 flex w-96 flex-col justify-between text-base sm:mt-0 sm:flex-row">
-            <UnstyledLink href="/get-started">Get Started</UnstyledLink>
-            <UnstyledLink href="/contact-us">Contact us</UnstyledLink>
+            <UnstyledLink href="https://r3c9oapreew.typeform.com/to/RDOUdJXk" target='_blank'>
+              Register interest
+            </UnstyledLink>
+            <UnstyledLink href="#contact">Contact us</UnstyledLink>
             <UnstyledLink href="/about-us">About us</UnstyledLink>
           </div>
 
