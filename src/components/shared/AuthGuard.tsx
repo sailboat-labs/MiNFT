@@ -81,7 +81,7 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
   if (!account || !isAuthenticated) {
     return (
       <Layout>
-        <div className="flex h-full w-full flex-col gap-5 bg-gradient-to-br from-white via-white to-white px-10 pt-10 text-center">
+        <div className=" flex h-full w-full flex-col gap-5 px-10 pt-10 text-center dark:bg-black">
           <>
             <div className="pb-0 text-lg font-medium leading-6 text-gray-900">
               <Link href="/" passHref>

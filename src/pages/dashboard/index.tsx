@@ -134,7 +134,7 @@ export default function DashboardGetStarted() {
         <Navbar />
       </div> */}
       <div
-        className={` flex h-screen flex-col overflow-hidden pb-20 font-dmsans transition-all lg:flex-row ${
+        className={`flex h-screen flex-col overflow-hidden pb-20 font-dmsans transition-all dark:bg-black lg:flex-row ${
           isCreatingProjectStarted ? "bg-indigo-200" : "bg-white"
         }`}
       >
