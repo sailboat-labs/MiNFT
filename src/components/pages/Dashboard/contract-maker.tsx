@@ -20,7 +20,12 @@ const ContractMakerView = () => {
 
   return (
     <main className="h-[length:calc(100vh-60px)] flex-1 overflow-y-auto">
-      <Stepper stepsCount={3} activeStep={1} onStep={nextStep} />
+      <Stepper
+        stepLabels={["Contract type", "Contract settings", "Preview"]}
+        stepsCount={3}
+        activeStep={1}
+        onStep={nextStep}
+      />
       <div className="my-10 mx-6 rounded-md bg-[#F3F7FA] p-10 py-14">
         {STEPS[activeStep]}
         <section className="flex items-center justify-center gap-6 pt-16">
