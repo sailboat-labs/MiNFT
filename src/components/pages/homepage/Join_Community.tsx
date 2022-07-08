@@ -2,7 +2,7 @@ import ButtonLink from "@/components/links/ButtonLink";
 
 export default function Join_Community() {
   return (
-    <div className="w-4/5 m-auto mb-16 mt-5 flex flex-col justify-between font-montserrat lg:flex-row lg:items-center lg:w-2/3">
+    <div className="w-4/5 m-auto mb-16 mt-5 flex flex-col justify-between font-montserrat lg:flex-row  lg:items-center lg:w-3/4">
       <div className="">
         <div className="text-2xl font-bold text-white">
           From generation to mint

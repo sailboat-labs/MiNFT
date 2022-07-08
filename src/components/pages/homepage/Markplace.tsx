@@ -1,7 +1,6 @@
 import Image from "next/image";
 
 export default function Markplace() {
-
   const markplaces: {
     title: string;
     image: string;
@@ -32,10 +31,13 @@ export default function Markplace() {
     },
   ];
   return (
-    <div className='flex flex-row flex-wrap'>
+    <div className="flex flex-row flex-wrap">
       {markplaces.map((markplace, index) => (
         // <div key={index} className="bg-[#2e0b41]">
-        <div key={index} className="bg-slate-800 m-0.5 h-24 w-72 flex items-center justify-center">
+        <div
+          key={index}
+          className="m-0.5 flex h-28 w-72 max-w-lg items-center justify-center bg-slate-800"
+        >
           <Image
             src={markplace.image}
             alt={markplace.title}
@@ -47,4 +49,3 @@ export default function Markplace() {
     </div>
   );
 }
-

@@ -35,7 +35,7 @@ export default function Guides() {
   return (
     <div>
       {/* <div className="m-auto flex w-4/5 flex-col font-montserrat "> xl:w-3/5 */}
-      <div className="m-auto flex w-2/3 flex-col font-montserrat ">
+      <div className="m-auto flex w-4/5 flex-col font-montserrat lg:w-3/4">
         {guides.map((guide, index) => (
           <div
             key={index}

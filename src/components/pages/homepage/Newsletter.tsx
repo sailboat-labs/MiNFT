@@ -68,7 +68,7 @@ import { useState } from "react";
 
 export default function Newsletter() {
   const [inputStyles, setInputStyles] = useState(
-    "mr-5 w-80 rounded-lg px-5 py-3 text-indigo-800 border-none focus:outline-none"
+    "mx-auto w-68 rounded-lg px-5 py-3 text-indigo-800 border-none focus:outline-none lg:mr-5 lg:w-80"
   );
 
   const handleSignUp = (e: {
@@ -81,29 +81,27 @@ export default function Newsletter() {
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (emailRegex.test(userEmail)) {
       setInputStyles(
-        "mr-5 w-80 rounded-lg px-5 py-3 text-indigo-800 border-none"
+        "mx-auto w-68 rounded-lg px-5 py-3 text-indigo-800 border-none lg:mr-5 lg:w-80"
       );
       alert("done");
     } else {
       setInputStyles(
-        "mr-5 w-80 rounded-lg px-5 py-3 text-indigo-800 border-red-500 border-4 ring ring-red-300"
+        "mx-auto w-68 rounded-lg px-5 py-3 text-indigo-800 border-red-500 border-4 ring ring-red-300 lg:mr-5 lg:w-80"
       );
       alert("done");
     }
   };
 
   return (
-    <div className="mx-auto mb-20 flex w-2/3 flex-col font-montserrat">
-      <div className="flex flex-row items-center justify-between rounded-2xl bg-indigo-800 px-10 py-8 text-white lg:px-10 lg:py-10  ">
-        <div className="flex flex-row sm:flex-col">
-          <span className="text-2xl font-bold">
-            Want product news and updates?
-          </span>
-          <span className="pt-3 text-lg text-indigo-200">
+    <div className="mx-auto mb-20 flex w-4/5 flex-col font-montserrat lg:w-3/4">
+      <div className="flex flex-col rounded-2xl bg-indigo-800 px-10 py-8 text-white lg:flex-row lg:items-center lg:justify-between lg:px-10 lg:py-10 ">
+        <div className="flex flex-col">
+          <p className="text-2xl font-bold">Want product news and updates?</p>
+          <p className="pt-3 text-lg text-indigo-200">
             Sign up to our newsletter to stay up to date
-          </span>
+          </p>
         </div>
-        <div className="">
+        <div className="mt-5 lg:mt-0">
           <div>
             <div>
               <input
@@ -116,7 +114,7 @@ export default function Newsletter() {
               />
               <button
                 type="submit"
-                className="rounded-lg bg-indigo-400 px-5 py-3"
+                className=" mt-4 rounded-lg bg-indigo-400 px-5 py-3 sm:ml-5 lg:m-0"
               >
                 Notify Me
               </button>
