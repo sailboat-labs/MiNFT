@@ -13,14 +13,16 @@ const Contact = () => {
   // };
 
   const validate = Yup.object({
-    name: Yup.string().required("Required"),
-    email: Yup.string().email("Email is invalid").required("Email is required"),
+    name: Yup.string().required("Name is required"),
+    email: Yup.string()
+      .email("Invalid email address")
+      .required("Email address is required"),
     message: Yup.string().required("Please enter your message."),
   });
 
   return (
     <section id="contact">
-      <div className="mx-auto w-4/5 py-20 font-montserrat text-white lg:w-3/4">
+      <div className="mx-auto w-4/5 pt-10 pb-20 font-montserrat text-white sm:py-20 lg:w-3/4 lg:pb-28">
         <h1 className="text-5xl font-medium lg:text-6xl ">Contact Us</h1>
         <div>
           <Formik
