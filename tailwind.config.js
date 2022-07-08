@@ -27,6 +27,9 @@ module.exports = {
       margin: {
         396: "462px",
       },
+      width: {
+        550: "550px",
+      },
       colors: {
         primary: {
           // Customize it on globals.css :root

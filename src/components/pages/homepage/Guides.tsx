@@ -34,13 +34,14 @@ export default function Guides() {
 
   return (
     <div>
-      <div className="m-auto flex w-4/5 flex-col font-montserrat xl:w-3/5">
+      {/* <div className="m-auto flex w-4/5 flex-col font-montserrat "> xl:w-3/5 */}
+      <div className="m-auto flex w-2/3 flex-col font-montserrat ">
         {guides.map((guide, index) => (
           <div
             key={index}
             className="mb-12 flex flex-row items-center justify-between rounded-2xl bg-indigo-800 px-10 py-8 text-white lg:h-96 lg:px-16 lg:py-10  "
           >
-            <div className="flex flex-col justify-center lg:w-96">
+            <div className="flex flex-col justify-center lg:w-[30rem]">
               <div className="text-2xl font-bold">{guide.title}</div>
               <div className="mt-5 text-base font-normal">
                 {guide.description}

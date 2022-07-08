@@ -1,9 +1,12 @@
-import Header from "@/components/dashboard/Header";
-import Footer from "@/components/layout/footer";
-import Banner from "@/components/pages/homepage/Banner";
-import Features from "@/components/pages/homepage/Features";
-import Guides from "@/components/pages/homepage/Guides";
-import Join_Community from "@/components/pages/homepage/Join_Community";
+import Banner from "@/components/pages/Homepage/Banner";
+import Best_Blockchains from "@/components/pages/Homepage/Best_Blockchains";
+import Features from "@/components/pages/Homepage/Features";
+import Footer from "@/components/pages/Homepage/Footer";
+import Guides from "@/components/pages/Homepage/Guides";
+import Header from "@/components/pages/Homepage/Header";
+import Join_Community from "@/components/pages/Homepage/Join_Community";
+import Metadata from "@/components/pages/Homepage/Metadata";
+import Newsletter from "@/components/pages/Homepage/Newsletter";
 import Seo from "@/components/Seo";
 
 export default function Index() {
@@ -13,8 +16,11 @@ export default function Index() {
       <Header />
       <Banner />
       <Features />
+      <Best_Blockchains />
       <Guides />
       <Join_Community />
+      <Newsletter />
+      <Metadata />
       <Footer />
     </div>
   );
