@@ -8,7 +8,7 @@ export default function Banner() {
 
   return (
     <div>
-      <div className="flex h-[40rem] flex-col items-center justify-center font-dmsans  text-white xl:h-[70vh]">
+      <div className="flex h-[40rem] flex-col items-center justify-center font-dmsans  text-white dark:text-gray-200 xl:h-[70vh]">
         <div className="absolute top-12 hidden w-3/5 justify-between lg:flex">
           <img
             className="ml-5 h-[6vw] w-[10vw] rounded-b-lg"

@@ -172,13 +172,13 @@ const NewProperty = ({ onDiscard, onSave }: props) => {
       )}
       <div className="mt-8 flex items-center justify-center gap-4">
         <div
-          className="flex max-w-[130px] flex-1 cursor-pointer items-center justify-center rounded-md bg-[color:var(--blue)] py-2 text-white"
+          className="flex max-w-[130px] flex-1 cursor-pointer items-center justify-center rounded-md bg-[color:var(--blue)] py-2 text-white dark:text-gray-200"
           onClick={() => discardProperty()}
         >
           Discard
         </div>
         <div
-          className={`flex max-w-[130px] flex-1  items-center justify-center rounded-md py-2  text-white transition-all ${
+          className={`flex max-w-[130px] flex-1  items-center justify-center rounded-md py-2  text-white transition-all dark:text-gray-700 ${
             propertyName.length < 1
               ? "cursor-not-allowed bg-gray-500"
               : "cursor-pointer bg-[color:var(--blue)]"

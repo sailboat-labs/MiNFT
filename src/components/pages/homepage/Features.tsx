@@ -5,7 +5,7 @@ import Item_2 from "~/svg/homepage/feature_2.svg";
 import Item_3 from "~/svg/homepage/feature_3.svg";
 import Item_4_1 from "~/svg/homepage/feature_4.1.svg";
 import Item_4_2 from "~/svg/homepage/feature_4.2.svg";
-import Item_4_3 from '~/svg/homepage/feature_4.3.svg'
+import Item_4_3 from "~/svg/homepage/feature_4.3.svg";
 
 export default function Features() {
   const [selectedId, setSelectedId] = useState(null);
@@ -37,8 +37,8 @@ export default function Features() {
         <div className="m-auto pr-3 lg:pr-3">
           <Item_4_1 className="mx-auto mt-3 h-10 w-10 lg:mt-5" />
           <div className="flex justify-between">
-            <Item_4_2 className='w-6 h-6' />
-            <Item_4_3 className='w-5 h-5' />
+            <Item_4_2 className="h-6 w-6" />
+            <Item_4_3 className="h-5 w-5" />
           </div>
         </div>
       ),
@@ -50,7 +50,9 @@ export default function Features() {
       <div className="grid w-fit grid-cols-1 gap-10 px-10 md:grid-cols-2">
         {features.map((feature, index) => (
           <div key={index} className="flex items-center gap-5">
-            <span className="w-5 text-5xl text-white">{index + 1}</span>
+            <span className="w-5 text-5xl text-white dark:text-gray-200">
+              {index + 1}
+            </span>
             <div className="flex max-w-lg gap-5 rounded-lg border bg-gray-100 px-5 py-3 lg:px-10 lg:py-5 lg:pr-20">
               <div className="flex items-center ">{feature.icon}</div>
               <div>

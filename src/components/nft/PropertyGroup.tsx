@@ -255,7 +255,7 @@ const PropertyGroup: FC<AppProps> = ({
               // display content
               <>
                 <div
-                  className="flex items-center gap-2 rounded-md   bg-[#30489C] px-4 py-1 text-base text-white"
+                  className="flex items-center gap-2 rounded-md   bg-[#30489C] px-4 py-1 text-base text-white dark:text-gray-200"
                   onClick={onDisplayNameClick}
                 >
                   <span>{layer.name}</span>
@@ -285,7 +285,8 @@ const PropertyGroup: FC<AppProps> = ({
                   dispatch(setSelectedLayerName(layer.name));
                 }}
                 className={`my-2 flex items-center gap-1 rounded-md border border-indigo-600 px-4 py-1 text-base font-medium text-indigo-600 ${
-                  changingRarity() && "bg-[#30489C] !text-white"
+                  changingRarity() &&
+                  "bg-[#30489C] !text-white dark:text-gray-200"
                 }`}
               >
                 <svg

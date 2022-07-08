@@ -7,11 +7,11 @@ import SolanaSVG from "~/svg/homepage/solana.svg";
 export default function Best_Blockchains() {
   return (
     <div className="bg-transparent py-3 text-center font-montserrat sm:py-7">
-      <div className="text-white">MiNFT WORKS BEST WITH</div>
+      <div className="text-white dark:text-gray-200">MiNFT WORKS BEST WITH</div>
       <div className="flex flex-col justify-center sm:h-28 sm:flex-row sm:space-x-24">
         <EthereumSVG className="m-auto h-28 w-40 sm:m-0 sm:h-28" />
         <PolygonSVG className="m-auto h-28 w-40 sm:m-0 sm:h-28" />
-        <SolanaSVG className="h-28 w-40 m-auto sm:m-0 sm:h-28" />
+        <SolanaSVG className="m-auto h-28 w-40 sm:m-0 sm:h-28" />
       </div>
     </div>
   );

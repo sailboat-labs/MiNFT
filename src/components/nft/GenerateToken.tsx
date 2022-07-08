@@ -74,7 +74,7 @@ export default function GenerateToken() {
   return (
     <div>
       {/* <div className="mt-5 rounded-lg bg-[#30489C] px-5 py-3">
-        <div className="text-white">Collection Size</div>
+        <div className="text-white dark:text-gray-200">Collection Size</div>
         <div className="mt-2 rounded-lg bg-white">
           <input placeholder="Supply" className="bg-transparent px-5 py-2" />
           <span className="text-[#30489C]">Max</span>

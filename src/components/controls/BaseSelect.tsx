@@ -37,7 +37,7 @@ const BaseSelect = ({
           className={`${
             theme === "light"
               ? "bg-white text-gray-800"
-              : "bg-indigo-800 text-white"
+              : "bg-indigo-800 text-white dark:text-gray-200"
           } relative w-full cursor-default rounded-lg  py-2 pl-3 pr-10 text-left  ring-1 ring-gray-200 focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 sm:text-sm ${buttonClass}`}
         >
           <span className="block truncate">{selected.name}</span>

@@ -14,7 +14,7 @@ const SettingsLayout: FC<AppProps> = ({ children }) => {
   return (
     <main>
       <div className="flex h-screen overflow-y-hidden">
-        <section className="h-screen w-[200px] overflow-y-auto overflow-x-hidden bg-[#085E7D] text-white">
+        <section className="h-screen w-[200px] overflow-y-auto overflow-x-hidden bg-[#085E7D] text-white dark:text-gray-200">
           <button
             className="group flex items-center gap-2 px-4 py-3"
             onClick={() => router.push("/nft")}

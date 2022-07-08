@@ -32,7 +32,7 @@ export default function WhitelistTable() {
             >
               <th
                 scope="row"
-                className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
+                className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white dark:text-gray-200"
               >
                 {index + 1}. 0x65cF0585bD7B236b635DA7077624431DD9cec35e
               </th>

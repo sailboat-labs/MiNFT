@@ -165,7 +165,7 @@ export default function FAQ() {
                   type="button"
                   className={`${
                     selectedItem == index ? "rounded-t-xl" : "rounded-xl"
-                  } flex w-full items-center justify-between border border-b-0 border-gray-200 bg-gray-100 bg-opacity-80 p-5 text-left font-medium text-gray-900 hover:bg-gray-100 focus:ring-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:bg-opacity-80 dark:text-white dark:hover:bg-gray-800`}
+                  } flex w-full items-center justify-between border border-b-0 border-gray-200 bg-gray-100 bg-opacity-80 p-5 text-left font-medium text-gray-900 hover:bg-gray-100 focus:ring-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:bg-opacity-80 dark:text-white dark:text-gray-200 dark:hover:bg-gray-800`}
                   data-accordion-target="#accordion-collapse-body-1"
                   aria-expanded="true"
                   aria-controls="accordion-collapse-body-1"

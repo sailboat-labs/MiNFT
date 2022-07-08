@@ -2,7 +2,7 @@ import Markplace from "./Markplace";
 
 export default function Metadata() {
   return (
-    <div className="mx-auto h-[25rem] w-4/5 flex-row items-center rounded-2xl text-white">
+    <div className="mx-auto h-[25rem] w-4/5 flex-row items-center rounded-2xl text-white dark:text-gray-200">
       <div className="flex flex-row items-center justify-between">
         <div className=" flex w-550 flex-col">
           <span className="text-6xl font-normal">Metadata, handled.</span>
