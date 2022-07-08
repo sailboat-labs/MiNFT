@@ -25,7 +25,8 @@
     "**/*.ts",
     "**/*.tsx",
     "src/utils/config.js",
-    "src/utils/token_generator/token_generator.ts"
+    "src/utils/token_generator/token_generator.ts",
+    "disappeareed.js"
   ],
   "exclude": ["node_modules"],
   "moduleResolution": ["node_modules", ".next", "node"]
