@@ -15,10 +15,10 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import { useMoralis } from "react-moralis";
 import { toast } from "react-toastify";
 
 import { firebaseApp } from "@/lib/firebase";
+import useStorage from "@/hooks/storage";
 
 import { PROFILE_IMAGE } from "@/data/DemoProject";
 
@@ -44,7 +44,7 @@ export default function DashboardGetStarted() {
   const router = useRouter();
   const [canCreateModalBeDiscarded, setCanCreateModalBeDiscarded] =
     useState(true);
-  const { account, logout, isAuthenticated } = useMoralis();
+  const { getItem, setItem, removeItem } = useStorage();
 
   //Project globals
   const [projectName, setProjectName] = useState("");
@@ -67,7 +67,11 @@ export default function DashboardGetStarted() {
 
   const _query = query(
     collection(firestore, `Projects`),
-    where("owner", "==", account ?? ""),
+    where(
+      "owner",
+      "==",
+      (getItem("isAuthenticated") == "true" ? getItem("account") : "") ?? ""
+    ),
     limit(100)
   );
   const [snapshots, loading] = useCollectionData(_query);
@@ -87,6 +91,9 @@ export default function DashboardGetStarted() {
   }, [loading, snapshots]);
 
   async function createDemoProject() {
+    const account =
+      (getItem("isAuthenticated") == "true" ? getItem("account") : "") ?? "";
+
     setIsCreatingProject(true);
     const data: IProject = {
       projectName: "Nozomix Extreme",
@@ -201,7 +208,9 @@ export default function DashboardGetStarted() {
             {/* Right section */}
             <div className="mt-10 pb-20">
               <div className="pt-10 font-dmsans text-xl text-gray-500">
-                {account && formatEthAddress(account)}
+                {getItem("isAuthenticated") == "true" &&
+                  getItem("account") &&
+                  formatEthAddress(getItem("account"))}
               </div>
               <div className="mb-10  font-dmsans text-2xl">Recent Projects</div>
               {loading && (
@@ -210,7 +219,7 @@ export default function DashboardGetStarted() {
                 </div>
               )}
 
-              {allProjects.length < 1 && account && (
+              {!loading && allProjects.length < 1 && getItem("account") && (
                 <div className="mt-10 font-dmsans text-2xl">
                   No Project Created
                 </div>

@@ -5,8 +5,6 @@ import Footer from "@/components/pages/homepage/Footer";
 import Guides from "@/components/pages/homepage/Guides";
 import Header from "@/components/pages/homepage/Header";
 import Join_Community from "@/components/pages/homepage/Join_Community";
-import Metadata from "@/components/pages/homepage/Metadata";
-import Newsletter from "@/components/pages/homepage/Newsletter";
 import Seo from "@/components/Seo";
 
 export default function Index() {
@@ -19,8 +17,8 @@ export default function Index() {
       <Best_Blockchains />
       <Guides />
       <Join_Community />
-      <Newsletter />
-      <Metadata />
+      {/* <Newsletter /> */}
+      {/* <Metadata /> */}
       <Footer />
     </div>
   );

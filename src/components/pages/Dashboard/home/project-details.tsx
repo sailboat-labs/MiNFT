@@ -2,8 +2,9 @@ import axios from "axios";
 import dashify from "dashify";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { useMoralis } from "react-moralis";
 import { toast } from "react-toastify";
+
+import useStorage from "@/hooks/storage";
 
 import PageLoader from "@/components/shared/PageLoader";
 
@@ -18,13 +19,15 @@ export default function ProjectDetails({
   currentStep,
   setCanCreateModalBeDiscarded,
 }: any) {
-  const { account, logout, isAuthenticated } = useMoralis();
-
   const [tokenSupply, setTokenSupply] = useState("");
   const [baseUrl, setBaseUrl] = useState("");
   const [description, setDescription] = useState("");
   const [isCreatingProject, setIsCreatingProject] = useState(false);
   const router = useRouter();
+  const { getItem, setItem, removeItem } = useStorage();
+
+  const account =
+    (getItem("isAuthenticated") == "true" ? getItem("account") : "") ?? "";
 
   async function handleCreateProject() {
     //

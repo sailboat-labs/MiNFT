@@ -3,6 +3,8 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useMoralis } from "react-moralis";
 
+import useStorage from "@/hooks/storage";
+
 import Layout from "../layout/Layout";
 
 export const connectors = [
@@ -70,15 +72,34 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
     authError,
   } = useMoralis();
 
+  const environment = process.env.NEXT_PUBLIC_ENVIRONMENT;
+
   const [selectedWallet, setSelectedWallet] = useState("");
 
+  const [activeAccount, setActiveAccount] = useState(
+    account ??
+      (process.env.NEXT_PUBLIC_ENVIRONMENT == "development"
+        ? process.env.NEXT_PUBLIC_DEVELOPMENT_ACCOUNT
+        : "")
+  );
+
+  const { getItem, setItem, removeItem } = useStorage();
+
   useEffect(() => {
-    if (!account || !isAuthenticated) return;
+    if (environment == "development") {
+      setActiveAccount(process.env.NEXT_PUBLIC_DEVELOPMENT_ACCOUNT);
+      setItem("account", process.env.NEXT_PUBLIC_DEVELOPMENT_ACCOUNT!);
+      setItem("isAuthenticated", "true");
+    } else {
+      if (account && isAuthenticated) {
+        setActiveAccount(account);
+        setItem("account", account);
+        setItem("isAuthenticated", isAuthenticated?.toString());
+      }
+    }
+  }, [activeAccount, account, isAuthenticated]);
 
-    // setProfile(user);
-  }, [account, isAuthenticated]);
-
-  if (!account || !isAuthenticated) {
+  if (!activeAccount || activeAccount?.trim() == "") {
     return (
       <Layout>
         <div className=" flex h-full w-full flex-col gap-5 px-10 pt-10 text-center dark:bg-black">

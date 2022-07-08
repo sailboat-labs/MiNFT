@@ -3,11 +3,12 @@
 
 import { formatEthAddress } from "eth-address";
 import React from "react";
-import { useMoralis } from "react-moralis";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { getDashboardState } from "redux/reducers/selectors/dashboard";
 import { setSelectedSidebar } from "redux/reducers/slices/dashboard";
+
+import useStorage from "@/hooks/storage";
 
 import { PROFILE_IMAGE } from "@/data/DemoProject";
 
@@ -154,11 +155,10 @@ const defaultStyles =
   "flex h-12 cursor-pointer transition-all stroke-[#757D8A] items-center text-gray-500  border-0  px-3 py-4 text-base font-normal text-black shadow-none hover:bg-gray-200 hover:text-gray-500";
 
 export default function Sidebar({ currentPage }: SidebarProps) {
-  const { account, logout, isAuthenticated } = useMoralis();
-
   const dashboardState = useSelector(getDashboardState) as IDashboardState;
   const selectedSidebar = dashboardState.selectedSidebar;
   const dispatch = useDispatch();
+  const { getItem, setItem, removeItem } = useStorage();
 
   return (
     <div className="z-1  mt-0 flex h-screen w-[15rem] flex-col justify-between border-r bg-white  font-dmsans opacity-100">
@@ -182,7 +182,9 @@ export default function Sidebar({ currentPage }: SidebarProps) {
               Welcome back,
             </div>
             <div className="text-lg font-bold text-gray-600">
-              {account && formatEthAddress(account!)}
+              {getItem("isAuthenticated") == "true" &&
+                getItem("account") &&
+                formatEthAddress(getItem("account"))}
             </div>
           </div>
         </div>

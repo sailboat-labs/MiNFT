@@ -10,7 +10,6 @@ import {
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import { useMoralis } from "react-moralis";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getDashboardState,
@@ -21,6 +20,7 @@ import { setSlideInModalConfig } from "redux/reducers/slices/dashboard";
 import { setProject } from "redux/reducers/slices/project";
 
 import { firebaseApp } from "@/lib/firebase";
+import useStorage from "@/hooks/storage";
 
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
 import Whitelist from "@/components/dashboard/Whitelist";
@@ -40,8 +40,11 @@ export default function DashboardHomePage() {
   const dashboardState = useSelector(getDashboardState) as IDashboardState;
   const selectedSidebar = dashboardState.selectedSidebar;
   const router = useRouter();
-  const { account, logout, isAuthenticated } = useMoralis();
   const dispatch = useDispatch();
+  const { getItem, setItem, removeItem } = useStorage();
+
+  const account =
+    (getItem("isAuthenticated") == "true" ? getItem("account") : "") ?? "";
 
   const content: {
     component: any;
