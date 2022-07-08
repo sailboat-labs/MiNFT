@@ -72,7 +72,7 @@ export default function Banner() {
           />
         </div>
         {/* <div className=" h-72 w-96 -translate-y-32 "></div> */}
-        <div className=" text-center text-4xl">
+        <div className="mt-28 text-center text-4xl">
           Become an <strong>NFT creator</strong> without code
         </div>
         <div className="mt-3 text-2xl">
