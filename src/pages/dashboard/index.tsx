@@ -15,7 +15,6 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import { toast } from "react-toastify";
 
 import { firebaseApp } from "@/lib/firebase";
 import useStorage from "@/hooks/storage";
@@ -111,7 +110,6 @@ export default function DashboardGetStarted() {
     });
 
     if (response.data.success) {
-      toast.success("Demo project created");
       setIsCreatingProjectStarted(false);
       setIsCreatingProject(false);
       router.push(
@@ -121,8 +119,14 @@ export default function DashboardGetStarted() {
         )}${account.substring(account.length - 9, account.length - 1)}`
       );
     } else {
-      toast.error(
-        response.data.message ?? "An error occurred creating account"
+      // toast.error(
+      //   response.data.message ?? "An error occurred creating account"
+      // );
+      router.push(
+        `/dashboard/${dashify("Nozomix Extreme")}-${account.substring(
+          0,
+          9
+        )}${account.substring(account.length - 9, account.length - 1)}`
       );
       setIsCreatingProject(false);
       setCanCreateModalBeDiscarded(true);
