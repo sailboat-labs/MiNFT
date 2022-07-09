@@ -9,10 +9,14 @@ interface AppProps {
 }
 
 const BaseDatePicker: FC<AppProps> = ({ label }) => {
+  const today = new Date();
   const [dates, setDates] = useState<{ name: number }[]>([]);
-  const [year, setYear] = useState<number>(new Date().getFullYear());
-  const [month, setMonth] = useState<number>(new Date().getMonth());
-  const [day, setDay] = useState<number>(new Date().getDay());
+  const [year, setYear] = useState<number>(today.getFullYear());
+  const [month, setMonth] = useState<number>(today.getMonth());
+  const [day, setDay] = useState<number>(today.getDate());
+  const [hours, setHours] = useState<number>(today.getHours());
+  const [minutes, setMinutes] = useState<number>(today.getMinutes());
+  const [meridiem, setMeridiem] = useState<string>(hours >= 12 ? "PM" : "AM");
 
   const MONTHS: string[] = [
     "Jan",
@@ -28,15 +32,22 @@ const BaseDatePicker: FC<AppProps> = ({ label }) => {
     "Nov",
     "Dec",
   ];
-  const YEARS: number[] = getYearsBackDated(15);
+  const YEARS: number[] = getYearsBackDated(-15);
 
   useEffect(() => {
-    setDates(
-      Array(getDateCount(year, month))
-        .fill(null)
-        .map((_, index) => ({ name: index + 1 }))
-    );
-  }, [month]);
+    if (year && month && month > -1) {
+      setDates(
+        Array(getDateCount(year, month))
+          .fill(null)
+          .map((_, index) => ({ name: index + 1 }))
+      );
+    }
+  }, [month, year]);
+
+  useEffect(() => {
+    // todo: complete setting of date
+    console.log(day, month, year, hours, minutes, meridiem);
+  }, [day, month, year, hours, minutes]);
 
   return (
     <div className="my-3">
@@ -47,6 +58,7 @@ const BaseDatePicker: FC<AppProps> = ({ label }) => {
           <BaseSelect
             onChange={(value) => setYear(value.name as number)}
             showCheck={false}
+            defaultValue={{ name: year }}
             buttonClass="!bg-white ring-1 ring-gray-200 !text-gray-800"
             options={YEARS.map((year) => ({
               name: year,
@@ -56,15 +68,20 @@ const BaseDatePicker: FC<AppProps> = ({ label }) => {
         <div className="mt-2">
           <strong className="font-semibold text-gray-500">Month</strong>
           <BaseSelect
-            onChange={(value) => setMonth(value.name as number)}
+            onChange={(value) => setMonth(value.index as number)}
             showCheck={false}
+            defaultValue={{ name: MONTHS[month] }}
             buttonClass="!bg-white ring-1 ring-gray-200 !text-gray-800"
-            options={MONTHS.map((month) => ({ name: month }))}
+            options={MONTHS.map((month, value) => ({
+              name: month,
+              index: value,
+            }))}
           />
         </div>
         <div className="mt-2">
           <strong className="font-semibold text-gray-500">Day</strong>
           <BaseSelect
+            defaultValue={{ name: day }}
             onChange={(value) => setDay(value.name as number)}
             showCheck={false}
             buttonClass="!bg-white ring-1 ring-gray-200 !text-gray-800"
@@ -77,7 +94,9 @@ const BaseDatePicker: FC<AppProps> = ({ label }) => {
         <div className="grid grid-cols-3 gap-3">
           <BaseSelect
             showCheck={false}
+            defaultValue={{ name: hours % 12 ? hours % 12 : 12 }}
             buttonClass="!bg-white ring-1 ring-gray-200 !text-gray-800"
+            onChange={(value) => setHours(value.name as number)}
             options={Array(12)
               .fill(null)
               .map((_, index: number) => ({
@@ -85,7 +104,9 @@ const BaseDatePicker: FC<AppProps> = ({ label }) => {
               }))}
           />
           <BaseSelect
+            defaultValue={{ name: minutes }}
             showCheck={false}
+            onChange={(value) => setMinutes(value.name as number)}
             buttonClass="!bg-white ring-1 ring-gray-200 !text-gray-800"
             options={Array(60)
               .fill(null)
@@ -95,6 +116,8 @@ const BaseDatePicker: FC<AppProps> = ({ label }) => {
           />
           <BaseSelect
             showCheck={false}
+            onChange={(value) => setMeridiem(value.name as string)}
+            defaultValue={{ name: hours >= 12 ? "PM" : "AM" }}
             buttonClass="!bg-white ring-1 ring-gray-200 !text-gray-800"
             options={[{ name: "AM" }, { name: "PM" }]}
           />
