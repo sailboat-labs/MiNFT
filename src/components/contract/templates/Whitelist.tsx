@@ -3,8 +3,8 @@ import { useSelector } from "react-redux";
 import ReactTooltip from "react-tooltip";
 import { getContractByField } from "redux/reducers/selectors/contract";
 
-import BaseDatePicker from "@/components/controls/BaseDatePicker";
 import BaseInput from "@/components/controls/BaseInput";
+import DateTimeRangePicker from "@/components/controls/DateTimeRangePicker";
 import ContractFormRowSection from "@/components/layout/ContractRowSection";
 
 const WhitelistForm = () => {
@@ -40,10 +40,10 @@ const WhitelistForm = () => {
               </label>
             </div>
             <div
-              style={{ maxHeight: undefined, overflowY: "hidden" }}
+              // style={{ maxHeight: undefined, overflowY: "hidden" }}
               className="mt-2"
             >
-              <BaseDatePicker />
+              <DateTimeRangePicker />
             </div>
           </article>
         </ContractFormRowSection>
