@@ -45,6 +45,14 @@ const ContractMakerView = () => {
               Next
             </button>
           )}
+          {activeStep === 3 && (
+            <button
+              // onClick={() => nextStep()}
+              className="min-w-[150px] rounded-md bg-indigo-800 py-2 text-white transition-all duration-150 hover:bg-indigo-900"
+            >
+              Save
+            </button>
+          )}
         </section>
       </div>
     </main>
