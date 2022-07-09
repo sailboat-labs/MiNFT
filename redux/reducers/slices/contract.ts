@@ -34,13 +34,28 @@ const contractSlice = createSlice({
       state.classicMint[key] = value;
     },
     updatePureWhitelist: (state: any, action: PayloadAction<any>) => {
-      // todo: updates pure whitelist
+      if (state.pureWhitelist === null) {
+        state.pureWhitelist = {};
+      }
+
+      const { key, value } = action.payload;
+      state.pureWhitelist[key] = value;
     },
     updateFairDutch: (state: any, action: PayloadAction<any>) => {
-      // todo: updates fair dutch
+      if (state.fairDutch === null) {
+        state.fairDutch = {};
+      }
+
+      const { key, value } = action.payload;
+      state.fairDutch[key] = value;
     },
     updateDutchAuction: (state: any, action: PayloadAction<any>) => {
-      // todo: updates dutch auction
+      if (state.dutch === null) {
+        state.dutch = {};
+      }
+
+      const { key, value } = action.payload;
+      state.dutch[key] = value;
     },
   },
 });
