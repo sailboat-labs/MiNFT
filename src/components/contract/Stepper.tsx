@@ -4,11 +4,17 @@ interface AppProps {
   activeStep: number;
   stepsCount: number;
   onStep: (step?: number) => void;
+  stepLabels: string[];
 }
 
-const Stepper = ({ activeStep = 1, stepsCount, onStep }: AppProps) => {
+const Stepper = ({
+  activeStep = 1,
+  stepsCount,
+  onStep,
+  stepLabels,
+}: AppProps) => {
   return (
-    <div className="relative mx-auto my-10 flex max-w-5xl items-center justify-between">
+    <div className="relative mx-auto mb-10 mt-14 flex max-w-5xl items-center justify-between">
       <button
         className="group h-6 w-6 rounded-full bg-white disabled:!fill-gray-200"
         // disabled={activeStep === 1}
@@ -30,12 +36,11 @@ const Stepper = ({ activeStep = 1, stepsCount, onStep }: AppProps) => {
       {Array(stepsCount)
         .fill(null)
         .map((step: number, index: number) => (
-          <span key={index}>
+          <span key={index} className="relative">
             <svg
               width="24"
               height="24"
               viewBox="0 0 24 24"
-              fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
@@ -43,16 +48,12 @@ const Stepper = ({ activeStep = 1, stepsCount, onStep }: AppProps) => {
                 fill="#3730A3"
               />
             </svg>
+            <strong className="absolute bottom-[length:calc(100%+6px)] left-1/2 min-w-[200px] -translate-x-1/2 transform text-center text-indigo-800">
+              {stepLabels[index]}
+            </strong>
           </span>
         ))}
-      <div className="absolute top-1/2 -z-10 h-[1px]  w-full -translate-y-1/2 transform bg-indigo-100">
-        {/* <div
-          className="absolute top-0 left-0 h-full bg-indigo-800"
-          style={{
-            width: 100 / (activeStep + 1) + "%",
-          }}
-        ></div> */}
-      </div>
+      <div className="absolute top-1/2 -z-10 h-[1px]  w-full -translate-y-1/2 transform bg-indigo-800"></div>
       <button
         className="group h-6 w-6 rounded-full bg-white disabled:fill-gray-200"
         onClick={() => onStep()}

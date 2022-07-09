@@ -32,7 +32,9 @@ const BaseInput = ({
         placeholder={placeholder}
         type={type}
       />
-      <div className={`box-content p-2 ${postfixClass}`}>{postfix}</div>
+      {postfix && (
+        <div className={`box-content p-2 ${postfixClass}`}>{postfix}</div>
+      )}
     </div>
   );
 };
