@@ -23,7 +23,7 @@ const ContractMakerView = () => {
       <Stepper
         stepLabels={["Contract type", "Contract settings", "Preview"]}
         stepsCount={3}
-        activeStep={1}
+        activeStep={activeStep}
         onStep={nextStep}
       />
       <div className="my-10 mx-6 rounded-md bg-[#F3F7FA] p-10 py-14">
