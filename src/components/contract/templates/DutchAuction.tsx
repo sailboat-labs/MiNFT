@@ -1,8 +1,8 @@
 import React from "react";
 
-import BaseDatePicker from "@/components/controls/BaseDatePicker";
 import BaseInput from "@/components/controls/BaseInput";
 import BaseSelect from "@/components/controls/BaseSelect";
+import DateTimeRangePicker from "@/components/controls/DateTimeRangePicker";
 
 const DutchAuction = () => {
   return (
@@ -40,7 +40,7 @@ const DutchAuction = () => {
         </div>
       </section>
       <section className="mt-10 flex items-start  gap-10">
-        <BaseDatePicker />
+        <DateTimeRangePicker />
         <div className=" max-w-[300px] flex-1 rounded-md bg-white p-5 ring-1 ring-gray-200">
           <strong>Minutes</strong>
           <BaseSelect
