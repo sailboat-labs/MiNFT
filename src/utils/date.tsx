@@ -10,9 +10,18 @@ export function getYearsBackDated(backDateCount: number): number[] {
   let backDateYear: number = currentYear - backDateCount;
   const years: number[] = [];
 
-  while (backDateYear <= currentYear) {
-    years.push(backDateYear);
-    backDateYear++;
+  if (backDateCount === 0) return [currentYear];
+
+  if (backDateCount > 0) {
+    while (backDateYear <= currentYear) {
+      years.push(backDateYear);
+      backDateYear++;
+    }
+  } else {
+    while (backDateYear >= currentYear) {
+      years.unshift(backDateYear);
+      backDateYear--;
+    }
   }
 
   return years;
