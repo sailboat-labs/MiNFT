@@ -5,6 +5,7 @@ import { SelectOption } from "@/interfaces";
 
 interface AppProps {
   options: SelectOption[];
+  defaultValue?: SelectOption;
   showCheck?: boolean;
   buttonClass?: string;
   selectorIconColor?: string;
@@ -15,13 +16,14 @@ interface AppProps {
 const BaseSelect = ({
   options,
   onChange,
+  defaultValue,
   buttonClass,
   theme = "light",
   showCheck = true,
   selectorIconColor = "white",
 }: AppProps) => {
   const [selected, setSelected] = useState(
-    options.length > 0 ? options[0] : { name: "Pass Options" }
+    defaultValue || options[0] || { name: "Default" }
   );
 
   useEffect(() => {
