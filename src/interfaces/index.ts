@@ -60,6 +60,7 @@ export interface Trait {
 
 export interface SelectOption {
   name: string | number;
+  index?: number;
 }
 
 export interface IProject {
