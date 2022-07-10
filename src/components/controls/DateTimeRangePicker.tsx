@@ -20,7 +20,11 @@ const DateTimeRangePicker: FC<AppProps> = ({ onRangeChange, error }) => {
   }, [startDate, endDate]);
 
   return (
-    <section className="gap-10 rounded-md bg-white p-5 ring-1 ring-gray-200">
+    <section
+      className={`gap-10 rounded-md bg-white p-5 ring-1 ring-gray-200 ${
+        error && "ring-red-500"
+      }`}
+    >
       <div className="box-content grid w-fit grid-cols-2 gap-x-10">
         <BaseDatePicker
           onChange={(date) => setStartDate(date)}
