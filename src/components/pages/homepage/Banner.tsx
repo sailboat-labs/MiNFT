@@ -3,8 +3,8 @@
 export default function Banner() {
   return (
     <>
-      <div className="flex h-screen flex-col font-dmsans  text-white">
-        <div className="absolute bottom-0 px-20 py-24">
+      <div className="flex h-[50vh] flex-col font-dmsans  text-white">
+        <div className=" bottom-0 px-20 py-36">
           <div className=" font-dmsans text-9xl font-extrabold text-[#675C4C]">
             MINFT
           </div>
