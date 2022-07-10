@@ -1,43 +1,48 @@
 import React, { FC, useEffect, useState } from "react";
 
+import { SelectOption } from "@/interfaces";
 import { getDateCount, getYearsBackDated } from "@/utils/date";
 
 import BaseSelect from "./BaseSelect";
 
 interface AppProps {
   label: string;
+  onChange?: (date: Date) => void;
 }
+const MONTHS: string[] = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
 
-const BaseDatePicker: FC<AppProps> = ({ label }) => {
+const BaseDatePicker: FC<AppProps> = ({ label, onChange }) => {
   const today = new Date();
   const [dates, setDates] = useState<{ name: number }[]>([]);
   const [year, setYear] = useState<number>(today.getFullYear());
-  const [month, setMonth] = useState<number>(today.getMonth());
+  const [month, setMonth] = useState<SelectOption>({
+    name: MONTHS[today.getMonth()],
+    index: today.getMonth(),
+  });
   const [day, setDay] = useState<number>(today.getDate());
   const [hours, setHours] = useState<number>(today.getHours());
   const [minutes, setMinutes] = useState<number>(today.getMinutes());
   const [meridiem, setMeridiem] = useState<string>(hours >= 12 ? "PM" : "AM");
 
-  const MONTHS: string[] = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
   const YEARS: number[] = getYearsBackDated(-15);
 
   useEffect(() => {
-    if (year && month && month > -1) {
+    if (year && month && (month.index as number) > -1) {
       setDates(
-        Array(getDateCount(year, month))
+        Array(getDateCount(year, month.index as number))
           .fill(null)
           .map((_, index) => ({ name: index + 1 }))
       );
@@ -46,8 +51,27 @@ const BaseDatePicker: FC<AppProps> = ({ label }) => {
 
   useEffect(() => {
     // todo: complete setting of date
-    console.log(day, month, year, hours, minutes, meridiem);
-  }, [day, month, year, hours, minutes]);
+
+    // console.log(
+    //   day,
+    //   MONTHS.indexOf(month.name as string), // 0 - 11
+    //   year,
+    //   hours, // 1-12
+    //   minutes,
+    //   meridiem
+    // );
+    const monthVal = MONTHS.indexOf(month.name as string);
+    const hoursVal = meridiem === "PM" ? hours + 12 : hours;
+    const date = new Date(
+      `${year}-${monthVal + 1 < 10 ? "0" : ""}${monthVal + 1}-${
+        day < 10 ? "0" : ""
+      }${day}T${hoursVal}:${minutes}`
+    );
+
+    if (onChange) {
+      onChange(date);
+    }
+  }, [day, month, year, hours, minutes, meridiem]);
 
   return (
     <div className="my-3">
@@ -68,9 +92,9 @@ const BaseDatePicker: FC<AppProps> = ({ label }) => {
         <div className="mt-2">
           <strong className="font-semibold text-gray-500">Month</strong>
           <BaseSelect
-            onChange={(value) => setMonth(value.index as number)}
+            onChange={setMonth}
             showCheck={false}
-            defaultValue={{ name: MONTHS[month] }}
+            defaultValue={{ name: MONTHS[month.index as number] }}
             buttonClass="!bg-white ring-1 ring-gray-200 !text-gray-800"
             options={MONTHS.map((month, value) => ({
               name: month,
