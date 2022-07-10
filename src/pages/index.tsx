@@ -1,22 +1,24 @@
+import Footer from "@/components/layout/footer";
 import Banner from "@/components/pages/homepage/Banner";
 import Best_Blockchains from "@/components/pages/homepage/Best_Blockchains";
-import Features from "@/components/pages/homepage/Features";
-import Footer from "@/components/pages/homepage/Footer";
-import Guides from "@/components/pages/homepage/Guides";
-import Header from "@/components/pages/homepage/Header";
-import Join_Community from "@/components/pages/homepage/Join_Community";
+import DeployContract from "@/components/pages/homepage/DelpoyContract";
+import GetStarted from "@/components/pages/homepage/GetStarted";
+import Marquee from "@/components/pages/homepage/Marquee";
 import Seo from "@/components/Seo";
 
 export default function Index() {
   return (
-    <div className="overflow-y-auto overflow-x-hidden bg-gradient-to-r from-[#040832] via-[#171340] to-[#190424]">
+    <div className="overflow-y-auto overflow-x-hidden bg-gradient-to-r from-[#151515] via-[#191715] to-[#1B1611]">
       <Seo templateTitle="Home" />
-      <Header />
+      {/* <Header /> */}
       <Banner />
-      <Features />
+      {/* <Features /> */}
       <Best_Blockchains />
-      <Guides />
-      <Join_Community />
+      <Marquee />
+      <DeployContract />
+      <GetStarted />
+      {/* <Guides /> */}
+      {/* <Join_Community /> */}
       {/* <Newsletter /> */}
       {/* <Metadata /> */}
       <Footer />
