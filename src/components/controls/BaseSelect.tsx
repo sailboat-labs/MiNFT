@@ -33,7 +33,7 @@ const BaseSelect = ({
   }, [selected]);
 
   return (
-    <Listbox value={selected} onChange={setSelected}>
+    <Listbox value={selected} onChange={(value) => setSelected(value)}>
       <div className="relative mt-1">
         <Listbox.Button
           className={`${
