@@ -4,6 +4,7 @@ import Best_Blockchains from "@/components/pages/homepage/Best_Blockchains";
 import DeployContract from "@/components/pages/homepage/DelpoyContract";
 import GetStarted from "@/components/pages/homepage/GetStarted";
 import Marquee from "@/components/pages/homepage/Marquee";
+import Metadata from "@/components/pages/homepage/Metadata";
 import Seo from "@/components/Seo";
 
 export default function Index() {
@@ -16,11 +17,11 @@ export default function Index() {
       <Best_Blockchains />
       <Marquee />
       <DeployContract />
+      <Metadata />
       <GetStarted />
       {/* <Guides /> */}
       {/* <Join_Community /> */}
       {/* <Newsletter /> */}
-      {/* <Metadata /> */}
       <Footer />
     </div>
   );

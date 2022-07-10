@@ -1,12 +1,17 @@
 /* eslint-disable @next/next/no-img-element */
 
+import ButtonLink from "@/components/links/ButtonLink";
+
 export default function Banner() {
   return (
     <>
-      <div className="flex h-[50vh] flex-col font-dmsans  text-white">
+      <div className="flex h-[60vh] flex-col font-dmsans  text-white">
+        <div className="flex items-center justify-end  gap-5 p-5">
+          <ButtonLink href="">Contact Us</ButtonLink>
+        </div>
         <div className=" bottom-0 px-20 py-36">
           <div className=" font-dmsans text-9xl font-extrabold text-[#675C4C]">
-            MINFT
+            MINFT.
           </div>
           <div className="mt-3 font-dmsans text-2xl uppercase">
             No code tool for creating, launching,

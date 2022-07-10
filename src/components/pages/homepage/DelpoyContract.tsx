@@ -3,7 +3,11 @@
 export default function DeployContract() {
   const contracts: { label: string; description: string }[] = [
     { label: "Classic Mint", description: "Normal Mint" },
-    { label: "Dutch Auction", description: "Normal Mint" },
+    {
+      label: "Dutch Auction",
+      description:
+        "In a Dutch Auction, the price of an NFT starts at an initial price (ceiling) and drops by a small amount periodically (e.g. 0.1 ETH every 10 minutes) until it hits the lowest price it will go (the resting price).",
+    },
     { label: "Fair Dutch Auction ", description: "Normal Mint" },
     { label: "Pure Whitelist", description: "Normal Mint" },
   ];
@@ -19,9 +23,8 @@ export default function DeployContract() {
 
       <div className="flex gap-5 px-20 pt-20">
         {contracts.map((item, index) => (
-          <a
+          <div
             key={index}
-            href=""
             className="group relative block h-72 w-96 text-white"
           >
             <span className="absolute inset-0 border-2 border-dashed border-white"></span>
@@ -54,7 +57,7 @@ export default function DeployContract() {
                 <p className="mt-8 font-bold">Read more</p>
               </div>
             </div>
-          </a>
+          </div>
         ))}
       </div>
     </div>

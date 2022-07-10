@@ -28,11 +28,10 @@ export default function ImageMarquee() {
 
       <Marquee className="pb-5" gradientColor={[21, 21, 21]}>
         <div className="flex w-fit gap-5 pl-5">
-          {[...Array(30)].map((_, index) => (
-            <a
+          {[...Array(15)].map((_, index) => (
+            <div
               key={index}
               className="group relative block h-[10vw] w-[10vw] bg-black"
-              href=""
             >
               <img
                 className="absolute inset-0  h-full w-full border-2  object-cover opacity-75 transition-opacity  group-hover:opacity-50"
@@ -59,21 +58,20 @@ export default function ImageMarquee() {
                   </div>
                 </div>
               </div>
-            </a>
+            </div>
           ))}
         </div>
       </Marquee>
       <Marquee direction="right" className="pb-5" gradientColor={[21, 21, 21]}>
         <div className="flex w-fit gap-5 pl-5">
-          {[...Array(30)].map((_, index) => (
-            <a
+          {[...Array(15)].map((_, index) => (
+            <div
               key={index}
               className="group relative block h-[10vw] w-[10vw] bg-black"
-              href=""
             >
               <img
                 className="absolute inset-0  h-full w-full border-2  object-cover opacity-75 transition-opacity  group-hover:opacity-50"
-                src={`/images/trait_remix/${index}.png`}
+                src={`/images/trait_remix/${index + 15}.png`}
                 alt=""
               />
               {/* <img
@@ -91,12 +89,12 @@ export default function ImageMarquee() {
                 <div className="">
                   <div className="translate-y-8 transform opacity-0 transition-all  group-hover:translate-y-0 group-hover:opacity-100">
                     <p className="text-lg font-semibold text-white">
-                      Nozomix #{index}
+                      Nozomix #{index + 15}
                     </p>
                   </div>
                 </div>
               </div>
-            </a>
+            </div>
           ))}
         </div>
       </Marquee>

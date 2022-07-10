@@ -5,7 +5,7 @@ import Item_2 from "~/svg/homepage/feature_2.svg";
 import Item_3 from "~/svg/homepage/feature_3.svg";
 import Item_4_1 from "~/svg/homepage/feature_4.1.svg";
 import Item_4_2 from "~/svg/homepage/feature_4.2.svg";
-import Item_4_3 from '~/svg/homepage/feature_4.3.svg'
+import Item_4_3 from "~/svg/homepage/feature_4.3.svg";
 
 export default function Features() {
   const [selectedId, setSelectedId] = useState(null);
@@ -37,8 +37,8 @@ export default function Features() {
         <div className="m-auto pr-3 lg:pr-3">
           <Item_4_1 className="mx-auto mt-3 h-10 w-10 lg:mt-5" />
           <div className="flex justify-between">
-            <Item_4_2 className='w-6 h-6' />
-            <Item_4_3 className='w-5 h-5' />
+            <Item_4_2 className="h-6 w-6" />
+            <Item_4_3 className="h-5 w-5" />
           </div>
         </div>
       ),
