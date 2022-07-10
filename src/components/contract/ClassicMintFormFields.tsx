@@ -110,7 +110,9 @@ const ClassicMintFormFields: FC<AppProps> = ({ form }) => {
         <div className="max-w-[250px] flex-1 rounded-md bg-white p-5 ring-1 ring-gray-200">
           <strong>Minutes</strong>
           <BaseSelect
-            options={[]}
+            options={Array(60)
+              .fill(null)
+              .map((_, index) => ({ name: index + 1 }))}
             buttonClass="!bg-white ring-1 mt-1 ring-gray-200 !text-gray-800"
             selectorIconColor="black"
           />
