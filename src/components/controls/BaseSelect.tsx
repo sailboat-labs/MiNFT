@@ -4,20 +4,20 @@ import React, { Fragment, useEffect, useState } from "react";
 import { SelectOption } from "@/interfaces";
 
 interface AppProps {
-  options: SelectOption[];
-  defaultValue?: SelectOption;
   showCheck?: boolean;
   buttonClass?: string;
-  selectorIconColor?: string;
+  options: SelectOption[];
   theme?: "light" | "dark";
+  selectorIconColor?: string;
+  defaultValue?: SelectOption;
   onChange?: (value: SelectOption) => void;
 }
 
 const BaseSelect = ({
   options,
   onChange,
-  defaultValue,
   buttonClass,
+  defaultValue,
   theme = "light",
   showCheck = true,
   selectorIconColor = "white",

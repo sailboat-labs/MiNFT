@@ -1,13 +1,10 @@
 import { useFormik } from "formik";
 import React from "react";
-import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 
 import DutchAuctionFormFields from "../DutchFormFields";
 
 const DutchAuction = () => {
-  const dispatch = useDispatch();
-
   const dutchAuctionForm = useFormik({
     initialValues: {
       quantity: 0,
@@ -34,21 +31,6 @@ const DutchAuction = () => {
     },
   });
 
-  // function handleOnChange(key: string, value: string, float = false) {
-  //   value = value.trim();
-
-  //   dispatch(
-  //     updateDutchAuction({
-  //       key,
-  //       value:
-  //         value.length === 0
-  //           ? undefined
-  //           : float
-  //           ? parseFloat(value)
-  //           : parseInt(value),
-  //     })
-  //   );
-  // }
   return <DutchAuctionFormFields form={dutchAuctionForm} />;
 };
 
