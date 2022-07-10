@@ -16,8 +16,8 @@ export default function Index() {
       {/* <Features /> */}
       <Best_Blockchains />
       <Marquee />
-      <DeployContract />
       <Metadata />
+      <DeployContract />
       <GetStarted />
       {/* <Guides /> */}
       {/* <Join_Community /> */}

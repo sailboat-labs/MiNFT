@@ -1,8 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
 
+import { useRouter } from "next/router";
+
 import ButtonLink from "@/components/links/ButtonLink";
 
 export default function Banner() {
+  const router = useRouter();
+
   return (
     <>
       <div className="flex h-[60vh] flex-col font-dmsans  text-white">
@@ -21,16 +25,24 @@ export default function Banner() {
           </div>
           <div className="mt-5">
             <div className="mt-4 md:mt-8">
-              <a
-                href="#"
-                className="group relative inline-block focus:outline-none"
+              <div
+                onClick={() => {
+                  if (process.env.NEXT_PUBLIC_ENVIRONMENT == "development") {
+                    router.push("/dashboard");
+                  } else {
+                    //Link to typeform
+                  }
+                }}
+                className="group relative inline-block cursor-pointer focus:outline-none"
               >
                 <span className="relative z-10 block rounded border px-12 py-3 font-dmsans  text-sm font-extrabold uppercase  text-white transition group-hover:scale-105">
-                  Join Waitlist
+                  {process.env.NEXT_PUBLIC_ENVIRONMENT == "development"
+                    ? "Start Now"
+                    : "Join Waitlist"}
                 </span>
 
                 <span className="absolute inset-0 -rotate-3 scale-105 rounded bg-[#675C4C] transition group-hover:rotate-0"></span>
-              </a>
+              </div>
             </div>
           </div>
         </div>
