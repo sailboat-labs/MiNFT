@@ -176,7 +176,7 @@ const WhitelistForm = () => {
         </ContractFormRowSection>
         {/* Limitations */}
         <ContractFormRowSection className="pt-8" name="Limitations">
-          <article>
+          <article className="grid grid-cols-2">
             <div className="mt-6 flex flex-col gap-2">
               <label className="font-semibold">
                 Number of tokens to reserve

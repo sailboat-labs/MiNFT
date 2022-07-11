@@ -10,6 +10,7 @@ import {
   addTraitsToLayer,
   changeLayerName,
   reOrderLayer,
+  setSelectedLayerName,
 } from "redux/reducers/slices/layers";
 
 import { enumNFTGenConfig } from "@/enums/nft-gen-configurations";
@@ -275,7 +276,7 @@ const PropertyGroup: FC<AppProps> = ({
           </div>
           <div className="flex items-center gap-2">
             {/* Rarity button */}
-            {/* {elements.length > 0 && (
+            {elements.length > 0 && (
               <button
                 onClick={() => {
                   if (changingRarity()) {
@@ -301,7 +302,7 @@ const PropertyGroup: FC<AppProps> = ({
                 </svg>
                 Change rarity
               </button>
-            )} */}
+            )}
             <LayerContextMenu layer={layer} />
           </div>
         </div>

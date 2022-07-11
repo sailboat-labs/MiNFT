@@ -9,7 +9,7 @@ import Seo from "@/components/Seo";
 
 export default function Index() {
   return (
-    <div className="overflow-y-auto overflow-x-hidden bg-gradient-to-r from-[#151515] via-[#191715] to-[#1B1611]">
+    <div className="h-screen overflow-y-auto overflow-x-hidden bg-gradient-to-r from-[#151515] via-[#191715] to-[#1B1611]">
       <Seo templateTitle="Home" />
       {/* <Header /> */}
       <Banner />

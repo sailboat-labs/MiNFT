@@ -69,7 +69,7 @@ const ContractSettingsStep: FC<AppProps> = ({ isPreview = false }) => {
   const gasFee = GAS_FEES[type.trim().toLowerCase()];
 
   return (
-    <section className="mx-auto max-w-4xl">
+    <section className="mx-auto">
       {isPreview ? (
         <>
           <article className="-mb-4 flex gap-8 pt-10 pb-8">

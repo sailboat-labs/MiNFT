@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { getContract } from "redux/reducers/selectors/contract";
 
-import ContractStepHeader from "./StepHeader";
 import ContractTypeRadio from "../controls/ContractTypeRadio";
 
 const contractTypes = [
@@ -42,15 +41,15 @@ const ContractTypeStep = () => {
   const contractState = useSelector(getContract);
 
   return (
-    <section className="mx-auto max-w-5xl">
-      <ContractStepHeader
+    <section className="">
+      {/* <ContractStepHeader
         selectOptions={[{ name: "Admin" }]}
-        title="Contract maker"
+        title=""
         onChange={(value) => setSelected(value)}
-      />
+      /> */}
       <div
-        className="mt-8 grid gap-8"
-        style={{ gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))" }}
+        className="mt-8 grid grid-cols-4 gap-8"
+        // style={{ gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))" }}
       >
         {contractTypes.map((contract, index) => (
           <ContractTypeRadio
