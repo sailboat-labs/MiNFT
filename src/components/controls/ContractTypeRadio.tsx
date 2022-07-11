@@ -6,9 +6,15 @@ interface AppProps {
   checked?: boolean;
   whitelist?: boolean;
   type: string;
+  description?: string;
 }
 
-const ContractTypeRadio: FC<AppProps> = ({ checked, whitelist, type }) => {
+const ContractTypeRadio: FC<AppProps> = ({
+  checked,
+  whitelist,
+  description,
+  type,
+}) => {
   const dispatch = useDispatch();
 
   return (
@@ -40,7 +46,7 @@ const ContractTypeRadio: FC<AppProps> = ({ checked, whitelist, type }) => {
             </svg>
             <span>whitelist</span>
           </div>
-          <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+          <p>{description}</p>
         </>
       )}
       {checked && (
