@@ -4,11 +4,12 @@ import React, { Fragment, useEffect, useState } from "react";
 import { SelectOption } from "@/interfaces";
 
 interface AppProps {
-  options: SelectOption[];
   showCheck?: boolean;
   buttonClass?: string;
-  selectorIconColor?: string;
+  options: SelectOption[];
   theme?: "light" | "dark";
+  selectorIconColor?: string;
+  defaultValue?: SelectOption;
   onChange?: (value: SelectOption) => void;
 }
 
@@ -16,12 +17,13 @@ const BaseSelect = ({
   options,
   onChange,
   buttonClass,
+  defaultValue,
   theme = "light",
   showCheck = true,
   selectorIconColor = "white",
 }: AppProps) => {
   const [selected, setSelected] = useState(
-    options.length > 0 ? options[0] : { name: "Pass Options" }
+    defaultValue || options[0] || { name: "Default" }
   );
 
   useEffect(() => {
@@ -31,7 +33,7 @@ const BaseSelect = ({
   }, [selected]);
 
   return (
-    <Listbox value={selected} onChange={setSelected}>
+    <Listbox value={selected} onChange={(value) => setSelected(value)}>
       <div className="relative mt-1">
         <Listbox.Button
           className={`${
