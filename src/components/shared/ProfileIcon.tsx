@@ -9,6 +9,7 @@ import { useDocumentData } from "react-firebase-hooks/firestore";
 import { useMoralis } from "react-moralis";
 
 import { firebaseApp } from "@/lib/firebase";
+import useStorage from "@/hooks/storage";
 
 import { User } from "@/types";
 
@@ -16,7 +17,11 @@ const firestore = getFirestore(firebaseApp);
 
 export default function ProfileIcon() {
   // const { status, connect, account, chainId, ethereum } = useMetaMask();
-  const { account, logout, isAuthenticated } = useMoralis();
+  const { logout, isAuthenticated } = useMoralis();
+  const { getItem, setItem, removeItem } = useStorage();
+
+  const account =
+    (getItem("isAuthenticated") == "true" ? getItem("account") : "") ?? "";
 
   const [user, setUser] = useState<User>();
 

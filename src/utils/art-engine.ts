@@ -110,22 +110,6 @@ export function generateTokens({
 
     const zflag = /(z-?\d*,)/;
 
-    const getRarityWeight = (_path: string) => {
-      // check if there is an extension, if not, consider it a directory
-      const exp = /#(\d*)/;
-      const weight = exp.exec(_path);
-      const weightNumber = weight ? Number(weight[1]) : null;
-      if (!weightNumber || isNaN(weightNumber)) {
-        return "required";
-      }
-      return weightNumber;
-    };
-
-    const cleanDna = (_str: string) => {
-      const dna = _str.split(":").shift();
-      return dna;
-    };
-
     const cleanName = (_str: string) => {
       const hasZ = zflag.test(_str);
 
@@ -140,30 +124,6 @@ export function generateTokens({
         .split(rarityDelimiter)
         .shift();
       return nameWithoutWeight;
-    };
-
-    const parseQueryString = (filename: string, layer: any, sublayer: any) => {
-      const query = /\?(.*)\./;
-      const querystring = query.exec(filename);
-      if (!querystring) {
-        return getElementOptions(layer, sublayer);
-      }
-
-      const layerstyles: any = querystring[1]
-        .split("&")
-        .reduce((r, setting) => {
-          const keyPairs = setting.split("=");
-          return { ...r, [keyPairs[0]]: keyPairs[1] };
-        }, []);
-
-      return {
-        blendmode: layerstyles.blend
-          ? layerstyles.blend
-          : getElementOptions(layer, sublayer).blendmode,
-        opacity: layerstyles.opacity
-          ? layerstyles.opacity / 100
-          : getElementOptions(layer, sublayer).opacity,
-      };
     };
 
     /**

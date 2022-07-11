@@ -15,10 +15,9 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import { useMoralis } from "react-moralis";
-import { toast } from "react-toastify";
 
 import { firebaseApp } from "@/lib/firebase";
+import useStorage from "@/hooks/storage";
 
 import { PROFILE_IMAGE } from "@/data/DemoProject";
 
@@ -44,7 +43,7 @@ export default function DashboardGetStarted() {
   const router = useRouter();
   const [canCreateModalBeDiscarded, setCanCreateModalBeDiscarded] =
     useState(true);
-  const { account, logout, isAuthenticated } = useMoralis();
+  const { getItem, setItem, removeItem } = useStorage();
 
   //Project globals
   const [projectName, setProjectName] = useState("");
@@ -67,7 +66,11 @@ export default function DashboardGetStarted() {
 
   const _query = query(
     collection(firestore, `Projects`),
-    where("owner", "==", account ?? ""),
+    where(
+      "owner",
+      "==",
+      (getItem("isAuthenticated") == "true" ? getItem("account") : "") ?? ""
+    ),
     limit(100)
   );
   const [snapshots, loading] = useCollectionData(_query);
@@ -81,10 +84,15 @@ export default function DashboardGetStarted() {
       return acc;
     }, []);
 
+    console.log(data);
+
     setAllProjects(data);
   }, [loading, snapshots]);
 
   async function createDemoProject() {
+    const account =
+      (getItem("isAuthenticated") == "true" ? getItem("account") : "") ?? "";
+
     setIsCreatingProject(true);
     const data: IProject = {
       projectName: "Nozomix Extreme",
@@ -102,7 +110,6 @@ export default function DashboardGetStarted() {
     });
 
     if (response.data.success) {
-      toast.success("Demo project created");
       setIsCreatingProjectStarted(false);
       setIsCreatingProject(false);
       router.push(
@@ -112,8 +119,14 @@ export default function DashboardGetStarted() {
         )}${account.substring(account.length - 9, account.length - 1)}`
       );
     } else {
-      toast.error(
-        response.data.message ?? "An error occurred creating account"
+      // toast.error(
+      //   response.data.message ?? "An error occurred creating account"
+      // );
+      router.push(
+        `/dashboard/${dashify("Nozomix Extreme")}-${account.substring(
+          0,
+          9
+        )}${account.substring(account.length - 9, account.length - 1)}`
       );
       setIsCreatingProject(false);
       setCanCreateModalBeDiscarded(true);
@@ -132,7 +145,7 @@ export default function DashboardGetStarted() {
         <Navbar />
       </div> */}
       <div
-        className={` flex h-screen flex-col overflow-hidden pb-20 font-dmsans transition-all lg:flex-row ${
+        className={`flex h-screen flex-col overflow-hidden pb-20 font-dmsans transition-all dark:bg-black lg:flex-row ${
           isCreatingProjectStarted ? "bg-indigo-200" : "bg-white"
         }`}
       >
@@ -199,7 +212,9 @@ export default function DashboardGetStarted() {
             {/* Right section */}
             <div className="mt-10 pb-20">
               <div className="pt-10 font-dmsans text-xl text-gray-500">
-                {account && formatEthAddress(account)}
+                {getItem("isAuthenticated") == "true" &&
+                  getItem("account") &&
+                  formatEthAddress(getItem("account"))}
               </div>
               <div className="mb-10  font-dmsans text-2xl">Recent Projects</div>
               {loading && (
@@ -208,7 +223,7 @@ export default function DashboardGetStarted() {
                 </div>
               )}
 
-              {allProjects.length < 1 && account && (
+              {!loading && allProjects.length < 1 && getItem("account") && (
                 <div className="mt-10 font-dmsans text-2xl">
                   No Project Created
                 </div>

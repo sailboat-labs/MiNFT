@@ -1,6 +1,5 @@
-// import { arrayMove } from "react-sortable-hoc";
 import { arrayMoveImmutable } from "array-move";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import SortableList from "../SortableList";
@@ -19,12 +18,9 @@ const NFTLayering = () => {
     oldIndex: number;
     newIndex: number;
   }) {
+    console.log(traits, layersState.layers);
     setTraits(arrayMoveImmutable(traits, oldIndex, newIndex));
   }
-
-  useEffect(() => {
-    console.log(layersState.layers);
-  }, [layersState]);
 
   /**
    * deletes a template

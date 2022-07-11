@@ -13,6 +13,7 @@ const layerStore = createSlice({
   reducers: {
     setLayers: (state: any, param: any) => {
       const { payload } = param;
+      // console.log("setting layers", payload);
       state.layers = payload;
     },
 
@@ -152,7 +153,7 @@ const layerStore = createSlice({
       const newCount = payload.newCount;
 
       //-------------------------------------------------------------------------
-      //Find the count difference to change the count of other untouched elements
+      //Find the weight difference to change the weight of other untouched elements
       //-------------------------------------------------------------------------
 
       //Get old Count
@@ -160,38 +161,40 @@ const layerStore = createSlice({
         .find((layer: ILayer) => layer.name == layerName)
         .elements.find(
           (element: IElement) => element.filename == elementName
-        ).count;
-      //Get count difference
+        ).weight;
+      //Get weight difference
       const newCountDifference = newCount - oldCount;
 
-      //Set the element's count to the new count
+      //Set the element's weight to the new weight
       state.layers
         .find((layer: ILayer) => layer.name == layerName)
         .elements.find(
           (element: IElement) => element.filename == elementName
-        ).count = newCount;
+        ).weight = newCount;
       state.layers
         .find((layer: ILayer) => layer.name == layerName)
         .elements.find(
           (element: IElement) => element.filename == elementName
-        ).isCountTouched = true;
+        ).isWeightTouched = true;
 
       //-------------------------------------------------------------------------
-      //Change the count of other untouched elements in trait group
+      //Change the weight of other untouched elements in trait group
       //-------------------------------------------------------------------------
 
-      //Get all elements that have an untouched count
+      //Get all elements that have an untouched weight
       const unTouchedElements = state.layers
         .find((layer: ILayer) => layer.name == layerName)
-        .elements.filter((element: IElement) => element.isCountTouched != true);
+        .elements.filter(
+          (element: IElement) => element.isWeightTouched != true
+        );
 
       if (unTouchedElements?.length > 0) {
         if (newCountDifference >= 0) {
-          //Find the next highest untouched element count
+          //Find the next highest untouched element weight
           const maxUntouchedElement = Math.max(
             ...unTouchedElements
               .filter((element: IElement) => element.filename != elementName)
-              .map((element: IElement) => element.count)
+              .map((element: IElement) => element.weight)
           );
 
           if (maxUntouchedElement > 0) {
@@ -199,16 +202,16 @@ const layerStore = createSlice({
               .find((layer: ILayer) => layer.name == layerName)
               .elements.find(
                 (element: IElement) =>
-                  element.count == maxUntouchedElement &&
-                  element.isCountTouched != true
-              ).count -= newCountDifference;
+                  element.weight == maxUntouchedElement &&
+                  element.isWeightTouched != true
+              ).weight -= newCountDifference;
           }
         } else if (newCountDifference < 0) {
-          //Find the next lowest untouched element count
+          //Find the next lowest untouched element weight
           const maxUntouchedElement = Math.min(
             ...unTouchedElements
               .filter((element: IElement) => element.filename != elementName)
-              .map((element: IElement) => element.count)
+              .map((element: IElement) => element.weight)
           );
 
           if (maxUntouchedElement > 0) {
@@ -216,9 +219,9 @@ const layerStore = createSlice({
               .find((layer: ILayer) => layer.name == layerName)
               .elements.find(
                 (element: IElement) =>
-                  element.count == maxUntouchedElement &&
-                  element.isCountTouched != true
-              ).count -= newCountDifference;
+                  element.weight == maxUntouchedElement &&
+                  element.isWeightTouched != true
+              ).weight -= newCountDifference;
           }
         }
       }

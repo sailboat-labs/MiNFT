@@ -4,6 +4,7 @@ import React, { FC, useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+import { getConfiguration } from "redux/reducers/selectors/configuration";
 import { getLayers } from "redux/reducers/selectors/layers";
 import {
   changeElementCount,
@@ -11,6 +12,7 @@ import {
 } from "redux/reducers/slices/layers";
 import swal from "sweetalert";
 
+import { enumNFTGenConfig } from "@/enums/nft-gen-configurations";
 import { IElement } from "@/interfaces";
 import { getMaximumSupply } from "@/utils/module_utils/nft";
 
@@ -35,6 +37,7 @@ const TraitPreview: FC<AppProps> = ({
   const dispatch = useDispatch();
   const [rarity, setRarity] = useState<number>(0);
   const layers = useSelector(getLayers);
+  const configuration = useSelector(getConfiguration);
   /**
    * handles removal of trait
    *
@@ -149,7 +152,7 @@ const TraitPreview: FC<AppProps> = ({
               className="max-w-[60px] flex-1"
               type="range"
               onChange={onRangeChanged}
-              value={file.count}
+              value={file.weight}
               step={20}
               min={0}
               max={100}
@@ -157,8 +160,8 @@ const TraitPreview: FC<AppProps> = ({
             <output className=" text-xs">
               {parseFloat(
                 (
-                  (parseInt(file.count?.toString() ?? "0") /
-                    getMaximumSupply(layers)) *
+                  (parseInt(file.weight?.toString() ?? "0") /
+                    configuration[enumNFTGenConfig.SUPPLY]) *
                   100
                 ).toFixed(2)
               )}
@@ -167,7 +170,7 @@ const TraitPreview: FC<AppProps> = ({
           </div>
           <input
             className="mt-4 w-20 rounded border-none bg-gray-50"
-            value={file.count}
+            value={file.weight}
             min={0}
             max={getMaximumSupply(layers)}
             onChange={(e) => {

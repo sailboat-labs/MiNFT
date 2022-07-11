@@ -4,7 +4,6 @@ import UnstyledLink from "../../links/UnstyledLink";
 
 export default function Header() {
   return (
-    // <div className="flex h-12 w-full flex-row items-center bg-indigo-800 font-montserrat font-bold text-white">
     <div className="flex h-12 w-full flex-row items-center bg-indigo-800 font-montserrat font-bold text-white">
       <svg
         width="24"
@@ -19,7 +18,7 @@ export default function Header() {
           fill="white"
         />
       </svg>
-      <UnstyledLink href="/main" className="lg:mr-14 w-24 text-xl">
+      <UnstyledLink href="/" className="lg:mr-14 w-24 text-xl">
         MiNFT
       </UnstyledLink>
       <span className="hidden sm:w-2/5 md:inline md:w-1/2"></span>

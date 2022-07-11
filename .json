@@ -1,13 +1,238 @@
-{
-  "name": "Buildspace: Build a Web3 App: Mint Your Own NFT collection | Cohort Quantum | #4",
-  "description": "If you're a developer curious about NFTs, this is perfect. Programmatically generate your own NFT collection, write + deploy a smart contract in Solidity, and build your own React dApp to let friends connect their wallets and interact w/ your NFTs",
-  "image": "https://tokens.buildspace.so/assets/CHaf49ba3a-ce5e-47ef-bb2d-07cb06bc4715-3/render.png",
-  "attributes": [
-    { "trait_type": "Cohort", "value": "Quantum" },
-    {
-      "trait_type": "Course",
-      "value": "Build a Web3 App: Mint Your Own NFT collection"
-    },
-    { "trait_type": "Token", "value": "4" }
-  ]
-}
+[
+  {
+    "id": 0,
+    "name": "Background",
+    "blendmode": "source-over",
+    "opacity": 1,
+    "bypassDNA": false,
+    "elements": [
+      {
+        "id": 0,
+        "sublayer": false,
+        "weight": 32,
+        "blendmode": "source-over",
+        "opacity": 1,
+        "name": "Background",
+        "filename": "Gray.png",
+        "path": "blob:http://localhost:3000/00b8b2a3-9196-4275-ab67-889e138e6a7b",
+        "zindex": "",
+        "trait": "Background",
+        "traitValue": "Background",
+        "isWeightTouched": false
+      },
+      {
+        "id": 1,
+        "sublayer": false,
+        "weight": 32,
+        "blendmode": "source-over",
+        "opacity": 1,
+        "name": "Background",
+        "filename": "Amber.png",
+        "path": "blob:http://localhost:3000/f0ba0ed0-16bf-4a12-b9c5-c344b11383d8",
+        "zindex": "",
+        "trait": "Background",
+        "traitValue": "Background",
+        "isWeightTouched": false
+      },
+      {
+        "id": 2,
+        "sublayer": false,
+        "weight": 32,
+        "blendmode": "source-over",
+        "opacity": 1,
+        "name": "Background",
+        "filename": "3 .png",
+        "path": "blob:http://localhost:3000/b391eb91-51a4-40bf-aae2-98f9cdf5ecbb",
+        "zindex": "",
+        "trait": "Background",
+        "traitValue": "Background",
+        "isWeightTouched": false
+      }
+    ]
+  },
+  {
+    "id": 1,
+    "name": "Skin",
+    "blendmode": "source-over",
+    "opacity": 1,
+    "bypassDNA": false,
+    "elements": [
+      {
+        "id": 0,
+        "sublayer": false,
+        "weight": 48,
+        "blendmode": "source-over",
+        "opacity": 1,
+        "name": "Skin",
+        "filename": "Brown Skin.png",
+        "path": "blob:http://localhost:3000/3f260c4a-7729-49c5-be3b-a08a211c9acc",
+        "zindex": "",
+        "trait": "Skin",
+        "traitValue": "Skin",
+        "isWeightTouched": false
+      },
+      {
+        "id": 1,
+        "sublayer": false,
+        "weight": 48,
+        "blendmode": "source-over",
+        "opacity": 1,
+        "name": "Skin",
+        "filename": "Gray Skin.png",
+        "path": "blob:http://localhost:3000/3c37342b-bfa3-43cd-be37-649161e13967",
+        "zindex": "",
+        "trait": "Skin",
+        "traitValue": "Skin",
+        "isWeightTouched": false
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Clothes",
+    "blendmode": "source-over",
+    "opacity": 1,
+    "bypassDNA": false,
+    "elements": [
+      {
+        "id": 0,
+        "sublayer": false,
+        "weight": 48,
+        "blendmode": "source-over",
+        "opacity": 1,
+        "name": "Clothes",
+        "filename": "Green Shirt.png",
+        "path": "blob:http://localhost:3000/e37266da-23f6-4951-8805-485d4aaf9cff",
+        "zindex": "",
+        "trait": "Clothes",
+        "traitValue": "Clothes",
+        "isWeightTouched": false
+      },
+      {
+        "id": 1,
+        "sublayer": false,
+        "weight": 48,
+        "blendmode": "source-over",
+        "opacity": 1,
+        "name": "Clothes",
+        "filename": "Black Shirt.png",
+        "path": "blob:http://localhost:3000/1f45dbd0-39cc-4262-8443-809b0fc6033c",
+        "zindex": "",
+        "trait": "Clothes",
+        "traitValue": "Clothes",
+        "isWeightTouched": false
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Head Accessory",
+    "blendmode": "source-over",
+    "opacity": 1,
+    "bypassDNA": false,
+    "elements": [
+      {
+        "id": 0,
+        "sublayer": false,
+        "weight": 48,
+        "blendmode": "source-over",
+        "opacity": 1,
+        "name": "Head Accessory",
+        "filename": "Black Hat.png",
+        "path": "blob:http://localhost:3000/fab2ef52-08ae-448e-90c8-8086bc90b03b",
+        "zindex": "",
+        "trait": "Head Accessory",
+        "traitValue": "Head Accessory",
+        "isWeightTouched": false
+      },
+      {
+        "id": 1,
+        "sublayer": false,
+        "weight": 48,
+        "blendmode": "source-over",
+        "opacity": 1,
+        "name": "Head Accessory",
+        "filename": "Cowboy Hat.png",
+        "path": "blob:http://localhost:3000/70fc26b8-1d27-4929-b453-2c25a5512c39",
+        "zindex": "",
+        "trait": "Head Accessory",
+        "traitValue": "Head Accessory",
+        "isWeightTouched": false
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Bling",
+    "blendmode": "source-over",
+    "opacity": 1,
+    "bypassDNA": false,
+    "elements": [
+      {
+        "id": 0,
+        "sublayer": false,
+        "weight": 48,
+        "blendmode": "source-over",
+        "opacity": 1,
+        "name": "Bling",
+        "filename": "Green Chain.png",
+        "path": "blob:http://localhost:3000/d24328fa-2c8a-4c0b-995c-1866e7a02866",
+        "zindex": "",
+        "trait": "Bling",
+        "traitValue": "Bling",
+        "isWeightTouched": false
+      },
+      {
+        "id": 1,
+        "sublayer": false,
+        "weight": 48,
+        "blendmode": "source-over",
+        "opacity": 1,
+        "name": "Bling",
+        "filename": "Gold Chain.png",
+        "path": "blob:http://localhost:3000/4f581f97-a397-458f-99c3-7903a8ff7db5",
+        "zindex": "",
+        "trait": "Bling",
+        "traitValue": "Bling",
+        "isWeightTouched": false
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Eyes",
+    "blendmode": "source-over",
+    "opacity": 1,
+    "bypassDNA": false,
+    "elements": [
+      {
+        "id": 0,
+        "sublayer": false,
+        "weight": 48,
+        "blendmode": "source-over",
+        "opacity": 1,
+        "name": "Eyes",
+        "filename": "Partially Open.png",
+        "path": "blob:http://localhost:3000/b1e00455-1479-4726-8d8f-433bf08a490d",
+        "zindex": "",
+        "trait": "Eyes",
+        "traitValue": "Eyes",
+        "isWeightTouched": false
+      },
+      {
+        "id": 1,
+        "sublayer": false,
+        "weight": 48,
+        "blendmode": "source-over",
+        "opacity": 1,
+        "name": "Eyes",
+        "filename": "Fully Open.png",
+        "path": "blob:http://localhost:3000/3145beb8-b15c-4595-843d-7f24be05f1c5",
+        "zindex": "",
+        "trait": "Eyes",
+        "traitValue": "Eyes",
+        "isWeightTouched": false
+      }
+    ]
+  }
+]
