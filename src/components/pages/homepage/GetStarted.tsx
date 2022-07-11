@@ -16,7 +16,7 @@ export default function GetStarted() {
         </div>
 
         <ButtonLink
-          href="/dashboard"
+          href="https://r3c9oapreew.typeform.com/to/RDOUdJXk"
           className="flex w-fit items-center gap-2
         "
         >

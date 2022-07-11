@@ -11,7 +11,9 @@ export default function Banner() {
     <>
       <div className="flex h-[60vh] flex-col font-dmsans  text-white">
         <div className="flex items-center justify-end  gap-5 p-5">
-          <ButtonLink href="">Contact Us</ButtonLink>
+          <ButtonLink href="https://r3c9oapreew.typeform.com/to/RDOUdJXk">
+            Register Interest
+          </ButtonLink>
         </div>
         <div className=" bottom-0 px-20 py-36">
           <div className=" font-dmsans text-9xl font-extrabold text-[#675C4C]">
@@ -31,6 +33,7 @@ export default function Banner() {
                     router.push("/dashboard");
                   } else {
                     //Link to typeform
+                    window.open("https://r3c9oapreew.typeform.com/to/RDOUdJXk");
                   }
                 }}
                 className="group relative inline-block cursor-pointer focus:outline-none"
