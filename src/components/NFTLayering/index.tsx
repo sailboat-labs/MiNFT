@@ -18,7 +18,6 @@ const NFTLayering = () => {
     oldIndex: number;
     newIndex: number;
   }) {
-    console.log(traits, layersState.layers);
     setTraits(arrayMoveImmutable(traits, oldIndex, newIndex));
   }
 
