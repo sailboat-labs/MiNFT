@@ -31,7 +31,7 @@ export default function Markplace() {
     },
   ];
   return (
-    <div className="grid grid-cols-3 2xl:grid-cols-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-6">
       {markplaces.map((markplace, index) => (
         // <div key={index} className="bg-[#2e0b41]">
         <div

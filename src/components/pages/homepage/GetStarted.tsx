@@ -1,6 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import ButtonLink from "@/components/links/ButtonLink";
 
+import JoinSVG from '~/svg/homepage/join.svg'
+
 export default function GetStarted() {
   return (
     <div className="flex w-full flex-col items-center justify-center pb-36">
@@ -10,16 +12,16 @@ export default function GetStarted() {
         alt=""
       /> */}
       <div className="mb-10 h-2 w-screen bg-[#675C4C] opacity-25"></div>
-      <div className="relative z-[2] flex flex-col items-center justify-center">
+      <div className="relative z-[2] flex flex-col items-center ">
         <div className="w-fit px-20 pb-5 font-dmsans text-4xl font-extrabold text-[#675C4C]">
           Register Interest With MiNFT
         </div>
 
         <ButtonLink
           href="/dashboard"
-          className="flex w-fit items-center gap-2
-        "
+          className="flex items-center gap-2 px-10 text-xl"
         >
+          {/* <JoinSVG className='h-6 w-6' /> */}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6"

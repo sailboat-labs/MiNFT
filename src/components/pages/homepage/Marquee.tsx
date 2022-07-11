@@ -4,12 +4,13 @@ import Marquee from "react-fast-marquee";
 export default function ImageMarquee() {
   return (
     <div className="pb-20">
-      <div className="px-20 font-dmsans text-6xl font-extrabold text-[#675C4C]">
+      <div className="px-20 pt-6 font-dmsans text-6xl font-extrabold text-[#675C4C] sm:pt-0">
         Mix your traits
       </div>
 
-      <div className="flex w-full items-center justify-end gap-3 px-20 pb-5 font-dmsans text-lg font-extrabold text-[#675C4C]">
+      <div className="flex w-full items-center gap-3 py-3 px-20 pb-5 font-dmsans text-lg font-extrabold text-[#675C4C] sm:justify-end sm:pt-0">
         Nozomix Extreme
+        {/* <NozomixSVG className='h-6 w-6 '/> */}
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="h-6 w-6"
@@ -31,7 +32,7 @@ export default function ImageMarquee() {
           {[...Array(15)].map((_, index) => (
             <div
               key={index}
-              className="group relative block h-[10vw] w-[10vw] bg-black"
+              className="group relative block h-[15vw] w-[15vw] bg-black sm:h-[10vw] sm:w-[10vw]"
             >
               <img
                 className="absolute inset-0  h-full w-full border-2  object-cover opacity-75 transition-opacity  group-hover:opacity-50"
@@ -67,7 +68,7 @@ export default function ImageMarquee() {
           {[...Array(15)].map((_, index) => (
             <div
               key={index}
-              className="group relative block h-[10vw] w-[10vw] bg-black"
+              className="group relative block h-[15vw] w-[15vw] bg-black sm:h-[10vw] sm:w-[10vw]"
             >
               <img
                 className="absolute inset-0  h-full w-full border-2  object-cover opacity-75 transition-opacity  group-hover:opacity-50"

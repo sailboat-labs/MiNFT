@@ -73,7 +73,7 @@ export default function Footer({ className }: props) {
           </div>
 
           <div className="pt-16 pb-8 lg:pt-10 lg:pr-12">
-            <div className=" font-dmsans text-4xl font-extrabold text-[#675C4C]">
+            <div className="mb-5 font-dmsans text-4xl font-extrabold text-[#675C4C] text-center sm:text-start lg:mb-0">
               MINFT
             </div>
 
