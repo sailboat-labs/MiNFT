@@ -2,14 +2,26 @@
 
 export default function DeployContract() {
   const contracts: { label: string; description: string }[] = [
-    { label: "Classic Mint", description: "Normal Mint" },
+    {
+      label: "Classic Mint",
+      description:
+        "In a Classic Mint, the price is fixed throughout the duration of the minting period. There are no restrictions on wallets that can purchase the NFTs, sale is open to all wallets.",
+    },
     {
       label: "Dutch Auction",
       description:
         "In a Dutch Auction, the price of an NFT starts at an initial price (ceiling) and drops by a small amount periodically (e.g. 0.1 ETH every 10 minutes) until it hits the lowest price it will go (the resting price).",
     },
-    { label: "Fair Dutch Auction ", description: "Normal Mint" },
-    { label: "Pure Whitelist", description: "Normal Mint" },
+    {
+      label: "Fair Dutch Auction ",
+      description:
+        "In a Fair Dutch Auction, the pricing format is similar to the Dutch Auction.This contract has a refund policy, which means wallets only pay the lowest bid price that the auction sells out at. Any difference will be refunded to the wallet.",
+    },
+    {
+      label: "Pure Whitelist",
+      description:
+        "In a Pure Whitelist, the price is fixed throughout the duration of the minting period. There are restrictions on which wallets can purchase the NFTs. Specific wallets are given access to purchase the NFTs by the contract owner.",
+    },
   ];
 
   return (
