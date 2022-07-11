@@ -1,7 +1,6 @@
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
 import { getLayers, getSearchFilter } from "redux/reducers/selectors/layers";
 
 import GenerateToken from "@/components/nft/GenerateToken";
@@ -17,8 +16,6 @@ const NFTGenerator = ({ router }: any) => {
   const layers = useSelector(getLayers);
   const searchFilter = useSelector(getSearchFilter);
   const [animateLayersIn, setAnimateLayersIn] = useState(false);
-  const dispatch = useDispatch();
-  const [sampleModal, setSampleModal] = useState(false);
 
   function handleTraitChanged({
     groupName,
