@@ -1,13 +1,8 @@
-import { capitalize } from "@mui/material";
 import { useFormik } from "formik";
 import React from "react";
-import { useSelector } from "react-redux";
-import { getBlockchainType } from "redux/reducers/selectors/settings";
 import * as Yup from "yup";
 
 const CommissionSettings = () => {
-  const selectedBlockChain = useSelector(getBlockchainType);
-
   const formik = useFormik({
     initialValues: {
       totalFee: 0,
@@ -64,9 +59,7 @@ const CommissionSettings = () => {
             </div>
           </div>
           <div className="flex-1 font-medium">
-            <label htmlFor="address">
-              {capitalize(selectedBlockChain)} Address
-            </label>
+            <label htmlFor="address">Address</label>
             <input
               type="text"
               {...formik.getFieldProps("walletAddress")}

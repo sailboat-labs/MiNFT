@@ -2,7 +2,6 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { useRouter } from "next/router";
 import { Fragment } from "react";
-import { useMoralis } from "react-moralis";
 import { useDispatch } from "react-redux";
 
 import NFTLayering from "../NFTLayering";
@@ -22,7 +21,6 @@ export default function UploadFolderResultStructure({
   setShowLayerStructure,
   onConfirm,
 }: props) {
-  const { account, logout, isAuthenticated } = useMoralis();
   const router = useRouter();
   const dispatch = useDispatch();
 

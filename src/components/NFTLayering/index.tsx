@@ -1,9 +1,6 @@
 import { arrayMoveImmutable } from "array-move";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setLayers } from "redux/reducers/slices/layers";
-
-import { LayerName } from "@/interfaces/get-started";
 
 import SortableList from "../SortableList";
 
@@ -12,24 +9,7 @@ const NFTLayering = () => {
   const dispatch = useDispatch();
   const store = useSelector((state) => state) as any;
   const layersState = store.layersReducer;
-  const [traits, setTraits] = useState<LayerName[]>([
-    {
-      name: "Background",
-      enabled: true,
-    },
-    {
-      name: "Eye",
-      enabled: false,
-    },
-    {
-      name: "Body",
-      enabled: true,
-    },
-    {
-      name: "Accessory",
-      enabled: true,
-    },
-  ]);
+  const [traits, setTraits] = useState([]);
 
   function onSortEnd({
     oldIndex,
@@ -40,8 +20,6 @@ const NFTLayering = () => {
   }) {
     console.log(traits, layersState.layers);
     setTraits(arrayMoveImmutable(traits, oldIndex, newIndex));
-    // console.log("onSortEnd", traits);
-    dispatch(setLayers(traits));
   }
 
   /**
@@ -85,21 +63,10 @@ const NFTLayering = () => {
             </div>
             <strong className="mt-5 mb-1 block">Attributes</strong>
             <div className="max-h-[400px] overflow-y-auto">
-              <SortableList items={traits} onSortEnd={onSortEnd} />
+              <SortableList onSortEnd={onSortEnd} />
             </div>
           </div>
         </article>
-        <div className="flex h-[350px] w-[350px] items-center justify-center rounded-xl bg-gray-100">
-          {/* {preview.map((url, index) => (
-            <div key={index}>
-              <img
-                src={url}
-                alt=""
-                className="absolute w-96 rounded-b-lg object-cover"
-              />
-            </div>
-          ))} */}
-        </div>
       </div>
     </div>
   );

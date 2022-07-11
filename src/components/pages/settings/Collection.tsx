@@ -1,8 +1,62 @@
 import { useFormik } from "formik";
-import React from "react";
+import React, { useEffect } from "react";
+import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { getConfiguration } from "redux/reducers/selectors/configuration";
+import { getLayers } from "redux/reducers/selectors/layers";
+import { getProjectState } from "redux/reducers/selectors/project";
+import { setConfiguration } from "redux/reducers/slices/configuration";
 import * as Yup from "yup";
 
+import { enumNFTGenConfig } from "@/enums/nft-gen-configurations";
+import { ILayer, IProject } from "@/interfaces";
+
 const CollectionSettings = () => {
+  const dispatch = useDispatch();
+  const configuration = useSelector(getConfiguration);
+  // console.log(configuration);
+  const layers = useSelector(getLayers) as ILayer[];
+  const project = useSelector(getProjectState) as IProject;
+
+  function setMaximumSupply() {
+    let maxSupply = 1;
+    for (let i = 0; i < layers.length; i++) {
+      if (layers[i].elements.length > 0) {
+        maxSupply *= layers[i].elements.length;
+      }
+    }
+    dispatch(
+      setConfiguration({ key: enumNFTGenConfig.SUPPLY, value: maxSupply })
+    );
+  }
+
+  function getMaximumSupply() {
+    let maxSupply = 1;
+    for (let i = 0; i < layers.length; i++) {
+      if (layers[i].elements?.length > 0) {
+        maxSupply *= layers[i].elements.length;
+      }
+    }
+    return maxSupply;
+  }
+
+  function handleSupplyChange(supply: number) {
+    if (supply < 0) return;
+    if (supply > getMaximumSupply()) {
+      toast.dismiss();
+      toast.error(`Maximum supply is ${getMaximumSupply()}`);
+      dispatch(
+        setConfiguration({
+          key: "supply",
+          value: getMaximumSupply(),
+        })
+      );
+    } else {
+      dispatch(setConfiguration({ key: "supply", value: supply }));
+    }
+  }
+
   const formik: any = useFormik({
     initialValues: {
       name: "",
@@ -24,17 +78,15 @@ const CollectionSettings = () => {
       console.log("submitting", values);
     },
   });
-  /**
-   *
-   * @param {string} fieldName - field in form to check
-   * @returns {boolean} - true or false
-   */
-  // function hasError(fieldName: string) {
-  //   return formik.touched[fieldName] && formik.errors[fieldName];
-  // }
+
+  useEffect(() => {
+    if (getMaximumSupply() < configuration.supply) {
+      setMaximumSupply();
+    }
+  }, [layers]);
 
   return (
-    <div className="py-12">
+    <div className="pt-12">
       <h4>Collection</h4>
       <p>Metadata for this collection of NFTs</p>
       <form action="#" className="mt-6" onSubmit={formik.handleSubmit}>
@@ -44,9 +96,18 @@ const CollectionSettings = () => {
               Name
             </label>
             <input
+              defaultValue={configuration[enumNFTGenConfig.NAME]}
+              onChange={(e) => {
+                dispatch(
+                  setConfiguration({
+                    key: enumNFTGenConfig.NAME,
+                    value: e.target.value,
+                  })
+                );
+              }}
               type="text"
               className="flex-1 rounded-lg"
-              {...formik.getFieldProps("name")}
+              // {...formik.getFieldProps("name")}
             />
           </div>
           <div className="flex flex-col">
@@ -57,7 +118,15 @@ const CollectionSettings = () => {
               placeholder="(optional)"
               type="text"
               className="flex-1 rounded-lg"
-              {...formik.getFieldProps("family")}
+              defaultValue={configuration[enumNFTGenConfig.FAMILY]}
+              onChange={(e) => {
+                dispatch(
+                  setConfiguration({
+                    key: enumNFTGenConfig.FAMILY,
+                    value: e.target.value,
+                  })
+                );
+              }}
             />
             <p className="mt-2 text-sm">
               Optional name for a group of collections.
@@ -71,20 +140,45 @@ const CollectionSettings = () => {
             </label>
             <input
               type="text"
+              defaultValue={configuration[enumNFTGenConfig.SYMBOL]}
               className="flex-1 rounded-lg"
-              {...formik.getFieldProps("symbol")}
+              onChange={(e) => {
+                dispatch(
+                  setConfiguration({
+                    key: enumNFTGenConfig.SYMBOL,
+                    value: e.target.value,
+                  })
+                );
+              }}
             />
-            <p className="mt-2 text-sm">Exchange symbol (e.g SNEK)</p>
+            <p className="mt-2 text-sm">Exchange symbol (e.g NZMX)</p>
           </div>
           <div className="flex flex-col">
             <label className="mb-2 font-medium" htmlFor="supply">
-              Supply
+              Supply{" "}
+              <span className="text-xs text-gray-500">
+                Max: {getMaximumSupply()}
+              </span>
             </label>
-            <input
-              type="number"
-              className="flex-1 rounded-lg"
-              {...formik.getFieldProps("supply")}
-            />
+            <div className="flex items-center gap-3">
+              <input
+                defaultValue={configuration[enumNFTGenConfig.SUPPLY]}
+                value={configuration.supply}
+                type="number"
+                className="flex-1 rounded-lg"
+                onChange={(e) => {
+                  handleSupplyChange(parseInt(e.target.value));
+                }}
+              />
+              <div
+                className="gradient-button"
+                onClick={() => {
+                  setMaximumSupply();
+                }}
+              >
+                Max
+              </div>
+            </div>
             <p className="mt-2 text-sm">Number of tokens to generate.</p>
           </div>
         </div>
@@ -94,9 +188,17 @@ const CollectionSettings = () => {
           </label>
           <input
             type="text"
-            placeholder="(optional)"
+            placeholder="External URL"
             className="flex-1 rounded-lg"
-            {...formik.getFieldProps("link")}
+            defaultValue={configuration[enumNFTGenConfig.BASE_URL]}
+            onChange={(e) => {
+              dispatch(
+                setConfiguration({
+                  key: enumNFTGenConfig.BASE_URL,
+                  value: e.target.value,
+                })
+              );
+            }}
           />
           <p className="mt-2 text-sm">
             Link to the website for this collection.
@@ -110,7 +212,15 @@ const CollectionSettings = () => {
             rows={6}
             placeholder="Enter description"
             className="flex-1 rounded-lg"
-            {...formik.getFieldProps("description")}
+            defaultValue={configuration[enumNFTGenConfig.DESCRIPTION]}
+            onChange={(e) => {
+              dispatch(
+                setConfiguration({
+                  key: enumNFTGenConfig.DESCRIPTION,
+                  value: e.target.value,
+                })
+              );
+            }}
           ></textarea>
         </div>
       </form>

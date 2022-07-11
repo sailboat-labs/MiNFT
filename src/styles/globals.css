@@ -27,6 +27,10 @@
   /* #endregion  /**======== Primary Color =========== */
 }
 
+.swal-text {
+  text-align: center !important;
+}
+
 @layer base {
   /* inter var - latin */
   @font-face {
@@ -38,6 +42,16 @@
     unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
       U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212,
       U+2215, U+FEFF, U+FFFD;
+  }
+
+  @font-face {
+    font-family: "DMSans";
+    src: url("../../public/fonts/DMSans-Regular.ttf");
+  }
+
+  @font-face {
+    font-family: "Montserrat";
+    src: url("../../public/fonts/Montserrat-Regular.ttf");
   }
 
   html {
@@ -73,6 +87,10 @@
 
   .gradient-button {
     @apply w-fit cursor-pointer rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 px-5 py-2 text-white transition-all hover:scale-105 hover:opacity-90;
+  }
+
+  .disabled-button {
+    @apply cursor-not-allowed rounded-lg bg-gray-100 px-5 py-2;
   }
 
   .default-input {
@@ -154,15 +172,30 @@
 /* Track */
 ::-webkit-scrollbar-track {
   background: #f1f1f1;
+  @apply rounded-full;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: rgb(177, 177, 177);
+  background: rgb(000 000 000);
   @apply rounded-full;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: rgb(105, 105, 105);
+  background: rgb(49 46 129);
+}
+
+input[id="emailInput"]:focus,
+input[id="firstname"]:focus,
+input[id="secondname"]:focus,
+input[id="twitterAccountInput"]:focus,
+input[id="twitterAccount"]:focus,
+input[id="walletNumber"]:focus {
+  border-width: 0px;
+  outline: 0;
+  -webkit-appearance: none;
+  box-shadow: none;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
 }

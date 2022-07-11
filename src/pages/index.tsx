@@ -1,44 +1,28 @@
 import Footer from "@/components/layout/footer";
-import Layout from "@/components/layout/Layout";
-import FAQ from "@/components/pages/landing/FAQ";
-import Feedback from "@/components/pages/landing/Feedback";
-import Header from "@/components/pages/landing/header";
-import LaunchingSoon from "@/components/pages/landing/launchingsoon";
-import Leaderboard from "@/components/pages/landing/Leaderboard";
-import NewlyAdded from "@/components/pages/landing/newlyadded";
+import Banner from "@/components/pages/homepage/Banner";
+import Best_Blockchains from "@/components/pages/homepage/Best_Blockchains";
+import DeployContract from "@/components/pages/homepage/DelpoyContract";
+import GetStarted from "@/components/pages/homepage/GetStarted";
+import Marquee from "@/components/pages/homepage/Marquee";
+import Metadata from "@/components/pages/homepage/Metadata";
 import Seo from "@/components/Seo";
 
-// Before you begin editing, follow all comments with `STARTERCONF`,
-// to customize the default configuration.
-
-export default function HomePage() {
-  // const { status, account } = useMetaMask();
-
-  // useEffect(() => {
-  //   if (status == "connected" && account)
-  //     axios
-  //       .post("/api/user", { address: account })
-  //       .then(() => {
-  //         return;
-  //       })
-  //       .catch((_) => {
-  //         toast.error("Unable to update user");
-  //         return;
-  //       });
-  // });
+export default function Index() {
   return (
-    <div className="bg-white dark:bg-black dark:text-white">
-      <Seo />
-
-      <div>
-        <Header />
-        <NewlyAdded />
-        <Leaderboard />
-        <LaunchingSoon />
-        <FAQ />
-        <Feedback />
-        <Footer />
-      </div>
+    <div className="h-screen overflow-y-auto overflow-x-hidden bg-gradient-to-r from-[#151515] via-[#191715] to-[#1B1611]">
+      <Seo templateTitle="Home" />
+      {/* <Header /> */}
+      <Banner />
+      {/* <Features /> */}
+      <Best_Blockchains />
+      <Marquee />
+      <Metadata />
+      <DeployContract />
+      <GetStarted />
+      {/* <Guides /> */}
+      {/* <Join_Community /> */}
+      {/* <Newsletter /> */}
+      <Footer />
     </div>
   );
 }

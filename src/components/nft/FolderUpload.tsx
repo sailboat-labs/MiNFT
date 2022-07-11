@@ -1,6 +1,4 @@
-import axios from "axios";
 import React, { ChangeEvent, useRef, useState } from "react";
-import { useMoralis } from "react-moralis";
 import { useDispatch } from "react-redux";
 import { setLayers } from "redux/reducers/slices/layers";
 
@@ -14,7 +12,6 @@ interface AppProps {
 
 const FolderUploader = ({ onUploaded }: AppProps) => {
   const dispatch = useDispatch();
-  const { account } = useMoralis();
   const formRef = useRef<HTMLFormElement | null>(null);
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [groupedLayers, setGroupedLayers] = useState<NFTLayer[]>([]);
@@ -116,19 +113,6 @@ const FolderUploader = ({ onUploaded }: AppProps) => {
     const formData = new FormData();
     files.forEach((file) => formData.append("files", file));
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const accountName = account as string;
-
-    try {
-      const response = await axios.post(
-        `/api/nft/files_upload?account=${accountName}`,
-        formData,
-        config
-      );
-      // console.log(response.data);
-      setShowLayerStructure(false);
-    } catch (err: any) {
-      console.error(err.response);
-    }
 
     formRef.current?.reset();
   }

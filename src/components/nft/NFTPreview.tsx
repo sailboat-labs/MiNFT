@@ -1,96 +1,101 @@
 /* eslint-disable @next/next/no-img-element */
-import { collection, DocumentData, query } from "firebase/firestore";
-import { useRouter } from "next/router";
+/* eslint-disable no-async-promise-executor */
 import React, { FC, useEffect, useState } from "react";
-import { useCollectionData } from "react-firebase-hooks/firestore";
-import { useMoralis } from "react-moralis";
+import { useSelector } from "react-redux";
+import { getConfiguration } from "redux/reducers/selectors/configuration";
+import { getLayers } from "redux/reducers/selectors/layers";
 
-import { IElement, ILayer } from "@/interfaces/get-started";
-
-import { firestore } from "./NewProperty";
+import { IElement, IGeneratedTokens, ILayer } from "@/interfaces";
+import { generateTokens } from "@/utils/art-engine";
 
 interface AppProps {
   className?: string;
-  layers?: ILayer[];
 }
 
-const NFTPreview: FC<AppProps> = ({ className, layers }) => {
-  const [elements, setElements] = useState<IElement[]>([]);
-  const router = useRouter();
-  const { account, logout, isAuthenticated } = useMoralis();
-  const [preview, setPreview] = useState<string[]>([]);
+const NFTPreview: FC<AppProps> = ({ className }) => {
+  const layersState = useSelector(getLayers);
+  const configuration = useSelector(getConfiguration);
 
-  const layersOrder = [
-    { name: "Background" },
-    { name: "Skin" },
-    { name: "Outfits" },
-    { name: "Eyes" },
-    { name: "Mouths" },
-    { name: "Beard" },
-  ];
+  const [previewImage, setPreviewImage] = useState<IGeneratedTokens[]>([]);
 
-  const _layersOrder = [
-    { name: "Background" },
-    { name: "Skin" },
-    { name: "Clothes" },
-    { name: "Eyes" },
-    { name: "Bling" },
-    { name: "Head Accessory" },
-  ];
+  async function getPreview() {
+    const layers: ILayer[] = layersState
+      .filter((layer: ILayer) =>
+        layer.elements.some((element: IElement) => element.isSelected)
+      )
+      .map((layer: ILayer, layerIndex: number) => ({
+        id: layerIndex,
+        name: layer.name,
+        blendmode: "source-over",
+        opacity: 1,
+        bypassDNA: false,
+        elements: layer.elements.filter((element) => element.isSelected),
+      }));
 
-  const _query = query(
-    collection(
-      firestore,
-      `art-engine/users/${account}/${router.query?.name
-        ?.toString()
-        .toLowerCase()}/elements/`
-    )
-  );
+    const _generatedImages: any = await generateTokens({
+      configuration: {
+        supply: 1,
+        name: "Preview",
+        externalLink: "Preview",
+        description: "Preview",
+        symbol: "Preview",
+        family: "Preview",
+      },
+      layers,
+      showToast: false,
+    });
+    console.log(_generatedImages);
 
-  const [snapshots, loading] = useCollectionData(_query);
+    setPreviewImage(_generatedImages);
+  }
 
   useEffect(() => {
-    if (loading) return;
-    if (!snapshots) return;
-
-    const data = snapshots.reduce((acc: IElement[], curr: DocumentData) => {
-      acc.push(curr as IElement);
-      return acc;
-    }, []);
-
-    setElements(data);
-
-    const previewlist = layersOrder.map((layer) => {
-      return data.filter((element) => element.trait == layer.name)[0]?.path;
-    });
-
-    setPreview(previewlist);
-  }, [loading, snapshots]);
-
-  function getPreview() {
-    //Preview previews
-    const preview: string[] = [];
-
-    const previewlist = layersOrder.map((layer) => {
-      return elements.find((element) => element.trait == layer.name)?.path[0];
-    });
-  }
+    getPreview();
+  }, [layersState]);
 
   return (
     <>
       <div
-        className={`h-[60vh] w-full max-w-lg rounded-lg bg-gray-100 ${className} relative`}
+        className={`h-fit w-fit max-w-lg rounded-lg   ${className} relative`}
       >
-        <div className="w-96">
-          {preview.map((url, index) => (
-            <div key={index}>
-              <img
-                src={url}
-                alt=""
-                className="absolute w-96 rounded-b-lg object-cover"
-              />
+        <div className="w-96 ">
+          <div className="flex w-full translate-y-5 items-center justify-center ">
+            <div className="w-fit rounded-2xl border-2 bg-gray-100 px-8 py-2">
+              Preview
             </div>
-          ))}
+          </div>
+
+          {previewImage.length == 0 ||
+            (previewImage.length > 0 &&
+              previewImage[0].renderObjects.length == 0 && (
+                <div className="flex h-96 w-96 flex-col items-center justify-center rounded-2xl border-2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                    />
+                  </svg>
+                  <div>Select a trait to preview</div>
+                </div>
+              ))}
+
+          {previewImage.length > 0 && previewImage[0].renderObjects.length > 0 && (
+            <img
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
+              src={previewImage[0].file}
+              alt=""
+              className="h-full w-full rounded-2xl bg-gray-100 object-cover"
+            />
+          )}
         </div>
       </div>
 

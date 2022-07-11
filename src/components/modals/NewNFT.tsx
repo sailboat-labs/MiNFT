@@ -1,9 +1,7 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { doc, getFirestore, setDoc } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
 import { useRouter } from "next/router";
 import React, { FC, Fragment, useState } from "react";
-import toast from "react-hot-toast";
-import { useMoralis } from "react-moralis";
 
 import { firebaseApp } from "@/lib/firebase";
 
@@ -18,27 +16,6 @@ const NewNFT: FC<AppProps> = ({ isOpen, closeModal }) => {
   const router = useRouter();
   const [projectName, setProjectName] = useState<string>("");
   const [collectionCount, setCollectionCount] = useState<number>(1000);
-  const { account, logout, isAuthenticated } = useMoralis();
-
-  async function addProject() {
-    // todo: save Property name and uploaded trait files
-    toast("Creating");
-
-    const _layer = {
-      name: projectName.toString().toLowerCase(),
-      owner: account,
-      preview: 1,
-    };
-
-    const _doc = doc(
-      firestore,
-      `art-engine/users/${account}/${projectName.toString().toLowerCase()}`
-    );
-    await setDoc(_doc, _layer);
-    toast.dismiss();
-    toast.success("Saved");
-    closeModal();
-  }
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
@@ -110,7 +87,6 @@ const NewNFT: FC<AppProps> = ({ isOpen, closeModal }) => {
                   <button
                     type="button"
                     className="inline-flex justify-center rounded-md border border-transparent bg-blue-500 px-4 py-2 text-sm font-medium text-white transition-all duration-150 hover:bg-blue-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                    onClick={addProject}
                   >
                     Create Project
                   </button>
