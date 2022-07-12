@@ -851,6 +851,7 @@ export function generateTokens({
             layerConfigurations[layerConfigIndex].growEditionSizeTo
           ) {
             const newDna = createDna(layers);
+
             if (isDnaUnique(dnaList, newDna)) {
               const results = constructLayerToDna(newDna, layers);
               debugLogs
