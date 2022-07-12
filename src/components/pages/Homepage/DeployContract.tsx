@@ -26,20 +26,20 @@ export default function DeployContract() {
 
   return (
     <div className="mt-20 pb-20 2xl:mt-0">
-      <div className="px-20 pb-5 font-dmsans text-6xl font-extrabold text-[#675C4C]">
+      <div className="px-10 pb-5 font-dmsans text-6xl font-extrabold text-[#675C4C] md:px-20">
         Deploy your contract
       </div>
-      <div className="px-20 font-dmsans text-xl font-extrabold text-[#675C4C] lg:text-lg">
+      <div className="px-10 font-dmsans text-xl font-extrabold text-[#675C4C] md:px-20 lg:text-lg">
         Everything contract you need, in one place.
       </div>
 
       {/* <div className="flex flex-col gap-5 px-20 pt-20 sm:flex-wrap lg:flex-row"> */}
-      <div className="grid grid-cols-1 gap-5 px-20 pt-20 sm:grid-cols-2 xl:flex xl:flex-row ">
+      <div className="grid grid-cols-1 gap-5 px-10 pt-20 sm:grid-cols-2 md:px-20 xl:flex xl:flex-row ">
         {contracts.map((item, index) => (
           <div
             key={index}
             // className="group relative block h-72 w-96 text-white"
-            className="group relative block h-52 w-72 text-white hover:h-72 xl:hover:h-80 2xl:hover:h-72 lg:h-72 lg:w-96"
+            className="group relative block h-52 w-72 text-white hover:h-72 lg:h-72 lg:w-96 xl:hover:h-80 2xl:hover:h-72"
           >
             <span className="absolute inset-0 border-2 border-dashed border-white"></span>
 

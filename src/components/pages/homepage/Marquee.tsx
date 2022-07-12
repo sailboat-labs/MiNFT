@@ -4,11 +4,11 @@ import Marquee from "react-fast-marquee";
 export default function ImageMarquee() {
   return (
     <div className="pb-20">
-      <div className="px-20 pt-6 font-dmsans text-6xl font-extrabold text-[#675C4C] sm:pt-0">
+      <div className="px-10 pt-6 font-dmsans text-6xl font-extrabold text-[#675C4C] sm:pt-0 md:px-20 ">
         Mix your traits
       </div>
 
-      <div className="flex w-full items-center gap-3 py-3 px-20 pb-5 font-dmsans text-lg font-extrabold text-[#675C4C] sm:justify-end sm:pt-0">
+      <div className="flex w-full items-center gap-3 py-3 px-10 pb-5 font-dmsans text-lg font-extrabold text-[#675C4C] sm:justify-end sm:pt-0 md:px-20">
         Nozomix Extreme
         {/* <NozomixSVG className='h-6 w-6 '/> */}
         <svg

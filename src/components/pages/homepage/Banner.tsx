@@ -9,13 +9,13 @@ export default function Banner() {
 
   return (
     <>
-      <div className="flex lg:h-[60vh] flex-col font-dmsans  text-white">
+      <div className="flex flex-col font-dmsans text-white  lg:h-[60vh]">
         <div className="flex items-center justify-end  gap-5 p-5">
           <ButtonLink href="https://r3c9oapreew.typeform.com/to/RDOUdJXk">
             Register Interest
           </ButtonLink>
         </div>
-        <div className=" bottom-0 px-20 pt-36 pb-24 sm:pb-28 lg:py-36">
+        <div className=" bottom-0 px-10 pt-36 pb-24 sm:pb-28 md:px-20 lg:py-36">
           <div className="font-dmsans text-8xl font-extrabold text-[#675C4C] sm:text-9xl">
             MINFT.
           </div>
