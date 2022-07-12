@@ -24,6 +24,7 @@ import useStorage from "@/hooks/storage";
 
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
 import Whitelist from "@/components/dashboard/Whitelist";
+import ComingSoon from "@/components/layout/ComingSoon";
 import AddLayer from "@/components/nft/AddLayer";
 import TraitsSearchbar from "@/components/nft/TraitsSearchbar";
 import ContractMakerView from "@/components/pages/Dashboard/contract-maker";
@@ -72,6 +73,16 @@ export default function DashboardHomePage() {
       component: <Whitelist />,
       value: "whitelist",
       label: "Whitelist",
+    },
+    {
+      component: <ComingSoon />,
+      value: "marketing",
+      label: "Marketing",
+    },
+    {
+      component: <ComingSoon />,
+      value: "ip-rights",
+      label: "IP Rights",
     },
   ];
 
@@ -156,6 +167,7 @@ export default function DashboardHomePage() {
 function NFTGeneratorTitleOptions() {
   const slideInModalState = useSelector(getSlideInModalState);
   const dispatch = useDispatch();
+
   return (
     <div className="flex items-center gap-3">
       <TraitsSearchbar />
@@ -191,7 +203,7 @@ function NFTGeneratorTitleOptions() {
             d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
           />
         </svg>
-        Settings
+        <span className="hidden xl:inline">Settings</span>
       </div>
     </div>
   );

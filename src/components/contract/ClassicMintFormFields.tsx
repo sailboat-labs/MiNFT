@@ -12,7 +12,7 @@ interface AppProps {
 const ClassicMintFormFields: FC<AppProps> = ({ form }) => {
   return (
     <div className="py-8">
-      <section className="mt-6 grid grid-cols-3 gap-y-4">
+      <section className="mt-6 grid gap-x-12 gap-y-6 md:grid-cols-2 2xl:grid-cols-3">
         <ContractFormRowSection
           headingClass="font-semibold text-base"
           name="Quantity of collection"

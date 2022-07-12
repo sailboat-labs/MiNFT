@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 
-export default function DeployContract() {
+export default function ContractSection() {
   const contracts: { label: string; description: string }[] = [
     {
       label: "Classic Mint",

@@ -130,7 +130,7 @@ const PropertyGroup: FC<AppProps> = ({
 
   function getElementCountTotal() {
     let total = 0;
-    layer.elements.forEach((element) => {
+    layer.elements.forEach((element: IElement) => {
       total += element.weight ?? 0;
     });
     return total;
