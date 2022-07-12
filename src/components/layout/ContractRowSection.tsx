@@ -14,8 +14,8 @@ const ContractFormRowSection: FC<AppProps> = ({
   children,
 }) => {
   return (
-    <div className={`gap-12 lg:flex ${className}`}>
-      <div className="w-[250px]">
+    <div className={`gap-4 lg:flex ${className}`}>
+      <div className="w-[200px]">
         <h4 className={headingClass}>{name}</h4>
       </div>
       <div className="flex-1">{children}</div>

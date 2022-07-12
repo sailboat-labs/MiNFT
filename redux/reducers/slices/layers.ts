@@ -13,6 +13,7 @@ const layerStore = createSlice({
   reducers: {
     setLayers: (state: any, param: any) => {
       const { payload } = param;
+      // console.log("setting layers", payload);
       state.layers = payload;
     },
 

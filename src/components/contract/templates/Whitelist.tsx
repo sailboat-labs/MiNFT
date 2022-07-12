@@ -130,7 +130,7 @@ const WhitelistForm = () => {
             </div>
             <BaseInput
               type="number"
-              wrapperClass="mt-3 w-full"
+              wrapperClass="mt-3 md:w-1/2"
               {...whitelistForm.getFieldProps("mintPrice")}
               error={
                 whitelistForm.touched.mintPrice &&
@@ -145,6 +145,7 @@ const WhitelistForm = () => {
             <div className="mt-6 flex flex-col gap-2">
               <label className="font-semibold">Total whitelist quantity</label>
               <BaseInput
+                wrapperClass="mt-3 md:w-1/2"
                 {...whitelistForm.getFieldProps("totalQuantity")}
                 error={
                   whitelistForm.touched.totalQuantity &&
@@ -160,6 +161,7 @@ const WhitelistForm = () => {
             <div className="mt-6 flex flex-col gap-2">
               <label className="font-semibold">{contractType} quantity</label>
               <BaseInput
+                wrapperClass="mt-3 md:w-1/2"
                 {...whitelistForm.getFieldProps("quantity")}
                 error={
                   whitelistForm.touched.quantity &&
@@ -176,7 +178,7 @@ const WhitelistForm = () => {
         </ContractFormRowSection>
         {/* Limitations */}
         <ContractFormRowSection className="pt-8" name="Limitations">
-          <article className="grid grid-cols-2">
+          <article className="grid gap-10 md:grid-cols-2 2xl:grid-cols-4">
             <div className="mt-6 flex flex-col gap-2">
               <label className="font-semibold">
                 Number of tokens to reserve
@@ -217,7 +219,7 @@ const WhitelistForm = () => {
                 <label className="font-semibold">
                   Maximum Mint per transaction
                 </label>
-                <svg
+                {/* <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-5 w-5 fill-indigo-800"
                   viewBox="0 0 20 20"
@@ -229,7 +231,7 @@ const WhitelistForm = () => {
                     d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
                     clipRule="evenodd"
                   />
-                </svg>
+                </svg> */}
                 {/* <ReactTooltip id="mmpt" place="right" effect="solid">
                   Lorem ipsum dolor sit
                 </ReactTooltip> */}

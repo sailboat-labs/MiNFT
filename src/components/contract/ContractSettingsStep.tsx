@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { getContract } from "redux/reducers/selectors/contract";
 import { updateWhitelistDetails } from "redux/reducers/slices/contract";
@@ -50,7 +50,6 @@ interface AppProps {
 }
 
 const ContractSettingsStep: FC<AppProps> = ({ isPreview = false }) => {
-  const [selected, setSelected] = useState();
   const { type, whitelisted } = useSelector(getContract);
 
   useEffect(() => {

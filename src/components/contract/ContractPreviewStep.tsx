@@ -7,7 +7,7 @@ const ContractPreviewStep = () => {
   const [selected, setSelected] = useState();
 
   return (
-    <section className="mx-auto max-w-4xl">
+    <section className="mx-4">
       <ContractStepHeader
         title="Confirmation"
         selectOptions={[{ name: "Admin" }]}

@@ -145,20 +145,20 @@ export default function DashboardGetStarted() {
         <Navbar />
       </div> */}
       <div
-        className={`flex h-screen flex-col overflow-hidden pb-20 font-dmsans transition-all dark:bg-black lg:flex-row ${
+        className={`flex h-screen  flex-col overflow-hidden pb-20 font-dmsans transition-all dark:bg-black lg:flex-row ${
           isCreatingProjectStarted ? "bg-indigo-200" : "bg-white"
         }`}
       >
-        <div className="absolute flex h-screen w-full ">
+        <div className="absolute flex h-screen w-full">
           <div
-            className={` flex flex-col gap-36 transition-all duration-300 xl:flex-row  ${
+            className={` flex h-full flex-col gap-36 overflow-y-auto transition-all duration-300 xl:flex-row  ${
               isCreatingProjectStarted
                 ? "pointer-events-auto px-10 opacity-30 lg:px-36"
                 : "pointer-events-auto px-10 opacity-100 lg:px-36"
             }`}
           >
             {/* Left section */}
-            <div>
+            <div className="sticky top-0">
               <div className=" mt-10">
                 <Link href="/" passHref>
                   <div className="flex w-fit justify-between">
@@ -210,7 +210,7 @@ export default function DashboardGetStarted() {
               </div>
             </div>
             {/* Right section */}
-            <div className="mt-10 pb-20">
+            <div className="mt-10 pb-24">
               <div className="pt-10 font-dmsans text-xl text-gray-500">
                 {getItem("isAuthenticated") == "true" &&
                   getItem("account") &&
