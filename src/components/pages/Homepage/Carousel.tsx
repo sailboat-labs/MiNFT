@@ -43,8 +43,6 @@ export default function Carousel() {
 
   const [isPaused, setIsPaused] = useState(false);
 
-  let n = 0;
-
   useEffect(() => {
     function next() {
       currentSlide == 4
@@ -53,12 +51,10 @@ export default function Carousel() {
     }
 
     setInterval(() => {
-      console.log(n++);
-
-      // if (!isPaused) {
-      //   next();
-      // }
-    }, 1000);
+      if (!isPaused) {
+        next();
+      }
+    }, 3000);
   }, []);
 
   return (
