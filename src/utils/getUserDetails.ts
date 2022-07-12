@@ -9,8 +9,6 @@ export async function getUserDetails(walletId: string) {
       }/GetUserData/user?walletId=${walletId.toString().toLowerCase()}`
     );
 
-    console.log("getting data", user.data);
-
     return user.data;
   } catch (error) {
     return;
