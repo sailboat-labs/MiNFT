@@ -1,18 +1,38 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { configureStore } from "@reduxjs/toolkit";
+import { NextPage } from "next";
 import { AppProps } from "next/app";
+import NextProgress from "next-progress";
+import { ReactElement, ReactNode } from "react";
 import { Toaster } from "react-hot-toast";
 import { MoralisProvider } from "react-moralis";
+import { Provider } from "react-redux";
+import { ToastContainer } from "react-toastify";
+import rootReducer from "redux/reducers";
 
-import "../styles/globals.css";
+import "react-toastify/dist/ReactToastify.css";
+import "@/styles/globals.css";
+import "@/styles/colors.css";
 
-/**
- * !STARTERCONF info
- * ? `Layout` component is called in every page using `np` snippets. If you have consistent layout across all page, you can add it here too
- */
+export type NextPageWithLayout = NextPage & {
+  getLayout?: (page: ReactElement) => ReactNode;
+};
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const store = configureStore({
+    reducer: rootReducer,
+  });
 
-  
+  // useEffect(() => {
+  //   const unloadCallback = (event: any) => {
+  //     event.preventDefault();
+  //     event.returnValue = "";
+  //     return "";
+  //   };
+
+  //   window.addEventListener("beforeunload", unloadCallback);
+  //   return () => window.removeEventListener("beforeunload", unloadCallback);
+  // }, []);
 
   return (
     <MoralisProvider
@@ -20,8 +40,11 @@ function MyApp({ Component, pageProps }: AppProps) {
       serverUrl={process.env.NEXT_PUBLIC_MORALIS_SERVERURL!}
     >
       <Toaster />
-
-      <Component {...pageProps} />
+      <ToastContainer />
+      <NextProgress delay={0} options={{ showSpinner: true }} />
+      <Provider store={store}>
+        <Component {...pageProps} />
+      </Provider>
     </MoralisProvider>
   );
 }
