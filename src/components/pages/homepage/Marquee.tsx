@@ -32,7 +32,7 @@ export default function ImageMarquee() {
           {[...Array(15)].map((_, index) => (
             <div
               key={index}
-              className="group relative block h-[15vw] w-[15vw] bg-black sm:h-[10vw] sm:w-[10vw]"
+              className="group relative block h-52 w-52  bg-black md:h-[15vw] md:w-[15vw]"
             >
               <img
                 className="absolute inset-0  h-full w-full border-2  object-cover opacity-75 transition-opacity  group-hover:opacity-50"
