@@ -1,6 +1,6 @@
 // ! BANNER WITH CAROUSEL / SLIDE SHOW OF INFORMATION
 
- import "tw-elements";
+// import "tw-elements";
 
 import ButtonLink from "@/components/links/ButtonLink";
 
