@@ -113,7 +113,11 @@ const ClassicMintFormFields: FC<AppProps> = ({ form }) => {
             type="datetime-local"
             className="w-full rounded border-gray-200 font-dmsans"
           />
-          <TimezoneSelect className="border-red-500" value="" />
+          <TimezoneSelect
+            value=""
+            {...form.getFieldProps("startDateTimeZone")}
+            placeholder="Select timezone..."
+          />
         </ContractFormRowSection>
         <ContractFormRowSection
           headingClass="font-semibold text-base"
@@ -124,7 +128,11 @@ const ClassicMintFormFields: FC<AppProps> = ({ form }) => {
             type="datetime-local"
             className="w-full rounded border-gray-200 font-dmsans"
           />
-          <TimezoneSelect className="border-red-500" value="" />
+          <TimezoneSelect
+            {...form.getFieldProps("endDateTimeZone")}
+            value=""
+            placeholder="Select timezone"
+          />
         </ContractFormRowSection>
         <ContractFormRowSection
           headingClass="font-semibold text-base"
