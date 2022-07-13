@@ -1,10 +1,9 @@
-import Marquee from "react-fast-marquee";
-
 import Footer from "@/components/layout/footer";
 import Banner from "@/components/pages/homepage/Banner";
 import Best_Blockchains from "@/components/pages/homepage/Best_Blockchains";
 import ContractSection from "@/components/pages/Homepage/ContractSection";
 import GetStarted from "@/components/pages/homepage/GetStarted";
+import Marquee from "@/components/pages/homepage/Marquee";
 import Metadata from "@/components/pages/homepage/Metadata";
 import Seo from "@/components/Seo";
 
