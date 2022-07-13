@@ -5,15 +5,22 @@ import ButtonLink from "@/components/links/ButtonLink";
 
 import slides from "./Carousel_Items";
 
+import NextSVG from '~/svg/homepage/next.svg'
+import PreviousSVG from '~/svg/homepage/previous.svg'
+
 export default function Carousel() {
   const [currentSlide, setCurrentSlide] = useState(1);
 
   const next = () => {
-    currentSlide == slides.length ? setCurrentSlide(1) : setCurrentSlide(currentSlide + 1);
+    currentSlide == slides.length
+      ? setCurrentSlide(1)
+      : setCurrentSlide(currentSlide + 1);
   };
 
   const previous = () => {
-    currentSlide == 1 ? setCurrentSlide(slides.length) : setCurrentSlide(currentSlide - 1);
+    currentSlide == 1
+      ? setCurrentSlide(slides.length)
+      : setCurrentSlide(currentSlide - 1);
   };
 
   const [isPaused, setIsPaused] = useState(false);
@@ -21,11 +28,11 @@ export default function Carousel() {
   useEffect(() => {
     const intervalID = setInterval(() => {
       if (!isPaused) {
-        next()
+        next();
       }
     }, 3000);
-  
-    return () => clearInterval(intervalID)
+
+    return () => clearInterval(intervalID);
   });
 
   return (
@@ -40,10 +47,7 @@ export default function Carousel() {
               className="absolute inset-y-1/2 left-0 cursor-default text-3xl text-white"
               onClick={previous}
             >
-              <span
-                className="carousel-control-prev-icon inline-block bg-no-repeat"
-                aria-hidden="true"
-              ></span>
+              <PreviousSVG className='text-white cursor-pointer'/>
             </button>
 
             {slides.map((slide, index) => (
@@ -92,10 +96,7 @@ export default function Carousel() {
               className="absolute inset-y-1/2 right-0 cursor-pointer text-3xl text-white"
               onClick={next}
             >
-              <span
-                className="carousel-control-next-icon inline-block bg-no-repeat"
-                aria-hidden="true"
-              ></span>
+              <NextSVG />
             </button>
           </div>
         </div>
