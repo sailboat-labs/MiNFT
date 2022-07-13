@@ -9,7 +9,7 @@ const slides: { heading: string; description: string; action: string }[] = [
     heading: "Why MiNFT?",
     description:
       "You, the creator, have total control in one easy-to-use tool.",
-    action: "Start Now!",
+    action: "Start Now",
   },
   {
     heading: "How it works",
