@@ -4,6 +4,8 @@ import { getProjectState } from "redux/reducers/selectors/project";
 
 import useStorage from "@/hooks/storage";
 
+import DeployedContracts from "@/components/dashboard/UserDeployedContracts";
+
 import { IProject } from "@/interfaces";
 
 export default function DashboardHome() {
@@ -11,14 +13,15 @@ export default function DashboardHome() {
   const { getItem, setItem, removeItem } = useStorage();
 
   return (
-    <div className="container flex h-screen w-full px-10 pt-20">
-      <div className="flex h-72 w-fit flex-col  rounded-lg font-dmsans ">
+    <div className="container flex h-screen w-full px-10 pt-10">
+      <div className="flex h-72 w-full flex-col  rounded-lg font-dmsans ">
         <div className="text-gray-500">
           {getItem("isAuthenticated") == "true" &&
             getItem("account") &&
             formatEthAddress(getItem("account"))}
         </div>
         <div className="text-3xl">{project.projectName}</div>
+        <DeployedContracts />
       </div>
     </div>
   );
