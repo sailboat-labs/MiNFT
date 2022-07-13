@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 
 import ContractPreviewStep from "@/components/contract/ContractPreviewStep";
@@ -11,9 +12,17 @@ const STEPS: { [key: number]: JSX.Element } = {
 };
 
 const ContractMakerView = () => {
+  const router = useRouter();
   const [activeStep, setActiveStep] = useState<number>(1);
-
+  /**
+   * go to next step
+   *
+   * @param {Number} step  - step forward or backward
+   */
   function nextStep(step = 1) {
+    // router.push(
+    //   router.asPath.split("&step")[0].concat(`&step=${activeStep + step}`)
+    // );
     setActiveStep(activeStep + step);
   }
 

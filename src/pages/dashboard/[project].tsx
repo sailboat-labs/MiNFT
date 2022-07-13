@@ -149,14 +149,16 @@ export default function DashboardHomePage() {
 
   return (
     <DashboardLayout
-      showTitleBar={selectedSidebar == "dashboard-home" ? false : true}
-      title={content.find((item) => item.value == selectedSidebar)?.label ?? ""}
+      showTitleBar={router.query.nav == "dashboard-home" ? false : true}
+      title={
+        content.find((item) => item.value == router.query.nav)?.label ?? ""
+      }
       titleBarEndChildren={
-        content.find((item) => item.value == selectedSidebar)?.titleOptions ??
+        content.find((item) => item.value == router.query.nav)?.titleOptions ??
         ""
       }
       child={
-        content.find((item) => item.value == selectedSidebar)?.component ?? (
+        content.find((item) => item.value == router.query.nav)?.component ?? (
           <></>
         )
       }

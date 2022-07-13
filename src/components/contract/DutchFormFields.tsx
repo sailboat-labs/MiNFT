@@ -2,7 +2,6 @@ import React, { FC } from "react";
 
 import BaseInput from "@/components/controls/BaseInput";
 import BaseSelect from "@/components/controls/BaseSelect";
-import DateTimeRangePicker from "@/components/controls/DateTimeRangePicker";
 
 interface AppProps {
   form: any;
@@ -26,7 +25,6 @@ const DutchAuctionFormFields: FC<AppProps> = ({ form }) => {
             wrapperClass="mt-2"
           />
         </div>
-
         <div className="flex flex-col">
           <strong>Starting Price</strong>
           <BaseInput
@@ -78,16 +76,71 @@ const DutchAuctionFormFields: FC<AppProps> = ({ form }) => {
           />
         </div>
       </section>
-      <section className="mt-10 flex items-start  gap-10">
-        <DateTimeRangePicker />
-        <div className=" max-w-[300px] flex-1 rounded-md bg-white p-5 ring-1 ring-gray-200">
-          <strong>Minutes</strong>
-          <BaseSelect
-            options={[]}
-            buttonClass="!bg-white ring-1 ring-gray-200 !text-gray-800 mt-2"
-            selectorIconColor="black"
+      <section className="mt-6 grid grid-cols-4 gap-x-12">
+        <div className="flex flex-col gap-1">
+          <strong>Start date & time</strong>
+          <input
+            id="classic-mint-start-date"
+            type="datetime-local"
+            className="w-full rounded border-gray-200 font-dmsans"
           />
         </div>
+        <div className="flex flex-col gap-1">
+          <strong>End date & time</strong>
+          <input
+            id="classic-mint-end-date"
+            type="datetime-local"
+            className="w-full rounded border-gray-200 font-dmsans"
+          />
+        </div>
+        <div className="flex flex-col gap-1">
+          <strong>Decremental Time</strong>
+          <div className="grid grid-cols-2 items-center gap-4">
+            <BaseSelect
+              options={Array(60)
+                .fill(null)
+                .map((_, index) => ({ name: index + 1 }))}
+              buttonClass="!bg-white ring-1 ring-gray-200 !text-gray-800"
+              selectorIconColor="black"
+            />
+            <span>minutes</span>
+          </div>
+        </div>
+        {/* <ContractFormRowSection
+          headingClass="font-semibold text-base"
+          name="Start date & time"
+        >
+          <input
+            id="classic-mint-start-date"
+            type="datetime-local"
+            className="w-full rounded border-gray-200 font-dmsans"
+          />
+        </ContractFormRowSection> */}
+        {/* <ContractFormRowSection
+          headingClass="font-semibold text-base"
+          name="End date & time"
+        >
+          <input
+            id="classic-mint-end-date"
+            type="datetime-local"
+            className="w-full rounded border-gray-200 font-dmsans"
+          />
+        </ContractFormRowSection> */}
+        {/* <ContractFormRowSection
+          headingClass="font-semibold text-base"
+          name="Decremental Time"
+        >
+          <div className="grid grid-cols-2 items-center gap-4">
+            <BaseSelect
+              options={Array(60)
+                .fill(null)
+                .map((_, index) => ({ name: index + 1 }))}
+              buttonClass="!bg-white ring-1 ring-gray-200 !text-gray-800"
+              selectorIconColor="black"
+            />
+            <span>minutes</span>
+          </div>
+        </ContractFormRowSection> */}
       </section>
     </div>
   );

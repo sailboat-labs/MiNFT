@@ -2,9 +2,9 @@
 // !Needs the user's name to display each user's name
 
 import { formatEthAddress } from "eth-address";
+import { useRouter } from "next/router";
 import React from "react";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getDashboardState } from "redux/reducers/selectors/dashboard";
 import { setSelectedSidebar } from "redux/reducers/slices/dashboard";
 
@@ -150,6 +150,7 @@ export default function Sidebar({ currentPage }: SidebarProps) {
   const selectedSidebar = dashboardState.selectedSidebar;
   const dispatch = useDispatch();
   const { getItem, setItem, removeItem } = useStorage();
+  const router = useRouter();
 
   return (
     <div className="z-1 relative z-[1000]  mt-0 flex h-screen w-[15rem] flex-col justify-between border-r bg-white  font-dmsans opacity-100">
@@ -187,11 +188,12 @@ export default function Sidebar({ currentPage }: SidebarProps) {
           {sidebarItems.map((item, index) => (
             <div
               onClick={() => {
+                router.push(`${router.asPath.split("?")[0]}?nav=${item.value}`);
                 dispatch(setSelectedSidebar(item.value));
               }}
               key={index}
               className={
-                selectedSidebar == item.value
+                router.query.nav == item.value
                   ? `${selectedPageStyles}`
                   : `${defaultStyles}`
               }
