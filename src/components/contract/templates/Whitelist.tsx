@@ -20,6 +20,8 @@ const WhitelistForm = () => {
       reservedTokensCount: 0,
       maxMintPerWhitelistWallet: 0,
       maxMintPerWallet: 0,
+      startDateTimezone: "",
+      endDateTimezone: "",
       maxMintPerTransaction: 0,
     },
     validationSchema: Yup.object({
@@ -44,6 +46,8 @@ const WhitelistForm = () => {
       maxMintPerTransaction: Yup.number()
         .required("max mint per transaction is required")
         .positive("value should be positive"),
+      startDateTimezone: Yup.string().required("timezone is required"),
+      endDateTimezone: Yup.string().required("timezone is required"),
     }),
     onSubmit: (values, formik) => {
       // todo: on submit
@@ -100,6 +104,10 @@ const WhitelistForm = () => {
                   className="w-fit rounded-md border-gray-200"
                   type="datetime-local"
                 />
+                {/* <TimezoneSelect
+                  {...whitelistForm.getFieldProps("startDateTimeZone")}
+                  placeholder="Select timezone..."
+                /> */}
               </div>
               <div className="flex flex-col gap-2">
                 <strong>End date & time</strong>
@@ -107,6 +115,10 @@ const WhitelistForm = () => {
                   className="w-fit rounded-md border-gray-200"
                   type="datetime-local"
                 />
+                {/* <TimezoneSelect
+                  {...whitelistForm.getFieldProps("endDateTimeZone")}
+                  placeholder="Select timezone..."
+                /> */}
               </div>
             </div>
           </article>
