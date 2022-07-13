@@ -86,7 +86,6 @@
     "slick-carousel": "^1.8.1",
     "sweetalert": "^2.1.2",
     "tailwind-merge": "^1.2.0",
-    "tw-elements": "^1.0.0-alpha12",
     "url-parse": "^1.5.10",
     "uuid": "^8.3.2",
     "yup": "^0.32.11"

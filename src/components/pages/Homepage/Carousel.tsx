@@ -3,68 +3,39 @@ import { useEffect, useState } from "react";
 
 import ButtonLink from "@/components/links/ButtonLink";
 
-export default function Carousel() {
-  const slides: { heading: string; description: string; action: string }[] = [
-    {
-      heading: "MiNFT",
-      description:
-        "No code tool for creating, launching, and managing your NFTs.",
-      action: "Join Waitlist",
-    },
-    {
-      heading: "Why MiNFT?",
-      description:
-        "You, the creator, have total control in one easy-to-use tool.",
-      action: "Start Now!",
-    },
-    {
-      heading: "How it works",
-      description:
-        "Create your layers, import your assets, click “Generate” and you are done!",
-      action: "Register interest",
-    },
-    {
-      heading: "MiNFT Contract",
-      description:
-        "Use our templates to create your very own smart contract without code.",
-      action: "Check it out",
-    },
-  ];
+import slides from "./Carousel_Items";
 
+export default function Carousel() {
   const [currentSlide, setCurrentSlide] = useState(1);
 
   const next = () => {
-    currentSlide == 4 ? setCurrentSlide(1) : setCurrentSlide(currentSlide + 1);
+    currentSlide == slides.length ? setCurrentSlide(1) : setCurrentSlide(currentSlide + 1);
   };
 
   const previous = () => {
-    currentSlide == 1 ? setCurrentSlide(4) : setCurrentSlide(currentSlide - 1);
+    currentSlide == 1 ? setCurrentSlide(slides.length) : setCurrentSlide(currentSlide - 1);
   };
 
   const [isPaused, setIsPaused] = useState(false);
 
   useEffect(() => {
-    function next() {
-      currentSlide == 4
-        ? setCurrentSlide(1)
-        : setCurrentSlide(currentSlide + 1);
-    }
-
-    setInterval(() => {
+    const intervalID = setInterval(() => {
       if (!isPaused) {
-        next();
+        next()
       }
     }, 3000);
-  }, []);
+  
+    return () => clearInterval(intervalID)
+  });
 
   return (
     <div>
-      <div className="mb-8 h-[60vh]">
+      <div className="mb-8 h-[55vh]">
         <div className="flex items-center justify-end gap-5 p-5">
           <ButtonLink href="">Contact Us</ButtonLink>
         </div>
         <div className="flex items-center justify-center text-white">
-          <div className="relative flex h-80 w-3/5 overflow-hidden">
+          <div className="relative flex h-80 w-3/5 overflow-hidden ">
             <button
               className="absolute inset-y-1/2 left-0 cursor-default text-3xl text-white"
               onClick={previous}
@@ -80,7 +51,7 @@ export default function Carousel() {
                 key={index}
                 className={
                   index + 1 == currentSlide
-                    ? "mx-auto block h-auto w-4/5 cursor-pointer object-cover font-montserrat"
+                    ? "mx-auto block h-auto w-4/5 font-montserrat"
                     : "hidden"
                 }
                 onMouseEnter={() => {
