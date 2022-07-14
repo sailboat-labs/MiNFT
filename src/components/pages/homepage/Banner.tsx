@@ -17,7 +17,7 @@ export default function Banner() {
         </div>
         <div className=" bottom-0 px-10 pt-36 pb-24 sm:pb-28 md:px-20 lg:py-36">
           <div className="font-dmsans text-8xl font-extrabold text-[#675C4C] sm:text-9xl">
-            MINFT.
+            MiNFT.
           </div>
           <div className="mt-3 font-dmsans text-2xl uppercase">
             No code tool for creating, launching,
