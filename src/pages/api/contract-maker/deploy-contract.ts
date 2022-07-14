@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import { NextApiRequest, NextApiResponse } from "next";
-
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { ethers } = require("ethers");
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     if (req.method == "POST") {
@@ -28,7 +29,39 @@ export default handler;
 
 async function deployContract(payload: any) {
   //
-  console.log(payload);
+
+  const {
+    registryName,
+    registryAddress,
+    factoryName,
+    factoryAddress,
+    contractName,
+  } = payload;
+
+  const registry = await (
+    await ethers.getContractFactory(registryName)
+  ).attach(registryAddress);
+
+  const factory = await (
+    await ethers.getContractFactory(factoryName)
+  ).attach(factoryAddress);
+
+  const contract = await (
+    await ethers.getContractFactory(contractName)
+  ).attach("0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266");
+
+  const data = contract.interface.encodeFunctionData("initialize", []);
+
+  // deploy clone
+  const cloneAddress = factory.deployProxy(contractName, data);
+
+  // get clone contract
+  const clone = await (
+    await ethers.getContractFactory(contractName)
+  ).attach(cloneAddress);
+
+  // initialize clone
+  // clone.initialize(args);
 }
 
 function responder(success: boolean, message: any) {

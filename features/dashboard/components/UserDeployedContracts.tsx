@@ -1,9 +1,119 @@
 import { formatEthAddress } from "eth-address";
+import { ContractFactory, ethers } from "ethers";
 import { useDispatch } from "react-redux";
-import { setSelectedSidebar } from "redux/reducers/slices/dashboard";
 
+import classicmint from "../../../src/data/classicmint.json";
+import factoryData from "../../../src/data/contracts/MiNFTFactory/MiNFTFactory.json";
 export default function DeployedContracts() {
   const dispatch = useDispatch();
+
+  async function deployContract(payload: any) {
+    //
+
+    const {
+      registryName,
+      registryAddress,
+      factoryName,
+      factoryAddress,
+      contractName,
+    } = payload;
+
+    console.log(payload);
+
+    if (window) {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const accounts = await provider.send("eth_requestAccounts", []);
+      const balance = await provider.getBalance(accounts[0]);
+
+      console.log({ accounts, balance });
+
+      const signer = provider.getSigner();
+      console.log("Account:", await signer);
+
+      //Get signers
+      // const jsonRpcProvider = new ethers.providers.JsonRpcProvider(
+      //   `https://rinkeby.infura.io/v3/956539460d854c818fbe498c08afa3de`,
+      //   ethers.providers.getNetwork(4)
+      // );
+      // const jsonRpcSigner = jsonRpcProvider.getSigner(accounts[0]);
+      // console.log(jsonRpcSigner);
+
+      //Factories
+
+      const factory = new ContractFactory(
+        factoryData.abi,
+        factoryData.bytecode,
+        signer
+      );
+
+      const classicFactory = new ContractFactory(
+        classicmint.abi,
+        classicmint.bytecode,
+        signer
+      );
+
+      const attachedFactory = factory.attach(
+        "0xEd9E9666F66e762B9A685193CACAE56FeF0cDd03"
+      );
+      const attachedClassicFactory = classicFactory.attach(
+        "0x0342d3fc7Ca13f25121Ad3f26ecc745eDC121f50"
+      );
+
+      console.log({ attachedFactory, attachedClassicFactory });
+
+      const contractInfo = {
+        name: "Nozomix",
+        symbol: "NZMX",
+        saleConfig: [10, 4, 3, 1, 1, 0, 0],
+      };
+
+      const result = await deploy(
+        signer,
+        attachedFactory,
+        attachedClassicFactory,
+        contractInfo
+      );
+
+      console.log({ result });
+    }
+  }
+
+  async function deploy(
+    signer: ethers.providers.JsonRpcSigner,
+    factory: ethers.Contract,
+    contract: ethers.Contract,
+    payload: any
+  ) {
+    // deploy clone
+    console.log("Deploying");
+
+    const contractType = await contract.contractType();
+
+    console.log({ contractType });
+    const resolvedAddress = await factory.registry();
+    console.log("Registry address", resolvedAddress);
+
+    // get clone address
+    const getClone = await (
+      await factory.deployProxy(contractType, "0x")
+    ).wait();
+
+    const cloneAddress = getClone.events[0].args.proxy;
+    console.log({ cloneAddress });
+    const cloneFactory = new ContractFactory(
+      classicmint.abi,
+      classicmint.bytecode,
+      signer
+    );
+
+    const clone = cloneFactory.attach(cloneAddress);
+
+    // initialize clone
+    clone.initialize(payload.name, payload.symbol, payload.saleConfig);
+
+    return clone;
+  }
+
   return (
     <div className="mt-10 w-full ">
       <div className="flex items-center justify-between">
@@ -16,9 +126,17 @@ export default function DeployedContracts() {
         </div>
         <div
           onClick={() => {
-            dispatch(setSelectedSidebar("contract-maker"));
+            // dispatch(setSelectedSidebar("contract-maker"));
+
+            deployContract({
+              registryName: "MiNFTRegistry",
+              registryAddress: "0x2bb270545daad64D3eDCd2fe282bA19E8027e611",
+              factoryName: "MiNFTFactory",
+              factoryAddress: "0xcea46F8214888F82F5235aDa71A912d118AbC417",
+              contractName: "ClassicMint",
+            });
           }}
-          className="gradient-button "
+          className="gradient-button"
         >
           Add new contract
         </div>

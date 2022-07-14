@@ -1,10 +1,9 @@
 import { formatEthAddress } from "eth-address";
+import DeployedContracts from "features/dashboard/components/UserDeployedContracts";
 import { useSelector } from "react-redux";
 import { getProjectState } from "redux/reducers/selectors/project";
 
 import useStorage from "@/hooks/storage";
-
-import DeployedContracts from "@/components/dashboard/UserDeployedContracts";
 
 import { IProject } from "@/interfaces";
 

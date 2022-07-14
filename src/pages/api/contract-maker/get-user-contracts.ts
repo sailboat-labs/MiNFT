@@ -1,10 +1,7 @@
 /* eslint-disable no-console */
-import { getFirestore } from "firebase/firestore";
 import { NextApiRequest, NextApiResponse } from "next";
-
-import { firebaseApp } from "@/lib/firebase";
-
-const firestore = getFirestore(firebaseApp);
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { ethers } = require("hardhat");
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -31,9 +28,19 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
 export default handler;
 
-async function getAllContracts(account: string) {
+async function getAllContracts(payload: any) {
   //
+
+  const { registryName, registryAddress, account } = payload;
+
   console.log("Getting contracts for", account);
+
+  const registry = await (
+    await ethers.getContractFactory(registryName)
+  ).attach(registryAddress);
+
+  const clones = registry.getAll(account);
+  return clones;
 }
 
 function responder(success: boolean, message: any) {
