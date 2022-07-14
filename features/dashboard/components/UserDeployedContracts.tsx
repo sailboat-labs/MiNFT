@@ -1,14 +1,21 @@
-import { formatEthAddress } from "eth-address";
 import { ContractFactory, ethers } from "ethers";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+
+import PageLoader from "@/components/shared/PageLoader";
 
 import classicmint from "../../../src/data/classicmint.json";
 import factoryData from "../../../src/data/contracts/MiNFTFactory/MiNFTFactory.json";
+import registryData from "../../../src/data/contracts/MiNFTRegistry/MiNFTRegistry.json";
 export default function DeployedContracts() {
   const dispatch = useDispatch();
 
+  const [clones, setClones] = useState([]);
+  const [isDeployingContract, setIsDeployingContract] = useState(false);
+
   async function deployContract(payload: any) {
     //
+    setIsDeployingContract(true);
 
     const {
       registryName,
@@ -75,6 +82,8 @@ export default function DeployedContracts() {
       );
 
       console.log({ result });
+
+      setIsDeployingContract(false);
     }
   }
 
@@ -114,6 +123,35 @@ export default function DeployedContracts() {
     return clone;
   }
 
+  async function getCloneContracts() {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const accounts = await provider.send("eth_requestAccounts", []);
+
+    const signer = provider.getSigner();
+
+    const registry = new ContractFactory(
+      registryData.abi,
+      registryData.bytecode,
+      signer
+    );
+
+    const attachedRegistry = registry.attach(
+      "0xfED68eA5bD49241fC495e9DBD127FC7612EAc26e"
+    );
+
+    const clones = await attachedRegistry.getAll(accounts[0]);
+
+    const contractDetails = [];
+
+    setClones(clones);
+
+    console.log(clones);
+  }
+
+  useEffect(() => {
+    getCloneContracts();
+  }, []);
+
   return (
     <div className="mt-10 w-full ">
       <div className="flex items-center justify-between">
@@ -124,22 +162,28 @@ export default function DeployedContracts() {
             across all networks.
           </div>
         </div>
-        <div
-          onClick={() => {
-            // dispatch(setSelectedSidebar("contract-maker"));
+        {isDeployingContract ? (
+          <PageLoader />
+        ) : (
+          <div
+            onClick={() => {
+              // dispatch(setSelectedSidebar("contract-maker"));
 
-            deployContract({
-              registryName: "MiNFTRegistry",
-              registryAddress: "0x2bb270545daad64D3eDCd2fe282bA19E8027e611",
-              factoryName: "MiNFTFactory",
-              factoryAddress: "0xcea46F8214888F82F5235aDa71A912d118AbC417",
-              contractName: "ClassicMint",
-            });
-          }}
-          className="gradient-button"
-        >
-          Add new contract
-        </div>
+              if (isDeployingContract) return;
+
+              deployContract({
+                registryName: "MiNFTRegistry",
+                registryAddress: "0x2bb270545daad64D3eDCd2fe282bA19E8027e611",
+                factoryName: "MiNFTFactory",
+                factoryAddress: "0xcea46F8214888F82F5235aDa71A912d118AbC417",
+                contractName: "ClassicMint",
+              });
+            }}
+            className="gradient-button"
+          >
+            Add new contract
+          </div>
+        )}
       </div>
 
       <div className="relative mt-10 overflow-x-auto sm:rounded-lg">
@@ -164,48 +208,30 @@ export default function DeployedContracts() {
             </tr>
           </thead>
           <tbody>
-            <tr className="border-b odd:bg-white even:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 odd:dark:bg-gray-800 even:dark:bg-gray-700">
-              <th
-                scope="row"
-                className="whitespace-nowrap py-4 px-6 font-medium text-gray-900 dark:text-white"
+            {clones.map((clone, index) => (
+              <tr
+                key={index}
+                className="border-b odd:bg-white even:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 odd:dark:bg-gray-800 even:dark:bg-gray-700"
               >
-                Nozomix
-              </th>
-              <td className="py-4 px-6">Classic Mint</td>
-              <td className="py-4 px-6">Rinkeby</td>
-              <td className="py-4 px-6">
-                {formatEthAddress("0x65cF0585bD7B236b635DA7077624431DD9cec35e")}
-              </td>
-              <td className="py-4 px-6 text-right">
-                <a
-                  href="#"
-                  className="font-medium text-blue-600 hover:underline dark:text-blue-500"
+                <th
+                  scope="row"
+                  className="whitespace-nowrap py-4 px-6 font-medium text-gray-900 dark:text-white"
                 >
-                  Delete
-                </a>
-              </td>
-            </tr>
-            <tr className="border-b odd:bg-white even:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 odd:dark:bg-gray-800 even:dark:bg-gray-700">
-              <th
-                scope="row"
-                className="whitespace-nowrap py-4 px-6 font-medium text-gray-900 dark:text-white"
-              >
-                Nozomix
-              </th>
-              <td className="py-4 px-6">Classic Mint</td>
-              <td className="py-4 px-6">Rinkeby</td>
-              <td className="py-4 px-6">
-                {formatEthAddress("0x65cF0585bD7B236b635DA7077624431DD9cec35e")}
-              </td>
-              <td className="py-4 px-6 text-right">
-                <a
-                  href="#"
-                  className="font-medium text-blue-600 hover:underline dark:text-blue-500"
-                >
-                  Delete
-                </a>
-              </td>
-            </tr>
+                  Nozomix
+                </th>
+                <td className="py-4 px-6">Classic Mint</td>
+                <td className="py-4 px-6">Rinkeby</td>
+                <td className="py-4 px-6">{clone}</td>
+                <td className="py-4 px-6 text-right">
+                  <a
+                    href="#"
+                    className="font-medium text-blue-600 hover:underline dark:text-blue-500"
+                  >
+                    Delete
+                  </a>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
