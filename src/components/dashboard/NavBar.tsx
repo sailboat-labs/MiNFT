@@ -20,7 +20,7 @@ export default function Navbar({ title, endChildren }: NavBarProps) {
           <span className="pl-6 text-xl font-bold text-gray-700">{title}</span>
           <div className="flex items-center gap-5">
             {endChildren}
-            <div className="flex h-10 items-center gap-3 border-l-2 pl-5">
+            <div className="hidden h-10 items-center gap-3 border-l-2 pl-5 xl:flex">
               <img
                 className="h-full w-fit rounded-full"
                 src={PROFILE_IMAGE}

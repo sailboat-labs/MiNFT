@@ -9,9 +9,9 @@ import {
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import { useMoralis } from "react-moralis";
 
 import { firebaseApp } from "@/lib/firebase";
+import useStorage from "@/hooks/storage";
 
 import { IProject } from "@/interfaces";
 
@@ -19,12 +19,16 @@ const firestore = getFirestore(firebaseApp);
 
 export default function AllProjects() {
   const [allProjects, setAllProjects] = useState<IProject[]>([]);
-  const { account, logout, isAuthenticated } = useMoralis();
   const router = useRouter();
+  const { getItem, setItem, removeItem } = useStorage();
 
   const _query = query(
     collection(firestore, `Projects`),
-    where("owner", "==", account),
+    where(
+      "owner",
+      "==",
+      (getItem("isAuthenticated") == "true" ? getItem("account") : "") ?? ""
+    ),
     limit(100)
   );
   const [snapshots, loading] = useCollectionData(_query);

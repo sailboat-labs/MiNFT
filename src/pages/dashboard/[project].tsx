@@ -10,7 +10,6 @@ import {
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import { useMoralis } from "react-moralis";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getDashboardState,
@@ -21,14 +20,17 @@ import { setSlideInModalConfig } from "redux/reducers/slices/dashboard";
 import { setProject } from "redux/reducers/slices/project";
 
 import { firebaseApp } from "@/lib/firebase";
+import useStorage from "@/hooks/storage";
 
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
 import Whitelist from "@/components/dashboard/Whitelist";
+import ComingSoon from "@/components/layout/ComingSoon";
 import AddLayer from "@/components/nft/AddLayer";
 import TraitsSearchbar from "@/components/nft/TraitsSearchbar";
 import ContractMakerView from "@/components/pages/Dashboard/contract-maker";
 import DashboardHome from "@/components/pages/Dashboard/dashboard-home";
 import NFTGenerator from "@/components/pages/Dashboard/NftGenerator";
+import DevPage from "@/components/pages/dev/dev";
 import PageLoader from "@/components/shared/PageLoader";
 
 import { enumNFTGenConfig } from "@/enums/nft-gen-configurations";
@@ -40,8 +42,11 @@ export default function DashboardHomePage() {
   const dashboardState = useSelector(getDashboardState) as IDashboardState;
   const selectedSidebar = dashboardState.selectedSidebar;
   const router = useRouter();
-  const { account, logout, isAuthenticated } = useMoralis();
   const dispatch = useDispatch();
+  const { getItem, setItem, removeItem } = useStorage();
+
+  const account =
+    (getItem("isAuthenticated") == "true" ? getItem("account") : "") ?? "";
 
   const content: {
     component: any;
@@ -69,6 +74,21 @@ export default function DashboardHomePage() {
       component: <Whitelist />,
       value: "whitelist",
       label: "Whitelist",
+    },
+    {
+      component: <ComingSoon />,
+      value: "marketing",
+      label: "Marketing",
+    },
+    {
+      component: <ComingSoon />,
+      value: "ip-rights",
+      label: "IP Rights",
+    },
+    {
+      component: <DevPage />,
+      value: "dev-page",
+      label: "Development Eyes",
     },
   ];
 
@@ -130,6 +150,7 @@ export default function DashboardHomePage() {
     return (
       <div className="flex h-screen w-screen items-center justify-center">
         <PageLoader />
+        Getting things ready for you...
       </div>
     );
 
@@ -153,6 +174,7 @@ export default function DashboardHomePage() {
 function NFTGeneratorTitleOptions() {
   const slideInModalState = useSelector(getSlideInModalState);
   const dispatch = useDispatch();
+
   return (
     <div className="flex items-center gap-3">
       <TraitsSearchbar />
@@ -188,7 +210,7 @@ function NFTGeneratorTitleOptions() {
             d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
           />
         </svg>
-        Settings
+        <span className="hidden xl:inline">Settings</span>
       </div>
     </div>
   );

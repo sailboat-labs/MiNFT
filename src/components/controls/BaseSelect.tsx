@@ -4,11 +4,12 @@ import React, { Fragment, useEffect, useState } from "react";
 import { SelectOption } from "@/interfaces";
 
 interface AppProps {
-  options: SelectOption[];
   showCheck?: boolean;
   buttonClass?: string;
-  selectorIconColor?: string;
+  options: SelectOption[];
   theme?: "light" | "dark";
+  selectorIconColor?: string;
+  defaultValue?: SelectOption;
   onChange?: (value: SelectOption) => void;
 }
 
@@ -16,12 +17,13 @@ const BaseSelect = ({
   options,
   onChange,
   buttonClass,
+  defaultValue,
   theme = "light",
   showCheck = true,
   selectorIconColor = "white",
 }: AppProps) => {
   const [selected, setSelected] = useState(
-    options.length > 0 ? options[0] : { name: "Pass Options" }
+    defaultValue || options[0] || { name: "Default" }
   );
 
   useEffect(() => {
@@ -31,14 +33,14 @@ const BaseSelect = ({
   }, [selected]);
 
   return (
-    <Listbox value={selected} onChange={setSelected}>
+    <Listbox value={selected} onChange={(value) => setSelected(value)}>
       <div className="relative mt-1">
         <Listbox.Button
           className={`${
             theme === "light"
               ? "bg-white text-gray-800"
-              : "bg-indigo-800 text-white dark:text-gray-200"
-          } relative w-full cursor-default rounded-lg  py-2 pl-3 pr-10 text-left  ring-1 ring-gray-200 focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 sm:text-sm ${buttonClass}`}
+              : "bg-indigo-800 text-white"
+          } relative w-full cursor-default rounded-lg  py-2 pl-3 pr-8 text-left  ring-1 ring-gray-200 focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 sm:text-sm ${buttonClass}`}
         >
           <span className="block truncate">{selected.name}</span>
           <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
@@ -69,7 +71,7 @@ const BaseSelect = ({
               <Listbox.Option
                 key={optionIdx}
                 className={({ active }) =>
-                  `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                  `relative cursor-default select-none py-2 pl-4 pr-4 ${
                     active ? "bg-indigo-100 text-indigo-800" : "text-gray-900"
                   }`
                 }
@@ -84,7 +86,7 @@ const BaseSelect = ({
                     >
                       {option.name}
                     </span>
-                    {selected ? (
+                    {/* {selected ? (
                       <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-indigo-800">
                         {showCheck && (
                           <svg
@@ -101,7 +103,7 @@ const BaseSelect = ({
                           </svg>
                         )}
                       </span>
-                    ) : null}
+                    ) : null} */}
                   </>
                 )}
               </Listbox.Option>

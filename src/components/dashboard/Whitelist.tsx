@@ -29,7 +29,7 @@ export default function Whitelist() {
   };
 
   return (
-    <div className="min-h-screen font-dmsans opacity-100">
+    <div className="h-[length:calc(100vh-80px)] overflow-auto font-dmsans opacity-100">
       <div className=" pl-10 pt-24 ">
         <div>
           <div className="-mt-16 text-2xl font-bold text-gray-700">

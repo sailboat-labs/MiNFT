@@ -1,7 +1,6 @@
 import { Tab } from "@headlessui/react";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
 import { getLayers, getSearchFilter } from "redux/reducers/selectors/layers";
 
 import GenerateToken from "@/components/nft/GenerateToken";
@@ -21,8 +20,6 @@ const NFTGenerator = ({ router }: any) => {
   const layers = useSelector(getLayers);
   const searchFilter = useSelector(getSearchFilter);
   const [animateLayersIn, setAnimateLayersIn] = useState(false);
-  const dispatch = useDispatch();
-  const [sampleModal, setSampleModal] = useState(false);
 
   function handleTraitChanged({
     groupName,
@@ -72,7 +69,7 @@ const NFTGenerator = ({ router }: any) => {
             )}
 
             {layers.length > 0 && (
-              <div className="flex w-full">
+              <div className="flex w-full flex-col-reverse justify-between gap-10 2xl:flex-row">
                 <div className="h-screen w-full overflow-y-hidden border-r">
                   {/* <NewProperty /> */}
 
@@ -84,7 +81,7 @@ const NFTGenerator = ({ router }: any) => {
             </div> */}
 
                   {layers.length > 0 && (
-                    <div className="mt-0 h-[length:calc(100vh-60px)] w-full min-w-[900px] flex-col gap-10 overflow-y-auto px-10 pb-10">
+                    <div className="mt-0 h-auto w-full min-w-[900px] flex-col gap-10 overflow-y-auto px-10 pb-10 2xl:h-[length:calc(100vh-60px)]">
                       <>
                         {layers
                           .filter((layer: ILayer) => {
@@ -120,8 +117,8 @@ const NFTGenerator = ({ router }: any) => {
                     </div>
                   )}
                 </div>
-                <div className="h-screen w-[40%]">
-                  <section className="flex w-[29rem] flex-col justify-center pl-20">
+                <div className="flex items-start  justify-center px-4 2xl:w-[40%]">
+                  <section className="flex flex-col justify-center">
                     <div className="flex gap-5 pt-10">
                       {/* {tabs.map((tab, index) => (
                 <div

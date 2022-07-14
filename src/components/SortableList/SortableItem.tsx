@@ -31,7 +31,7 @@ function SortableItem({ id, enabled, value }: AppProps) {
       </div>
       {/* <Switch
         checked={enabled}
-        onChange={() => toggleTrait(id)}
+        onChange={() => toggleTrait(value)}
         className={`${
           enabled ? "bg-blue-600" : "bg-gray-200"
         } relative inline-flex h-6 w-11 items-center rounded-full`}

@@ -54,6 +54,10 @@
     src: url("../../public/fonts/Montserrat-Regular.ttf");
   }
 
+  * {
+    font-family: "DMSans", "sans-serif";
+  }
+
   html {
     /* background-color: black; */
 

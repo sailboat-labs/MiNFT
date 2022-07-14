@@ -1,10 +1,13 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
+import { useSelector } from "react-redux";
+import { getLayers } from "redux/reducers/selectors/layers";
 
 import NewProperty from "./NewProperty";
 
 export default function AddLayer() {
   const [isOpen, setIsOpen] = useState(false);
+  const layers = useSelector(getLayers);
 
   function closeModal() {
     setIsOpen(false);
@@ -20,7 +23,9 @@ export default function AddLayer() {
         onClick={() => {
           openModal();
         }}
-        className="flex cursor-pointer items-center gap-2 rounded border px-2 py-1 transition-all hover:bg-gray-100"
+        className={`flex cursor-pointer items-center gap-2 rounded border px-2 py-1 transition-all hover:bg-gray-100 ${
+          layers.length === 0 && "hidden"
+        }`}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -36,7 +41,7 @@ export default function AddLayer() {
             d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
           />
         </svg>
-        Add layer
+        <span className="hidden xl:inline">Add layer</span>
       </div>
 
       <Transition appear show={isOpen} as={Fragment}>
