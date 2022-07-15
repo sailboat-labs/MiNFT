@@ -2,6 +2,8 @@ import { ErrorMessage, useField } from "formik";
 import React from "react";
 
 export default function Input({ label = "none", ...props }) {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   const [field, meta] = useField(props);
 
   return (
@@ -17,7 +19,7 @@ export default function Input({ label = "none", ...props }) {
       <ErrorMessage
         component="div"
         name={field.name}
-        className="pt-1 text-red-500 font-dmsans"
+        className="pt-1 font-dmsans text-red-500"
       />
     </div>
   );
