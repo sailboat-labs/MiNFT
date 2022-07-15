@@ -15,9 +15,9 @@ export default function Footer() {
   const currentYear = date.getFullYear();
 
   return (
-    <div className="h-auto w-full bg-indigo-800 pb-10 font-montserrat text-white">
+    <div className="h-auto w-full bg-indigo-800 pb-10 font-montserrat text-white dark:text-gray-200">
       <div className="m-auto flex w-10/12 flex-col justify-between pt-10 sm:flex-row">
-        <div className="h-10 w-96 text-base text-white opacity-100">
+        <div className="h-10 w-96 text-base text-white opacity-100 dark:text-gray-700">
           <div>Copyright &copy; {currentYear}</div>
           <div>NFT Trait Combo. All rights reserved.</div>
         </div>

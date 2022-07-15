@@ -74,7 +74,7 @@ export default function GenerateToken() {
   return (
     <div>
       {/* <div className="mt-5 rounded-lg bg-[#30489C] px-5 py-3">
-        <div className="text-white">Collection Size</div>
+        <div className="text-white dark:text-gray-200">Collection Size</div>
         <div className="mt-2 rounded-lg bg-white">
           <input placeholder="Supply" className="bg-transparent px-5 py-2" />
           <span className="text-[#30489C]">Max</span>
@@ -159,7 +159,7 @@ export default function GenerateToken() {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className=" min-h-screen w-screen transform overflow-hidden bg-white p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className=" ml-[15rem] min-h-screen w-screen transform overflow-hidden bg-white p-6 text-left align-middle shadow-xl transition-all">
                   <Dialog.Title
                     as="h3"
                     className="text-lg font-medium leading-6 text-gray-900"

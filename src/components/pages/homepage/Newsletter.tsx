@@ -12,7 +12,7 @@ import { useState } from "react";
 
 //   return (
 //     <div className="mx-auto mb-20 flex w-4/5 flex-col font-montserrat">
-//       <div className="flex flex-row items-center justify-between rounded-2xl bg-indigo-800 px-10 py-8 text-white lg:px-16 lg:py-10  ">
+//       <div className="flex flex-row items-center justify-between rounded-2xl bg-indigo-800 px-10 py-8 text-white dark:text-gray-200 lg:px-16 lg:py-10  ">
 //         <div className="flex flex-row sm:flex-col">
 //           <span className="text-2xl font-bold">
 //             Want product news and updates?
@@ -51,7 +51,7 @@ import { useState } from "react";
 //                   <a
 //                     href="#"
 //                     target="_blank"
-//                     className="font-bold text-white underline"
+//                     className="font-bold text-white dark:text-gray-200 underline"
 //                   >
 //                     Privacy Policy.
 //                   </a>
@@ -94,7 +94,7 @@ export default function Newsletter() {
 
   return (
     <div className="mx-auto mb-20 flex w-2/3 flex-col font-montserrat">
-      <div className="flex flex-row items-center justify-between rounded-2xl bg-indigo-800 px-10 py-8 text-white lg:px-10 lg:py-10  ">
+      <div className="flex flex-row items-center justify-between rounded-2xl bg-indigo-800 px-10 py-8 text-white dark:text-gray-200 lg:px-10 lg:py-10  ">
         <div className="flex flex-row sm:flex-col">
           <span className="text-2xl font-bold">
             Want product news and updates?
@@ -126,7 +126,7 @@ export default function Newsletter() {
               <a
                 href="#"
                 target="_blank"
-                className="font-bold text-white underline"
+                className="font-bold text-white underline dark:text-gray-700"
               >
                 Privacy Policy.
               </a>

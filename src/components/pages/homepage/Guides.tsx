@@ -39,7 +39,7 @@ export default function Guides() {
         {guides.map((guide, index) => (
           <div
             key={index}
-            className="mb-12 flex flex-row items-center justify-between rounded-2xl bg-indigo-800 px-10 py-8 text-white lg:h-96 lg:px-16 lg:py-10  "
+            className="mb-12 flex flex-row items-center justify-between rounded-2xl bg-indigo-800 px-10 py-8 text-white dark:text-gray-200 lg:h-96 lg:px-16 lg:py-10  "
           >
             <div className="flex flex-col justify-center lg:w-[30rem]">
               <div className="text-2xl font-bold">{guide.title}</div>

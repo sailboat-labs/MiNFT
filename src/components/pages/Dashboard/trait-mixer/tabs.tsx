@@ -1,6 +1,6 @@
 import { Tab } from "@headlessui/react";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getLayers, getSearchFilter } from "redux/reducers/selectors/layers";
 
 import GenerateToken from "@/components/nft/GenerateToken";
@@ -16,10 +16,63 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-const NFTGenerator = ({ router }: any) => {
+export default function TraitMixerTabs() {
+  const [categories] = useState({
+    Recent: [
+      {
+        id: 1,
+        title: "Does drinking coffee make you smarter?",
+        date: "5h ago",
+        commentCount: 5,
+        shareCount: 2,
+      },
+      {
+        id: 2,
+        title: "So you've bought coffee... now what?",
+        date: "2h ago",
+        commentCount: 3,
+        shareCount: 2,
+      },
+    ],
+    Popular: [
+      {
+        id: 1,
+        title: "Is tech making coffee better or worse?",
+        date: "Jan 7",
+        commentCount: 29,
+        shareCount: 16,
+      },
+      {
+        id: 2,
+        title: "The most innovative things happening in coffee",
+        date: "Mar 19",
+        commentCount: 24,
+        shareCount: 12,
+      },
+    ],
+    Trending: [
+      {
+        id: 1,
+        title: "Ask Me Anything: 10 answers to your questions about coffee",
+        date: "2d ago",
+        commentCount: 9,
+        shareCount: 5,
+      },
+      {
+        id: 2,
+        title: "The worst advice we've ever heard about coffee",
+        date: "4d ago",
+        commentCount: 1,
+        shareCount: 2,
+      },
+    ],
+  });
+
   const layers = useSelector(getLayers);
   const searchFilter = useSelector(getSearchFilter);
   const [animateLayersIn, setAnimateLayersIn] = useState(false);
+  const dispatch = useDispatch();
+  const [sampleModal, setSampleModal] = useState(false);
 
   function handleTraitChanged({
     groupName,
@@ -42,19 +95,19 @@ const NFTGenerator = ({ router }: any) => {
   }, [animateLayersIn]);
 
   return (
-    <div className="w-full ">
+    <div className="w-full max-w-md px-2 py-16 sm:px-0">
       <Tab.Group>
-        <Tab.List className="flex w-fit space-x-1  rounded  p-1">
+        <Tab.List className="flex space-x-1 rounded-xl bg-blue-900/20 p-1">
           {["Design", "Settings", "Generate"].map((category) => (
             <Tab
               key={category}
               className={({ selected }) =>
                 classNames(
-                  "w-full rounded py-2.5 px-16 text-sm font-medium leading-5 text-blue-700",
+                  "w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-blue-700",
                   "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2",
                   selected
-                    ? "border bg-indigo-100"
-                    : "border text-gray-500 hover:bg-white/[0.12] hover:text-white"
+                    ? "bg-white shadow"
+                    : "text-blue-100 hover:bg-white/[0.12] hover:text-white"
                 )
               }
             >
@@ -69,7 +122,7 @@ const NFTGenerator = ({ router }: any) => {
             )}
 
             {layers.length > 0 && (
-              <div className="flex w-full flex-col-reverse justify-between gap-10 2xl:flex-row">
+              <div className="flex w-full">
                 <div className="h-screen w-full overflow-y-hidden border-r">
                   {/* <NewProperty /> */}
 
@@ -81,7 +134,7 @@ const NFTGenerator = ({ router }: any) => {
             </div> */}
 
                   {layers.length > 0 && (
-                    <div className="mt-0 h-auto w-full min-w-[900px] flex-col gap-10 overflow-y-auto px-10 pb-10 2xl:h-[length:calc(100vh-60px)]">
+                    <div className="mt-0 h-[length:calc(100vh-60px)] w-full min-w-[900px] flex-col gap-10 overflow-y-auto px-10 pb-10">
                       <>
                         {layers
                           .filter((layer: ILayer) => {
@@ -117,8 +170,8 @@ const NFTGenerator = ({ router }: any) => {
                     </div>
                   )}
                 </div>
-                <div className="flex items-start  justify-center px-4 2xl:w-[40%]">
-                  <section className="flex flex-col justify-center">
+                <div className="h-screen w-[40%]">
+                  <section className="flex w-[29rem] flex-col justify-center pl-20">
                     <div className="flex gap-5 pt-10">
                       {/* {tabs.map((tab, index) => (
                 <div
@@ -146,6 +199,4 @@ const NFTGenerator = ({ router }: any) => {
       </Tab.Group>
     </div>
   );
-};
-
-export default NFTGenerator;
+}

@@ -101,7 +101,7 @@ export default function useAuthenticationDialog() {
         <div className="pb-10 text-lg font-medium leading-6 text-gray-900">
           <div className="flex items-center justify-between">
             {isAuthenticating ? (
-              <div className="flex items-center gap-2 fill-black dark:fill-white dark:text-white">
+              <div className="flex items-center gap-2 fill-black dark:fill-white dark:text-white dark:text-gray-200">
                 <svg
                   role="status"
                   className="mr-2 inline h-4 w-4 animate-spin text-gray-200 "
@@ -123,7 +123,9 @@ export default function useAuthenticationDialog() {
             ) : isInitializing ? (
               "Initializing"
             ) : (
-              <div className="dark:text-white">Connect your wallet</div>
+              <div className="dark:text-white dark:text-gray-200">
+                Connect your wallet
+              </div>
             )}
             <svg
               onClick={() =>
