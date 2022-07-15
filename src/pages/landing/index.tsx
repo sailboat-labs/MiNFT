@@ -9,7 +9,7 @@ import SectionTwo from "@/components/landing-page/SectionTwo";
 
 export default function LandingPage() {
   return (
-    <section>
+    <section className="h-screen overflow-y-auto">
       <div className="bg-[#006C35] font-dmsans">
         <Header />
         <Banner />

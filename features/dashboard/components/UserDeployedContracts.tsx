@@ -2,8 +2,6 @@ import { ContractFactory, ethers } from "ethers";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
-import PageLoader from "@/components/shared/PageLoader";
-
 import classicmint from "../../../src/data/classicmint.json";
 import factoryData from "../../../src/data/contracts/MiNFTFactory/MiNFTFactory.json";
 import registryData from "../../../src/data/contracts/MiNFTRegistry/MiNFTRegistry.json";
@@ -162,7 +160,7 @@ export default function DeployedContracts() {
             across all networks.
           </div>
         </div>
-        {isDeployingContract ? (
+        {/* {isDeployingContract ? (
           <PageLoader />
         ) : (
           <div
@@ -183,7 +181,7 @@ export default function DeployedContracts() {
           >
             Add new contract
           </div>
-        )}
+        )} */}
       </div>
 
       <div className="relative mt-10 overflow-x-auto sm:rounded-lg">
