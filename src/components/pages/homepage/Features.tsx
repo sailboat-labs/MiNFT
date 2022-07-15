@@ -50,7 +50,9 @@ export default function Features() {
       <div className="grid w-fit grid-cols-1 gap-10 px-10 md:grid-cols-2">
         {features.map((feature, index) => (
           <div key={index} className="flex items-center gap-5">
-            <span className="w-5 text-5xl text-white">{index + 1}</span>
+            <span className="w-5 text-5xl text-white dark:text-gray-200">
+              {index + 1}
+            </span>
             <div className="flex max-w-lg gap-5 rounded-lg border bg-gray-100 px-5 py-3 lg:px-10 lg:py-5 lg:pr-20">
               <div className="flex items-center ">{feature.icon}</div>
               <div>

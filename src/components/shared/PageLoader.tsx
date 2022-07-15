@@ -7,11 +7,9 @@ type props = {
 
 const PageLoader = ({ className }: props) => {
   return (
-    <div
-      className={`z-[1000] flex items-center justify-center bg-white  bg-opacity-60  ${className}`}
-    >
+    <div className={`z-[1000] flex items-center justify-center  ${className}`}>
       <div className="flex items-center gap-4 rounded-lg">
-        <div className="relative flex h-[60px] w-[60px] items-center justify-center p-3">
+        <div className="relative flex h-[50px] w-[50px] items-center justify-center p-3">
           <svg
             role="status"
             className=" inline h-48 w-48 animate-spin fill-indigo-500 text-gray-200"

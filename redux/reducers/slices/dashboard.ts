@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const dashboardStore = createSlice({
   name: "dashboard",
   initialState: {
-    selectedSidebar: "nft-generator",
+    selectedSidebar: "dashboard-home",
     slideInModalConfig: {
       slideFrom: "right",
       show: false,

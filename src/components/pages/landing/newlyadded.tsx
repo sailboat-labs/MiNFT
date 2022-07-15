@@ -232,10 +232,10 @@ export default function NewlyAdded() {
                           src={item.image}
                           alt=""
                         />
-                        <p className=" text-center text-2xl text-white">
+                        <p className=" text-center text-2xl text-white dark:text-gray-200">
                           {item.name}
                         </p>
-                        <p className="text-center text-sm uppercase text-white">
+                        <p className="text-center text-sm uppercase text-white dark:text-gray-200">
                           {item.projectType}
                         </p>
                       </div>

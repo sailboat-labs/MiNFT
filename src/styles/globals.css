@@ -90,7 +90,7 @@
   }
 
   .gradient-button {
-    @apply w-fit cursor-pointer rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 px-5 py-2 text-white transition-all hover:scale-105 hover:opacity-90;
+    @apply w-fit cursor-pointer rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 px-5 py-2 text-white transition-all hover:scale-105 hover:opacity-90 dark:text-gray-700;
   }
 
   .disabled-button {
@@ -203,3 +203,28 @@ input[id="walletNumber"]:focus {
   -moz-box-shadow: none;
   -webkit-box-shadow: none;
 }
+
+textarea[id="banner-heading"]:focus,
+textarea[id="sectiontwo-heading"]:focus, 
+textarea[id="sectiontwo-paragraph"]:focus,
+textarea[id="sectionthree-heading"]:focus, 
+textarea[id="sectionthree-paragraph"]:focus,
+input[id="sectionthree-highlight"]:focus,
+input[id="sectionfour-heading"]:focus,
+input[id="cryptoPunks"]:focus,
+input[id="label1"]:focus,
+input[id="bitcoins"]:focus,
+input[id="label2"]:focus,
+input[id="oilbarrels"]:focus,
+input[id="label3"]:focus, 
+textarea[id="join-heading"]:focus,
+input[id="contact-input"]:focus {
+  border-width: 0px;
+  outline: 0;
+  -webkit-appearance: none;
+  box-shadow: none;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+}
+
+

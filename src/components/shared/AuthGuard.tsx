@@ -99,6 +99,8 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
     }
   }, [activeAccount, account, isAuthenticated]);
 
+  if (environment != "development") return <div></div>;
+
   if (!activeAccount || activeAccount?.trim() == "") {
     return (
       <Layout>
@@ -114,7 +116,7 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
               </Link>
               <div className="mt-20 flex w-fit flex-col items-center justify-between text-3xl">
                 {isAuthenticating ? (
-                  <div className="flex items-center gap-2 fill-black dark:fill-white dark:text-white">
+                  <div className="flex items-center gap-2 fill-black dark:fill-white dark:text-white dark:text-gray-200">
                     <svg
                       role="status"
                       className="mr-2 inline h-4 w-4 animate-spin text-gray-200 "
@@ -136,7 +138,7 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
                 ) : isInitializing ? (
                   "Initializing"
                 ) : (
-                  <div className="font-dmsans  dark:text-white">
+                  <div className="font-dmsans  dark:text-white dark:text-gray-200">
                     Connect your wallet to continue
                   </div>
                 )}

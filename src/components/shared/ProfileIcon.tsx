@@ -81,7 +81,9 @@ export default function ProfileIcon() {
                   {({ active }: any) => (
                     <button
                       className={`${
-                        active ? " text-white" : "text-gray-900 "
+                        active
+                          ? " text-white dark:text-gray-200"
+                          : "text-gray-900 "
                       } group flex w-full items-center rounded-md px-2 py-2 text-sm font-bold`}
                     >
                       {account && (user?.name ?? formatEthAddress(account!))}
@@ -92,14 +94,16 @@ export default function ProfileIcon() {
                   {({ active }: any) => (
                     <div
                       className={`${
-                        active ? "bg-primaryblue text-white" : "text-gray-900 "
+                        active
+                          ? "bg-primaryblue text-white dark:text-gray-200"
+                          : "text-gray-900 "
                       } group flex w-full cursor-pointer items-center rounded-md px-2 py-2 text-sm `}
                     >
                       <Link href="/profile" passHref>
                         <div
                           className={`${
                             active
-                              ? "bg-primaryblue text-white"
+                              ? "bg-primaryblue text-white dark:text-gray-200"
                               : "text-gray-900 "
                           } group flex w-full items-center rounded-md py-0 text-sm `}
                         >
@@ -113,14 +117,14 @@ export default function ProfileIcon() {
                   {({ active }: any) => (
                     <div
                       className={`${
-                        active ? "bg-primaryblue text-white" : "text-gray-900 "
+                        active ? "bg-primaryblue text-white dark:text-gray-200" : "text-gray-900 "
                       } group flex w-full cursor-pointer items-center rounded-md px-2 py-2 text-sm `}
                     >
                       <Link href="/watchlist" passHref>
                         <div
                           className={`${
                             active
-                              ? "bg-primaryblue text-white"
+                              ? "bg-primaryblue text-white dark:text-gray-200"
                               : "text-gray-900 "
                           } group flex w-full items-center rounded-md py-0 text-sm `}
                         >
@@ -134,14 +138,14 @@ export default function ProfileIcon() {
                   {({ active }: any) => (
                     <div
                       className={`${
-                        active ? "bg-primaryblue text-white" : "text-gray-900 "
+                        active ? "bg-primaryblue text-white dark:text-gray-200" : "text-gray-900 "
                       } group flex w-full cursor-pointer items-center rounded-md px-2 py-2 text-sm `}
                     >
                       <Link href="/comments" passHref>
                         <div
                           className={`${
                             active
-                              ? "bg-primaryblue text-white"
+                              ? "bg-primaryblue text-white dark:text-gray-200"
                               : "text-gray-900 "
                           } group flex w-full items-center rounded-md py-0 text-sm `}
                         >
@@ -158,7 +162,9 @@ export default function ProfileIcon() {
                     <button
                       onClick={logout}
                       className={`${
-                        active ? "bg-primaryblue text-white" : "text-gray-900 "
+                        active
+                          ? "bg-primaryblue text-white dark:text-gray-200"
+                          : "text-gray-900 "
                       } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                     >
                       Disconnect

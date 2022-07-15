@@ -30,6 +30,7 @@ import TraitsSearchbar from "@/components/nft/TraitsSearchbar";
 import ContractMakerView from "@/components/pages/Dashboard/contract-maker";
 import DashboardHome from "@/components/pages/Dashboard/dashboard-home";
 import NFTGenerator from "@/components/pages/Dashboard/NftGenerator";
+import DevPage from "@/components/pages/dev/dev";
 import PageLoader from "@/components/shared/PageLoader";
 
 import { enumNFTGenConfig } from "@/enums/nft-gen-configurations";
@@ -83,6 +84,11 @@ export default function DashboardHomePage() {
       component: <ComingSoon />,
       value: "ip-rights",
       label: "IP Rights",
+    },
+    {
+      component: <DevPage />,
+      value: "dev-page",
+      label: "Development Eyes",
     },
   ];
 
@@ -144,6 +150,7 @@ export default function DashboardHomePage() {
     return (
       <div className="flex h-screen w-screen items-center justify-center">
         <PageLoader />
+        Getting things ready for you...
       </div>
     );
 
