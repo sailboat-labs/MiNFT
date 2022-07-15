@@ -7,7 +7,7 @@ export default function SectionTwo() {
   const [heading, setHeading] = useState("Inshallah we will take over");
 
   const changeHeading = (e: any) => {
-    e.preventDefault(); 
+    e.preventDefault();
     setHeading(e.target.value);
   };
 
@@ -34,12 +34,12 @@ export default function SectionTwo() {
 
   return (
     <div>
-      <div className=" pt-40 text-white">
-        <div className="mx-auto w-2/3 text-center">
+      <div className="pt-20 md:pt-32 lg:pt-40 text-white">
+        <div className="mx-auto w-4/5 text-center md:w-4/5 lg:w-2/3">
           <div className="">
             <textarea
               id="sectiontwo-heading"
-              className="font-bold h-auto w-full resize-none overflow-hidden whitespace-normal border-0 bg-transparent p-0 text-center font-serif text-9xl italic leading-tight"
+              className="h-[18rem] w-full resize-none overflow-hidden whitespace-normal border-0 bg-transparent p-0 text-center font-serif text-6xl font-bold italic leading-tight md:h-80 md:text-8xl lg:h-auto lg:text-9xl"
               value={heading}
               onChange={changeHeading}
               onKeyDown={handleKeyDown}
@@ -49,19 +49,18 @@ export default function SectionTwo() {
           </div>
           <div>
             <textarea
-              rows={5}
               id="sectiontwo-paragraph"
-              className="h-auto resize-x w-2/3 overflow-hidden whitespace-normal border-0 bg-transparent p-10 text-center font-dmsans text-base leading-relaxed"
+              className="md:h-96 lg:h-[15rem] h-[30rem] w-full lg:w-2/3 resize-none overflow-hidden whitespace-normal border-0 bg-transparent p-10 text-center font-dmsans text-xl lg:text-base leading-relaxed"
               value={aboutText}
               onChange={changeAboutText}
               onKeyDown={handleKeyDownOnAbout}
               onBlur={changeAboutText}
             />
           </div>
-          <div className="pt-3 pb-5 flex justify-center">
+          <div className="pt-10 flex justify-center md:pt-3 pb-5">
             <ButtonLink
               href=""
-              className="rounded-xl border-0 bg-[#006C35] py-6 px-20 hover:bg-black"
+              className="rounded-xl border-0 bg-[#006C35] py-6 px-20 hover:bg-black text-xl"
             >
               Say Inshallah
             </ButtonLink>

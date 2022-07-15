@@ -206,7 +206,7 @@ textarea[id="sectiontwo-paragraph"]:focus,
 textarea[id="sectionthree-heading"]:focus, 
 textarea[id="sectionthree-paragraph"]:focus,
 input[id="sectionthree-highlight"]:focus,
-input[id="sectionfour-heading"]:focus,
+textarea[id="sectionfour-heading"]:focus,
 input[id="cryptoPunks"]:focus,
 input[id="label1"]:focus,
 input[id="bitcoins"]:focus,
@@ -214,6 +214,7 @@ input[id="label2"]:focus,
 input[id="oilbarrels"]:focus,
 input[id="label3"]:focus, 
 textarea[id="join-heading"]:focus,
+textarea[id="contact-heading"]:focus,
 input[id="contact-input"]:focus {
   border-width: 0px;
   outline: 0;

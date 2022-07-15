@@ -51,20 +51,19 @@ export default function SectionFour() {
   };
 
   return (
-    <div className="pt-40 pb-28">
+    <div className="pt-32 pb-20 sm:pb-28 lg:pt-40">
       <div className="text-white">
         <div className="mx-auto w-4/5">
-          <input
-            type="text"
+          <textarea
             id="sectionfour-heading"
             value={heading}
             onChange={changeHeading}
             onBlur={changeHeading}
-            className="w-full border-0 bg-transparent text-center font-serif text-8xl italic"
+            className="h-[25rem] w-full resize-none border-0 bg-transparent text-center font-serif text-8xl italic md:h-52 lg:h-28"
           />
         </div>
-        <div className="mx-auto flex w-2/3 flex-row justify-between pt-10 font-dmsans">
-          <div className="flex flex-col">
+        <div className="mx-auto flex w-full flex-col justify-between pt-10 font-dmsans lg:w-2/3 lg:flex-row">
+          <div className="mt-6 mb-5 flex flex-col">
             <input
               type="text"
               id="cryptoPunks"
@@ -82,7 +81,7 @@ export default function SectionFour() {
               className="border-0 bg-transparent text-center text-base font-bold text-[#A0A09F]"
             />
           </div>
-          <div className="flex flex-col">
+          <div className="mt-6 mb-5 flex flex-col">
             <input
               type="text"
               id="bitcoins"
@@ -100,7 +99,7 @@ export default function SectionFour() {
               className="border-0 bg-transparent text-center text-base font-bold text-[#A0A09F]"
             />
           </div>
-          <div className="flex flex-col">
+          <div className="mt-6 mb-5 flex flex-col">
             <input
               type="text"
               id="oilbarrels"
