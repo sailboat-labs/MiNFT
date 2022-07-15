@@ -26,7 +26,9 @@ export default function DeployedContracts() {
     console.log(payload);
 
     if (window) {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const provider = new ethers.providers.Web3Provider(
+        (window as any).ethereum
+      );
       const accounts = await provider.send("eth_requestAccounts", []);
       const balance = await provider.getBalance(accounts[0]);
 
@@ -122,7 +124,9 @@ export default function DeployedContracts() {
   }
 
   async function getCloneContracts() {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const provider = new ethers.providers.Web3Provider(
+      (window as any).ethereum
+    );
     const accounts = await provider.send("eth_requestAccounts", []);
 
     const signer = provider.getSigner();
