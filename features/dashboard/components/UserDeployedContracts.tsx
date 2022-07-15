@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProjectState } from "redux/reducers/selectors/project";
 
+import PageLoader from "@/components/shared/PageLoader";
+
 import { IProject } from "@/interfaces";
 
 import classicmint from "../../../src/data/classicmint.json";
@@ -165,37 +167,12 @@ export default function DeployedContracts() {
           <div className="text-3xl">{project.projectName}</div>
 
           <div className="mt-5 text-2xl">Classic Mint</div>
-          <div className="flex items-center text-base text-gray-500">
+          <div className="text-base text-gray-500">
             {clones.length > 0 && clones[0]} (Rinkeby)
-            {clones.length > 0 && (
-              <svg
-                onClick={() => {
-                  window.open(
-                    `https://${
-                      process.env.NEXT_PUBLIC_ENVIRONMENT == "development"
-                        ? "rinkeby."
-                        : ""
-                    }etherscan.io/address/${clones[0]}`
-                  );
-                }}
-                xmlns="http://www.w3.org/2000/svg"
-                className="ml-2 h-5 w-5 cursor-pointer transition-all hover:scale-110"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                />
-              </svg>
-            )}
           </div>
           <div className="gradient-button mt-5">Manage Contract</div>
         </div>
-        {/* {isDeployingContract ? (
+        {isDeployingContract ? (
           <PageLoader />
         ) : (
           <div
@@ -216,10 +193,10 @@ export default function DeployedContracts() {
           >
             Add new contract
           </div>
-        )} */}
+        )}
       </div>
 
-      {/* <div className="relative mt-10 overflow-x-auto sm:rounded-lg">
+      <div className="relative mt-10 overflow-x-auto sm:rounded-lg">
         <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400">
           <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
             <tr>
@@ -267,7 +244,7 @@ export default function DeployedContracts() {
             ))}
           </tbody>
         </table>
-      </div> */}
+      </div>
     </div>
   );
 }
