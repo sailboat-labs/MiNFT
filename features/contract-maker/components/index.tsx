@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
-import ContractPreviewStep from "@/components/contract/ContractPreviewStep";
-import ContractSettingsStep from "@/components/contract/ContractSettingsStep";
-import ContractTypeStep from "@/components/contract/ContractTypeStep";
+import ContractPreviewStep from "./contract/ContractPreviewStep";
+import ContractSettingsStep from "./contract/ContractSettingsStep";
+import ContractTypeStep from "./contract/ContractTypeStep";
 
 const STEPS: { [key: number]: JSX.Element } = {
   1: <ContractTypeStep />,

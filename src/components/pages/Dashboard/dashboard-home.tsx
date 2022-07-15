@@ -1,4 +1,4 @@
-import DeployedContracts from "features/dashboard/components/UserDeployedContracts";
+import DeployedContracts from "features/dashboard/components/DeployedContracts";
 import { useSelector } from "react-redux";
 import { getProjectState } from "redux/reducers/selectors/project";
 
