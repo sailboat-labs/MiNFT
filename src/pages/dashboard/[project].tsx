@@ -1,5 +1,7 @@
 import dashify from "dashify";
 import ContractMakerView from "features/contract-maker/components";
+import DashboardHome from "features/dashboard/components/dashboard-home";
+import NFTGenerator from "features/traitmixer/components";
 import {
   collection,
   DocumentData,
@@ -28,8 +30,6 @@ import Whitelist from "@/components/dashboard/Whitelist";
 import ComingSoon from "@/components/layout/ComingSoon";
 import AddLayer from "@/components/nft/AddLayer";
 import TraitsSearchbar from "@/components/nft/TraitsSearchbar";
-import DashboardHome from "@/components/pages/Dashboard/dashboard-home";
-import NFTGenerator from "@/components/pages/Dashboard/NftGenerator";
 import DevPage from "@/components/pages/dev/dev";
 import PageLoader from "@/components/shared/PageLoader";
 
