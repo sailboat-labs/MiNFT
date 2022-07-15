@@ -10,8 +10,8 @@ export default function Banner() {
           <Vector1SVG className="absolute z-0 -mt-10 h-[40rem] w-[40rem]" />
         </div>
         <div className="z-30 m-auto mt-44 w-4/5 lg:w-3/5">
-          <h1 className="z-30 text-6xl font-bold">MiNFT</h1>
-          <p className="z-30 border-b border-black py-10 text-2xl font-medium">
+          <h1 className="relative z-30 text-8xl font-bold">MiNFT.</h1>
+          <p className="relative z-30 border-b border-black py-10 text-2xl font-medium">
             No-code tool for creating, launching and managing your NFT
             collection
           </p>

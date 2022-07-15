@@ -40,9 +40,9 @@ export default function Guides() {
   return (
     <div className="relative">
       <div className="relative z-0 flex justify-start ">
-        <VectorSVG2 className="absolute -ml-20 -mt-60 h-[30rem] w-[30rem] sm:h-[50rem] sm:w-[50rem]" />
+        <VectorSVG2 className="absolute z-0 -ml-20 -mt-60 h-[30rem] w-[30rem] sm:h-[50rem] sm:w-[50rem]" />
       </div>
-      <div className="z-30 mx-auto w-10/12 border-b border-t border-black">
+      <div className="relative z-30 mx-auto w-10/12 border-b border-t border-black">
         <div className="m-auto flex w-4/5 flex-col pt-20 pb-6 font-montserrat lg:w-3/4">
           {guides.map((guide, index) => (
             <div
@@ -51,7 +51,7 @@ export default function Guides() {
             >
               <div className="flex flex-col justify-center lg:w-[30rem]">
                 <div className="text-2xl font-bold">{guide.title}</div>
-                <div className="mt-5 text-base font-normal">
+                <div className="relative z-30 mt-5 text-base font-normal">
                   {guide.description}
                 </div>
                 <div className="">

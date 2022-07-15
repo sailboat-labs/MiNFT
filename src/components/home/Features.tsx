@@ -53,13 +53,13 @@ export default function Features() {
             <span className="z-30 flex h-14 w-16 items-center justify-center rounded-full border-2 border-[#1F1A17] p-1 text-3xl font-bold text-[#1F1A17] lg:h-20 lg:w-20 lg:p-0 ">
               0{index + 1}
             </span>
-            <div className="flex max-w-lg gap-5 rounded-lg border border-black bg-transparent px-5 py-3 lg:px-10 lg:py-5 lg:pr-20">
+            <div className="z-30 flex max-w-lg gap-5 rounded-lg border border-black bg-transparent px-5 py-3 lg:px-10 lg:py-5 lg:pr-20">
               <div className="flex items-center ">{feature.icon}</div>
               <div>
                 <div className="text-xl font-semibold text-[#1F1A17]">
                   {feature.title}
                 </div>
-                <div className="mt-2 font-medium text-[#232830]">
+                <div className="relative z-30 mt-2 font-medium text-[#232830]">
                   {feature.description}
                 </div>
               </div>
