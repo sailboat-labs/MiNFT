@@ -1,12 +1,16 @@
 import { ContractFactory, ethers } from "ethers";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getProjectState } from "redux/reducers/selectors/project";
+
+import { IProject } from "@/interfaces";
 
 import classicmint from "../../../src/data/classicmint.json";
 import factoryData from "../../../src/data/contracts/MiNFTFactory/MiNFTFactory.json";
 import registryData from "../../../src/data/contracts/MiNFTRegistry/MiNFTRegistry.json";
 export default function DeployedContracts() {
   const dispatch = useDispatch();
+  const project = useSelector(getProjectState) as IProject;
 
   const [clones, setClones] = useState([]);
   const [isDeployingContract, setIsDeployingContract] = useState(false);
@@ -151,14 +155,16 @@ export default function DeployedContracts() {
   }, []);
 
   return (
-    <div className="mt-10 w-full ">
+    <div className="mt-0 w-full ">
       <div className="flex items-center justify-between">
         <div className="flex flex-col">
-          <div className="text-2xl">Deployed Contracts</div>
+          <div className="text-3xl">{project.projectName}</div>
+
+          <div className="mt-5 text-2xl">Classic Mint</div>
           <div className="text-base text-gray-500">
-            The list of contract instances that you have deployed with minft
-            across all networks.
+            {clones.length > 0 && clones[0]} (Rinkeby)
           </div>
+          <div className="gradient-button mt-5">Manage Contract</div>
         </div>
         {/* {isDeployingContract ? (
           <PageLoader />
@@ -184,7 +190,7 @@ export default function DeployedContracts() {
         )} */}
       </div>
 
-      <div className="relative mt-10 overflow-x-auto sm:rounded-lg">
+      {/* <div className="relative mt-10 overflow-x-auto sm:rounded-lg">
         <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400">
           <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
             <tr>
@@ -232,7 +238,7 @@ export default function DeployedContracts() {
             ))}
           </tbody>
         </table>
-      </div>
+      </div> */}
     </div>
   );
 }
