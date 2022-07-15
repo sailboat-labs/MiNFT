@@ -1,7 +1,7 @@
 import { useFormik } from "formik";
 import React from "react";
 import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import TimezoneSelect from "react-timezone-select";
 import { getContractByField } from "redux/reducers/selectors/contract";
 import * as Yup from "yup";
 
@@ -10,7 +10,6 @@ import ContractFormRowSection from "@/components/layout/ContractRowSection";
 
 const WhitelistForm = () => {
   const contractType = useSelector(getContractByField("type"));
-  const dispatch = useDispatch();
 
   const whitelistForm = useFormik({
     initialValues: {
@@ -97,28 +96,42 @@ const WhitelistForm = () => {
                 Special Time
               </label>
             </div>
-            <div className="mt-2 grid grid-cols-4 rounded-md px-6 ring-gray-200">
+            <div className="mt-2 grid grid-cols-4 gap-10 rounded-md px-6 ring-gray-200">
               <div className="flex flex-col gap-2">
                 <strong>Start date & time</strong>
-                <input
-                  className="w-fit rounded-md border-gray-200"
-                  type="datetime-local"
-                />
-                {/* <TimezoneSelect
-                  {...whitelistForm.getFieldProps("startDateTimeZone")}
-                  placeholder="Select timezone..."
-                /> */}
+                <div>
+                  <input
+                    className="w-full rounded-md border-gray-200"
+                    type="datetime-local"
+                  />
+                  <TimezoneSelect
+                    value={
+                      whitelistForm.getFieldProps("startDateTimeZone") as any
+                    }
+                    onChange={(value) =>
+                      whitelistForm.setFieldValue("startDateTimezone", value)
+                    }
+                    placeholder="Select timezone..."
+                  />
+                </div>
               </div>
               <div className="flex flex-col gap-2">
                 <strong>End date & time</strong>
-                <input
-                  className="w-fit rounded-md border-gray-200"
-                  type="datetime-local"
-                />
-                {/* <TimezoneSelect
-                  {...whitelistForm.getFieldProps("endDateTimeZone")}
-                  placeholder="Select timezone..."
-                /> */}
+                <div>
+                  <input
+                    className="w-full rounded-md border-gray-200"
+                    type="datetime-local"
+                  />
+                  <TimezoneSelect
+                    value={
+                      whitelistForm.getFieldProps("endDateTimeZone") as any
+                    }
+                    onChange={(value) =>
+                      whitelistForm.setFieldValue("endDateTimezone", value)
+                    }
+                    placeholder="Select timezone..."
+                  />
+                </div>
               </div>
             </div>
           </article>
@@ -130,7 +143,7 @@ const WhitelistForm = () => {
             <div className="flex gap-1">
               <input
                 id="price-classic-1"
-                type="checkbox"
+                type="radio"
                 className="mt-1"
                 value="The same as for classic participants"
               />
@@ -141,7 +154,7 @@ const WhitelistForm = () => {
             <div className="flex gap-1">
               <input
                 id="special-price"
-                type="checkbox"
+                type="radio"
                 className="mt-1"
                 value="Special price"
               />
