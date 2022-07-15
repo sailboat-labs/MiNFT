@@ -1,10 +1,10 @@
 import Footer from "@/components/layout/footer";
-import Banner from "@/components/pages/homepage/Banner";
-import Best_Blockchains from "@/components/pages/homepage/Best_Blockchains";
-import ContractSection from "@/components/pages/homepage/ContractSection";
-import GetStarted from "@/components/pages/homepage/GetStarted";
-import Marquee from "@/components/pages/homepage/Marquee";
-import Metadata from "@/components/pages/homepage/Metadata";
+import Banner from "@/components/pages/Homepage/Banner";
+import Best_Blockchains from "@/components/pages/Homepage/Best_Blockchains";
+import ContractSection from "@/components/pages/Homepage/ContractSection";
+import GetStarted from "@/components/pages/Homepage/GetStarted";
+import Marquee from "@/components/pages/Homepage/Marquee";
+import Metadata from "@/components/pages/Homepage/Metadata";
 import Seo from "@/components/Seo";
 
 export default function Index() {
