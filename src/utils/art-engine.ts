@@ -859,7 +859,7 @@ export function generateTokens({
             layerConfigurations[layerConfigIndex].growEditionSizeTo
           ) {
             // const newDna = createDna(layers);
-            const newDna = prebuiltDNA[editionCount - 1];
+            const newDna = prebuiltDNA![editionCount - 1];
 
             // console.log({ count: editionCount - 1 });
 
