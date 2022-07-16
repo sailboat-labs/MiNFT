@@ -15,7 +15,6 @@ import {
 
 import { enumNFTGenConfig } from "@/enums/nft-gen-configurations";
 import { IElement, ILayer } from "@/interfaces";
-import { generateTokensDNA } from "@/utils/generateTokensDNA";
 
 import LayerContextMenu from "./LayerContextMenu";
 import TraitPreview from "./TraitPreview";
@@ -151,8 +150,8 @@ const PropertyGroup: FC<AppProps> = ({
   }
 
   useEffect(() => {
-    const _possibleConfig = generateTokensDNA(layers);
-    setPossibleConfigCount(new Set(_possibleConfig).size);
+    // const _possibleConfig = generateTokensDNA(layers);
+    // setPossibleConfigCount(new Set(_possibleConfig).size);
 
     setAccordionHeight(accordionContent.current?.scrollHeight);
   }, [selectedLayerName, elements, configuration]);
