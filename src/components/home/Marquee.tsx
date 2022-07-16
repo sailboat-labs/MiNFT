@@ -8,7 +8,11 @@ export default function ImageMarquee() {
         Mix your traits
       </div>
 
-      <Marquee className="pb-5" gradientColor={[21, 21, 21]}>
+      <Marquee
+        className="pb-5"
+        gradient={false}
+        gradientColor={[255, 255, 255]}
+      >
         <div className="flex w-fit gap-5 pl-5">
           {[...Array(15)].map((_, index) => (
             <div
@@ -38,7 +42,12 @@ export default function ImageMarquee() {
           ))}
         </div>
       </Marquee>
-      <Marquee direction="right" className="pb-5" gradientColor={[21, 21, 21]}>
+      <Marquee
+        direction="right"
+        className="pb-5"
+        gradient={false}
+        gradientColor={[255, 255, 255]}
+      >
         <div className="flex w-fit gap-5 pl-5">
           {[...Array(15)].map((_, index) => (
             <div
