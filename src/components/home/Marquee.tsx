@@ -3,7 +3,7 @@ import Marquee from "react-fast-marquee";
 
 export default function ImageMarquee() {
   return (
-    <div className="">
+    <div className="mt-20">
       <div className="mx-auto w-4/5 pt-14 pb-10 font-montserrat text-4xl font-bold text-black lg:w-3/5">
         Mix your traits
       </div>

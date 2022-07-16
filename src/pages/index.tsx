@@ -8,7 +8,7 @@ import Marquee from "@/components/home/Marquee";
 
 export default function Homepage() {
   return (
-    <div>
+    <div className="h-screen overflow-y-auto">
       <Header />
       <div className="bg-dotted bg-repeat">
         <Banner />
