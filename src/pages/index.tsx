@@ -1,28 +1,22 @@
-import Footer from "@/components/layout/footer";
-import Best_Blockchains from "@/components/pages/homepage/Best_Blockchains";
-import DeployContract from "@/components/pages/homepage/DeployContract";
-import GetStarted from "@/components/pages/homepage/GetStarted";
-import Marquee from "@/components/pages/homepage/Marquee";
-import Metadata from "@/components/pages/homepage/Metadata";
-import Test_Banner from "@/components/pages/homepage/Test_Banner";
-import Seo from "@/components/Seo";
+import Banner from "@/components/home/Banner";
+import Features from "@/components/home/Features";
+import Footer from "@/components/home/Footer";
+import Guides from "@/components/home/Guides";
+import Header from "@/components/home/Header";
+import Join_Community from "@/components/home/Join_Community";
+import Marquee from "@/components/home/Marquee";
 
-export default function Index() {
+export default function Homepage() {
   return (
-    <div className="overflow-y-auto overflow-x-hidden bg-gradient-to-r from-[#151515] via-[#191715] to-[#1B1611]">
-      <Seo templateTitle="Home" />
-      {/* <Header /> */}
-      {/* <Banner /> */}
-      <Test_Banner />
-      {/* <Features /> */}
-      <Best_Blockchains />
-      <Marquee />
-      <Metadata />
-      <DeployContract />
-      <GetStarted />
-      {/* <Guides /> */}
-      {/* <Join_Community /> */}
-      {/* <Newsletter /> */}
+    <div>
+      <Header />
+      <div className="bg-dotted bg-repeat">
+        <Banner />
+        <Marquee />
+        <Features />
+        <Guides />
+        <Join_Community />
+      </div>
       <Footer />
     </div>
   );
