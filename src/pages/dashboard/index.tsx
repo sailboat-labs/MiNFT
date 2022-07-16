@@ -135,15 +135,6 @@ export default function DashboardGetStarted() {
 
   return (
     <AuthGuard>
-      {/* <div
-        className={`transition-all ${
-          isCreatingProjectStarted
-            ? "pointer-events-none -z-[999] opacity-0"
-            : "pointer-events-auto opacity-100"
-        }`}
-      >
-        <Navbar />
-      </div> */}
       <div
         className={`flex h-screen  flex-col overflow-hidden pb-20 font-dmsans transition-all dark:bg-black lg:flex-row ${
           isCreatingProjectStarted ? "bg-indigo-200" : "bg-white"

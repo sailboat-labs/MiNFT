@@ -18,8 +18,10 @@ import {
   getDashboardState,
   getSlideInModalState,
 } from "redux/reducers/selectors/dashboard";
+import { getProjectState } from "redux/reducers/selectors/project";
 import { setConfiguration } from "redux/reducers/slices/configuration";
 import { setSlideInModalConfig } from "redux/reducers/slices/dashboard";
+import { setLayers } from "redux/reducers/slices/layers";
 import { setProject } from "redux/reducers/slices/project";
 
 import { firebaseApp } from "@/lib/firebase";
@@ -34,12 +36,13 @@ import DevPage from "@/components/pages/dev/dev";
 import PageLoader from "@/components/shared/PageLoader";
 
 import { enumNFTGenConfig } from "@/enums/nft-gen-configurations";
-import { IDashboardState, IProject } from "@/interfaces";
+import { IDashboardState, ILayer, IProject } from "@/interfaces";
 
 const firestore = getFirestore(firebaseApp);
 
 export default function DashboardHomePage() {
   const dashboardState = useSelector(getDashboardState) as IDashboardState;
+  const project = useSelector(getProjectState) as IProject;
   const selectedSidebar = dashboardState.selectedSidebar;
   const router = useRouter();
   const dispatch = useDispatch();
@@ -99,7 +102,13 @@ export default function DashboardHomePage() {
 
     limit(1)
   );
+
+  const _layersQuery = query(
+    collection(firestore, `Projects/${project?.slug}/Layers`)
+  );
+
   const [snapshots, loading] = useCollectionData(_query);
+  const [layerSnapshots, layerLoading] = useCollectionData(_layersQuery);
 
   useEffect(() => {
     if (!account) return;
@@ -145,6 +154,19 @@ export default function DashboardHomePage() {
       );
     }
   }, [loading, snapshots, account]);
+
+  useEffect(() => {
+    if (!account) return;
+    if (layerLoading) return;
+    if (!layerSnapshots) return;
+
+    const data = layerSnapshots.reduce((acc: ILayer[], curr: DocumentData) => {
+      acc.push(curr as ILayer);
+      return acc;
+    }, []);
+
+    dispatch(setLayers(data));
+  }, [project, layerSnapshots, layerLoading, account]);
 
   if (loading)
     return (

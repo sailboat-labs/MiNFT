@@ -2,13 +2,16 @@ import { Tab } from "@headlessui/react";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { getLayers, getSearchFilter } from "redux/reducers/selectors/layers";
+import { getProjectState } from "redux/reducers/selectors/project";
 
 import GenerateToken from "@/components/nft/GenerateToken";
 import NFTPreview from "@/components/nft/NFTPreview";
 import PropertyGroup from "@/components/nft/PropertyGroup";
 import SelectFolder from "@/components/nft/SelectFolder";
 
-import { IElement, ILayer } from "@/interfaces";
+import { IElement, ILayer, IProject } from "@/interfaces";
+
+import addLayersToFirebase from "./index.logic";
 
 import { NFTLayer } from "@/types";
 
@@ -18,6 +21,7 @@ function classNames(...classes: string[]) {
 
 const NFTGenerator = ({ router }: any) => {
   const layers = useSelector(getLayers);
+  const project = useSelector(getProjectState) as IProject;
   const searchFilter = useSelector(getSearchFilter);
   const [animateLayersIn, setAnimateLayersIn] = useState(false);
 
@@ -41,16 +45,21 @@ const NFTGenerator = ({ router }: any) => {
     }, 1000);
   }, [animateLayersIn]);
 
+  useEffect(() => {
+    if (layers.length < 1) return;
+    addLayersToFirebase(layers, project);
+  }, [layers]);
+
   return (
     <div className="w-full ">
       <Tab.Group>
-        <Tab.List className="flex w-fit space-x-1  rounded  p-1">
-          {["Design", "Settings", "Generate"].map((category) => (
+        <Tab.List className="flex w-fit gap-2 space-x-1 rounded  p-3">
+          {["Mixer", "Settings", "Generate"].map((category) => (
             <Tab
               key={category}
               className={({ selected }) =>
                 classNames(
-                  "w-full rounded py-2.5 px-16 text-sm font-medium leading-5 text-blue-700",
+                  "w-full rounded py-2 px-16 text-sm font-medium leading-5 text-blue-700",
                   "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2",
                   selected
                     ? "border bg-indigo-100"
@@ -81,7 +90,7 @@ const NFTGenerator = ({ router }: any) => {
             </div> */}
 
                   {layers.length > 0 && (
-                    <div className="mt-0 h-auto w-full min-w-[900px] flex-col gap-10 overflow-y-auto px-10 pb-10 2xl:h-[length:calc(100vh-60px)]">
+                    <div className="mt-0 h-screen w-full min-w-[900px] flex-col gap-10 overflow-y-auto px-10 ">
                       <>
                         {layers
                           .filter((layer: ILayer) => {

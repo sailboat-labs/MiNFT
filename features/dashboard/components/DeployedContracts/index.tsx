@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { getProjectState } from "redux/reducers/selectors/project";
 
@@ -21,16 +22,25 @@ export default function DeployedContracts() {
 
   async function handleDeployContract(contractType: string) {
     setIsDeployingContract(true);
-    await deployContract({ contractType });
+    try {
+      await deployContract({ contractType });
+    } catch (error) {
+      console.log(error);
+      toast.error("An error occurred while trying to create contract");
+    }
     setIsDeployingContract(false);
   }
 
   async function handleGetCloneContracts() {
     setIsFetchingContracts(true);
 
-    const _clones = await getCloneContracts();
-    setClones(_clones.response as any);
-
+    try {
+      const _clones = await getCloneContracts();
+      setClones(_clones.response as any);
+    } catch (error) {
+      console.log(error);
+      toast.error("An error occurred while fetching contracts");
+    }
     setIsFetchingContracts(false);
   }
 
