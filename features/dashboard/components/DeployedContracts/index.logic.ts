@@ -92,12 +92,15 @@ export async function getCloneContracts() {
   const signer = provider.getSigner();
 
   const registry = getContractFactory("Registry", signer);
+
   if (!registry) {
     return {
       success: false,
       response: "Registry not found",
     };
   }
+
+  console.log("attaching registry");
 
   const attachedRegistry = registry.attach(
     "0xfED68eA5bD49241fC495e9DBD127FC7612EAc26e"
