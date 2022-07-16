@@ -13,25 +13,27 @@ export default function Contact() {
   };
 
   const validate = Yup.object({
-    email: Yup.string().email("Invalid email address").required("Email is required"),
+    email: Yup.string()
+      .email("Invalid email address")
+      .required("Email is required"),
     discordUsername: Yup.string().required("Discord username required"),
     ETHaddress: Yup.string().required("ETH address required"),
   });
 
   return (
     <div>
-      <div className="flex pt-40 pb-28 text-white w-3/4 mx-auto ">
-        <div className='w-1/2'>
+      <div className="mx-auto flex w-3/4 flex-col pt-40 pb-28 text-white lg:flex-row">
+        <div className="w-full lg:w-1/2">
           <textarea
             rows={3}
             id="contact-heading"
             value={heading}
             onChange={changeHeading}
             onBlur={changeHeading}
-            className="w-full resize-none overflow-hidden whitespace-normal border-0 bg-transparent text-center font-serif text-9xl font-bold italic"
+            className="w-full resize-none overflow-hidden whitespace-normal border-0 bg-transparent font-serif text-6xl font-bold italic md:text-9xl lg:text-center"
           />
         </div>
-        <div className="flex items-center ml-16">
+        <div className="flex items-center lg:ml-16">
           <Formik
             initialValues={{
               email: "",
@@ -44,11 +46,22 @@ export default function Contact() {
             {(formik) => (
               <Form>
                 <div className="text-gray-200">
-                  <Input name='email' type="email" placeholder="Email *"/>
-                  <Input name='discordUsername' type="text" placeholder="Discord username *" />
-                  <Input name='ETHaddress' type="text" placeholder="ETH public address *" />
+                  <Input name="email" type="email" placeholder="Email *" />
+                  <Input
+                    name="discordUsername"
+                    type="text"
+                    placeholder="Discord username *"
+                  />
+                  <Input
+                    name="ETHaddress"
+                    type="text"
+                    placeholder="ETH public address *"
+                  />
                 </div>
-                <button type="submit" className="bg-[#006C35] py-5 px-12 mt-8 rounded-xl">
+                <button
+                  type="submit"
+                  className="mt-8 rounded-xl bg-[#006C35] py-5 px-12 text-xl"
+                >
                   Reserve your Sheikh
                 </button>
               </Form>

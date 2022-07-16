@@ -11,8 +11,8 @@ export default function Banner() {
 
   const changeHeading = (e: any) => {
     e.preventDefault();
-    setHeading(e.target.value);
-    console.log(heading);
+    const value = e.target.value;
+    setHeading(value);
   };
 
   const handleKeyDown = (e: any) => {
@@ -24,17 +24,17 @@ export default function Banner() {
   return (
     <div>
       <div className=" text-white">
-        <div className="mx-auto mt-48 w-2/3 text-center">
+        <div className="mx-auto mt-28 w-2/3 text-center sm:mt-32 lg:mt-48">
           <textarea
             id="banner-heading"
-            className="h-auto w-full resize-none overflow-hidden whitespace-normal border-0 bg-transparent p-0 text-center font-serif text-8xl italic leading-tight"
+            className="h-96 w-full resize-none overflow-hidden whitespace-normal border-0 bg-transparent p-0 text-center font-serif text-6xl italic leading-tight sm:h-auto md:h-[19rem] md:text-7xl lg:h-auto lg:text-8xl"
             value={heading}
             onChange={changeHeading}
             onKeyDown={handleKeyDown}
             onBlur={changeHeading}
           />
         </div>
-        <div className="mt-2 mb-3 flex justify-center">
+        <div className="mt-8 mb-8 flex justify-center">
           <ButtonLink
             href=""
             className="rounded-xl border-0 bg-black py-6 px-16 uppercase hover:bg-black"
@@ -42,10 +42,41 @@ export default function Banner() {
             Sold out
           </ButtonLink>
         </div>
-        <div className="flex flex-row overflow-hidden">
+        <div className="box-border flex w-full flex-row justify-center lg:hidden ">
+          <img
+            src={images.elements[0].src}
+            alt={images.elements[0].alt}
+            className="h-32 w-32 object-cover md:h-36 md:w-36"
+          />
+          <img
+            src={images.elements[1].src}
+            alt={images.elements[1].alt}
+            className="h-32 w-32 object-cover md:h-36 md:w-36"
+          />
+          <img
+            src={images.elements[2].src}
+            alt={images.elements[2].alt}
+            className="h-32 w-32 object-cover md:h-36 md:w-36"
+          />
+          <img
+            src={images.elements[3].src}
+            alt={images.elements[3].alt}
+            className="hidden object-cover md:inline-block md:h-36 md:w-36"
+          />
+          <img
+            src={images.elements[4].src}
+            alt={images.elements[4].alt}
+            className="hidden object-cover md:inline-block md:h-36 md:w-36"
+          />
+        </div>
+        <div className="hidden flex-row overflow-hidden lg:flex">
           {images.elements.map((image, index) => (
-            <div key={index} className='box-border '>
-              <img src={image.src} alt={image.alt} className='object-cover h-52 w-52'/>
+            <div key={index} className="box-border ">
+              <img
+                src={image.src}
+                alt={image.alt}
+                className="object-cover lg:h-52 lg:w-52"
+              />
             </div>
           ))}
         </div>
