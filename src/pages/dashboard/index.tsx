@@ -219,7 +219,7 @@ export default function DashboardGetStarted() {
                   No Project Created
                 </div>
               )}
-              <div className="3xl:grid-cols-4 grid grid-cols-1 gap-5 xl:grid-cols-2 2xl:grid-cols-3">
+              <div className="3xl:grid-cols-4 mb-20 grid grid-cols-1 gap-5 xl:grid-cols-2 2xl:grid-cols-3">
                 {allProjects.map((project, index) => (
                   <div
                     key={index}

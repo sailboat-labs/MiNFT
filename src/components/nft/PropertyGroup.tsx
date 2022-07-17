@@ -15,6 +15,7 @@ import {
 
 import { enumNFTGenConfig } from "@/enums/nft-gen-configurations";
 import { IElement, ILayer } from "@/interfaces";
+import { generateTokensDNA } from "@/utils/generateTokensDNA";
 
 import LayerContextMenu from "./LayerContextMenu";
 import TraitPreview from "./TraitPreview";
@@ -53,9 +54,7 @@ const PropertyGroup: FC<AppProps> = ({
   const layers = useSelector(getLayers) as ILayer[];
 
   const configuration = useSelector(getConfiguration);
-  const [possibleConfigCount, setPossibleConfigCount] = useState(
-    configuration[enumNFTGenConfig.SUPPLY]
-  );
+  const [possibleConfigCount, setPossibleConfigCount] = useState(0);
 
   function onDisplayNameClick(evt: React.MouseEvent<HTMLDivElement>) {
     evt.stopPropagation();
@@ -150,8 +149,8 @@ const PropertyGroup: FC<AppProps> = ({
   }
 
   useEffect(() => {
-    // const _possibleConfig = generateTokensDNA(layers);
-    // setPossibleConfigCount(new Set(_possibleConfig).size);
+    const _possibleConfig = generateTokensDNA(layers);
+    setPossibleConfigCount(new Set(_possibleConfig).size);
 
     setAccordionHeight(accordionContent.current?.scrollHeight);
   }, [selectedLayerName, elements, configuration]);
@@ -400,7 +399,7 @@ const PropertyGroup: FC<AppProps> = ({
                 </div>
               )}
 
-            {possibleConfigCount != configuration[enumNFTGenConfig.SUPPLY] && (
+            {possibleConfigCount < configuration[enumNFTGenConfig.SUPPLY] && (
               <div className="mb-4  flex w-full gap-x-4 px-6">
                 <div className="rounded bg-red-100 px-5 py-2 text-sm text-red-500">
                   Your current configuration can produce up to{" "}
