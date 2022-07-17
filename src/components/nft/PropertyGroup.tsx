@@ -399,15 +399,16 @@ const PropertyGroup: FC<AppProps> = ({
                 </div>
               )}
 
-            {possibleConfigCount < configuration[enumNFTGenConfig.SUPPLY] && (
-              <div className="mb-4  flex w-full gap-x-4 px-6">
-                <div className="rounded bg-red-100 px-5 py-2 text-sm text-red-500">
-                  Your current configuration can produce up to{" "}
-                  {possibleConfigCount} (instead of{" "}
-                  {configuration[enumNFTGenConfig.SUPPLY]})
+            {changingRarity() &&
+              possibleConfigCount < configuration[enumNFTGenConfig.SUPPLY] && (
+                <div className="mb-4  flex w-full gap-x-4 px-6">
+                  <div className="rounded bg-red-100 px-5 py-2 text-sm text-red-500">
+                    Your current configuration can produce up to{" "}
+                    {possibleConfigCount} (instead of{" "}
+                    {configuration[enumNFTGenConfig.SUPPLY]})
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
           </div>
         </div>
       </div>
