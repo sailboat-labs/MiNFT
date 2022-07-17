@@ -66,8 +66,8 @@ const NFTGenerator = ({ router }: any) => {
                   "w-full rounded py-2 px-16 text-sm font-medium leading-5 text-blue-700",
                   "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2",
                   selected
-                    ? "border bg-indigo-100"
-                    : "border text-gray-500 hover:bg-white/[0.12] hover:text-white"
+                    ? "border bg-indigo-100 font-bold"
+                    : "border text-gray-500 hover:bg-gray-50 "
                 )
               }
             >
