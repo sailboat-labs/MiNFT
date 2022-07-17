@@ -153,7 +153,7 @@ const PropertyGroup: FC<AppProps> = ({
     setPossibleConfigCount(new Set(_possibleConfig).size);
 
     setAccordionHeight(accordionContent.current?.scrollHeight);
-  }, [selectedLayerName, elements, configuration]);
+  }, [selectedLayerName, elements, configuration, layers]);
 
   // useEffect(() => {
   //   if (selectedLayerName !== null) {
