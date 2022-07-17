@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable no-async-promise-executor */
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 // import toast from "react-hot-toast";
 import { toast } from "react-toastify";
@@ -20,12 +20,14 @@ import {
 import { enumNFTGenConfig } from "@/enums/nft-gen-configurations";
 import { IGeneratedTokens } from "@/interfaces";
 import { generateTokens } from "@/utils/art-engine";
+import { generateTokensDNA } from "@/utils/generateTokensDNA";
 
 import GeneratedToken from "./GeneratedToken";
 
 export default function GenerateToken() {
   const generatedTokens: IGeneratedTokens[] = useSelector(getGeneratedImages);
   const generatedTokenFilter = useSelector(getGeneratedImagesFilter);
+  const [possibleConfigCount, setPossibleConfigCount] = useState(0);
 
   let filteredTokens = [];
   if (generatedTokenFilter === null) {
@@ -51,6 +53,11 @@ export default function GenerateToken() {
   function openModal() {
     setIsOpen(true);
   }
+
+  useEffect(() => {
+    const _possibleConfig = generateTokensDNA(layers);
+    setPossibleConfigCount(new Set(_possibleConfig).size);
+  }, [layers]);
 
   const dispatch = useDispatch();
   const configuration = useSelector(getConfiguration);
@@ -90,6 +97,8 @@ export default function GenerateToken() {
             return toast.error("Enter description in settings");
           if (!configuration[enumNFTGenConfig.BASE_URL])
             return toast.error("Enter external link in settings");
+          if (possibleConfigCount < configuration[enumNFTGenConfig.SUPPLY])
+            return toast.error("Resolve errors in trait mixer rarity");
           dispatch(clearGeneratedImages({}));
 
           const _generatedImages: any = await generateTokens({
@@ -100,7 +109,7 @@ export default function GenerateToken() {
 
           dispatch(setGeneratedImages(_generatedImages));
         }}
-        className="mt-5 flex w-full cursor-pointer items-center justify-center gap-3 rounded-lg border-2 border-[#30489C] bg-white px-5 py-2 text-[#30489C] transition-all hover:scale-105"
+        className={`mt-5 flex w-full cursor-pointer items-center justify-center gap-3 rounded-lg border-2 border-[#30489C] bg-white px-5 py-2 text-[#30489C] transition-all hover:scale-105 `}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
