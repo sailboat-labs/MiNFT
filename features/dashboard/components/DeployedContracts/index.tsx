@@ -15,7 +15,13 @@ export default function DeployedContracts() {
   const project = useSelector(getProjectState) as IProject;
 
   const [clones, setClones] = useState<
-    { name: string; symbol: string; address: string }[]
+    {
+      name: string;
+      symbol: string;
+      address: string;
+      network: { chainId: number; name: string };
+      contractType: string;
+    }[]
   >([]);
   const [isDeployingContract, setIsDeployingContract] = useState(false);
   const [isFetchingContracts, setIsFetchingContracts] = useState(false);
@@ -123,8 +129,8 @@ export default function DeployedContracts() {
                   >
                     {clone.name}
                   </th>
-                  <td className="py-4 px-6">Classic Mint</td>
-                  <td className="py-4 px-6">Rinkeby</td>
+                  <td className="py-4 px-6">{clone.contractType}</td>
+                  <td className="py-4 px-6">{clone.network.name}</td>
                   <td className="py-4 px-6">{clone.address}</td>
                   <td className=" py-4 px-6">
                     <div className="rounded-10 bg-green-600 text-green-700">

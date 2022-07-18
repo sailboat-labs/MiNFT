@@ -1,14 +1,15 @@
-import { ContractFactory, ethers } from "ethers";
+import { ethers } from "ethers";
 
 import { enumContractType } from "@/enums/contract-type.enum";
 
-import CLASSIC_MINT_JSON from "../../../../src/data/classicmint.json";
-import FACTORY_JSON from "../../../../src/data/contracts/MiNFTFactory/MiNFTFactory.json";
-import REGISTRY_JSON from "../../../../src/data/contracts/MiNFTRegistry/MiNFTRegistry.json";
+import CLASSIC_MINT_JSON from "../../../../src/data/contracts/abi/classicmint.json";
+import FACTORY_JSON from "../../../../src/data/contracts/abi/MiNFTFactory.json";
+import REGISTRY_JSON from "../../../../src/data/contracts/abi/MiNFTRegistry.json";
 
 interface contractPayload {
   contractType: string;
 }
+
 export async function deployContract({ contractType }: contractPayload) {
   console.log({ contractType });
 
@@ -18,80 +19,64 @@ export async function deployContract({ contractType }: contractPayload) {
 
   const provider = new ethers.providers.Web3Provider((window as any).ethereum);
   const signer = provider.getSigner();
-  const factory = getContractFactory("Factory", signer);
-  const contractFactory = getContractFactory(contractType, signer);
 
-  if (!factory || !contractFactory) {
+  const factory = getContract("Factory", signer);
+  const contract = getContract(contractType, signer);
+  if (!factory || !contract) {
     return {
       success: false,
       response: "Factory or contract factory not found",
     };
   }
 
-  const attachedFactory = factory.attach(
-    "0xEd9E9666F66e762B9A685193CACAE56FeF0cDd03"
-  );
-  const attachedClassicFactory = contractFactory.attach(
-    "0x0342d3fc7Ca13f25121Ad3f26ecc745eDC121f50"
+  const cloneAddress = factory.contract.getDeterministicAddress(
+    contract.contract.address
   );
 
+  const cloneContract = new ethers.Contract(
+    cloneAddress,
+    getContract(contractType, signer)?.abi,
+    signer
+  );
+
+  const signerAddress = await signer.getAddress();
+
   const contractInfo = {
-    name: "Proxima Labs",
-    symbol: "PLS",
+    owner: signerAddress,
+    trustedForwarder: process.env.NEXT_PUBLIC_FORWARDER_ADDRESS,
+    name: "Atomic NFT",
+    symbol: "Atomic",
     saleConfig: [10, 4, 3, 1, 1, 0, 0],
   };
 
-  const clone = await deploy(
-    signer,
-    attachedFactory,
-    attachedClassicFactory,
-    contractInfo
-  );
+  const data = cloneContract.interface.encodeFunctionData("initialize", [
+    contractInfo.owner,
+    contractInfo.trustedForwarder,
+    contractInfo.name,
+    contractInfo.symbol,
+    contractInfo.saleConfig,
+  ]);
 
-  return { success: true, response: clone };
-}
+  await (
+    await factory.contract.deployProxy(
+      await contract.contract.contractType(),
+      data
+    )
+  ).wait();
 
-async function deploy(
-  signer: ethers.providers.JsonRpcSigner,
-  factory: ethers.Contract,
-  contract: ethers.Contract,
-  payload: any
-) {
-  // deploy clone
-  console.log("Deploying");
+  const cloneContractName = await cloneContract.name();
 
-  const contractType = await contract.contractType();
-
-  // get clone address
-  const getClone = await (await factory.deployProxy(contractType, "0x")).wait();
-
-  const cloneAddress = getClone.events[0].args.proxy;
-  const cloneFactory = getContractFactory(
-    enumContractType.CLASSIC_MINT,
-    signer
-  );
-  if (!cloneFactory) {
-    return {
-      success: false,
-      response: "Clone factory not found",
-    };
-  }
-
-  const clone = cloneFactory.attach(cloneAddress);
-
-  // initialize clone
-  clone.initialize(payload.name, payload.symbol, payload.saleConfig);
-
-  return clone;
+  return {
+    success: true,
+    response: `Created contract clone ${cloneContractName}`,
+  };
 }
 
 export async function getCloneContracts() {
   const provider = new ethers.providers.Web3Provider((window as any).ethereum);
-  const accounts = await provider.send("eth_requestAccounts", []);
-
   const signer = provider.getSigner();
 
-  const registry = getContractFactory("Registry", signer);
+  const registry = getContract("Registry", signer);
 
   if (!registry) {
     return {
@@ -100,121 +85,134 @@ export async function getCloneContracts() {
     };
   }
 
-  console.log("attaching registry");
-
-  const attachedRegistry = registry.attach(
-    "0xfED68eA5bD49241fC495e9DBD127FC7612EAc26e"
-  );
-
-  const clones = await attachedRegistry.getAll(accounts[0]);
+  const signerAddress = await signer.getAddress();
+  const clones = await registry.contract.getAll(signerAddress);
 
   const contractDetails: any[] = [];
 
   for (let index = 0; index < clones.length; index++) {
     const clone = clones[index];
-    const contractFactory = getContractFactory(
-      enumContractType.CLASSIC_MINT,
-      signer
+    const contractType = ethers.utils.parseBytes32String(
+      await registry.contract.proxyType(clone)
     );
-    if (!contractFactory) {
+
+    const abi = getContract(contractType, signer)?.abi;
+
+    const contract = new ethers.Contract(clone, abi, signer);
+
+    if (!contract) {
       return {
         success: false,
-        response: "Contract factory not found",
+        response: "Contract not found",
       };
     }
-    const cloneFactory = contractFactory.attach(clone);
 
-    const name = await cloneFactory.name();
-    const symbol = await cloneFactory.symbol();
+    const name = await contract.name();
+    const symbol = await contract.symbol();
+    const network = await contract.provider.getNetwork();
 
-    contractDetails.push({ name, symbol, address: clone });
+    console.log(await contract.owner());
+
+    contractDetails.push({
+      name,
+      symbol,
+      address: clone,
+      network,
+      contractType,
+    });
   }
 
   return { success: true, response: contractDetails };
 }
 
-function getContractFactory(contractType: string, signer: any) {
+function getContract(contractType: string, signer: any) {
   switch (contractType) {
     case enumContractType.CLASSIC_MINT: {
-      const classicFactory = new ContractFactory(
+      const contract = new ethers.Contract(
+        process.env.NEXT_PUBLIC_CLASSIC_MINT!,
         CLASSIC_MINT_JSON.abi,
-        CLASSIC_MINT_JSON.bytecode,
         signer
       );
 
-      return classicFactory;
+      const abi = CLASSIC_MINT_JSON.abi;
+
+      return { contract, abi };
     }
     case enumContractType.CLASSIC_MINT_WITH_WL: {
-      const classicFactory = new ContractFactory(
+      const contract = new ethers.Contract(
+        process.env.NEXT_PUBLIC_CLASSIC_MINT!,
         CLASSIC_MINT_JSON.abi,
-        CLASSIC_MINT_JSON.bytecode,
         signer
       );
 
-      return classicFactory;
+      return contract;
     }
     case enumContractType.DUTCH_AUCTION: {
-      const classicFactory = new ContractFactory(
+      const contract = new ethers.Contract(
+        process.env.NEXT_PUBLIC_CLASSIC_MINT!,
         CLASSIC_MINT_JSON.abi,
-        CLASSIC_MINT_JSON.bytecode,
         signer
       );
 
-      return classicFactory;
+      return contract;
     }
     case enumContractType.DUTCH_AUCTION_WITH_WL: {
-      const classicFactory = new ContractFactory(
+      const contract = new ethers.Contract(
+        process.env.NEXT_PUBLIC_CLASSIC_MINT!,
         CLASSIC_MINT_JSON.abi,
-        CLASSIC_MINT_JSON.bytecode,
         signer
       );
 
-      return classicFactory;
+      return contract;
     }
     case enumContractType.FAIR_DUTCH_AUCTION: {
-      const classicFactory = new ContractFactory(
+      const contract = new ethers.Contract(
+        process.env.NEXT_PUBLIC_CLASSIC_MINT!,
         CLASSIC_MINT_JSON.abi,
-        CLASSIC_MINT_JSON.bytecode,
         signer
       );
 
-      return classicFactory;
+      return contract;
     }
     case enumContractType.FAIR_DUTCH_AUCTION_WITH_WL: {
-      const classicFactory = new ContractFactory(
+      const contract = new ethers.Contract(
+        process.env.NEXT_PUBLIC_CLASSIC_MINT!,
         CLASSIC_MINT_JSON.abi,
-        CLASSIC_MINT_JSON.bytecode,
         signer
       );
 
-      return classicFactory;
+      return contract;
     }
     case enumContractType.PURE_WHITELIST: {
-      const classicFactory = new ContractFactory(
+      const contract = new ethers.Contract(
+        process.env.NEXT_PUBLIC_CLASSIC_MINT!,
         CLASSIC_MINT_JSON.abi,
-        CLASSIC_MINT_JSON.bytecode,
         signer
       );
 
-      return classicFactory;
+      return contract;
     }
     case "Factory": {
-      const factory = new ContractFactory(
+      const contract = new ethers.Contract(
+        process.env.NEXT_PUBLIC_FACTORY_ADDRESS!,
         FACTORY_JSON.abi,
-        FACTORY_JSON.bytecode,
         signer
       );
 
-      return factory;
+      const abi = FACTORY_JSON.abi;
+
+      return { contract, abi };
     }
     case "Registry": {
-      const factory = new ContractFactory(
+      const contract = new ethers.Contract(
+        process.env.NEXT_PUBLIC_REGISTRY_ADDRESS!,
         REGISTRY_JSON.abi,
-        REGISTRY_JSON.bytecode,
         signer
       );
 
-      return factory;
+      const abi = REGISTRY_JSON.abi;
+
+      return { contract, abi };
     }
 
     default:
