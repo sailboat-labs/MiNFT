@@ -53,7 +53,7 @@ export function generateTokens({
     };
     const hashImages = true;
     const extraMetadata = {};
-    const debugLogs = true;
+    const debugLogs = false;
 
     const uniqueDnaTorrance = 10000;
     const description = configuration[enumNFTGenConfig.DESCRIPTION];
@@ -273,9 +273,9 @@ export function generateTokens({
       // eslint-disable-next-line no-async-promise-executor
       return new Promise(async (resolve) => {
         // selected elements is an array.
-        const image = await loadImage(`${_layer.path}`).catch(
+        const image = await loadImage(`${_layer?.path}`).catch(
           (err: any) =>
-            debugLogs && console.log(`failed to load ${_layer.path}`, err)
+            debugLogs && console.log(`failed to load ${_layer?.path}`, err)
         );
         resolve({ layer: _layer, loadedImage: image });
       });
@@ -691,8 +691,8 @@ export function generateTokens({
         // one main canvas
         // each render Object should be a solo canvas
         // append them all to main canbas
-        canvasContext.globalAlpha = renderObject.layer.opacity;
-        canvasContext.globalCompositeOperation = renderObject.layer.blendmode;
+        canvasContext.globalAlpha = renderObject.layer?.opacity;
+        canvasContext.globalCompositeOperation = renderObject.layer?.blendmode;
         canvasContext.drawImage(
           drawElement(renderObject, canvasContext),
           0,
@@ -817,8 +817,21 @@ export function generateTokens({
     const startCreating = async () => {
       const storedDNA = null;
 
+<<<<<<< Updated upstream
       // const prebuiltDNA = generateTokensDNA(layers);
       // console.log("prebuilt", new Set(prebuiltDNA));
+=======
+      let prebuiltDNA = generateTokensDNA(
+        layers,
+        configuration[enumNFTGenConfig.SUPPLY]
+      );
+
+      prebuiltDNA = Array.from(new Set(prebuiltDNA));
+
+      console.log("prebuilt", new Set(prebuiltDNA));
+
+      // return;
+>>>>>>> Stashed changes
 
       // dnaList = new Set(prebuiltDNA);
 
@@ -831,7 +844,7 @@ export function generateTokens({
         // }
         let layerConfigIndex = 0;
         let editionCount = 1; //used for the growEditionSize while loop, not edition number
-        let failedCount = 0;
+        // let failedCount = 0;
         let abstractedIndexes: any[] = [];
         for (
           let i = startIndex;
@@ -856,58 +869,90 @@ export function generateTokens({
             editionCount <=
             layerConfigurations[layerConfigIndex].growEditionSizeTo
           ) {
-            const newDna = createDna(layers);
-            // const newDna = prebuiltDNA![editionCount - 1];
+            // const newDna = createDna(layers);
+            const newDna = prebuiltDNA![editionCount - 1];
 
             // console.log({ count: editionCount - 1 });
 
             // console.log({ newDna });
 
-            if (isDnaUnique(dnaList, newDna)) {
-              const results = constructLayerToDna(newDna, layers);
-              debugLogs
-                ? console.log("Creating with DNA:", newDna.split(DNA_DELIMITER))
-                : null;
-              const loadedElements: any[] = [];
-              // reduce the stacked and nested layer into a single array
-              const allImages = results.reduce((images: any, layer) => {
-                return [...images, ...layer.selectedElements];
-              }, []);
-              sortZIndex(allImages).forEach((layer: any) => {
-                loadedElements.push(loadLayerImg(layer));
-              });
+            const results = constructLayerToDna(newDna, layers);
+            debugLogs
+              ? console.log("Creating with DNA:", newDna.split(DNA_DELIMITER))
+              : null;
+            const loadedElements: any[] = [];
+            // reduce the stacked and nested layer into a single array
+            const allImages = results.reduce((images: any, layer) => {
+              return [...images, ...layer.selectedElements];
+            }, []);
+            sortZIndex(allImages).forEach((layer: any) => {
+              loadedElements.push(loadLayerImg(layer));
+            });
 
-              await Promise.all(loadedElements).then((renderObjectArray) => {
-                const layerData = {
-                  newDna,
-                  layerConfigIndex,
-                  abstractedIndexes,
-                  _background: background,
-                };
-                paintLayers(
-                  ctxMain,
-                  renderObjectArray,
-                  layerData,
-                  abstractedIndexes
-                );
-              });
+            await Promise.all(loadedElements).then((renderObjectArray) => {
+              const layerData = {
+                newDna,
+                layerConfigIndex,
+                abstractedIndexes,
+                _background: background,
+              };
+              paintLayers(
+                ctxMain,
+                renderObjectArray,
+                layerData,
+                abstractedIndexes
+              );
+            });
 
-              dnaList.add(filterDNAOptions(newDna));
-              editionCount++;
-              abstractedIndexes.shift();
-            } else {
-              debugLogs && console.log(chalk.bgRed("DNA exists!"));
-              failedCount++;
-              if (failedCount >= uniqueDnaTorrance) {
-                debugLogs &&
-                  console.log(
-                    `You need more layers or elements to grow your edition to ${layerConfigurations[layerConfigIndex].growEditionSizeTo} artworks!`
-                  );
-                // eslint-disable-next-line no-process-exit
-                // process.exit();
-                throw `You need more layers or elements to grow your edition`;
-              }
-            }
+            dnaList.add(filterDNAOptions(newDna));
+            editionCount++;
+            abstractedIndexes.shift();
+
+            // if (isDnaUnique(dnaList, newDna)) {
+            //   const results = constructLayerToDna(newDna, layers);
+            //   debugLogs
+            //     ? console.log("Creating with DNA:", newDna.split(DNA_DELIMITER))
+            //     : null;
+            //   const loadedElements: any[] = [];
+            //   // reduce the stacked and nested layer into a single array
+            //   const allImages = results.reduce((images: any, layer) => {
+            //     return [...images, ...layer.selectedElements];
+            //   }, []);
+            //   sortZIndex(allImages).forEach((layer: any) => {
+            //     loadedElements.push(loadLayerImg(layer));
+            //   });
+
+            //   await Promise.all(loadedElements).then((renderObjectArray) => {
+            //     const layerData = {
+            //       newDna,
+            //       layerConfigIndex,
+            //       abstractedIndexes,
+            //       _background: background,
+            //     };
+            //     paintLayers(
+            //       ctxMain,
+            //       renderObjectArray,
+            //       layerData,
+            //       abstractedIndexes
+            //     );
+            //   });
+
+            //   dnaList.add(filterDNAOptions(newDna));
+            //   editionCount++;
+            //   abstractedIndexes.shift();
+            // } else {
+            //   debugLogs && console.log(chalk.bgRed("DNA exists!"));
+            //   failedCount++;
+            //   if (failedCount >= uniqueDnaTorrance) {
+            //     debugLogs &&
+            //       console.log(
+            //         `You need more layers or elements to grow your edition to ${layerConfigurations[layerConfigIndex].growEditionSizeTo} artworks!`
+            //       );
+            //     // eslint-disable-next-line no-process-exit
+            //     // process.exit();
+            //     throw `You need more layers or elements to grow your edition`;
+            //   }
+            // }
           }
           layerConfigIndex++;
         }
