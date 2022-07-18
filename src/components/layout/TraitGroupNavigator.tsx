@@ -35,7 +35,7 @@ const TraitGroupNavigator: FC<Props> = () => {
       <div className="flex w-full items-center justify-center p-4">
         <Link href="/" passHref>
           <span className="flex cursor-pointer select-none items-center justify-center text-xl font-black leading-none  text-white dark:text-gray-200">
-            MiNFT<span className="text-[#FFD32D]">.</span>
+            Magic Mynt<span className="text-[#FFD32D]">.</span>
           </span>
         </Link>
       </div>

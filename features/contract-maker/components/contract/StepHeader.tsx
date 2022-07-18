@@ -1,8 +1,8 @@
 import React from "react";
 
-import { SelectOption } from "@/interfaces";
+import BaseSelect from "@/components/controls/BaseSelect";
 
-import BaseSelect from "../controls/BaseSelect";
+import { SelectOption } from "@/interfaces";
 
 interface AppProps {
   title: string | React.ReactNode;

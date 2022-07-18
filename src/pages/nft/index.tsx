@@ -45,7 +45,7 @@ const Index = ({ router }: any) => {
       <div className="flex w-full justify-between py-5 px-5">
         <Link href="/" passHref>
           <span className="flex cursor-pointer select-none items-center justify-center text-xl font-black leading-none  text-black">
-            MiNFT<span className="text-[#FFD32D]">.</span>
+            Magic Mynt<span className="text-[#FFD32D]">.</span>
           </span>
         </Link>
         <div className="flex gap-5">
@@ -57,7 +57,7 @@ const Index = ({ router }: any) => {
         </div>
         <Link href="/" passHref>
           <span className="flex cursor-pointer select-none items-center justify-center text-xl font-black leading-none  text-black">
-            MiNFT<span className="text-[#FFD32D]">.</span>
+            Magic Mynt<span className="text-[#FFD32D]">.</span>
           </span>
         </Link>
       </div>

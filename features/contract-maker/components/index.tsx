@@ -2,9 +2,9 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { getActiveStep } from "redux/reducers/selectors/contract";
 
-import ContractPreviewStep from "@/components/contract/ContractPreviewStep";
-import ContractSettingsStep from "@/components/contract/ContractSettingsStep";
-import ContractTypeStep from "@/components/contract/ContractTypeStep";
+import ContractPreviewStep from "./contract/ContractPreviewStep";
+import ContractSettingsStep from "./contract/ContractSettingsStep";
+import ContractTypeStep from "./contract/ContractTypeStep";
 
 const ContractMakerView = () => {
   const activeStep = useSelector(getActiveStep);

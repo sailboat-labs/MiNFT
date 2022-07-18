@@ -820,7 +820,7 @@ export function generateTokens({
       const storedDNA = null;
 
       const prebuiltDNA = generateTokensDNA(layers);
-      console.log("prebuilt", new Set(prebuiltDNA));
+      // console.log("prebuilt", new Set(prebuiltDNA));
 
       // dnaList = new Set(prebuiltDNA);
 
@@ -858,8 +858,8 @@ export function generateTokens({
             editionCount <=
             layerConfigurations[layerConfigIndex].growEditionSizeTo
           ) {
-            // const newDna = createDna(layers);
-            const newDna = prebuiltDNA![editionCount - 1];
+            const newDna = createDna(layers);
+            // const newDna = prebuiltDNA![editionCount - 1];
 
             // console.log({ count: editionCount - 1 });
 

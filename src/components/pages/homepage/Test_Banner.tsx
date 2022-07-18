@@ -45,7 +45,7 @@ export default function Test_Banner() {
         </div>
         <div className="carousel-inner h-[43vh] overflow-hidden font-montserrat">
           <div className="active carousel-item mx-auto h-[40vh] w-2/3 text-white">
-            <h3 className="py-7 text-7xl">MiNFT</h3>
+            <h3 className="py-7 text-7xl">Magic Mynt</h3>
             <p className="w-4/5 text-2xl font-medium">
               No code tool for creating, launching and managing your NFTs.
             </p>
@@ -59,7 +59,7 @@ export default function Test_Banner() {
             </div>
           </div>
           <div className="carousel-item mx-auto h-[40vh] w-2/3 text-white">
-            <h3 className="py-7 text-7xl">Why MiNFT?</h3>
+            <h3 className="py-7 text-7xl">Why Magic Mynt?</h3>
             <p className="w-4/5 text-2xl font-medium">
               You, the creator, have total control in one easy-to-use tool.
             </p>
@@ -88,7 +88,7 @@ export default function Test_Banner() {
             </div>
           </div>
           <div className="carousel-item mx-auto h-[40vh] w-2/3 text-white">
-            <h3 className="py-7 text-7xl">MiNFT Contract</h3>
+            <h3 className="py-7 text-7xl">Magic Mynt Contract</h3>
             <p className="w-4/5 text-2xl font-medium">
               Use our templates to create your very own smart contract without
               code.

@@ -1,0 +1,23 @@
+import Banner from "@/components/home/Banner";
+import Features from "@/components/home/Features";
+import Footer from "@/components/home/Footer";
+import Guides from "@/components/home/Guides";
+import Header from "@/components/home/Header";
+import Join_Community from "@/components/home/Join_Community";
+import Marquee from "@/components/home/Marquee";
+
+export default function Homepage() {
+  return (
+    <div>
+      <Header />
+      <div className="bg-dotted bg-repeat">
+        <Banner />
+        <Marquee />
+        <Features />
+        <Guides />
+        <Join_Community />
+      </div>
+      <Footer />
+    </div>
+  );
+}

@@ -2,8 +2,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { getContract } from "redux/reducers/selectors/contract";
 
-import StepperFooter from "./StepperFooter";
-import ContractTypeRadio from "../controls/ContractTypeRadio";
+import ContractTypeRadio from "@/components/controls/ContractTypeRadio";
 
 const contractTypes = [
   {
@@ -75,7 +74,6 @@ const ContractTypeStep = () => {
           />
         ))}
       </div>
-      <StepperFooter />
     </section>
   );
 };

@@ -33,6 +33,9 @@ module.exports = {
       width: {
         550: "550px",
       },
+      backgroundImage: {
+        dotted: "url('/images/homepage/background.png')",
+      },
       colors: {
         primary: {
           // Customize it on globals.css :root

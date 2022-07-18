@@ -42,7 +42,7 @@ export default function Header() {
           <Link href="/" passHref>
             <div className="flex w-fit justify-between">
               <span className="flex cursor-pointer select-none items-center text-xl font-black leading-none text-gray-900 dark:text-gray-200 md:mb-0 lg:items-center lg:justify-center">
-                MiNFT<span className="text-indigo-600">.</span>
+                Magic Mynt<span className="text-indigo-600">.</span>
               </span>
             </div>
           </Link>
@@ -89,7 +89,7 @@ export default function Header() {
                 }
                 `}
                   >
-                    MiNFT<span className="text-indigo-600">.</span>
+                    Magic Mynt<span className="text-indigo-600">.</span>
                   </span>
                 </Link>
                 <svg
@@ -168,7 +168,7 @@ export default function Header() {
                   d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
               </svg>
-              <span>Learn More About MiNFT</span>
+              <span>Learn More About Magic Mynt</span>
             </div>
           </div>
         </div>

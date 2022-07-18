@@ -2,6 +2,8 @@ import { getFirestore } from "firebase/firestore";
 import React, { ChangeEvent, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { getLayers } from "redux/reducers/selectors/layers";
 import { addLayer } from "redux/reducers/slices/layers";
 
 import { firebaseApp } from "@/lib/firebase";
@@ -22,6 +24,7 @@ const NewProperty = ({ onDiscard, onSave }: props) => {
   const dispatch = useDispatch();
   const fileInput = useRef<HTMLInputElement>(null);
   const [propertyName, setPropertyName] = useState<string>("");
+  const layers = useSelector(getLayers);
 
   /**
    * handles change in file input
@@ -71,6 +74,7 @@ const NewProperty = ({ onDiscard, onSave }: props) => {
     if (propertyName.length < 1) return toast.error("Add property name");
     const layer: ILayer = {
       name: propertyName,
+      id: layers.length + 1,
       blendmode: "source-over",
       opacity: 1,
       bypassDNA: false,

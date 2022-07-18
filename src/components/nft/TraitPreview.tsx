@@ -10,7 +10,6 @@ import {
   changeElementCount,
   selectTraitForPreview,
 } from "redux/reducers/slices/layers";
-import swal from "sweetalert";
 
 import { enumNFTGenConfig } from "@/enums/nft-gen-configurations";
 import { IElement } from "@/interfaces";
@@ -38,45 +37,13 @@ const TraitPreview: FC<AppProps> = ({
   const [rarity, setRarity] = useState<number>(0);
   const layers = useSelector(getLayers);
   const configuration = useSelector(getConfiguration);
-  /**
-   * handles removal of trait
-   *
-   * @param evt - MouseEvent object
-   * @returns {undefined}
-   */
-  function handleRemoveTrait(evt: React.MouseEvent<SVGSVGElement>) {
-    evt.stopPropagation();
-    if (onRemove) {
-      swal({
-        title: "Warning",
-        text: "You are deleting a trait. Action is irreversible.\n Do you want to continue?",
-        icon: "warning",
-        dangerMode: true,
-        buttons: ["Cancel", "Ok"],
-      }).then((value) => {
-        if (value) {
-          onRemove(traitIndex);
-        }
-      });
-    }
-  }
-  /**
-   * handles changed in rarity number input
-   *
-   * @param {Object} evt - ChangeEvent Object
-   * @returns {undefined}
-   */
+
   function handleOnRarityInputed(evt: React.ChangeEvent<HTMLInputElement>) {
     const value: number = parseFloat(evt.target.value);
 
     setRarity(value ? Math.abs(value) : 0);
   }
-  /**
-   * handles changes in range input
-   *
-   * @param {Object} evt - React's ChangeEvent object
-   * @returns {undefined}
-   */
+
   function onRangeChanged(e: React.ChangeEvent<HTMLInputElement>) {
     if (parseInt(e.target.value) > getMaximumSupply(layers)) return;
     if (parseInt(e.target.value) > getMaximumSupply(layers)) {

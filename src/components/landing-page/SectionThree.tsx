@@ -33,16 +33,16 @@ export default function SectionThree() {
   };
 
   const [highlight, setHighlight] = useState("Alhamdulillah");
-  
+
   const changeHighlight = (e: any) => {
-    e.preventDefault(); 
-    setHighlight(e.target.value)
-  }
+    e.preventDefault();
+    setHighlight(e.target.value);
+  };
 
   return (
     <div>
-      <div className="flex flex-row justify-between px-20 pt-28 text-white">
-        <div className="w-1/3">
+      <div className="flex flex-col justify-between px-10 pt-14 text-white md:px-20 md:pt-20 lg:flex-row lg:pt-28">
+        <div className="w-full lg:w-1/3">
           <div className="pt-10 font-dmsans text-lg font-bold">
             <input
               type="text"
@@ -50,14 +50,14 @@ export default function SectionThree() {
               value={highlight}
               onChange={changeHighlight}
               onBlur={changeHighlight}
-              className="w-full border-0 bg-transparent text-lg"
+              className="w-full border-0 bg-transparent text-xl md:text-2xl lg:text-lg"
             />
           </div>
           <div className="">
             <textarea
               rows={3}
               id="sectionthree-heading"
-              className="w-full resize-none overflow-hidden whitespace-normal border-0 bg-transparent p-0 pb-8 font-serif text-9xl italic "
+              className="h-80 w-full resize-none overflow-hidden whitespace-normal border-0 bg-transparent p-0 pb-8 font-serif text-8xl italic md:h-auto md:text-9xl "
               value={heading}
               onChange={changeHeading}
               onKeyDown={handleKeyDown}
@@ -66,58 +66,57 @@ export default function SectionThree() {
           </div>
           <div className=" w-4/5">
             <textarea
-              rows={10}
               id="sectionthree-paragraph"
-              className="w-full resize-none overflow-hidden whitespace-normal border-0 bg-transparent font-dmsans text-base leading-relaxed"
+              className="h-80 w-full resize-none overflow-hidden hover:resize focus:resize whitespace-normal border-0 bg-transparent font-dmsans text-base leading-relaxed md:h-44"
               value={paragraphText}
               onChange={changeParagraphText}
               onKeyDown={handleParagraphKeyDown}
               onBlur={changeParagraphText}
-            /> 
+            />
           </div>
           <div className="flex justify-start pt-3 pb-5">
             <ButtonLink
               href=""
-              className="rounded-xl border-0 bg-[#006C35] py-6 px-20 hover:bg-black"
+              className="rounded-xl border-0 bg-[#006C35] py-6 px-20 text-xl hover:bg-black"
             >
               Say Alhamdulillah
             </ButtonLink>
           </div>
         </div>
-        <div className="flex w-7/12 flex-row justify-evenly">
-          <div className="mt-28">
-            <div className="m-4 bg-[#7f9dc3]">
+        <div className="mt-20 flex w-full flex-row justify-evenly lg:mt-0 lg:w-7/12">
+          <div className="mt-14 md:mt-20 lg:mt-28">
+            <div className="m-2 bg-[#7f9dc3] md:m-4">
               <img src={images.elements[3].src} alt={images.elements[3].alt} />
             </div>
-            <div className="m-4 bg-[#7f9dc3]">
+            <div className="m-2 bg-[#7f9dc3] md:m-4">
               <img src={images.elements[4].src} alt={images.elements[4].alt} />
             </div>
-            <div className="m-4 bg-[#7f9dc3]">
+            <div className="m-2 bg-[#7f9dc3] md:m-4">
               <img src={images.elements[5].src} alt={images.elements[5].alt} />
             </div>
           </div>
           <div>
-            <div className="m-4 bg-[#7f9dc3]">
+            <div className="m-2 bg-[#7f9dc3] md:m-4">
               <img src={images.elements[2].src} alt={images.elements[2].alt} />
             </div>
-            <div className="m-4 bg-[#7f9dc3]">
+            <div className="m-2 bg-[#7f9dc3] md:m-4">
               <img src={images.elements[1].src} alt={images.elements[1].alt} />
             </div>
-            <div className="m-4 bg-[#7f9dc3]">
+            <div className="m-2 bg-[#7f9dc3] md:m-4">
               <img src={images.elements[7].src} alt={images.elements[7].alt} />
             </div>
-            <div className="flex h-24 items-center justify-center font-serif text-3xl font-bold italic">
+            <div className="hidden h-24 items-center justify-center font-serif font-bold italic md:flex md:text-2xl lg:text-3xl">
               <span>&apos;&apos;Max Bidding&apos;&apos;</span>
             </div>
           </div>
-          <div className="mt-28">
-            <div className="m-4 bg-[#7f9dc3]">
+          <div className="mt-14 md:mt-20 lg:mt-28">
+            <div className="m-2 bg-[#7f9dc3] md:m-4">
               <img src={images.elements[6].src} alt={images.elements[6].alt} />
             </div>
-            <div className="m-4 bg-[#7f9dc3]">
+            <div className="m-2 bg-[#7f9dc3] md:m-4">
               <img src={images.elements[0].src} alt={images.elements[0].alt} />
             </div>
-            <div className="m-4 bg-[#7f9dc3]">
+            <div className="m-2 bg-[#7f9dc3] md:m-4">
               <img src={images.elements[8].src} alt={images.elements[8].alt} />
             </div>
           </div>

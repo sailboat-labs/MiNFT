@@ -226,6 +226,16 @@ const layerStore = createSlice({
         }
       }
     },
+
+    resetElementCounts: (state: any, param: any) => {
+      const { payload } = param;
+
+      state.layers.forEach((layer: ILayer) => {
+        layer.elements.forEach((element: IElement) => {
+          element.weight = payload / layer.elements.length;
+        });
+      });
+    },
   },
 });
 const { actions, reducer } = layerStore;
@@ -242,5 +252,6 @@ export const {
   deleteLayer,
   addLayer,
   changeElementCount,
+  resetElementCounts,
 } = actions;
 export default layerStore;

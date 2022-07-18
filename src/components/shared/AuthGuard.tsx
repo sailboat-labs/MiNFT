@@ -110,7 +110,7 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
               <Link href="/" passHref>
                 <div className="flex w-fit justify-between">
                   <span className="flex cursor-pointer select-none items-center font-dmsans text-4xl font-bold leading-none  text-gray-900  md:mb-0 lg:items-center lg:justify-center">
-                    MiNFT<span className="text-indigo-600">.</span>
+                    Magic Mynt<span className="text-indigo-600">.</span>
                   </span>
                 </div>
               </Link>
@@ -152,9 +152,9 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
               }`}
             >
               <div className="w-fit rounded-lg border-2 border-indigo-200 bg-indigo-50  p-3 font-dmsans text-indigo-500 dark:bg-gray-600">
-                By connecting a wallet, you agree to MiNFT&apos;s Terms of
+                By connecting a wallet, you agree to Magic Mynt&apos;s Terms of
                 Service and acknowledge that you have read and understand the
-                MiNFT Disclaimer.
+                Magic Mynt Disclaimer.
               </div>
               <div className="mt-10 w-fit font-dmsans text-2xl">Providers</div>
               <div className="grid w-fit grid-cols-2 gap-5 md:grid-cols-3 xl:grid-cols-4">
@@ -169,7 +169,7 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
                           await authenticate({
                             provider: connectorId as any,
                             signingMessage:
-                              "Authenticate with MiNFT \nClick to sign in and accept the \nMiNFT Terms of Service.\n\n This request will not trigger a blockchain transaction \nor cost any gas fees.\nYour authentication status will reset after 24 hours",
+                              "Authenticate with Magic Mynt \nClick to sign in and accept the Magic Mynt Terms of Service.\n\n This request will not trigger a blockchain transaction \nor cost any gas fees.\nYour authentication status will reset after 24 hours",
                           })
                             .then((result) => {
                               if (result?.authenticated) return;
