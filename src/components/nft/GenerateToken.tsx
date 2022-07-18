@@ -97,8 +97,8 @@ export default function GenerateToken() {
             return toast.error("Enter description in settings");
           if (!configuration[enumNFTGenConfig.BASE_URL])
             return toast.error("Enter external link in settings");
-          if (possibleConfigCount < configuration[enumNFTGenConfig.SUPPLY])
-            return toast.error("Resolve errors in trait mixer rarity");
+          // if (possibleConfigCount < configuration[enumNFTGenConfig.SUPPLY])
+          //   return toast.error("Resolve errors in trait mixer rarity");
           dispatch(clearGeneratedImages({}));
 
           const _generatedImages: any = await generateTokens({
