@@ -8,7 +8,7 @@ interface AppProps {
 const NavTab: FC<AppProps> = ({ children, active }) => {
   return (
     <div
-      className={`relative my-2 ml-2 rounded-tl-full rounded-bl-full  text-sm font-medium text-white transition-all duration-100 hover:bg-[#0d7ba3]  ${
+      className={`relative my-2 ml-2 rounded-tl-full rounded-bl-full  text-sm font-medium text-white transition-all duration-100 hover:bg-[#0d7ba3] dark:text-gray-700  ${
         active && "bg-white  text-[#085E7D] hover:bg-white hover:tracking-wider"
       }`}
     >

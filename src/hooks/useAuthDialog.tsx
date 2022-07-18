@@ -101,7 +101,7 @@ export default function useAuthenticationDialog() {
         <div className="pb-10 text-lg font-medium leading-6 text-gray-900">
           <div className="flex items-center justify-between">
             {isAuthenticating ? (
-              <div className="flex items-center gap-2 fill-black dark:fill-white dark:text-white">
+              <div className="flex items-center gap-2 fill-black dark:fill-white dark:text-white dark:text-gray-200">
                 <svg
                   role="status"
                   className="mr-2 inline h-4 w-4 animate-spin text-gray-200 "
@@ -123,7 +123,9 @@ export default function useAuthenticationDialog() {
             ) : isInitializing ? (
               "Initializing"
             ) : (
-              <div className="dark:text-white">Connect your wallet</div>
+              <div className="dark:text-white dark:text-gray-200">
+                Connect your wallet
+              </div>
             )}
             <svg
               onClick={() =>
@@ -149,8 +151,9 @@ export default function useAuthenticationDialog() {
           }`}
         >
           <div className="rounded-lg border-2 bg-gray-100 p-3 dark:bg-gray-600">
-            By connecting a wallet, you agree to MiNFT’s Terms of Service and
-            acknowledge that you have read and understand the MiNFT Disclaimer.
+            By connecting a wallet, you agree to Magic Mynt Terms of Service and
+            acknowledge that you have read and understand the Magic Mynt
+            Disclaimer.
           </div>
           {connectors.map(({ title, icon, connectorId }, key) => (
             <div
@@ -163,7 +166,7 @@ export default function useAuthenticationDialog() {
                     await authenticate({
                       provider: connectorId as any,
                       signingMessage:
-                        "Authenticate with MiNFT \nClick to sign in and accept the \nMiNFT Terms of Service.\n\n This request will not trigger a blockchain transaction \nor cost any gas fees.\nYour authentication status will reset after 24 hours",
+                        "Authenticate with Magic Mynt \nClick to sign in and accept the Magic Mynt Terms of Service.\n\n This request will not trigger a blockchain transaction \nor cost any gas fees.\nYour authentication status will reset after 24 hours",
                     })
                       .then((result) => {
                         if (result?.authenticated) return;

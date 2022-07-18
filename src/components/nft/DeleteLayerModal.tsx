@@ -27,7 +27,7 @@ export default function DeleteLayerModal({ layer }: props) {
     <>
       <div
         onClick={openModal}
-        className="flex w-full cursor-pointer items-center gap-3 rounded-md px-2 py-2 text-sm text-gray-900 hover:bg-red-500 hover:text-white"
+        className="flex w-full cursor-pointer items-center gap-3 rounded-md px-2 py-2 text-sm text-gray-900 hover:bg-red-500 hover:text-white dark:text-gray-200"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

@@ -7,8 +7,8 @@ export default function Metadata() {
         Metadata Handled
       </div>
       <div className="px-10 font-dmsans text-xl font-extrabold text-[#675C4C] md:px-20 lg:text-lg">
-        MiNFT automatically exports metadata compatible with leading markplaces
-        for Ethereum,
+        Magic Mynt automatically exports metadata compatible with leading
+        marketplaces for Ethereum,
       </div>
       <div className="px-10 font-dmsans text-xl font-extrabold text-[#675C4C] md:px-20 lg:text-lg">
         Polygon and Solana, including rich attributes and custom names.

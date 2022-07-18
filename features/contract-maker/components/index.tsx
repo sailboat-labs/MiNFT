@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
-import ContractPreviewStep from "@/components/contract/ContractPreviewStep";
-import ContractSettingsStep from "@/components/contract/ContractSettingsStep";
-import ContractTypeStep from "@/components/contract/ContractTypeStep";
+import ContractPreviewStep from "./contract/ContractPreviewStep";
+import ContractSettingsStep from "./contract/ContractSettingsStep";
+import ContractTypeStep from "./contract/ContractTypeStep";
 
 const STEPS: { [key: number]: JSX.Element } = {
   1: <ContractTypeStep />,
@@ -39,7 +39,7 @@ const ContractMakerView = () => {
           {activeStep < 3 && (
             <button
               onClick={() => nextStep()}
-              className="min-w-[150px] rounded-md bg-indigo-800 py-2 text-white transition-all duration-150 hover:bg-indigo-900"
+              className="min-w-[150px] rounded-md bg-indigo-800 py-2 text-white transition-all duration-150 hover:bg-indigo-900 dark:text-gray-700"
             >
               Next
             </button>

@@ -64,7 +64,7 @@ const FolderUploader = ({ onUploaded }: AppProps) => {
   return (
     <div className="relative">
       <button
-        className="rounded-md bg-blue-500 px-5 py-2 text-white transition-all duration-150 hover:bg-blue-600"
+        className="rounded-md bg-blue-500 px-5 py-2 text-white transition-all duration-150 hover:bg-blue-600 dark:text-gray-700"
         onClick={() => inputRef.current?.click()}
       >
         Upload Folder

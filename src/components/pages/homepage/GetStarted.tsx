@@ -12,7 +12,7 @@ export default function GetStarted() {
       <div className="mb-10 h-2 w-screen bg-[#675C4C] opacity-25"></div>
       <div className="relative z-[2] flex flex-col items-center ">
         <div className="w-fit px-10 pb-5 font-dmsans text-4xl font-extrabold text-[#675C4C] md:px-20">
-          Register Interest With MiNFT
+          Register Interest With Magic Mynt
         </div>
 
         <ButtonLink

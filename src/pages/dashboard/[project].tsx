@@ -1,4 +1,8 @@
 import dashify from "dashify";
+import ContractMakerView from "features/contract-maker/components";
+import DashboardHome from "features/dashboard/components/dashboard-home";
+import PageBuilder from "features/minting-page-builder/components/page-builder";
+import NFTGenerator from "features/traitmixer/components";
 import {
   collection,
   DocumentData,
@@ -15,8 +19,9 @@ import {
   getDashboardState,
   getSlideInModalState,
 } from "redux/reducers/selectors/dashboard";
+import { getProjectState } from "redux/reducers/selectors/project";
 import { setConfiguration } from "redux/reducers/slices/configuration";
-import { setSlideInModalConfig } from "redux/reducers/slices/dashboard";
+import { setLayers } from "redux/reducers/slices/layers";
 import { setProject } from "redux/reducers/slices/project";
 
 import { firebaseApp } from "@/lib/firebase";
@@ -27,18 +32,17 @@ import Whitelist from "@/components/dashboard/Whitelist";
 import ComingSoon from "@/components/layout/ComingSoon";
 import AddLayer from "@/components/nft/AddLayer";
 import TraitsSearchbar from "@/components/nft/TraitsSearchbar";
-import ContractMakerView from "@/components/pages/Dashboard/contract-maker";
-import DashboardHome from "@/components/pages/Dashboard/dashboard-home";
-import NFTGenerator from "@/components/pages/Dashboard/NftGenerator";
+import DevPage from "@/components/pages/dev/dev";
 import PageLoader from "@/components/shared/PageLoader";
 
 import { enumNFTGenConfig } from "@/enums/nft-gen-configurations";
-import { IDashboardState, IProject } from "@/interfaces";
+import { IDashboardState, ILayer, IProject } from "@/interfaces";
 
 const firestore = getFirestore(firebaseApp);
 
 export default function DashboardHomePage() {
   const dashboardState = useSelector(getDashboardState) as IDashboardState;
+  const project = useSelector(getProjectState) as IProject;
   const selectedSidebar = dashboardState.selectedSidebar;
   const router = useRouter();
   const dispatch = useDispatch();
@@ -70,6 +74,11 @@ export default function DashboardHomePage() {
       label: "Contract Maker",
     },
     {
+      component: <PageBuilder />,
+      value: "minting-page-builder",
+      label: "Minting Page Builder",
+    },
+    {
       component: <Whitelist />,
       value: "whitelist",
       label: "Whitelist",
@@ -84,6 +93,11 @@ export default function DashboardHomePage() {
       value: "ip-rights",
       label: "IP Rights",
     },
+    {
+      component: <DevPage />,
+      value: "dev-page",
+      label: "Development Eyes",
+    },
   ];
 
   const _query = query(
@@ -93,7 +107,13 @@ export default function DashboardHomePage() {
 
     limit(1)
   );
+
+  const _layersQuery = query(
+    collection(firestore, `Projects/${project?.slug}/Layers`)
+  );
+
   const [snapshots, loading] = useCollectionData(_query);
+  const [layerSnapshots, layerLoading] = useCollectionData(_layersQuery);
 
   useEffect(() => {
     if (!account) return;
@@ -140,10 +160,24 @@ export default function DashboardHomePage() {
     }
   }, [loading, snapshots, account]);
 
+  useEffect(() => {
+    if (!account) return;
+    if (layerLoading) return;
+    if (!layerSnapshots) return;
+
+    const data = layerSnapshots.reduce((acc: ILayer[], curr: DocumentData) => {
+      acc.push(curr as ILayer);
+      return acc;
+    }, []);
+
+    dispatch(setLayers(data));
+  }, [project, layerSnapshots, layerLoading, account]);
+
   if (loading)
     return (
       <div className="flex h-screen w-screen items-center justify-center">
         <PageLoader />
+        Getting things ready for you...
       </div>
     );
 
@@ -172,39 +206,6 @@ function NFTGeneratorTitleOptions() {
     <div className="flex items-center gap-3">
       <TraitsSearchbar />
       <AddLayer />
-      <div
-        onClick={() => {
-          dispatch(
-            setSlideInModalConfig({
-              key: "componentLabel",
-              value: "nft-gen-settings",
-            })
-          );
-          dispatch(setSlideInModalConfig({ key: "show", value: true }));
-        }}
-        className="flex cursor-pointer items-center gap-2 rounded border px-2 py-1 transition-all hover:bg-gray-100"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-4 w-4 rotate-0 cursor-pointer transition-all hover:rotate-180 hover:scale-110"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth="2"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-          />
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-          />
-        </svg>
-        <span className="hidden xl:inline">Settings</span>
-      </div>
     </div>
   );
 }

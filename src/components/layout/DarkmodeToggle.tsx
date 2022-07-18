@@ -27,7 +27,7 @@ export default function DarkModeMenu({ className }: props) {
   };
 
   return (
-    <div className="flex items-center justify-center px-0 text-sm font-medium dark:stroke-white stroke-black">
+    <div className="flex items-center justify-center stroke-black px-0 text-sm font-medium dark:stroke-white">
       {theme === "light" ? (
         <svg
           onClick={() => {
@@ -109,7 +109,7 @@ export default function DarkModeMenu({ className }: props) {
   //       leaveFrom="transform opacity-100 scale-100"
   //       leaveTo="transform opacity-0 scale-95"
   //     >
-  //       <Menu.Items className="absolute right-0 w-56 mt-2 origin-top-right dark:text-white  dark:bg-[#202124] divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+  //       <Menu.Items className="absolute right-0 w-56 mt-2 origin-top-right dark:text-white dark:text-gray-200  dark:bg-[#202124] divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
   //         <div className="px-1 py-1 ">
   //           <Menu.Item>
   //             {({ active }) => (
@@ -119,8 +119,8 @@ export default function DarkModeMenu({ className }: props) {
   //                 }}
   //                 className={`${
   //                   active
-  //                     ? "bg-[#2D8DA7] text-white"
-  //                     : "text-gray-900 dark:text-white"
+  //                     ? "bg-[#2D8DA7] text-white dark:text-gray-200"
+  //                     : "text-gray-900 dark:text-white dark:text-gray-200"
   //                 } group flex rounded-md items-center w-full px-2 py-2 text-sm transition`}
   //               >
   //                 {active ? (
@@ -166,8 +166,8 @@ export default function DarkModeMenu({ className }: props) {
   //                 }}
   //                 className={`${
   //                   active
-  //                     ? "bg-[#2D8DA7] text-white"
-  //                     : "text-gray-900 dark:text-white"
+  //                     ? "bg-[#2D8DA7] text-white dark:text-gray-200"
+  //                     : "text-gray-900 dark:text-white dark:text-gray-200"
   //                 } group flex rounded-md items-center w-full px-2 py-2 text-sm transition`}
   //               >
   //                 {active ? (
@@ -213,7 +213,7 @@ export default function DarkModeMenu({ className }: props) {
   //               onClick={()=>{handleTheme('system')}}
 
   //                 className={`${
-  //                   active ? "bg-[#2D8DA7] text-white" : "text-gray-900"
+  //                   active ? "bg-[#2D8DA7] text-white dark:text-gray-200" : "text-gray-900"
   //                 } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
   //               >
   //                 {active ? (

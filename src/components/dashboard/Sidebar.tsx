@@ -98,6 +98,27 @@ const sidebarItems: { label: string; icon: any; value: string }[] = [
   },
 
   {
+    label: "Minting Page Builder",
+    value: "minting-page-builder",
+    icon: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="ml-2 mr-4 h-6 w-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth={2}
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
+        />
+      </svg>
+    ),
+  },
+
+  {
     label: "Marketing",
     value: "marketing",
     icon: (
@@ -120,6 +141,27 @@ const sidebarItems: { label: string; icon: any; value: string }[] = [
   {
     label: "IP Rights",
     value: "ip-rights",
+    icon: (
+      <svg
+        className="ml-2 mr-4 h-6 w-6"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M15 11C14.447 11 14 11.448 14 12C14 13.103 13.103 14 12 14C10.897 14 10 13.103 10 12C10 11.448 9.553 11 9 11C8.447 11 8 11.448 8 12C8 14.206 9.794 16 12 16C14.206 16 16 14.206 16 12C16 11.448 15.553 11 15 11ZM18 19H6C5.448 19 5 18.551 5 18V9H19V18C19 18.551 18.552 19 18 19ZM8.121 5.293C8.308 5.107 8.565 5 8.828 5H15.172C15.435 5 15.692 5.107 15.879 5.293L17.586 7H6.414L8.121 5.293ZM20.121 6.707L17.293 3.879C16.727 3.312 15.973 3 15.172 3H8.828C8.027 3 7.273 3.312 6.707 3.879L3.879 6.707C3.312 7.273 3 8.027 3 8.829V18C3 19.654 4.346 21 6 21H18C19.654 21 21 19.654 21 18V8.829C21 8.027 20.688 7.273 20.121 6.707Z"
+          fill="#757D8A"
+        />
+      </svg>
+    ),
+  },
+  {
+    label: "Development Eyes",
+    value: "dev-page",
     icon: (
       <svg
         className="ml-2 mr-4 h-6 w-6"
