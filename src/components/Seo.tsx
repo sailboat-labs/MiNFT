@@ -5,8 +5,8 @@ import { useRouter } from "next/router";
 
 // !STARTERCONF Change these default meta
 const defaultMeta = {
-  title: "MiNFT",
-  siteName: "MiNFT",
+  title: "Magic Mynt",
+  siteName: "Magic Mynt",
   description: "The place for crowd-sourced alpha on the hottest NFT projects",
   /** Without additional '/' on the end, e.g. https://theodorusclarence.com */
   url: "https://minft.me",

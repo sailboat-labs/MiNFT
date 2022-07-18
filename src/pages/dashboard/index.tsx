@@ -98,7 +98,7 @@ export default function DashboardGetStarted() {
       projectName: "Nozomix Extreme",
       tokenSupply: "64",
       baseUrl: "https://baseurl.com/",
-      description: "This is the MiNFT demo project: Nozomix Extreme",
+      description: "This is the Magic Mynt demo project: Nozomix Extreme",
       isDemo: true,
     };
 
@@ -154,7 +154,7 @@ export default function DashboardGetStarted() {
                 <Link href="/" passHref>
                   <div className="flex w-fit justify-between">
                     <span className="flex cursor-pointer select-none items-center font-dmsans text-4xl font-bold leading-none  text-gray-900  md:mb-0 lg:items-center lg:justify-center">
-                      MiNFT<span className="text-indigo-600">.</span>
+                      Magic Mynt<span className="text-indigo-600">.</span>
                     </span>
                   </div>
                 </Link>

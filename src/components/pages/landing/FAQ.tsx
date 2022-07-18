@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 export default function FAQ() {
   const FAQ: { title: string; details: JSX.Element }[] = [
     {
-      title: "What is MiNFT",
+      title: "What is Magic Mynt",
       details: (
         <div className="flex flex-col gap-5">
           <p>
@@ -15,7 +15,7 @@ export default function FAQ() {
             after mint for the long-term ride.
           </p>
           <p>
-            MiNFT is like the product hunt, or amazon for NFT projects: - a
+            Magic Mynt is like the product hunt, or amazon for NFT projects: - a
             decentralized, crowd-sourced and living knowledge hub for all
             projects that we as a community care about. The platform will
             combine quantitative project metrics with qualitative descriptions
@@ -30,19 +30,19 @@ export default function FAQ() {
       ),
     },
     {
-      title: "What projects can I add to MiNFT?",
+      title: "What projects can I add to Magic Mynt?",
       details: (
         <div className="flex flex-col gap-5">
           <p>
-            Any! MiNFT is a place to learn about NFT projects - from ones that
-            are still in stealth and only have a mysterious twitter account or
-            closed discord server to long established OG projects.
+            Any! Magic Mynt is a place to learn about NFT projects - from ones
+            that are still in stealth and only have a mysterious twitter account
+            or closed discord server to long established OG projects.
           </p>
 
           <p>
-            We want MiNFT to be your number one place to find out about upcoming
-            mints the community is excited about as well as a trusted resource
-            to learn more about existing projects.
+            We want Magic Mynt to be your number one place to find out about
+            upcoming mints the community is excited about as well as a trusted
+            resource to learn more about existing projects.
           </p>
         </div>
       ),
@@ -74,8 +74,8 @@ export default function FAQ() {
         <div className="flex flex-col gap-5">
           <div>
             Alpha shared is alpha doubled. We believe that good projects should
-            get the attention they deserve and want MiNFT to become the place
-            for the space to look for high quality projects backed by the
+            get the attention they deserve and want Magic Mynt to become the
+            place for the space to look for high quality projects backed by the
             community.
           </div>
           <div>

@@ -22,14 +22,14 @@ export default function Guides() {
       image: "/images/homepage/guide_1.png",
     },
     {
-      title: "MiNFT Contract",
+      title: "Magic Mynt Contract",
       description:
         "We've made it so easy to deploy your smart contract, you'll want to put our wallet address in your royalty box just to thank us! Follow our seamless process, test and adjust your parameters as many times as you need, then deploy when ready.",
       button: "Start now",
       image: "/images/homepage/guide_2.png",
     },
     {
-      title: "MiNFT List",
+      title: "Magic Mynt List",
       description:
         "An NFT launch needs two things to succeed: hype and community. Lucky for you, our Discord and Twitter verification make it super easy to let the humans in and keep the bots out of your pre-sale list.",
       button: "Start now",
@@ -56,7 +56,9 @@ export default function Guides() {
                 </div>
                 <div
                   className={
-                    process.env.NEXT_PUBLIC_ENVIRONMENT == "development" ? "block" : "hidden"
+                    process.env.NEXT_PUBLIC_ENVIRONMENT == "development"
+                      ? "block"
+                      : "hidden"
                   }
                 >
                   <ButtonLink

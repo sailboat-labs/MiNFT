@@ -12,7 +12,7 @@ export default function Header() {
     <div className="fixed z-40 flex h-12 w-full flex-row items-center border border-[#1F1A17] bg-white font-montserrat font-extrabold text-[#1F1A17]">
       <StarSVG className="ml-10 mr-3 h-6 w-6 sm:ml-20 lg:ml-40" />
       <UnstyledLink href="/" className="w-24 text-xl lg:mr-14">
-        MiNFT
+        Magic Mynt
       </UnstyledLink>
       <span className="hidden sm:w-1/5 md:inline md:w-2/5 lg:w-3/5"></span>
       <div className="flex flex-row text-base lg:ml-0">

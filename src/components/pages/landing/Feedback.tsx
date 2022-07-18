@@ -17,7 +17,7 @@ export default function Feedback() {
               Community built platform
             </h1>
             <p className="mg:text-2xl mt-5 border-0 border-gray-200 text-center text-lg md:text-left lg:text-2xl">
-              Help us shape the <strong>MiNFT</strong> platform, send us a
+              Help us shape the <strong>Magic Mynt</strong> platform, send us a
               tweet!
             </p>
             <div className="mt-10 flex justify-center md:justify-start">
