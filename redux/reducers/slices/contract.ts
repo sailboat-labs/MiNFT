@@ -10,8 +10,12 @@ const contractSlice = createSlice({
     dutch: null,
     fairDutch: null,
     pureWhitelist: null,
+    activeStep: 1,
   },
   reducers: {
+    nextStep: (state: any, action: PayloadAction<number>) => {
+      state.activeStep += action.payload;
+    },
     setContract: (
       state: any,
       action: PayloadAction<{ key: string; value: any }>
@@ -62,6 +66,7 @@ const contractSlice = createSlice({
 // const { actions } = contractSlice;
 
 export const {
+  nextStep,
   setContract,
   updateFairDutch,
   updateClassicMint,

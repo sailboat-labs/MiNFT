@@ -1,69 +1,17 @@
-import { useFormik } from "formik";
-import React from "react";
+import React, { FC } from "react";
 import { useSelector } from "react-redux";
 import TimezoneSelect from "react-timezone-select";
 import { getContractByField } from "redux/reducers/selectors/contract";
-import * as Yup from "yup";
 
 import BaseInput from "@/components/controls/BaseInput";
 import ContractFormRowSection from "@/components/layout/ContractRowSection";
 
-const WhitelistForm = () => {
+interface AppProps {
+  form: any;
+}
+
+const WhitelistForm: FC<AppProps> = ({ form }) => {
   const contractType = useSelector(getContractByField("type"));
-
-  const whitelistForm = useFormik({
-    initialValues: {
-      mintPrice: 0,
-      totalQuantity: 0,
-      quantity: 0,
-      reservedTokensCount: 0,
-      maxMintPerWhitelistWallet: 0,
-      maxMintPerWallet: 0,
-      startDateTimezone: "",
-      endDateTimezone: "",
-      maxMintPerTransaction: 0,
-    },
-    validationSchema: Yup.object({
-      mintPrice: Yup.number()
-        .required("enter mint price")
-        .positive("expected positive value"),
-      totalQuantity: Yup.number()
-        .required("enter mint price")
-        .positive("total whitelisted quantity should be a positive value"),
-      quantity: Yup.number()
-        .required("enter mint quantity")
-        .positive("quantity should  be positive"),
-      reservedTokensCount: Yup.number()
-        .required("how many tokens should be reserved?")
-        .positive("tokens reserved should  be positive"),
-      maxMintPerWhitelistWallet: Yup.number()
-        .required("max mint per whitelisted wallet is required")
-        .positive("value should be positive"),
-      maxMintPerWallet: Yup.number()
-        .required("max mint per wallet is required")
-        .positive("value should be positive"),
-      maxMintPerTransaction: Yup.number()
-        .required("max mint per transaction is required")
-        .positive("value should be positive"),
-      startDateTimezone: Yup.string().required("timezone is required"),
-      endDateTimezone: Yup.string().required("timezone is required"),
-    }),
-    onSubmit: (values, formik) => {
-      // todo: on submit
-      console.log(values);
-    },
-  });
-
-  // function handleOnChange(key: string, value: string) {
-  //   value = value.trim();
-
-  //   dispatch(
-  //     updateWhitelistDetails({
-  //       key,
-  //       value: value.length === 0 ? undefined : parseInt(value),
-  //     })
-  //   );
-  // }
 
   return (
     <form>
@@ -76,7 +24,7 @@ const WhitelistForm = () => {
               <input
                 id="classic-1"
                 type="radio"
-                {...whitelistForm.getFieldProps("same")}
+                {...form.getFieldProps("same")}
                 className="mt-1"
                 value="same"
               />
@@ -88,7 +36,7 @@ const WhitelistForm = () => {
               <input
                 id="special-time"
                 type="radio"
-                {...whitelistForm.getFieldProps("same")}
+                {...form.getFieldProps("same")}
                 className="mt-1"
                 value="special"
               />
@@ -105,11 +53,9 @@ const WhitelistForm = () => {
                     type="datetime-local"
                   />
                   <TimezoneSelect
-                    value={
-                      whitelistForm.getFieldProps("startDateTimeZone") as any
-                    }
+                    value={form.getFieldProps("startDateTimeZone") as any}
                     onChange={(value) =>
-                      whitelistForm.setFieldValue("startDateTimezone", value)
+                      form.setFieldValue("startDateTimezone", value)
                     }
                     placeholder="Select timezone..."
                   />
@@ -123,11 +69,9 @@ const WhitelistForm = () => {
                     type="datetime-local"
                   />
                   <TimezoneSelect
-                    value={
-                      whitelistForm.getFieldProps("endDateTimeZone") as any
-                    }
+                    value={form.getFieldProps("endDateTimeZone") as any}
                     onChange={(value) =>
-                      whitelistForm.setFieldValue("endDateTimezone", value)
+                      form.setFieldValue("endDateTimezone", value)
                     }
                     placeholder="Select timezone..."
                   />
@@ -165,12 +109,11 @@ const WhitelistForm = () => {
             <BaseInput
               type="number"
               wrapperClass="mt-3 md:w-1/2"
-              {...whitelistForm.getFieldProps("mintPrice")}
+              {...form.getFieldProps("mintPrice")}
               error={
-                whitelistForm.touched.mintPrice &&
-                whitelistForm.errors.mintPrice ? (
+                form.touched.mintPrice && form.errors.mintPrice ? (
                   <p className="text-base text-red-500">
-                    {whitelistForm.errors.mintPrice}
+                    {form.errors.mintPrice}
                   </p>
                 ) : null
               }
@@ -180,12 +123,11 @@ const WhitelistForm = () => {
               <label className="font-semibold">Total whitelist quantity</label>
               <BaseInput
                 wrapperClass="mt-3 md:w-1/2"
-                {...whitelistForm.getFieldProps("totalQuantity")}
+                {...form.getFieldProps("totalQuantity")}
                 error={
-                  whitelistForm.touched.totalQuantity &&
-                  whitelistForm.errors.totalQuantity ? (
+                  form.touched.totalQuantity && form.errors.totalQuantity ? (
                     <p className="text-base text-red-500">
-                      {whitelistForm.errors.totalQuantity}
+                      {form.errors.totalQuantity}
                     </p>
                   ) : null
                 }
@@ -196,12 +138,11 @@ const WhitelistForm = () => {
               <label className="font-semibold">{contractType} quantity</label>
               <BaseInput
                 wrapperClass="mt-3 md:w-1/2"
-                {...whitelistForm.getFieldProps("quantity")}
+                {...form.getFieldProps("quantity")}
                 error={
-                  whitelistForm.touched.quantity &&
-                  whitelistForm.errors.quantity ? (
+                  form.touched.quantity && form.errors.quantity ? (
                     <p className="text-base text-red-500">
-                      {whitelistForm.errors.quantity}
+                      {form.errors.quantity}
                     </p>
                   ) : null
                 }
@@ -218,12 +159,12 @@ const WhitelistForm = () => {
                 Number of tokens to reserve
               </label>
               <BaseInput
-                {...whitelistForm.getFieldProps("reservedTokensCount")}
+                {...form.getFieldProps("reservedTokensCount")}
                 error={
-                  whitelistForm.touched.reservedTokensCount &&
-                  whitelistForm.errors.reservedTokensCount ? (
+                  form.touched.reservedTokensCount &&
+                  form.errors.reservedTokensCount ? (
                     <p className="text-base text-red-500">
-                      {whitelistForm.errors.reservedTokensCount}
+                      {form.errors.reservedTokensCount}
                     </p>
                   ) : null
                 }
@@ -235,12 +176,12 @@ const WhitelistForm = () => {
                 Maximum Mint per whitelisted wallet
               </label>
               <BaseInput
-                {...whitelistForm.getFieldProps("maxMintPerWhitelistWallet")}
+                {...form.getFieldProps("maxMintPerWhitelistWallet")}
                 error={
-                  whitelistForm.touched.maxMintPerWhitelistWallet &&
-                  whitelistForm.errors.maxMintPerWhitelistWallet ? (
+                  form.touched.maxMintPerWhitelistWallet &&
+                  form.errors.maxMintPerWhitelistWallet ? (
                     <p className="text-base text-red-500">
-                      {whitelistForm.errors.maxMintPerWhitelistWallet}
+                      {form.errors.maxMintPerWhitelistWallet}
                     </p>
                   ) : null
                 }
@@ -255,12 +196,12 @@ const WhitelistForm = () => {
                 </label>
               </div>
               <BaseInput
-                {...whitelistForm.getFieldProps("maxMintPerTransaction")}
+                {...form.getFieldProps("maxMintPerTransaction")}
                 error={
-                  whitelistForm.touched.maxMintPerTransaction &&
-                  whitelistForm.errors.maxMintPerTransaction ? (
+                  form.touched.maxMintPerTransaction &&
+                  form.errors.maxMintPerTransaction ? (
                     <p className="text-base text-red-500">
-                      {whitelistForm.errors.maxMintPerTransaction}
+                      {form.errors.maxMintPerTransaction}
                     </p>
                   ) : null
                 }
@@ -271,12 +212,12 @@ const WhitelistForm = () => {
             <div className="mt-6 flex flex-col gap-2">
               <label className="font-semibold">Maximum Mint per wallet</label>
               <BaseInput
-                {...whitelistForm.getFieldProps("maxMintPerWallet")}
+                {...form.getFieldProps("maxMintPerWallet")}
                 error={
-                  whitelistForm.touched.maxMintPerWallet &&
-                  whitelistForm.errors.maxMintPerWallet ? (
+                  form.touched.maxMintPerWallet &&
+                  form.errors.maxMintPerWallet ? (
                     <p className="text-base text-red-500">
-                      {whitelistForm.errors.maxMintPerWallet}
+                      {form.errors.maxMintPerWallet}
                     </p>
                   ) : null
                 }

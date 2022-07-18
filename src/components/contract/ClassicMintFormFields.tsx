@@ -111,12 +111,21 @@ const ClassicMintFormFields: FC<AppProps> = ({ form }) => {
           <input
             id="classic-mint-start-date"
             type="datetime-local"
+            {...form.getFieldProps("startDate")}
             className="w-full rounded border-gray-200 font-dmsans"
           />
           <TimezoneSelect
             {...form.getFieldProps("startDateTimeZone")}
             placeholder="Select timezone..."
           />
+          {form.touched.startDate && form.errors.startDate ? (
+            <p className="text-base text-red-500">{form.errors.startDate}</p>
+          ) : form.touched.startDateTimezone &&
+            form.errors.startDateTimezone ? (
+            <p className="text-base text-red-500">
+              {form.errors.startDateTimezone}
+            </p>
+          ) : null}
         </ContractFormRowSection>
         <ContractFormRowSection
           headingClass="font-semibold text-base"
@@ -125,12 +134,20 @@ const ClassicMintFormFields: FC<AppProps> = ({ form }) => {
           <input
             id="classic-mint-end-date"
             type="datetime-local"
+            {...form.getFieldProps("endDate")}
             className="w-full rounded border-gray-200 font-dmsans"
           />
           <TimezoneSelect
             {...form.getFieldProps("endDateTimeZone")}
             placeholder="Select timezone"
           />
+          {form.touched.endDate && form.errors.endDate ? (
+            <p className="text-base text-red-500">{form.errors.endDate}</p>
+          ) : form.touched.endDateTimezone && form.errors.endDateTimezone ? (
+            <p className="text-base text-red-500">
+              {form.errors.endDateTimezone}
+            </p>
+          ) : null}
         </ContractFormRowSection>
         <ContractFormRowSection
           headingClass="font-semibold text-base"

@@ -1,10 +1,19 @@
 import { useFormik } from "formik";
 import React from "react";
+import { useSelector } from "react-redux";
+import { getContract } from "redux/reducers/selectors/contract";
 import * as Yup from "yup";
 
+import useWhitelistForm from "@/hooks/useWhitelistForm";
+
+import WhitelistForm from "./Whitelist";
 import DutchAuctionFormFields from "../DutchFormFields";
+import StepperFooter from "../StepperFooter";
 
 const FairDutchAuction = () => {
+  const { type, whitelisted } = useSelector(getContract);
+  const whitelistForm = useWhitelistForm();
+
   const fairDutchAuctionForm = useFormik({
     initialValues: {
       quantity: 0,
@@ -30,7 +39,29 @@ const FairDutchAuction = () => {
       console.log(values);
     },
   });
-  return <DutchAuctionFormFields form={fairDutchAuctionForm} />;
+
+  function isValid(): boolean {
+    fairDutchAuctionForm.handleSubmit();
+    if (whitelisted) {
+      whitelistForm.handleSubmit();
+      return fairDutchAuctionForm.isValid && whitelistForm.isValid;
+    }
+
+    return fairDutchAuctionForm.isValid;
+  }
+
+  return (
+    <div>
+      <DutchAuctionFormFields form={fairDutchAuctionForm} />
+      {type.toLowerCase().trim() !== "pure whitelist" && whitelisted && (
+        <div>
+          <h2 className="pt-8 text-xl text-indigo-800">Whitelist</h2>
+          {whitelisted && <WhitelistForm form={whitelistForm} />}
+        </div>
+      )}
+      <StepperFooter beforeStep={isValid} />
+    </div>
+  );
 };
 
 export default FairDutchAuction;

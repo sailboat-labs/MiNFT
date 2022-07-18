@@ -3,6 +3,7 @@ import React from "react";
 import * as Yup from "yup";
 
 import ClassicMintFormFields from "../ClassicMintFormFields";
+import StepperFooter from "../StepperFooter";
 
 const PureWhitelist = () => {
   const pureWhitelistForm = useFormik({
@@ -39,7 +40,17 @@ const PureWhitelist = () => {
     },
   });
 
-  return <ClassicMintFormFields form={pureWhitelistForm} />;
+  function isValid(): boolean {
+    pureWhitelistForm.handleSubmit();
+    return pureWhitelistForm.isValid;
+  }
+
+  return (
+    <>
+      <ClassicMintFormFields form={pureWhitelistForm} />
+      <StepperFooter beforeStep={isValid} />
+    </>
+  );
 };
 
 export default PureWhitelist;
