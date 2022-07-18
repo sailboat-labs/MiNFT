@@ -13,7 +13,7 @@ type NavBarProps = {
 export default function Navbar({ title, endChildren }: NavBarProps) {
   return (
     // <div className="fixed ml-96 mt-12 w-full bg-white opacity-100">
-    <div className="w-full bg-white opacity-100">
+    <div className="h-20 w-full bg-white opacity-100">
       {/* Top Navigation Bar */}
       <div className="flex w-full flex-row items-center border-b border-gray-300 py-4">
         <div className="flex w-full items-center justify-between pr-10 font-dmsans">

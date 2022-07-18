@@ -16,7 +16,7 @@ const ContractMakerView = () => {
   };
 
   return (
-    <main className="h-screen flex-1 overflow-y-auto">
+    <main className=" flex-1 ">
       {/* <Stepper
         stepLabels={["Contract type", "Contract settings", "Preview"]}
         stepsCount={3}

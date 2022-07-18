@@ -64,9 +64,13 @@ export default function DashboardLayout({
         <Sidebar currentPage="/" />
         <div className="h-screen flex-1 overflow-y-hidden">
           {showTitleBar && (
-            <Navbar endChildren={titleBarEndChildren} title={title} />
+            <div className="absolute z-[2] h-20 w-[length:calc(100%-15rem)]">
+              <Navbar endChildren={titleBarEndChildren} title={title} />
+            </div>
           )}
-          {child}
+          <div className="relative z-[1] h-screen overflow-y-auto pt-20">
+            {child}
+          </div>
         </div>
       </div>
     </AuthGuard>
