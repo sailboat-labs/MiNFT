@@ -5,7 +5,7 @@ import * as Yup from "yup";
 import Input from "./Input";
 
 export default function Contact() {
-  const [heading, setHeading] = useState("Join the Royal Saudis");
+  const [heading, setHeading] = useState("Join the Bloody Bastards");
 
   const changeHeading = (e: any) => {
     e.preventDefault();
@@ -22,7 +22,7 @@ export default function Contact() {
 
   return (
     <div>
-      <div className="mx-auto flex w-3/4 flex-col pt-40 pb-28 text-white lg:flex-row">
+      <div className="mx-auto flex flex-col pt-40 pb-28 text-white lg:flex-row">
         <div className="w-full lg:w-1/2">
           <textarea
             rows={3}
@@ -33,7 +33,7 @@ export default function Contact() {
             className="w-full resize-none overflow-hidden whitespace-normal border-0 bg-transparent font-serif text-6xl font-bold italic md:text-9xl lg:text-center"
           />
         </div>
-        <div className="flex items-center lg:ml-16">
+        <div className="flex items-center lg:ml-10">
           <Formik
             initialValues={{
               email: "",
@@ -62,7 +62,7 @@ export default function Contact() {
                   type="submit"
                   className="mt-8 rounded-xl bg-[#006C35] py-5 px-12 text-xl"
                 >
-                  Reserve your Sheikh
+                  Reserve your Chutiya
                 </button>
               </Form>
             )}

@@ -6,32 +6,36 @@ import UnstyledLink from "../links/UnstyledLink";
 export default function Header() {
   return (
     <div>
-      <div className="flex flex-row items-center py-5 px-2 text-white md:py-4 lg:py-3">
-        <div className="mx-auto flex w-1/2 justify-center lg:w-1/3 lg:justify-start">
+      <div className="flex flex-row items-center justify-between py-5 px-2 text-white md:py-4 lg:py-3">
+        <div className="flex justify-center lg:justify-start">
           <UnstyledLink
             href=""
             className="text-3xl font-extrabold uppercase md:text-4xl lg:text-2xl"
           >
-            THE SAUDIS
+            THE INDIANS
           </UnstyledLink>
         </div>
-        <div className="hidden w-1/3 space-x-20 lg:block">
-          <UnstyledLink href="">Become a Sheik</UnstyledLink>
+        <div className="space-x-20 hidden lg:block">
+          <UnstyledLink href="/whitelist">Join Whitelist</UnstyledLink>
+          <UnstyledLink href="">Become a Bhenchod</UnstyledLink>
           <UnstyledLink href="">About</UnstyledLink>
           <UnstyledLink href="">Collection</UnstyledLink>
         </div>
-        <div className="mr-1 hidden w-1/3 flex-row items-center justify-end space-x-3 lg:flex">
-          <UnstyledLink href="">
+        <div className="mr-1 hidden flex-row items-center justify-end space-x-3 lg:flex">
+          <UnstyledLink href="https://discord.gg/AqKBQjPZ" target="_blank">
             <img src={images.discordSrc} alt="Discord" />
           </UnstyledLink>
-          <UnstyledLink href="">
+          <UnstyledLink
+            href="https://twitter.com/TheIndianNFTs"
+            target="_blank"
+          >
             <img src={images.twitterSrc} alt="Twitter" />
           </UnstyledLink>
           <ButtonLink
             href=""
             className="rounded-2xl border-black bg-black py-3 px-12 uppercase hover:bg-black"
           >
-            Sold out
+            MINT NOW
           </ButtonLink>
         </div>
       </div>
