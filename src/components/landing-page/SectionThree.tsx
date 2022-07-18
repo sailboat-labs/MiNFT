@@ -42,7 +42,7 @@ export default function SectionThree() {
   return (
     <div>
       <div className="flex flex-col justify-between pt-14 text-white lg:flex-row lg:px-10 lg:pt-28">
-        <div className="w-full pl-10 md:pl-20 lg:w-1/3">
+        <div className="w-full pl-10 md:pl-20 lg:w-2/5">
           <div className="pt-10 font-dmsans text-lg font-bold">
             <input
               type="text"
