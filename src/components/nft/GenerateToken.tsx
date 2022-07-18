@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable no-async-promise-executor */
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 // import toast from "react-hot-toast";
 import { toast } from "react-toastify";
@@ -20,7 +20,6 @@ import {
 import { enumNFTGenConfig } from "@/enums/nft-gen-configurations";
 import { IGeneratedTokens } from "@/interfaces";
 import { generateTokens } from "@/utils/art-engine";
-import { generateTokensDNA } from "@/utils/generateTokensDNA";
 
 import GeneratedToken from "./GeneratedToken";
 
@@ -54,10 +53,10 @@ export default function GenerateToken() {
     setIsOpen(true);
   }
 
-  useEffect(() => {
-    const _possibleConfig = generateTokensDNA(layers);
-    setPossibleConfigCount(new Set(_possibleConfig).size);
-  }, [layers]);
+  // useEffect(() => {
+  //   const _possibleConfig = generateTokensDNA(layers);
+  //   setPossibleConfigCount(new Set(_possibleConfig).size);
+  // }, [layers]);
 
   const dispatch = useDispatch();
   const configuration = useSelector(getConfiguration);
