@@ -73,8 +73,8 @@ export default function Footer({ className }: props) {
           </div>
 
           <div className="pt-16 pb-8 lg:pt-10 lg:pr-12">
-            <div className="mb-5 font-dmsans text-4xl font-extrabold text-[#675C4C] text-center sm:text-start lg:mb-0">
-              MINFT
+            <div className="mb-5 text-center font-dmsans text-4xl font-extrabold text-[#675C4C] sm:text-start lg:mb-0">
+              Magic Mynt
             </div>
 
             <div className="grid grid-cols-1 gap-8 sm:grid-cols-3 lg:mt-12">
@@ -238,7 +238,7 @@ export default function Footer({ className }: props) {
               </p>
 
               <p className="mt-4 text-center lg:text-left">
-                &copy; 2022 MiNFT. All rights reserved.
+                &copy; 2022 Magic Mynt. All rights reserved.
               </p>
             </div>
           </div>

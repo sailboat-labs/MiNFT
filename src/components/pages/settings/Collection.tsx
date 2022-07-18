@@ -7,6 +7,7 @@ import { getConfiguration } from "redux/reducers/selectors/configuration";
 import { getLayers } from "redux/reducers/selectors/layers";
 import { getProjectState } from "redux/reducers/selectors/project";
 import { setConfiguration } from "redux/reducers/slices/configuration";
+import { resetElementCounts } from "redux/reducers/slices/layers";
 import * as Yup from "yup";
 
 import { enumNFTGenConfig } from "@/enums/nft-gen-configurations";
@@ -52,8 +53,10 @@ const CollectionSettings = () => {
           value: getMaximumSupply(),
         })
       );
+      dispatch(resetElementCounts(getMaximumSupply()));
     } else {
       dispatch(setConfiguration({ key: "supply", value: supply }));
+      dispatch(resetElementCounts(supply));
     }
   }
 

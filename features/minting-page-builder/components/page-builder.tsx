@@ -7,16 +7,14 @@ import SectionFour from "@/components/landing-page/SectionFour";
 import SectionThree from "@/components/landing-page/SectionThree";
 import SectionTwo from "@/components/landing-page/SectionTwo";
 
-export default function LandingPage() {
+export default function PageBuilder() {
   return (
-    <section className="h-screen overflow-y-auto">
-      <div className="relative z-0 bg-[url('/images/landing/india.png')] bg-cover bg-center ">
-        <div className="relative z-30 w-full h-full bg-black bg-opacity-40">
-          <Header />
-          <Banner />
-        </div>
+    <section className="h-full overflow-y-auto">
+      <div className="bg-[#006C35] font-dmsans ">
+        <Header />
+        <Banner />
       </div>
-      <div className="bg-[#FF9933]">
+      <div className="bg-[#161616]">
         <SectionTwo />
         <SectionThree />
         <SectionFour />

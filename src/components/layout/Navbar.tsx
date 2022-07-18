@@ -35,7 +35,7 @@ export default function Navbar({ className }: props) {
           <Link href="/" passHref>
             <div className="flex w-fit justify-between">
               <span className="flex cursor-pointer select-none items-center text-xl font-black leading-none  text-gray-900  md:mb-0 lg:items-center lg:justify-center">
-                MiNFT<span className="text-indigo-600">.</span>
+                Magic Mynt<span className="text-indigo-600">.</span>
               </span>
             </div>
           </Link>
@@ -67,7 +67,7 @@ export default function Navbar({ className }: props) {
             <div className="flex w-full justify-between ">
               <Link href="/" passHref>
                 <span className="flex cursor-pointer select-none items-center text-xl font-black leading-none text-gray-900   md:mb-0 lg:items-center lg:justify-center">
-                  MiNFT<span className="text-indigo-600">.</span>
+                  Magic Mynt<span className="text-indigo-600">.</span>
                 </span>
               </Link>
 

@@ -4,7 +4,9 @@ import { useState } from "react";
 import images from "./Images";
 import ButtonLink from "../links/ButtonLink";
 export default function SectionTwo() {
-  const [heading, setHeading] = useState("Inshallah we will take over");
+  const [heading, setHeading] = useState(
+    "Rajeev the dev is here to make the price go up"
+  );
 
   const changeHeading = (e: any) => {
     e.preventDefault();
@@ -18,7 +20,7 @@ export default function SectionTwo() {
   };
 
   const [aboutText, setAboutText] = useState(
-    "The Saudi Delegation welcomes you to the Royal Kingdom! We have consulted the finest Kings, Princes, and Sheikhs among the ranks of Crypto Twitter, and decided to act with haste! Now is the time to move. Our Treasuries are filled to the brim with Oil Royalties, and we must save the Crypto Market. Saddle your camels and gird your loins. If you decide to embark upon this adventure with us as we triumphantly chant, “We are buying here”. ALHAMDULILLAH!!!"
+    "The BJP and Rajasthan Royals welcomes you to the Taj Mahal! We have worked with the finest Indians, Legends, Pujaris to replace the Rupee with Bitcoin and ETH. This is the only way to say Crypto. Put on your kala chasma and strap in your dhotis to embark on this journey with us. You may get lucky like Lalit Modi and find your Sushmita Sen. Scream the magic mantra and mint you Bhenchod “Jai Mata Di Let's Rock"
   );
 
   const changeAboutText = (e: any) => {
@@ -33,13 +35,13 @@ export default function SectionTwo() {
   };
 
   return (
-    <div>
-      <div className="pt-20 md:pt-32 lg:pt-40 text-white">
-        <div className="mx-auto w-4/5 text-center md:w-4/5 lg:w-2/3">
-          <div className="">
+    <div className="flex flex-col items-center pt-20 md:pt-32 lg:flex-row lg:pt-36">
+      <div className="w-full lg:w-1/2 text-white">
+        <div className="text-center">
+          <div className="mx-auto w-4/5">
             <textarea
               id="sectiontwo-heading"
-              className="h-[18rem] w-full resize-none overflow-hidden whitespace-normal border-0 bg-transparent p-0 text-center font-serif text-6xl font-bold italic leading-tight md:h-80 md:text-8xl lg:h-auto lg:text-9xl"
+              className="h-[28rem] w-full resize-none overflow-hidden whitespace-normal border-0 bg-transparent p-0 text-center font-serif text-6xl font-bold italic leading-tight hover:resize focus:resize md:text-8xl lg:h-52 lg:text-6xl"
               value={heading}
               onChange={changeHeading}
               onKeyDown={handleKeyDown}
@@ -50,21 +52,33 @@ export default function SectionTwo() {
           <div>
             <textarea
               id="sectiontwo-paragraph"
-              className="md:h-96 lg:h-[15rem] h-[30rem] w-full lg:w-2/3 resize-none overflow-hidden whitespace-normal border-0 bg-transparent p-10 text-center font-dmsans text-xl lg:text-base leading-relaxed"
+              className="h-[28rem] w-full resize-none overflow-hidden whitespace-normal border-0 bg-transparent p-10 text-center font-dmsans text-xl leading-relaxed md:h-60 lg:h-[15rem] lg:w-2/3 lg:text-base"
               value={aboutText}
               onChange={changeAboutText}
               onKeyDown={handleKeyDownOnAbout}
               onBlur={changeAboutText}
             />
           </div>
-          <div className="pt-10 flex justify-center md:pt-3 pb-5">
+          <div className="flex justify-center pt-10 pb-5 md:pt-3">
             <ButtonLink
               href=""
-              className="rounded-xl border-0 bg-[#006C35] py-6 px-20 hover:bg-black text-xl"
+              className="rounded-xl border-0 bg-[#006C35] py-6 px-20 text-xl hover:bg-black"
             >
-              Say Inshallah
+              Say Jai Ho
             </ButtonLink>
           </div>
+        </div>
+      </div>
+      <div className="w-full lg:w-1/2">
+        <div className="p-10 h-[35rem] sm:p-20 lg:p-10">
+          <iframe
+            className="w-full h-full"
+            src="https://www.youtube.com/embed/XQGec9ntkfs"
+            title="OK OK I need the price to go up indian version"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          ></iframe>
         </div>
       </div>
     </div>

@@ -8,9 +8,13 @@ import GenerateToken from "@/components/nft/GenerateToken";
 import NFTPreview from "@/components/nft/NFTPreview";
 import PropertyGroup from "@/components/nft/PropertyGroup";
 import SelectFolder from "@/components/nft/SelectFolder";
+import BasicSettings from "@/components/pages/settings/BasicSettings";
+import CollectionSettings from "@/components/pages/settings/Collection";
+import OutputSettingsPage from "@/components/pages/settings/RenderSettings";
 
 import { IElement, ILayer, IProject } from "@/interfaces";
 
+import GeneratedTokens from "./generated-tokens";
 import addLayersToFirebase from "./index.logic";
 
 import { NFTLayer } from "@/types";
@@ -54,7 +58,7 @@ const NFTGenerator = ({ router }: any) => {
     <div className="w-full ">
       <Tab.Group>
         <Tab.List className="flex w-fit gap-2 space-x-1 rounded  p-3">
-          {["Mixer", "Settings", "Generate"].map((category) => (
+          {["Mixer", "Settings", "Generated"].map((category) => (
             <Tab
               key={category}
               className={({ selected }) =>
@@ -62,8 +66,8 @@ const NFTGenerator = ({ router }: any) => {
                   "w-full rounded py-2 px-16 text-sm font-medium leading-5 text-blue-700",
                   "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2",
                   selected
-                    ? "border bg-indigo-100"
-                    : "border text-gray-500 hover:bg-white/[0.12] hover:text-white"
+                    ? "border bg-indigo-100 font-bold"
+                    : "border text-gray-500 hover:bg-gray-50 "
                 )
               }
             >
@@ -80,15 +84,6 @@ const NFTGenerator = ({ router }: any) => {
             {layers.length > 0 && (
               <div className="flex w-full flex-col-reverse justify-between gap-10 2xl:flex-row">
                 <div className="h-screen w-full overflow-y-hidden border-r">
-                  {/* <NewProperty /> */}
-
-                  {/* <div className="flex gap-x-20 border-b-2 px-20 py-2">
-              <AddLayer />
-              <div className="flex-1">
-                <TraitsSearchbar />
-              </div>
-            </div> */}
-
                   {layers.length > 0 && (
                     <div className="mt-0 h-screen w-full min-w-[900px] flex-col gap-10 overflow-y-auto px-10 ">
                       <>
@@ -128,20 +123,6 @@ const NFTGenerator = ({ router }: any) => {
                 </div>
                 <div className="flex items-start  justify-center px-4 2xl:w-[40%]">
                   <section className="flex flex-col justify-center">
-                    <div className="flex gap-5 pt-10">
-                      {/* {tabs.map((tab, index) => (
-                <div
-                  onClick={() => {
-                    // history.push(tab.route);
-                  }}
-                  key={index}
-                  className="cursor-pointer rounded-2xl border px-5 py-2"
-                >
-                  {tab.label}
-                </div>
-              ))} */}
-                    </div>
-
                     <NFTPreview className="mt-10" />
                     <GenerateToken />
                   </section>
@@ -149,8 +130,18 @@ const NFTGenerator = ({ router }: any) => {
               </div>
             )}
           </Tab.Panel>
-          <Tab.Panel>Content 2</Tab.Panel>
-          <Tab.Panel>Content 3</Tab.Panel>
+          <Tab.Panel>
+            <div className="grid h-screen grid-cols-2 gap-24 overflow-y-auto  px-20">
+              <div>
+                <BasicSettings />
+                <CollectionSettings />
+              </div>
+              <OutputSettingsPage />
+            </div>
+          </Tab.Panel>
+          <Tab.Panel>
+            <GeneratedTokens />
+          </Tab.Panel>
         </Tab.Panels>
       </Tab.Group>
     </div>

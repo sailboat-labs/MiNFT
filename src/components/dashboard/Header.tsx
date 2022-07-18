@@ -19,7 +19,7 @@ export default function Header() {
         />
       </svg>
       <UnstyledLink href="/main" className="mr-14 w-24 text-xl">
-        MiNFT
+        Magic Mynt
       </UnstyledLink>
       <span className="w-1/2"></span>
       <div className="text-base">

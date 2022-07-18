@@ -1,40 +1,44 @@
 export default function DevPage() {
   const contractMakerAddresses: { name: string; address: string }[] = [
     {
+      name: "Forwarder",
+      address: process.env.NEXT_PUBLIC_FORWARDER_ADDRESS ?? "",
+    },
+    {
       name: "Minft Registry",
-      address: "0x65cF0585bD7B236b635DA7077624431DD9cec35e",
+      address: process.env.NEXT_PUBLIC_REGISTRY_ADDRESS ?? "",
     },
     {
       name: "Minft Factory",
-      address: "0x65cF0585bD7B236b635DA7077624431DD9cec35e",
+      address: process.env.NEXT_PUBLIC_FACTORY_ADDRESS ?? "",
     },
     {
       name: "Classic Mint",
-      address: "0x65cF0585bD7B236b635DA7077624431DD9cec35e",
+      address: process.env.NEXT_PUBLIC_CLASSIC_MINT ?? "",
     },
     {
       name: "Classic Mint with whitelist",
-      address: "0x65cF0585bD7B236b635DA7077624431DD9cec35e",
+      address: process.env.NEXT_PUBLIC_CLASSIC_MINT_WITH_WL ?? "",
     },
     {
       name: "Dutch Auction",
-      address: "0x65cF0585bD7B236b635DA7077624431DD9cec35e",
+      address: process.env.NEXT_PUBLIC_DUTCH_AUCTION ?? "",
     },
     {
       name: "Dutch Auction with whitelist",
-      address: "0x65cF0585bD7B236b635DA7077624431DD9cec35e",
+      address: process.env.NEXT_PUBLIC_DUTCH_AUCTION_WITH_WL ?? "",
     },
     {
       name: "Fair Dutch Auction",
-      address: "0x65cF0585bD7B236b635DA7077624431DD9cec35e",
+      address: process.env.NEXT_PUBLIC_FAIR_DUTCH_AUCTION ?? "",
     },
     {
       name: "Fair Dutch Auction with whitelist",
-      address: "0x65cF0585bD7B236b635DA7077624431DD9cec35e",
+      address: process.env.NEXT_PUBLIC_FAIR_DUTCH_WITH_WL ?? "",
     },
     {
       name: "Pure whitelist",
-      address: "0x65cF0585bD7B236b635DA7077624431DD9cec35e",
+      address: process.env.NEXT_PUBLIC_PURE_WHITELIST ?? "",
     },
   ];
 
