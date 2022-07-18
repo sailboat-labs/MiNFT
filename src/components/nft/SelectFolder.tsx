@@ -39,6 +39,16 @@ export default function SelectFolder({ className }: props) {
     return openModal();
   }, [layersState]);
 
+  function getMaximumSupply() {
+    let maxSupply = 1;
+    for (let i = 0; i < layers.length; i++) {
+      if (layers[i].elements?.length > 0) {
+        maxSupply *= layers[i].elements.length;
+      }
+    }
+    return maxSupply;
+  }
+
   async function viewAllFiles() {
     const options = {
       types: [
@@ -67,7 +77,10 @@ export default function SelectFolder({ className }: props) {
         elements: layer.elements.map((element: any, index: number) => ({
           id: index,
           sublayer: false,
-          weight: index + 1,
+          weight:
+            getMaximumSupply() / layer.elements.length > 100
+              ? 10
+              : getMaximumSupply() / layer.elements.length ?? 0,
           blendmode: "source-over",
           opacity: 1,
           name: layer.name,
@@ -76,6 +89,7 @@ export default function SelectFolder({ className }: props) {
           zindex: "",
           trait: layer.name,
           traitValue: layer.name,
+          isWeightTouched: false,
         })),
       }));
 

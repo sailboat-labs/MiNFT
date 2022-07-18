@@ -2,9 +2,9 @@ import UnstyledLink from "../links/UnstyledLink";
 
 export default function Footer() {
   return (
-    <div className="h-52 w-full bg-indigo-800 font-montserrat text-white">
+    <div className="h-52 w-full bg-indigo-800 font-montserrat text-white dark:text-gray-200">
       <div className="m-auto flex w-10/12 flex-row justify-between pt-5">
-        <div className="h-10 w-96 text-base text-white opacity-100">
+        <div className="h-10 w-96 text-base text-white opacity-100 dark:text-gray-700">
           <div>Copyright &copy; {2022}</div>
           <div>NFT Trait Combo. All rights reserved.</div>
         </div>

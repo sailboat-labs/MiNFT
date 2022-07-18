@@ -1,10 +1,13 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
+import { useSelector } from "react-redux";
+import { getLayers } from "redux/reducers/selectors/layers";
 
 import NewProperty from "./NewProperty";
 
 export default function AddLayer() {
   const [isOpen, setIsOpen] = useState(false);
+  const layers = useSelector(getLayers);
 
   function closeModal() {
     setIsOpen(false);
@@ -20,11 +23,13 @@ export default function AddLayer() {
         onClick={() => {
           openModal();
         }}
-        className=" flex h-12 w-12 cursor-pointer items-center justify-center rounded-full border-2 transition-all hover:scale-105"
+        className={`flex cursor-pointer items-center gap-2 rounded border px-2 py-1 transition-all hover:bg-gray-100 ${
+          layers.length === 0 && "hidden"
+        }`}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-6 w-6"
+          className="h-4 w-4"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -36,20 +41,7 @@ export default function AddLayer() {
             d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
           />
         </svg>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="absolute h-4 w-4 translate-x-4 translate-y-4 rounded-full bg-indigo-500"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="white"
-          strokeWidth="2"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-          />
-        </svg>
+        <span className="hidden xl:inline">Add layer</span>
       </div>
 
       <Transition appear show={isOpen} as={Fragment}>

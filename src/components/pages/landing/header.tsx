@@ -5,7 +5,6 @@ import { useState } from "react";
 import VisibilitySensor from "react-visibility-sensor";
 
 import { usePageLoader } from "@/hooks/pageloader";
-import useAuthenticationDialog from "@/hooks/UseAuthDialog";
 
 import DarkModeMenu from "@/components/layout/DarkmodeToggle";
 import Search from "@/components/shared/Search";
@@ -17,8 +16,6 @@ export default function Header() {
   const [navOpen, setNavOpen] = useState(false);
   // const [showAuthDialog, setShowAuthDialog] = useState(false);
   const { Loader, setState } = usePageLoader(false);
-
-  const { AuthDialog, setShowAuthDialog } = useAuthenticationDialog();
 
   return (
     <div
@@ -36,17 +33,16 @@ export default function Header() {
         <div className="absolute z-[2] hidden h-[27rem] w-full bg-gradient-to-b from-transparent to-black dark:block"></div>
       </div>
 
-      <AuthDialog />
       <div
         className={`fixed z-[99] flex h-screen w-full flex-col bg-white shadow  transition-all  dark:bg-black lg:hidden 
       ${navOpen ? "translate-x-0" : "translate-x-full"}
       `}
       >
-        <div className="flex justify-between px-8 py-3 dark:text-white">
+        <div className="flex justify-between px-8 py-3 dark:text-white dark:text-gray-200">
           <Link href="/" passHref>
             <div className="flex w-fit justify-between">
               <span className="flex cursor-pointer select-none items-center text-xl font-black leading-none text-gray-900 dark:text-gray-200 md:mb-0 lg:items-center lg:justify-center">
-                MiNFT<span className="text-indigo-600">.</span>
+                Magic Mynt<span className="text-indigo-600">.</span>
               </span>
             </div>
           </Link>
@@ -93,7 +89,7 @@ export default function Header() {
                 }
                 `}
                   >
-                    MiNFT<span className="text-indigo-600">.</span>
+                    Magic Mynt<span className="text-indigo-600">.</span>
                   </span>
                 </Link>
                 <svg
@@ -138,7 +134,7 @@ export default function Header() {
           <div className="-mt-5 p-10 "></div>
         </VisibilitySensor>
         <div className="flex w-full flex-col justify-between gap-10 lg:flex-row">
-          <div className="flex flex-col justify-center text-center dark:text-white lg:justify-start lg:text-left">
+          <div className="flex flex-col justify-center text-center dark:text-white dark:text-gray-200 lg:justify-start lg:text-left">
             <div className="mt-10 text-4xl font-bold">
               The place for crowd-sourced
             </div>
@@ -169,11 +165,10 @@ export default function Header() {
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  strokeWidth="2"
                   d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
               </svg>
-              <span>Learn More About MiNFT</span>
+              <span>Learn More About Magic Mynt</span>
             </div>
           </div>
         </div>

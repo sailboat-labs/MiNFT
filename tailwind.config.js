@@ -13,13 +13,28 @@ function withOpacityValue(variable) {
 /** @type {import("@types/tailwindcss/tailwind-config").TailwindConfig } */
 module.exports = {
   darkMode: "class",
-  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  content: [
+    "./src/**/*.{js,jsx,ts,tsx}",
+    "./node_modules/tw-elements/dist/js/**/*.js",
+  ],
   theme: {
     extend: {
       fontFamily: {
         primary: ["Inter", ...fontFamily.sans],
         dmsans: ["DMSans", "sans-serif"],
         montserrat: ["Montserrat", "sans-serif"],
+      },
+      boxShadow: {
+        "3xl": "3px -1px 27px 8px rgba(83, 224, 255, 0.4)",
+      },
+      margin: {
+        396: "462px",
+      },
+      width: {
+        550: "550px",
+      },
+      backgroundImage: {
+        dotted: "url('/images/homepage/background.png')",
       },
       colors: {
         primary: {
@@ -65,5 +80,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require("@tailwindcss/forms")],
+  plugins: [require("@tailwindcss/forms"), require("tw-elements/dist/plugin")],
 };

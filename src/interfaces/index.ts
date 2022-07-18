@@ -47,6 +47,7 @@ export interface IElement {
   trait: string;
   traitValue: string;
   isSelected?: boolean;
+  isWeightTouched?: boolean;
 }
 
 export interface Trait {
@@ -58,4 +59,14 @@ export interface Trait {
 
 export interface SelectOption {
   name: string | number;
+  index?: number;
+}
+
+export interface IProject {
+  projectName: string;
+  tokenSupply: string;
+  baseUrl: string;
+  slug?: string;
+  description: string;
+  isDemo?: boolean;
 }

@@ -55,10 +55,8 @@ const NFTPreview: FC<AppProps> = ({ className }) => {
 
   return (
     <>
-      <div
-        className={`h-fit w-fit max-w-lg rounded-lg   ${className} relative`}
-      >
-        <div className="w-96 ">
+      <div className={`h-fit w-fit max-w-lg rounded-lg ${className} relative`}>
+        <div className="w-96">
           <div className="flex w-full translate-y-5 items-center justify-center ">
             <div className="w-fit rounded-2xl border-2 bg-gray-100 px-8 py-2">
               Preview
@@ -68,7 +66,7 @@ const NFTPreview: FC<AppProps> = ({ className }) => {
           {previewImage.length == 0 ||
             (previewImage.length > 0 &&
               previewImage[0].renderObjects.length == 0 && (
-                <div className="flex h-96 w-96 flex-col items-center justify-center rounded-2xl border-2">
+                <div className="flex h-96 w-full flex-col items-center justify-center rounded-2xl border-2">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-6 w-6"

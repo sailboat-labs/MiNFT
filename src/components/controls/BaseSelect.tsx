@@ -4,10 +4,12 @@ import React, { Fragment, useEffect, useState } from "react";
 import { SelectOption } from "@/interfaces";
 
 interface AppProps {
-  options: SelectOption[];
   showCheck?: boolean;
   buttonClass?: string;
+  options: SelectOption[];
+  theme?: "light" | "dark";
   selectorIconColor?: string;
+  defaultValue?: SelectOption;
   onChange?: (value: SelectOption) => void;
 }
 
@@ -15,11 +17,13 @@ const BaseSelect = ({
   options,
   onChange,
   buttonClass,
+  defaultValue,
+  theme = "light",
   showCheck = true,
   selectorIconColor = "white",
 }: AppProps) => {
   const [selected, setSelected] = useState(
-    options.length > 0 ? options[0] : { name: "Pass Options" }
+    defaultValue || options[0] || { name: "Default" }
   );
 
   useEffect(() => {
@@ -29,19 +33,23 @@ const BaseSelect = ({
   }, [selected]);
 
   return (
-    <Listbox value={selected} onChange={setSelected}>
+    <Listbox value={selected} onChange={(value) => setSelected(value)}>
       <div className="relative mt-1">
         <Listbox.Button
-          className={`relative w-full cursor-default rounded-lg bg-indigo-800 py-2 pl-3 pr-10 text-left text-white focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 sm:text-sm ${buttonClass}`}
+          className={`${
+            theme === "light"
+              ? "bg-white text-gray-800"
+              : "bg-indigo-800 text-white"
+          } relative w-full cursor-default rounded-lg  py-2 pl-3 pr-8 text-left  ring-1 ring-gray-200 focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 sm:text-sm ${buttonClass}`}
         >
           <span className="block truncate">{selected.name}</span>
           <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"
+              stroke={theme === "light" ? "#3730A3" : selectorIconColor}
               fill="none"
               viewBox="0 0 24 24"
-              stroke={selectorIconColor}
               strokeWidth={2}
             >
               <path
@@ -58,12 +66,12 @@ const BaseSelect = ({
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+          <Listbox.Options className="absolute z-30 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
             {options.map((option, optionIdx) => (
               <Listbox.Option
                 key={optionIdx}
                 className={({ active }) =>
-                  `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                  `relative cursor-default select-none py-2 pl-4 pr-4 ${
                     active ? "bg-indigo-100 text-indigo-800" : "text-gray-900"
                   }`
                 }
@@ -78,7 +86,7 @@ const BaseSelect = ({
                     >
                       {option.name}
                     </span>
-                    {selected ? (
+                    {/* {selected ? (
                       <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-indigo-800">
                         {showCheck && (
                           <svg
@@ -95,7 +103,7 @@ const BaseSelect = ({
                           </svg>
                         )}
                       </span>
-                    ) : null}
+                    ) : null} */}
                   </>
                 )}
               </Listbox.Option>

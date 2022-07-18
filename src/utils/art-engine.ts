@@ -6,6 +6,8 @@ import { toast } from "react-toastify";
 import { enumNFTGenConfig } from "@/enums/nft-gen-configurations";
 import { IElement, IGeneratedTokens } from "@/interfaces";
 
+import { generateTokensDNA } from "./generateTokensDNA";
+
 let toastId: any;
 
 type generateTokensProps = {
@@ -53,7 +55,7 @@ export function generateTokens({
     };
     const hashImages = true;
     const extraMetadata = {};
-    const debugLogs = false;
+    const debugLogs = true;
 
     const uniqueDnaTorrance = 10000;
     const description = configuration[enumNFTGenConfig.DESCRIPTION];
@@ -110,22 +112,6 @@ export function generateTokens({
 
     const zflag = /(z-?\d*,)/;
 
-    const getRarityWeight = (_path: string) => {
-      // check if there is an extension, if not, consider it a directory
-      const exp = /#(\d*)/;
-      const weight = exp.exec(_path);
-      const weightNumber = weight ? Number(weight[1]) : null;
-      if (!weightNumber || isNaN(weightNumber)) {
-        return "required";
-      }
-      return weightNumber;
-    };
-
-    const cleanDna = (_str: string) => {
-      const dna = _str.split(":").shift();
-      return dna;
-    };
-
     const cleanName = (_str: string) => {
       const hasZ = zflag.test(_str);
 
@@ -140,30 +126,6 @@ export function generateTokens({
         .split(rarityDelimiter)
         .shift();
       return nameWithoutWeight;
-    };
-
-    const parseQueryString = (filename: string, layer: any, sublayer: any) => {
-      const query = /\?(.*)\./;
-      const querystring = query.exec(filename);
-      if (!querystring) {
-        return getElementOptions(layer, sublayer);
-      }
-
-      const layerstyles: any = querystring[1]
-        .split("&")
-        .reduce((r, setting) => {
-          const keyPairs = setting.split("=");
-          return { ...r, [keyPairs[0]]: keyPairs[1] };
-        }, []);
-
-      return {
-        blendmode: layerstyles.blend
-          ? layerstyles.blend
-          : getElementOptions(layer, sublayer).blendmode,
-        opacity: layerstyles.opacity
-          ? layerstyles.opacity / 100
-          : getElementOptions(layer, sublayer).opacity,
-      };
     };
 
     /**
@@ -856,6 +818,12 @@ export function generateTokens({
 
     const startCreating = async () => {
       const storedDNA = null;
+
+      const prebuiltDNA = generateTokensDNA(layers);
+      // console.log("prebuilt", new Set(prebuiltDNA));
+
+      // dnaList = new Set(prebuiltDNA);
+
       generatedTokens = [];
       try {
         debugLogs && console.log("Generating");
@@ -891,6 +859,12 @@ export function generateTokens({
             layerConfigurations[layerConfigIndex].growEditionSizeTo
           ) {
             const newDna = createDna(layers);
+            // const newDna = prebuiltDNA![editionCount - 1];
+
+            // console.log({ count: editionCount - 1 });
+
+            // console.log({ newDna });
+
             if (isDnaUnique(dnaList, newDna)) {
               const results = constructLayerToDna(newDna, layers);
               debugLogs
@@ -944,6 +918,8 @@ export function generateTokens({
       } catch (error) {
         debugLogs && console.log(error);
       }
+
+      console.log({ dnaList });
     };
 
     await startCreating();

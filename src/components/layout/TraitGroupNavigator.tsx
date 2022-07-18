@@ -34,8 +34,8 @@ const TraitGroupNavigator: FC<Props> = () => {
     >
       <div className="flex w-full items-center justify-center p-4">
         <Link href="/" passHref>
-          <span className="flex cursor-pointer select-none items-center justify-center text-xl font-black leading-none  text-white">
-            MiNFT<span className="text-[#FFD32D]">.</span>
+          <span className="flex cursor-pointer select-none items-center justify-center text-xl font-black leading-none  text-white dark:text-gray-200">
+            Magic Mynt<span className="text-[#FFD32D]">.</span>
           </span>
         </Link>
       </div>
@@ -43,7 +43,7 @@ const TraitGroupNavigator: FC<Props> = () => {
       <ul className="mt-10">
         {traitGroups.map((groupName: string, index: number) => (
           <li
-            className={`relative my-2 ml-2 rounded-tl-full rounded-bl-full  text-sm font-medium text-white transition-all duration-100 hover:bg-[#0d7ba3]  ${
+            className={`relative my-2 ml-2 rounded-tl-full rounded-bl-full  text-sm font-medium text-white transition-all duration-100 hover:bg-[#0d7ba3] dark:text-gray-700  ${
               isActive(`#trait-group-${groupName}`) &&
               "bg-white  text-[#085E7D] hover:bg-white hover:tracking-wider"
             }`}

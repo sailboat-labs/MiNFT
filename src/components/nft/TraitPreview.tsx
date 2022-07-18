@@ -1,11 +1,19 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable jsx-a11y/alt-text */
 import React, { FC, useState } from "react";
+import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
-import { selectTraitForPreview } from "redux/reducers/slices/layers";
-import swal from "sweetalert";
+import { useSelector } from "react-redux";
+import { getConfiguration } from "redux/reducers/selectors/configuration";
+import { getLayers } from "redux/reducers/selectors/layers";
+import {
+  changeElementCount,
+  selectTraitForPreview,
+} from "redux/reducers/slices/layers";
 
+import { enumNFTGenConfig } from "@/enums/nft-gen-configurations";
 import { IElement } from "@/interfaces";
+import { getMaximumSupply } from "@/utils/module_utils/nft";
 
 import DeleteTraitModal from "./DeleteTraitModal";
 
@@ -28,36 +36,36 @@ const TraitPreview: FC<AppProps> = ({
   const dispatch = useDispatch();
   const [inputMode, setInputMode] = useState(false);
   const [rarity, setRarity] = useState<number>(0);
-  /**
-   * handles removal of trait
-   *
-   * @param evt - MouseEvent object
-   * @returns {undefined}
-   */
-  function handleRemoveTrait(evt: React.MouseEvent<SVGSVGElement>) {
-    evt.stopPropagation();
-    if (onRemove) {
-      swal({
-        title: "Warning",
-        text: "You are deleting a trait. Action is irreversible.\n Do you want to continue?",
-        icon: "warning",
-        dangerMode: true,
-        buttons: ["Cancel", "Ok"],
-      }).then((value) => {
-        if (value) {
-          onRemove(traitIndex);
-        }
-      });
-    }
+  const layers = useSelector(getLayers);
+  const configuration = useSelector(getConfiguration);
+
+  function handleOnRarityInputed(evt: React.ChangeEvent<HTMLInputElement>) {
+    const value: number = parseFloat(evt.target.value);
+
+    setRarity(value ? Math.abs(value) : 0);
   }
-  /**
-   * handles changes in range input
-   *
-   * @param {Object} evt - React's ChangeEvent object
-   * @returns {undefined}
-   */
-  function onRangeChanged(evt: React.ChangeEvent<HTMLInputElement>) {
-    setRarity(parseFloat(evt.target.value));
+
+  function onRangeChanged(e: React.ChangeEvent<HTMLInputElement>) {
+    if (parseInt(e.target.value) > getMaximumSupply(layers)) return;
+    if (parseInt(e.target.value) > getMaximumSupply(layers)) {
+      dispatch(
+        changeElementCount({
+          layerName: file.trait,
+          elementName: file.filename,
+          newCount: getMaximumSupply(layers),
+        })
+      );
+      return toast.error(`Maximum can be ${getMaximumSupply(layers)}`);
+    }
+    dispatch(
+      changeElementCount({
+        layerName: file.trait,
+        elementName: file.filename,
+        newCount: isNaN(parseInt(e.target.value))
+          ? 0
+          : parseInt(e.target.value ?? "0"),
+      })
+    );
   }
 
   return (
@@ -99,11 +107,12 @@ const TraitPreview: FC<AppProps> = ({
         </div>
       </div>
       {!rarityMode && (
-        <div className="w-20 overflow-hidden text-xs text-gray-600">
+        <div className="w-20 overflow-hidden text-center text-xs text-gray-600">
           {file.filename?.toString().split(".")[0]}
         </div>
       )}
       {rarityMode && (
+<<<<<<< HEAD
         <div className="mt-2 flex items-center gap-2">
           {inputMode ? (
             <input
@@ -135,50 +144,62 @@ const TraitPreview: FC<AppProps> = ({
             <path d="M5 12a1 1 0 102 0V6.414l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L5 6.414V12zM15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z" />
           </svg>
           {/* <div className="flex items-center gap-2"></div> */}
+=======
+        <div className="flex flex-col items-center">
+          <div className="mt-2 flex gap-2">
+            {/* <input type="number" step={0.1} /> */}
+            {/* <input
+              className="max-w-[60px] flex-1"
+              type="range"
+              onChange={onRangeChanged}
+              value={file.weight}
+              step={20}
+              min={0}
+              max={100}
+            /> */}
+            <output className=" text-xs">
+              {parseFloat(
+                (
+                  (parseInt(file.weight?.toString() ?? "0") /
+                    configuration[enumNFTGenConfig.SUPPLY]) *
+                  100
+                ).toFixed(2)
+              )}
+              %
+            </output>
+          </div>
+          <input
+            className="mt-4 w-20 rounded border-none bg-gray-50"
+            value={file.weight}
+            min={0}
+            max={getMaximumSupply(layers)}
+            onChange={(e) => {
+              if (parseInt(e.target.value) > getMaximumSupply(layers)) {
+                dispatch(
+                  changeElementCount({
+                    layerName: file.trait,
+                    elementName: file.filename,
+                    newCount: getMaximumSupply(layers),
+                  })
+                );
+                return toast.error(
+                  `Maximum can be ${getMaximumSupply(layers)}`
+                );
+              }
+              dispatch(
+                changeElementCount({
+                  layerName: file.trait,
+                  elementName: file.filename,
+                  newCount: isNaN(parseInt(e.target.value))
+                    ? 0
+                    : parseInt(e.target.value ?? "0"),
+                })
+              );
+            }}
+            type="number"
+          />
+>>>>>>> paul/contract
         </div>
-        // <Range
-        //   step={20}
-        //   min={0}
-        //   max={100}
-        //   values={[0, 20]}
-        //   onChange={(values) => console.log(values)}
-        //   renderTrack={({ props, children }) => (
-        //     <div
-        //       {...props}
-        //       className="w-full"
-        //       style={{
-        //         ...props.style,
-        //         // height: "6px",
-        //         // width: "100%",
-        //         // backgroundColor: "#ccc",
-        //       }}
-        //     >
-        //       {children}
-        //     </div>
-        //   )}
-        //   renderThumb={({ props }) => (
-        //     <div
-        //       {...props}
-        //       style={{
-        //         ...props.style,
-        //         height: "6px",
-        //         width: "6px",
-        //         backgroundColor: "#999",
-        //       }}
-        //     />
-        //   )}
-        // />
-        // <ReactSlider
-        //   className="horizontal-slider mt-3 w-full"
-        //   marks={[20, 40, 60, 80, 100]}
-        //   markClassName="h-2 w-[2px] bg-[#30489C]"
-        //   min={0}
-        //   max={100}
-        //   step={20}
-        //   thumbClassName="w-2 -top-2 -bottom-4 rounded-full bg-[#30489C]"
-        //   trackClassName="h-2 bg-white border border-[#30489C] rounded-full "
-        //   renderThumb={(props, state) => <div {...props}></div>}
-        // />
       )}
     </div>
   );

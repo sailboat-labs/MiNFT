@@ -51,10 +51,10 @@ const OutputSettingsPage = () => {
         <h3 className="mb-2 text-4xl font-bold">Render Settings</h3>
         <h4>Backend</h4>
         <p>
-          MiNFT comes with two render systems - one using canvas and the other
-          using FFmpeg. The canvas backend is faster but only supports PNG and{" "}
-          <strong>JPEG</strong> files. The FFmpeg is lower and uses more memory
-          but supports animation and video exports.
+          Magic Mynt comes with two render systems - one using canvas and the
+          other using FFmpeg. The canvas backend is faster but only supports PNG
+          and <strong>JPEG</strong> files. The FFmpeg is lower and uses more
+          memory but supports animation and video exports.
         </p>
         <div className="mt-8 flex gap-6">
           <BaseRadio

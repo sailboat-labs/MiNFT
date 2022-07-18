@@ -13,6 +13,7 @@ const layerStore = createSlice({
   reducers: {
     setLayers: (state: any, param: any) => {
       const { payload } = param;
+      // console.log("setting layers", payload);
       state.layers = payload;
     },
 
@@ -143,6 +144,98 @@ const layerStore = createSlice({
       state.layers.find((layer: ILayer) => layer.name == currentName).name =
         newName;
     },
+
+    changeElementCount: (state: any, param: any) => {
+      const { payload } = param;
+
+      const layerName = payload.layerName;
+      const elementName = payload.elementName;
+      const newCount = payload.newCount;
+
+      //-------------------------------------------------------------------------
+      //Find the weight difference to change the weight of other untouched elements
+      //-------------------------------------------------------------------------
+
+      //Get old Count
+      const oldCount = state.layers
+        .find((layer: ILayer) => layer.name == layerName)
+        .elements.find(
+          (element: IElement) => element.filename == elementName
+        ).weight;
+      //Get weight difference
+      const newCountDifference = newCount - oldCount;
+
+      //Set the element's weight to the new weight
+      state.layers
+        .find((layer: ILayer) => layer.name == layerName)
+        .elements.find(
+          (element: IElement) => element.filename == elementName
+        ).weight = newCount;
+      state.layers
+        .find((layer: ILayer) => layer.name == layerName)
+        .elements.find(
+          (element: IElement) => element.filename == elementName
+        ).isWeightTouched = true;
+
+      //-------------------------------------------------------------------------
+      //Change the weight of other untouched elements in trait group
+      //-------------------------------------------------------------------------
+
+      //Get all elements that have an untouched weight
+      const unTouchedElements = state.layers
+        .find((layer: ILayer) => layer.name == layerName)
+        .elements.filter(
+          (element: IElement) => element.isWeightTouched != true
+        );
+
+      if (unTouchedElements?.length > 0) {
+        if (newCountDifference >= 0) {
+          //Find the next highest untouched element weight
+          const maxUntouchedElement = Math.max(
+            ...unTouchedElements
+              .filter((element: IElement) => element.filename != elementName)
+              .map((element: IElement) => element.weight)
+          );
+
+          if (maxUntouchedElement > 0) {
+            state.layers
+              .find((layer: ILayer) => layer.name == layerName)
+              .elements.find(
+                (element: IElement) =>
+                  element.weight == maxUntouchedElement &&
+                  element.isWeightTouched != true
+              ).weight -= newCountDifference;
+          }
+        } else if (newCountDifference < 0) {
+          //Find the next lowest untouched element weight
+          const maxUntouchedElement = Math.min(
+            ...unTouchedElements
+              .filter((element: IElement) => element.filename != elementName)
+              .map((element: IElement) => element.weight)
+          );
+
+          if (maxUntouchedElement > 0) {
+            state.layers
+              .find((layer: ILayer) => layer.name == layerName)
+              .elements.find(
+                (element: IElement) =>
+                  element.weight == maxUntouchedElement &&
+                  element.isWeightTouched != true
+              ).weight -= newCountDifference;
+          }
+        }
+      }
+    },
+
+    resetElementCounts: (state: any, param: any) => {
+      const { payload } = param;
+
+      state.layers.forEach((layer: ILayer) => {
+        layer.elements.forEach((element: IElement) => {
+          element.weight = payload / layer.elements.length;
+        });
+      });
+    },
   },
 });
 const { actions, reducer } = layerStore;
@@ -158,5 +251,7 @@ export const {
   setSearchFilter,
   deleteLayer,
   addLayer,
+  changeElementCount,
+  resetElementCounts,
 } = actions;
 export default layerStore;

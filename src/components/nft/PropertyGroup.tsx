@@ -1,7 +1,11 @@
 import React, { ChangeEvent, FC, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
-import { getSelectedLayerName } from "redux/reducers/selectors/layers";
+import { getConfiguration } from "redux/reducers/selectors/configuration";
+import {
+  getLayers,
+  getSelectedLayerName,
+} from "redux/reducers/selectors/layers";
 import {
   addTraitsToLayer,
   changeLayerName,
@@ -9,7 +13,9 @@ import {
   setSelectedLayerName,
 } from "redux/reducers/slices/layers";
 
+import { enumNFTGenConfig } from "@/enums/nft-gen-configurations";
 import { IElement, ILayer } from "@/interfaces";
+import { generateTokensDNA } from "@/utils/generateTokensDNA";
 
 import LayerContextMenu from "./LayerContextMenu";
 import TraitPreview from "./TraitPreview";
@@ -45,6 +51,10 @@ const PropertyGroup: FC<AppProps> = ({
   const [accordionHeight, setAccordionHeight] = useState<number>();
   const fileInput = useRef<HTMLInputElement>(null);
   const [newName, setNewName] = useState<string>();
+  const layers = useSelector(getLayers) as ILayer[];
+
+  const configuration = useSelector(getConfiguration);
+  const [possibleConfigCount, setPossibleConfigCount] = useState(0);
 
   function onDisplayNameClick(evt: React.MouseEvent<HTMLDivElement>) {
     evt.stopPropagation();
@@ -71,7 +81,6 @@ const PropertyGroup: FC<AppProps> = ({
       const elements = fileListArray.map((file, index) => ({
         id: index,
         sublayer: false,
-        weight: index + 1,
         blendmode: "source-over",
         opacity: 1,
         name: layer.name,
@@ -80,6 +89,8 @@ const PropertyGroup: FC<AppProps> = ({
         zindex: "",
         trait: layer.name,
         traitValue: file.name?.split(".")[0],
+        weight: getMaximumSupply() / layer.elements.length ?? 0,
+        isWeightTouched: false,
       }));
     }
 
@@ -119,9 +130,30 @@ const PropertyGroup: FC<AppProps> = ({
     }
   }
 
+  function getElementCountTotal() {
+    let total = 0;
+    layer.elements.forEach((element: IElement) => {
+      total += element.weight ?? 0;
+    });
+    return total;
+  }
+
+  function getMaximumSupply() {
+    let maxSupply = 1;
+    for (let i = 0; i < layers.length; i++) {
+      if (layers[i].elements?.length > 0) {
+        maxSupply *= layers[i].elements.length;
+      }
+    }
+    return maxSupply;
+  }
+
   useEffect(() => {
+    const _possibleConfig = generateTokensDNA(layers);
+    setPossibleConfigCount(new Set(_possibleConfig).size);
+
     setAccordionHeight(accordionContent.current?.scrollHeight);
-  }, [selectedLayerName, elements]);
+  }, [selectedLayerName, elements, configuration, layers]);
 
   // useEffect(() => {
   //   if (selectedLayerName !== null) {
@@ -228,7 +260,7 @@ const PropertyGroup: FC<AppProps> = ({
               // display content
               <>
                 <div
-                  className="flex items-center gap-2 rounded-md   bg-[#30489C] px-4 py-1 text-base text-white"
+                  className="flex items-center gap-2 rounded-md   bg-[#30489C] px-4 py-1 text-base text-white dark:text-gray-200"
                   onClick={onDisplayNameClick}
                 >
                   <span>{layer.name}</span>
@@ -248,12 +280,36 @@ const PropertyGroup: FC<AppProps> = ({
             )}
           </div>
           <div className="flex items-center gap-2">
+            {(getElementCountTotal() !=
+              configuration[enumNFTGenConfig.SUPPLY] ||
+              possibleConfigCount < configuration[enumNFTGenConfig.SUPPLY]) && (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="red"
+                strokeWidth="2"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                />
+              </svg>
+            )}
             {/* Rarity button */}
             {elements.length > 0 && (
               <button
-                onClick={() => dispatch(setSelectedLayerName(layer.name))}
+                onClick={() => {
+                  if (changingRarity()) {
+                    return dispatch(setSelectedLayerName(null));
+                  }
+                  dispatch(setSelectedLayerName(layer.name));
+                }}
                 className={`my-2 flex items-center gap-1 rounded-md border border-indigo-600 px-4 py-1 text-base font-medium text-indigo-600 ${
-                  changingRarity() && "bg-[#30489C] !text-white"
+                  changingRarity() &&
+                  "bg-[#30489C] !text-white dark:text-gray-200"
                 }`}
               >
                 <svg
@@ -349,22 +405,28 @@ const PropertyGroup: FC<AppProps> = ({
                 />
               </div>
             </div>
-            {changingRarity() && (
-              <div className="mb-4  flex items-center justify-center gap-x-4 px-6">
-                <button
-                  className="rounded-md border border-[#30489c] bg-white  px-6 py-2 font-medium text-[#30489C] transition-all duration-100 hover:bg-[#30479c09]"
-                  onClick={() => dispatch(setSelectedLayerName(null))}
-                >
-                  Discard
-                </button>
-                <button
-                  onClick={() => updateLayer()}
-                  className="rounded-md bg-[#30489C] px-6 py-2 text-white transition-all  duration-100 hover:bg-[#223474]"
-                >
-                  Save
-                </button>
-              </div>
-            )}
+            {changingRarity() &&
+              getElementCountTotal() !=
+                configuration[enumNFTGenConfig.SUPPLY] && (
+                <div className="mb-4  flex w-full gap-x-4 px-6">
+                  <div className="rounded bg-red-100 px-5 py-2 text-sm text-red-500">
+                    Total element counts must equal{" "}
+                    {configuration[enumNFTGenConfig.SUPPLY]} (currently{" "}
+                    {getElementCountTotal()})
+                  </div>
+                </div>
+              )}
+
+            {changingRarity() &&
+              possibleConfigCount < configuration[enumNFTGenConfig.SUPPLY] && (
+                <div className="mb-4  flex w-full gap-x-4 px-6">
+                  <div className="rounded bg-red-100 px-5 py-2 text-sm text-red-500">
+                    Your current configuration can produce up to{" "}
+                    {possibleConfigCount} (instead of{" "}
+                    {configuration[enumNFTGenConfig.SUPPLY]})
+                  </div>
+                </div>
+              )}
           </div>
         </div>
       </div>

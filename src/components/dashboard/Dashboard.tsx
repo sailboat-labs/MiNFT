@@ -321,7 +321,7 @@ export default function DashboardHome() {
           <button type="submit">
             <ButtonLink
               href="#"
-              className="mt-10 mb-14 flex h-10 w-72 items-center justify-center rounded-lg border-0 bg-indigo-800 text-base font-bold text-white hover:bg-indigo-600"
+              className="mt-10 mb-14 flex h-10 w-72 items-center justify-center rounded-lg border-0 bg-indigo-800 text-base font-bold text-white hover:bg-indigo-600 dark:text-gray-700"
             >
               Save changes
             </ButtonLink>

@@ -5,17 +5,20 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { getConfiguration } from "redux/reducers/selectors/configuration";
 import { getLayers } from "redux/reducers/selectors/layers";
+import { getProjectState } from "redux/reducers/selectors/project";
 import { setConfiguration } from "redux/reducers/slices/configuration";
+import { resetElementCounts } from "redux/reducers/slices/layers";
 import * as Yup from "yup";
 
 import { enumNFTGenConfig } from "@/enums/nft-gen-configurations";
-import { ILayer } from "@/interfaces";
+import { ILayer, IProject } from "@/interfaces";
 
 const CollectionSettings = () => {
   const dispatch = useDispatch();
   const configuration = useSelector(getConfiguration);
   // console.log(configuration);
   const layers = useSelector(getLayers) as ILayer[];
+  const project = useSelector(getProjectState) as IProject;
 
   function setMaximumSupply() {
     let maxSupply = 1;
@@ -50,8 +53,10 @@ const CollectionSettings = () => {
           value: getMaximumSupply(),
         })
       );
+      dispatch(resetElementCounts(getMaximumSupply()));
     } else {
       dispatch(setConfiguration({ key: "supply", value: supply }));
+      dispatch(resetElementCounts(supply));
     }
   }
 
@@ -149,7 +154,7 @@ const CollectionSettings = () => {
                 );
               }}
             />
-            <p className="mt-2 text-sm">Exchange symbol (e.g SNEK)</p>
+            <p className="mt-2 text-sm">Exchange symbol (e.g NZMX)</p>
           </div>
           <div className="flex flex-col">
             <label className="mb-2 font-medium" htmlFor="supply">
@@ -186,7 +191,7 @@ const CollectionSettings = () => {
           </label>
           <input
             type="text"
-            placeholder="(optional)"
+            placeholder="External URL"
             className="flex-1 rounded-lg"
             defaultValue={configuration[enumNFTGenConfig.BASE_URL]}
             onChange={(e) => {
