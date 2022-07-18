@@ -29,7 +29,7 @@ export default function Join() {
 
   return (
     <div>
-      <div className="mx-10 rounded-2xl bg-[#006C35] py-32 text-white">
+      <div className="mx-10 rounded-2xl bg-[#006C35] py-32 sm:py-20 lg:py-32 text-white">
         <div className="mx-auto flex w-4/5 flex-col items-center justify-center">
           <div className="flex w-full justify-center lg:w-4/5">
             <textarea

@@ -22,7 +22,7 @@ export default function Contact() {
 
   return (
     <div>
-      <div className="mx-auto flex flex-col pt-40 pb-28 text-white lg:flex-row">
+      <div className="w-4/5 mx-auto flex flex-col pt-40 pb-28 text-white lg:flex-row">
         <div className="w-full lg:w-1/2">
           <textarea
             rows={3}

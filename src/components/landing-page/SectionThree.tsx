@@ -41,8 +41,8 @@ export default function SectionThree() {
 
   return (
     <div>
-      <div className="flex flex-col justify-between px-10 pt-14 text-white md:px-20 md:pt-20 lg:flex-row lg:pt-28">
-        <div className="w-full lg:w-1/3">
+      <div className="flex flex-col justify-between pt-14 text-white lg:flex-row lg:px-10 lg:pt-28">
+        <div className="w-full pl-10 md:pl-20 lg:w-1/3">
           <div className="pt-10 font-dmsans text-lg font-bold">
             <input
               type="text"
@@ -83,7 +83,7 @@ export default function SectionThree() {
             </ButtonLink>
           </div>
         </div>
-        <div className="mt-20 flex w-full flex-row justify-evenly lg:mt-0 lg:w-7/12">
+        <div className="mt-20 flex w-full flex-row justify-evenly px-5 lg:px-0 lg:mt-0 lg:w-7/12">
           <div className="mt-14 md:mt-20 lg:mt-28">
             <div className="m-2 bg-[#7f9dc3] md:m-4">
               <img src={images.elements[3].src} alt={images.elements[3].alt} />

@@ -36,12 +36,12 @@ export default function SectionTwo() {
 
   return (
     <div className="flex flex-col items-center pt-20 md:pt-32 lg:flex-row lg:pt-36">
-      <div className=" w-1/2 text-white">
+      <div className="w-full lg:w-1/2 text-white">
         <div className="text-center">
           <div className="mx-auto w-4/5">
             <textarea
               id="sectiontwo-heading"
-              className="h-[18rem] w-full resize-none overflow-hidden whitespace-normal border-0 bg-transparent p-0 text-center font-serif text-6xl font-bold italic leading-tight hover:resize focus:resize md:text-8xl lg:h-52 lg:text-6xl"
+              className="h-[28rem] w-full resize-none overflow-hidden whitespace-normal border-0 bg-transparent p-0 text-center font-serif text-6xl font-bold italic leading-tight hover:resize focus:resize md:text-8xl lg:h-52 lg:text-6xl"
               value={heading}
               onChange={changeHeading}
               onKeyDown={handleKeyDown}
@@ -52,7 +52,7 @@ export default function SectionTwo() {
           <div>
             <textarea
               id="sectiontwo-paragraph"
-              className="h-[30rem] w-full resize-none overflow-hidden whitespace-normal border-0 bg-transparent p-10 text-center font-dmsans text-xl leading-relaxed md:h-96 lg:h-[15rem] lg:w-2/3 lg:text-base"
+              className="h-[28rem] w-full resize-none overflow-hidden whitespace-normal border-0 bg-transparent p-10 text-center font-dmsans text-xl leading-relaxed md:h-60 lg:h-[15rem] lg:w-2/3 lg:text-base"
               value={aboutText}
               onChange={changeAboutText}
               onKeyDown={handleKeyDownOnAbout}
@@ -69,8 +69,8 @@ export default function SectionTwo() {
           </div>
         </div>
       </div>
-      <div className=" w-1/2">
-        <div className="p-10 h-[35rem]">
+      <div className="w-full lg:w-1/2">
+        <div className="p-10 h-[35rem] sm:p-20 lg:p-10">
           <iframe
             className="w-full h-full"
             src="https://www.youtube.com/embed/XQGec9ntkfs"

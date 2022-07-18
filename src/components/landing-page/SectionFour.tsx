@@ -85,34 +85,31 @@ export default function SectionFour() {
             value={heading}
             onChange={changeHeading}
             onBlur={changeHeading}
-            className="h-[25rem] w-full resize-none overflow-hidden border-0 bg-transparent text-center font-serif text-8xl italic md:h-52 "
+            className="h-[12rem] w-full resize-none overflow-hidden border-0 bg-transparent text-center font-serif text-6xl italic sm:text-8xl md:h-52 "
           />
         </div>
         <div className="mx-auto flex w-full flex-col justify-between pt-10 font-dmsans lg:w-2/3 lg:flex-row">
-          <div className="mt-6 mb-5 mx-auto flex flex-col space-x-10 h-28 lg:flex-row">
+          <div className="mx-auto mt-6 mb-5 flex flex-col space-y-10 lg:flex-row lg:space-y-0 lg:space-x-10">
             <textarea
-              rows={2}
               id="sectionfour-info"
               value={info1}
               onChange={changeInfo1}
               onBlur={changeInfo1}
-              className="resize-none border-0 bg-transparent text-center text-2xl overflow-hidden"
+              className="resize-none overflow-hidden border-0 bg-transparent text-center text-3xl md:h-28 lg:h-40 lg:text-2xl"
             />
             <textarea
-              rows={2}
               id="sectionfour-info"
               value={info2}
               onChange={changeInfo2}
               onBlur={changeInfo2}
-              className="resize-none border-0 bg-transparent text-center text-2xl overflow-hidden"
+              className="lg:h-40overflow-hidden resize-none border-0 bg-transparent text-center text-3xl h-32 md:h-28 lg:text-2xl"
             />
             <textarea
-              rows={2}
               id="sectionfour-info"
               value={info3}
               onChange={changeInfo3}
               onBlur={changeInfo3}
-              className="resize-none border-0 bg-transparent text-center text-2xl overflow-hidden"
+              className="resize-none overflow-hidden border-0 bg-transparent text-center text-3xl h-40 md:h-48 lg:h-40 lg:text-2xl"
             />
           </div>
         </div>

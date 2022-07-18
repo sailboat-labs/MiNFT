@@ -7,7 +7,7 @@ export default function Header() {
   return (
     <div>
       <div className="flex flex-row items-center justify-between py-5 px-2 text-white md:py-4 lg:py-3">
-        <div className="flex justify-center lg:justify-start">
+        <div className="flex justify-center mx-auto lg:mx-0 lg:justify-start">
           <UnstyledLink
             href=""
             className="text-3xl font-extrabold uppercase md:text-4xl lg:text-2xl"

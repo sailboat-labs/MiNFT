@@ -24,10 +24,10 @@ export default function Banner() {
   return (
     <div>
       <div className="text-white">
-        <div className="mx-auto mt-28 w-2/3 text-center sm:mt-32 lg:mt-48 lg:w-3/4">
+        <div className="mx-auto mt-28 w-2/3 text-center sm:w-4/5 sm:mt-32 lg:mt-48 lg:w-3/4">
           <textarea
             id="banner-heading"
-            className="w-full h-[50rem] resize-none overflow-hidden whitespace-normal border-0 bg-transparent p-0 text-center font-serif text-5xl italic leading-tight text-black hover:resize focus:resize sm:h-auto md:h-[19rem] md:text-7xl lg:h-[18rem] lg:text-7xl"
+            className="w-full h-[37rem] resize-none overflow-hidden whitespace-normal border-0 bg-transparent p-0 text-center font-serif text-5xl italic leading-tight text-black hover:resize focus:resize sm:h-auto md:h-[28rem] md:text-7xl lg:h-[18rem] lg:text-7xl"
             value={heading}
             onChange={changeHeading}
             onKeyDown={handleKeyDown}

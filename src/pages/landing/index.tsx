@@ -10,7 +10,7 @@ import SectionTwo from "@/components/landing-page/SectionTwo";
 export default function LandingPage() {
   return (
     <section className="h-screen overflow-y-auto">
-      <div className="relative z-0 bg-[url('/images/landing/india.png')] bg-cover ">
+      <div className="relative z-0 bg-[url('/images/landing/india.png')] bg-cover bg-center ">
         <div className="relative z-30 w-full h-full bg-black bg-opacity-40">
           <Header />
           <Banner />
