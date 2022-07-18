@@ -18,11 +18,17 @@ export default function Features() {
       icon: <Item_1 className="h-14 w-14" />,
     },
     {
-      title: "No Account Needed",
+      title: "Deploy Contract Easily",
       description:
-        "No account creation needed to start creating your collection. Lorem ipsum dolor sit amet.",
+        "Use our templates to create your very own smart contract without code. Lorem ipsum dolor sit amet.",
       icon: <Item_2 className="h-14 w-14 " />,
     },
+    // {
+    //   title: "No Account Needed",
+    //   description:
+    //     "No account creation needed to start creating your collection. Lorem ipsum dolor sit amet.",
+    //   icon: "<Item_2 className="h-14 w-14  />,
+    // },
     {
       title: "Export To Images or GIFs",
       description:
