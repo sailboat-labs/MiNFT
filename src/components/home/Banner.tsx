@@ -1,8 +1,10 @@
-import ButtonLink from "../links/ButtonLink";
+import { useRouter } from "next/router";
 
 import Vector1SVG from "~/svg/homepage/vector_1.svg";
 
 export default function Banner() {
+  const router = useRouter();
+
   return (
     <div>
       <div className="relative font-montserrat text-black">
@@ -15,12 +17,18 @@ export default function Banner() {
             No-code tool for creating, launching and managing your NFT
             collection
           </p>
-          <ButtonLink
-            href=""
-            className="z-30 mt-12 rounded-xl border-black bg-transparent px-10 py-4 font-bold text-black"
+          <div
+            className="relative z-30 mt-12 w-fit rounded-xl border border-black bg-transparent px-10 py-4 font-bold text-black hover:cursor-pointer"
+            onClick={() => {
+              process.env.NEXT_PUBLIC_ENVIRONMENT == "development"
+                ? router.push("/dashboard")
+                : window.open("https://r3c9oapreew.typeform.com/to/RDOUdJXk");
+            }}
           >
-            Start creating
-          </ButtonLink>
+            {process.env.NEXT_PUBLIC_ENVIRONMENT == "development"
+              ? "Start Now"
+              : "Join Waitlist"}
+          </div>
         </div>
       </div>
     </div>

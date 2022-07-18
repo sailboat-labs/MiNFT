@@ -67,7 +67,7 @@ export default function SectionThree() {
           <div className=" w-4/5">
             <textarea
               id="sectionthree-paragraph"
-              className="h-80 w-full resize-none overflow-hidden whitespace-normal border-0 bg-transparent font-dmsans text-base leading-relaxed md:h-44"
+              className="h-80 w-full resize-none overflow-hidden hover:resize focus:resize whitespace-normal border-0 bg-transparent font-dmsans text-base leading-relaxed md:h-44"
               value={paragraphText}
               onChange={changeParagraphText}
               onKeyDown={handleParagraphKeyDown}

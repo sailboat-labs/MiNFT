@@ -1,8 +1,9 @@
-import ButtonLink from "@/components/links/ButtonLink";
+import { useRouter } from "next/router";
 
 import VectorSVG3 from "~/svg/homepage/vector_3.svg";
 
 export default function Join_Community() {
+  const router = useRouter();
   return (
     <div className="w-full">
       <div className="relative z-0 flex justify-end">
@@ -19,18 +20,26 @@ export default function Join_Community() {
             </div>
           </div>
           <div className="flex flex-row xl:justify-between">
-            <ButtonLink
-              href="/dashboard"
-              className="z-30 mr-10 flex h-14 w-56 items-center justify-center rounded-xl border-0 bg-indigo-500 text-base font-bold text-white hover:bg-indigo-700"
+            <div
+              className="z-30 mr-10 flex h-14 w-56 items-center justify-center rounded-xl border-0 bg-indigo-500 text-base font-bold text-white cursor-pointer hover:bg-indigo-700"
+              onClick={() => {
+                process.env.NEXT_PUBLIC_ENVIRONMENT == "development"
+                  ? router.push("/dashboard")
+                  : window.open("https://r3c9oapreew.typeform.com/to/RDOUdJXk");
+              }}
             >
               Join Discord
-            </ButtonLink>
-            <ButtonLink
-              href="/dashboard"
-              className="z-30 flex h-14 w-56 items-center justify-center rounded-xl border border-black bg-transparent text-base font-bold text-[#1F1A17] shadow-none hover:bg-black hover:text-white"
+            </div>
+            <div
+              className="z-30 flex h-14 w-56 items-center justify-center rounded-xl border border-black bg-transparent text-base font-bold text-[#1F1A17] cursor-pointer hover:bg-black hover:text-white"
+              onClick={() => {
+                process.env.NEXT_PUBLIC_ENVIRONMENT == "development"
+                  ? router.push("/dashboard")
+                  : window.open("https://r3c9oapreew.typeform.com/to/RDOUdJXk");
+              }}
             >
               Join Waitlist
-            </ButtonLink>
+            </div>
           </div>
         </div>
       </div>

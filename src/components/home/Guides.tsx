@@ -54,10 +54,14 @@ export default function Guides() {
                 <div className="relative z-30 mt-5 text-base font-normal">
                   {guide.description}
                 </div>
-                <div className="">
+                <div
+                  className={
+                    process.env.NEXT_PUBLIC_ENVIRONMENT == "development" ? "block" : "hidden"
+                  }
+                >
                   <ButtonLink
-                    className="mt-7 flex h-10 w-48 items-center justify-center rounded-lg border border-black bg-transparent text-base font-bold text-[#1F1A17] shadow-none hover:bg-[#202020]"
-                    href=""
+                    className="mt-7 flex h-10 w-48 items-center justify-center rounded-lg border border-black bg-transparent text-base font-bold text-[#1F1A17] shadow-none hover:bg-[#202020] hover:text-white"
+                    href="/dashboard"
                   >
                     {guide.button}
                   </ButtonLink>
