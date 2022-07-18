@@ -2,8 +2,9 @@ import { useFormik } from "formik";
 import React from "react";
 import * as Yup from "yup";
 
+import StepperFooter from "@/components/contract/StepperFooter";
+
 import ClassicMintFormFields from "../ClassicMintFormFields";
-import StepperFooter from "../StepperFooter";
 
 const PureWhitelist = () => {
   const pureWhitelistForm = useFormik({

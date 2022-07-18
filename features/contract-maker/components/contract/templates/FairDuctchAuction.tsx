@@ -6,9 +6,10 @@ import * as Yup from "yup";
 
 import useWhitelistForm from "@/hooks/useWhitelistForm";
 
+import StepperFooter from "@/components/contract/StepperFooter";
+
 import WhitelistForm from "./Whitelist";
 import DutchAuctionFormFields from "../DutchFormFields";
-import StepperFooter from "../StepperFooter";
 
 const FairDutchAuction = () => {
   const { type, whitelisted } = useSelector(getContract);

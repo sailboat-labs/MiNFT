@@ -12,7 +12,7 @@ const StepperFooter: FC<AppProps> = (props) => {
   const dispatch = useDispatch();
 
   function handleStep(step = 1) {
-    console.log(step > 0, activeStep > 1, props.beforeStep());
+    // console.log(step > 0, activeStep > 1, props.beforeStep());
     if (step > 0 && activeStep > 1 && props.beforeStep()) {
       console.log("go to next");
       dispatch(nextStep(step));

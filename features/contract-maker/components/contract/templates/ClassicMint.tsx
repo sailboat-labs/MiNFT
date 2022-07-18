@@ -6,9 +6,10 @@ import * as Yup from "yup";
 
 import useWhitelistForm from "@/hooks/useWhitelistForm";
 
+import StepperFooter from "@/components/contract/StepperFooter";
+
 import WhitelistForm from "./Whitelist";
 import ClassicMintFormFields from "../ClassicMintFormFields";
-import StepperFooter from "../StepperFooter";
 
 const ClassicMint = () => {
   const { type, whitelisted } = useSelector(getContract);
