@@ -1,11 +1,48 @@
-import { Form, Formik } from "formik";
-import { useState } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { ethers } from "ethers";
+import { getFunctions, httpsCallable } from "firebase/functions";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { v4 } from "uuid";
+import Web3Modal from "web3modal";
 import * as Yup from "yup";
 
-import Input from "./Input";
+import { firebaseApp } from "@/lib/firebase";
 
-export default function Contact() {
+import Button from "../buttons/Button";
+
+const functions = getFunctions(firebaseApp);
+// connectFunctionsEmulator(functions, "localhost", 5001);
+
+interface IContactProps {
+  projectSlug: string;
+}
+
+export default function Contact({ projectSlug }: IContactProps) {
+  const router = useRouter();
+
+  const projectAccount = "TheIndianNFTs";
+
   const [heading, setHeading] = useState("Join the Bloody Bastards");
+
+  const [address, setAddress] = useState<string>();
+  const [follows, setFollows] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [shouldProceed, setShouldProceed] = useState(false);
+  const [twitterHandle, setTwitterHandle] = useState("");
+
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const { success, twitterAccount, accessToken } = router.query;
+    connectWallet();
+
+    if (success === "true") {
+      verifyAccount(accessToken as string, twitterAccount as string);
+    } else if (success === "false") {
+      // toast.error("Unable to add account");
+    }
+  }, [router]);
 
   const changeHeading = (e: any) => {
     e.preventDefault();
@@ -16,9 +53,96 @@ export default function Contact() {
     email: Yup.string()
       .email("Invalid email address")
       .required("Email is required"),
-    discordUsername: Yup.string().required("Discord username required"),
+    twitterUsername: Yup.string().required("Twitter username required"),
     ETHaddress: Yup.string().required("ETH address required"),
   });
+
+  const connectWallet = async () => {
+    const web3Modal = new Web3Modal();
+
+    const instance = await web3Modal.connect();
+    const provider = new ethers.providers.Web3Provider(instance);
+    const signer = provider.getSigner();
+
+    const _address = await signer.getAddress();
+    setAddress(_address);
+  };
+
+  const connectTwitter = async () => {
+    const requestTwitterUrl = httpsCallable(functions, "requestTwitterUrl");
+    requestTwitterUrl()
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .then((result: any) => {
+        window.open(result.data.authUrl, "_bank");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const verifyAccount = async (accessToken: string, twitterAccount: string) => {
+    // const userClient = new TwitterApi(accessToken);
+
+    // Get user ID
+    // const user = await userClient.v2.me();
+
+    // if (user.data.username == twitterAccount)
+
+    setTwitterHandle(twitterAccount);
+
+    // else setError("Account and token does not match");
+
+    return;
+  };
+
+  const proceed = async () => {
+    setLoading(true);
+
+    const checkFollows = httpsCallable(functions, "checkFollows");
+    const checkExists = httpsCallable(functions, "checkExists");
+    const updateAccounts = httpsCallable(functions, "updateAccounts");
+    const addWhitelist = httpsCallable(functions, "addWhitelist");
+
+    const { data }: any = await checkExists({
+      project_slug: projectSlug,
+      user_account: twitterHandle,
+    });
+
+    if (data.success && !data.exists) {
+      checkFollows({
+        user_account: twitterHandle,
+        project_account: projectAccount,
+      })
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        .then(async (result: any) => {
+          const { data } = result;
+          if (data.success && data.isFollowing) {
+            setShouldProceed(true);
+            await updateAccounts({
+              project_slug: projectSlug,
+              user_account: twitterHandle,
+            });
+            await addWhitelist({
+              id: v4(),
+              projectSlug,
+              wallet: address,
+              twitterUsername: twitterHandle,
+              createdAt: new Date().toISOString(),
+              updatedAt: new Date().toISOString(),
+            });
+          } else if (data.success && !data.isFollowing) {
+            setError("This account is not following us");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else if (data.success && data.exists) {
+      setError("This account is already in use");
+    }
+
+    setLoading(false);
+  };
 
   return (
     <div>
@@ -35,39 +159,68 @@ export default function Contact() {
           />
         </div>
         <div className="flex items-center lg:ml-10">
-          <Formik
-            initialValues={{
-              email: "",
-              discordUsername: "",
-              ETHaddress: "",
-            }}
-            validationSchema={validate}
-            onSubmit={(values) => console.log(values)}
-          >
-            {(formik) => (
-              <Form>
-                <div className="text-gray-200">
-                  <Input name="email" type="email" placeholder="Email *" />
-                  <Input
-                    name="discordUsername"
-                    type="text"
-                    placeholder="Discord username *"
-                  />
-                  <Input
-                    name="ETHaddress"
-                    type="text"
-                    placeholder="ETH public address *"
-                  />
-                </div>
-                <button
+          {shouldProceed && (
+            <div className="h-80 w-full items-center justify-center">
+              <h1>All Good</h1>
+            </div>
+          )}
+          {!shouldProceed && (
+            <div className="flex flex-col gap-4 text-gray-200">
+              {address && <p>{address}</p>}
+
+              {!address && (
+                <Button
+                  onClick={connectWallet}
                   type="submit"
-                  className="mt-8 rounded-xl bg-[#006C35] py-5 px-12 text-xl"
+                  className="rounded-xl bg-[#006C35] py-5 px-12 text-xl"
                 >
-                  Reserve your Chutiya
-                </button>
-              </Form>
-            )}
-          </Formik>
+                  Connect your wallet
+                </Button>
+              )}
+
+              {twitterHandle && <p>{twitterHandle}</p>}
+
+              {!twitterHandle && (
+                <Button
+                  disabled={!address}
+                  onClick={connectTwitter}
+                  type="submit"
+                  className="rounded-xl bg-[#006C35] py-5 px-12 text-xl"
+                >
+                  Connect Twitter
+                </Button>
+              )}
+
+              {!follows && (
+                <Button
+                  disabled={!address || !twitterHandle}
+                  onClick={() => {
+                    window.open(
+                      `https://twitter.com/${projectAccount}`,
+                      "_bank"
+                    );
+                    setFollows(true);
+                  }}
+                  type="submit"
+                  className="rounded-xl bg-[#006C35] py-5 px-12 text-xl"
+                >
+                  Follow Us
+                </Button>
+              )}
+
+              <Button
+                isLoading={loading}
+                onClick={() => proceed()}
+                disabled={!address || !follows || !twitterHandle}
+                type="submit"
+                className="rounded-xl bg-[#006C35] py-5 px-12 text-xl"
+              >
+                Reserve your Chutiya
+              </Button>
+
+              <p>{error}</p>
+            </div>
+          )}
         </div>
       </div>
     </div>

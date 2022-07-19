@@ -21,7 +21,7 @@ export default function LandingPage() {
         <SectionThree />
         <SectionFour />
         <Join />
-        <Contact />
+        <Contact projectSlug="indians-nft" />
         <Footer />
       </div>
     </section>

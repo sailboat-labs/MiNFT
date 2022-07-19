@@ -76,6 +76,7 @@
     "react-flip-move": "^3.0.4",
     "react-hammerjs": "^1.0.1",
     "react-hot-toast": "^2.2.0",
+    "react-icons": "^4.4.0",
     "react-lottie": "^1.2.3",
     "react-moralis": "^1.4.0",
     "react-range": "^1.8.13",
@@ -95,8 +96,10 @@
     "sweetalert": "^2.1.2",
     "tailwind-merge": "^1.2.0",
     "tw-elements": "^1.0.0-alpha12",
+    "twitter-api-v2": "^1.12.3",
     "url-parse": "^1.5.10",
     "uuid": "^8.3.2",
+    "web3modal": "^1.9.8",
     "yup": "^0.32.11"
   },
   "devDependencies": {
