@@ -1,3 +1,4 @@
+import { UserV2 } from "./../node_modules/twitter-api-v2/dist/types/v2/user.v2.types.d";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as functions from "firebase-functions";
 import { TwitterApi } from "twitter-api-v2";
@@ -19,48 +20,40 @@ const publicClient = new TwitterApi(process.env.TWITTER_BEARER_TOKEN as string);
 // Tell typescript it's a readonly app
 const roClient = publicClient.readOnly;
 
-const getUserId = async (user_name: string): Promise<any> => {
+const checkFollows = functions.https.onCall(async (data) => {
   try {
-    const user = await roClient.v2.userByUsername(user_name);
-    if (user) {
-      const user_id = user.data.id;
-      const name = user.data.name;
-      return { success: true, id: user_id, name };
+    const { user_account, project_account } = data;
+    const user = await roClient.v2.userByUsername(user_account);
+    const project = await roClient.v2.userByUsername(project_account);
+    if (user && project) {
+      const following = await roClient.v2.followers(project.data.id);
+      const ids = following.data.reduce((acc: string[], curr: UserV2) => {
+        acc.push(curr.id);
+        if (curr.id == user.data.id) console.log({ exists: true });
+        return acc;
+      }, []);
+      console.log({ following: ids });
+      console.log({ user: user.data });
+      const isFollowing = ids.includes(user.data.id);
+
+      return { success: true, isFollowing };
     } else {
-      return { success: true, message: "Unable to get id " };
+      return {
+        success: true,
+        isFollowing: false,
+        message: "Unable to get id ",
+      };
     }
   } catch (error) {
     functions.logger.log(error);
     return { success: false, error, message: "Something bad happened" };
   }
-};
+});
 
-const checkFollows = functions.https.onRequest(
-  async (req: functions.Request, res: functions.Response) => {
-    try {
-      const { user_name, account_name } = req.params;
-      const user = await roClient.v2.userByUsername(user_name);
-      const account = await roClient.v2.userByUsername(account_name);
-      if (user && account) {
-        const following = await roClient.v2.following(user.data.id);
-        const isFollowing = following.data.includes(user.data);
-
-        res.json({ success: true, isFollowing });
-      } else {
-        res.json({
-          success: true,
-          isFollowing: false,
-          message: "Unable to get id ",
-        });
-      }
-    } catch (error) {
-      functions.logger.log(error);
-      res.json({ success: false, error, message: "Something bad happened" });
-    }
-  }
-);
-
-const follows = async (user_name: string, account_name: string) => {
+export const follows = async (
+  user_name: string,
+  account_name: string
+): Promise<any> => {
   try {
     const user = await roClient.v2.userByUsername(user_name);
     const account = await roClient.v2.userByUsername(account_name);
@@ -82,151 +75,6 @@ const follows = async (user_name: string, account_name: string) => {
   }
 };
 
-const followUser = async (
-  user_id: string,
-  target_user_id: string
-): Promise<any> => {
-  try {
-    const accessToken = await refreshTokens(user_id);
-
-    const userClient = new TwitterApi(accessToken);
-
-    const follow = await userClient.v2.follow(user_id, target_user_id);
-
-    if (follow.data.following) {
-      return { success: true, data: follow.data };
-    } else {
-      return {
-        success: false,
-        message: "Something went wrong",
-        error: follow.errors,
-      };
-    }
-  } catch (error) {
-    console.log(error);
-    // functions.logger.error(error);
-    return {
-      success: false,
-      error,
-      message: "Something bad happened, Check function logs",
-    };
-  }
-};
-
-const tweet = async (user_id: string, tweet: string): Promise<any> => {
-  try {
-    const accessToken = await refreshTokens(user_id);
-
-    const userClient = new TwitterApi(accessToken);
-
-    const result = await userClient.v2.tweet({ text: tweet });
-
-    if (result.data) {
-      return { success: true, id: result.data.id };
-    } else {
-      return {
-        success: false,
-        message: "Something went wrong",
-        error: result.errors,
-      };
-    }
-  } catch (error) {
-    functions.logger.error(error);
-    return {
-      success: false,
-      error,
-      message: "Something bad happened, Check function logs",
-    };
-  }
-};
-
-const like = async (user_id: string, tweetId: string): Promise<any> => {
-  try {
-    const accessToken = await refreshTokens(user_id);
-
-    const userClient = new TwitterApi(accessToken);
-
-    const result = await userClient.v2.like(user_id, tweetId);
-
-    if (result.data) {
-      return { success: true, liked: result.data.liked };
-    } else {
-      return {
-        success: false,
-        message: "Something went wrong",
-        error: result.errors,
-      };
-    }
-  } catch (error) {
-    functions.logger.error(error);
-    return {
-      success: false,
-      error,
-      message: "Something bad happened, Check function logs",
-    };
-  }
-};
-
-const retweet = async (user_id: string, tweetId: string): Promise<any> => {
-  try {
-    const accessToken = await refreshTokens(user_id);
-
-    const userClient = new TwitterApi(accessToken);
-
-    const result = await userClient.v2.retweet(user_id, tweetId);
-
-    if (result.data) {
-      return { success: true, liked: result.data.retweeted };
-    } else {
-      return {
-        success: false,
-        message: "Something went wrong",
-        error: result.errors,
-      };
-    }
-  } catch (error) {
-    functions.logger.error(error);
-    return {
-      success: false,
-      error,
-      message: "Something bad happened, Check function logs",
-    };
-  }
-};
-
-const refreshTokens = async (user_id: string) => {
-  try {
-    const user = (
-      await admin
-        .firestore()
-        .collection(`TwitterAccounts`)
-        .where("twitterId", "==", user_id)
-        .get()
-    ).docs[0].data();
-
-    try {
-      const data = await client.refreshOAuth2Token(user?.refreshToken);
-
-      await admin.firestore().doc(`TwitterAccounts/${user?.userName}`).update({
-        accessToken: data.accessToken,
-        refreshToken: data.refreshToken,
-        expiresIn: data.expiresIn,
-        tokenUpdated: new Date().toISOString(),
-      });
-      return data.accessToken;
-    } catch (error) {
-      await admin.firestore().doc(`TwitterAccounts/${user?.userName}`).update({
-        active: false,
-        updatedAt: new Date().toDateString(),
-      });
-      return "";
-    }
-  } catch (error) {
-    functions.logger.log(error);
-    return "";
-  }
-};
-
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const requestTwitterUrl = functions.https.onCall(async (data) => {
   try {
@@ -234,8 +82,7 @@ const requestTwitterUrl = functions.https.onCall(async (data) => {
     const { url, codeVerifier, state } = client.generateOAuth2AuthLink(
       process.env.TWITTER_CALLBACK_URL as string,
       {
-        // scope: ["follows.read", "offline.access"],
-        scope: ["tweet.read", "users.read", "follows.read", "offline.access"],
+        scope: ["tweet.read", "users.read", "follows.read"],
       }
     );
 
@@ -302,7 +149,7 @@ const twitterCallBack = functions.https.onRequest(
       await admin.firestore().doc(`Codes/${state}`).delete();
 
       res.redirect(
-        `${process.env.APP_URL}/indiansnft?success=true&twitterAccount=${user.data.username}`
+        `${process.env.APP_URL}/indiansnft?success=true&twitterAccount=${user.data.username}&accessToken=${accessToken}`
       );
     } catch (error) {
       // functions.logger.log(error);
@@ -312,13 +159,4 @@ const twitterCallBack = functions.https.onRequest(
   }
 );
 
-export {
-  followUser,
-  getUserId,
-  requestTwitterUrl,
-  tweet,
-  like,
-  retweet,
-  twitterCallBack,
-  checkFollows,
-};
+export { requestTwitterUrl, twitterCallBack, checkFollows };
