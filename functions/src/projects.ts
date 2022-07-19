@@ -11,10 +11,12 @@ export const checkExists = functions.https.onCall(async (data) => {
     console.log({ project });
     const twitterAccounts = project?.accounts ?? [];
 
-    if (twitterAccounts.includes(data.user_account))
-      return { success: true, exists: true };
+    console.log({ twitterAccounts });
 
-    return { success: true, exists: false };
+    return {
+      success: true,
+      exists: twitterAccounts.includes(data.user_account),
+    };
   } catch (error) {
     functions.logger.log(error);
     return { success: false, error, message: "Something bad happened" };

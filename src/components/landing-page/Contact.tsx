@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ethers } from "ethers";
 import { getFunctions, httpsCallable } from "firebase/functions";
-import { Form, Formik } from "formik";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { v4 } from "uuid";
 import Web3Modal from "web3modal";
 import * as Yup from "yup";
 
@@ -13,10 +14,11 @@ import Button from "../buttons/Button";
 const functions = getFunctions(firebaseApp);
 // connectFunctionsEmulator(functions, "localhost", 5001);
 
-interface ContactProps {
+interface IContactProps {
   projectSlug: string;
 }
-export default function Contact({ projectSlug }: ContactProps) {
+
+export default function Contact({ projectSlug }: IContactProps) {
   const router = useRouter();
 
   const projectAccount = "TheIndianNFTs";
@@ -24,7 +26,7 @@ export default function Contact({ projectSlug }: ContactProps) {
   const [heading, setHeading] = useState("Join the Bloody Bastards");
 
   const [address, setAddress] = useState<string>();
-  const [follows, setFollows] = useState(false);
+  const [follows, setFollows] = useState(true);
   const [loading, setLoading] = useState(false);
   const [shouldProceed, setShouldProceed] = useState(false);
   const [twitterHandle, setTwitterHandle] = useState("");
@@ -33,9 +35,10 @@ export default function Contact({ projectSlug }: ContactProps) {
 
   useEffect(() => {
     const { success, twitterAccount, accessToken } = router.query;
+    connectWallet();
+
     if (success === "true") {
       verifyAccount(accessToken as string, twitterAccount as string);
-      connectWallet();
     } else if (success === "false") {
       // toast.error("Unable to add account");
     }
@@ -77,26 +80,6 @@ export default function Contact({ projectSlug }: ContactProps) {
       });
   };
 
-  const updateAccount = async (account: string) => {
-    setLoading(true);
-
-    const updateAccounts = httpsCallable(functions, "updateAccounts");
-    updateAccounts({ user_account: account, project_slug: projectSlug })
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      .then((result: any) => {
-        const { data } = result;
-        if (data.success) {
-          console.log(result);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        setShouldProceed(false);
-      });
-
-    setLoading(false);
-  };
-
   const verifyAccount = async (accessToken: string, twitterAccount: string) => {
     // const userClient = new TwitterApi(accessToken);
 
@@ -112,20 +95,24 @@ export default function Contact({ projectSlug }: ContactProps) {
     return;
   };
 
-  const proceed = async (account: string) => {
+  const proceed = async () => {
     setLoading(true);
 
     const checkFollows = httpsCallable(functions, "checkFollows");
     const checkExists = httpsCallable(functions, "checkExists");
     const updateAccounts = httpsCallable(functions, "updateAccounts");
+    const addWhitelist = httpsCallable(functions, "addWhitelist");
 
     const { data }: any = await checkExists({
       project_slug: projectSlug,
-      user_account: account,
+      user_account: twitterHandle,
     });
 
-    if (data.success && data.exists) {
-      checkFollows({ user_account: account, project_account: projectAccount })
+    if (data.success && !data.exists) {
+      checkFollows({
+        user_account: twitterHandle,
+        project_account: projectAccount,
+      })
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         .then(async (result: any) => {
           const { data } = result;
@@ -133,7 +120,15 @@ export default function Contact({ projectSlug }: ContactProps) {
             setShouldProceed(true);
             await updateAccounts({
               project_slug: projectSlug,
-              user_account: account,
+              user_account: twitterHandle,
+            });
+            await addWhitelist({
+              id: v4(),
+              projectSlug,
+              wallet: address,
+              twitterUsername: twitterHandle,
+              createdAt: new Date().toISOString(),
+              updatedAt: new Date().toISOString(),
             });
           } else if (data.success && !data.isFollowing) {
             setError("This account is not following us");
@@ -142,7 +137,7 @@ export default function Contact({ projectSlug }: ContactProps) {
         .catch((error) => {
           console.log(error);
         });
-    } else if (!data.success && !data.exists) {
+    } else if (data.success && data.exists) {
       setError("This account is already in use");
     }
 
@@ -165,85 +160,66 @@ export default function Contact({ projectSlug }: ContactProps) {
         </div>
         <div className="flex items-center lg:ml-10">
           {shouldProceed && (
-            <div className="h-80 w-full items-center justify-center border-2">
+            <div className="h-80 w-full items-center justify-center">
               <h1>All Good</h1>
             </div>
           )}
           {!shouldProceed && (
-            <Formik
-              initialValues={{
-                email: "",
-                twitterUsername: "",
-                ETHaddress: "",
-              }}
-              validationSchema={validate}
-              onSubmit={(values) => console.log(values)}
-            >
-              {(formik) => (
-                <Form>
-                  <div className="flex flex-col gap-4 text-gray-200">
-                    {address && <p>{address}</p>}
-                    {!address && (
-                      <Button
-                        onClick={connectWallet}
-                        type="submit"
-                        className="rounded-xl bg-[#006C35] py-5 px-12 text-xl"
-                      >
-                        Connect your wallet
-                      </Button>
-                    )}
+            <div className="flex flex-col gap-4 text-gray-200">
+              {address && <p>{address}</p>}
 
-                    {twitterHandle && <p>{twitterHandle}</p>}
-
-                    {!twitterHandle && (
-                      <Button
-                        // disabled={!address || !twitterHandle}
-                        onClick={connectTwitter}
-                        type="submit"
-                        className="rounded-xl bg-[#006C35] py-5 px-12 text-xl"
-                      >
-                        Connect Twitter
-                      </Button>
-                    )}
-
-                    {!follows && (
-                      <Button
-                        disabled={!address}
-                        onClick={() => {
-                          window.open(
-                            `https://twitter.com/${projectAccount}`,
-                            "_bank"
-                          );
-                          setFollows(true);
-                        }}
-                        type="submit"
-                        className="rounded-xl bg-[#006C35] py-5 px-12 text-xl"
-                      >
-                        Follow Us
-                      </Button>
-                    )}
-                    {/* 
-                    <Input
-                      name="twitterUsername"
-                      type="text"
-                      placeholder="Twitter username *"
-                    /> */}
-
-                    <Button
-                      isLoading={loading}
-                      onClick={() => proceed(formik.values.twitterUsername)}
-                      disabled={!address || !follows || !twitterHandle}
-                      type="submit"
-                      className="rounded-xl bg-[#006C35] py-5 px-12 text-xl"
-                    >
-                      Reserve your Chutiya
-                    </Button>
-
-                    <p>{error}</p>
-                  </div>
-                </Form>
+              {!address && (
+                <Button
+                  onClick={connectWallet}
+                  type="submit"
+                  className="rounded-xl bg-[#006C35] py-5 px-12 text-xl"
+                >
+                  Connect your wallet
+                </Button>
               )}
-            </Formik>
+
+              {twitterHandle && <p>{twitterHandle}</p>}
+
+              {!twitterHandle && (
+                <Button
+                  disabled={!address}
+                  onClick={connectTwitter}
+                  type="submit"
+                  className="rounded-xl bg-[#006C35] py-5 px-12 text-xl"
+                >
+                  Connect Twitter
+                </Button>
+              )}
+
+              {!follows && (
+                <Button
+                  disabled={!address || !twitterHandle}
+                  onClick={() => {
+                    window.open(
+                      `https://twitter.com/${projectAccount}`,
+                      "_bank"
+                    );
+                    setFollows(true);
+                  }}
+                  type="submit"
+                  className="rounded-xl bg-[#006C35] py-5 px-12 text-xl"
+                >
+                  Follow Us
+                </Button>
+              )}
+
+              <Button
+                isLoading={loading}
+                onClick={() => proceed()}
+                disabled={!address || !follows || !twitterHandle}
+                type="submit"
+                className="rounded-xl bg-[#006C35] py-5 px-12 text-xl"
+              >
+                Reserve your Chutiya
+              </Button>
+
+              <p>{error}</p>
+            </div>
           )}
         </div>
       </div>
