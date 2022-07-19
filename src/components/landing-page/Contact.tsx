@@ -184,9 +184,10 @@ export default function Contact({ projectSlug }: IContactProps) {
           {(shouldProceed || whitelisted) && (
             <div className="h-80 w-full items-center justify-center">
               <h1>All Good</h1>
+              {whitelisted && <p>Already whitelisted</p>}
             </div>
           )}
-          {!shouldProceed && (
+          {!shouldProceed && !whitelisted && (
             <div className="flex flex-col gap-4 text-gray-200">
               {address && <p>{address}</p>}
 
