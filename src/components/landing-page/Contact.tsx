@@ -26,7 +26,7 @@ export default function Contact({ projectSlug }: IContactProps) {
   const [heading, setHeading] = useState("Join the Bloody Bastards");
 
   const [address, setAddress] = useState<string>();
-  const [follows, setFollows] = useState(true);
+  const [follows, setFollows] = useState(false);
   const [loading, setLoading] = useState(false);
   const [shouldProceed, setShouldProceed] = useState(false);
   const [twitterHandle, setTwitterHandle] = useState("");
