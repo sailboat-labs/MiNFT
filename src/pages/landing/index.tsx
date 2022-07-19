@@ -11,7 +11,7 @@ export default function LandingPage() {
   return (
     <section className="h-screen overflow-y-auto">
       <div className="relative z-0 bg-[url('/images/landing/india.png')] bg-cover bg-center ">
-        <div className="relative z-30 w-full h-full bg-black bg-opacity-40">
+        <div className="relative z-30 h-full w-full bg-black bg-opacity-60">
           <Header />
           <Banner />
         </div>

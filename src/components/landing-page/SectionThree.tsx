@@ -45,6 +45,7 @@ export default function SectionThree() {
         <div className="w-full pl-10 md:pl-20 lg:w-2/5">
           <div className="pt-10 font-dmsans text-lg font-bold">
             <input
+              disabled
               type="text"
               id="sectionthree-highlight"
               value={highlight}
@@ -55,6 +56,7 @@ export default function SectionThree() {
           </div>
           <div className="">
             <textarea
+              disabled
               rows={3}
               id="sectionthree-heading"
               className="h-80 w-full resize-none overflow-hidden whitespace-normal border-0 bg-transparent p-0 pb-8 font-serif text-8xl italic md:h-auto md:text-9xl "
@@ -66,6 +68,7 @@ export default function SectionThree() {
           </div>
           <div className=" w-4/5">
             <textarea
+              disabled
               id="sectionthree-paragraph"
               className="h-80 w-full resize-none overflow-hidden whitespace-normal border-0 bg-transparent font-dmsans text-base leading-relaxed hover:resize focus:resize md:h-44 lg:h-64"
               value={paragraphText}
@@ -83,7 +86,7 @@ export default function SectionThree() {
             </ButtonLink>
           </div>
         </div>
-        <div className="mt-20 flex w-full flex-row justify-evenly px-5 lg:px-0 lg:mt-0 lg:w-7/12">
+        <div className="mt-20 flex w-full flex-row justify-evenly px-5 lg:mt-0 lg:w-7/12 lg:px-0">
           <div className="mt-14 md:mt-20 lg:mt-28">
             <div className="m-2 bg-[#7f9dc3] md:m-4">
               <img src={images.elements[3].src} alt={images.elements[3].alt} />

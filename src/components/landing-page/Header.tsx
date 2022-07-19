@@ -6,8 +6,8 @@ import UnstyledLink from "../links/UnstyledLink";
 export default function Header() {
   return (
     <div>
-      <div className="flex flex-row items-center justify-between py-5 px-2 text-white md:py-4 lg:py-3">
-        <div className="flex justify-center mx-auto lg:mx-0 lg:justify-start">
+      <div className="flex flex-row items-center justify-between py-5 px-20 text-white md:py-4 lg:py-3">
+        <div className="mx-auto flex justify-center lg:mx-0 lg:justify-start">
           <UnstyledLink
             href=""
             className="text-3xl font-extrabold uppercase md:text-4xl lg:text-2xl"
@@ -15,7 +15,7 @@ export default function Header() {
             THE INDIANS
           </UnstyledLink>
         </div>
-        <div className="space-x-20 hidden lg:block">
+        <div className="hidden space-x-20 lg:block">
           <UnstyledLink href="/whitelist">Join Whitelist</UnstyledLink>
           <UnstyledLink href="">Become a Bhenchod</UnstyledLink>
           <UnstyledLink href="">About</UnstyledLink>

@@ -36,10 +36,11 @@ export default function SectionTwo() {
 
   return (
     <div className="flex flex-col items-center pt-20 md:pt-32 lg:flex-row lg:pt-36">
-      <div className="w-full lg:w-1/2 text-white">
+      <div className="w-full text-white lg:w-1/2">
         <div className="text-center">
           <div className="mx-auto w-4/5">
             <textarea
+              disabled
               id="sectiontwo-heading"
               className="h-[28rem] w-full resize-none overflow-hidden whitespace-normal border-0 bg-transparent p-0 text-center font-serif text-6xl font-bold italic leading-tight hover:resize focus:resize md:text-8xl lg:h-52 lg:text-6xl"
               value={heading}
@@ -51,6 +52,7 @@ export default function SectionTwo() {
           </div>
           <div>
             <textarea
+              disabled
               id="sectiontwo-paragraph"
               className="h-[28rem] w-full resize-none overflow-hidden whitespace-normal border-0 bg-transparent p-10 text-center font-dmsans text-xl leading-relaxed md:h-60 lg:h-[15rem] lg:w-2/3 lg:text-base"
               value={aboutText}
@@ -70,9 +72,9 @@ export default function SectionTwo() {
         </div>
       </div>
       <div className="w-full lg:w-1/2">
-        <div className="p-10 h-[35rem] sm:p-20 lg:p-10">
+        <div className="h-[35rem] p-10 sm:p-20 lg:p-10">
           <iframe
-            className="w-full h-full"
+            className="h-full w-full"
             src="https://www.youtube.com/embed/XQGec9ntkfs"
             title="OK OK I need the price to go up indian version"
             frameBorder="0"

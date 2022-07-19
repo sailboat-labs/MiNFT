@@ -80,6 +80,7 @@ export default function SectionFour() {
       <div className="text-white">
         <div className="mx-auto w-4/5">
           <textarea
+            disabled
             rows={2}
             id="sectionfour-heading"
             value={heading}
@@ -91,6 +92,7 @@ export default function SectionFour() {
         <div className="mx-auto flex w-full flex-col justify-between pt-10 font-dmsans lg:w-2/3 lg:flex-row">
           <div className="mx-auto mt-6 mb-5 flex flex-col space-y-10 lg:flex-row lg:space-y-0 lg:space-x-10">
             <textarea
+              disabled
               id="sectionfour-info"
               value={info1}
               onChange={changeInfo1}
@@ -98,18 +100,20 @@ export default function SectionFour() {
               className="resize-none overflow-hidden border-0 bg-transparent text-center text-3xl md:h-28 lg:h-40 lg:text-2xl"
             />
             <textarea
+              disabled
               id="sectionfour-info"
               value={info2}
               onChange={changeInfo2}
               onBlur={changeInfo2}
-              className="lg:h-40overflow-hidden resize-none border-0 bg-transparent text-center text-3xl h-32 md:h-28 lg:text-2xl"
+              className="lg:h-40overflow-hidden h-32 resize-none border-0 bg-transparent text-center text-3xl md:h-28 lg:text-2xl"
             />
             <textarea
+              disabled
               id="sectionfour-info"
               value={info3}
               onChange={changeInfo3}
               onBlur={changeInfo3}
-              className="resize-none overflow-hidden border-0 bg-transparent text-center text-3xl h-40 md:h-48 lg:h-40 lg:text-2xl"
+              className="h-40 resize-none overflow-hidden border-0 bg-transparent text-center text-3xl md:h-48 lg:h-40 lg:text-2xl"
             />
           </div>
         </div>

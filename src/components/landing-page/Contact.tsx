@@ -22,9 +22,10 @@ export default function Contact() {
 
   return (
     <div>
-      <div className="w-4/5 mx-auto flex flex-col items-center pt-40 pb-28 text-white lg:flex-row">
+      <div className="mx-auto flex w-4/5 flex-col items-center pt-40 pb-28 text-white lg:flex-row">
         <div className="w-full lg:w-3/5">
           <textarea
+            disabled
             rows={3}
             id="contact-heading"
             value={heading}

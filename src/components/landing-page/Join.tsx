@@ -3,8 +3,6 @@ import { useState } from "react";
 
 import ButtonLink from "../links/ButtonLink";
 
-import icons from "./IconLinks";
-
 export default function Join() {
   const [heading, setHeading] = useState("Join the Royal Kingdom");
 
@@ -29,10 +27,11 @@ export default function Join() {
 
   return (
     <div>
-      <div className="mx-10 rounded-2xl bg-[#006C35] py-32 sm:py-20 lg:py-32 text-white">
+      <div className="mx-10 rounded-2xl bg-[#006C35] py-32 text-white sm:py-20 lg:py-32">
         <div className="mx-auto flex w-4/5 flex-col items-center justify-center">
           <div className="flex w-full justify-center lg:w-4/5">
             <textarea
+              disabled
               id="join-heading"
               value={heading}
               onChange={changeHeading}
@@ -79,11 +78,7 @@ export default function Join() {
           alt="Sand.png"
           className="h-32 w-[15rem] md:h-44 md:w-[25rem] lg:h-64 lg:w-[38rem]"
         /> */}
-        <img
-          src="/images/landing/cricket-bat.png"
-          alt=""
-          className=""
-        />
+        <img src="/images/landing/cricket-bat.png" alt="" className="" />
         <img src="/images/landing/movie-reel.png" alt="" className="w-16" />
         <img src="/images/landing/microphone.png" alt="" className="w-16" />
       </div>
