@@ -42,7 +42,6 @@ const NFTPreview: FC<AppProps> = ({ className }) => {
         family: "Preview",
       },
       layers,
-      showToast: false,
     });
     console.log(generatedTokens);
 
