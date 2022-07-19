@@ -12,8 +12,8 @@ import {
   getGeneratedImagesFilter,
   getLayers,
 } from "redux/reducers/selectors/layers";
+import { setInformationBarConfig } from "redux/reducers/slices/dashboard";
 import {
-  clearGeneratedImages,
   setGeneratedGIF,
   setGeneratedImages,
   setGeneratedImagesFilter,
@@ -63,22 +63,6 @@ export default function GenerateToken() {
   const dispatch = useDispatch();
   const configuration = useSelector(getConfiguration);
 
-  function onDoneComponent() {
-    return (
-      <div className="flex items-center gap-3">
-        All Tokens Generated
-        <div
-          onClick={() => {
-            openModal();
-          }}
-          className="rounded-lg border-2 px-3 py-1"
-        >
-          View
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div>
       {/* <div className="mt-5 rounded-lg bg-[#30489C] px-5 py-3">
@@ -100,19 +84,30 @@ export default function GenerateToken() {
             return toast.error("Enter external link in settings");
           // if (possibleConfigCount < configuration[enumNFTGenConfig.SUPPLY])
           //   return toast.error("Resolve errors in trait mixer rarity");
-          dispatch(clearGeneratedImages({}));
+          // dispatch(clearGeneratedImages({}));
 
-          const { generatedTokens, gif }: any = await generateTokens({
-            configuration,
-            layers,
-            shouldGenerateGIF: true,
-          });
+          dispatch(
+            setInformationBarConfig({
+              show: true,
+              message: `Setting up workers`,
+              showLoader: true,
+            })
+          );
 
-          dispatch(setGeneratedImages(generatedTokens));
+          setTimeout(async () => {
+            const { generatedTokens, gif }: any = await generateTokens({
+              configuration,
+              layers,
+              shouldGenerateGIF: true,
+              dispatch: dispatch,
+            });
 
-          const blob = new Blob([gif]);
-          const srcBlob = URL.createObjectURL(blob);
-          dispatch(setGeneratedGIF(srcBlob));
+            dispatch(setGeneratedImages(generatedTokens));
+
+            const blob = new Blob([gif]);
+            const srcBlob = URL.createObjectURL(blob);
+            dispatch(setGeneratedGIF(srcBlob));
+          }, 2000);
         }}
         className={`mt-5 flex w-full cursor-pointer items-center justify-center gap-3 rounded-lg border-2 border-[#30489C] bg-white px-5 py-2 text-[#30489C] transition-all hover:scale-105 `}
       >

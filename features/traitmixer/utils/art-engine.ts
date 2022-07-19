@@ -2,6 +2,7 @@ import { createCanvas, loadImage } from "canvas";
 import chalk from "chalk";
 import keccak256 from "keccak256";
 import { toast } from "react-toastify";
+import { setInformationBarConfig } from "redux/reducers/slices/dashboard";
 
 import { enumNFTGenConfig } from "@/enums/nft-gen-configurations";
 import { IElement, IGeneratedTokens } from "@/interfaces";
@@ -13,7 +14,7 @@ let toastId: any;
 type generateTokensProps = {
   configuration: any;
   layers: any;
-  showToast?: boolean;
+  dispatch?: any;
   component?: any;
   shouldGenerateGIF?: boolean;
 };
@@ -21,13 +22,18 @@ type generateTokensProps = {
 export function generateTokens({
   configuration,
   layers,
-  showToast = true,
+  dispatch,
   component,
   shouldGenerateGIF = false,
 }: generateTokensProps) {
-  if (showToast) {
-    toastId = toast.loading("Starting workers");
-  }
+  dispatch &&
+    dispatch(
+      setInformationBarConfig({
+        show: true,
+        message: `Setting up workers`,
+        showLoader: true,
+      })
+    );
   // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve) => {
     let generatedTokens: IGeneratedTokens[] = [];
@@ -757,6 +763,14 @@ export function generateTokens({
     };
 
     async function generateGIF(imageList: any[]) {
+      dispatch &&
+        dispatch(
+          setInformationBarConfig({
+            show: true,
+            message: `Generating GIF.. Browser tab will freeze for about 2 mins🥲.. or less . Not ideal. We'll optimize... `,
+            showLoader: true,
+          })
+        );
       const _list: any[] = [];
       for (let index = 0; index < imageList.length; index++) {
         const image = imageList[index];
@@ -764,7 +778,8 @@ export function generateTokens({
         _list.push(file);
       }
 
-      const gif = await createProjectPreviewGIF(_list);
+      const gif = await createProjectPreviewGIF(_list, dispatch);
+
       return gif;
     }
 
@@ -776,28 +791,48 @@ export function generateTokens({
     ) => {
       const { newDna, layerConfigIndex } = layerData;
       // Save the canvas buffer to file
-      if (showToast) {
+
+      dispatch &&
+        dispatch(
+          setInformationBarConfig({
+            show: true,
+            message: `Generating token ${abstractedIndexes[0] + 1} of ${
+              configuration.supply
+            }`,
+            showLoader: true,
+          })
+        );
+
+      if (abstractedIndexes[0] + 1 == configuration.supply) {
+        // toast.dismiss();
         toast.update(toastId, {
-          render: `Generating token ${abstractedIndexes[0] + 1} of ${
-            configuration.supply
-          }`,
-          isLoading: true,
+          render: component,
+          isLoading: false,
+          type: toast.TYPE.SUCCESS,
+          autoClose: 15000,
         });
+
+        dispatch &&
+          dispatch(
+            setInformationBarConfig({
+              show: true,
+              message: `All Tokens Generated`,
+              showLoader: false,
+            })
+          );
+
+        dispatch &&
+          setTimeout(() => {
+            dispatch(
+              setInformationBarConfig({
+                show: false,
+                message: ``,
+                showLoader: false,
+              })
+            );
+          }, 3000);
       }
 
-      if (showToast) {
-        if (abstractedIndexes[0] + 1 == configuration.supply) {
-          // toast.dismiss();
-          toast.update(toastId, {
-            render: component,
-            isLoading: false,
-            type: toast.TYPE.SUCCESS,
-            autoClose: 15000,
-          });
-
-          // toast.success("All tokens generated");
-        }
-      }
       const { _imageHash, _prefix, _offset } = postProcessMetadata(layerData);
 
       addMetadata(newDna, abstractedIndexes[0], {

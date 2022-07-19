@@ -26,7 +26,12 @@ export class Giffer {
   }
 
   initGifEncoder = () => {
-    this.gifEncoder = new GifEncoder(this.canvas.width, this.canvas.height);
+    this.gifEncoder = new GifEncoder(
+      this.canvas.width,
+      this.canvas.height,
+      "neuquant",
+      true
+    );
     this.gifEncoder.setQuality(this.quality);
     this.gifEncoder.setRepeat(this.repeat);
     this.gifEncoder.setDelay(this.delay);

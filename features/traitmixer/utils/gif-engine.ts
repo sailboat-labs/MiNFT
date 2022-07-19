@@ -1,5 +1,6 @@
 /* eslint-disable no-async-promise-executor */
 import { createCanvas, loadImage } from "canvas";
+import { setInformationBarConfig } from "redux/reducers/slices/dashboard";
 
 import { Giffer } from "./gif-encoder";
 
@@ -23,7 +24,7 @@ const preview_gif = {
   numberOfImages: 10,
   order: "ASC", // ASC, DESC, MIXED
   repeat: 0,
-  quality: 200,
+  quality: 30,
   delay: 200,
   imageName: "preview.gif",
 };
@@ -37,7 +38,10 @@ const format = {
 const canvas = createCanvas(format.width, format.height);
 const ctx = canvas.getContext("2d");
 
-export const createProjectPreviewGIF = async (imageList: any[]) => {
+export const createProjectPreviewGIF = async (
+  imageList: any[],
+  dispatch: any
+) => {
   console.log({ "image length": imageList.length });
 
   // Extract from preview config
@@ -96,11 +100,39 @@ export const createProjectPreviewGIF = async (imageList: any[]) => {
       );
       console.log("calling");
 
+      dispatch &&
+        dispatch(
+          setInformationBarConfig({
+            show: true,
+            message: `Adding image ${index}`,
+            showLoader: true,
+          })
+        );
+
       hashlipsGiffer.add();
       console.log("add called");
     });
 
     const gif = hashlipsGiffer.stop();
+    dispatch &&
+      dispatch(
+        setInformationBarConfig({
+          show: true,
+          message: `All tokens and GIF Generated`,
+          showLoader: false,
+        })
+      );
+
+    setTimeout(() => {
+      dispatch &&
+        dispatch(
+          setInformationBarConfig({
+            show: false,
+            message: ``,
+            showLoader: false,
+          })
+        );
+    }, 3000);
     return gif;
   }
 };
