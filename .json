@@ -1,4 +1,5 @@
 [
+<<<<<<< Updated upstream
   {
     "id": 0,
     "name": "Background",
@@ -1294,4 +1295,774 @@
       }
     ]
   }
+=======
+  [
+    "0.0:Gray.png",
+    "1.0:Brown Skin.png",
+    "2.0:Green Shirt.png",
+    "3.0:Black Hat.png",
+    "4.0:Green Chain.png",
+    "5.0:Partially Open.png"
+  ],
+  [
+    "0.1:Amber.png",
+    "1.0:Brown Skin.png",
+    "2.0:Green Shirt.png",
+    "3.0:Black Hat.png",
+    "4.0:Green Chain.png",
+    "5.1:Fully Open.png"
+  ],
+  [
+    "0.0:Gray.png",
+    "1.0:Brown Skin.png",
+    "2.0:Green Shirt.png",
+    "3.0:Black Hat.png",
+    "4.1:Gold Chain.png",
+    "5.0:Partially Open.png"
+  ],
+  [
+    "0.1:Amber.png",
+    "1.0:Brown Skin.png",
+    "2.0:Green Shirt.png",
+    "3.0:Black Hat.png",
+    "4.1:Gold Chain.png",
+    "5.1:Fully Open.png"
+  ],
+  [
+    "0.0:Gray.png",
+    "1.0:Brown Skin.png",
+    "2.0:Green Shirt.png",
+    "3.1:Cowboy Hat.png",
+    "4.0:Green Chain.png",
+    "5.0:Partially Open.png"
+  ],
+  [
+    "0.1:Amber.png",
+    "1.0:Brown Skin.png",
+    "2.0:Green Shirt.png",
+    "3.1:Cowboy Hat.png",
+    "4.0:Green Chain.png",
+    "5.1:Fully Open.png"
+  ],
+  [
+    "0.0:Gray.png",
+    "1.0:Brown Skin.png",
+    "2.0:Green Shirt.png",
+    "3.1:Cowboy Hat.png",
+    "4.1:Gold Chain.png",
+    "5.0:Partially Open.png"
+  ],
+  [
+    "0.1:Amber.png",
+    "1.0:Brown Skin.png",
+    "2.0:Green Shirt.png",
+    "3.1:Cowboy Hat.png",
+    "4.1:Gold Chain.png",
+    "5.1:Fully Open.png"
+  ],
+  [
+    "0.0:Gray.png",
+    "1.0:Brown Skin.png",
+    "2.1:Black Shirt.png",
+    "3.0:Black Hat.png",
+    "4.0:Green Chain.png",
+    "5.0:Partially Open.png"
+  ],
+  [
+    "0.1:Amber.png",
+    "1.0:Brown Skin.png",
+    "2.1:Black Shirt.png",
+    "3.0:Black Hat.png",
+    "4.0:Green Chain.png",
+    "5.1:Fully Open.png"
+  ],
+  [
+    "0.0:Gray.png",
+    "1.0:Brown Skin.png",
+    "2.1:Black Shirt.png",
+    "3.0:Black Hat.png",
+    "4.1:Gold Chain.png",
+    "5.0:Partially Open.png"
+  ],
+  [
+    "0.2:Pink.png",
+    "1.0:Brown Skin.png",
+    "2.1:Black Shirt.png",
+    "3.0:Black Hat.png",
+    "4.1:Gold Chain.png",
+    "5.1:Fully Open.png"
+  ],
+  [
+    "0.0:Gray.png",
+    "1.0:Brown Skin.png",
+    "2.1:Black Shirt.png",
+    "3.1:Cowboy Hat.png",
+    "4.0:Green Chain.png",
+    "5.0:Partially Open.png"
+  ],
+  [
+    "0.2:Pink.png",
+    "1.0:Brown Skin.png",
+    "2.1:Black Shirt.png",
+    "3.1:Cowboy Hat.png",
+    "4.0:Green Chain.png",
+    "5.1:Fully Open.png"
+  ],
+  [
+    "0.0:Gray.png",
+    "1.0:Brown Skin.png",
+    "2.1:Black Shirt.png",
+    "3.1:Cowboy Hat.png",
+    "4.1:Gold Chain.png",
+    "5.0:Partially Open.png"
+  ],
+  [
+    "0.2:Pink.png",
+    "1.0:Brown Skin.png",
+    "2.1:Black Shirt.png",
+    "3.1:Cowboy Hat.png",
+    "4.1:Gold Chain.png",
+    "5.1:Fully Open.png"
+  ],
+  [
+    "0.0:Gray.png",
+    "1.1:Gray Skin.png",
+    "2.0:Green Shirt.png",
+    "3.0:Black Hat.png",
+    "4.0:Green Chain.png",
+    "5.0:Partially Open.png"
+  ],
+  [
+    "0.2:Pink.png",
+    "1.1:Gray Skin.png",
+    "2.0:Green Shirt.png",
+    "3.0:Black Hat.png",
+    "4.0:Green Chain.png",
+    "5.1:Fully Open.png"
+  ],
+  [
+    "0.0:Gray.png",
+    "1.1:Gray Skin.png",
+    "2.0:Green Shirt.png",
+    "3.0:Black Hat.png",
+    "4.1:Gold Chain.png",
+    "5.0:Partially Open.png"
+  ],
+  [
+    "0.2:Pink.png",
+    "1.1:Gray Skin.png",
+    "2.0:Green Shirt.png",
+    "3.0:Black Hat.png",
+    "4.1:Gold Chain.png",
+    "5.1:Fully Open.png"
+  ],
+  [
+    "0.0:Gray.png",
+    "1.1:Gray Skin.png",
+    "2.0:Green Shirt.png",
+    "3.1:Cowboy Hat.png",
+    "4.0:Green Chain.png",
+    "5.0:Partially Open.png"
+  ],
+  [
+    "0.2:Pink.png",
+    "1.1:Gray Skin.png",
+    "2.0:Green Shirt.png",
+    "3.1:Cowboy Hat.png",
+    "4.0:Green Chain.png",
+    "5.1:Fully Open.png"
+  ],
+  [
+    "0.1:Amber.png",
+    "1.1:Gray Skin.png",
+    "2.0:Green Shirt.png",
+    "3.1:Cowboy Hat.png",
+    "4.1:Gold Chain.png",
+    "5.0:Partially Open.png"
+  ],
+  [
+    "0.2:Pink.png",
+    "1.1:Gray Skin.png",
+    "2.0:Green Shirt.png",
+    "3.1:Cowboy Hat.png",
+    "4.1:Gold Chain.png",
+    "5.1:Fully Open.png"
+  ],
+  [
+    "0.1:Amber.png",
+    "1.1:Gray Skin.png",
+    "2.1:Black Shirt.png",
+    "3.0:Black Hat.png",
+    "4.0:Green Chain.png",
+    "5.0:Partially Open.png"
+  ],
+  [
+    "0.2:Pink.png",
+    "1.1:Gray Skin.png",
+    "2.1:Black Shirt.png",
+    "3.0:Black Hat.png",
+    "4.0:Green Chain.png",
+    "5.1:Fully Open.png"
+  ],
+  [
+    "0.1:Amber.png",
+    "1.1:Gray Skin.png",
+    "2.1:Black Shirt.png",
+    "3.0:Black Hat.png",
+    "4.1:Gold Chain.png",
+    "5.0:Partially Open.png"
+  ],
+  [
+    "0.2:Pink.png",
+    "1.1:Gray Skin.png",
+    "2.1:Black Shirt.png",
+    "3.0:Black Hat.png",
+    "4.1:Gold Chain.png",
+    "5.1:Fully Open.png"
+  ],
+  [
+    "0.1:Amber.png",
+    "1.1:Gray Skin.png",
+    "2.1:Black Shirt.png",
+    "3.1:Cowboy Hat.png",
+    "4.0:Green Chain.png",
+    "5.0:Partially Open.png"
+  ],
+  [
+    "0.2:Pink.png",
+    "1.1:Gray Skin.png",
+    "2.1:Black Shirt.png",
+    "3.1:Cowboy Hat.png",
+    "4.0:Green Chain.png",
+    "5.1:Fully Open.png"
+  ],
+  [
+    "0.1:Amber.png",
+    "1.1:Gray Skin.png",
+    "2.1:Black Shirt.png",
+    "3.1:Cowboy Hat.png",
+    "4.1:Gold Chain.png",
+    "5.0:Partially Open.png"
+  ],
+  [
+    "0.2:Pink.png",
+    "1.1:Gray Skin.png",
+    "2.1:Black Shirt.png",
+    "3.1:Cowboy Hat.png",
+    "4.1:Gold Chain.png",
+    "5.1:Fully Open.png"
+  ],
+  [
+    "0.1:Amber.png",
+    "1.0:Brown Skin.png",
+    "2.0:Green Shirt.png",
+    "3.0:Black Hat.png",
+    "4.0:Green Chain.png",
+    "5.0:Partially Open.png"
+  ],
+  [
+    "0.0:Gray.png",
+    "1.0:Brown Skin.png",
+    "2.0:Green Shirt.png",
+    "3.0:Black Hat.png",
+    "4.0:Green Chain.png",
+    "5.1:Fully Open.png"
+  ],
+  [
+    "0.1:Amber.png",
+    "1.0:Brown Skin.png",
+    "2.0:Green Shirt.png",
+    "3.0:Black Hat.png",
+    "4.1:Gold Chain.png",
+    "5.0:Partially Open.png"
+  ],
+  [
+    "0.0:Gray.png",
+    "1.0:Brown Skin.png",
+    "2.0:Green Shirt.png",
+    "3.0:Black Hat.png",
+    "4.1:Gold Chain.png",
+    "5.1:Fully Open.png"
+  ],
+  [
+    "0.1:Amber.png",
+    "1.0:Brown Skin.png",
+    "2.0:Green Shirt.png",
+    "3.1:Cowboy Hat.png",
+    "4.0:Green Chain.png",
+    "5.0:Partially Open.png"
+  ],
+  [
+    "0.0:Gray.png",
+    "1.0:Brown Skin.png",
+    "2.0:Green Shirt.png",
+    "3.1:Cowboy Hat.png",
+    "4.0:Green Chain.png",
+    "5.1:Fully Open.png"
+  ],
+  [
+    "0.1:Amber.png",
+    "1.0:Brown Skin.png",
+    "2.0:Green Shirt.png",
+    "3.1:Cowboy Hat.png",
+    "4.1:Gold Chain.png",
+    "5.0:Partially Open.png"
+  ],
+  [
+    "0.0:Gray.png",
+    "1.0:Brown Skin.png",
+    "2.0:Green Shirt.png",
+    "3.1:Cowboy Hat.png",
+    "4.1:Gold Chain.png",
+    "5.1:Fully Open.png"
+  ],
+  [
+    "0.1:Amber.png",
+    "1.0:Brown Skin.png",
+    "2.1:Black Shirt.png",
+    "3.0:Black Hat.png",
+    "4.0:Green Chain.png",
+    "5.0:Partially Open.png"
+  ],
+  [
+    "0.0:Gray.png",
+    "1.0:Brown Skin.png",
+    "2.1:Black Shirt.png",
+    "3.0:Black Hat.png",
+    "4.0:Green Chain.png",
+    "5.1:Fully Open.png"
+  ],
+  [
+    "0.1:Amber.png",
+    "1.0:Brown Skin.png",
+    "2.1:Black Shirt.png",
+    "3.0:Black Hat.png",
+    "4.1:Gold Chain.png",
+    "5.0:Partially Open.png"
+  ],
+  [
+    "0.0:Gray.png",
+    "1.0:Brown Skin.png",
+    "2.1:Black Shirt.png",
+    "3.0:Black Hat.png",
+    "4.1:Gold Chain.png",
+    "5.1:Fully Open.png"
+  ],
+  [
+    "0.2:Pink.png",
+    "1.0:Brown Skin.png",
+    "2.1:Black Shirt.png",
+    "3.1:Cowboy Hat.png",
+    "4.0:Green Chain.png",
+    "5.0:Partially Open.png"
+  ],
+  [
+    "0.0:Gray.png",
+    "1.0:Brown Skin.png",
+    "2.1:Black Shirt.png",
+    "3.1:Cowboy Hat.png",
+    "4.0:Green Chain.png",
+    "5.1:Fully Open.png"
+  ],
+  [
+    "0.2:Pink.png",
+    "1.0:Brown Skin.png",
+    "2.1:Black Shirt.png",
+    "3.1:Cowboy Hat.png",
+    "4.1:Gold Chain.png",
+    "5.0:Partially Open.png"
+  ],
+  [
+    "0.0:Gray.png",
+    "1.0:Brown Skin.png",
+    "2.1:Black Shirt.png",
+    "3.1:Cowboy Hat.png",
+    "4.1:Gold Chain.png",
+    "5.1:Fully Open.png"
+  ],
+  [
+    "0.2:Pink.png",
+    "1.1:Gray Skin.png",
+    "2.0:Green Shirt.png",
+    "3.0:Black Hat.png",
+    "4.0:Green Chain.png",
+    "5.0:Partially Open.png"
+  ],
+  [
+    "0.0:Gray.png",
+    "1.1:Gray Skin.png",
+    "2.0:Green Shirt.png",
+    "3.0:Black Hat.png",
+    "4.0:Green Chain.png",
+    "5.1:Fully Open.png"
+  ],
+  [
+    "0.2:Pink.png",
+    "1.1:Gray Skin.png",
+    "2.0:Green Shirt.png",
+    "3.0:Black Hat.png",
+    "4.1:Gold Chain.png",
+    "5.0:Partially Open.png"
+  ],
+  [
+    "0.0:Gray.png",
+    "1.1:Gray Skin.png",
+    "2.0:Green Shirt.png",
+    "3.0:Black Hat.png",
+    "4.1:Gold Chain.png",
+    "5.1:Fully Open.png"
+  ],
+  [
+    "0.2:Pink.png",
+    "1.1:Gray Skin.png",
+    "2.0:Green Shirt.png",
+    "3.1:Cowboy Hat.png",
+    "4.0:Green Chain.png",
+    "5.0:Partially Open.png"
+  ],
+  [
+    "0.1:Amber.png",
+    "1.1:Gray Skin.png",
+    "2.0:Green Shirt.png",
+    "3.1:Cowboy Hat.png",
+    "4.0:Green Chain.png",
+    "5.1:Fully Open.png"
+  ],
+  [
+    "0.2:Pink.png",
+    "1.1:Gray Skin.png",
+    "2.0:Green Shirt.png",
+    "3.1:Cowboy Hat.png",
+    "4.1:Gold Chain.png",
+    "5.0:Partially Open.png"
+  ],
+  [
+    "0.1:Amber.png",
+    "1.1:Gray Skin.png",
+    "2.0:Green Shirt.png",
+    "3.1:Cowboy Hat.png",
+    "4.1:Gold Chain.png",
+    "5.1:Fully Open.png"
+  ],
+  [
+    "0.2:Pink.png",
+    "1.1:Gray Skin.png",
+    "2.1:Black Shirt.png",
+    "3.0:Black Hat.png",
+    "4.0:Green Chain.png",
+    "5.0:Partially Open.png"
+  ],
+  [
+    "0.1:Amber.png",
+    "1.1:Gray Skin.png",
+    "2.1:Black Shirt.png",
+    "3.0:Black Hat.png",
+    "4.0:Green Chain.png",
+    "5.1:Fully Open.png"
+  ],
+  [
+    "0.2:Pink.png",
+    "1.1:Gray Skin.png",
+    "2.1:Black Shirt.png",
+    "3.0:Black Hat.png",
+    "4.1:Gold Chain.png",
+    "5.0:Partially Open.png"
+  ],
+  [
+    "0.1:Amber.png",
+    "1.1:Gray Skin.png",
+    "2.1:Black Shirt.png",
+    "3.0:Black Hat.png",
+    "4.1:Gold Chain.png",
+    "5.1:Fully Open.png"
+  ],
+  [
+    "0.2:Pink.png",
+    "1.1:Gray Skin.png",
+    "2.1:Black Shirt.png",
+    "3.1:Cowboy Hat.png",
+    "4.0:Green Chain.png",
+    "5.0:Partially Open.png"
+  ],
+  [
+    "0.1:Amber.png",
+    "1.1:Gray Skin.png",
+    "2.1:Black Shirt.png",
+    "3.1:Cowboy Hat.png",
+    "4.0:Green Chain.png",
+    "5.1:Fully Open.png"
+  ],
+  [
+    "0.2:Pink.png",
+    "1.1:Gray Skin.png",
+    "2.1:Black Shirt.png",
+    "3.1:Cowboy Hat.png",
+    "4.1:Gold Chain.png",
+    "5.0:Partially Open.png"
+  ],
+  [
+    "0.1:Amber.png",
+    "1.1:Gray Skin.png",
+    "2.1:Black Shirt.png",
+    "3.1:Cowboy Hat.png",
+    "4.1:Gold Chain.png",
+    "5.1:Fully Open.png"
+  ],
+  [
+    "0.0:Gray.png",
+    "1.0:Brown Skin.png",
+    "2.0:Green Shirt.png",
+    "3.0:Black Hat.png",
+    "4.0:Green Chain.png",
+    "5.0:Partially Open.png"
+  ],
+  [
+    "0.1:Amber.png",
+    "1.0:Brown Skin.png",
+    "2.0:Green Shirt.png",
+    "3.0:Black Hat.png",
+    "4.0:Green Chain.png",
+    "5.1:Fully Open.png"
+  ],
+  [
+    "0.0:Gray.png",
+    "1.0:Brown Skin.png",
+    "2.0:Green Shirt.png",
+    "3.0:Black Hat.png",
+    "4.1:Gold Chain.png",
+    "5.0:Partially Open.png"
+  ],
+  [
+    "0.1:Amber.png",
+    "1.0:Brown Skin.png",
+    "2.0:Green Shirt.png",
+    "3.0:Black Hat.png",
+    "4.1:Gold Chain.png",
+    "5.1:Fully Open.png"
+  ],
+  [
+    "0.0:Gray.png",
+    "1.0:Brown Skin.png",
+    "2.0:Green Shirt.png",
+    "3.1:Cowboy Hat.png",
+    "4.0:Green Chain.png",
+    "5.0:Partially Open.png"
+  ],
+  [
+    "0.1:Amber.png",
+    "1.0:Brown Skin.png",
+    "2.0:Green Shirt.png",
+    "3.1:Cowboy Hat.png",
+    "4.0:Green Chain.png",
+    "5.1:Fully Open.png"
+  ],
+  [
+    "0.0:Gray.png",
+    "1.0:Brown Skin.png",
+    "2.0:Green Shirt.png",
+    "3.1:Cowboy Hat.png",
+    "4.1:Gold Chain.png",
+    "5.0:Partially Open.png"
+  ],
+  [
+    "0.1:Amber.png",
+    "1.0:Brown Skin.png",
+    "2.0:Green Shirt.png",
+    "3.1:Cowboy Hat.png",
+    "4.1:Gold Chain.png",
+    "5.1:Fully Open.png"
+  ],
+  [
+    "0.0:Gray.png",
+    "1.0:Brown Skin.png",
+    "2.1:Black Shirt.png",
+    "3.0:Black Hat.png",
+    "4.0:Green Chain.png",
+    "5.0:Partially Open.png"
+  ],
+  [
+    "0.1:Amber.png",
+    "1.0:Brown Skin.png",
+    "2.1:Black Shirt.png",
+    "3.0:Black Hat.png",
+    "4.0:Green Chain.png",
+    "5.1:Fully Open.png"
+  ],
+  [
+    "0.0:Gray.png",
+    "1.0:Brown Skin.png",
+    "2.1:Black Shirt.png",
+    "3.0:Black Hat.png",
+    "4.1:Gold Chain.png",
+    "5.0:Partially Open.png"
+  ],
+  [
+    "0.2:Pink.png",
+    "1.0:Brown Skin.png",
+    "2.1:Black Shirt.png",
+    "3.0:Black Hat.png",
+    "4.1:Gold Chain.png",
+    "5.1:Fully Open.png"
+  ],
+  [
+    "0.0:Gray.png",
+    "1.0:Brown Skin.png",
+    "2.1:Black Shirt.png",
+    "3.1:Cowboy Hat.png",
+    "4.0:Green Chain.png",
+    "5.0:Partially Open.png"
+  ],
+  [
+    "0.2:Pink.png",
+    "1.0:Brown Skin.png",
+    "2.1:Black Shirt.png",
+    "3.1:Cowboy Hat.png",
+    "4.0:Green Chain.png",
+    "5.1:Fully Open.png"
+  ],
+  [
+    "0.0:Gray.png",
+    "1.0:Brown Skin.png",
+    "2.1:Black Shirt.png",
+    "3.1:Cowboy Hat.png",
+    "4.1:Gold Chain.png",
+    "5.0:Partially Open.png"
+  ],
+  [
+    "0.2:Pink.png",
+    "1.0:Brown Skin.png",
+    "2.1:Black Shirt.png",
+    "3.1:Cowboy Hat.png",
+    "4.1:Gold Chain.png",
+    "5.1:Fully Open.png"
+  ],
+  [
+    "0.0:Gray.png",
+    "1.1:Gray Skin.png",
+    "2.0:Green Shirt.png",
+    "3.0:Black Hat.png",
+    "4.0:Green Chain.png",
+    "5.0:Partially Open.png"
+  ],
+  [
+    "0.2:Pink.png",
+    "1.1:Gray Skin.png",
+    "2.0:Green Shirt.png",
+    "3.0:Black Hat.png",
+    "4.0:Green Chain.png",
+    "5.1:Fully Open.png"
+  ],
+  [
+    "0.0:Gray.png",
+    "1.1:Gray Skin.png",
+    "2.0:Green Shirt.png",
+    "3.0:Black Hat.png",
+    "4.1:Gold Chain.png",
+    "5.0:Partially Open.png"
+  ],
+  [
+    "0.2:Pink.png",
+    "1.1:Gray Skin.png",
+    "2.0:Green Shirt.png",
+    "3.0:Black Hat.png",
+    "4.1:Gold Chain.png",
+    "5.1:Fully Open.png"
+  ],
+  [
+    "0.0:Gray.png",
+    "1.1:Gray Skin.png",
+    "2.0:Green Shirt.png",
+    "3.1:Cowboy Hat.png",
+    "4.0:Green Chain.png",
+    "5.0:Partially Open.png"
+  ],
+  [
+    "0.2:Pink.png",
+    "1.1:Gray Skin.png",
+    "2.0:Green Shirt.png",
+    "3.1:Cowboy Hat.png",
+    "4.0:Green Chain.png",
+    "5.1:Fully Open.png"
+  ],
+  [
+    "0.1:Amber.png",
+    "1.1:Gray Skin.png",
+    "2.0:Green Shirt.png",
+    "3.1:Cowboy Hat.png",
+    "4.1:Gold Chain.png",
+    "5.0:Partially Open.png"
+  ],
+  [
+    "0.2:Pink.png",
+    "1.1:Gray Skin.png",
+    "2.0:Green Shirt.png",
+    "3.1:Cowboy Hat.png",
+    "4.1:Gold Chain.png",
+    "5.1:Fully Open.png"
+  ],
+  [
+    "0.1:Amber.png",
+    "1.1:Gray Skin.png",
+    "2.1:Black Shirt.png",
+    "3.0:Black Hat.png",
+    "4.0:Green Chain.png",
+    "5.0:Partially Open.png"
+  ],
+  [
+    "0.2:Pink.png",
+    "1.1:Gray Skin.png",
+    "2.1:Black Shirt.png",
+    "3.0:Black Hat.png",
+    "4.0:Green Chain.png",
+    "5.1:Fully Open.png"
+  ],
+  [
+    "0.1:Amber.png",
+    "1.1:Gray Skin.png",
+    "2.1:Black Shirt.png",
+    "3.0:Black Hat.png",
+    "4.1:Gold Chain.png",
+    "5.0:Partially Open.png"
+  ],
+  [
+    "0.2:Pink.png",
+    "1.1:Gray Skin.png",
+    "2.1:Black Shirt.png",
+    "3.0:Black Hat.png",
+    "4.1:Gold Chain.png",
+    "5.1:Fully Open.png"
+  ],
+  [
+    "0.1:Amber.png",
+    "1.1:Gray Skin.png",
+    "2.1:Black Shirt.png",
+    "3.1:Cowboy Hat.png",
+    "4.0:Green Chain.png",
+    "5.0:Partially Open.png"
+  ],
+  [
+    "0.2:Pink.png",
+    "1.1:Gray Skin.png",
+    "2.1:Black Shirt.png",
+    "3.1:Cowboy Hat.png",
+    "4.0:Green Chain.png",
+    "5.1:Fully Open.png"
+  ],
+  [
+    "0.1:Amber.png",
+    "1.1:Gray Skin.png",
+    "2.1:Black Shirt.png",
+    "3.1:Cowboy Hat.png",
+    "4.1:Gold Chain.png",
+    "5.0:Partially Open.png"
+  ],
+  [
+    "0.2:Pink.png",
+    "1.1:Gray Skin.png",
+    "2.1:Black Shirt.png",
+    "3.1:Cowboy Hat.png",
+    "4.1:Gold Chain.png",
+    "5.1:Fully Open.png"
+  ]
+>>>>>>> Stashed changes
 ]

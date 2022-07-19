@@ -80,7 +80,7 @@ const NFTGenerator = ({ router }: any) => {
         <Tab.Panels className="relative z-[1]">
           <Tab.Panel>
             {layers.length < 1 && (
-              <SelectFolder className="mt-72 w-[length:calc(100vw-30rem)] flex-1" />
+              <SelectFolder className="mt-96 w-[length:calc(100vw-30rem)] flex-1 bg-red-600" />
             )}
 
             {layers.length > 0 && (
