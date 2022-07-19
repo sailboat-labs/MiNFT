@@ -18,7 +18,7 @@ export default function Footer() {
         </div>
         <div className="mt-7 flex w-full flex-col items-center md:mt-10 lg:mt-0 lg:w-auto lg:flex-row lg:space-x-20">
           <UnstyledLink
-            href="https://discord.gg/AqKBQjPZ"
+            href="https://discord.gg/xdtvt9g6"
             target="_blank"
             className="mb-6 text-2xl font-extrabold uppercase md:text-3xl lg:mb-0"
           >
@@ -40,7 +40,7 @@ export default function Footer() {
         </div>
         <div className="mr-1 mt-7 flex flex-col items-center justify-center md:mt-10 lg:mt-0 lg:flex-row lg:justify-end lg:space-x-3">
           <UnstyledLink
-            href="https://discord.gg/AqKBQjPZ"
+            href="https://discord.gg/xdtvt9g6"
             className="mb-10 lg:mb-0"
             target="_blank"
           >

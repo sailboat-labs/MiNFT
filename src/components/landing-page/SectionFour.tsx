@@ -50,25 +50,21 @@ export default function SectionFour() {
     setLabelThree(e.target.value);
   };
 
-  const [info1, setInfo1] = useState("40 Legendary Indians");
+  const [info1, setInfo1] = useState("5 Whitelist Spots with each mint");
 
   const changeInfo1 = (e: any) => {
     e.preventDefault();
     setInfo1(e.target.value);
   };
 
-  const [info2, setInfo2] = useState(
-    "5 Whitelist Spots Included with each mint"
-  );
+  const [info2, setInfo2] = useState("40 Legendary Indians");
 
   const changeInfo2 = (e: any) => {
     e.preventDefault();
     setInfo2(e.target.value);
   };
 
-  const [info3, setInfo3] = useState(
-    "Random gift of either a Belan or Chappal delivered to your house"
-  );
+  const [info3, setInfo3] = useState("Random gift of a Belan or Chappal");
 
   const changeInfo3 = (e: any) => {
     e.preventDefault();
@@ -78,26 +74,25 @@ export default function SectionFour() {
   return (
     <div className="pt-32 pb-20 sm:pb-28 lg:pt-40">
       <div className="text-white">
-        <div className="mx-auto w-4/5">
+        <div className="mx-auto w-11/12">
           <textarea
             disabled
-            rows={2}
             id="sectionfour-heading"
             value={heading}
             onChange={changeHeading}
             onBlur={changeHeading}
-            className="h-[12rem] w-full resize-none overflow-hidden border-0 bg-transparent text-center font-serif text-6xl italic sm:text-8xl md:h-52 "
+            className="h-[12rem] w-full resize-none overflow-hidden border-0 bg-transparent text-center font-serif text-6xl italic sm:text-8xl md:h-80 lg:h-40 lg:text-8xl"
           />
         </div>
-        <div className="mx-auto flex w-full flex-col justify-between pt-10 font-dmsans lg:w-2/3 lg:flex-row">
-          <div className="mx-auto mt-6 mb-5 flex flex-col space-y-10 lg:flex-row lg:space-y-0 lg:space-x-10">
+        <div className="mx-auto flex w-full flex-col justify-between pt-10 font-dmsans lg:w-3/4 lg:flex-row lg:pt-0">
+          <div className="mx-auto flex flex-col space-y-10 lg:w-full lg:flex-row lg:justify-between lg:space-y-0 lg:mt-0 lg:mb-0">
             <textarea
               disabled
               id="sectionfour-info"
               value={info1}
               onChange={changeInfo1}
               onBlur={changeInfo1}
-              className="resize-none overflow-hidden border-0 bg-transparent text-center text-3xl md:h-28 lg:h-40 lg:text-2xl"
+              className="resize-none overflow-hidden border-0 bg-transparent text-center text-3xl lg:text-2xl"
             />
             <textarea
               disabled
@@ -105,7 +100,7 @@ export default function SectionFour() {
               value={info2}
               onChange={changeInfo2}
               onBlur={changeInfo2}
-              className="lg:h-40overflow-hidden h-32 resize-none border-0 bg-transparent text-center text-3xl md:h-28 lg:text-2xl"
+              className="resize-none overflow-hidden border-0 bg-transparent text-center text-3xl font-bold lg:text-2xl"
             />
             <textarea
               disabled
@@ -113,7 +108,7 @@ export default function SectionFour() {
               value={info3}
               onChange={changeInfo3}
               onBlur={changeInfo3}
-              className="h-40 resize-none overflow-hidden border-0 bg-transparent text-center text-3xl md:h-48 lg:h-40 lg:text-2xl"
+              className="resize-none overflow-hidden border-0 bg-transparent text-center text-3xl lg:text-2xl"
             />
           </div>
         </div>
