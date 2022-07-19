@@ -55,37 +55,39 @@ const NFTGenerator = ({ router }: any) => {
   }, [layers]);
 
   return (
-    <div className="w-full ">
+    <div className=" w-full">
       <Tab.Group>
-        <Tab.List className="flex w-fit gap-2 space-x-1 rounded  p-3">
-          {["Mixer", "Settings", "Generated"].map((category) => (
-            <Tab
-              key={category}
-              className={({ selected }) =>
-                classNames(
-                  "w-full rounded py-2 px-16 text-sm font-medium leading-5 text-blue-700",
-                  "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2",
-                  selected
-                    ? "border bg-indigo-100 font-bold"
-                    : "border text-gray-500 hover:bg-gray-50 "
-                )
-              }
-            >
-              {category}
-            </Tab>
-          ))}
+        <Tab.List className="sticky top-0 z-[2] w-full space-x-1 rounded bg-white p-3">
+          <div className="flex w-fit gap-2">
+            {["Mixer", "Settings", "Generated"].map((category) => (
+              <Tab
+                key={category}
+                className={({ selected }) =>
+                  classNames(
+                    "w-full rounded py-2 px-16 text-sm font-medium leading-5 text-blue-700",
+                    "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2",
+                    selected
+                      ? "border bg-indigo-100 font-bold"
+                      : "border text-gray-500 hover:bg-gray-50 "
+                  )
+                }
+              >
+                {category}
+              </Tab>
+            ))}
+          </div>
         </Tab.List>
-        <Tab.Panels>
+        <Tab.Panels className="relative z-[1]">
           <Tab.Panel>
             {layers.length < 1 && (
-              <SelectFolder className="mt-72 w-[length:calc(100vw-30rem)] flex-1" />
+              <SelectFolder className="mt-96 w-[length:calc(100vw-30rem)] flex-1 bg-red-600" />
             )}
 
             {layers.length > 0 && (
               <div className="flex w-full flex-col-reverse justify-between gap-10 2xl:flex-row">
-                <div className="h-screen w-full overflow-y-hidden border-r">
+                <div className=" w-full overflow-y-hidden border-r">
                   {layers.length > 0 && (
-                    <div className="mt-0 h-screen w-full min-w-[900px] flex-col gap-10 overflow-y-auto px-10 ">
+                    <div className="mt-0 w-full min-w-[900px] flex-col gap-10 overflow-y-auto px-10 ">
                       <>
                         {layers
                           .filter((layer: ILayer) => {
@@ -121,7 +123,7 @@ const NFTGenerator = ({ router }: any) => {
                     </div>
                   )}
                 </div>
-                <div className="flex items-start  justify-center px-4 2xl:w-[40%]">
+                <div className="sticky top-0 flex h-10 items-start justify-center px-4 2xl:w-[40%]">
                   <section className="flex flex-col justify-center">
                     <NFTPreview className="mt-10" />
                     <GenerateToken />
