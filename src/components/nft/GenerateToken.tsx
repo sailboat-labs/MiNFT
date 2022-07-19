@@ -98,7 +98,7 @@ export default function GenerateToken() {
             const { generatedTokens, gif }: any = await generateTokens({
               configuration,
               layers,
-              shouldGenerateGIF: true,
+              // shouldGenerateGIF: true,
               dispatch: dispatch,
             });
 
