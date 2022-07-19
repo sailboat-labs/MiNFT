@@ -182,19 +182,26 @@ export default function DashboardHomePage() {
     );
 
   return (
-    <DashboardLayout
-      showTitleBar={selectedSidebar == "dashboard-home" ? false : true}
-      title={content.find((item) => item.value == selectedSidebar)?.label ?? ""}
-      titleBarEndChildren={
-        content.find((item) => item.value == selectedSidebar)?.titleOptions ??
-        ""
-      }
-      child={
-        content.find((item) => item.value == selectedSidebar)?.component ?? (
-          <></>
-        )
-      }
-    />
+    <div>
+      <div className="flex h-10 w-screen items-center justify-center border-b-indigo-500 bg-indigo-200">
+        Generating Tokens
+      </div>
+      <DashboardLayout
+        showTitleBar={selectedSidebar == "dashboard-home" ? false : true}
+        title={
+          content.find((item) => item.value == selectedSidebar)?.label ?? ""
+        }
+        titleBarEndChildren={
+          content.find((item) => item.value == selectedSidebar)?.titleOptions ??
+          ""
+        }
+        child={
+          content.find((item) => item.value == selectedSidebar)?.component ?? (
+            <></>
+          )
+        }
+      />
+    </div>
   );
 }
 

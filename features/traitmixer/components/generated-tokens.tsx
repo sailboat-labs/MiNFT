@@ -1,9 +1,9 @@
+/* eslint-disable @next/next/no-img-element */
 import { useDispatch, useSelector } from "react-redux";
 import { getConfiguration } from "redux/reducers/selectors/configuration";
 import {
   getGeneratedImages,
   getGeneratedImagesFilter,
-  getLayers,
 } from "redux/reducers/selectors/layers";
 import { setGeneratedImagesFilter } from "redux/reducers/slices/generated-images";
 
@@ -13,6 +13,7 @@ import { IGeneratedTokens } from "@/interfaces";
 
 export default function GeneratedTokens() {
   const generatedTokens: IGeneratedTokens[] = useSelector(getGeneratedImages);
+
   const generatedTokenFilter = useSelector(getGeneratedImagesFilter);
   const dispatch = useDispatch();
   const configuration = useSelector(getConfiguration);
@@ -28,8 +29,6 @@ export default function GeneratedTokens() {
       );
     });
   }
-
-  const layers = useSelector(getLayers);
 
   return (
     <div className="h-screen w-full transform overflow-y-auto  bg-white p-6 text-left align-middle shadow-xl transition-all">
