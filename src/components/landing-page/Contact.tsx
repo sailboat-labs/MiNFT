@@ -31,6 +31,8 @@ export default function Contact({ projectSlug }: IContactProps) {
   const [shouldProceed, setShouldProceed] = useState(false);
   const [twitterHandle, setTwitterHandle] = useState("");
 
+  const [whitelisted, setWhitelisted] = useState(false);
+
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -43,6 +45,11 @@ export default function Contact({ projectSlug }: IContactProps) {
       // toast.error("Unable to add account");
     }
   }, [router]);
+
+  useEffect(() => {
+    checkWhitelisted();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [address]);
 
   const changeHeading = (e: any) => {
     e.preventDefault();
@@ -144,6 +151,21 @@ export default function Contact({ projectSlug }: IContactProps) {
     setLoading(false);
   };
 
+  const checkWhitelisted = async () => {
+    const isWhitelisted = httpsCallable(functions, "isWhitelisted");
+
+    const { data }: any = await isWhitelisted({
+      project_slug: projectSlug,
+      wallet: address,
+    });
+
+    if (data.success && data.isWhitelisted) {
+      setWhitelisted(true);
+    } else {
+      setWhitelisted(false);
+    }
+  };
+
   return (
     <div>
       <div className="mx-auto flex w-4/5 flex-col items-center pt-40 pb-28 text-white lg:flex-row">
@@ -159,7 +181,7 @@ export default function Contact({ projectSlug }: IContactProps) {
           />
         </div>
         <div className="flex items-center lg:ml-10">
-          {shouldProceed && (
+          {(shouldProceed || whitelisted) && (
             <div className="h-80 w-full items-center justify-center">
               <h1>All Good</h1>
             </div>
