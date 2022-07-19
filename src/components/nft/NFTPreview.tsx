@@ -1,12 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable no-async-promise-executor */
+import { generateTokens } from "features/traitmixer/utils/art-engine";
 import React, { FC, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { getConfiguration } from "redux/reducers/selectors/configuration";
 import { getLayers } from "redux/reducers/selectors/layers";
 
 import { IElement, IGeneratedTokens, ILayer } from "@/interfaces";
-import { generateTokens } from "@/utils/art-engine";
 
 interface AppProps {
   className?: string;

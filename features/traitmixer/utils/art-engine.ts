@@ -6,8 +6,6 @@ import { toast } from "react-toastify";
 import { enumNFTGenConfig } from "@/enums/nft-gen-configurations";
 import { IElement, IGeneratedTokens } from "@/interfaces";
 
-import { generateTokensDNA } from "./generateTokensDNA";
-
 let toastId: any;
 
 type generateTokensProps = {
@@ -821,11 +819,11 @@ export function generateTokens({
 
       // const prebuiltDNA = generateTokensDNA(layers);
       // // console.log("prebuilt", new Set(prebuiltDNA));
-      let prebuiltDNA = generateTokensDNA(layers);
+      // let prebuiltDNA = generateTokensDNA(layers);
 
-      prebuiltDNA = Array.from(new Set(prebuiltDNA));
+      // prebuiltDNA = Array.from(new Set(prebuiltDNA));
 
-      console.log("prebuilt", new Set(prebuiltDNA));
+      // console.log("prebuilt", new Set(prebuiltDNA));
 
       // return;
 
@@ -865,8 +863,8 @@ export function generateTokens({
             editionCount <=
             layerConfigurations[layerConfigIndex].growEditionSizeTo
           ) {
-            // const newDna = createDna(layers);
-            const newDna = prebuiltDNA![editionCount - 1];
+            const newDna = createDna(layers);
+            // const newDna = prebuiltDNA![editionCount - 1];
 
             // console.log({ count: editionCount - 1 });
 
