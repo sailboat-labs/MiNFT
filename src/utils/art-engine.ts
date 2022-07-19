@@ -821,10 +821,7 @@ export function generateTokens({
 
       // const prebuiltDNA = generateTokensDNA(layers);
       // // console.log("prebuilt", new Set(prebuiltDNA));
-      let prebuiltDNA = generateTokensDNA(
-        layers,
-        configuration[enumNFTGenConfig.SUPPLY]
-      );
+      let prebuiltDNA = generateTokensDNA(layers);
 
       prebuiltDNA = Array.from(new Set(prebuiltDNA));
 
