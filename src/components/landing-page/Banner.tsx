@@ -11,6 +11,7 @@ export default function Banner() {
   const [price, setPrice] = useState("0");
   const [totalQuantity, setTotalQuantity] = useState("0");
   const [totalMinted, setTotalMinted] = useState<any>();
+
   const contractAddress = "0x2D3947F68b6dd987e3061C31eF3D37391772842b";
   let account: string;
 
@@ -24,7 +25,8 @@ export default function Banner() {
     const registry = getContract("Registry", signer);
 
     if (!registry) {
-      return toast.error("Registry not found");
+      toast.error("Registry not found");
+      return;
     }
 
     const contractType = ethers.utils.parseBytes32String(
@@ -38,6 +40,7 @@ export default function Banner() {
 
     const name = await contract.name();
     const symbol = await contract.symbol();
+    const totalSupply = await contract.totalSupply();
     setPrice(ethers.utils.formatEther(await contract.mintPrice()));
     const tokensMinted = (
       await contract.tokensMinted(signerAddress)
@@ -52,8 +55,10 @@ export default function Banner() {
       price: contract.mintPrice()._hex,
       tokensMinted,
       totalQuantity,
+      totalSupply,
     });
     console.log({ contract });
+    return contract;
   }
 
   useEffect(() => {
@@ -94,12 +99,7 @@ export default function Banner() {
           <div
             onClick={async () => {
               try {
-                const provider = new ethers.providers.Web3Provider(
-                  (window as any).ethereum
-                );
-                const signer = provider.getSigner();
-                const signerAddress = await signer.getAddress();
-                console.log({ signerAddress });
+                const contract = await prepareContract();
 
                 // const price = await contract.mintPrice();
 
@@ -110,13 +110,13 @@ export default function Banner() {
                 //   console.log("Updated name of contract is " + read.toString());
                 // });
 
-                const mint = await contract.mint(1, {
+                const mint = await contract?.mint(1, {
                   value: "1",
                 });
 
                 mint.wait(2).then(async () => {
                   // read the contract again, similar to above
-                  const read = await contract.name();
+                  const read = await contract?.name();
                   console.log("Mint complete ");
                 });
 
@@ -132,6 +132,8 @@ export default function Banner() {
           >
             MINT NOW
           </div>
+
+          <div>{contract}</div>
         </div>
         <div className="box-border flex w-full flex-row justify-center lg:hidden ">
           <img
