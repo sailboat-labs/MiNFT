@@ -1,12 +1,44 @@
+import { ethers } from "ethers";
+import {
+  connectFunctionsEmulator,
+  getFunctions,
+  httpsCallable,
+} from "firebase/functions";
 import { Form, Formik } from "formik";
-import { useState } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import Web3Modal from "web3modal";
 import * as Yup from "yup";
+
+import { firebaseApp } from "@/lib/firebase";
+
 import Button from "../buttons/Button";
 
-import Input from "./Input";
-
 export default function Contact() {
+  const router = useRouter();
+
+  const twitterAccount = "TheIndianNFTs";
+
   const [heading, setHeading] = useState("Join the Bloody Bastards");
+
+  const [address, setAddress] = useState<string>();
+  const [follows, setFollows] = useState(false);
+  const [twitterHandle, setTwitterHandle] = useState<string>();
+
+  useEffect(() => {
+    const { success, twitterAccount } = router.query;
+    if (success === "true") {
+      setTwitterHandle(twitterAccount as string);
+      connectWallet();
+    } else if (success === "false") {
+      // toast.error("Unable to add account");
+    }
+  }, [router]);
+
+  useEffect(() => {
+    checkFollow()
+  }, [])
+  
 
   const changeHeading = (e: any) => {
     e.preventDefault();
@@ -20,6 +52,55 @@ export default function Contact() {
     discordUsername: Yup.string().required("Discord username required"),
     ETHaddress: Yup.string().required("ETH address required"),
   });
+
+  const connectWallet = async () => {
+    const providerOptions = {
+      /* See Provider Options Section */
+    };
+
+    const web3Modal = new Web3Modal({
+      network: "mainnet", // optional
+      cacheProvider: true, // optional
+      providerOptions, // required
+    });
+
+    const instance = await web3Modal.connect();
+    const provider = new ethers.providers.Web3Provider(instance);
+    const signer = provider.getSigner();
+
+    const _address = await signer.getAddress();
+    setAddress(_address);
+  };
+
+  const connectTwitter = async () => {
+    const functions = getFunctions(firebaseApp);
+    connectFunctionsEmulator(functions, "localhost", 5001);
+
+    const requestTwitterUrl = httpsCallable(functions, "requestTwitterUrl");
+    requestTwitterUrl()
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .then((result: any) => {
+        window.open(result.data.authUrl, "_bank");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const checkFollow = async () => {
+    const functions = getFunctions(firebaseApp);
+    connectFunctionsEmulator(functions, "localhost", 5001);
+
+    const checkFollows = httpsCallable(functions, "checkFollows");
+    checkFollows({user_name: twitterAccount, account_name: twitterHandle})
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .then((result: any) => {
+        console.log({ result });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <div>
@@ -47,37 +128,53 @@ export default function Contact() {
           >
             {(formik) => (
               <Form>
-                <div className="text-gray-200">
+                <div className="flex flex-col gap-4 text-gray-200">
+                  {address && <p>{address}</p>}
+                  {!address && (
+                    <Button
+                      onClick={connectWallet}
+                      type="submit"
+                      className="rounded-xl bg-[#006C35] py-5 px-12 text-xl"
+                    >
+                      Connect your wallet
+                    </Button>
+                  )}
+
                   <Button
+                    disabled={!address}
+                    onClick={() =>
+                      window.open(
+                        `https://twitter.com//${twitterAccount}`,
+                        "_bank"
+                      )
+                    }
                     type="submit"
-                    className="mt-8 rounded-xl bg-[#006C35] py-5 px-12 text-xl"
+                    className="rounded-xl bg-[#006C35] py-5 px-12 text-xl"
+                  >
+                    Follow Us
+                  </Button>
+
+                  {twitterHandle && <p>{twitterHandle}</p>}
+
+                  {!twitterHandle && (
+                    <Button
+                      disabled={!address || !twitterHandle}
+                      onClick={connectTwitter}
+                      type="submit"
+                      className="rounded-xl bg-[#006C35] py-5 px-12 text-xl"
+                    >
+                      Connect Twitter
+                    </Button>
+                  )}
+
+                  <Button
+                    disabled={!twitterHandle || !address || follows}
+                    type="submit"
+                    className="rounded-xl bg-[#006C35] py-5 px-12 text-xl"
                   >
                     Reserve your Chutiya
                   </Button>
-                  <button
-                    type="submit"
-                    className="mt-8 rounded-xl bg-[#006C35] py-5 px-12 text-xl"
-                  >
-                    Reserve your Chutiya
-                  </button>
-                  {/* <Input name="email" type="email" placeholder="Email *" />
-                  <Input
-                    name="discordUsername"
-                    type="text"
-                    placeholder="Discord username *"
-                  />
-                  <Input
-                    name="ETHaddress"
-                    type="text"
-                    placeholder="ETH public address *"
-                  /> */}
                 </div>
-                <button
-                  type="submit"
-                  className="mt-8 rounded-xl bg-[#006C35] py-5 px-12 text-xl"
-                >
-                  Reserve your Chutiya
-                </button>
               </Form>
             )}
           </Formik>
