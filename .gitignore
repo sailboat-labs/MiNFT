@@ -43,3 +43,6 @@ sitemap.xml
 .env.development
 .env.production
 .env.staging
+
+# functions
+firebase-local/
