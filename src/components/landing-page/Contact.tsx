@@ -186,7 +186,7 @@ export default function Contact({ projectSlug }: IContactProps) {
               <h1>All Good</h1>
             </div>
           )}
-          {!shouldProceed && (
+          {!shouldProceed && !whitelisted && (
             <div className="flex flex-col gap-4 text-gray-200">
               {address && <p>{address}</p>}
 
