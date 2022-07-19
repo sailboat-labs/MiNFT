@@ -1,6 +1,7 @@
 import { Form, Formik } from "formik";
 import { useState } from "react";
 import * as Yup from "yup";
+import Button from "../buttons/Button";
 
 import Input from "./Input";
 
@@ -47,7 +48,19 @@ export default function Contact() {
             {(formik) => (
               <Form>
                 <div className="text-gray-200">
-                  <Input name="email" type="email" placeholder="Email *" />
+                  <Button
+                    type="submit"
+                    className="mt-8 rounded-xl bg-[#006C35] py-5 px-12 text-xl"
+                  >
+                    Reserve your Chutiya
+                  </Button>
+                  <button
+                    type="submit"
+                    className="mt-8 rounded-xl bg-[#006C35] py-5 px-12 text-xl"
+                  >
+                    Reserve your Chutiya
+                  </button>
+                  {/* <Input name="email" type="email" placeholder="Email *" />
                   <Input
                     name="discordUsername"
                     type="text"
@@ -57,7 +70,7 @@ export default function Contact() {
                     name="ETHaddress"
                     type="text"
                     placeholder="ETH public address *"
-                  />
+                  /> */}
                 </div>
                 <button
                   type="submit"
