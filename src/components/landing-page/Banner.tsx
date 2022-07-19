@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 import images from "./Images";
 
 export default function Banner() {
-  let contract: ethers.Contract = undefined;
+  let contract: ethers.Contract;
   const [price, setPrice] = useState("0");
   const [totalQuantity, setTotalQuantity] = useState("0");
   const [totalMinted, setTotalMinted] = useState<any>();
@@ -132,8 +132,6 @@ export default function Banner() {
           >
             MINT NOW
           </div>
-
-          <div>{contract}</div>
         </div>
         <div className="box-border flex w-full flex-row justify-center lg:hidden ">
           <img
