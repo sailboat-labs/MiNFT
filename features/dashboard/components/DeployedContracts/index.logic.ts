@@ -41,12 +41,23 @@ export async function deployContract({ contractType }: contractPayload) {
 
   const signerAddress = await signer.getAddress();
 
+  //   Name - Legendary Indians
+  // Symbol - OGINDIAN
+  // Reserved tokens  - 0
+  // PublicSale: 40
+  // Total quantity: 40
+  // Max mint per wallet/account - 1
+  // Max mint per transaction - 1
+  // Mint price - 0.1ETH
+  // Starting timestamp - 22/07/2022  10PM NZT
+  // ending timestamp ]  - 05/08/2022  10PM NZT
+
   const contractInfo = {
     owner: signerAddress,
     trustedForwarder: process.env.NEXT_PUBLIC_FORWARDER_ADDRESS,
-    name: "Atomic NFT",
-    symbol: "Atomic",
-    saleConfig: [10, 4, 3, 1, 1, 0, 0],
+    name: "Legendary Indians",
+    symbol: "OGINDIAN",
+    saleConfig: [40, 0, 1, 1, 1, 0, 1689793367],
   };
 
   const data = cloneContract.interface.encodeFunctionData("initialize", [
@@ -125,7 +136,7 @@ export async function getCloneContracts() {
   return { success: true, response: contractDetails };
 }
 
-function getContract(contractType: string, signer: any) {
+export function getContract(contractType: string, signer: any) {
   switch (contractType) {
     case enumContractType.CLASSIC_MINT: {
       const contract = new ethers.Contract(
