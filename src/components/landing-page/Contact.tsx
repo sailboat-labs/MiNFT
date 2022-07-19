@@ -22,7 +22,7 @@ export default function Contact() {
 
   return (
     <div>
-      <div className="lg:mx-auto flex w-4/5 flex-col justify-center items-center pt-40 pb-28 text-white lg:flex-row">
+      <div className="mx-auto flex w-4/5 flex-col items-center justify-center pt-40 pb-28 text-white lg:mx-auto lg:flex-row">
         <div className="w-full lg:w-2/5">
           <textarea
             disabled
