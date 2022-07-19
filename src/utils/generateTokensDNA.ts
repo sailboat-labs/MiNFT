@@ -1,7 +1,3 @@
-// flattens data a
-
-import _ from "lodash";
-
 function prepareData(arr: any[]) {
   const output = [];
   for (let index = 0; index < arr.length; index++) {
@@ -20,33 +16,30 @@ function prepareData(arr: any[]) {
   return output;
 }
 
-export const generateTokensDNA = (data: any[], tokenSupply: number) => {
+export const generateTokensDNA = (data: any[]) => {
   if (data.length < 1) return;
 
   const n = data.length;
-  console.log({ n });
-
   const inputData = prepareData(data);
 
-  console.log({ inputData });
+  const noOfEntries = inputData[0].reduce((acc, curr) => {
+    acc += parseInt(curr.split("#")[1].split(".")[0]);
+    return acc;
+  }, 0);
 
-  console.log({ tokenSupply });
-
-  const outputData = Array(tokenSupply);
+  const outputData = Array(noOfEntries);
 
   const values = inputData.reduce((acc, curr, index) => {
     let layer = getLayerItems(curr);
-    console.log({ layer });
 
-    for (let i = 0; i < n - index; i++) {
-      layer = reorder(layer, tokenSupply);
+    if (index > 0) {
+      for (let i = 0; i < n - index; i++) {
+        layer = reorder(layer, noOfEntries);
+      }
     }
-
     acc.push(layer);
     return acc;
   }, []);
-
-  console.log({ values });
 
   for (let i = 0; i < outputData.length; i++) {
     outputData[i] = Array(n);
@@ -56,8 +49,6 @@ export const generateTokensDNA = (data: any[], tokenSupply: number) => {
     }
   }
 
-  console.log({ outputData });
-
   const parsedOutput = [];
 
   for (let i = 0; i < outputData.length; i++) {
@@ -65,6 +56,7 @@ export const generateTokensDNA = (data: any[], tokenSupply: number) => {
     parsedOutput.push(element.join("*"));
   }
 
+  console.log(parsedOutput);
   return parsedOutput;
 };
 
@@ -88,26 +80,15 @@ const getLayerItems = (data: any[]) => {
   return layerItems;
 };
 
+const interleave: any = ([x, ...xs]: any, ys: any = []) =>
+  x === undefined
+    ? ys // base: no x
+    : [x, ...interleave(ys, xs)]; // inductive: some x
+
 const reorder = (data: any[], max: number) => {
   const left = data.splice(0, max / 2);
   const right = data.splice(0, max);
-  // console.log({ left: left.length, right: right.length });
 
-  const z1 = _.zip(left, right);
-  // console.log({ z1 });
-
-  const _newArr = _.flatten(z1);
-
-  const newArr = _newArr.reduce((acc, curr) => {
-    if (curr == null || curr == undefined) {
-      acc.push("null");
-    } else {
-      acc.push(curr);
-    }
-    return acc;
-  }, []);
-
-  console.log({ newArr });
-
+  const newArr = interleave(left, right);
   return newArr;
 };
