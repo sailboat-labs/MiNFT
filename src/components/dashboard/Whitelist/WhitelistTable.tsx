@@ -23,7 +23,7 @@ export default function WhitelistTable() {
       project_slug: "indians-nft",
     });
 
-    console.log({ data});
+    console.log({ data });
 
     if (data.success) {
       setUsers(data.data);
@@ -41,9 +41,7 @@ export default function WhitelistTable() {
             <th scope="col" className="px-6 py-3">
               Twitter Account
             </th>
-            <th scope="col" className="px-6 py-3">
-              Discord Account
-            </th>
+
             <th scope="col" className="px-6 py-3"></th>
           </tr>
         </thead>
@@ -60,7 +58,6 @@ export default function WhitelistTable() {
                 {index + 1}. {item.wallet}
               </th>
               <td className="px-6 py-4">{item.twitterUsername}</td>
-              <td className="px-6 py-4"></td>
               <td className="px-6 py-4 text-right">
                 <a
                   href="#"
