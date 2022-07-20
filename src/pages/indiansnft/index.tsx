@@ -18,7 +18,7 @@ export default function LandingPage() {
     undefined
   );
   // const contractAddress = "0x7311102EcC5a3Effb9Fc2e734d918A4eb448A13E";
-  const contractAddress = "0xc515193c58D61BE7F23f3cA93a1002549757A5Df";
+  const contractAddress = "0xd1aFbbdf886cc20E5c683B06444a116aDCe11F8E";
 
   async function prepareContract() {
     const _contract = await getContractForMinting(contractAddress);

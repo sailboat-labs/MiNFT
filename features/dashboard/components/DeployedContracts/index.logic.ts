@@ -57,7 +57,7 @@ export async function deployContract({ contractType }: contractPayload) {
     trustedForwarder: process.env.NEXT_PUBLIC_FORWARDER_ADDRESS,
     name: "Legendary Indians",
     symbol: "OGINDIAN",
-    saleConfig: [40, 0, 1, 1, 1, 0, 1689793367],
+    saleConfig: [40, 0, 1, 1, ethers.utils.parseEther("1"), 0, 1689793367],
   };
 
   const data = cloneContract.interface.encodeFunctionData("initialize", [

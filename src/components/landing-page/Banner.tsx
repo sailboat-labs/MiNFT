@@ -8,21 +8,8 @@ type props = {
 };
 
 export default function Banner({ contract }: props) {
-  console.log("contract sent", contract);
-
-  contract?.on("*", (from, to, value, event) => {
-    console.log({
-      from: from,
-      to: to,
-      value: value?.toString(),
-      data: event,
-    });
-  });
-
-  const [price, setPrice] = useState("0");
   const [totalQuantity, setTotalQuantity] = useState<number>();
   const [totalSupply, setTotalSupply] = useState<number>(0);
-  const [userMinted, setUserMinted] = useState(true);
 
   const [mintButtonText, setMintButtonText] = useState("Mint Now");
 
@@ -51,6 +38,9 @@ export default function Banner({ contract }: props) {
     const totalQuantity = await contract?.totalQuantity();
     const totalSupply = await contract?.totalSupply();
     const tokensMinted = await contract?.tokensMinted(signerAddress);
+    const price = await contract?.mintPrice();
+    console.log({ price });
+
     setTotalQuantity(parseInt(totalQuantity?._hex));
     setTotalSupply(parseInt(totalSupply?._hex));
     if (tokensMinted > 0) {
@@ -73,10 +63,12 @@ export default function Banner({ contract }: props) {
       toast.loading("Initializing Mint");
       let mint: any;
 
+      const price = await contract?.mintPrice();
       try {
         mint = await contract?.mint(1, {
-          value: "1",
+          value: price,
         });
+        console.log({ mint });
       } catch (error: any) {
         if (!error) return console.log("An Error Occurred");
 
