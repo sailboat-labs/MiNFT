@@ -10,7 +10,7 @@ export default function Banner() {
   const [totalQuantity, setTotalQuantity] = useState<number>();
   const [totalSupply, setTotalSupply] = useState<number>(0);
 
-  const contractAddress = "0x5452c07C47dfD2Dc3bA7A6bbd422f2b689b36037";
+  const contractAddress = "0x2D3947F68b6dd987e3061C31eF3D37391772842b";
   let account: string;
 
   async function prepareContract() {
@@ -55,7 +55,7 @@ export default function Banner() {
             onBlur={changeHeading}
           />
         </div>
-        <div className="mt-8 mb-8 flex justify-center">
+        <div className="mt-8 mb-8 flex w-full flex-col items-center justify-center">
           <div
             onClick={async () => {
               try {
@@ -88,7 +88,7 @@ export default function Banner() {
                 console.log(error);
               }
             }}
-            className="cursor-pointer rounded-xl border-0 bg-black py-6 px-16 uppercase transition-all hover:scale-105 hover:bg-black"
+            className="w-fit cursor-pointer rounded-xl border-0 bg-black py-6 px-16 uppercase transition-all hover:scale-105 hover:bg-black"
           >
             MINT NOW
           </div>
