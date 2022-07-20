@@ -3,15 +3,11 @@ import admin from "./config/admin";
 
 export const checkExists = functions.https.onCall(async (data) => {
   try {
-    console.log(data);
     const project = (
       await admin.firestore().doc(`Projects/${data.project_slug}`).get()
     ).data();
 
-    console.log({ project });
     const twitterAccounts = project?.accounts ?? [];
-
-    console.log({ twitterAccounts });
 
     return {
       success: true,
@@ -25,12 +21,10 @@ export const checkExists = functions.https.onCall(async (data) => {
 
 export const updateAccounts = functions.https.onCall(async (data) => {
   try {
-    console.log(data);
     const project = (
       await admin.firestore().doc(`Projects/${data.project_slug}`).get()
     ).data();
 
-    console.log({ project });
     const twitterAccounts = project?.accounts ?? [];
 
     await admin

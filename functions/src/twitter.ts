@@ -29,11 +29,11 @@ const checkFollows = functions.https.onCall(async (data) => {
       const following = await roClient.v2.followers(project.data.id);
       const ids = following.data.reduce((acc: string[], curr: UserV2) => {
         acc.push(curr.id);
-        if (curr.id == user.data.id) console.log({ exists: true });
+        if (curr.id == user.data.id) functions.logger.log({ exists: true });
         return acc;
       }, []);
-      console.log({ following: ids });
-      console.log({ user: user.data });
+      functions.logger.log({ following: ids });
+      functions.logger.log({ user: user.data });
       const isFollowing = ids.includes(user.data.id);
 
       return { success: true, isFollowing };
@@ -45,7 +45,7 @@ const checkFollows = functions.https.onCall(async (data) => {
       };
     }
   } catch (error) {
-    functions.logger.log(error);
+    functions.logger.log({ error });
     return { success: false, error, message: "Something bad happened" };
   }
 });
@@ -90,7 +90,7 @@ const requestTwitterUrl = functions.https.onCall(async (data) => {
 
     return { success: true, authUrl: url };
   } catch (error) {
-    console.log(error);
+    functions.logger.log({ error });
     return { success: false, error };
   }
 });
@@ -107,44 +107,19 @@ const twitterCallBack = functions.https.onRequest(
 
       if (!codeVerifier || !code) {
         res.redirect(`${process.env.APP_URL}/indiansnft?success=false`);
-        // res.status(400).send('You denied the app or your session expired!');
       }
 
       // Get tokens
-      const { accessToken, refreshToken, expiresIn }: any =
-        await client.loginWithOAuth2({
-          code: code as string,
-          codeVerifier,
-          redirectUri: process.env.TWITTER_CALLBACK_URL as string,
-        });
-
-      console.log({ accessToken, refreshToken, expiresIn });
+      const { accessToken }: any = await client.loginWithOAuth2({
+        code: code as string,
+        codeVerifier,
+        redirectUri: process.env.TWITTER_CALLBACK_URL as string,
+      });
 
       const userClient = new TwitterApi(accessToken);
 
-      console.log({ userClient });
-
       // Get user ID
       const user = await userClient.v2.me();
-
-      console.log({ user });
-
-      // Store credentials
-      await admin.firestore().doc(`TwitterAccounts/${user.data.username}`).set(
-        {
-          accessToken,
-          refreshToken,
-          expiresIn,
-          active: true,
-          name: user.data.name,
-          userName: user.data.username,
-          twitterId: user.data.id,
-          lastUpdated: new Date().toISOString(),
-          lastActivityAt: new Date().toISOString(),
-          tokenUpdated: new Date().toISOString(),
-        },
-        { merge: true }
-      );
 
       await admin.firestore().doc(`Codes/${state}`).delete();
 
@@ -152,8 +127,7 @@ const twitterCallBack = functions.https.onRequest(
         `${process.env.APP_URL}/indiansnft?success=true&twitterAccount=${user.data.username}&accessToken=${accessToken}`
       );
     } catch (error) {
-      // functions.logger.log(error);
-      console.log({ error });
+      functions.logger.log({ error });
       res.redirect(`${process.env.APP_URL}/indiansnft?success=false`);
     }
   }
