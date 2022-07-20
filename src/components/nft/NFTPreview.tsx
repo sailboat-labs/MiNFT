@@ -1,12 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable no-async-promise-executor */
+import { generateTokens } from "features/traitmixer/utils/art-engine";
 import React, { FC, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { getConfiguration } from "redux/reducers/selectors/configuration";
 import { getLayers } from "redux/reducers/selectors/layers";
 
 import { IElement, IGeneratedTokens, ILayer } from "@/interfaces";
-import { generateTokens } from "@/utils/art-engine";
 
 interface AppProps {
   className?: string;
@@ -32,7 +32,7 @@ const NFTPreview: FC<AppProps> = ({ className }) => {
         elements: layer.elements.filter((element) => element.isSelected),
       }));
 
-    const _generatedImages: any = await generateTokens({
+    const { generatedTokens }: any = await generateTokens({
       configuration: {
         supply: 1,
         name: "Preview",
@@ -42,11 +42,10 @@ const NFTPreview: FC<AppProps> = ({ className }) => {
         family: "Preview",
       },
       layers,
-      showToast: false,
     });
-    console.log(_generatedImages);
+    console.log(generatedTokens);
 
-    setPreviewImage(_generatedImages);
+    setPreviewImage(generatedTokens);
   }
 
   useEffect(() => {

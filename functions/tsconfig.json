@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "outDir": "./lib",
+    "sourceMap": true,
+    "strict": true,
+    "target": "es5",
+    "isolatedModules": true,
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "importHelpers": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "#/*": ["./../*"]
+    }
+  },
+  "compileOnSave": true,
+  "include": ["./src/**/*.ts", "./custom.d.ts"],
+  "exclude": ["./src/keys", "../src"],
+  "typeRoots": [
+    "./custom.d.ts",
+    "node_modules/@types",
+    "../node_modules/@types"
+  ]
+}

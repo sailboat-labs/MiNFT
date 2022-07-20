@@ -17,17 +17,29 @@ export default function Banner() {
             No-code tool for creating, launching and managing your NFT
             collection
           </p>
-          <div
-            className="relative z-30 mt-12 w-fit rounded-xl border border-black bg-transparent px-10 py-4 font-bold text-black hover:cursor-pointer"
-            onClick={() => {
-              process.env.NEXT_PUBLIC_ENVIRONMENT == "development"
-                ? router.push("/dashboard")
-                : window.open("https://r3c9oapreew.typeform.com/to/RDOUdJXk");
-            }}
-          >
-            {process.env.NEXT_PUBLIC_ENVIRONMENT == "development"
-              ? "Start Now"
-              : "Join Waitlist"}
+          <div className="flex gap-5">
+            <div
+              className="relative z-30 mt-12 w-fit rounded-xl border border-black bg-transparent px-10 py-4 font-bold text-black transition-all hover:scale-105 hover:cursor-pointer"
+              onClick={() => {
+                process.env.NEXT_PUBLIC_ENVIRONMENT == "development"
+                  ? router.push("/dashboard")
+                  : window.open("https://r3c9oapreew.typeform.com/to/RDOUdJXk");
+              }}
+            >
+              {process.env.NEXT_PUBLIC_ENVIRONMENT == "development"
+                ? "Start Now"
+                : "Join Waitlist"}
+            </div>
+            {process.env.NEXT_PUBLIC_ENVIRONMENT == "production" && (
+              <div
+                className="relative z-30 mt-12 w-fit rounded-xl border border-black bg-transparent px-10 py-4 font-bold text-black transition-all hover:scale-105 hover:cursor-pointer"
+                onClick={() => {
+                  window.open("https://staging.magicmynt.com/dashboard");
+                }}
+              >
+                Try Demo
+              </div>
+            )}
           </div>
         </div>
       </div>

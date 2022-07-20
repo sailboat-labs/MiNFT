@@ -182,19 +182,35 @@ export default function DashboardHomePage() {
     );
 
   return (
-    <DashboardLayout
-      showTitleBar={selectedSidebar == "dashboard-home" ? false : true}
-      title={content.find((item) => item.value == selectedSidebar)?.label ?? ""}
-      titleBarEndChildren={
-        content.find((item) => item.value == selectedSidebar)?.titleOptions ??
-        ""
-      }
-      child={
-        content.find((item) => item.value == selectedSidebar)?.component ?? (
-          <></>
-        )
-      }
-    />
+    <div>
+      <div
+        className={`flex w-screen items-center justify-center border-b-indigo-500 bg-indigo-200 transition-all ${
+          dashboardState.informationBar.show
+            ? "pointer-events-auto h-10"
+            : "pointer-events-none h-0"
+        }`}
+      >
+        {dashboardState.informationBar.showLoader && (
+          <PageLoader className="h-6 w-6" />
+        )}
+        {dashboardState.informationBar.message}
+      </div>
+      <DashboardLayout
+        showTitleBar={selectedSidebar == "dashboard-home" ? false : true}
+        title={
+          content.find((item) => item.value == selectedSidebar)?.label ?? ""
+        }
+        titleBarEndChildren={
+          content.find((item) => item.value == selectedSidebar)?.titleOptions ??
+          ""
+        }
+        child={
+          content.find((item) => item.value == selectedSidebar)?.component ?? (
+            <></>
+          )
+        }
+      />
+    </div>
   );
 }
 

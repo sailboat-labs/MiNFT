@@ -2,30 +2,38 @@ import { createCanvas, loadImage } from "canvas";
 import chalk from "chalk";
 import keccak256 from "keccak256";
 import { toast } from "react-toastify";
+import { setInformationBarConfig } from "redux/reducers/slices/dashboard";
 
 import { enumNFTGenConfig } from "@/enums/nft-gen-configurations";
 import { IElement, IGeneratedTokens } from "@/interfaces";
 
-import { generateTokensDNA } from "./generateTokensDNA";
+import { createProjectPreviewGIF, loadImg } from "./gif-engine";
 
 let toastId: any;
 
 type generateTokensProps = {
   configuration: any;
   layers: any;
-  showToast?: boolean;
+  dispatch?: any;
   component?: any;
+  shouldGenerateGIF?: boolean;
 };
 
 export function generateTokens({
   configuration,
   layers,
-  showToast = true,
+  dispatch,
   component,
+  shouldGenerateGIF = false,
 }: generateTokensProps) {
-  if (showToast) {
-    toastId = toast.loading("Starting workers");
-  }
+  dispatch &&
+    dispatch(
+      setInformationBarConfig({
+        show: true,
+        message: `Setting up workers`,
+        showLoader: true,
+      })
+    );
   // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve) => {
     let generatedTokens: IGeneratedTokens[] = [];
@@ -754,6 +762,27 @@ export function generateTokens({
       };
     };
 
+    async function generateGIF(imageList: any[]) {
+      dispatch &&
+        dispatch(
+          setInformationBarConfig({
+            show: true,
+            message: `Generating GIF.. Browser tab will freeze for about 2 mins🥲.. or less . Not ideal. We'll optimize... `,
+            showLoader: true,
+          })
+        );
+      const _list: any[] = [];
+      for (let index = 0; index < imageList.length; index++) {
+        const image = imageList[index];
+        const file = await loadImg(image.file);
+        _list.push(file);
+      }
+
+      const gif = await createProjectPreviewGIF(_list, dispatch);
+
+      return gif;
+    }
+
     const outputFiles = (
       abstractedIndexes: any[],
       layerData: any,
@@ -762,28 +791,48 @@ export function generateTokens({
     ) => {
       const { newDna, layerConfigIndex } = layerData;
       // Save the canvas buffer to file
-      if (showToast) {
+
+      dispatch &&
+        dispatch(
+          setInformationBarConfig({
+            show: true,
+            message: `Generating token ${abstractedIndexes[0] + 1} of ${
+              configuration.supply
+            }`,
+            showLoader: true,
+          })
+        );
+
+      if (abstractedIndexes[0] + 1 == configuration.supply) {
+        // toast.dismiss();
         toast.update(toastId, {
-          render: `Generating token ${abstractedIndexes[0] + 1} of ${
-            configuration.supply
-          }`,
-          isLoading: true,
+          render: component,
+          isLoading: false,
+          type: toast.TYPE.SUCCESS,
+          autoClose: 15000,
         });
+
+        dispatch &&
+          dispatch(
+            setInformationBarConfig({
+              show: true,
+              message: `All Tokens Generated`,
+              showLoader: false,
+            })
+          );
+
+        dispatch &&
+          setTimeout(() => {
+            dispatch(
+              setInformationBarConfig({
+                show: false,
+                message: ``,
+                showLoader: false,
+              })
+            );
+          }, 3000);
       }
 
-      if (showToast) {
-        if (abstractedIndexes[0] + 1 == configuration.supply) {
-          // toast.dismiss();
-          toast.update(toastId, {
-            render: component,
-            isLoading: false,
-            type: toast.TYPE.SUCCESS,
-            autoClose: 15000,
-          });
-
-          // toast.success("All tokens generated");
-        }
-      }
       const { _imageHash, _prefix, _offset } = postProcessMetadata(layerData);
 
       addMetadata(newDna, abstractedIndexes[0], {
@@ -821,11 +870,11 @@ export function generateTokens({
 
       // const prebuiltDNA = generateTokensDNA(layers);
       // // console.log("prebuilt", new Set(prebuiltDNA));
-      let prebuiltDNA = generateTokensDNA(layers);
+      // let prebuiltDNA = generateTokensDNA(layers);
 
-      prebuiltDNA = Array.from(new Set(prebuiltDNA));
+      // prebuiltDNA = Array.from(new Set(prebuiltDNA));
 
-      console.log("prebuilt", new Set(prebuiltDNA));
+      // console.log("prebuilt", new Set(prebuiltDNA));
 
       // return;
 
@@ -865,8 +914,8 @@ export function generateTokens({
             editionCount <=
             layerConfigurations[layerConfigIndex].growEditionSizeTo
           ) {
-            // const newDna = createDna(layers);
-            const newDna = prebuiltDNA![editionCount - 1];
+            const newDna = createDna(layers);
+            // const newDna = prebuiltDNA![editionCount - 1];
 
             // console.log({ count: editionCount - 1 });
 
@@ -903,52 +952,6 @@ export function generateTokens({
             dnaList.add(filterDNAOptions(newDna));
             editionCount++;
             abstractedIndexes.shift();
-
-            // if (isDnaUnique(dnaList, newDna)) {
-            //   const results = constructLayerToDna(newDna, layers);
-            //   debugLogs
-            //     ? console.log("Creating with DNA:", newDna.split(DNA_DELIMITER))
-            //     : null;
-            //   const loadedElements: any[] = [];
-            //   // reduce the stacked and nested layer into a single array
-            //   const allImages = results.reduce((images: any, layer) => {
-            //     return [...images, ...layer.selectedElements];
-            //   }, []);
-            //   sortZIndex(allImages).forEach((layer: any) => {
-            //     loadedElements.push(loadLayerImg(layer));
-            //   });
-
-            //   await Promise.all(loadedElements).then((renderObjectArray) => {
-            //     const layerData = {
-            //       newDna,
-            //       layerConfigIndex,
-            //       abstractedIndexes,
-            //       _background: background,
-            //     };
-            //     paintLayers(
-            //       ctxMain,
-            //       renderObjectArray,
-            //       layerData,
-            //       abstractedIndexes
-            //     );
-            //   });
-
-            //   dnaList.add(filterDNAOptions(newDna));
-            //   editionCount++;
-            //   abstractedIndexes.shift();
-            // } else {
-            //   debugLogs && console.log(chalk.bgRed("DNA exists!"));
-            //   failedCount++;
-            //   if (failedCount >= uniqueDnaTorrance) {
-            //     debugLogs &&
-            //       console.log(
-            //         `You need more layers or elements to grow your edition to ${layerConfigurations[layerConfigIndex].growEditionSizeTo} artworks!`
-            //       );
-            //     // eslint-disable-next-line no-process-exit
-            //     // process.exit();
-            //     throw `You need more layers or elements to grow your edition`;
-            //   }
-            // }
           }
           layerConfigIndex++;
         }
@@ -962,6 +965,11 @@ export function generateTokens({
     };
 
     await startCreating();
-    resolve(generatedTokens);
+    if (shouldGenerateGIF) {
+      const gif = await generateGIF(generatedTokens);
+      resolve({ generatedTokens, gif });
+    } else {
+      resolve({ generatedTokens });
+    }
   });
 }

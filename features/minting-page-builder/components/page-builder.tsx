@@ -19,7 +19,7 @@ export default function PageBuilder() {
         <SectionThree />
         <SectionFour />
         <Join />
-        <Contact />
+        <Contact projectSlug="indians-nft" />
         <Footer />
       </div>
     </section>
