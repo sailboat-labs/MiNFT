@@ -20,7 +20,7 @@ export default function SectionTwo() {
   };
 
   const [aboutText, setAboutText] = useState(
-    "The BJP and Rajasthan Royals welcomes you to the Taj Mahal! We have worked with the finest Indians, Legends, Pujaris to replace the Rupee with Bitcoin and ETH. This is the only way to say Crypto. Put on your kala chasma and strap in your dhotis to embark on this journey with us. You may get lucky like Lalit Modi and find your Sushmita Sen. Scream the magic mantra and mint you Bhenchod “Jai Mata Di Let's Rock"
+    "The BJP and Rajasthan Royals welcomes you to the Taj Mahal! We have worked with the finest Indians, Legends, Pujaris to replace the Rupee with Bitcoin and ETH. This is the only way to save Crypto. Put on your kala chasma and strap in your dhotis to embark on this journey with us. You may get lucky like Lalit Modi and find your Sushmita Sen. Scream the magic mantra and mint you Bhenchod Jai Mata Di Let's Rock"
   );
 
   const changeAboutText = (e: any) => {
@@ -42,13 +42,13 @@ export default function SectionTwo() {
             <textarea
               disabled
               id="sectiontwo-heading"
-              className="h-[28rem] w-full resize-none overflow-hidden whitespace-normal border-0 bg-transparent p-0 text-center font-serif text-6xl font-bold italic leading-tight hover:resize focus:resize md:text-8xl lg:h-52 lg:text-6xl"
+              className="h-[20rem] w-full resize-none overflow-hidden whitespace-normal border-0 bg-transparent p-0 text-center font-serif text-6xl italic leading-tight hover:resize focus:resize md:text-8xl md:h-[25rem] lg:h-60 lg:text-7xl"
               value={heading}
               onChange={changeHeading}
               onKeyDown={handleKeyDown}
               onBlur={changeHeading}
             />
-            <img src={images.scimitar} alt="Scimitar" className="m-auto" />
+            {/* <img src={images.scimitar} alt="Scimitar" className="m-auto" /> */}
           </div>
           <div>
             <textarea

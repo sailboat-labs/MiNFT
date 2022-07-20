@@ -50,6 +50,10 @@
   }
 
   @font-face {
+    font-family: "Heading"; 
+  }
+
+  @font-face {
     font-family: "Montserrat";
     src: url("../../public/fonts/Montserrat-Regular.ttf");
   }

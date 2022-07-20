@@ -20,7 +20,7 @@ export default function Features() {
     {
       title: "Deploy Contract Easily",
       description:
-        "Use our templates to create your very own smart contract without code. Lorem ipsum dolor sit amet.",
+        "Use our templates to create your very own smart contract without code.",
       icon: <Item_2 className="h-14 w-14 " />,
     },
     // {
@@ -38,7 +38,7 @@ export default function Features() {
     {
       title: "Layer Rarity",
       description:
-        "In a large collection, you may not want to apply a layer on every NFT. Lorem ipsum dolor sit amet. ",
+        "In a large collection, you may not want to apply a layer on every NFT.",
       icon: (
         <div className="pr-3 lg:pr-3">
           <Item_4_1 className="mx-auto mt-3 h-10 w-10 lg:mt-5" />
@@ -52,14 +52,14 @@ export default function Features() {
   ];
 
   return (
-    <div className="container mx-auto flex justify-center pt-20 pb-16 font-montserrat ">
-      <div className="grid w-fit grid-cols-1 gap-10 px-10 md:grid-cols-2">
+    <div className="container mx-auto flex justify-center pt-16 lg:pt-20 pb-16 font-montserrat ">
+      <div className="grid w-fit grid-cols-1 gap-10 px-5 lg:px-10 md:grid-cols-2">
         {features.map((feature, index) => (
           <div key={index} className="z-30 flex items-center gap-5">
-            <span className="z-30 flex h-14 w-16 items-center justify-center rounded-full border-2 border-[#1F1A17] p-1 text-3xl font-bold text-[#1F1A17] lg:h-20 lg:w-20 lg:p-0 ">
+            <span className="z-30 flex w-16 items-center justify-center rounded-full border-2 border-[#1F1A17] p-1 text-lg lg:text-3xl font-bold text-[#1F1A17] lg:h-20 lg:w-20 lg:p-0 ">
               0{index + 1}
             </span>
-            <div className="z-30 flex max-w-lg gap-5 rounded-lg border border-black bg-transparent px-5 py-3 lg:px-10 lg:py-5 lg:pr-20">
+            <div className="z-30 flex flex-col sm:flex-row max-w-lg gap-5 rounded-lg border border-black bg-transparent px-5 py-3 lg:px-10 lg:py-5 lg:pr-20">
               <div className="flex items-center ">{feature.icon}</div>
               <div>
                 <div className="text-xl font-semibold text-[#1F1A17]">

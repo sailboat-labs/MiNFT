@@ -168,8 +168,8 @@ export default function Contact({ projectSlug }: IContactProps) {
 
   return (
     <div>
-      <div className="mx-auto flex w-4/5 flex-col items-center pt-40 pb-28 text-white lg:flex-row">
-        <div className="w-full lg:w-3/5">
+      <div className="mx-auto flex w-4/5 flex-col items-center justify-center pt-40 pb-28 text-white lg:mx-auto lg:flex-row">
+        <div className="w-full lg:w-2/5">
           <textarea
             disabled
             rows={3}
@@ -177,7 +177,7 @@ export default function Contact({ projectSlug }: IContactProps) {
             value={heading}
             onChange={changeHeading}
             onBlur={changeHeading}
-            className="w-full resize-none overflow-hidden whitespace-normal border-0 bg-transparent font-serif text-6xl font-bold italic md:text-9xl lg:text-center"
+            className="w-full resize-none overflow-hidden whitespace-normal border-0 bg-transparent font-serif text-6xl font-bold italic md:text-9xl lg:text-8xl"
           />
         </div>
         <div className="flex items-center lg:ml-10">
