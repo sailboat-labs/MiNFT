@@ -1,11 +1,34 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { httpsCallable } from "firebase/functions";
+import { useEffect, useState } from "react";
+
+import { functions } from "@/lib/firebase";
+
+interface UserData {
+  wallet: string;
+  twitterUsername: string;
+  discord: string;
+}
 export default function WhitelistTable() {
-  const users: { address: string; twitter: string; discord: string }[] = [
-    {
-      address: "0x65cF0585bD7B236b635DA7077624431DD9cec35e",
-      twitter: "brainywayne",
-      discord: "thebrainywayne",
-    },
-  ];
+  const [users, setUsers] = useState<UserData[]>([]);
+
+  useEffect(() => {
+    getUsers();
+  }, []);
+
+  const getUsers = async () => {
+    const getWhitelists = httpsCallable(functions, "getWhitelists");
+
+    const { data }: any = await getWhitelists({
+      project_slug: "indians-nft",
+    });
+
+    console.log({ data});
+
+    if (data.success) {
+      setUsers(data.data);
+    }
+  };
 
   return (
     <div className="relative overflow-auto  border sm:rounded-lg ">
@@ -25,7 +48,7 @@ export default function WhitelistTable() {
           </tr>
         </thead>
         <tbody>
-          {[...Array(15)].map((item, index) => (
+          {[...users].map((item, index) => (
             <tr
               key={index}
               className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
@@ -34,10 +57,10 @@ export default function WhitelistTable() {
                 scope="row"
                 className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white dark:text-gray-200"
               >
-                {index + 1}. 0x65cF0585bD7B236b635DA7077624431DD9cec35e
+                {index + 1}. {item.wallet}
               </th>
-              <td className="px-6 py-4">@brainywayne</td>
-              <td className="px-6 py-4">@thebrainywayne</td>
+              <td className="px-6 py-4">{item.twitterUsername}</td>
+              <td className="px-6 py-4"></td>
               <td className="px-6 py-4 text-right">
                 <a
                   href="#"
