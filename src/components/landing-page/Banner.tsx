@@ -8,6 +8,8 @@ type props = {
 };
 
 export default function Banner({ contract }: props) {
+  console.log({ contract });
+
   const [totalQuantity, setTotalQuantity] = useState<number>();
   const [totalSupply, setTotalSupply] = useState<number>(0);
 
@@ -39,7 +41,17 @@ export default function Banner({ contract }: props) {
     const totalSupply = await contract?.totalSupply();
     const tokensMinted = await contract?.tokensMinted(signerAddress);
     const price = await contract?.mintPrice();
-    console.log({ price });
+    let baseURI = await contract?.baseURI();
+    const baseExtension = await contract?.baseExtension();
+    const name = await contract?.name();
+    const tokenURI = await contract?.tokenURI(1);
+    // await contract?.setBaseURI(
+    //   "https://gateway.pinata.cloud/ipfs/QmP2oPenwx9tMuQuCzAefvVfv8sjLPneT6Lea53XirhAYJ"
+    // );
+    // await contract?.setBaseExtension(".json");
+    baseURI = await contract?.baseURI();
+
+    console.log({ baseURI, name, tokenURI, baseExtension });
 
     setTotalQuantity(parseInt(totalQuantity?._hex));
     setTotalSupply(parseInt(totalSupply?._hex));
