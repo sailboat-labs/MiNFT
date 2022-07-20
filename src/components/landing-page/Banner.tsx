@@ -10,7 +10,7 @@ export default function Banner() {
   const [totalQuantity, setTotalQuantity] = useState<number>();
   const [totalSupply, setTotalSupply] = useState<number>(0);
 
-  const contractAddress = "0x2D3947F68b6dd987e3061C31eF3D37391772842b";
+  const contractAddress = "0x5452c07C47dfD2Dc3bA7A6bbd422f2b689b36037";
   let account: string;
 
   async function prepareContract() {
