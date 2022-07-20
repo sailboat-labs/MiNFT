@@ -36,7 +36,7 @@ export default function Banner() {
               <div
                 className="relative z-30 mt-12 w-fit rounded-xl border border-black bg-transparent px-10 py-4 font-bold text-black transition-all hover:scale-105 hover:cursor-pointer"
                 onClick={() => {
-                  window.open("https://staging.magicmynt.com");
+                  window.open("https://staging.magicmynt.com/dashboard");
                 }}
               >
                 Try Demo
