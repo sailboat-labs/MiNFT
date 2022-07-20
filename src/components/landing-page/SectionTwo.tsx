@@ -1,8 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 import { useState } from "react";
 
-import images from "./Images";
 import ButtonLink from "../links/ButtonLink";
+
+import DiyaSVG from "~/svg/landing/diya.svg";
+
 export default function SectionTwo() {
   const [heading, setHeading] = useState(
     "Rajeev the dev is here to make the price go up"
@@ -42,13 +44,14 @@ export default function SectionTwo() {
             <textarea
               disabled
               id="sectiontwo-heading"
-              className="h-[20rem] w-full resize-none overflow-hidden whitespace-normal border-0 bg-transparent p-0 text-center font-serif text-6xl italic leading-tight hover:resize focus:resize md:text-8xl md:h-[25rem] lg:h-60 lg:text-7xl"
+              className="h-[20rem] w-full resize-none overflow-hidden whitespace-normal border-0 bg-transparent p-0 text-center font-serif text-6xl italic leading-tight hover:resize focus:resize md:h-[25rem] md:text-8xl lg:h-60 lg:text-7xl"
               value={heading}
               onChange={changeHeading}
               onKeyDown={handleKeyDown}
               onBlur={changeHeading}
             />
             {/* <img src={images.scimitar} alt="Scimitar" className="m-auto" /> */}
+            <DiyaSVG className='m-auto h-72 w-72 p-0 -mt-20 -mb-20' />
           </div>
           <div>
             <textarea
