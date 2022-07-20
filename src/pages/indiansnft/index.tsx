@@ -17,33 +17,18 @@ export default function LandingPage() {
   const [contract, setContract] = useState<ethers.Contract | undefined>(
     undefined
   );
-  // const contractAddress = "0x5452c07C47dfD2Dc3bA7A6bbd422f2b689b36037";
-  const contractAddress = "0xfe6a34041C1B42E11AFDBd529468886011a06e04";
-  let account: string;
+  // const contractAddress = "0x7311102EcC5a3Effb9Fc2e734d918A4eb448A13E";
+  const contractAddress = "0xc515193c58D61BE7F23f3cA93a1002549757A5Df";
 
   async function prepareContract() {
-    const provider = new ethers.providers.Web3Provider(
-      (window as any).ethereum
-    );
-    const signer = provider.getSigner();
-    const signerAddress = await signer.getAddress();
     const _contract = await getContractForMinting(contractAddress);
     setContract(_contract);
-    if (!contract) return;
-    console.log(contract);
-    const totalQuantity = await contract.totalQuantity();
-    const totalSupply = await contract.totalSupply();
-    const tokensMinted = await contract.tokensMinted(signerAddress);
-    console.log({ tokensMinted: parseInt(tokensMinted?._hex) });
-
-    // setTotalQuantity(parseInt(totalQuantity?._hex));
-    // setTotalSupply(parseInt(totalSupply?._hex));
-    // if (tokensMinted > 0) {
-    //   setMintButtonText("Already Minted");
-    // }
   }
 
   useEffect(() => {
+    // setInterval(() => {
+    //   prepareContract();
+    // }, 1000);
     prepareContract();
   }, []);
 

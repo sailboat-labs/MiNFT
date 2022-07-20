@@ -10,11 +10,21 @@ type props = {
 export default function Banner({ contract }: props) {
   console.log("contract sent", contract);
 
+  contract?.on("*", (from, to, value, event) => {
+    console.log({
+      from: from,
+      to: to,
+      value: value?.toString(),
+      data: event,
+    });
+  });
+
   const [price, setPrice] = useState("0");
   const [totalQuantity, setTotalQuantity] = useState<number>();
   const [totalSupply, setTotalSupply] = useState<number>(0);
   const [userMinted, setUserMinted] = useState(true);
-  const [mintButtonText, setMintButtonText] = useState("Register Now");
+
+  const [mintButtonText, setMintButtonText] = useState("Mint Now");
 
   const [heading, setHeading] = useState(
     "We're here to puja the Crypto Winter away. You better mint Bloody Bastards"
@@ -46,7 +56,53 @@ export default function Banner({ contract }: props) {
     if (tokensMinted > 0) {
       setMintButtonText("Already Minted Bloody Bastard! Come on...");
     }
-    console.log({ tokensMinted: parseInt(tokensMinted?._hex) });
+  }
+
+  async function handleMint() {
+    try {
+      const provider = new ethers.providers.Web3Provider(
+        (window as any).ethereum
+      );
+      const signer = provider.getSigner();
+      const signerAddress = await signer.getAddress();
+
+      const tokensMinted = await contract?.tokensMinted(signerAddress);
+
+      if (tokensMinted > 0) return;
+      toast.dismiss();
+      toast.loading("Initializing Mint");
+      let mint: any;
+
+      try {
+        mint = await contract?.mint(1, {
+          value: "1",
+        });
+      } catch (error: any) {
+        if (!error) return console.log("An Error Occurred");
+
+        toast.dismiss();
+        toast.error(error!.message);
+      }
+
+      if (!mint) return;
+
+      toast.dismiss();
+      toast.loading(
+        `Minting... Check your transaction on etherscan: ${mint.hash}`
+      );
+
+      const res = await mint.wait();
+
+      if (res.blockNumber) {
+        toast.dismiss();
+        toast.success("Minting successful");
+        preparePage();
+      } else {
+        toast.error("Minting failed");
+      }
+    } catch (error: any) {
+      toast.error(error?.data?.message);
+    }
   }
 
   useEffect(() => {
@@ -70,47 +126,7 @@ export default function Banner({ contract }: props) {
         <div className="mt-8 mb-8 flex w-full flex-col items-center justify-center">
           <div
             onClick={async () => {
-              try {
-                // const contract = await prepareContract();
-
-                // const price = await contract.mintPrice();
-
-                // const setname = await contract.setName("Francis Eshun");
-                // setname.wait(2).then(async () => {
-                //   // read the contract again, similar to above
-                //   const read = await contract.name();
-                //   console.log("Updated name of contract is " + read.toString());
-                // });
-
-                const provider = new ethers.providers.Web3Provider(
-                  (window as any).ethereum
-                );
-                const signer = provider.getSigner();
-                const signerAddress = await signer.getAddress();
-
-                const tokensMinted = await contract?.tokensMinted(
-                  signerAddress
-                );
-
-                if (tokensMinted > 0) return;
-
-                const mint = await contract?.mint(1, {
-                  value: "1",
-                });
-
-                mint.wait(2).then(async () => {
-                  // read the contract again, similar to above
-                  const read = await contract?.name();
-                  console.log("Mint complete ");
-                });
-
-                // await contract.mint(1);
-
-                // console.log({ mint });
-              } catch (error: any) {
-                toast.error(error?.data?.message);
-                console.log(error);
-              }
+              handleMint();
             }}
             className="w-fit cursor-pointer rounded-xl border-0 bg-black py-6 px-16 uppercase transition-all hover:scale-105 hover:bg-black"
           >
