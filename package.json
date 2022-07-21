@@ -12,6 +12,7 @@
   "scripts": {
     "dev": "next dev",
     "staging": "env-cmd -f .env.staging yarn dev",
+    "production": "env-cmd -f .env.production yarn dev",
     "build": "next build",
     "start": "next start",
     "generate": "node art-engine/src/main.js",
