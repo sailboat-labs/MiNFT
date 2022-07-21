@@ -133,10 +133,9 @@ export default function SelectFolder({ className }: props) {
 
   const [browser, setBrowser] = useState(true);
   const showPopup = () => {
-    console.log("Show popup function");
     const userBrowser = navigator.userAgent;
     if (
-      // userBrowser.match(/chrome|chromium|crios/i) ||
+      userBrowser.match(/chrome|chromium|crios/i) ||
       userBrowser.match(/opr\//i) ||
       userBrowser.match(/edg/i)
     ) {
@@ -164,9 +163,13 @@ export default function SelectFolder({ className }: props) {
       <div className={browser ? "hidden" : "block h-full w-full"}>
         <Popup />
       </div>
-      <div className={browser ? "h-full w-full flex items-center justify-center" : "hidden"}>
+      <div
+        className={
+          browser ? "flex h-full w-full items-center justify-center" : "hidden"
+        }
+      >
         <div
-          className={`absolute z-[2] w-full h-auto max-w-md transform overflow-hidden rounded-2xl border-2 bg-white p-6 text-left align-middle transition-all duration-300 ${
+          className={`absolute z-[2] h-auto w-full max-w-md transform overflow-hidden rounded-2xl border-2 bg-white p-6 text-left align-middle transition-all duration-300 ${
             currentStep != "select-folder"
               ? "pointer-events-none -translate-x-[150%] opacity-30"
               : "pointer-events-auto translate-x-0 opacity-100"
