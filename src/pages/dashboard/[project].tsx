@@ -182,19 +182,23 @@ export default function DashboardHomePage() {
     );
 
   return (
-    <DashboardLayout
-      showTitleBar={selectedSidebar == "dashboard-home" ? false : true}
-      title={content.find((item) => item.value == selectedSidebar)?.label ?? ""}
-      titleBarEndChildren={
-        content.find((item) => item.value == selectedSidebar)?.titleOptions ??
-        ""
-      }
-      child={
-        content.find((item) => item.value == selectedSidebar)?.component ?? (
-          <></>
-        )
-      }
-    />
+    <div>
+      <DashboardLayout
+        showTitleBar={selectedSidebar == "dashboard-home" ? false : true}
+        title={
+          content.find((item) => item.value == selectedSidebar)?.label ?? ""
+        }
+        titleBarEndChildren={
+          content.find((item) => item.value == selectedSidebar)?.titleOptions ??
+          ""
+        }
+        child={
+          content.find((item) => item.value == selectedSidebar)?.component ?? (
+            <></>
+          )
+        }
+      />
+    </div>
   );
 }
 

@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { useState } from "react";
 
-import images from "./Images";
 import ButtonLink from "../links/ButtonLink";
 export default function SectionThree() {
   const [heading, setHeading] = useState("5,555 Indian Doctors");
@@ -18,7 +17,7 @@ export default function SectionThree() {
   };
 
   const [paragraphText, setParagraphText] = useState(
-    "The Indians is a collection of 5,555 NFTs, and is an exclusive club-MAX Chutiyas to the core. Each Indian has a dream to become a Doctor, Engineer or nothing in life. All collectibles are on the Ethereum blockchain where they can do the needful and save crypto. Your India will grant you Supreme Chutiya status and you will have access to all our upcoming events at your local Mandir."
+    "The Indians is a collection of 5,555 NFTs, and is an exclusive club - MAX Chutiyas to the core. Each Indian has a dream to become a Doctor or an Engineer in life, nothing else. All collectibles are on the Ethereum blockchain where they can do the needful and save crypto. Your Indian will grant you Supreme Chutiya status and you will have access to all our upcoming events at your local Mandir."
   );
 
   const changeParagraphText = (e: any) => {
@@ -59,7 +58,7 @@ export default function SectionThree() {
               disabled
               rows={3}
               id="sectionthree-heading"
-              className="h-80 w-full resize-none overflow-hidden whitespace-normal border-0 bg-transparent p-0 pb-8 font-serif text-8xl italic md:h-auto md:text-9xl "
+              className="h-80 w-full resize-none overflow-hidden whitespace-normal border-0 bg-transparent p-0 pb-8 font-serif text-8xl italic md:h-auto md:text-9xl lg:text-8xl "
               value={heading}
               onChange={changeHeading}
               onKeyDown={handleKeyDown}
@@ -70,7 +69,7 @@ export default function SectionThree() {
             <textarea
               disabled
               id="sectionthree-paragraph"
-              className="h-80 w-full resize-none overflow-hidden whitespace-normal border-0 bg-transparent font-dmsans text-base leading-relaxed hover:resize focus:resize md:h-44 lg:h-64"
+              className="h-80 w-full resize-none overflow-hidden whitespace-normal border-0 bg-transparent font-dmsans text-base leading-relaxed md:h-44 lg:h-64"
               value={paragraphText}
               onChange={changeParagraphText}
               onKeyDown={handleParagraphKeyDown}
@@ -88,39 +87,66 @@ export default function SectionThree() {
         </div>
         <div className="mt-20 flex w-full flex-row justify-evenly px-5 lg:mt-0 lg:w-7/12 lg:px-0">
           <div className="mt-14 md:mt-20 lg:mt-28">
-            <div className="m-2 bg-[#7f9dc3] md:m-4">
-              <img src={images.elements[3].src} alt={images.elements[3].alt} />
+            <div className="m-2 bg-[#7f9dc3] md:m-4 lg:m-2">
+              <img
+                src="/images/landing/indiansnfts/1.png"
+                alt="Indian NFT Example"
+              />
             </div>
-            <div className="m-2 bg-[#7f9dc3] md:m-4">
-              <img src={images.elements[4].src} alt={images.elements[4].alt} />
+            <div className="m-2 bg-[#7f9dc3] md:m-4 lg:m-2">
+              <img
+                src="/images/landing/indiansnfts/2.png"
+                alt="Indian NFT Example"
+              />
             </div>
-            <div className="m-2 bg-[#7f9dc3] md:m-4">
-              <img src={images.elements[5].src} alt={images.elements[5].alt} />
+            <div className="m-2 bg-[#7f9dc3] md:m-4 lg:m-2">
+              <img
+                src="/images/landing/indiansnfts/3.png"
+                alt="Indian NFT Example"
+              />
             </div>
           </div>
           <div>
-            <div className="m-2 bg-[#7f9dc3] md:m-4">
-              <img src={images.elements[2].src} alt={images.elements[2].alt} />
+            <div className="m-2 bg-[#7f9dc3] md:m-4 lg:m-2">
+              <img
+                src="/images/landing/indiansnfts/4.png"
+                alt="Indian NFT Example"
+              />
             </div>
-            <div className="m-2 bg-[#7f9dc3] md:m-4">
-              <img src={images.elements[1].src} alt={images.elements[1].alt} />
+            <div className="m-2 bg-[#7f9dc3] md:m-4 lg:m-2">
+              <img
+                src="/images/landing/indiansnfts/5.png"
+                alt="Indian NFT Example"
+              />
             </div>
-            <div className="m-2 bg-[#7f9dc3] md:m-4">
-              <img src={images.elements[7].src} alt={images.elements[7].alt} />
+            <div className="m-2 bg-[#7f9dc3] md:m-4 lg:m-2">
+              <img
+                src="/images/landing/indiansnfts/6.png"
+                alt="Indian NFT Example"
+              />
             </div>
             <div className="hidden h-24 items-center justify-center font-serif font-bold italic md:flex md:text-2xl lg:text-3xl">
               <span>&apos;&apos;Max Chutiya&apos;&apos;</span>
             </div>
           </div>
           <div className="mt-14 md:mt-20 lg:mt-28">
-            <div className="m-2 bg-[#7f9dc3] md:m-4">
-              <img src={images.elements[6].src} alt={images.elements[6].alt} />
+            <div className="m-2 bg-[#7f9dc3] md:m-4 lg:m-2">
+              <img
+                src="/images/landing/indiansnfts/7.png"
+                alt="Indian NFT Example"
+              />
             </div>
-            <div className="m-2 bg-[#7f9dc3] md:m-4">
-              <img src={images.elements[0].src} alt={images.elements[0].alt} />
+            <div className="m-2 bg-[#7f9dc3] md:m-4 lg:m-2">
+              <img
+                src="/images/landing/indiansnfts/8.png"
+                alt="Indian NFT Example"
+              />
             </div>
-            <div className="m-2 bg-[#7f9dc3] md:m-4">
-              <img src={images.elements[8].src} alt={images.elements[8].alt} />
+            <div className="m-2 bg-[#7f9dc3] md:m-4 lg:m-2">
+              <img
+                src="/images/landing/indiansnfts/9.png"
+                alt="Indian NFT Example"
+              />
             </div>
           </div>
         </div>
