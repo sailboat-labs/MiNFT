@@ -55,7 +55,7 @@ export default function LandingPage() {
 
   useEffect(() => {
     // if (!account || !isAuthenticated) return;
-    prepareContract();
+    // prepareContract();
   }, [chainId, network, isAuthenticated, account]);
 
   // if (!account || !isAuthenticated)
@@ -121,7 +121,7 @@ export default function LandingPage() {
           <Banner contract={contract} />
         </div>
       </div>
-      <div className="h-full bg-[#FF9933]">
+      <div className=" bg-[#FF9933]">
         <SectionTwo />
         <SectionThree />
         <SectionFour />

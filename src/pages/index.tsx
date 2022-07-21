@@ -10,7 +10,7 @@ export default function Homepage() {
   return (
     <div className="h-screen overflow-y-auto">
       <Header />
-      <div className="bg-dotted bg-repeat">
+      <div className="bg-repeat">
         <Banner />
         <Marquee />
         <Features />

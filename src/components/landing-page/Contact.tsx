@@ -57,7 +57,7 @@ export default function Contact({ projectSlug }: IContactProps) {
 
   useEffect(() => {
     const { success, twitterAccount, accessToken } = router.query;
-    connectWallet();
+    // connectWallet();
 
     if (success === "true") {
       verifyAccount(accessToken as string, twitterAccount as string);
