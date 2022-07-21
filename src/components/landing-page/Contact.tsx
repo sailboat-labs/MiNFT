@@ -10,7 +10,7 @@ import Web3Modal from "web3modal";
 import { firebaseApp } from "@/lib/firebase";
 
 import { checkTwitterExists, updateAccounts } from "@/firestore/project";
-import { addWhitelist } from "@/firestore/whitelist";
+import { addWhitelist, checkWhitelisted } from "@/firestore/whitelist";
 
 import Button from "../buttons/Button";
 
@@ -29,12 +29,13 @@ export default function Contact({ projectSlug }: IContactProps) {
 
   const projectAccount = "TheIndianNFTs";
 
-  const [heading, setHeading] = useState("Join the Bloody Bastards");
+  const now = new Date();
+  const [startDate, setStartDate] = useState(new Date(2022, 6));
+  const [endDate, setEndDate] = useState(new Date(2022, 10));
 
+  const [heading, setHeading] = useState("Join the Bloody Bastards");
   const [address, setAddress] = useState<string>();
-  const [follows, setFollows] = useState(true);
   const [loading, setLoading] = useState(false);
-  const [shouldProceed, setShouldProceed] = useState(false);
   const [twitterHandle, setTwitterHandle] = useState("");
 
   const [twitterLoading, setTwitterLoading] = useState(false);
@@ -55,7 +56,7 @@ export default function Contact({ projectSlug }: IContactProps) {
   }, [router]);
 
   useEffect(() => {
-    checkWhitelisted();
+    checkWhitelist();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address]);
 
@@ -65,6 +66,8 @@ export default function Contact({ projectSlug }: IContactProps) {
   };
 
   const connectWallet = async () => {
+    setError("");
+
     const web3Modal = new Web3Modal();
 
     const instance = await web3Modal.connect();
@@ -79,6 +82,8 @@ export default function Contact({ projectSlug }: IContactProps) {
   };
 
   const connectTwitter = async () => {
+    setError("");
+
     setTwitterLoading(true);
     const requestTwitterUrl = httpsCallable(functions, "requestTwitterUrl");
     requestTwitterUrl()
@@ -94,6 +99,8 @@ export default function Contact({ projectSlug }: IContactProps) {
   };
 
   const verifyAccount = async (accessToken: string, twitterAccount: string) => {
+    setError("");
+
     // const userClient = new TwitterApi(accessToken);
 
     // Get user ID
@@ -109,6 +116,8 @@ export default function Contact({ projectSlug }: IContactProps) {
   };
 
   const proceed = async () => {
+    setError("");
+
     setLoading(true);
 
     const checkFollows = httpsCallable(functions, "checkFollows");
@@ -124,7 +133,6 @@ export default function Contact({ projectSlug }: IContactProps) {
       .then(async (result: any) => {
         const { data } = result;
         if (data.success && data.isFollowing) {
-          setShouldProceed(true);
           await updateAccounts(projectSlug, twitterHandle);
           await addWhitelist({
             id: v4(),
@@ -134,6 +142,7 @@ export default function Contact({ projectSlug }: IContactProps) {
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),
           });
+          setWhitelisted(true);
         } else if (data.success && !data.isFollowing) {
           setError("This account is not following us");
         }
@@ -145,15 +154,15 @@ export default function Contact({ projectSlug }: IContactProps) {
     setLoading(false);
   };
 
-  const checkWhitelisted = async () => {
-    const isWhitelisted = httpsCallable(functions, "isWhitelisted");
+  const checkWhitelist = async () => {
+    setError("");
 
-    const { data }: any = await isWhitelisted({
-      project_slug: projectSlug,
-      wallet: address,
-    });
+    const isWhitelisted = await checkWhitelisted(
+      projectSlug,
+      (address as string) ?? ""
+    );
 
-    if (data.success && data.isWhitelisted) {
+    if (isWhitelisted) {
       setWhitelisted(true);
     } else {
       setWhitelisted(false);
@@ -161,8 +170,11 @@ export default function Contact({ projectSlug }: IContactProps) {
   };
 
   return (
-    <div id="join-whitelist">
-      <div className="flex flex-col items-center pt-40 pb-28 text-white md:mx-20 lg:flex-row">
+    <div
+      id="join-whitelist"
+      className="flex h-screen flex-col items-center justify-center"
+    >
+      <div className="flex flex-col items-center text-white md:mx-20 lg:flex-row">
         <div className="w-full md:w-1/2 lg:w-7/12">
           <textarea
             disabled
@@ -175,161 +187,116 @@ export default function Contact({ projectSlug }: IContactProps) {
           />
         </div>
 
-        <div className="flex  flex-col gap-8 rounded-lg bg-white py-4 text-black shadow-xl lg:w-5/12">
-          <div className="px-4">
-            <h3>Register</h3>
-            <p className="mt-2 text-gray-300">
-              Follow the steps below to add yourself to this list.
-            </p>
-          </div>
-
-          <div className="flex gap-4 bg-[#F8F9FA] py-2">
-            <p>
-              <span className="ml-4 font-extrabold text-[#2EBCDB]">
-                REQUIREMENTS,
-              </span>{" "}
-              TO REGISTER, YOU MUST:
-            </p>
-          </div>
-
-          <div className="flex flex-col gap-2 px-4">
-            <div className="flex gap-2">
-              <EthIcon className="h-6 w-6" />
-              <p>You must have at least 0.1 eth in your wallet</p>
-            </div>
-
-            <div className="flex gap-2">
-              <TwitterIcon className="h-6 w-6" />
-              <p>
-                Follow{" "}
-                <span
-                  onClick={() => {
-                    window.open(
-                      `https://twitter.com/${projectAccount}`,
-                      "_bank"
-                    );
-                    setFollows(true);
-                  }}
-                  className="cursor-pointer font-bold text-[#2EBCDB] underline"
-                >
-                  @{projectAccount}
-                </span>{" "}
-                on twitter{" "}
-              </p>
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-3 border-y-[1px] px-4 py-3">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <input
-                  disabled
-                  checked={address != undefined}
-                  type="radio"
-                  className="h-4 w-4"
-                />
-                <p> {address ? address : "Connect wallet"}</p>
-              </div>
-              <Button
-                onClick={connectWallet}
-                variant="success"
-                className="rounded-full hover:bg-gray-400"
-              >
-                Connect
-              </Button>
-            </div>
-
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <input
-                  disabled
-                  checked={twitterHandle != ""}
-                  type="radio"
-                  className="h-4 w-4"
-                />
-                <p>{twitterHandle ? twitterHandle : "Connect Twitter"} </p>
-              </div>
-              <Button
-                isLoading={twitterLoading}
-                onClick={connectTwitter}
-                variant="success"
-                className="rounded-full"
-              >
-                Connect
-              </Button>
-            </div>
-          </div>
-          {error && <p className="px-4 text-center text-red-400">{error}</p>}
-          <div className="px-4">
-            <Button
-              disabled
-              className="rounded-0 w-full cursor-pointer justify-center border-none py-4 text-xl font-bold text-white disabled:bg-[#A0A6AB] disabled:hover:bg-[#A0A6AB]"
-            >
-              Click to register
-            </Button>
-          </div>
-        </div>
-      </div>
-
-      <div className="flex items-center lg:ml-10">
-        {(shouldProceed || whitelisted) && (
-          <div className="h-80 w-full items-center justify-center">
-            <h1>All Good</h1>
-            {whitelisted && <p>Already whitelisted</p>}
+        {whitelisted && (
+          <div className="rounded-lg bg-white p-4 py-4 text-black shadow-xl lg:w-5/12">
+            <div>Hello,</div>
+            <p>Your wallet {address} is whitelisted</p>
           </div>
         )}
-        {!shouldProceed && !whitelisted && (
-          <div className="flex flex-col gap-4 text-gray-200">
-            {address && <p>{address}</p>}
 
-            {!address && (
+        {!whitelisted && (
+          <div className="flex flex-col gap-8 rounded-lg bg-white py-4 text-black shadow-xl lg:w-5/12">
+            <div className="px-4">
+              {endDate > now && <h3>Register</h3>}
+              {endDate <= now && (
+                <h3>
+                  Registration <span className="text-red-500">closed</span>
+                </h3>
+              )}
+              <p className="mt-2 text-gray-300">
+                Follow the steps below to add yourself to this list.
+              </p>
+            </div>
+
+            <div className="flex gap-4 bg-[#F8F9FA] py-2">
+              <p>
+                <span className="ml-4 font-extrabold text-[#2EBCDB]">
+                  REQUIREMENTS,
+                </span>{" "}
+                TO REGISTER, YOU MUST:
+              </p>
+            </div>
+
+            <div className="flex flex-col gap-2 px-4">
+              <div className="flex gap-2">
+                <EthIcon className="h-6 w-6" />
+                <p>You must have at least 0.1 eth in your wallet</p>
+              </div>
+
+              <div className="flex gap-2">
+                <TwitterIcon className="h-6 w-6" />
+                <p>
+                  Follow{" "}
+                  <span
+                    onClick={() => {
+                      window.open(
+                        `https://twitter.com/${projectAccount}`,
+                        "_bank"
+                      );
+                      setError("");
+                    }}
+                    className="cursor-pointer font-bold text-[#2EBCDB] underline"
+                  >
+                    @{projectAccount}
+                  </span>{" "}
+                  on twitter{" "}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-3 border-y-[1px] px-4 py-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <input
+                    disabled
+                    checked={address != undefined}
+                    type="radio"
+                    className="h-4 w-4"
+                  />
+                  <p className="text-clip"> {address ? address : "Connect wallet"}</p>
+                </div>
+                <Button
+                  onClick={connectWallet}
+                  variant="success"
+                  className="rounded-full hover:bg-gray-400"
+                >
+                  Connect
+                </Button>
+              </div>
+
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <input
+                    disabled
+                    checked={twitterHandle != ""}
+                    type="radio"
+                    className="h-4 w-4"
+                  />
+                  <p>{twitterHandle ? twitterHandle : "Connect Twitter"} </p>
+                </div>
+                <Button
+                  isLoading={twitterLoading}
+                  onClick={connectTwitter}
+                  variant="success"
+                  className="rounded-full"
+                >
+                  Connect
+                </Button>
+              </div>
+            </div>
+            {error && <p className="px-4 text-center text-red-400">{error}</p>}
+            <div className="px-4">
               <Button
-                onClick={connectWallet}
-                type="submit"
-                className="rounded-xl bg-[#006C35] py-5 px-12 text-xl"
+                onClick={proceed}
+                isLoading={loading}
+                disabled={
+                  endDate <= now || !address || !twitterHandle || error != ""
+                }
+                className="rounded-0 w-full cursor-pointer justify-center border-none bg-[#FF9933] py-4 text-xl font-bold text-white hover:bg-[#FF9933] disabled:bg-[#A0A6AB] disabled:hover:bg-[#A0A6AB]"
               >
-                Connect your wallet
+                Click to register
               </Button>
-            )}
-
-            {twitterHandle && <p>{twitterHandle}</p>}
-
-            {!twitterHandle && (
-              <Button
-                disabled={!address}
-                onClick={connectTwitter}
-                type="submit"
-                className="rounded-xl bg-[#006C35] py-5 px-12 text-xl"
-              >
-                Connect Twitter
-              </Button>
-            )}
-
-            {!follows && (
-              <Button
-                disabled={!address || !twitterHandle}
-                onClick={() => {
-                  window.open(`https://twitter.com/${projectAccount}`, "_bank");
-                  setFollows(true);
-                }}
-                type="submit"
-                className="rounded-xl bg-[#006C35] py-5 px-12 text-xl"
-              >
-                Follow Us
-              </Button>
-            )}
-
-            <Button
-              isLoading={loading}
-              onClick={() => proceed()}
-              disabled={!address || !follows || !twitterHandle}
-              type="submit"
-              className="rounded-xl bg-[#006C35] py-5 px-12 text-xl"
-            >
-              Reserve your Chutiya
-            </Button>
-
-            <p>{error}</p>
+            </div>
           </div>
         )}
       </div>
