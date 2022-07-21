@@ -2,20 +2,19 @@
 import { verifyWhitelistAddress } from "features/whitelist-verification/index.logic";
 import { useState } from "react";
 
+import PageLoader from "@/components/shared/PageLoader";
+
 export default function WhitelistVerify() {
   // list of addresses to be whitelisted
   const [address, setAddress] = useState<string>("");
   const [isVerified, setIsVerified] = useState<boolean | null>(null);
+  const [isChecking, setIsChecking] = useState(false);
 
-  const whitelist = [
-    "0x5b38da6a701c568545dcfcb03fcb875f56beddc4",
-    "0xab8483f64d9c6d1ecf9b849ae677dd3315835cb2",
-    "0x4b20993bc481177ec7e8f571cecae8a9e22c02db",
-  ];
-
-  function handleVerifyWhitelistAddress() {
-    const verified = verifyWhitelistAddress(whitelist, address);
+  async function handleVerifyWhitelistAddress() {
+    setIsChecking(true);
+    const verified = await verifyWhitelistAddress("indians-nft", address);
     setIsVerified(verified);
+    setIsChecking(false);
   }
 
   return (
@@ -39,20 +38,25 @@ export default function WhitelistVerify() {
         Enter Wallet Address (not ENS name)
       </div>
       <input
+        disabled={isChecking}
         onChange={(e) => {
           setAddress(e.target.value);
         }}
         className="min-w-[500px] rounded border-2 px-5 py-2 text-center"
         placeholder="Enter Wallet Address..."
       />
-      <div
-        onClick={() => {
-          handleVerifyWhitelistAddress();
-        }}
-        className="gradient-button mt-10"
-      >
-        Check Status
-      </div>
+      {isChecking ? (
+        <PageLoader className="mt-10" />
+      ) : (
+        <div
+          onClick={() => {
+            handleVerifyWhitelistAddress();
+          }}
+          className="gradient-button mt-10"
+        >
+          Check Status
+        </div>
+      )}
 
       <div className="absolute bottom-0 hidden flex-row justify-center overflow-hidden lg:flex">
         {[...Array(9)].map((_, index) => (
