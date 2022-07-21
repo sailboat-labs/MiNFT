@@ -3,6 +3,7 @@ import { ethers } from "ethers";
 import { getFunctions, httpsCallable } from "firebase/functions";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { useMoralis } from "react-moralis";
 import { v4 } from "uuid";
 import Web3Modal from "web3modal";
 import * as Yup from "yup";
@@ -26,7 +27,7 @@ export default function Contact({ projectSlug }: IContactProps) {
   const [heading, setHeading] = useState("Join the Bloody Bastards");
 
   const [address, setAddress] = useState<string>();
-  const [follows, setFollows] = useState(true);
+  const [follows, setFollows] = useState(false);
   const [loading, setLoading] = useState(false);
   const [shouldProceed, setShouldProceed] = useState(false);
   const [twitterHandle, setTwitterHandle] = useState("");
@@ -34,6 +35,25 @@ export default function Contact({ projectSlug }: IContactProps) {
   const [whitelisted, setWhitelisted] = useState(false);
 
   const [error, setError] = useState("");
+
+  const {
+    isAuthenticating,
+    isInitializing,
+    isInitialized,
+    initialize,
+    isAuthUndefined,
+    isWeb3Enabled,
+    isWeb3EnableLoading,
+    network,
+    authenticate,
+    isAuthenticated,
+    account,
+    chainId,
+    logout,
+    isLoggingOut,
+    isUnauthenticated,
+    authError,
+  } = useMoralis();
 
   useEffect(() => {
     const { success, twitterAccount, accessToken } = router.query;
@@ -65,14 +85,35 @@ export default function Contact({ projectSlug }: IContactProps) {
   });
 
   const connectWallet = async () => {
+    try {
+      await authenticate({
+        provider: "metamask",
+        signingMessage:
+          "Authenticate with Magic Mynt \nClick to sign in and accept the Magic Mynt Terms of Service.\n\n This request will not trigger a blockchain transaction \nor cost any gas fees.\nYour authentication status will reset after 24 hours",
+      })
+        .then(async (result) => {
+          if (result?.authenticated) {
+            const provider = new ethers.providers.Web3Provider(
+              (window as any).ethereum
+            );
+            const signer = provider.getSigner();
+
+            const _address = await signer.getAddress();
+            setAddress(_address);
+          }
+          logout();
+        })
+        .catch((reason) => {
+          console.error(reason);
+        });
+      // if(!isAuthenticated) logout();
+      //  window.localStorage.setItem("connectorId", connectorId);
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error(e);
+    }
+
     const web3Modal = new Web3Modal();
-
-    const instance = await web3Modal.connect();
-    const provider = new ethers.providers.Web3Provider(instance);
-    const signer = provider.getSigner();
-
-    const _address = await signer.getAddress();
-    setAddress(_address);
   };
 
   const connectTwitter = async () => {
