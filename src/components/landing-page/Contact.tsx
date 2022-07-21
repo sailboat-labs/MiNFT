@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { ethers } from "ethers";
 import { getFunctions, httpsCallable } from "firebase/functions";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useMoralis } from "react-moralis";
 import { v4 } from "uuid";
+import Web3Modal from "web3modal";
+import * as Yup from "yup";
 
 import { firebaseApp } from "@/lib/firebase";
 
@@ -18,30 +20,13 @@ interface IContactProps {
 
 export default function Contact({ projectSlug }: IContactProps) {
   const router = useRouter();
-  const {
-    isAuthenticating,
-    isInitializing,
-    isInitialized,
-    initialize,
-    isAuthUndefined,
-    isWeb3Enabled,
-    isWeb3EnableLoading,
-    network,
-    authenticate,
-    isAuthenticated,
-    account,
-    chainId,
-    logout,
-    isLoggingOut,
-    isUnauthenticated,
-    authError,
-  } = useMoralis();
 
   const projectAccount = "TheIndianNFTs";
 
   const [heading, setHeading] = useState("Join the Bloody Bastards");
 
-  const [follows, setFollows] = useState(false);
+  const [address, setAddress] = useState<string>();
+  const [follows, setFollows] = useState(true);
   const [loading, setLoading] = useState(false);
   const [shouldProceed, setShouldProceed] = useState(false);
   const [twitterHandle, setTwitterHandle] = useState("");
@@ -62,40 +47,32 @@ export default function Contact({ projectSlug }: IContactProps) {
   }, [router]);
 
   useEffect(() => {
-    if (!account || !isAuthenticated) return;
     checkWhitelisted();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [account, isAuthenticated]);
+  }, [address]);
 
   const changeHeading = (e: any) => {
     e.preventDefault();
     setHeading(e.target.value);
   };
 
+  const validate = Yup.object({
+    email: Yup.string()
+      .email("Invalid email address")
+      .required("Email is required"),
+    twitterUsername: Yup.string().required("Twitter username required"),
+    ETHaddress: Yup.string().required("ETH address required"),
+  });
+
   const connectWallet = async () => {
-    // const provider = new ethers.providers.Web3Provider(
-    //   (window as any).ethereum
-    // );
-    // const signer = provider.getSigner();
-    // const signerAddress = await signer.getAddress();
-    // setAddress(signerAddress);
-    // try {
-    //   await authenticate({
-    //     provider: "metamask",
-    //     signingMessage:
-    //       "Authenticate with Magic Mynt \nClick to sign in and accept the Magic Mynt Terms of Service.\n\n This request will not trigger a blockchain transaction \nor cost any gas fees.\nYour authentication status will reset after 24 hours",
-    //   })
-    //     .then((result) => {
-    //       if (result?.authenticated) return;
-    //       logout();
-    //     })
-    //     .catch((reason) => {
-    //       console.error(reason);
-    //     });
-    // } catch (e) {
-    //   // eslint-disable-next-line no-console
-    //   console.error(e);
-    // }
+    const web3Modal = new Web3Modal();
+
+    const instance = await web3Modal.connect();
+    const provider = new ethers.providers.Web3Provider(instance);
+    const signer = provider.getSigner();
+
+    const _address = await signer.getAddress();
+    setAddress(_address);
   };
 
   const connectTwitter = async () => {
@@ -103,7 +80,7 @@ export default function Contact({ projectSlug }: IContactProps) {
     requestTwitterUrl()
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .then((result: any) => {
-        window.open(result.data.authUrl, "_blank");
+        window.open(result.data.authUrl, "_bank");
       })
       .catch((error) => {
         console.log(error);
@@ -155,7 +132,7 @@ export default function Contact({ projectSlug }: IContactProps) {
             await addWhitelist({
               id: v4(),
               projectSlug,
-              wallet: account,
+              wallet: address,
               twitterUsername: twitterHandle,
               createdAt: new Date().toISOString(),
               updatedAt: new Date().toISOString(),
@@ -179,7 +156,7 @@ export default function Contact({ projectSlug }: IContactProps) {
 
     const { data }: any = await isWhitelisted({
       project_slug: projectSlug,
-      wallet: account,
+      wallet: address,
     });
 
     if (data.success && data.isWhitelisted) {
@@ -190,9 +167,9 @@ export default function Contact({ projectSlug }: IContactProps) {
   };
 
   return (
-    <div>
-      <div className="mx-auto flex w-4/5 flex-col items-center justify-center pt-40 pb-28 text-white lg:mx-auto lg:flex-row">
-        <div className="w-full lg:w-2/5">
+    <div id="join-whitelist">
+      <div className="mx-auto flex w-4/5 flex-col items-center pt-40 pb-28 text-white lg:flex-row">
+        <div className="w-full lg:w-3/5">
           <textarea
             disabled
             rows={3}
@@ -200,7 +177,7 @@ export default function Contact({ projectSlug }: IContactProps) {
             value={heading}
             onChange={changeHeading}
             onBlur={changeHeading}
-            className="w-full resize-none overflow-hidden whitespace-normal border-0 bg-transparent font-serif text-6xl font-bold italic md:text-9xl lg:text-8xl"
+            className="w-full resize-none overflow-hidden whitespace-normal border-0 bg-transparent font-serif text-6xl font-bold italic md:text-9xl lg:text-center"
           />
         </div>
         <div className="flex items-center lg:ml-10">
@@ -212,9 +189,9 @@ export default function Contact({ projectSlug }: IContactProps) {
           )}
           {!shouldProceed && !whitelisted && (
             <div className="flex flex-col gap-4 text-gray-200">
-              {account && isAuthenticated && <p>{account}</p>}
+              {address && <p>{address}</p>}
 
-              {!account && (
+              {!address && (
                 <Button
                   onClick={connectWallet}
                   type="submit"
@@ -228,7 +205,7 @@ export default function Contact({ projectSlug }: IContactProps) {
 
               {!twitterHandle && (
                 <Button
-                  disabled={!account}
+                  disabled={!address}
                   onClick={connectTwitter}
                   type="submit"
                   className="rounded-xl bg-[#006C35] py-5 px-12 text-xl"
@@ -239,7 +216,7 @@ export default function Contact({ projectSlug }: IContactProps) {
 
               {!follows && (
                 <Button
-                  disabled={!account || !twitterHandle}
+                  disabled={!address || !twitterHandle}
                   onClick={() => {
                     window.open(
                       `https://twitter.com/${projectAccount}`,
@@ -250,16 +227,14 @@ export default function Contact({ projectSlug }: IContactProps) {
                   type="submit"
                   className="rounded-xl bg-[#006C35] py-5 px-12 text-xl"
                 >
-                  Follow @TheIndianNFTs
+                  Follow Us
                 </Button>
               )}
 
               <Button
                 isLoading={loading}
                 onClick={() => proceed()}
-                disabled={
-                  !account || !follows || !twitterHandle || !isAuthenticated
-                }
+                disabled={!address || !follows || !twitterHandle}
                 type="submit"
                 className="rounded-xl bg-[#006C35] py-5 px-12 text-xl"
               >

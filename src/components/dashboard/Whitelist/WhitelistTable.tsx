@@ -23,8 +23,6 @@ export default function WhitelistTable() {
       project_slug: "indians-nft",
     });
 
-    console.log({ data });
-
     if (data.success) {
       setUsers(data.data);
     }
