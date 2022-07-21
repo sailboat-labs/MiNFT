@@ -1,7 +1,11 @@
+import { httpsCallable } from "firebase/functions";
 import { useState } from "react";
+import { v4 } from "uuid";
+
+import { functions } from "@/lib/firebase";
 
 import WhitelistTable from "./Whitelist/WhitelistTable";
-import ButtonLink from "../links/ButtonLink";
+import Button from "../buttons/Button";
 
 export default function Whitelist() {
   const [walletNumber, setWalletNumber] = useState("");
@@ -26,6 +30,23 @@ export default function Whitelist() {
   const updateTwitterAccount = (e: any) => {
     e.preventDefault();
     setTwitterAccount(e.target.value);
+  };
+
+  const newUser = async () => {
+    const addWhitelist = httpsCallable(functions, "addWhitelist");
+
+    await addWhitelist({
+      id: v4(),
+      projectSlug: "indians-nft",
+      wallet: walletNumber,
+      twitterUsername: twitterAccount,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    });
+
+    setTwitterAccount("");
+    setWalletNumber("");
+
   };
 
   return (
@@ -115,12 +136,15 @@ export default function Whitelist() {
               {/* SUBMIT FORM */}
               <div className="block font-montserrat">
                 <button type="submit">
-                  <ButtonLink
-                    href="#"
+                  <Button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      newUser();
+                    }}
                     className="gradient-button mt-5 transition-all"
                   >
                     Add person
-                  </ButtonLink>
+                  </Button>
                 </button>
               </div>
             </div>
