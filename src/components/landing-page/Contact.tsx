@@ -253,7 +253,10 @@ export default function Contact({ projectSlug }: IContactProps) {
                     type="radio"
                     className="h-4 w-4"
                   />
-                  <p className="text-clip"> {address ? address : "Connect wallet"}</p>
+                  <p className="text-clip">
+                    {" "}
+                    {address ? address : "Connect Wallet"}
+                  </p>
                 </div>
                 <Button
                   onClick={connectWallet}
@@ -275,10 +278,11 @@ export default function Contact({ projectSlug }: IContactProps) {
                   <p>{twitterHandle ? twitterHandle : "Connect Twitter"} </p>
                 </div>
                 <Button
+                  disabled={!address}
                   isLoading={twitterLoading}
                   onClick={connectTwitter}
                   variant="success"
-                  className="rounded-full"
+                  className="rounded-full disabled:bg-[#A0A6AB]"
                 >
                   Connect
                 </Button>
