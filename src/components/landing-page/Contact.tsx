@@ -250,6 +250,14 @@ export default function Contact({ projectSlug }: IContactProps) {
           <div className="rounded-lg bg-white p-4 py-4 text-black shadow-xl lg:w-5/12">
             <div>Hello,</div>
             <p>Your wallet {address} is whitelisted</p>
+            <Button
+              onClick={() => {
+                router.push("/indiansnft/whitelist/verify");
+              }}
+              className="rounded-0 mt-10 w-fit cursor-pointer justify-center border-none bg-[#FF9933] py-3 font-bold text-white hover:bg-[#FF9933] disabled:bg-[#A0A6AB] disabled:hover:bg-[#A0A6AB]"
+            >
+              Verify Whitelist Status
+            </Button>
           </div>
         )}
 
