@@ -89,13 +89,9 @@ export default function Contact({ projectSlug }: IContactProps) {
   useEffect(() => {
     if (account && isAuthenticated) {
       setAddress(account);
-      console.log("saving account", account);
       setItem("account", account, "local");
-      console.log({ account: getItem("account", "local") });
       setItem("isAuthenticated", isAuthenticated?.toString(), "local");
     } else {
-      console.log("Not authenticated");
-      console.log({ account: getItem("account", "local") });
       if (
         getItem("isAuthenticated", "local") == "true" &&
         getItem("account", "local")
