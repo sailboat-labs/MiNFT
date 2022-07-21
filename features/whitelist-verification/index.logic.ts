@@ -18,7 +18,6 @@ export function verifyWhitelistAddress(whitelist: string[], address: string) {
   const proof = merkleeTree.getHexProof(leaf);
 
   const verify = merkleeTree.verify(proof, leaf, rootHash);
-  console.log(verify);
 
   return verify;
 }

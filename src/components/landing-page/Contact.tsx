@@ -1,11 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ethers } from "ethers";
 import { getFunctions, httpsCallable } from "firebase/functions";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { useMoralis } from "react-moralis";
 import { v4 } from "uuid";
-import Web3Modal from "web3modal";
-import * as Yup from "yup";
 
 import { firebaseApp } from "@/lib/firebase";
 
@@ -20,12 +18,29 @@ interface IContactProps {
 
 export default function Contact({ projectSlug }: IContactProps) {
   const router = useRouter();
+  const {
+    isAuthenticating,
+    isInitializing,
+    isInitialized,
+    initialize,
+    isAuthUndefined,
+    isWeb3Enabled,
+    isWeb3EnableLoading,
+    network,
+    authenticate,
+    isAuthenticated,
+    account,
+    chainId,
+    logout,
+    isLoggingOut,
+    isUnauthenticated,
+    authError,
+  } = useMoralis();
 
   const projectAccount = "TheIndianNFTs";
 
   const [heading, setHeading] = useState("Join the Bloody Bastards");
 
-  const [address, setAddress] = useState<string>();
   const [follows, setFollows] = useState(false);
   const [loading, setLoading] = useState(false);
   const [shouldProceed, setShouldProceed] = useState(false);
@@ -47,32 +62,40 @@ export default function Contact({ projectSlug }: IContactProps) {
   }, [router]);
 
   useEffect(() => {
+    if (!account || !isAuthenticated) return;
     checkWhitelisted();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [address]);
+  }, [account, isAuthenticated]);
 
   const changeHeading = (e: any) => {
     e.preventDefault();
     setHeading(e.target.value);
   };
 
-  const validate = Yup.object({
-    email: Yup.string()
-      .email("Invalid email address")
-      .required("Email is required"),
-    twitterUsername: Yup.string().required("Twitter username required"),
-    ETHaddress: Yup.string().required("ETH address required"),
-  });
-
   const connectWallet = async () => {
-    const web3Modal = new Web3Modal();
-
-    const instance = await web3Modal.connect();
-    const provider = new ethers.providers.Web3Provider(instance);
-    const signer = provider.getSigner();
-
-    const _address = await signer.getAddress();
-    setAddress(_address);
+    // const provider = new ethers.providers.Web3Provider(
+    //   (window as any).ethereum
+    // );
+    // const signer = provider.getSigner();
+    // const signerAddress = await signer.getAddress();
+    // setAddress(signerAddress);
+    // try {
+    //   await authenticate({
+    //     provider: "metamask",
+    //     signingMessage:
+    //       "Authenticate with Magic Mynt \nClick to sign in and accept the Magic Mynt Terms of Service.\n\n This request will not trigger a blockchain transaction \nor cost any gas fees.\nYour authentication status will reset after 24 hours",
+    //   })
+    //     .then((result) => {
+    //       if (result?.authenticated) return;
+    //       logout();
+    //     })
+    //     .catch((reason) => {
+    //       console.error(reason);
+    //     });
+    // } catch (e) {
+    //   // eslint-disable-next-line no-console
+    //   console.error(e);
+    // }
   };
 
   const connectTwitter = async () => {
@@ -80,7 +103,7 @@ export default function Contact({ projectSlug }: IContactProps) {
     requestTwitterUrl()
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .then((result: any) => {
-        window.open(result.data.authUrl, "_bank");
+        window.open(result.data.authUrl, "_blank");
       })
       .catch((error) => {
         console.log(error);
@@ -132,7 +155,7 @@ export default function Contact({ projectSlug }: IContactProps) {
             await addWhitelist({
               id: v4(),
               projectSlug,
-              wallet: address,
+              wallet: account,
               twitterUsername: twitterHandle,
               createdAt: new Date().toISOString(),
               updatedAt: new Date().toISOString(),
@@ -156,7 +179,7 @@ export default function Contact({ projectSlug }: IContactProps) {
 
     const { data }: any = await isWhitelisted({
       project_slug: projectSlug,
-      wallet: address,
+      wallet: account,
     });
 
     if (data.success && data.isWhitelisted) {
@@ -189,9 +212,9 @@ export default function Contact({ projectSlug }: IContactProps) {
           )}
           {!shouldProceed && !whitelisted && (
             <div className="flex flex-col gap-4 text-gray-200">
-              {address && <p>{address}</p>}
+              {account && isAuthenticated && <p>{account}</p>}
 
-              {!address && (
+              {!account && (
                 <Button
                   onClick={connectWallet}
                   type="submit"
@@ -205,7 +228,7 @@ export default function Contact({ projectSlug }: IContactProps) {
 
               {!twitterHandle && (
                 <Button
-                  disabled={!address}
+                  disabled={!account}
                   onClick={connectTwitter}
                   type="submit"
                   className="rounded-xl bg-[#006C35] py-5 px-12 text-xl"
@@ -216,7 +239,7 @@ export default function Contact({ projectSlug }: IContactProps) {
 
               {!follows && (
                 <Button
-                  disabled={!address || !twitterHandle}
+                  disabled={!account || !twitterHandle}
                   onClick={() => {
                     window.open(
                       `https://twitter.com/${projectAccount}`,
@@ -227,14 +250,16 @@ export default function Contact({ projectSlug }: IContactProps) {
                   type="submit"
                   className="rounded-xl bg-[#006C35] py-5 px-12 text-xl"
                 >
-                  Follow Us
+                  Follow @TheIndianNFTs
                 </Button>
               )}
 
               <Button
                 isLoading={loading}
                 onClick={() => proceed()}
-                disabled={!address || !follows || !twitterHandle}
+                disabled={
+                  !account || !follows || !twitterHandle || !isAuthenticated
+                }
                 type="submit"
                 className="rounded-xl bg-[#006C35] py-5 px-12 text-xl"
               >

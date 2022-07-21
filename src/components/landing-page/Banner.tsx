@@ -44,6 +44,11 @@ export default function Banner({ contract }: props) {
     let baseURI = await contract?.baseURI();
     const baseExtension = await contract?.baseExtension();
     const name = await contract?.name();
+    const hasMintStarted = await contract?.hasMintStarted();
+    const _startingTimestamp = await contract?.startingTimestamp();
+    const startingTimestamp = parseInt(_startingTimestamp?._hex);
+    const _endingTimestamp = await contract?.endingTimestamp();
+    const endingTimestamp = parseInt(_endingTimestamp?._hex);
     const tokenURI = await contract?.tokenURI(1);
     // await contract?.setBaseURI(
     //   "https://gateway.pinata.cloud/ipfs/QmP2oPenwx9tMuQuCzAefvVfv8sjLPneT6Lea53XirhAYJ"
@@ -51,7 +56,15 @@ export default function Banner({ contract }: props) {
     // await contract?.setBaseExtension(".json");
     baseURI = await contract?.baseURI();
 
-    console.log({ baseURI, name, tokenURI, baseExtension });
+    console.log({
+      baseURI,
+      name,
+      tokenURI,
+      baseExtension,
+      hasMintStarted,
+      startingTimestamp,
+      endingTimestamp,
+    });
 
     setTotalQuantity(parseInt(totalQuantity?._hex));
     setTotalSupply(parseInt(totalSupply?._hex));
@@ -136,6 +149,13 @@ export default function Banner({ contract }: props) {
           >
             {mintButtonText}
           </div>
+
+          {/* {typeof window !== "undefined" && (
+            <DateCountdown
+              dateTo="January 01, 2023 00:00:00 GMT+03:00"
+              callback={() => alert("Hello")}
+            />
+          )} */}
 
           <div className="mt-10 w-[500px]">
             <div className="mb-1 flex justify-between">
