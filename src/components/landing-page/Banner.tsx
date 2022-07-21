@@ -123,7 +123,7 @@ export default function Banner({ contract }: props) {
   }
 
   useEffect(() => {
-    preparePage();
+    // preparePage();
   }, [contract]);
 
   return (
