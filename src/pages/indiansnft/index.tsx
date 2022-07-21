@@ -16,24 +16,8 @@ export default function LandingPage() {
     undefined
   );
 
-  const {
-    isAuthenticating,
-    isInitializing,
-    isInitialized,
-    initialize,
-    isAuthUndefined,
-    isWeb3Enabled,
-    isWeb3EnableLoading,
-    network,
-    authenticate,
-    isAuthenticated,
-    account,
-    chainId,
-    logout,
-    isLoggingOut,
-    isUnauthenticated,
-    authError,
-  } = useMoralis();
+  const { network, authenticate, isAuthenticated, account, chainId, logout } =
+    useMoralis();
 
   // const contractAddress = "0x7311102EcC5a3Effb9Fc2e734d918A4eb448A13E";
   const contractAddress = "0xd1aFbbdf886cc20E5c683B06444a116aDCe11F8E";
