@@ -259,9 +259,10 @@ export default function Contact({ projectSlug }: IContactProps) {
                   </p>
                 </div>
                 <Button
+                  disabled={address != undefined}
                   onClick={connectWallet}
                   variant="success"
-                  className="rounded-full hover:bg-gray-400"
+                  className="rounded-full hover:bg-gray-400 disabled:bg-[#A0A6AB] disabled:hover:bg-[#A0A6AB]"
                 >
                   Connect
                 </Button>
@@ -282,7 +283,7 @@ export default function Contact({ projectSlug }: IContactProps) {
                   isLoading={twitterLoading}
                   onClick={connectTwitter}
                   variant="success"
-                  className="rounded-full disabled:bg-[#A0A6AB]"
+                  className="rounded-full disabled:bg-[#A0A6AB] disabled:hover:bg-[#A0A6AB]"
                 >
                   Connect
                 </Button>
