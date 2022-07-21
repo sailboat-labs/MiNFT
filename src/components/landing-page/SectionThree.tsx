@@ -79,7 +79,7 @@ export default function SectionThree() {
           </div>
           <div className="flex justify-start pt-3 pb-5">
             <ButtonLink
-              href=""
+              href="#join-whitelist"
               className="rounded-xl border-0 bg-[#006C35] py-6 px-20 text-xl hover:bg-black"
             >
               Say Jai Mata Di

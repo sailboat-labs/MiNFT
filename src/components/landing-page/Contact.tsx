@@ -167,7 +167,7 @@ export default function Contact({ projectSlug }: IContactProps) {
   };
 
   return (
-    <div>
+    <div id="join-whitelist">
       <div className="mx-auto flex w-4/5 flex-col items-center pt-40 pb-28 text-white lg:flex-row">
         <div className="w-full lg:w-3/5">
           <textarea

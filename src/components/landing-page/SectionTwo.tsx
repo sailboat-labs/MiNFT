@@ -63,7 +63,7 @@ export default function SectionTwo() {
           </div>
           <div className="flex justify-center pt-10 pb-5 md:pt-3">
             <ButtonLink
-              href=""
+              href="#join-whitelist"
               className="rounded-xl border-0 bg-[#006C35] py-6 px-20 text-xl hover:bg-black"
             >
               Say Jai Ho

@@ -16,10 +16,10 @@ export default function Header() {
           </UnstyledLink>
         </div>
         <div className="hidden space-x-20 lg:block">
-          <UnstyledLink href="/whitelist">Join Whitelist</UnstyledLink>
-          <UnstyledLink href="">Become a Bhenchod</UnstyledLink>
-          <UnstyledLink href="">About</UnstyledLink>
-          <UnstyledLink href="">Collection</UnstyledLink>
+          <UnstyledLink href="#join-whitelist">Join Whitelist</UnstyledLink>
+          <UnstyledLink href="#join-whitelist">Become a Bhenchod</UnstyledLink>
+          {/* <UnstyledLink href="">About</UnstyledLink>
+          <UnstyledLink href="">Collection</UnstyledLink> */}
         </div>
         <div className="mr-1 hidden flex-row items-center justify-end space-x-3 lg:flex">
           <UnstyledLink href="https://discord.gg/AqKBQjPZ" target="_blank">
