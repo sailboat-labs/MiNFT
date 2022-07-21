@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 type props = {
-  contract: ethers.Contract | undefined;
+  contract?: ethers.Contract | undefined;
 };
 
 export default function Banner({ contract }: props) {

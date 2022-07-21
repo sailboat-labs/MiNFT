@@ -30,12 +30,6 @@ export default function Header() {
           >
             <img src={images.twitterSrc} alt="Twitter" />
           </UnstyledLink>
-          {/* <ButtonLink
-            href=""
-            className="rounded-2xl border-black bg-black py-3 px-12 uppercase hover:bg-black"
-          >
-            MINT NOW
-          </ButtonLink> */}
         </div>
       </div>
     </div>
