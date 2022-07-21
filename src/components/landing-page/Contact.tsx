@@ -3,11 +3,14 @@ import { ethers } from "ethers";
 import { getFunctions, httpsCallable } from "firebase/functions";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { v4 } from "uuid";
 import Web3Modal from "web3modal";
-import * as Yup from "yup";
 
 import { firebaseApp } from "@/lib/firebase";
+
+import { checkTwitterExists, updateAccounts } from "@/firestore/project";
+import { addWhitelist } from "@/firestore/whitelist";
 
 import Button from "../buttons/Button";
 
@@ -56,14 +59,6 @@ export default function Contact({ projectSlug }: IContactProps) {
     setHeading(e.target.value);
   };
 
-  const validate = Yup.object({
-    email: Yup.string()
-      .email("Invalid email address")
-      .required("Email is required"),
-    twitterUsername: Yup.string().required("Twitter username required"),
-    ETHaddress: Yup.string().required("ETH address required"),
-  });
-
   const connectWallet = async () => {
     const web3Modal = new Web3Modal();
 
@@ -106,47 +101,35 @@ export default function Contact({ projectSlug }: IContactProps) {
     setLoading(true);
 
     const checkFollows = httpsCallable(functions, "checkFollows");
-    const checkExists = httpsCallable(functions, "checkExists");
-    const updateAccounts = httpsCallable(functions, "updateAccounts");
-    const addWhitelist = httpsCallable(functions, "addWhitelist");
 
-    const { data }: any = await checkExists({
-      project_slug: projectSlug,
+    const twitterExists = await checkTwitterExists(projectSlug, twitterHandle);
+    if (twitterExists) return toast.error("Twitter account is in use");
+
+    await checkFollows({
       user_account: twitterHandle,
-    });
-
-    if (data.success && !data.exists) {
-      checkFollows({
-        user_account: twitterHandle,
-        project_account: projectAccount,
+      project_account: projectAccount,
+    })
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .then(async (result: any) => {
+        const { data } = result;
+        if (data.success && data.isFollowing) {
+          setShouldProceed(true);
+          await updateAccounts(projectSlug, twitterHandle);
+          await addWhitelist({
+            id: v4(),
+            projectSlug,
+            wallet: address,
+            twitterUsername: twitterHandle,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+          });
+        } else if (data.success && !data.isFollowing) {
+          setError("This account is not following us");
+        }
       })
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        .then(async (result: any) => {
-          const { data } = result;
-          if (data.success && data.isFollowing) {
-            setShouldProceed(true);
-            await updateAccounts({
-              project_slug: projectSlug,
-              user_account: twitterHandle,
-            });
-            await addWhitelist({
-              id: v4(),
-              projectSlug,
-              wallet: address,
-              twitterUsername: twitterHandle,
-              createdAt: new Date().toISOString(),
-              updatedAt: new Date().toISOString(),
-            });
-          } else if (data.success && !data.isFollowing) {
-            setError("This account is not following us");
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    } else if (data.success && data.exists) {
-      setError("This account is already in use");
-    }
+      .catch((error) => {
+        console.log(error);
+      });
 
     setLoading(false);
   };
