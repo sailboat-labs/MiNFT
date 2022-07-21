@@ -9,6 +9,8 @@ export function verifyWhitelistAddress(whitelist: string[], address: string) {
   const merkleeTree = new MerkleTree(leafNodes, keccak256, { sortPairs: true });
 
   // // Get the root hash
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   const rootHash = merkleeTree.getHexRoot().toString("hex");
 
   // // Verifying an address
