@@ -135,7 +135,7 @@ export default function SelectFolder({ className }: props) {
   const showPopup = () => {
     const userBrowser = navigator.userAgent;
     if (
-      userBrowser.match(/chrome|chromium|crios/i) ||
+      userBrowser.match(/chrome/i) ||
       userBrowser.match(/opr\//i) ||
       userBrowser.match(/edg/i)
     ) {
@@ -159,7 +159,7 @@ export default function SelectFolder({ className }: props) {
           : `flex h-[40rem] items-center justify-center  ${className}`
       }
       onClick={() => hidePopup()}
-    >
+    > 
       <div className={browser ? "hidden" : "block h-full w-full"}>
         <Popup />
       </div>
