@@ -5,6 +5,7 @@ import { setLayers } from "redux/reducers/slices/layers";
 import { DEMO_PROJECT } from "@/data/DemoProject";
 
 import NewProperty from "./NewProperty";
+import Popup from "./Popup";
 
 import { NFTLayer } from "@/types";
 
@@ -130,41 +131,48 @@ export default function SelectFolder({ className }: props) {
     return files;
   }
 
+  const [browser, setBrowser] = useState(true);
+  const showPopup = () => {
+    console.log("Show popup function");
+    const userBrowser = navigator.userAgent;
+    if (
+      // userBrowser.match(/chrome|chromium|crios/i) ||
+      userBrowser.match(/opr\//i) ||
+      userBrowser.match(/edg/i)
+    ) {
+      viewAllFiles();
+    } else {
+      setBrowser(!browser);
+    }
+  };
+
+  const hidePopup = () => {
+    if (!browser) {
+      setBrowser(!browser);
+    }
+  };
+
   return (
-    <div className={`flex h-[40rem] items-center justify-center  ${className}`}>
-      <div
-        className={`absolute z-[2] w-full max-w-md transform overflow-hidden rounded-2xl border-2 bg-white p-6 text-left align-middle transition-all duration-300 ${
-          currentStep != "select-folder"
-            ? "pointer-events-none -translate-x-[150%] opacity-30"
-            : "pointer-events-auto translate-x-0 opacity-100"
-        }`}
-      >
-        <div className="text-lg font-medium leading-6 text-gray-900">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth="2"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
-            />
-          </svg>
-          Let&apos;s get started
-        </div>
-        <div className="mt-4 flex w-full ">
-          <button
-            type="button"
-            className="inline-flex items-center justify-center gap-3 rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-            onClick={() => {
-              dispatch(setLayers(DEMO_PROJECT));
-            }}
-          >
-            Try with a demo project
+    <div
+      className={
+        !browser
+          ? `bottom-0 flex h-[40rem] items-center justify-center bg-gray-200  ${className}`
+          : `flex h-[40rem] items-center justify-center  ${className}`
+      }
+      onClick={() => hidePopup()}
+    >
+      <div className={browser ? "hidden" : "block h-full w-full"}>
+        <Popup />
+      </div>
+      <div className={browser ? "h-full w-full flex items-center justify-center" : "hidden"}>
+        <div
+          className={`absolute z-[2] w-full h-auto max-w-md transform overflow-hidden rounded-2xl border-2 bg-white p-6 text-left align-middle transition-all duration-300 ${
+            currentStep != "select-folder"
+              ? "pointer-events-none -translate-x-[150%] opacity-30"
+              : "pointer-events-auto translate-x-0 opacity-100"
+          }`}
+        >
+          <div className="text-lg font-medium leading-6 text-gray-900">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-6 w-6"
@@ -176,97 +184,124 @@ export default function SelectFolder({ className }: props) {
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
               />
             </svg>
-          </button>
-        </div>
-        <div className="my-5 h-1 flex-1 rounded-xl border-2 "></div>
+            Let&apos;s get started
+          </div>
+          <div className="mt-4 flex w-full ">
+            <button
+              type="button"
+              className="inline-flex items-center justify-center gap-3 rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+              onClick={() => {
+                dispatch(setLayers(DEMO_PROJECT));
+              }}
+            >
+              Try with a demo project
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+            </button>
+          </div>
+          <div className="my-5 h-1 flex-1 rounded-xl border-2 "></div>
 
-        <div className="text-lg font-medium leading-6 text-gray-900">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth="2"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
-            />
-          </svg>
-          Select a project folder
-        </div>
-        <div className="mt-2">
-          <p className="text-sm text-gray-500">
-            Select a folder to import. Selected folder should contain a folder
-            for each trait with a file for each trait variation
+          <div className="text-lg font-medium leading-6 text-gray-900">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
+              />
+            </svg>
+            Select a project folder
+          </div>
+          <div className="mt-2">
+            <p className="text-sm text-gray-500">
+              Select a folder to import. Selected folder should contain a folder
+              for each trait with a file for each trait variation
+            </p>
+          </div>
+
+          <div className="mt-4 flex w-full ">
+            <button
+              type="button"
+              className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+              onClick={() => {
+                showPopup();
+              }}
+            >
+              Select Folder
+            </button>
+          </div>
+
+          <div className="my-5 h-1 flex-1 rounded-xl border-2 "></div>
+          <p className="text-lg font-medium leading-6 text-gray-900">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+              />
+            </svg>
+            Add Layers and traits manually
           </p>
+          <div className="mt-2">
+            <p className="text-sm text-gray-500">
+              Add a new layer and select traits for them. More can be added
+              later
+            </p>
+          </div>
+          <div className="mt-4 flex w-full">
+            <button
+              type="button"
+              className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+              onClick={() => {
+                setCurrentStep("new-property");
+              }}
+            >
+              Add New Layer
+            </button>
+          </div>
         </div>
 
-        <div className="mt-4 flex w-full ">
-          <button
-            type="button"
-            className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-            onClick={() => {
-              viewAllFiles();
+        <div
+          className={`w-2/5 transition-all duration-500 ${
+            currentStep == "new-property"
+              ? "pointer-events-auto translate-x-0 opacity-100"
+              : "pointer-events-none translate-x-52 opacity-0"
+          }`}
+        >
+          <NewProperty
+            onDiscard={() => {
+              setCurrentStep("select-folder");
             }}
-          >
-            Select Folder
-          </button>
+          />
         </div>
-
-        <div className="my-5 h-1 flex-1 rounded-xl border-2 "></div>
-        <p className="text-lg font-medium leading-6 text-gray-900">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth="2"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
-            />
-          </svg>
-          Add Layers and traits manually
-        </p>
-        <div className="mt-2">
-          <p className="text-sm text-gray-500">
-            Add a new layer and select traits for them. More can be added later
-          </p>
-        </div>
-        <div className="mt-4 flex w-full">
-          <button
-            type="button"
-            className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-            onClick={() => {
-              setCurrentStep("new-property");
-            }}
-          >
-            Add New Layer
-          </button>
-        </div>
-      </div>
-
-      <div
-        className={`w-2/5 transition-all duration-500 ${
-          currentStep == "new-property"
-            ? "pointer-events-auto translate-x-0 opacity-100"
-            : "pointer-events-none translate-x-52 opacity-0"
-        }`}
-      >
-        <NewProperty
-          onDiscard={() => {
-            setCurrentStep("select-folder");
-          }}
-        />
       </div>
     </div>
   );

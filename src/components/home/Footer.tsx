@@ -1,27 +1,26 @@
 // ! Change the links in the footer to point to the correct page when flows are done.
 // ! Also update the links to social media pages
 
-import UnstyledLink from "../links/UnstyledLink";
+// import UnstyledLink from "../links/UnstyledLink";
 
-import FacebookSVG from "~/svg/socials/facebook.svg";
-import InstagramSVG from "~/svg/socials/instagram.svg";
-import LinkedinSVG from "~/svg/socials/linkedin.svg";
-import PinterestSVG from "~/svg/socials/pinterest.svg";
-import TwitterSVG from "~/svg/socials/twitter.svg";
-import YoutubeSVG from "~/svg/socials/youtube.svg";
+// import FacebookSVG from "~/svg/socials/facebook.svg";
+// import InstagramSVG from "~/svg/socials/instagram.svg";
+// import LinkedinSVG from "~/svg/socials/linkedin.svg";
+// import PinterestSVG from "~/svg/socials/pinterest.svg";
+// import TwitterSVG from "~/svg/socials/twitter.svg";
+// import YoutubeSVG from "~/svg/socials/youtube.svg";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <div className="h-auto w-full bg-white pb-10 border-t border-black font-montserrat font-medium text-[#1F1A17]">
-      <div className="m-auto flex w-10/12 flex-col justify-between pt-10 sm:flex-row">
-        <div className="h-10 w-96 text-base opacity-100">
-          <div>Copyright &copy; {currentYear}</div>
-          <div>NFT Trait Combo. All rights reserved.</div>
+    <div className="h-auto w-full border-t border-black bg-white pb-10 font-montserrat font-medium text-[#1F1A17]">
+      <div className="m-auto flex w-10/12 flex-col items-center pt-10 sm:flex-row lg:w-4/5">
+        <div className="m-auto h-10 w-4/5 text-lg opacity-100 lg:w-3/4">
+          <div>&copy; {currentYear} Magic Mynt. All rights reserved.</div>
         </div>
 
-        <div>
+        {/* <div>
           <div className="mt-5 flex w-96 flex-col justify-between text-base sm:mt-0 sm:flex-row">
             <UnstyledLink href="/get-started">Get Started</UnstyledLink>
             <UnstyledLink href="/contact-us">Contact us</UnstyledLink>
@@ -53,7 +52,7 @@ export default function Footer() {
               <InstagramSVG className="h-14 w-14" />
             </UnstyledLink>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

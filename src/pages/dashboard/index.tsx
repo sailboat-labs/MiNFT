@@ -2,7 +2,6 @@
 
 import axios from "axios";
 import dashify from "dashify";
-import { formatEthAddress } from "eth-address";
 import {
   collection,
   DocumentData,
@@ -205,7 +204,7 @@ export default function DashboardGetStarted() {
               <div className="pt-10 font-dmsans text-xl text-gray-500">
                 {getItem("isAuthenticated") == "true" &&
                   getItem("account") &&
-                  formatEthAddress(getItem("account"))}
+                  getItem("account")}
               </div>
               <div className="mb-10  font-dmsans text-2xl">Recent Projects</div>
               {loading && (
