@@ -1,18 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { formatEthAddress } from "eth-address";
 import { ethers } from "ethers";
 import { getFunctions, httpsCallable } from "firebase/functions";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { useMoralis } from "react-moralis";
 import { toast } from "react-toastify";
 import { v4 } from "uuid";
-import Web3Modal from "web3modal";
 
 import { firebaseApp } from "@/lib/firebase";
+import useStorage from "@/hooks/storage";
 
 import { checkTwitterExists, updateAccounts } from "@/firestore/project";
 import { addWhitelist, checkWhitelisted } from "@/firestore/whitelist";
 
 import Button from "../buttons/Button";
+import PageLoader from "../shared/PageLoader";
 
 import EthIcon from "~/svg/icons8-ethereum.svg";
 import TwitterIcon from "~/svg/icons8-twitter.svg";
@@ -41,15 +44,38 @@ export default function Contact({ projectSlug }: IContactProps) {
   const [twitterLoading, setTwitterLoading] = useState(false);
 
   const [whitelisted, setWhitelisted] = useState(false);
+  const { getItem, setItem, removeItem } = useStorage();
 
   const [error, setError] = useState("");
+
+  const {
+    isAuthenticating,
+    isInitializing,
+    isInitialized,
+    initialize,
+    isAuthUndefined,
+    isWeb3Enabled,
+    isWeb3EnableLoading,
+    network,
+    authenticate,
+    isAuthenticated,
+    account,
+    chainId,
+    logout,
+    isLoggingOut,
+    isUnauthenticated,
+    authError,
+  } = useMoralis();
 
   useEffect(() => {
     const { success, twitterAccount, accessToken } = router.query;
 
     if (success === "true") {
       verifyAccount(accessToken as string, twitterAccount as string);
-      connectWallet();
+
+      if (getItem("isAuthenticated") == "true" && getItem("account")) {
+        connectWallet();
+      }
     } else if (success === "false") {
       // toast.error("Unable to add account");
     }
@@ -60,6 +86,21 @@ export default function Contact({ projectSlug }: IContactProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address]);
 
+  useEffect(() => {
+    if (account && isAuthenticated) {
+      setAddress(account);
+      setItem("account", account, "local");
+      setItem("isAuthenticated", isAuthenticated?.toString(), "local");
+    } else {
+      if (
+        getItem("isAuthenticated", "local") == "true" &&
+        getItem("account", "local")
+      ) {
+        setAddress(getItem("account", "local"));
+      }
+    }
+  }, [account, isAuthenticated]);
+
   const changeHeading = (e: any) => {
     e.preventDefault();
     setHeading(e.target.value);
@@ -67,18 +108,36 @@ export default function Contact({ projectSlug }: IContactProps) {
 
   const connectWallet = async () => {
     setError("");
+    try {
+      await authenticate({
+        provider: "metamask",
+        signingMessage:
+          "Authenticate with Magic Mynt \nClick to sign in and accept the Magic Mynt Terms of Service.\n\n This request will not trigger a blockchain transaction \nor cost any gas fees.\nYour authentication status will reset after 24 hours",
+      })
+        .then(async (result) => {
+          if (result?.authenticated) {
+            const provider = new ethers.providers.Web3Provider(
+              (window as any).ethereum
+            );
+            const signer = provider.getSigner();
 
-    const web3Modal = new Web3Modal();
-
-    const instance = await web3Modal.connect();
-    const provider = new ethers.providers.Web3Provider(instance);
-    const signer = provider.getSigner();
-
-    const _address = await signer.getAddress();
-    setAddress(_address);
-
-    const balance = parseInt((await signer.getBalance()).toString());
-    if (balance < 100000000000000000) setError("Balance is less than 0.1 eth");
+            const _address = await signer.getAddress();
+            setAddress(_address);
+            const balance = parseInt((await signer.getBalance()).toString());
+            if (balance < parseInt(ethers.utils.parseEther("0.1")._hex))
+              setError("Balance is less than 0.1 eth");
+          }
+          logout();
+        })
+        .catch((reason) => {
+          console.error(reason);
+        });
+      // if(!isAuthenticated) logout();
+      //  window.localStorage.setItem("connectorId", connectorId);
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error(e);
+    }
   };
 
   const connectTwitter = async () => {
@@ -172,7 +231,7 @@ export default function Contact({ projectSlug }: IContactProps) {
   return (
     <div
       id="join-whitelist"
-      className="flex h-screen flex-col items-center justify-center"
+      className="mb-52 flex h-full flex-col items-center justify-center"
     >
       <div className="flex flex-col items-center text-white md:mx-20 lg:flex-row">
         <div className="w-full md:w-1/2 lg:w-7/12">
@@ -183,7 +242,7 @@ export default function Contact({ projectSlug }: IContactProps) {
             value={heading}
             onChange={changeHeading}
             onBlur={changeHeading}
-            className="w-full resize-none overflow-hidden whitespace-normal border-0 bg-transparent font-serif text-6xl font-bold italic md:text-9xl lg:text-center"
+            className="w-full resize-none overflow-hidden whitespace-normal border-0 bg-transparent text-center font-serif text-4xl font-bold italic md:text-6xl lg:text-center"
           />
         </div>
 
@@ -191,6 +250,14 @@ export default function Contact({ projectSlug }: IContactProps) {
           <div className="rounded-lg bg-white p-4 py-4 text-black shadow-xl lg:w-5/12">
             <div>Hello,</div>
             <p>Your wallet {address} is whitelisted</p>
+            <Button
+              onClick={() => {
+                router.push("/indiansnft/whitelist/verify");
+              }}
+              className="rounded-0 mt-10 w-fit cursor-pointer justify-center border-none bg-[#FF9933] py-3 font-bold text-white hover:bg-[#FF9933] disabled:bg-[#A0A6AB] disabled:hover:bg-[#A0A6AB]"
+            >
+              Verify Whitelist Status
+            </Button>
           </div>
         )}
 
@@ -203,16 +270,16 @@ export default function Contact({ projectSlug }: IContactProps) {
                   Registration <span className="text-red-500">closed</span>
                 </h3>
               )}
-              <p className="mt-2 text-gray-300">
+              <p className="mt-2 text-gray-500">
                 Follow the steps below to add yourself to this list.
               </p>
             </div>
 
             <div className="flex gap-4 bg-[#F8F9FA] py-2">
               <p>
-                <span className="ml-4 font-extrabold text-[#2EBCDB]">
+                <strong className="font-xl ml-4 font-bold text-[#2EBCDB]">
                   REQUIREMENTS,
-                </span>{" "}
+                </strong>{" "}
                 TO REGISTER, YOU MUST:
               </p>
             </div>
@@ -255,17 +322,22 @@ export default function Contact({ projectSlug }: IContactProps) {
                   />
                   <p className="text-clip">
                     {" "}
-                    {address ? address : "Connect Wallet"}
+                    {address ? formatEthAddress(address) : "Connect Wallet"}
                   </p>
                 </div>
-                <Button
-                  disabled={address != undefined}
-                  onClick={connectWallet}
-                  variant="success"
-                  className="rounded-full hover:bg-gray-400 disabled:bg-[#A0A6AB] disabled:hover:bg-[#A0A6AB]"
-                >
-                  Connect
-                </Button>
+                {isAuthenticating ? (
+                  <PageLoader />
+                ) : (
+                  <Button
+                    onClick={() => {
+                      connectWallet();
+                    }}
+                    variant="success"
+                    className="rounded-full hover:bg-gray-400"
+                  >
+                    Connect
+                  </Button>
+                )}
               </div>
 
               <div className="flex items-center justify-between">
@@ -299,7 +371,7 @@ export default function Contact({ projectSlug }: IContactProps) {
                 }
                 className="rounded-0 w-full cursor-pointer justify-center border-none bg-[#FF9933] py-4 text-xl font-bold text-white hover:bg-[#FF9933] disabled:bg-[#A0A6AB] disabled:hover:bg-[#A0A6AB]"
               >
-                Click to register
+                Reserve your chutiya
               </Button>
             </div>
           </div>

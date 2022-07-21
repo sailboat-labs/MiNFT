@@ -17,6 +17,9 @@ export default function Header() {
         <div className="hidden space-x-20 lg:block">
           <UnstyledLink href="#join-whitelist">Join Whitelist</UnstyledLink>
           <UnstyledLink href="#join-whitelist">Become a Bhenchod</UnstyledLink>
+          <UnstyledLink href="/indiansnft/whitelist/verify">
+            Verify Whitelist Status
+          </UnstyledLink>
           {/* <UnstyledLink href="">About</UnstyledLink>
           <UnstyledLink href="">Collection</UnstyledLink> */}
         </div>

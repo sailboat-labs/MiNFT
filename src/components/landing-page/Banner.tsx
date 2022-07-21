@@ -123,7 +123,7 @@ export default function Banner({ contract }: props) {
   }
 
   useEffect(() => {
-    preparePage();
+    // preparePage();
   }, [contract]);
 
   return (
@@ -140,7 +140,7 @@ export default function Banner({ contract }: props) {
             onBlur={changeHeading}
           />
         </div>
-        <div className="mt-8 mb-8 flex w-full flex-col items-center justify-center">
+        {/* <div className="mt-8 mb-8 flex w-full flex-col items-center justify-center">
           <div
             onClick={async () => {
               handleMint();
@@ -150,12 +150,7 @@ export default function Banner({ contract }: props) {
             {mintButtonText}
           </div>
 
-          {/* {typeof window !== "undefined" && (
-            <DateCountdown
-              dateTo="January 01, 2023 00:00:00 GMT+03:00"
-              callback={() => alert("Hello")}
-            />
-          )} */}
+         
 
           <div className="mt-10 w-[500px]">
             <div className="mb-1 flex justify-between">
@@ -176,7 +171,7 @@ export default function Banner({ contract }: props) {
               ></div>
             </div>
           </div>
-        </div>
+        </div> */}
         <div className="box-border flex w-full flex-row justify-center lg:hidden ">
           <img
             src="/images/landing/indiansnfts/1.png"
