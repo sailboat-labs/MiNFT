@@ -4,13 +4,18 @@ import { getFunctions, httpsCallable } from "firebase/functions";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useMoralis } from "react-moralis";
+import { toast } from "react-toastify";
 import { v4 } from "uuid";
-import Web3Modal from "web3modal";
-import * as Yup from "yup";
 
 import { firebaseApp } from "@/lib/firebase";
 
+import { checkTwitterExists, updateAccounts } from "@/firestore/project";
+import { addWhitelist, checkWhitelisted } from "@/firestore/whitelist";
+
 import Button from "../buttons/Button";
+
+import EthIcon from "~/svg/icons8-ethereum.svg";
+import TwitterIcon from "~/svg/icons8-twitter.svg";
 
 const functions = getFunctions(firebaseApp);
 // connectFunctionsEmulator(functions, "localhost", 5001);
@@ -24,13 +29,16 @@ export default function Contact({ projectSlug }: IContactProps) {
 
   const projectAccount = "TheIndianNFTs";
 
-  const [heading, setHeading] = useState("Join the Bloody Bastards");
+  const now = new Date();
+  const [startDate, setStartDate] = useState(new Date(2022, 6));
+  const [endDate, setEndDate] = useState(new Date(2022, 10));
 
+  const [heading, setHeading] = useState("Join the Bloody Bastards");
   const [address, setAddress] = useState<string>();
-  const [follows, setFollows] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [shouldProceed, setShouldProceed] = useState(false);
   const [twitterHandle, setTwitterHandle] = useState("");
+
+  const [twitterLoading, setTwitterLoading] = useState(false);
 
   const [whitelisted, setWhitelisted] = useState(false);
 
@@ -57,17 +65,17 @@ export default function Contact({ projectSlug }: IContactProps) {
 
   useEffect(() => {
     const { success, twitterAccount, accessToken } = router.query;
-    // connectWallet();
 
     if (success === "true") {
       verifyAccount(accessToken as string, twitterAccount as string);
+      connectWallet();
     } else if (success === "false") {
       // toast.error("Unable to add account");
     }
   }, [router]);
 
   useEffect(() => {
-    checkWhitelisted();
+    checkWhitelist();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address]);
 
@@ -76,15 +84,8 @@ export default function Contact({ projectSlug }: IContactProps) {
     setHeading(e.target.value);
   };
 
-  const validate = Yup.object({
-    email: Yup.string()
-      .email("Invalid email address")
-      .required("Email is required"),
-    twitterUsername: Yup.string().required("Twitter username required"),
-    ETHaddress: Yup.string().required("ETH address required"),
-  });
-
   const connectWallet = async () => {
+    setError("");
     try {
       await authenticate({
         provider: "metamask",
@@ -100,6 +101,9 @@ export default function Contact({ projectSlug }: IContactProps) {
 
             const _address = await signer.getAddress();
             setAddress(_address);
+            const balance = parseInt((await signer.getBalance()).toString());
+            if (balance < 100000000000000000)
+              setError("Balance is less than 0.1 eth");
           }
           logout();
         })
@@ -112,11 +116,12 @@ export default function Contact({ projectSlug }: IContactProps) {
       // eslint-disable-next-line no-console
       console.error(e);
     }
-
-    const web3Modal = new Web3Modal();
   };
 
   const connectTwitter = async () => {
+    setError("");
+
+    setTwitterLoading(true);
     const requestTwitterUrl = httpsCallable(functions, "requestTwitterUrl");
     requestTwitterUrl()
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -126,9 +131,13 @@ export default function Contact({ projectSlug }: IContactProps) {
       .catch((error) => {
         console.log(error);
       });
+
+    setTwitterLoading(false);
   };
 
   const verifyAccount = async (accessToken: string, twitterAccount: string) => {
+    setError("");
+
     // const userClient = new TwitterApi(accessToken);
 
     // Get user ID
@@ -144,63 +153,53 @@ export default function Contact({ projectSlug }: IContactProps) {
   };
 
   const proceed = async () => {
+    setError("");
+
     setLoading(true);
 
     const checkFollows = httpsCallable(functions, "checkFollows");
-    const checkExists = httpsCallable(functions, "checkExists");
-    const updateAccounts = httpsCallable(functions, "updateAccounts");
-    const addWhitelist = httpsCallable(functions, "addWhitelist");
 
-    const { data }: any = await checkExists({
-      project_slug: projectSlug,
+    const twitterExists = await checkTwitterExists(projectSlug, twitterHandle);
+    if (twitterExists) return toast.error("Twitter account is in use");
+
+    await checkFollows({
       user_account: twitterHandle,
-    });
-
-    if (data.success && !data.exists) {
-      checkFollows({
-        user_account: twitterHandle,
-        project_account: projectAccount,
+      project_account: projectAccount,
+    })
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .then(async (result: any) => {
+        const { data } = result;
+        if (data.success && data.isFollowing) {
+          await updateAccounts(projectSlug, twitterHandle);
+          await addWhitelist({
+            id: v4(),
+            projectSlug,
+            wallet: address,
+            twitterUsername: twitterHandle,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+          });
+          setWhitelisted(true);
+        } else if (data.success && !data.isFollowing) {
+          setError("This account is not following us");
+        }
       })
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        .then(async (result: any) => {
-          const { data } = result;
-          if (data.success && data.isFollowing) {
-            setShouldProceed(true);
-            await updateAccounts({
-              project_slug: projectSlug,
-              user_account: twitterHandle,
-            });
-            await addWhitelist({
-              id: v4(),
-              projectSlug,
-              wallet: address,
-              twitterUsername: twitterHandle,
-              createdAt: new Date().toISOString(),
-              updatedAt: new Date().toISOString(),
-            });
-          } else if (data.success && !data.isFollowing) {
-            setError("This account is not following us");
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    } else if (data.success && data.exists) {
-      setError("This account is already in use");
-    }
+      .catch((error) => {
+        console.log(error);
+      });
 
     setLoading(false);
   };
 
-  const checkWhitelisted = async () => {
-    const isWhitelisted = httpsCallable(functions, "isWhitelisted");
+  const checkWhitelist = async () => {
+    setError("");
 
-    const { data }: any = await isWhitelisted({
-      project_slug: projectSlug,
-      wallet: address,
-    });
+    const isWhitelisted = await checkWhitelisted(
+      projectSlug,
+      (address as string) ?? ""
+    );
 
-    if (data.success && data.isWhitelisted) {
+    if (isWhitelisted) {
       setWhitelisted(true);
     } else {
       setWhitelisted(false);
@@ -208,9 +207,12 @@ export default function Contact({ projectSlug }: IContactProps) {
   };
 
   return (
-    <div id="join-whitelist">
-      <div className="mx-auto flex w-4/5 flex-col items-center pt-40 pb-28 text-white lg:flex-row">
-        <div className="w-full lg:w-3/5">
+    <div
+      id="join-whitelist"
+      className="flex h-screen flex-col items-center justify-center"
+    >
+      <div className="flex flex-col items-center text-white md:mx-20 lg:flex-row">
+        <div className="w-full md:w-1/2 lg:w-7/12">
           <textarea
             disabled
             rows={3}
@@ -221,71 +223,123 @@ export default function Contact({ projectSlug }: IContactProps) {
             className="w-full resize-none overflow-hidden whitespace-normal border-0 bg-transparent font-serif text-6xl font-bold italic md:text-9xl lg:text-center"
           />
         </div>
-        <div className="flex items-center lg:ml-10">
-          {(shouldProceed || whitelisted) && (
-            <div className="h-80 w-full items-center justify-center">
-              <h1>All Good</h1>
-              {whitelisted && <p>Already whitelisted</p>}
-            </div>
-          )}
-          {!shouldProceed && !whitelisted && (
-            <div className="flex flex-col gap-4 text-gray-200">
-              {address && <p>{address}</p>}
 
-              {!address && (
+        {whitelisted && (
+          <div className="rounded-lg bg-white p-4 py-4 text-black shadow-xl lg:w-5/12">
+            <div>Hello,</div>
+            <p>Your wallet {address} is whitelisted</p>
+          </div>
+        )}
+
+        {!whitelisted && (
+          <div className="flex flex-col gap-8 rounded-lg bg-white py-4 text-black shadow-xl lg:w-5/12">
+            <div className="px-4">
+              {endDate > now && <h3>Register</h3>}
+              {endDate <= now && (
+                <h3>
+                  Registration <span className="text-red-500">closed</span>
+                </h3>
+              )}
+              <p className="mt-2 text-gray-300">
+                Follow the steps below to add yourself to this list.
+              </p>
+            </div>
+
+            <div className="flex gap-4 bg-[#F8F9FA] py-2">
+              <p>
+                <span className="ml-4 font-extrabold text-[#2EBCDB]">
+                  REQUIREMENTS,
+                </span>{" "}
+                TO REGISTER, YOU MUST:
+              </p>
+            </div>
+
+            <div className="flex flex-col gap-2 px-4">
+              <div className="flex gap-2">
+                <EthIcon className="h-6 w-6" />
+                <p>You must have at least 0.1 eth in your wallet</p>
+              </div>
+
+              <div className="flex gap-2">
+                <TwitterIcon className="h-6 w-6" />
+                <p>
+                  Follow{" "}
+                  <span
+                    onClick={() => {
+                      window.open(
+                        `https://twitter.com/${projectAccount}`,
+                        "_bank"
+                      );
+                      setError("");
+                    }}
+                    className="cursor-pointer font-bold text-[#2EBCDB] underline"
+                  >
+                    @{projectAccount}
+                  </span>{" "}
+                  on twitter{" "}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-3 border-y-[1px] px-4 py-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <input
+                    disabled
+                    checked={address != undefined}
+                    type="radio"
+                    className="h-4 w-4"
+                  />
+                  <p className="text-clip">
+                    {" "}
+                    {address ? address : "Connect Wallet"}
+                  </p>
+                </div>
                 <Button
                   onClick={connectWallet}
-                  type="submit"
-                  className="rounded-xl bg-[#006C35] py-5 px-12 text-xl"
+                  variant="success"
+                  className="rounded-full hover:bg-gray-400"
                 >
-                  Connect your wallet
+                  Connect
                 </Button>
-              )}
+              </div>
 
-              {twitterHandle && <p>{twitterHandle}</p>}
-
-              {!twitterHandle && (
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <input
+                    disabled
+                    checked={twitterHandle != ""}
+                    type="radio"
+                    className="h-4 w-4"
+                  />
+                  <p>{twitterHandle ? twitterHandle : "Connect Twitter"} </p>
+                </div>
                 <Button
                   disabled={!address}
+                  isLoading={twitterLoading}
                   onClick={connectTwitter}
-                  type="submit"
-                  className="rounded-xl bg-[#006C35] py-5 px-12 text-xl"
+                  variant="success"
+                  className="rounded-full disabled:bg-[#A0A6AB]"
                 >
-                  Connect Twitter
+                  Connect
                 </Button>
-              )}
-
-              {!follows && (
-                <Button
-                  disabled={!address || !twitterHandle}
-                  onClick={() => {
-                    window.open(
-                      `https://twitter.com/${projectAccount}`,
-                      "_bank"
-                    );
-                    setFollows(true);
-                  }}
-                  type="submit"
-                  className="rounded-xl bg-[#006C35] py-5 px-12 text-xl"
-                >
-                  Follow Us
-                </Button>
-              )}
-
-              <Button
-                isLoading={loading}
-                onClick={() => proceed()}
-                disabled={!address || !follows || !twitterHandle}
-                type="submit"
-                className="rounded-xl bg-[#006C35] py-5 px-12 text-xl"
-              >
-                Reserve your Chutiya
-              </Button>
-
-              <p>{error}</p>
+              </div>
             </div>
-          )}
-        </div>
+            {error && <p className="px-4 text-center text-red-400">{error}</p>}
+            <div className="px-4">
+              <Button
+                onClick={proceed}
+                isLoading={loading}
+                disabled={
+                  endDate <= now || !address || !twitterHandle || error != ""
+                }
+                className="rounded-0 w-full cursor-pointer justify-center border-none bg-[#FF9933] py-4 text-xl font-bold text-white hover:bg-[#FF9933] disabled:bg-[#A0A6AB] disabled:hover:bg-[#A0A6AB]"
+              >
+                Click to register
+              </Button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
