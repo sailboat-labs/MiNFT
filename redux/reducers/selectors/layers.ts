@@ -15,7 +15,8 @@ export const getSearchFilter = (state: any) =>
 
 export const getGeneratedImages = (state: any) =>
   state.generatedImagesReducer.images ?? [];
-
+export const getGeneratedGIF = (state: any) =>
+  state.generatedImagesReducer.gif ?? [];
 export const getGeneratedImagesFilter = (state: any) =>
   state.generatedImagesReducer.filter;
 

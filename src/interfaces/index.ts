@@ -9,6 +9,11 @@ export interface ILayer {
 
 export interface IDashboardState {
   selectedSidebar: string;
+  informationBar: {
+    show: boolean;
+    message: string;
+    showLoader: boolean;
+  };
 }
 
 export interface IGeneratedTokens {

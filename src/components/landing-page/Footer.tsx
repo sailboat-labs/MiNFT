@@ -11,40 +11,49 @@ export default function Footer() {
         <div className="mb-10 flex justify-center lg:mb-0 lg:justify-start">
           <UnstyledLink
             href=""
-            className="text-4xl font-extrabold md:text-5xl lg:text-2xl"
+            className="text-4xl font-extrabold md:text-5xl lg:text-3xl"
           >
-            THE SAUDIS
+            THE INDIANS
           </UnstyledLink>
         </div>
         <div className="mt-7 flex w-full flex-col items-center md:mt-10 lg:mt-0 lg:w-auto lg:flex-row lg:space-x-20">
           <UnstyledLink
-            href=""
+            href="https://discord.gg/xdtvt9g6"
+            target="_blank"
             className="mb-6 text-2xl font-extrabold uppercase md:text-3xl lg:mb-0"
           >
-            Become a Sheik
+            Discord
           </UnstyledLink>
           <UnstyledLink
+            href="https://twitter.com/TheIndianNFTs"
+            target="_blank"
+            className="mb-6 text-2xl font-extrabold uppercase md:text-3xl lg:mb-0"
+          >
+            Twitter
+          </UnstyledLink>
+          {/* <UnstyledLink
             href=""
             className="mb-6 text-2xl font-extrabold uppercase md:text-3xl lg:mb-0"
           >
-            About
-          </UnstyledLink>
-          <UnstyledLink
-            href=""
-            className="mb-6 text-2xl font-extrabold uppercase md:text-3xl lg:mb-0"
-          >
-            Collection
-          </UnstyledLink>
+            Opensea
+          </UnstyledLink> */}
         </div>
         <div className="mr-1 mt-7 flex flex-col items-center justify-center md:mt-10 lg:mt-0 lg:flex-row lg:justify-end lg:space-x-3">
-          <UnstyledLink href="" className="mb-10 lg:mb-0">
+          <UnstyledLink
+            href="https://discord.gg/xdtvt9g6"
+            className="mb-10 lg:mb-0"
+            target="_blank"
+          >
             <img
               src={images.discordSrc}
               alt="Discord"
               className="h-20 w-20 md:h-24 md:w-24 lg:h-auto lg:w-auto"
             />
           </UnstyledLink>
-          <UnstyledLink href="">
+          <UnstyledLink
+            href="https://twitter.com/TheIndianNFTs"
+            target="_blank"
+          >
             <img
               src={images.twitterSrc}
               alt="Twitter"
@@ -53,8 +62,8 @@ export default function Footer() {
           </UnstyledLink>
         </div>
       </div>
-      <div className="mt-10 pb-5 pl-2 text-center text-base lg:text-start lg:mt-14">
-        &copy; {year} Kingdom&apos;s Lab. All rights reserved.
+      <div className="mt-10 pb-5 pl-2 text-center text-base lg:mt-14 lg:text-start">
+        &copy; {year} Bhenchod&apos;s Lab. All Rights Reserved.
       </div>
     </div>
   );

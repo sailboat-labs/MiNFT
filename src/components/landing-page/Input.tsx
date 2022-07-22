@@ -10,7 +10,7 @@ export default function Input({ label = "none", ...props }) {
     <div className="mt-6 flex flex-col rounded-xl text-gray-200 ">
       <input
         id="contact-input"
-        className={`w-[20rem] md:w-[30rem] rounded-xl border-0 bg-[#595959] px-5 py-6 font-dmsans text-gray-300 ${
+        className={`w-[20rem] rounded-xl border-0 bg-orange-300 px-5 py-6 font-dmsans text-gray-300 md:w-[30rem] ${
           meta.touched && meta.error && "is-invalid"
         }`}
         {...field}
@@ -19,7 +19,7 @@ export default function Input({ label = "none", ...props }) {
       <ErrorMessage
         component="div"
         name={field.name}
-        className="pt-1 font-dmsans text-red-500"
+        className="pt-1 font-dmsans text-black"
       />
     </div>
   );

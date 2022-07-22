@@ -11,8 +11,8 @@ export default function DashboardHome() {
   const { getItem, setItem, removeItem } = useStorage();
 
   return (
-    <div className="container flex h-screen w-full px-10 pt-10">
-      <div className="flex h-72 w-full flex-col  rounded-lg font-dmsans ">
+    <div className="container flex h-screen w-full px-10 pt-0">
+      <div className="flex w-full flex-col  rounded-lg font-dmsans ">
         <DeployedContracts />
       </div>
     </div>

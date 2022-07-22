@@ -1,0 +1,9 @@
+node_modules/
+*.log
+*.lock
+lib/
+keys/
+
+.env.development
+.env.staging
+.env.production

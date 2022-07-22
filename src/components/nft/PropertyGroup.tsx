@@ -15,7 +15,6 @@ import {
 
 import { enumNFTGenConfig } from "@/enums/nft-gen-configurations";
 import { IElement, ILayer } from "@/interfaces";
-import { generateTokensDNA } from "@/utils/generateTokensDNA";
 
 import LayerContextMenu from "./LayerContextMenu";
 import TraitPreview from "./TraitPreview";
@@ -149,8 +148,8 @@ const PropertyGroup: FC<AppProps> = ({
   }
 
   useEffect(() => {
-    const _possibleConfig = generateTokensDNA(layers);
-    setPossibleConfigCount(new Set(_possibleConfig).size);
+    // const _possibleConfig = generateTokensDNA(layers);
+    // setPossibleConfigCount(new Set(_possibleConfig).size);
 
     setAccordionHeight(accordionContent.current?.scrollHeight);
   }, [selectedLayerName, elements, configuration, layers]);
@@ -280,9 +279,8 @@ const PropertyGroup: FC<AppProps> = ({
             )}
           </div>
           <div className="flex items-center gap-2">
-            {(getElementCountTotal() !=
-              configuration[enumNFTGenConfig.SUPPLY] ||
-              possibleConfigCount < configuration[enumNFTGenConfig.SUPPLY]) && (
+            {getElementCountTotal() !=
+              configuration[enumNFTGenConfig.SUPPLY] && (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6"
@@ -417,7 +415,7 @@ const PropertyGroup: FC<AppProps> = ({
                 </div>
               )}
 
-            {changingRarity() &&
+            {/* {changingRarity() &&
               possibleConfigCount < configuration[enumNFTGenConfig.SUPPLY] && (
                 <div className="mb-4  flex w-full gap-x-4 px-6">
                   <div className="rounded bg-red-100 px-5 py-2 text-sm text-red-500">
@@ -426,7 +424,7 @@ const PropertyGroup: FC<AppProps> = ({
                     {configuration[enumNFTGenConfig.SUPPLY]})
                   </div>
                 </div>
-              )}
+              )} */}
           </div>
         </div>
       </div>

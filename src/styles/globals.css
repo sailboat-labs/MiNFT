@@ -50,6 +50,10 @@
   }
 
   @font-face {
+    font-family: "Heading"; 
+  }
+
+  @font-face {
     font-family: "Montserrat";
     src: url("../../public/fonts/Montserrat-Regular.ttf");
   }
@@ -211,6 +215,7 @@ textarea[id="sectionthree-heading"]:focus,
 textarea[id="sectionthree-paragraph"]:focus,
 input[id="sectionthree-highlight"]:focus,
 textarea[id="sectionfour-heading"]:focus,
+textarea[id="sectionfour-info"]:focus,
 input[id="cryptoPunks"]:focus,
 input[id="label1"]:focus,
 input[id="bitcoins"]:focus,
