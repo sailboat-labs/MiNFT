@@ -99,7 +99,7 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
     }
   }, [activeAccount, account, isAuthenticated]);
 
-  if (environment != "development") return <div></div>;
+  // if (environment != "development") return <div></div>;
 
   if (!activeAccount || activeAccount?.trim() == "") {
     return (
