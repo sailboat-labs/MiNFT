@@ -16,6 +16,7 @@ import { IElement, ILayer, IProject } from "@/interfaces";
 
 import GeneratedTokens from "./generated-tokens";
 import addLayersToFirebase from "./index.logic";
+import ShareTraits from "./share";
 
 import { NFTLayer } from "@/types";
 
@@ -57,9 +58,9 @@ const NFTGenerator = ({ router }: any) => {
   return (
     <div className=" w-full">
       <Tab.Group>
-        <Tab.List className="sticky top-0 z-[2] w-full space-x-1 rounded bg-white p-3">
-          <div className="flex w-fit gap-2">
-            {["Mixer", "Settings", "Generated"].map((category) => (
+        <Tab.List className="sticky top-0 z-[2] flex w-full items-center justify-center space-x-1 rounded border-b bg-white p-3">
+          <div className="flex w-fit items-center gap-2">
+            {["Mixer", "Settings", "Generated", "Share"].map((category) => (
               <Tab
                 key={category}
                 className={({ selected }) =>
@@ -80,7 +81,7 @@ const NFTGenerator = ({ router }: any) => {
         <Tab.Panels className="relative z-[1]">
           <Tab.Panel>
             {layers.length < 1 && (
-              <SelectFolder className="mt-72 w-[length:calc(100vw-30rem)] flex-1" />
+              <SelectFolder className="mt-96 w-[length:calc(100vw-30rem)] flex-1 bg-red-600" />
             )}
 
             {layers.length > 0 && (
@@ -143,6 +144,9 @@ const NFTGenerator = ({ router }: any) => {
           </Tab.Panel>
           <Tab.Panel>
             <GeneratedTokens />
+          </Tab.Panel>
+          <Tab.Panel>
+            <ShareTraits />
           </Tab.Panel>
         </Tab.Panels>
       </Tab.Group>

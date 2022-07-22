@@ -4,6 +4,7 @@ const generatedImagesStore = createSlice({
   name: "generatedImages",
   initialState: {
     images: [],
+    gif: null,
     filter: null,
     attributeOccurrence: [],
   },
@@ -18,6 +19,9 @@ const generatedImagesStore = createSlice({
     },
     setGeneratedImagesFilter: (state, action) => {
       state.filter = action.payload;
+    },
+    setGeneratedGIF: (state, action) => {
+      state.gif = action.payload;
     },
     setGeneratedImages: (state, action) => {
       state.images = action.payload;
@@ -35,5 +39,6 @@ export const {
   setAttributeOccurrence,
   setGeneratedImagesFilter,
   setGeneratedImages,
+  setGeneratedGIF,
 } = actions;
 export default generatedImagesStore;

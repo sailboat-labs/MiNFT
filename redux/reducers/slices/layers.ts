@@ -228,12 +228,24 @@ const layerStore = createSlice({
     },
 
     resetElementCounts: (state: any, param: any) => {
-      const { payload } = param;
+      const { payload } = param; // payload is the total supply
 
       state.layers.forEach((layer: ILayer) => {
+        //Adjust weight for each element
         layer.elements.forEach((element: IElement) => {
-          element.weight = payload / layer.elements.length;
+          element.weight = parseInt(
+            (payload / layer.elements.length).toString()
+          );
         });
+
+        //Add remainder to last element
+        let currentElementCount = 0;
+        layer.elements.forEach((element) => {
+          currentElementCount += element.weight;
+        });
+
+        const remainder = payload - currentElementCount;
+        layer.elements[0].weight += remainder;
       });
     },
   },

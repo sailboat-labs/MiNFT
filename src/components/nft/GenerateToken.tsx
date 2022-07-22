@@ -1,7 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable no-async-promise-executor */
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useEffect, useState } from "react";
+import { generateTokens } from "features/traitmixer/utils/art-engine";
+import { Fragment, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 // import toast from "react-hot-toast";
 import { toast } from "react-toastify";
@@ -11,16 +12,15 @@ import {
   getGeneratedImagesFilter,
   getLayers,
 } from "redux/reducers/selectors/layers";
+import { setInformationBarConfig } from "redux/reducers/slices/dashboard";
 import {
-  clearGeneratedImages,
+  setGeneratedGIF,
   setGeneratedImages,
   setGeneratedImagesFilter,
 } from "redux/reducers/slices/generated-images";
 
 import { enumNFTGenConfig } from "@/enums/nft-gen-configurations";
 import { IGeneratedTokens } from "@/interfaces";
-import { generateTokens } from "@/utils/art-engine";
-import { generateTokensDNA } from "@/utils/generateTokensDNA";
 
 import GeneratedToken from "./GeneratedToken";
 
@@ -28,6 +28,7 @@ export default function GenerateToken() {
   const generatedTokens: IGeneratedTokens[] = useSelector(getGeneratedImages);
   const generatedTokenFilter = useSelector(getGeneratedImagesFilter);
   const [possibleConfigCount, setPossibleConfigCount] = useState(0);
+  const [gifImage, setGifImage] = useState<any>();
 
   let filteredTokens = [];
   if (generatedTokenFilter === null) {
@@ -54,29 +55,13 @@ export default function GenerateToken() {
     setIsOpen(true);
   }
 
-  useEffect(() => {
-    const _possibleConfig = generateTokensDNA(layers);
-    setPossibleConfigCount(new Set(_possibleConfig).size);
-  }, [layers]);
+  // useEffect(() => {
+  //   const _possibleConfig = generateTokensDNA(layers);
+  //   setPossibleConfigCount(new Set(_possibleConfig).size);
+  // }, [layers]);
 
   const dispatch = useDispatch();
   const configuration = useSelector(getConfiguration);
-
-  function onDoneComponent() {
-    return (
-      <div className="flex items-center gap-3">
-        All Tokens Generated
-        <div
-          onClick={() => {
-            openModal();
-          }}
-          className="rounded-lg border-2 px-3 py-1"
-        >
-          View
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div>
@@ -99,15 +84,30 @@ export default function GenerateToken() {
             return toast.error("Enter external link in settings");
           // if (possibleConfigCount < configuration[enumNFTGenConfig.SUPPLY])
           //   return toast.error("Resolve errors in trait mixer rarity");
-          dispatch(clearGeneratedImages({}));
+          // dispatch(clearGeneratedImages({}));
 
-          const _generatedImages: any = await generateTokens({
-            configuration,
-            layers,
-            component: onDoneComponent,
-          });
+          dispatch(
+            setInformationBarConfig({
+              show: true,
+              message: `Setting up workers`,
+              showLoader: true,
+            })
+          );
 
-          dispatch(setGeneratedImages(_generatedImages));
+          setTimeout(async () => {
+            const { generatedTokens, gif }: any = await generateTokens({
+              configuration,
+              layers,
+              // shouldGenerateGIF: true,
+              dispatch: dispatch,
+            });
+
+            dispatch(setGeneratedImages(generatedTokens));
+
+            const blob = new Blob([gif]);
+            const srcBlob = URL.createObjectURL(blob);
+            dispatch(setGeneratedGIF(srcBlob));
+          }, 2000);
         }}
         className={`mt-5 flex w-full cursor-pointer items-center justify-center gap-3 rounded-lg border-2 border-[#30489C] bg-white px-5 py-2 text-[#30489C] transition-all hover:scale-105 `}
       >
