@@ -1,19 +1,22 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { formatEthAddress } from "eth-address";
 import { ethers } from "ethers";
 import { getFunctions, httpsCallable } from "firebase/functions";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import { useMoralis } from "react-moralis";
 import { v4 } from "uuid";
-import Web3Modal from "web3modal";
 
 import { firebaseApp } from "@/lib/firebase";
+import useStorage from "@/hooks/storage";
 
 import { checkTwitterExists, updateAccounts } from "@/firestore/project";
 import { addWhitelist, checkWhitelisted } from "@/firestore/whitelist";
 
 import Button from "../buttons/Button";
 
+import Close from "~/svg/icons8-close.svg";
+import CloseWhite from "~/svg/icons8-close-white.svg";
 import EthIcon from "~/svg/icons8-ethereum.svg";
 import TwitterIcon from "~/svg/icons8-twitter.svg";
 
@@ -34,22 +37,45 @@ export default function Contact({ projectSlug }: IContactProps) {
   const [endDate, setEndDate] = useState(new Date(2022, 10));
 
   const [heading, setHeading] = useState("Join the Bloody Bastards");
-  const [address, setAddress] = useState<string>();
+  const [address, setAddress] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const [twitterHandle, setTwitterHandle] = useState("");
 
   const [twitterLoading, setTwitterLoading] = useState(false);
 
   const [whitelisted, setWhitelisted] = useState(false);
+  const { getItem, setItem, removeItem } = useStorage();
 
   const [error, setError] = useState("");
+
+  const {
+    isAuthenticating,
+    isInitializing,
+    isInitialized,
+    initialize,
+    isAuthUndefined,
+    isWeb3Enabled,
+    isWeb3EnableLoading,
+    network,
+    authenticate,
+    isAuthenticated,
+    account,
+    chainId,
+    logout,
+    isLoggingOut,
+    isUnauthenticated,
+    authError,
+  } = useMoralis();
 
   useEffect(() => {
     const { success, twitterAccount, accessToken } = router.query;
 
     if (success === "true") {
       verifyAccount(accessToken as string, twitterAccount as string);
-      connectWallet();
+
+      if (getItem("isAuthenticated") == "true" && getItem("account")) {
+        connectWallet();
+      }
     } else if (success === "false") {
       // toast.error("Unable to add account");
     }
@@ -60,6 +86,21 @@ export default function Contact({ projectSlug }: IContactProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address]);
 
+  useEffect(() => {
+    if (account && isAuthenticated) {
+      setAddress(account);
+      setItem("account", account, "local");
+      setItem("isAuthenticated", isAuthenticated?.toString(), "local");
+    } else {
+      if (
+        getItem("isAuthenticated", "local") == "true" &&
+        getItem("account", "local")
+      ) {
+        setAddress(getItem("account", "local"));
+      }
+    }
+  }, [account, isAuthenticated]);
+
   const changeHeading = (e: any) => {
     e.preventDefault();
     setHeading(e.target.value);
@@ -67,22 +108,40 @@ export default function Contact({ projectSlug }: IContactProps) {
 
   const connectWallet = async () => {
     setError("");
+    try {
+      await authenticate({
+        provider: "metamask",
+        signingMessage:
+          "Authenticate with Magic Mynt \nClick to sign in and accept the Magic Mynt Terms of Service.\n\n This request will not trigger a blockchain transaction \nor cost any gas fees.\nYour authentication status will reset after 24 hours",
+      })
+        .then(async (result) => {
+          if (result?.authenticated) {
+            const provider = new ethers.providers.Web3Provider(
+              (window as any).ethereum
+            );
+            const signer = provider.getSigner();
 
-    const web3Modal = new Web3Modal();
-
-    const instance = await web3Modal.connect();
-    const provider = new ethers.providers.Web3Provider(instance);
-    const signer = provider.getSigner();
-
-    const _address = await signer.getAddress();
-    setAddress(_address);
-
-    const balance = parseInt((await signer.getBalance()).toString());
-    if (balance < 100000000000000000) setError("Balance is less than 0.1 eth");
+            const _address = await signer.getAddress();
+            setAddress(_address);
+            const balance = parseInt((await signer.getBalance()).toString());
+            if (balance < parseInt(ethers.utils.parseEther("0.1")._hex))
+              setError("Balance is less than 0.1 eth");
+          }
+          logout();
+        })
+        .catch((reason) => {
+          console.error(reason);
+        });
+      // if(!isAuthenticated) logout();
+      //  window.localStorage.setItem("connectorId", connectorId);
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error(e);
+    }
   };
 
   const connectTwitter = async () => {
-    setError("");
+    // setError("");
 
     setTwitterLoading(true);
     const requestTwitterUrl = httpsCallable(functions, "requestTwitterUrl");
@@ -99,7 +158,7 @@ export default function Contact({ projectSlug }: IContactProps) {
   };
 
   const verifyAccount = async (accessToken: string, twitterAccount: string) => {
-    setError("");
+    // setError("");
 
     // const userClient = new TwitterApi(accessToken);
 
@@ -116,14 +175,18 @@ export default function Contact({ projectSlug }: IContactProps) {
   };
 
   const proceed = async () => {
-    setError("");
+    // setError("");
 
     setLoading(true);
 
     const checkFollows = httpsCallable(functions, "checkFollows");
 
     const twitterExists = await checkTwitterExists(projectSlug, twitterHandle);
-    if (twitterExists) return toast.error("Twitter account is in use");
+    if (twitterExists) {
+      setError("Twitter account is already in use");
+      setLoading(false);
+      return;
+    }
 
     await checkFollows({
       user_account: twitterHandle,
@@ -150,12 +213,10 @@ export default function Contact({ projectSlug }: IContactProps) {
       .catch((error) => {
         console.log(error);
       });
-
-    setLoading(false);
   };
 
   const checkWhitelist = async () => {
-    setError("");
+    // setError("");
 
     const isWhitelisted = await checkWhitelisted(
       projectSlug,
@@ -172,7 +233,7 @@ export default function Contact({ projectSlug }: IContactProps) {
   return (
     <div
       id="join-whitelist"
-      className="flex h-screen flex-col items-center justify-center"
+      className="mb-52 flex h-full flex-col items-center justify-center"
     >
       <div className="flex flex-col items-center text-white md:mx-20 lg:flex-row">
         <div className="w-full md:w-1/2 lg:w-7/12">
@@ -183,7 +244,7 @@ export default function Contact({ projectSlug }: IContactProps) {
             value={heading}
             onChange={changeHeading}
             onBlur={changeHeading}
-            className="w-full resize-none overflow-hidden whitespace-normal border-0 bg-transparent font-serif text-6xl font-bold italic md:text-9xl lg:text-center"
+            className="w-full resize-none overflow-hidden whitespace-normal border-0 bg-transparent text-center font-serif text-4xl font-bold italic md:text-6xl lg:text-center"
           />
         </div>
 
@@ -191,6 +252,14 @@ export default function Contact({ projectSlug }: IContactProps) {
           <div className="rounded-lg bg-white p-4 py-4 text-black shadow-xl lg:w-5/12">
             <div>Hello,</div>
             <p>Your wallet {address} is whitelisted</p>
+            <Button
+              onClick={() => {
+                router.push("/indiansnft/whitelist/verify");
+              }}
+              className="rounded-0 mt-10 w-fit cursor-pointer justify-center border-none bg-[#FF9933] py-3 font-bold text-white hover:bg-[#FF9933] disabled:bg-[#A0A6AB] disabled:hover:bg-[#A0A6AB]"
+            >
+              Verify Whitelist Status
+            </Button>
           </div>
         )}
 
@@ -203,16 +272,28 @@ export default function Contact({ projectSlug }: IContactProps) {
                   Registration <span className="text-red-500">closed</span>
                 </h3>
               )}
-              <p className="mt-2 text-gray-300">
+              <p className="mt-2 text-gray-500">
                 Follow the steps below to add yourself to this list.
               </p>
             </div>
 
+            {error && (
+              <div className="relative mx-2 rounded-lg bg-red-400 p-4 text-white shadow-sm">
+                <p className="px-4 text-center">{error}</p>
+                <div
+                  onClick={() => setError("")}
+                  className="absolute top-2 right-2 w-min cursor-pointer rounded-full border-[1px] p-[3px]"
+                >
+                  <CloseWhite className="h-3 w-3" />
+                </div>
+              </div>
+            )}
+
             <div className="flex gap-4 bg-[#F8F9FA] py-2">
               <p>
-                <span className="ml-4 font-extrabold text-[#2EBCDB]">
+                <strong className="font-xl ml-4 font-bold text-[#2EBCDB]">
                   REQUIREMENTS,
-                </span>{" "}
+                </strong>{" "}
                 TO REGISTER, YOU MUST:
               </p>
             </div>
@@ -227,18 +308,14 @@ export default function Contact({ projectSlug }: IContactProps) {
                 <TwitterIcon className="h-6 w-6" />
                 <p>
                   Follow{" "}
-                  <span
-                    onClick={() => {
-                      window.open(
-                        `https://twitter.com/${projectAccount}`,
-                        "_bank"
-                      );
-                      setError("");
-                    }}
+                  <a
+                    href={`https://twitter.com/${projectAccount}`}
+                    target="_blank"
                     className="cursor-pointer font-bold text-[#2EBCDB] underline"
+                    rel="noreferrer"
                   >
                     @{projectAccount}
-                  </span>{" "}
+                  </a>{" "}
                   on twitter{" "}
                 </p>
               </div>
@@ -251,21 +328,44 @@ export default function Contact({ projectSlug }: IContactProps) {
                     disabled
                     checked={address != undefined}
                     type="radio"
-                    className="h-4 w-4"
+                    className="h-4 w-4 text-green-500"
                   />
-                  <p className="text-clip">
-                    {" "}
-                    {address ? address : "Connect Wallet"}
-                  </p>
+
+                  {address && (
+                    <p className="text-green-500">Wallet Connected</p>
+                  )}
+                  {!address && <p className="">Connect Wallet</p>}
                 </div>
-                <Button
-                  disabled={address != undefined}
-                  onClick={connectWallet}
-                  variant="success"
-                  className="rounded-full hover:bg-gray-400 disabled:bg-[#A0A6AB] disabled:hover:bg-[#A0A6AB]"
-                >
-                  Connect
-                </Button>
+
+                {!address && (
+                  <Button
+                    isLoading={isAuthenticating}
+                    onClick={() => {
+                      connectWallet();
+                    }}
+                    variant="success"
+                    className="rounded-full"
+                  >
+                    {!address ? "Connect" : "Connected"}
+                  </Button>
+                )}
+
+                {address && (
+                  <div>
+                    <div className="flex items-center gap-3 rounded-full border-2 py-2 px-4">
+                      <p className="text-[#2EBCDB]">
+                        {formatEthAddress(address)}
+                      </p>
+
+                      <div
+                        onClick={() => setAddress("")}
+                        className="cursor-pointer rounded-full border-[1px] p-[3px]"
+                      >
+                        <Close className="h-3 w-3" />
+                      </div>
+                    </div>{" "}
+                  </div>
+                )}
               </div>
 
               <div className="flex items-center justify-between">
@@ -274,32 +374,50 @@ export default function Contact({ projectSlug }: IContactProps) {
                     disabled
                     checked={twitterHandle != ""}
                     type="radio"
-                    className="h-4 w-4"
+                    className="h-4 w-4 text-green-500"
                   />
-                  <p>{twitterHandle ? twitterHandle : "Connect Twitter"} </p>
+                  {twitterHandle && (
+                    <p className="text-green-500">Twitter Connected</p>
+                  )}
+                  {!twitterHandle && <p className="">Connect Twitter</p>}
                 </div>
-                <Button
-                  disabled={!address}
-                  isLoading={twitterLoading}
-                  onClick={connectTwitter}
-                  variant="success"
-                  className="rounded-full disabled:bg-[#A0A6AB] disabled:hover:bg-[#A0A6AB]"
-                >
-                  Connect
-                </Button>
+
+                {!twitterHandle && (
+                  <Button
+                    disabled={!address}
+                    isLoading={twitterLoading}
+                    onClick={connectTwitter}
+                    variant="success"
+                    className="rounded-full disabled:bg-[#A0A6AB] disabled:hover:bg-[#A0A6AB]"
+                  >
+                    Connect
+                  </Button>
+                )}
+
+                {twitterHandle && (
+                  <div>
+                    <div className="flex items-center gap-3 rounded-full border-2 py-2 px-4">
+                      <p className="text-[#2EBCDB]">@{twitterHandle} </p>
+
+                      <div
+                        onClick={() => setTwitterHandle("")}
+                        className="cursor-pointer rounded-full border-[1px] p-[3px]"
+                      >
+                        <Close className="h-3 w-3" />
+                      </div>
+                    </div>{" "}
+                  </div>
+                )}
               </div>
             </div>
-            {error && <p className="px-4 text-center text-red-400">{error}</p>}
             <div className="px-4">
               <Button
                 onClick={proceed}
                 isLoading={loading}
-                disabled={
-                  endDate <= now || !address || !twitterHandle || error != ""
-                }
+                disabled={endDate <= now || !address || !twitterHandle}
                 className="rounded-0 w-full cursor-pointer justify-center border-none bg-[#FF9933] py-4 text-xl font-bold text-white hover:bg-[#FF9933] disabled:bg-[#A0A6AB] disabled:hover:bg-[#A0A6AB]"
               >
-                Click to register
+                Reserve your chutiya
               </Button>
             </div>
           </div>
