@@ -5,7 +5,6 @@ import { getFunctions, httpsCallable } from "firebase/functions";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useMoralis } from "react-moralis";
-import { toast } from "react-toastify";
 import { v4 } from "uuid";
 
 import { firebaseApp } from "@/lib/firebase";
@@ -15,8 +14,9 @@ import { checkTwitterExists, updateAccounts } from "@/firestore/project";
 import { addWhitelist, checkWhitelisted } from "@/firestore/whitelist";
 
 import Button from "../buttons/Button";
-import PageLoader from "../shared/PageLoader";
 
+import Close from "~/svg/icons8-close.svg";
+import CloseWhite from "~/svg/icons8-close-white.svg";
 import EthIcon from "~/svg/icons8-ethereum.svg";
 import TwitterIcon from "~/svg/icons8-twitter.svg";
 
@@ -37,7 +37,7 @@ export default function Contact({ projectSlug }: IContactProps) {
   const [endDate, setEndDate] = useState(new Date(2022, 10));
 
   const [heading, setHeading] = useState("Join the Bloody Bastards");
-  const [address, setAddress] = useState<string>();
+  const [address, setAddress] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const [twitterHandle, setTwitterHandle] = useState("");
 
@@ -141,7 +141,7 @@ export default function Contact({ projectSlug }: IContactProps) {
   };
 
   const connectTwitter = async () => {
-    setError("");
+    // setError("");
 
     setTwitterLoading(true);
     const requestTwitterUrl = httpsCallable(functions, "requestTwitterUrl");
@@ -158,7 +158,7 @@ export default function Contact({ projectSlug }: IContactProps) {
   };
 
   const verifyAccount = async (accessToken: string, twitterAccount: string) => {
-    setError("");
+    // setError("");
 
     // const userClient = new TwitterApi(accessToken);
 
@@ -175,14 +175,18 @@ export default function Contact({ projectSlug }: IContactProps) {
   };
 
   const proceed = async () => {
-    setError("");
+    // setError("");
 
     setLoading(true);
 
     const checkFollows = httpsCallable(functions, "checkFollows");
 
     const twitterExists = await checkTwitterExists(projectSlug, twitterHandle);
-    if (twitterExists) return toast.error("Twitter account is in use");
+    if (twitterExists) {
+      setError("Twitter account is already in use");
+      setLoading(false);
+      return;
+    }
 
     await checkFollows({
       user_account: twitterHandle,
@@ -209,12 +213,10 @@ export default function Contact({ projectSlug }: IContactProps) {
       .catch((error) => {
         console.log(error);
       });
-
-    setLoading(false);
   };
 
   const checkWhitelist = async () => {
-    setError("");
+    // setError("");
 
     const isWhitelisted = await checkWhitelisted(
       projectSlug,
@@ -275,6 +277,18 @@ export default function Contact({ projectSlug }: IContactProps) {
               </p>
             </div>
 
+            {error && (
+              <div className="relative mx-2 rounded-lg bg-red-400 p-4 text-white shadow-sm">
+                <p className="px-4 text-center">{error}</p>
+                <div
+                  onClick={() => setError("")}
+                  className="absolute top-2 right-2 w-min cursor-pointer rounded-full border-[1px] p-[3px]"
+                >
+                  <CloseWhite className="h-3 w-3" />
+                </div>
+              </div>
+            )}
+
             <div className="flex gap-4 bg-[#F8F9FA] py-2">
               <p>
                 <strong className="font-xl ml-4 font-bold text-[#2EBCDB]">
@@ -294,18 +308,14 @@ export default function Contact({ projectSlug }: IContactProps) {
                 <TwitterIcon className="h-6 w-6" />
                 <p>
                   Follow{" "}
-                  <span
-                    onClick={() => {
-                      window.open(
-                        `https://twitter.com/${projectAccount}`,
-                        "_bank"
-                      );
-                      setError("");
-                    }}
+                  <a
+                    href={`https://twitter.com/${projectAccount}`}
+                    target="_blank"
                     className="cursor-pointer font-bold text-[#2EBCDB] underline"
+                    rel="noreferrer"
                   >
                     @{projectAccount}
-                  </span>{" "}
+                  </a>{" "}
                   on twitter{" "}
                 </p>
               </div>
@@ -318,25 +328,43 @@ export default function Contact({ projectSlug }: IContactProps) {
                     disabled
                     checked={address != undefined}
                     type="radio"
-                    className="h-4 w-4"
+                    className="h-4 w-4 text-green-500"
                   />
-                  <p className="text-clip">
-                    {" "}
-                    {address ? formatEthAddress(address) : "Connect Wallet"}
-                  </p>
+
+                  {address && (
+                    <p className="text-green-500">Wallet Connected</p>
+                  )}
+                  {!address && <p className="">Connect Wallet</p>}
                 </div>
-                {isAuthenticating ? (
-                  <PageLoader />
-                ) : (
+
+                {!address && (
                   <Button
+                    isLoading={isAuthenticating}
                     onClick={() => {
                       connectWallet();
                     }}
                     variant="success"
-                    className="rounded-full hover:bg-gray-400"
+                    className="rounded-full"
                   >
-                    Connect
+                    {!address ? "Connect" : "Connected"}
                   </Button>
+                )}
+
+                {address && (
+                  <div>
+                    <div className="flex items-center gap-3 rounded-full border-2 py-2 px-4">
+                      <p className="text-[#2EBCDB]">
+                        {formatEthAddress(address)}
+                      </p>
+
+                      <div
+                        onClick={() => setAddress("")}
+                        className="cursor-pointer rounded-full border-[1px] p-[3px]"
+                      >
+                        <Close className="h-3 w-3" />
+                      </div>
+                    </div>{" "}
+                  </div>
                 )}
               </div>
 
@@ -346,29 +374,47 @@ export default function Contact({ projectSlug }: IContactProps) {
                     disabled
                     checked={twitterHandle != ""}
                     type="radio"
-                    className="h-4 w-4"
+                    className="h-4 w-4 text-green-500"
                   />
-                  <p>{twitterHandle ? twitterHandle : "Connect Twitter"} </p>
+                  {twitterHandle && (
+                    <p className="text-green-500">Twitter Connected</p>
+                  )}
+                  {!twitterHandle && <p className="">Connect Twitter</p>}
                 </div>
-                <Button
-                  disabled={!address}
-                  isLoading={twitterLoading}
-                  onClick={connectTwitter}
-                  variant="success"
-                  className="rounded-full disabled:bg-[#A0A6AB]"
-                >
-                  Connect
-                </Button>
+
+                {!twitterHandle && (
+                  <Button
+                    disabled={!address}
+                    isLoading={twitterLoading}
+                    onClick={connectTwitter}
+                    variant="success"
+                    className="rounded-full disabled:bg-[#A0A6AB] disabled:hover:bg-[#A0A6AB]"
+                  >
+                    Connect
+                  </Button>
+                )}
+
+                {twitterHandle && (
+                  <div>
+                    <div className="flex items-center gap-3 rounded-full border-2 py-2 px-4">
+                      <p className="text-[#2EBCDB]">@{twitterHandle} </p>
+
+                      <div
+                        onClick={() => setTwitterHandle("")}
+                        className="cursor-pointer rounded-full border-[1px] p-[3px]"
+                      >
+                        <Close className="h-3 w-3" />
+                      </div>
+                    </div>{" "}
+                  </div>
+                )}
               </div>
             </div>
-            {error && <p className="px-4 text-center text-red-400">{error}</p>}
             <div className="px-4">
               <Button
                 onClick={proceed}
                 isLoading={loading}
-                disabled={
-                  endDate <= now || !address || !twitterHandle || error != ""
-                }
+                disabled={endDate <= now || !address || !twitterHandle}
                 className="rounded-0 w-full cursor-pointer justify-center border-none bg-[#FF9933] py-4 text-xl font-bold text-white hover:bg-[#FF9933] disabled:bg-[#A0A6AB] disabled:hover:bg-[#A0A6AB]"
               >
                 Reserve your chutiya

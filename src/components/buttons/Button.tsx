@@ -1,4 +1,3 @@
-/* eslint-disable react/display-name */
 import * as React from "react";
 import { ImSpinner2 } from "react-icons/im";
 
@@ -6,14 +5,11 @@ import clsxm from "@/lib/clsxm";
 
 enum ButtonVariant {
   "primary",
-  "danger",
+  "success",
   "outline",
   "ghost",
   "light",
   "dark",
-  "success",
-  "gray",
-  "cancel",
 }
 
 type ButtonProps = {
@@ -43,57 +39,42 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         type="button"
         disabled={disabled}
         className={clsxm(
-          "inline-flex items-center rounded-md px-6 py-2 text-sm font-semibold",
+          "inline-flex items-center rounded px-4 py-2 font-semibold",
           "focus:outline-none focus-visible:ring focus-visible:ring-primary-500",
           "shadow-sm",
           "transition-colors duration-75",
           //#region  //*=========== Variants ===========
           [
             variant === "primary" && [
-              "bg-green text-white",
-              "dark:border-gray-800 dark:bg-gray-800",
-              "border border-primary-600",
-              "hover:bg-primary-50 hover:text-white",
-              "active:bg-primary-50",
-              "disabled:bg-primary-50 disabled:hover:bg-primary-400",
-            ],
-            variant === "gray" && [
-              "bg-light-gray text-gray",
-              "border border-primary-600",
-              "hover:bg-primary-50 hover:text-white",
-              "active:bg-primary-50",
-              "disabled:bg-primary-50 disabled:hover:bg-primary-400",
-            ],
-            variant === "danger" && [
-              "bg-red-400 text-white",
-              "border border-red-400",
-              "hover:bg-red-400 hover:text-white",
-              "active:bg-red-400",
-              "disabled:bg-red-100 disabled:hover:bg-red-100",
+              "bg-orange-500 text-white",
+              "border border-orange-600",
+              "hover:bg-orange-600 hover:text-white",
+              "active:bg-orange-500",
+              "disabled:bg-orange-400 disabled:hover:bg-orange-400",
             ],
             variant === "success" && [
-              "bg-green-600 text-white",
+              "bg-green-500 text-white",
               "border border-green-600",
               "hover:bg-green-600 hover:text-white",
-              "active:bg-green-600",
-              "disabled:bg-green-100 disabled:hover:bg-green-100",
+              "active:bg-green-500",
+              "disabled:bg-green-400 disabled:hover:bg-orange-400",
             ],
             variant === "outline" && [
-              "text-primary-500",
-              "border border-primary-500",
-              "hover:bg-primary-50 active:bg-primary-100 disabled:bg-primary-100",
+              "text-range-500",
+              "border border-orange-500",
+              "hover:bg-orange-50 active:bg-orange-100 disabled:bg-orange-100",
               isDarkBg &&
                 "hover:bg-gray-900 active:bg-gray-800 disabled:bg-gray-800",
             ],
             variant === "ghost" && [
-              "text-primary-500",
+              "text-range-500",
               "shadow-none",
-              "hover:bg-primary-50 active:bg-primary-100 disabled:bg-primary-100",
+              "hover:bg-orange-50 active:bg-orange-100 disabled:bg-orange-100",
               isDarkBg &&
                 "hover:bg-gray-900 active:bg-gray-800 disabled:bg-gray-800",
             ],
             variant === "light" && [
-              "bg-primary-100 text-primary-50 ",
+              "bg-white text-dark ",
               "border border-gray-300",
               "hover:bg-gray-100 hover:text-dark",
               "active:bg-white/80 disabled:bg-gray-200",
@@ -102,11 +83,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
               "bg-gray-900 text-white",
               "border border-gray-600",
               "hover:bg-gray-800 active:bg-gray-700 disabled:bg-gray-700",
-            ],
-            variant === "cancel" && [
-              "bg-transparent text-red-500",
-              "border border-red-500",
-              "hover:bg-transparent active:bg-transparent disabled:bg-gray-700",
             ],
           ],
           //#endregion  //*======== Variants ===========
@@ -124,7 +100,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
               {
                 "text-white": ["primary", "dark"].includes(variant),
                 "text-black": ["light"].includes(variant),
-                "text-primary-500": ["outline", "ghost"].includes(variant),
+                "text-range-500": ["outline", "ghost"].includes(variant),
               }
             )}
           >

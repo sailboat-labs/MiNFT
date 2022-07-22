@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useFormik } from "formik";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { v4 } from "uuid";
@@ -10,14 +11,14 @@ import { updateAccounts } from "@/firestore/project";
 import { checkTwitterExists } from "@/firestore/project";
 import { addWhitelist } from "@/firestore/whitelist";
 
-import WhitelistDates from "./Whitelist/WhitelistDates";
 import WhitelistTable from "./Whitelist/WhitelistTable";
 import Button from "../buttons/Button";
 
 export default function Whitelist() {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
 
-  const slug = "indians-nft";
+  const slug = router.query.project as string;
   // const projectAccount = "TheIndianNFTs";
 
   const newUserForm = useFormik({
@@ -75,6 +76,8 @@ export default function Whitelist() {
 
   return (
     <div className="h-[length:calc(100vh-80px)] overflow-auto font-dmsans opacity-100">
+      <div>{/* <WhitelistDates /> */}</div>
+
       <div className=" pl-10 pt-24 ">
         <div>
           <div className="-mt-16 text-2xl font-bold text-gray-700">
