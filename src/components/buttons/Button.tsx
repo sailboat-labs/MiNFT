@@ -46,30 +46,30 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           //#region  //*=========== Variants ===========
           [
             variant === "primary" && [
-              "bg-orange-500 text-white",
-              "border border-orange-600",
-              "hover:bg-orange-600 hover:text-white",
-              "active:bg-orange-500",
-              "disabled:bg-orange-400 disabled:hover:bg-orange-400",
+              "bg-indigo-500 text-white",
+              "border border-indigo-600",
+              "hover:bg-indigo-600 hover:text-white",
+              "active:bg-indigo-500",
+              "disabled:bg-indigo-400 disabled:hover:bg-indigo-400",
             ],
             variant === "success" && [
               "bg-green-500 text-white",
               "border border-green-600",
               "hover:bg-green-600 hover:text-white",
               "active:bg-green-500",
-              "disabled:bg-green-400 disabled:hover:bg-orange-400",
+              "disabled:bg-green-400 disabled:hover:bg-indigo-400",
             ],
             variant === "outline" && [
               "text-range-500",
-              "border border-orange-500",
-              "hover:bg-orange-50 active:bg-orange-100 disabled:bg-orange-100",
+              "border border-indigo-500",
+              "hover:bg-indigo-50 active:bg-indigo-100 disabled:bg-indigo-100",
               isDarkBg &&
                 "hover:bg-gray-900 active:bg-gray-800 disabled:bg-gray-800",
             ],
             variant === "ghost" && [
               "text-range-500",
               "shadow-none",
-              "hover:bg-orange-50 active:bg-orange-100 disabled:bg-orange-100",
+              "hover:bg-indigo-50 active:bg-indigo-100 disabled:bg-indigo-100",
               isDarkBg &&
                 "hover:bg-gray-900 active:bg-gray-800 disabled:bg-gray-800",
             ],
