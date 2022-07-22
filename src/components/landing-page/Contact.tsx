@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { formatEthAddress } from "eth-address";
 import { ethers } from "ethers";
-import { getFunctions, httpsCallable } from "firebase/functions";
+import { httpsCallable } from "firebase/functions";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useMoralis } from "react-moralis";
 import { v4 } from "uuid";
 
-import { firebaseApp } from "@/lib/firebase";
+import { functions } from "@/lib/firebase";
 import useStorage from "@/hooks/storage";
 
 import { checkTwitterExists, updateAccounts } from "@/firestore/project";
@@ -19,9 +19,6 @@ import Close from "~/svg/icons8-close.svg";
 import CloseWhite from "~/svg/icons8-close-white.svg";
 import EthIcon from "~/svg/icons8-ethereum.svg";
 import TwitterIcon from "~/svg/icons8-twitter.svg";
-
-const functions = getFunctions(firebaseApp);
-// connectFunctionsEmulator(functions, "localhost", 5001);
 
 interface IContactProps {
   projectSlug: string;
