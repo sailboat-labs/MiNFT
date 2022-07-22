@@ -34,19 +34,13 @@ export default function Whitelist() {
     onSubmit: async (values, formik) => {
       setLoading(true);
 
-      // const checkFollows = httpsCallable(functions, "checkFollows");
-
       const twitterExists = await checkTwitterExists(slug, values.twitter);
-      if (twitterExists) return toast.error("Twitter account is in use");
 
-      // await checkFollows({
-      //   user_account: values.twitter,
-      //   project_account: projectAccount,
-      // })
-      //   .then(async (result: any) => {
-      //     console.log({ result });
-      //     const { data } = result;
-      //     if (data.success && data.isFollowing) {
+      if (twitterExists) {
+        setLoading(false);
+        return toast.error("Twitter account is in use");
+      }
+
       await updateAccounts(slug, values.twitter);
 
       await addWhitelist({
@@ -57,18 +51,8 @@ export default function Whitelist() {
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
       });
+
       toast.success("User added");
-      // } else if (data.success && !data.isFollowing) {
-      //   toast.error("This account is not following us");
-      // } else if (!data.success) {
-      //   toast.error("An error occured");
-      //   console.log(data.error);
-      // }
-      // })
-      // .catch((error) => {
-      //   console.log(error);
-      //   toast.error("Error");
-      // });
 
       formik.resetForm();
       setLoading(false);
