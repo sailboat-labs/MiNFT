@@ -8,8 +8,6 @@ type props = {
 };
 
 export default function Banner({ contract }: props) {
-  console.log({ contract });
-
   const [totalQuantity, setTotalQuantity] = useState<number>();
   const [totalSupply, setTotalSupply] = useState<number>(0);
 
