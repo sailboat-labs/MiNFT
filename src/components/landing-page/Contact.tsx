@@ -75,8 +75,9 @@ export default function Contact({ project }: IContactProps) {
         connectWallet();
       }
     } else if (success === "false") {
-      // toast.error("Unable to add account");
+      setError('Unable to connect Twitter. Try a different account')
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router]);
 
   useEffect(() => {
@@ -417,6 +418,12 @@ export default function Contact({ project }: IContactProps) {
               >
                 Reserve your chutiya
               </Button>
+              {(!address || !twitterHandle) && (
+                <p className="text-red-500 mt-4 mx-16 text-center">
+                  {" "}
+                  Cannot register until you connect accounts above{" "}
+                </p>
+              )}
             </div>
           </div>
         )}
