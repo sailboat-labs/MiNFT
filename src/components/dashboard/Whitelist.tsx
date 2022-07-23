@@ -1,11 +1,14 @@
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { doc, onSnapshot } from "firebase/firestore";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { v4 } from "uuid";
 import * as Yup from "yup";
+
+import { firestore } from "@/lib/firebase";
 
 import { updateAccounts } from "@/firestore/project";
 import { checkTwitterExists } from "@/firestore/project";
@@ -15,12 +18,27 @@ import WhitelistDates from "./Whitelist/WhitelistDates";
 import WhitelistTable from "./Whitelist/WhitelistTable";
 import Button from "../buttons/Button";
 
+import { Project } from "@/types";
+
 export default function Whitelist() {
   const router = useRouter();
+  const slug = router.query.project as string;
+
   const [loading, setLoading] = useState(false);
 
-  const slug = router.query.project as string;
-  // const projectAccount = "TheIndianNFTs";
+  const [project, setProject] = useState<Project>();
+
+  useEffect(() => {
+    const _doc = doc(firestore, `Projects/${slug}`);
+    const unsubscribe = onSnapshot(_doc, (snapshot) => {
+      console.log(snapshot.data());
+      setProject(snapshot.data() as Project);
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, [slug]);
 
   const newUserForm = useFormik({
     initialValues: {
@@ -61,9 +79,11 @@ export default function Whitelist() {
 
   return (
     <div className="h-[length:calc(100vh-80px)] overflow-auto font-dmsans opacity-100">
-      <div className="pl-10 pt-5 ">
-        <WhitelistDates />
-      </div>
+      {project && (
+        <div className="pl-10 pt-5 ">
+          <WhitelistDates project={project} />
+        </div>
+      )}
 
       <div className="pl-10 pt-24">
         <div>

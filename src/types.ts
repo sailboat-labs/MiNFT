@@ -157,6 +157,7 @@ export interface OpenSeaCollection {
 export interface Project {
   projectSlug: string;
   projectName: string;
+  slug: string;
   accounts: string[],
   baseUrl: string,
   description: string,

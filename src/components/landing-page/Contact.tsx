@@ -15,23 +15,24 @@ import { addWhitelist, checkWhitelisted } from "@/firestore/whitelist";
 
 import Button from "../buttons/Button";
 
+import { Project } from "@/types";
+
 import Close from "~/svg/icons8-close.svg";
 import CloseWhite from "~/svg/icons8-close-white.svg";
 import EthIcon from "~/svg/icons8-ethereum.svg";
 import TwitterIcon from "~/svg/icons8-twitter.svg";
 
 interface IContactProps {
-  projectSlug: string;
+  project: Project;
 }
 
-export default function Contact({ projectSlug }: IContactProps) {
+export default function Contact({ project }: IContactProps) {
   const router = useRouter();
 
   const projectAccount = "TheIndianNFTs";
 
   const now = new Date();
-  const [startDate, setStartDate] = useState(new Date(2022, 6));
-  const [endDate, setEndDate] = useState(new Date(2022, 10));
+  const [endDate] = useState(new Date(project.endDate));
 
   const [heading, setHeading] = useState("Join the Bloody Bastards");
   const [address, setAddress] = useState<string>("");
@@ -178,7 +179,7 @@ export default function Contact({ projectSlug }: IContactProps) {
 
     const checkFollows = httpsCallable(functions, "checkFollows");
 
-    const twitterExists = await checkTwitterExists(projectSlug, twitterHandle);
+    const twitterExists = await checkTwitterExists(project.slug, twitterHandle);
     if (twitterExists) {
       setError("Twitter account is already in use");
       setLoading(false);
@@ -193,10 +194,10 @@ export default function Contact({ projectSlug }: IContactProps) {
       .then(async (result: any) => {
         const { data } = result;
         if (data.success && data.isFollowing) {
-          await updateAccounts(projectSlug, twitterHandle);
+          await updateAccounts(project.slug, twitterHandle);
           await addWhitelist({
             id: v4(),
-            projectSlug,
+            projectSlug: project.slug,
             wallet: address,
             twitterUsername: twitterHandle,
             createdAt: new Date().toISOString(),
@@ -216,7 +217,7 @@ export default function Contact({ projectSlug }: IContactProps) {
     // setError("");
 
     const isWhitelisted = await checkWhitelisted(
-      projectSlug,
+      project.slug,
       (address as string) ?? ""
     );
 

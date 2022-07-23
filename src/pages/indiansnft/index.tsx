@@ -1,7 +1,10 @@
 import { ethers } from "ethers";
 import { getContractForMinting } from "features/minting-page/utils/get-contract-for-minting";
+import { doc, onSnapshot } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useMoralis } from "react-moralis";
+
+import { firestore } from "@/lib/firebase";
 
 import Banner from "@/components/landing-page/Banner";
 import Contact from "@/components/landing-page/Contact";
@@ -11,6 +14,8 @@ import Join from "@/components/landing-page/Join";
 import SectionFour from "@/components/landing-page/SectionFour";
 import SectionThree from "@/components/landing-page/SectionThree";
 import SectionTwo from "@/components/landing-page/SectionTwo";
+
+import { Project } from "@/types";
 
 export default function LandingPage() {
   // let contract: ethers.Contract | undefined = undefined;
@@ -23,6 +28,19 @@ export default function LandingPage() {
 
   // const contractAddress = "0x7311102EcC5a3Effb9Fc2e734d918A4eb448A13E";
   const contractAddress = "0xd1aFbbdf886cc20E5c683B06444a116aDCe11F8E";
+
+  const [project, setProject] = useState<Project>();
+
+  useEffect(() => {
+    const _doc = doc(firestore, `Projects/indians-nft`);
+    const unsubscribe = onSnapshot(_doc, (snapshot) => {
+      setProject(snapshot.data() as Project);
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   async function prepareContract() {
     const _contract = await getContractForMinting(contractAddress);
@@ -126,7 +144,7 @@ export default function LandingPage() {
         <SectionThree />
         <SectionFour />
         <Join />
-        <Contact projectSlug="indians-nft" />
+        {project && <Contact project={project} />}
         <Footer />
       </div>
     </section>

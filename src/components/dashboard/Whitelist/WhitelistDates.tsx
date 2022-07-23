@@ -10,12 +10,21 @@ import Button from "@/components/buttons/Button";
 
 import { updateProject } from "@/firestore/project";
 
-const WhitelistDates = () => {
+import { Project } from "@/types";
+
+interface IProjectSlug {
+  project?: Project;
+}
+const WhitelistDates = ({ project }: IProjectSlug) => {
   const router = useRouter();
   const slug = router.query.project as string;
 
-  const [startDate, setStartDate] = useState<Date | null>(new Date());
-  const [endDate, setEndDate] = useState<Date | null>(new Date());
+  const [startDate, setStartDate] = useState<Date | null>(
+    project ? new Date(project?.startDate) : new Date()
+  );
+  const [endDate, setEndDate] = useState<Date | null>(
+    project ? new Date(project?.endDate) : new Date()
+  );
 
   const [loading, setLoading] = useState(false);
 
