@@ -9,7 +9,7 @@ import { v4 } from "uuid";
 
 import { functions } from "@/lib/firebase";
 import useStorage from "@/hooks/storage";
-import useAuthenticationDialog from "@/hooks/useAuthDialog";
+import useAuthenticationDialog from "@/hooks/UseAuthDialog";
 
 import { checkTwitterExists, updateAccounts } from "@/firestore/project";
 import { addWhitelist, checkWhitelisted } from "@/firestore/whitelist";
@@ -362,26 +362,29 @@ export default function Contact({ project }: IContactProps) {
                       className="h-4 w-4 text-green-500"
                     />
 
-                    {address && (
+                    {isAuthenticated && (
                       <p className="text-green-500">Wallet Connected</p>
                     )}
-                    {!address && <p className="">Connect Wallet</p>}
+                    {!isAuthenticated && <p className="">Connect Wallet</p>}
                   </div>
 
-                  {!address && (
-                    <Button
-                      isLoading={isAuthenticating}
-                      onClick={() => {
-                        connectWallet();
-                      }}
-                      variant="success"
-                      className="rounded-full"
-                    >
-                      {!address ? "Connect" : "Connected"}
-                    </Button>
-                  )}
+                  {!address ||
+                    (!isAuthenticated && !isAuthenticating && (
+                      <Button
+                        isLoading={isAuthenticating}
+                        onClick={() => {
+                          connectWallet();
+                        }}
+                        variant="success"
+                        className="rounded-full"
+                      >
+                        {!isAuthenticated ? "Connect" : "Connected"}
+                      </Button>
+                    ))}
 
-                  {address && (
+                  {isAuthenticating && <PageLoader />}
+
+                  {address && isAuthenticated && (
                     <div>
                       <div className="flex items-center gap-3 rounded-full border-2 py-2 px-4">
                         <p className="text-[#2EBCDB]">
@@ -389,7 +392,10 @@ export default function Contact({ project }: IContactProps) {
                         </p>
 
                         <div
-                          onClick={() => setAddress("")}
+                          onClick={() => {
+                            setAddress("");
+                            logout();
+                          }}
                           className="cursor-pointer rounded-full border-[1px] p-[3px]"
                         >
                           <Close className="h-3 w-3" />

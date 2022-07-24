@@ -21,36 +21,36 @@ export const connectors = [
     connectorId: "walletconnect",
     priority: 2,
   },
-  {
-    title: "Trust Wallet",
-    icon: "/images/WalletIcons/TrustWallet.png",
-    connectorId: "injected",
-    priority: 3,
-  },
-  {
-    title: "MathWallet",
-    icon: "/images/WalletIcons/MathWallet.svg",
-    connectorId: "injected",
-    priority: 999,
-  },
-  {
-    title: "TokenPocket",
-    icon: "/images/WalletIcons/TokenPocket.svg",
-    connectorId: "injected",
-    priority: 999,
-  },
-  {
-    title: "SafePal",
-    icon: "/images/WalletIcons/SafePal.svg",
-    connectorId: "injected",
-    priority: 999,
-  },
-  {
-    title: "Coin98",
-    icon: "/images/WalletIcons/Coin98.png",
-    connectorId: "injected",
-    priority: 999,
-  },
+  // {
+  //   title: "Trust Wallet",
+  //   icon: "/images/WalletIcons/TrustWallet.png",
+  //   connectorId: "injected",
+  //   priority: 3,
+  // },
+  // {
+  //   title: "MathWallet",
+  //   icon: "/images/WalletIcons/MathWallet.svg",
+  //   connectorId: "injected",
+  //   priority: 999,
+  // },
+  // {
+  //   title: "TokenPocket",
+  //   icon: "/images/WalletIcons/TokenPocket.svg",
+  //   connectorId: "injected",
+  //   priority: 999,
+  // },
+  // {
+  //   title: "SafePal",
+  //   icon: "/images/WalletIcons/SafePal.svg",
+  //   connectorId: "injected",
+  //   priority: 999,
+  // },
+  // {
+  //   title: "Coin98",
+  //   icon: "/images/WalletIcons/Coin98.png",
+  //   connectorId: "injected",
+  //   priority: 999,
+  // },
 ];
 
 export default function useAuthenticationDialog() {
@@ -130,12 +130,12 @@ export default function useAuthenticationDialog() {
               </span>
               <Transition.Child
                 as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0 scale-95"
-                enterTo="opacity-100 scale-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100 scale-100"
-                leaveTo="opacity-0 scale-95"
+                // enter="ease-out duration-300"
+                // enterFrom="opacity-0 scale-95"
+                // enterTo="opacity-100 scale-100"
+                // leave="ease-in duration-200"
+                // leaveFrom="opacity-100 scale-100"
+                // leaveTo="opacity-0 scale-95"
               >
                 <div className="my-8 inline-block w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left  align-middle shadow-xl transition-all dark:bg-gray-700 dark:text-white">
                   <Dialog.Title
