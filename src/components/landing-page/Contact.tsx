@@ -33,7 +33,7 @@ export default function Contact({ project }: IContactProps) {
   const projectAccount = "TheIndianNFTs";
 
   const now = new Date();
-  const [endDate] = useState(new Date(project.endDate));
+  const [endDate] = useState(new Date(project.endDate ?? ""));
 
   const [heading, setHeading] = useState("Join the Bloody Bastards");
   const [address, setAddress] = useState<string>("");
