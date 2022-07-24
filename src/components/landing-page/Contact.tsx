@@ -419,7 +419,7 @@ export default function Contact({ project }: IContactProps) {
               </div>
             )}
 
-            {endDate <= now && (
+            {endDate > now && new Date(project.startDate) <= now && (
               <div className="px-4">
                 <Button
                   onClick={proceed}

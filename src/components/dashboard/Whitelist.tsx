@@ -79,12 +79,6 @@ export default function Whitelist() {
 
   return (
     <div className="h-[length:calc(100vh-80px)] overflow-auto font-dmsans opacity-100">
-      {project && (
-        <div className="pl-10 pt-5 ">
-          <WhitelistDates project={project} />
-        </div>
-      )}
-
       <div className="pl-10 pt-24">
         <div>
           <div className="-mt-16 text-2xl font-bold text-gray-700">
@@ -95,6 +89,12 @@ export default function Whitelist() {
             trustworthy.
           </div>
         </div>
+
+        {project && (
+          <div className="mt-5 border-y py-5 pl-0 pt-5">
+            <WhitelistDates project={project} />
+          </div>
+        )}
 
         <div className="mt-5">
           <span className="font-dmsans text-base font-semibold text-gray-600 opacity-100">
