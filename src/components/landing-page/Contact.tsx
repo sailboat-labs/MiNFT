@@ -8,8 +8,8 @@ import { useMoralis } from "react-moralis";
 import { v4 } from "uuid";
 
 import { functions } from "@/lib/firebase";
+import useAuthenticationDialog from "@/hooks/hookAuthDialog";
 import useStorage from "@/hooks/storage";
-import useAuthenticationDialog from "@/hooks/UseAuthDialog";
 
 import { checkTwitterExists, updateAccounts } from "@/firestore/project";
 import { addWhitelist, checkWhitelisted } from "@/firestore/whitelist";
