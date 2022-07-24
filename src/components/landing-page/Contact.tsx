@@ -67,25 +67,6 @@ export default function Contact({ project }: IContactProps) {
     authError,
   } = useMoralis();
 
-  console.log({
-    isAuthenticating,
-    isInitializing,
-    isInitialized,
-    initialize,
-    isAuthUndefined,
-    isWeb3Enabled,
-    isWeb3EnableLoading,
-    network,
-    authenticate,
-    isAuthenticated,
-    account,
-    chainId,
-    logout,
-    isLoggingOut,
-    isUnauthenticated,
-    authError,
-  });
-
   useEffect(() => {
     const { success, twitterAccount, accessToken } = router.query;
 
@@ -171,7 +152,7 @@ export default function Contact({ project }: IContactProps) {
     requestTwitterUrl()
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .then((result: any) => {
-        window.open(result.data.authUrl);
+        window.open(result.data.authUrl, "_self");
         setTwitterLoading(false);
       })
       .catch((error) => {

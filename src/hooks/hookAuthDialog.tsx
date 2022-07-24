@@ -3,18 +3,13 @@
 import { Dialog, Transition } from "@headlessui/react";
 import axios from "axios";
 import { Fragment, useEffect, useState } from "react";
+import { isMobile } from "react-device-detect";
 import toast from "react-hot-toast";
 import { useMoralis } from "react-moralis";
 
 import { getRandomAvatar } from "@/utils/GetRandomAvatar";
 
 export const connectors = [
-  {
-    title: "Metamask",
-    icon: "/images/WalletIcons/metamaskWallet.png",
-    connectorId: "injected",
-    priority: 1,
-  },
   {
     title: "WalletConnect",
     icon: "/images/WalletIcons/wallet-connect.svg",
@@ -52,6 +47,15 @@ export const connectors = [
   //   priority: 999,
   // },
 ];
+
+if (!isMobile) {
+  connectors.push({
+    title: "Metamask",
+    icon: "/images/WalletIcons/metamaskWallet.png",
+    connectorId: "injected",
+    priority: 1,
+  });
+}
 
 export default function useAuthenticationDialog() {
   const {
@@ -201,46 +205,48 @@ export default function useAuthenticationDialog() {
                       Service and acknowledge that you have read and understand
                       the Magic Mynt Disclaimer.
                     </div>
-                    {connectors.map(({ title, icon, connectorId }, key) => (
-                      <div
-                        className={`flex cursor-pointer items-center gap-5 transition-all hover:scale-105 `}
-                        key={key}
-                        onClick={async () => {
-                          setSelectedWallet(title.toString());
-                          if (!isAuthenticating && !isInitializing) {
-                            try {
-                              await authenticate({
-                                provider: connectorId as any,
-                                signingMessage:
-                                  "Authenticate with Magic Mynt \nClick to sign in and accept the Magic Mynt Terms of Service.\n\n This request will not trigger a blockchain transaction \nor cost any gas fees.\nYour authentication status will reset after 24 hours",
-                              })
-                                .then((result) => {
-                                  if (result?.authenticated) return;
-                                  logout();
+                    {connectors
+                      .reverse()
+                      .map(({ title, icon, connectorId }, key) => (
+                        <div
+                          className={`flex cursor-pointer items-center gap-5 transition-all hover:scale-105 `}
+                          key={key}
+                          onClick={async () => {
+                            setSelectedWallet(title.toString());
+                            if (!isAuthenticating && !isInitializing) {
+                              try {
+                                await authenticate({
+                                  provider: connectorId as any,
+                                  signingMessage:
+                                    "Authenticate with Magic Mynt \nClick to sign in and accept the Magic Mynt Terms of Service.\n\n This request will not trigger a blockchain transaction \nor cost any gas fees.\nYour authentication status will reset after 24 hours",
                                 })
-                                .catch((reason) => {
-                                  console.error(reason);
-                                });
-                              // if(!isAuthenticated) logout();
-                              window.localStorage.setItem(
-                                "connectorId",
-                                connectorId
-                              );
-                            } catch (e) {
-                              // eslint-disable-next-line no-console
-                              console.error(e);
+                                  .then((result) => {
+                                    if (result?.authenticated) return;
+                                    logout();
+                                  })
+                                  .catch((reason) => {
+                                    console.error(reason);
+                                  });
+                                // if(!isAuthenticated) logout();
+                                window.localStorage.setItem(
+                                  "connectorId",
+                                  connectorId
+                                );
+                              } catch (e) {
+                                // eslint-disable-next-line no-console
+                                console.error(e);
+                              }
                             }
-                          }
-                        }}
-                      >
-                        <img
-                          className="h-12 w-12 rounded-[50%] border-2 p-2"
-                          src={icon}
-                          alt=""
-                        />
-                        <div>{title.toString()}</div>
-                      </div>
-                    ))}
+                          }}
+                        >
+                          <img
+                            className="h-12 w-12 rounded-[50%] border-2 p-2"
+                            src={icon}
+                            alt=""
+                          />
+                          <div>{title.toString()}</div>
+                        </div>
+                      ))}
                   </div>
                 </div>
               </Transition.Child>
