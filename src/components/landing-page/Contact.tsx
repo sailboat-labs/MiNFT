@@ -14,6 +14,7 @@ import { checkTwitterExists, updateAccounts } from "@/firestore/project";
 import { addWhitelist, checkWhitelisted } from "@/firestore/whitelist";
 
 import Button from "../buttons/Button";
+import PageLoader from "../shared/PageLoader";
 
 import { Project } from "@/types";
 
@@ -148,12 +149,11 @@ export default function Contact({ project }: IContactProps) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .then((result: any) => {
         window.open(result.data.authUrl, "_bank");
+        setTwitterLoading(false);
       })
       .catch((error) => {
         console.log(error);
       });
-
-    setTwitterLoading(false);
   };
 
   const verifyAccount = async (accessToken: string, twitterAccount: string) => {
@@ -389,9 +389,9 @@ export default function Contact({ project }: IContactProps) {
                     {!twitterHandle && <p className="">Connect Twitter</p>}
                   </div>
 
-                  {!twitterHandle && (
+                  {!twitterHandle && !twitterLoading && (
                     <Button
-                      disabled={!address}
+                      disabled={!address || twitterLoading}
                       isLoading={twitterLoading}
                       onClick={connectTwitter}
                       variant="success"
@@ -400,6 +400,8 @@ export default function Contact({ project }: IContactProps) {
                       Connect
                     </Button>
                   )}
+
+                  {twitterLoading && <PageLoader />}
 
                   {twitterHandle && (
                     <div>
