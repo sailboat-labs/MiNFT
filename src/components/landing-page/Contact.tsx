@@ -75,9 +75,9 @@ export default function Contact({ project }: IContactProps) {
         connectWallet();
       }
     } else if (success === "false") {
-      setError('Unable to connect Twitter. Try a different account')
+      setError("Unable to connect Twitter. Try a different account");
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router]);
 
   useEffect(() => {
@@ -265,7 +265,14 @@ export default function Contact({ project }: IContactProps) {
         {!whitelisted && (
           <div className="flex flex-col gap-8 rounded-lg bg-white py-4 text-black shadow-xl lg:w-5/12">
             <div className="px-4">
-              {endDate > now && <h3>Register</h3>}
+              {endDate > now && new Date(project.startDate) <= now && (
+                <h3>Register</h3>
+              )}
+              {new Date(project.startDate) > now && (
+                <h3>
+                  Registration <span className="text-red-500">not open</span>
+                </h3>
+              )}
               {endDate <= now && (
                 <h3>
                   Registration <span className="text-red-500">closed</span>
@@ -320,111 +327,118 @@ export default function Contact({ project }: IContactProps) {
               </div>
             </div>
 
-            <div className="flex flex-col gap-3 border-y-[1px] px-4 py-3">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <input
-                    disabled
-                    checked={address != undefined}
-                    type="radio"
-                    className="h-4 w-4 text-green-500"
-                  />
+            {endDate > now && new Date(project.startDate) <= now && (
+              <div className="flex flex-col gap-3 border-y-[1px] px-4 py-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <input
+                      disabled
+                      checked={address != undefined}
+                      type="radio"
+                      className="h-4 w-4 text-green-500"
+                    />
+
+                    {address && (
+                      <p className="text-green-500">Wallet Connected</p>
+                    )}
+                    {!address && <p className="">Connect Wallet</p>}
+                  </div>
+
+                  {!address && (
+                    <Button
+                      isLoading={isAuthenticating}
+                      onClick={() => {
+                        connectWallet();
+                      }}
+                      variant="success"
+                      className="rounded-full"
+                    >
+                      {!address ? "Connect" : "Connected"}
+                    </Button>
+                  )}
 
                   {address && (
-                    <p className="text-green-500">Wallet Connected</p>
+                    <div>
+                      <div className="flex items-center gap-3 rounded-full border-2 py-2 px-4">
+                        <p className="text-[#2EBCDB]">
+                          {formatEthAddress(address)}
+                        </p>
+
+                        <div
+                          onClick={() => setAddress("")}
+                          className="cursor-pointer rounded-full border-[1px] p-[3px]"
+                        >
+                          <Close className="h-3 w-3" />
+                        </div>
+                      </div>{" "}
+                    </div>
                   )}
-                  {!address && <p className="">Connect Wallet</p>}
                 </div>
 
-                {!address && (
-                  <Button
-                    isLoading={isAuthenticating}
-                    onClick={() => {
-                      connectWallet();
-                    }}
-                    variant="success"
-                    className="rounded-full"
-                  >
-                    {!address ? "Connect" : "Connected"}
-                  </Button>
-                )}
-
-                {address && (
-                  <div>
-                    <div className="flex items-center gap-3 rounded-full border-2 py-2 px-4">
-                      <p className="text-[#2EBCDB]">
-                        {formatEthAddress(address)}
-                      </p>
-
-                      <div
-                        onClick={() => setAddress("")}
-                        className="cursor-pointer rounded-full border-[1px] p-[3px]"
-                      >
-                        <Close className="h-3 w-3" />
-                      </div>
-                    </div>{" "}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <input
+                      disabled
+                      checked={twitterHandle != ""}
+                      type="radio"
+                      className="h-4 w-4 text-green-500"
+                    />
+                    {twitterHandle && (
+                      <p className="text-green-500">Twitter Connected</p>
+                    )}
+                    {!twitterHandle && <p className="">Connect Twitter</p>}
                   </div>
-                )}
-              </div>
 
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <input
-                    disabled
-                    checked={twitterHandle != ""}
-                    type="radio"
-                    className="h-4 w-4 text-green-500"
-                  />
+                  {!twitterHandle && (
+                    <Button
+                      disabled={!address}
+                      isLoading={twitterLoading}
+                      onClick={connectTwitter}
+                      variant="success"
+                      className="rounded-full disabled:bg-[#A0A6AB] disabled:hover:bg-[#A0A6AB]"
+                    >
+                      Connect
+                    </Button>
+                  )}
+
                   {twitterHandle && (
-                    <p className="text-green-500">Twitter Connected</p>
+                    <div>
+                      <div className="flex items-center gap-3 rounded-full border-2 py-2 px-4">
+                        <p className="text-[#2EBCDB]">@{twitterHandle} </p>
+
+                        <div
+                          onClick={() => setTwitterHandle("")}
+                          className="cursor-pointer rounded-full border-[1px] p-[3px]"
+                        >
+                          <Close className="h-3 w-3" />
+                        </div>
+                      </div>{" "}
+                    </div>
                   )}
-                  {!twitterHandle && <p className="">Connect Twitter</p>}
                 </div>
-
-                {!twitterHandle && (
-                  <Button
-                    disabled={!address}
-                    isLoading={twitterLoading}
-                    onClick={connectTwitter}
-                    variant="success"
-                    className="rounded-full disabled:bg-[#A0A6AB] disabled:hover:bg-[#A0A6AB]"
-                  >
-                    Connect
-                  </Button>
-                )}
-
-                {twitterHandle && (
-                  <div>
-                    <div className="flex items-center gap-3 rounded-full border-2 py-2 px-4">
-                      <p className="text-[#2EBCDB]">@{twitterHandle} </p>
-
-                      <div
-                        onClick={() => setTwitterHandle("")}
-                        className="cursor-pointer rounded-full border-[1px] p-[3px]"
-                      >
-                        <Close className="h-3 w-3" />
-                      </div>
-                    </div>{" "}
-                  </div>
-                )}
               </div>
-            </div>
-            <div className="px-4">
-              <Button
-                onClick={proceed}
-                isLoading={loading}
-                disabled={endDate <= now || !address || !twitterHandle}
-                className="rounded-0 w-full cursor-pointer justify-center border-none bg-[#FF9933] py-4 text-xl font-bold text-white hover:bg-[#FF9933] disabled:bg-[#A0A6AB] disabled:hover:bg-[#A0A6AB]"
-              >
-                Reserve your chutiya
-              </Button>
-              {(!address || !twitterHandle) && (
-                <p className="text-red-500 mt-4 mx-16 text-center">
-                  {" "}
-                  Cannot register until you connect accounts above{" "}
-                </p>
-              )}
-            </div>
+            )}
+
+            {endDate <= now && (
+              <div className="px-4">
+                <Button
+                  onClick={proceed}
+                  isLoading={loading}
+                  disabled={endDate <= now || !address || !twitterHandle}
+                  className="rounded-0 w-full cursor-pointer justify-center border-none bg-[#FF9933] py-4 text-xl font-bold text-white hover:bg-[#FF9933] disabled:bg-[#A0A6AB] disabled:hover:bg-[#A0A6AB]"
+                >
+                  Reserve your chutiya
+                </Button>
+                {endDate > now &&
+                  new Date(project.startDate) <= now &&
+                  (!address || !twitterHandle) && (
+                    <p className="mx-16 mt-4 text-center text-red-500">
+                      {" "}
+                      Cannot register until you connect accounts above{" "}
+                    </p>
+                  )}
+              </div>
+            )}
           </div>
         )}
       </div>

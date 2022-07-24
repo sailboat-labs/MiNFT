@@ -35,6 +35,7 @@ export default function LandingPage() {
     const _doc = doc(firestore, `Projects/indians-nft`);
     const unsubscribe = onSnapshot(_doc, (snapshot) => {
       setProject(snapshot.data() as Project);
+      console.log(snapshot.data());
     });
 
     return () => {
