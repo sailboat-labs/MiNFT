@@ -171,7 +171,7 @@ export default function Contact({ project }: IContactProps) {
     requestTwitterUrl()
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .then((result: any) => {
-        window.open(result.data.authUrl, "_bank");
+        window.open(result.data.authUrl);
         setTwitterLoading(false);
       })
       .catch((error) => {
@@ -368,20 +368,18 @@ export default function Contact({ project }: IContactProps) {
                     {!isAuthenticated && <p className="">Connect Wallet</p>}
                   </div>
 
-                  {!address ||
-                    (!isAuthenticated && !isAuthenticating && (
-                      <Button
-                        isLoading={isAuthenticating}
-                        onClick={() => {
-                          connectWallet();
-                        }}
-                        variant="success"
-                        className="rounded-full"
-                      >
-                        {!isAuthenticated ? "Connect" : "Connected"}
-                      </Button>
-                    ))}
-
+                  {!isAuthenticating && !isAuthenticated && (
+                    <Button
+                      isLoading={isAuthenticating}
+                      onClick={() => {
+                        connectWallet();
+                      }}
+                      variant="success"
+                      className="rounded-full"
+                    >
+                      {!isAuthenticated ? "Connect" : "Connected"}
+                    </Button>
+                  )}
                   {isAuthenticating && <PageLoader />}
 
                   {address && isAuthenticated && (
