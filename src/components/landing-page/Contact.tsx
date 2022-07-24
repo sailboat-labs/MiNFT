@@ -9,6 +9,7 @@ import { v4 } from "uuid";
 
 import { functions } from "@/lib/firebase";
 import useStorage from "@/hooks/storage";
+import useAuthenticationDialog from "@/hooks/useAuthDialog";
 
 import { checkTwitterExists, updateAccounts } from "@/firestore/project";
 import { addWhitelist, checkWhitelisted } from "@/firestore/whitelist";
@@ -31,7 +32,7 @@ export default function Contact({ project }: IContactProps) {
   const router = useRouter();
 
   const projectAccount = "TheIndianNFTs";
-
+  const { AuthDialog, setShowAuthDialog } = useAuthenticationDialog();
   const now = new Date();
   const [endDate] = useState(new Date(project.endDate ?? ""));
 
@@ -127,6 +128,9 @@ export default function Contact({ project }: IContactProps) {
 
   const connectWallet = async () => {
     setError("");
+
+    return setShowAuthDialog(true);
+
     try {
       await authenticate({
         provider: "metamask",
@@ -253,6 +257,7 @@ export default function Contact({ project }: IContactProps) {
       id="join-whitelist"
       className="mb-52 flex h-full flex-col items-center justify-center"
     >
+      <AuthDialog />
       <div className="flex flex-col items-center text-white md:mx-20 lg:flex-row">
         <div className="w-full md:w-1/2 lg:w-7/12">
           <textarea

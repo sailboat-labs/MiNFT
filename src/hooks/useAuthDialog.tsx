@@ -197,9 +197,9 @@ export default function useAuthenticationDialog() {
                     }`}
                   >
                     <div className="rounded-lg border-2 bg-gray-100 p-3 dark:bg-gray-600">
-                      By connecting a wallet, you agree to MiNFT’s Terms of
+                      By connecting a wallet, you agree to Magic Mynt Terms of
                       Service and acknowledge that you have read and understand
-                      the MiNFT Disclaimer.
+                      the Magic Mynt Disclaimer.
                     </div>
                     {connectors.map(({ title, icon, connectorId }, key) => (
                       <div
@@ -212,7 +212,7 @@ export default function useAuthenticationDialog() {
                               await authenticate({
                                 provider: connectorId as any,
                                 signingMessage:
-                                  "Authenticate with MiNFT \nClick to sign in and accept the \nMiNFT Terms of Service.\n\n This request will not trigger a blockchain transaction \nor cost any gas fees.\nYour authentication status will reset after 24 hours",
+                                  "Authenticate with Magic Mynt \nClick to sign in and accept the Magic Mynt Terms of Service.\n\n This request will not trigger a blockchain transaction \nor cost any gas fees.\nYour authentication status will reset after 24 hours",
                               })
                                 .then((result) => {
                                   if (result?.authenticated) return;
