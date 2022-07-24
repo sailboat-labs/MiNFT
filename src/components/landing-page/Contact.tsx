@@ -66,6 +66,25 @@ export default function Contact({ project }: IContactProps) {
     authError,
   } = useMoralis();
 
+  console.log({
+    isAuthenticating,
+    isInitializing,
+    isInitialized,
+    initialize,
+    isAuthUndefined,
+    isWeb3Enabled,
+    isWeb3EnableLoading,
+    network,
+    authenticate,
+    isAuthenticated,
+    account,
+    chainId,
+    logout,
+    isLoggingOut,
+    isUnauthenticated,
+    authError,
+  });
+
   useEffect(() => {
     const { success, twitterAccount, accessToken } = router.query;
 
