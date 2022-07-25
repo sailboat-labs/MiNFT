@@ -223,8 +223,7 @@ input[id="label2"]:focus,
 input[id="oilbarrels"]:focus,
 input[id="label3"]:focus, 
 textarea[id="join-heading"]:focus,
-textarea[id="contact-heading"]:focus,
-input[id="contact-input"]:focus {
+textarea[id="contact-heading"]:focus {
   border-width: 0px;
   outline: 0;
   -webkit-appearance: none;
@@ -233,4 +232,5 @@ input[id="contact-input"]:focus {
   -webkit-box-shadow: none;
 }
 
+input[id="contact-input"]:focus
 

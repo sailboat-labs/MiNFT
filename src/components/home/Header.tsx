@@ -4,8 +4,9 @@ import React from "react";
 import UnstyledLink from "../links/UnstyledLink";
 
 import StarSVG from "~/svg/homepage/header_star.svg";
+import ContactLink from "../buttons/ContactLink";
 
-export default function Header() {
+export default function Header( { viewContactForm } ) {
   const router = useRouter();
 
   return (
@@ -28,9 +29,7 @@ export default function Header() {
             ? "Get Started"
             : "Join Waitlist"}
         </span>
-        <UnstyledLink href="" className="hidden w-24 md:block">
-          Contact us
-        </UnstyledLink>
+        <ContactLink className='cursor-pointer' />
       </div>
     </div>
   );

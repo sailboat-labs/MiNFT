@@ -11,7 +11,7 @@ export default function Banner() {
         <div className="relative z-0 mx-auto flex w-4/5 justify-end md:w-full lg:w-full ">
           <Vector1SVG className="absolute z-0 -mt-10 h-[40rem] w-[40rem]" />
         </div>
-        <div className="z-30 m-auto pt-40 lg:pt-44 w-4/5 lg:w-3/5">
+        <div className="z-30 m-auto w-4/5 pt-40 lg:w-3/5 lg:pt-44">
           <h1 className="relative z-30 text-8xl font-bold">Magic Mynt.</h1>
           <p className="relative z-30 border-b border-black py-10 text-2xl font-medium">
             No-code tool for creating, launching and managing your NFT
