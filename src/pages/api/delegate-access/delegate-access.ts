@@ -29,6 +29,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           .status(403)
           .send(responder(false, "Authentication required"));
 
+      console.log({ account, address, slug, role });
+
       const result = await delegateAccess(account, address, slug, role);
 
       return res.send(responder(true, result));
@@ -50,6 +52,29 @@ async function delegateAccess(
   slug: string,
   role: string
 ) {
+  const projectsCollection = collection(firestore, `Projects`);
+
+  const _projectQuery = query(projectsCollection, where("slug", "==", slug));
+
+  const projectExists = (await getDocs(_projectQuery)).docs.length > 0;
+
+  if (projectExists) {
+    console.log(
+      "Project owner",
+      (await getDocs(_projectQuery)).docs[0].data().owner,
+      "Incoming account",
+      account
+    );
+
+    if ((await getDocs(_projectQuery)).docs[0].data().owner != account) {
+      console.log("Not allowed to delegate");
+
+      return responder(false, "Not allowed");
+    }
+  }
+
+  console.log(projectExists, (await getDocs(_projectQuery)).docs);
+
   const delegateAccessCollection = collection(
     firestore,
     `Projects/${slug}/Delegates`

@@ -59,20 +59,22 @@ export default function DelegatedProjects() {
     <div className="mb-10">
       <div>
         <div className="mb-5 text-xl font-semibold">Delegated Projects</div>
-        {delegatedProjects.map((project, index) => (
-          <div
-            key={index}
-            onClick={() => {
-              router.push(`/dashboard/${project.slug}`);
-            }}
-            className="rounded-lg border bg-gray-50 px-5 py-5 "
-          >
-            <div className="pr-20 font-dmsans text-xl">
-              {project.projectName}
+        <div className="3xl:grid-cols-4 mb-20 grid grid-cols-1 gap-5 xl:grid-cols-2 2xl:grid-cols-3">
+          {delegatedProjects.map((project, index) => (
+            <div
+              key={index}
+              onClick={() => {
+                router.push(`/dashboard/${project.slug}`);
+              }}
+              className="rounded-lg border bg-gray-50 px-5 py-5 "
+            >
+              <div className="pr-20 font-dmsans text-xl">
+                {project.projectName}
+              </div>
+              <div className="pb-20 font-dmsans">{project.slug}</div>
             </div>
-            <div className="pb-20 font-dmsans">{project.slug}</div>
-          </div>
-        ))}
+          ))}
+        </div>
 
         {!loading && delegatedProjects.length < 1 && (
           <div> No project delegated to you</div>
