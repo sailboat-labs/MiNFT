@@ -34,3 +34,10 @@ export const updateAccounts = async (projectSlug: string, twitter: string) => {
     accounts: [...twitterAccounts, ...[twitter]],
   });
 };
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const updateProject = async (data: any) => {
+  const _doc = doc(firestore, `Projects/${data.projectSlug}`);
+
+  return await updateDoc(_doc, data);
+};

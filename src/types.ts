@@ -153,3 +153,18 @@ export interface OpenSeaCollection {
   twitter_username?: string;
   wiki_url?: string;
 }
+
+export interface Project {
+  projectSlug: string;
+  projectName: string;
+  slug: string;
+  accounts: string[],
+  baseUrl: string,
+  description: string,
+  owner: string,
+  tokenSupply: number;
+  startDate: string;
+  endDate: string;
+  createdAt: string;
+  updatetedAt: string;
+}

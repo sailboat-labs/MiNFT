@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { formatEthAddress } from "eth-address";
 import { ethers } from "ethers";
-import { getFunctions, httpsCallable } from "firebase/functions";
+import { httpsCallable } from "firebase/functions";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useMoralis } from "react-moralis";
-import { toast } from "react-toastify";
 import { v4 } from "uuid";
 
-import { firebaseApp } from "@/lib/firebase";
+import { functions } from "@/lib/firebase";
+import useAuthenticationDialog from "@/hooks/hookAuthDialog";
 import useStorage from "@/hooks/storage";
 
 import { checkTwitterExists, updateAccounts } from "@/firestore/project";
@@ -17,27 +17,27 @@ import { addWhitelist, checkWhitelisted } from "@/firestore/whitelist";
 import Button from "../buttons/Button";
 import PageLoader from "../shared/PageLoader";
 
+import { Project } from "@/types";
+
+import Close from "~/svg/icons8-close.svg";
+import CloseWhite from "~/svg/icons8-close-white.svg";
 import EthIcon from "~/svg/icons8-ethereum.svg";
 import TwitterIcon from "~/svg/icons8-twitter.svg";
 
-const functions = getFunctions(firebaseApp);
-// connectFunctionsEmulator(functions, "localhost", 5001);
-
 interface IContactProps {
-  projectSlug: string;
+  project: Project;
 }
 
-export default function Contact({ projectSlug }: IContactProps) {
+export default function Contact({ project }: IContactProps) {
   const router = useRouter();
 
   const projectAccount = "TheIndianNFTs";
-
+  const { AuthDialog, setShowAuthDialog } = useAuthenticationDialog();
   const now = new Date();
-  const [startDate, setStartDate] = useState(new Date(2022, 6));
-  const [endDate, setEndDate] = useState(new Date(2022, 10));
+  const [endDate] = useState(new Date(project.endDate ?? ""));
 
   const [heading, setHeading] = useState("Join the Bloody Bastards");
-  const [address, setAddress] = useState<string>();
+  const [address, setAddress] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const [twitterHandle, setTwitterHandle] = useState("");
 
@@ -77,8 +77,9 @@ export default function Contact({ projectSlug }: IContactProps) {
         connectWallet();
       }
     } else if (success === "false") {
-      // toast.error("Unable to add account");
+      setError("Unable to connect Twitter. Try a different account");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router]);
 
   useEffect(() => {
@@ -108,6 +109,9 @@ export default function Contact({ projectSlug }: IContactProps) {
 
   const connectWallet = async () => {
     setError("");
+
+    return setShowAuthDialog(true);
+
     try {
       await authenticate({
         provider: "metamask",
@@ -141,24 +145,23 @@ export default function Contact({ projectSlug }: IContactProps) {
   };
 
   const connectTwitter = async () => {
-    setError("");
+    // setError("");
 
     setTwitterLoading(true);
     const requestTwitterUrl = httpsCallable(functions, "requestTwitterUrl");
     requestTwitterUrl()
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .then((result: any) => {
-        window.open(result.data.authUrl, "_bank");
+        window.open(result.data.authUrl, "_self");
+        setTwitterLoading(false);
       })
       .catch((error) => {
         console.log(error);
       });
-
-    setTwitterLoading(false);
   };
 
   const verifyAccount = async (accessToken: string, twitterAccount: string) => {
-    setError("");
+    // setError("");
 
     // const userClient = new TwitterApi(accessToken);
 
@@ -175,14 +178,18 @@ export default function Contact({ projectSlug }: IContactProps) {
   };
 
   const proceed = async () => {
-    setError("");
+    // setError("");
 
     setLoading(true);
 
     const checkFollows = httpsCallable(functions, "checkFollows");
 
-    const twitterExists = await checkTwitterExists(projectSlug, twitterHandle);
-    if (twitterExists) return toast.error("Twitter account is in use");
+    const twitterExists = await checkTwitterExists(project.slug, twitterHandle);
+    if (twitterExists) {
+      setError("Twitter account is already in use");
+      setLoading(false);
+      return;
+    }
 
     await checkFollows({
       user_account: twitterHandle,
@@ -192,10 +199,10 @@ export default function Contact({ projectSlug }: IContactProps) {
       .then(async (result: any) => {
         const { data } = result;
         if (data.success && data.isFollowing) {
-          await updateAccounts(projectSlug, twitterHandle);
+          await updateAccounts(project.slug, twitterHandle);
           await addWhitelist({
             id: v4(),
-            projectSlug,
+            projectSlug: project.slug,
             wallet: address,
             twitterUsername: twitterHandle,
             createdAt: new Date().toISOString(),
@@ -209,15 +216,13 @@ export default function Contact({ projectSlug }: IContactProps) {
       .catch((error) => {
         console.log(error);
       });
-
-    setLoading(false);
   };
 
   const checkWhitelist = async () => {
-    setError("");
+    // setError("");
 
     const isWhitelisted = await checkWhitelisted(
-      projectSlug,
+      project.slug,
       (address as string) ?? ""
     );
 
@@ -233,6 +238,7 @@ export default function Contact({ projectSlug }: IContactProps) {
       id="join-whitelist"
       className="mb-52 flex h-full flex-col items-center justify-center"
     >
+      <AuthDialog />
       <div className="flex flex-col items-center text-white md:mx-20 lg:flex-row">
         <div className="w-full md:w-1/2 lg:w-7/12">
           <textarea
@@ -264,7 +270,14 @@ export default function Contact({ projectSlug }: IContactProps) {
         {!whitelisted && (
           <div className="flex flex-col gap-8 rounded-lg bg-white py-4 text-black shadow-xl lg:w-5/12">
             <div className="px-4">
-              {endDate > now && <h3>Register</h3>}
+              {endDate > now && new Date(project.startDate) <= now && (
+                <h3>Register</h3>
+              )}
+              {new Date(project.startDate) > now && (
+                <h3>
+                  Registration <span className="text-red-500">not open</span>
+                </h3>
+              )}
               {endDate <= now && (
                 <h3>
                   Registration <span className="text-red-500">closed</span>
@@ -274,6 +287,18 @@ export default function Contact({ projectSlug }: IContactProps) {
                 Follow the steps below to add yourself to this list.
               </p>
             </div>
+
+            {error && (
+              <div className="relative mx-2 rounded-lg bg-red-400 p-4 text-white shadow-sm">
+                <p className="px-4 text-center">{error}</p>
+                <div
+                  onClick={() => setError("")}
+                  className="absolute top-2 right-2 w-min cursor-pointer rounded-full border-[1px] p-[3px]"
+                >
+                  <CloseWhite className="h-3 w-3" />
+                </div>
+              </div>
+            )}
 
             <div className="flex gap-4 bg-[#F8F9FA] py-2">
               <p>
@@ -294,86 +319,137 @@ export default function Contact({ projectSlug }: IContactProps) {
                 <TwitterIcon className="h-6 w-6" />
                 <p>
                   Follow{" "}
-                  <span
-                    onClick={() => {
-                      window.open(
-                        `https://twitter.com/${projectAccount}`,
-                        "_bank"
-                      );
-                      setError("");
-                    }}
+                  <a
+                    href={`https://twitter.com/${projectAccount}`}
+                    target="_blank"
                     className="cursor-pointer font-bold text-[#2EBCDB] underline"
+                    rel="noreferrer"
                   >
                     @{projectAccount}
-                  </span>{" "}
+                  </a>{" "}
                   on twitter{" "}
                 </p>
               </div>
             </div>
 
-            <div className="flex flex-col gap-3 border-y-[1px] px-4 py-3">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <input
-                    disabled
-                    checked={address != undefined}
-                    type="radio"
-                    className="h-4 w-4"
-                  />
-                  <p className="text-clip">
-                    {" "}
-                    {address ? formatEthAddress(address) : "Connect Wallet"}
-                  </p>
-                </div>
-                {isAuthenticating ? (
-                  <PageLoader />
-                ) : (
-                  <Button
-                    onClick={() => {
-                      connectWallet();
-                    }}
-                    variant="success"
-                    className="rounded-full hover:bg-gray-400"
-                  >
-                    Connect
-                  </Button>
-                )}
-              </div>
+            {endDate > now && new Date(project.startDate) <= now && (
+              <div className="flex flex-col gap-3 border-y-[1px] px-4 py-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <input
+                      disabled
+                      checked={address != undefined}
+                      type="radio"
+                      className="h-4 w-4 text-green-500"
+                    />
 
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <input
-                    disabled
-                    checked={twitterHandle != ""}
-                    type="radio"
-                    className="h-4 w-4"
-                  />
-                  <p>{twitterHandle ? twitterHandle : "Connect Twitter"} </p>
+                    {isAuthenticated && (
+                      <p className="text-green-500">Wallet Connected</p>
+                    )}
+                    {!isAuthenticated && <p className="">Connect Wallet</p>}
+                  </div>
+
+                  {!isAuthenticating && !isAuthenticated && (
+                    <Button
+                      isLoading={isAuthenticating}
+                      onClick={() => {
+                        connectWallet();
+                      }}
+                      variant="success"
+                      className="rounded-full"
+                    >
+                      {!isAuthenticated ? "Connect" : "Connected"}
+                    </Button>
+                  )}
+                  {isAuthenticating && <PageLoader />}
+
+                  {address && isAuthenticated && (
+                    <div>
+                      <div className="flex items-center gap-3 rounded-full border-2 py-2 px-4">
+                        <p className="text-[#2EBCDB]">
+                          {formatEthAddress(address)}
+                        </p>
+
+                        <div
+                          onClick={() => {
+                            setAddress("");
+                            logout();
+                          }}
+                          className="cursor-pointer rounded-full border-[1px] p-[3px]"
+                        >
+                          <Close className="h-3 w-3" />
+                        </div>
+                      </div>{" "}
+                    </div>
+                  )}
                 </div>
-                <Button
-                  disabled={!address}
-                  isLoading={twitterLoading}
-                  onClick={connectTwitter}
-                  variant="success"
-                  className="rounded-full disabled:bg-[#A0A6AB]"
-                >
-                  Connect
-                </Button>
+
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <input
+                      disabled
+                      checked={twitterHandle != ""}
+                      type="radio"
+                      className="h-4 w-4 text-green-500"
+                    />
+                    {twitterHandle && (
+                      <p className="text-green-500">Twitter Connected</p>
+                    )}
+                    {!twitterHandle && <p className="">Connect Twitter</p>}
+                  </div>
+
+                  {!twitterHandle && !twitterLoading && (
+                    <Button
+                      disabled={!address || twitterLoading}
+                      isLoading={twitterLoading}
+                      onClick={connectTwitter}
+                      variant="success"
+                      className="rounded-full disabled:bg-[#A0A6AB] disabled:hover:bg-[#A0A6AB]"
+                    >
+                      Connect
+                    </Button>
+                  )}
+
+                  {twitterLoading && <PageLoader />}
+
+                  {twitterHandle && (
+                    <div>
+                      <div className="flex items-center gap-3 rounded-full border-2 py-2 px-4">
+                        <p className="text-[#2EBCDB]">@{twitterHandle} </p>
+
+                        <div
+                          onClick={() => setTwitterHandle("")}
+                          className="cursor-pointer rounded-full border-[1px] p-[3px]"
+                        >
+                          <Close className="h-3 w-3" />
+                        </div>
+                      </div>{" "}
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-            {error && <p className="px-4 text-center text-red-400">{error}</p>}
-            <div className="px-4">
-              <Button
-                onClick={proceed}
-                isLoading={loading}
-                disabled={
-                  endDate <= now || !address || !twitterHandle || error != ""
-                }
-                className="rounded-0 w-full cursor-pointer justify-center border-none bg-[#FF9933] py-4 text-xl font-bold text-white hover:bg-[#FF9933] disabled:bg-[#A0A6AB] disabled:hover:bg-[#A0A6AB]"
-              >
-                Reserve your chutiya
-              </Button>
-            </div>
+            )}
+
+            {endDate > now && new Date(project.startDate) <= now && (
+              <div className="px-4">
+                <Button
+                  onClick={proceed}
+                  isLoading={loading}
+                  disabled={endDate <= now || !address || !twitterHandle}
+                  className="rounded-0 w-full cursor-pointer justify-center border-none bg-[#FF9933] py-4 text-xl font-bold text-white hover:bg-[#FF9933] disabled:bg-[#A0A6AB] disabled:hover:bg-[#A0A6AB]"
+                >
+                  Reserve your chutiya
+                </Button>
+                {endDate > now &&
+                  new Date(project.startDate) <= now &&
+                  (!address || !twitterHandle) && (
+                    <p className="mx-16 mt-4 text-center text-red-500">
+                      {" "}
+                      Cannot register until you connect accounts above{" "}
+                    </p>
+                  )}
+              </div>
+            )}
           </div>
         )}
       </div>

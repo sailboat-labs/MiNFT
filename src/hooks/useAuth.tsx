@@ -52,7 +52,7 @@ export const connectors = [
   },
 ];
 
-export default function useAuthenticationDialog() {
+export default function useAuthentication() {
   const {
     isAuthenticating,
     isInitializing,

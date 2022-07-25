@@ -1,10 +1,14 @@
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { doc, onSnapshot } from "firebase/firestore";
 import { useFormik } from "formik";
-import { useState } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { v4 } from "uuid";
 import * as Yup from "yup";
+
+import { firestore } from "@/lib/firebase";
 
 import { updateAccounts } from "@/firestore/project";
 import { checkTwitterExists } from "@/firestore/project";
@@ -14,11 +18,27 @@ import WhitelistDates from "./Whitelist/WhitelistDates";
 import WhitelistTable from "./Whitelist/WhitelistTable";
 import Button from "../buttons/Button";
 
+import { Project } from "@/types";
+
 export default function Whitelist() {
+  const router = useRouter();
+  const slug = router.query.project as string;
+
   const [loading, setLoading] = useState(false);
 
-  const slug = "indians-nft";
-  // const projectAccount = "TheIndianNFTs";
+  const [project, setProject] = useState<Project>();
+
+  useEffect(() => {
+    const _doc = doc(firestore, `Projects/${slug}`);
+    const unsubscribe = onSnapshot(_doc, (snapshot) => {
+      console.log(snapshot.data());
+      setProject(snapshot.data() as Project);
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, [slug]);
 
   const newUserForm = useFormik({
     initialValues: {
@@ -32,19 +52,13 @@ export default function Whitelist() {
     onSubmit: async (values, formik) => {
       setLoading(true);
 
-      // const checkFollows = httpsCallable(functions, "checkFollows");
-
       const twitterExists = await checkTwitterExists(slug, values.twitter);
-      if (twitterExists) return toast.error("Twitter account is in use");
 
-      // await checkFollows({
-      //   user_account: values.twitter,
-      //   project_account: projectAccount,
-      // })
-      //   .then(async (result: any) => {
-      //     console.log({ result });
-      //     const { data } = result;
-      //     if (data.success && data.isFollowing) {
+      if (twitterExists) {
+        setLoading(false);
+        return toast.error("Twitter account is in use");
+      }
+
       await updateAccounts(slug, values.twitter);
 
       await addWhitelist({
@@ -55,18 +69,8 @@ export default function Whitelist() {
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
       });
+
       toast.success("User added");
-      // } else if (data.success && !data.isFollowing) {
-      //   toast.error("This account is not following us");
-      // } else if (!data.success) {
-      //   toast.error("An error occured");
-      //   console.log(data.error);
-      // }
-      // })
-      // .catch((error) => {
-      //   console.log(error);
-      //   toast.error("Error");
-      // });
 
       formik.resetForm();
       setLoading(false);
@@ -75,7 +79,7 @@ export default function Whitelist() {
 
   return (
     <div className="h-[length:calc(100vh-80px)] overflow-auto font-dmsans opacity-100">
-      <div className=" pl-10 pt-24 ">
+      <div className="pl-10 pt-24">
         <div>
           <div className="-mt-16 text-2xl font-bold text-gray-700">
             Whitelist accounts
@@ -85,6 +89,12 @@ export default function Whitelist() {
             trustworthy.
           </div>
         </div>
+
+        {project && (
+          <div className="mt-5 border-y py-5 pl-0 pt-5">
+            <WhitelistDates project={project} />
+          </div>
+        )}
 
         <div className="mt-5">
           <span className="font-dmsans text-base font-semibold text-gray-600 opacity-100">
