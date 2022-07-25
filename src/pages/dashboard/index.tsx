@@ -84,10 +84,23 @@ export default function DashboardGetStarted() {
       return acc;
     }, []);
 
+    getDelegatedProjects();
+
     console.log(data);
 
     setAllProjects(data);
   }, [loading, snapshots]);
+
+  async function getDelegatedProjects() {
+    const result = await axios.post(
+      "/api/delegate-access/get-delegated-accounts",
+      {
+        account: "eshun",
+      }
+    );
+
+    console.log({ result });
+  }
 
   async function createDemoProject() {
     const account =

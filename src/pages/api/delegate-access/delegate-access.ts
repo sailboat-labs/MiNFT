@@ -52,7 +52,7 @@ async function delegateAccess(
 ) {
   const delegateAccessCollection = collection(
     firestore,
-    `DelegateAccess/${slug}/Delegates`
+    `Projects/${slug}/Delegates`
   );
 
   const _query = query(
@@ -67,7 +67,7 @@ async function delegateAccess(
   if (exists) {
     const _doc = doc(
       firestore,
-      `DelegateAccess/${slug}/Delegates/${addressToDelegate}`
+      `Projects/${slug}/Delegates/${addressToDelegate}`
     );
     const data = {
       delegates: addressToDelegate,
@@ -80,7 +80,7 @@ async function delegateAccess(
   } else {
     const _doc = doc(
       firestore,
-      `DelegateAccess/${slug}/Delegates/${addressToDelegate}`
+      `Projects/${slug}/Delegates/${addressToDelegate}`
     );
     const data = {
       delegate: addressToDelegate,

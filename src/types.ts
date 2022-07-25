@@ -155,9 +155,11 @@ export interface OpenSeaCollection {
 }
 
 export interface IDelegates {
-  address: string;
+  delegate: string;
   dateDelegated: string;
   role: string;
+  owner: string;
+  slug: string;
 }
 
 export interface Project {

@@ -42,8 +42,6 @@ export default function AllProjects() {
       return acc;
     }, []);
 
-    console.log(data);
-
     setAllProjects(data);
   }, [loading, snapshots]);
 

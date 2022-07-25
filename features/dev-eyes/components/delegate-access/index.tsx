@@ -1,23 +1,23 @@
+import { collection, limit, query, where } from "firebase/firestore";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useCollectionData } from "react-firebase-hooks/firestore";
 import { toast } from "react-toastify";
 
+import { firestore } from "@/lib/firebase";
 import useStorage from "@/hooks/storage";
 
 import Button from "@/components/buttons/Button";
 
 import { delegateAccessToAddress } from "./index.logic";
 
+import { IDelegates } from "@/types";
+
 export default function DelegateAccess() {
-  const delegatedAccessToList: string[] = [
-    "0x8529d076CA796B00A75bBF758d05046BFB4DDaAB",
-    "0x8529d076CA796B00A75bBF758d05046BFB4DDaAB",
-    "0x8529d076CA796B00A75bBF758d05046BFB4DDaAB",
-    "0x8529d076CA796B00A75bBF758d05046BFB4DDaAB",
-    "0x8529d076CA796B00A75bBF758d05046BFB4DDaAB",
-    "0x8529d076CA796B00A75bBF758d05046BFB4DDaAB",
-    "0x8529d076CA796B00A75bBF758d05046BFB4DDaAB",
-  ];
+  const [delegatedAccessToList, setDelegatedAccessToList] = useState<
+    IDelegates[]
+  >([]);
+
   const [address, setAddress] = useState<string>("");
   const { getItem, setItem, removeItem } = useStorage();
 
@@ -26,6 +26,28 @@ export default function DelegateAccess() {
   const account =
     getItem("isAuthenticated", "local") == "true" &&
     getItem("account", "local");
+
+  const _query = query(
+    collection(firestore, `Projects/${slug}/Delegates`),
+    where("owner", "==", account),
+    limit(100)
+  );
+
+  const [snapshots, loading] = useCollectionData(_query);
+
+  useEffect(() => {
+    if (loading) return;
+    if (!snapshots) return;
+
+    const data = snapshots.reduce((acc: IDelegates[], curr: any) => {
+      acc.push(curr as IDelegates);
+      return acc;
+    }, []);
+
+    console.log({ data });
+
+    setDelegatedAccessToList(data);
+  }, [loading, snapshots]);
 
   if (!slug) return <div>No project found</div>;
   if (!account) return <div>No account found</div>;
@@ -40,7 +62,7 @@ export default function DelegateAccess() {
       account,
     });
 
-    console.log({ result });
+    console.log(result);
   }
 
   return (
@@ -50,7 +72,7 @@ export default function DelegateAccess() {
       <div>
         {delegatedAccessToList.map((address, index) => (
           <div key={index} className="my-2">
-            {index + 1}. {address}
+            {index + 1}. {address.delegate}
           </div>
         ))}
       </div>
