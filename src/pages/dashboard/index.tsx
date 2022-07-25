@@ -2,7 +2,7 @@
 
 import axios from "axios";
 import dashify from "dashify";
-import { formatEthAddress } from "eth-address";
+import DelegatedProjects from "features/dashboard/components/delegated-projects";
 import {
   collection,
   DocumentData,
@@ -218,7 +218,7 @@ export default function DashboardGetStarted() {
               <div className="pt-10 font-dmsans text-xl text-gray-500">
                 {getItem("isAuthenticated") == "true" &&
                   getItem("account") &&
-                  formatEthAddress(getItem("account"))}
+                  getItem("account")}
               </div>
               <div className="mb-10  font-dmsans text-2xl">Recent Projects</div>
               {loading && (
@@ -232,6 +232,9 @@ export default function DashboardGetStarted() {
                   No Project Created
                 </div>
               )}
+              <DelegatedProjects />
+              <div className="mb-5 text-xl font-semibold">My Projects</div>
+
               <div className="3xl:grid-cols-4 mb-20 grid grid-cols-1 gap-5 xl:grid-cols-2 2xl:grid-cols-3">
                 {allProjects.map((project, index) => (
                   <div

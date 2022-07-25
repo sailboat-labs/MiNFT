@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import { getContract } from "features/dashboard/components/DeployedContracts/index.logic";
+import { getContract } from "features/dashboard-home/components/DeployedContracts/index.logic";
 import toast from "react-hot-toast";
 
 export async function getContractForMinting(contractAddress: string) {

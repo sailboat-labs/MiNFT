@@ -14,10 +14,11 @@ import useStorage from "@/hooks/storage";
 
 import { IProject } from "@/interfaces";
 
+import { getDelegatedProjects } from "./index.logic";
+
 const firestore = getFirestore(firebaseApp);
 
-export default function AllProjects() {
-  const [allProjects, setAllProjects] = useState<IProject[]>([]);
+export default function DelegatedProjects() {
   const [delegatedProjects, setDelegatedProjects] = useState<IProject[]>([]);
   const router = useRouter();
   const { getItem, setItem, removeItem } = useStorage();
@@ -32,6 +33,14 @@ export default function AllProjects() {
   );
   const [snapshots, loading] = useCollectionData(_query);
 
+  async function handleGetDelegatedProjects() {
+    const account = getItem("isAuthenticated") == "true" && getItem("account");
+
+    if (!account) return;
+    const projectsDelegated = await getDelegatedProjects(account);
+    setDelegatedProjects(projectsDelegated);
+  }
+
   useEffect(() => {
     if (loading) return;
     if (!snapshots) return;
@@ -41,13 +50,16 @@ export default function AllProjects() {
       return acc;
     }, []);
 
-    setAllProjects(data);
+    if (data.length < 0) return;
+
+    handleGetDelegatedProjects();
   }, [loading, snapshots]);
 
   return (
-    <div>
+    <div className="mb-10">
       <div>
-        {allProjects.map((project, index) => (
+        <div className="mb-5 text-xl font-semibold">Delegated Projects</div>
+        {delegatedProjects.map((project, index) => (
           <div
             key={index}
             onClick={() => {
@@ -61,6 +73,10 @@ export default function AllProjects() {
             <div className="pb-20 font-dmsans">{project.slug}</div>
           </div>
         ))}
+
+        {!loading && delegatedProjects.length < 1 && (
+          <div> No project delegated to you</div>
+        )}
       </div>
     </div>
   );

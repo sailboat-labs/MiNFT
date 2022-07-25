@@ -1,6 +1,6 @@
 import dashify from "dashify";
 import ContractMakerView from "features/contract-maker/components";
-import DashboardHome from "features/dashboard/components/dashboard-home";
+import DashboardHome from "features/dashboard-home/components/dashboard-home";
 import PageBuilder from "features/minting-page-builder/components/page-builder";
 import NFTGenerator from "features/traitmixer/components";
 import {
