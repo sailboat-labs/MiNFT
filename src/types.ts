@@ -154,17 +154,31 @@ export interface OpenSeaCollection {
   wiki_url?: string;
 }
 
+export interface IDelegates {
+  address: string;
+  dateDelegated: string;
+  role: string;
+}
+
 export interface Project {
   projectSlug: string;
   projectName: string;
   slug: string;
-  accounts: string[],
-  baseUrl: string,
-  description: string,
-  owner: string,
+  accounts: string[];
+  baseUrl: string;
+  description: string;
+  owner: string;
   tokenSupply: number;
   startDate: string;
   endDate: string;
   createdAt: string;
   updatetedAt: string;
+}
+
+//DelegateAccess -> slug -> {owner:string,slug:string,delegates:{address:string,dateDelegated:timestamp,role:string}}
+
+export interface IDelegateAccess {
+  owner: string;
+  slug: string;
+  delegatedAccess: IDelegates[];
 }
