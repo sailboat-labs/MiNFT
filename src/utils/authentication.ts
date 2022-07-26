@@ -96,3 +96,19 @@ export async function hasAccessToProject(slug: string, account: string) {
 
   return false;
 }
+
+export async function isProjectOwner(slug: string, account: string) {
+  //Check if account the owner of this project
+
+  const dashboardCollection = collection(firestore, `Projects`);
+  const _query = query(
+    dashboardCollection,
+    where("slug", "==", slug),
+    where("owner", "==", account)
+  );
+  const exists = (await getDocs(_query)).docs.length > 0;
+
+  if (exists) return true;
+
+  return false;
+}

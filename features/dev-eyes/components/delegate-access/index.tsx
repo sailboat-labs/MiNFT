@@ -1,4 +1,4 @@
-import { collection, limit, query, where } from "firebase/firestore";
+import { collection, query, where } from "firebase/firestore";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
@@ -7,9 +7,10 @@ import { toast } from "react-toastify";
 import { getAddress } from "redux/reducers/selectors/user";
 
 import { firestore } from "@/lib/firebase";
-import useStorage from "@/hooks/storage";
 
 import Button from "@/components/buttons/Button";
+
+import { isProjectOwner } from "@/utils/authentication";
 
 import { delegateAccessToAddress } from "./index.logic";
 
@@ -23,23 +24,33 @@ export default function DelegateAccess() {
   const activeAddress = useSelector(getAddress);
 
   const [address, setAddress] = useState<string>("");
-  const { getItem, setItem, removeItem } = useStorage();
+  const [isSaving, setIsSaving] = useState(false);
+  const [isOwner, setIsOwner] = useState(false);
 
   const router = useRouter();
   const slug = router.query.project;
-  // const account =
-  //   getItem("isAuthenticated", "local") == "true" &&
-  //   getItem("account", "local");
 
   const _query = query(
     collection(firestore, `Projects/${slug}/Delegates`),
-    where("owner", "==", activeAddress),
-    limit(100)
+    where("owner", "==", activeAddress)
   );
 
   const [snapshots, loading] = useCollectionData(_query);
 
+  async function validateOwner() {
+    const _isOwner = await isProjectOwner(
+      router.query.project as string,
+      activeAddress
+    );
+
+    setIsOwner(_isOwner);
+    return _isOwner;
+  }
+
   useEffect(() => {
+    if (!activeAddress) return;
+    validateOwner();
+
     if (loading) return;
     if (!snapshots) return;
 
@@ -48,10 +59,8 @@ export default function DelegateAccess() {
       return acc;
     }, []);
 
-    console.log({ data });
-
     setDelegatedAccessToList(data);
-  }, [loading, snapshots]);
+  }, [loading, snapshots, activeAddress]);
 
   if (!slug) return <div>No project found</div>;
   if (!activeAddress) return <div>No account found</div>;
@@ -61,7 +70,7 @@ export default function DelegateAccess() {
     if (!activeAddress) return toast.error("No account provided");
 
     try {
-      console.log({ activeAddress });
+      setIsSaving(true);
 
       const result = await delegateAccessToAddress({
         address,
@@ -75,24 +84,63 @@ export default function DelegateAccess() {
       } else {
         toast.error(result.data.message);
       }
-
-      console.log(result);
     } catch (error: any) {
       toast.error(error.toString());
       console.log(error);
+    } finally {
+      setIsSaving(false);
     }
+  }
+
+  if (isOwner == false) {
+    return <div></div>;
   }
 
   return (
     <div className="mt-10 border-y py-10">
-      <div className=" mb-5 text-xl ">Delegate Access</div>
-
-      <div>
-        {delegatedAccessToList.map((address, index) => (
-          <div key={index} className="my-2">
-            {index + 1}. {address.delegate}
-          </div>
-        ))}
+      <div className="relative overflow-x-auto sm:rounded-lg">
+        <table className="w-full rounded text-left text-sm text-gray-500 dark:text-gray-400">
+          <caption className="bg-white py-5 text-left text-lg font-semibold text-gray-900 dark:bg-gray-800 dark:text-white">
+            Delegate Access
+            <p className="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">
+              Allow other users to view this project by delegating access
+            </p>
+          </caption>
+          <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+              <th scope="col" className="sr-only py-3 px-6">
+                Index
+              </th>
+              <th scope="col" className="py-3 px-6">
+                Address
+              </th>
+              <th scope="col" className="py-3 px-6">
+                Role
+              </th>
+              <th scope="col" className="py-3 px-6">
+                Date
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {delegatedAccessToList.map((user, index) => (
+              <tr
+                key={index}
+                className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
+              >
+                <th
+                  scope="row"
+                  className="whitespace-nowrap py-4 px-6 font-medium text-gray-900 dark:text-white"
+                >
+                  {index + 1}
+                </th>
+                <td className="py-4 px-6">{user.delegate}</td>
+                <td className="py-4 px-6">{user.role}</td>
+                <td className="py-4 px-6">{user.dateDelegated}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
 
       <div className="mt-10 flex items-center gap-5">
@@ -108,6 +156,7 @@ export default function DelegateAccess() {
           // {...newUserForm.getFieldProps("address")}
         />
         <Button
+          isLoading={isSaving}
           disabled={address.length < 1}
           onClick={() => {
             address.length > 0 && handleDelegateAccess();
