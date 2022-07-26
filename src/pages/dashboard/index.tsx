@@ -7,7 +7,6 @@ import {
   collection,
   DocumentData,
   getFirestore,
-  limit,
   query,
   where,
 } from "firebase/firestore";
@@ -15,6 +14,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
+import { useSelector } from "react-redux";
+import { getAddress } from "redux/reducers/selectors/user";
 
 import { firebaseApp } from "@/lib/firebase";
 import useStorage from "@/hooks/storage";
@@ -39,6 +40,7 @@ export default function DashboardGetStarted() {
   );
   const [isCreatingProject, setIsCreatingProject] = useState(false);
   const [allProjects, setAllProjects] = useState<IProject[]>([]);
+  const activeAddress = useSelector(getAddress);
 
   const router = useRouter();
   const [canCreateModalBeDiscarded, setCanCreateModalBeDiscarded] =
@@ -66,12 +68,7 @@ export default function DashboardGetStarted() {
 
   const _query = query(
     collection(firestore, `Projects`),
-    where(
-      "owner",
-      "==",
-      (getItem("isAuthenticated") == "true" ? getItem("account") : "") ?? ""
-    ),
-    limit(100)
+    where("owner", "==", activeAddress)
   );
   const [snapshots, loading] = useCollectionData(_query);
 
@@ -86,8 +83,6 @@ export default function DashboardGetStarted() {
 
     getDelegatedProjects();
 
-    console.log(data);
-
     setAllProjects(data);
   }, [loading, snapshots]);
 
@@ -95,17 +90,12 @@ export default function DashboardGetStarted() {
     const result = await axios.post(
       "/api/delegate-access/get-delegated-accounts",
       {
-        account: "eshun",
+        account: activeAddress,
       }
     );
-
-    console.log({ result });
   }
 
   async function createDemoProject() {
-    const account =
-      (getItem("isAuthenticated") == "true" ? getItem("account") : "") ?? "";
-
     setIsCreatingProject(true);
     const data: IProject = {
       projectName: "Nozomix Extreme",
@@ -115,31 +105,37 @@ export default function DashboardGetStarted() {
       isDemo: true,
     };
 
-    if (!data || !account) return;
+    if (!data || !activeAddress) return;
 
     const response = await axios.post("/api/dashboard/console/create-project", {
       project: data,
-      account,
+      account: activeAddress,
     });
 
     if (response.data.success) {
       setIsCreatingProjectStarted(false);
       setIsCreatingProject(false);
       router.push(
-        `/dashboard/${dashify("Nozomix Extreme")}-${account.substring(
+        `/dashboard/${dashify("Nozomix Extreme")}-${activeAddress.substring(
           0,
           9
-        )}${account.substring(account.length - 9, account.length - 1)}`
+        )}${activeAddress.substring(
+          activeAddress.length - 9,
+          activeAddress.length - 1
+        )}`
       );
     } else {
       // toast.error(
       //   response.data.message ?? "An error occurred creating account"
       // );
       router.push(
-        `/dashboard/${dashify("Nozomix Extreme")}-${account.substring(
+        `/dashboard/${dashify("Nozomix Extreme")}-${activeAddress.substring(
           0,
           9
-        )}${account.substring(account.length - 9, account.length - 1)}`
+        )}${activeAddress.substring(
+          activeAddress.length - 9,
+          activeAddress.length - 1
+        )}`
       );
       setIsCreatingProject(false);
       setCanCreateModalBeDiscarded(true);
@@ -216,9 +212,7 @@ export default function DashboardGetStarted() {
             {/* Right section */}
             <div className="mt-10 pb-24">
               <div className="pt-10 font-dmsans text-xl text-gray-500">
-                {getItem("isAuthenticated") == "true" &&
-                  getItem("account") &&
-                  getItem("account")}
+                {activeAddress}
               </div>
               <div className="mb-10  font-dmsans text-2xl">Recent Projects</div>
               {loading && (

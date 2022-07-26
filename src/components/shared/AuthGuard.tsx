@@ -109,6 +109,17 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
     prepareAuth();
   }, [account, isAuthenticated]);
 
+  useEffect(() => {
+    if ((window as any).ethereum) {
+      (window as any).ethereum.on("chainChanged", () => {
+        window.location.reload();
+      });
+      (window as any).ethereum.on("accountsChanged", () => {
+        window.location.reload();
+      });
+    }
+  }, []);
+
   // if (environment != "development") return <div></div>;
 
   if (ethers.utils.isAddress(activeAddress) == false) {

@@ -8,6 +8,8 @@ import {
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
+import { useSelector } from "react-redux";
+import { getAddress } from "redux/reducers/selectors/user";
 
 import { firebaseApp } from "@/lib/firebase";
 import useStorage from "@/hooks/storage";
@@ -22,22 +24,17 @@ export default function DelegatedProjects() {
   const [delegatedProjects, setDelegatedProjects] = useState<IProject[]>([]);
   const router = useRouter();
   const { getItem, setItem, removeItem } = useStorage();
+  const activeAddress = useSelector(getAddress);
 
   const _query = query(
     collectionGroup(firestore, `Delegates`),
-    where(
-      "delegate",
-      "==",
-      (getItem("isAuthenticated") == "true" ? getItem("account") : "") ?? ""
-    )
+    where("delegate", "==", activeAddress)
   );
   const [snapshots, loading] = useCollectionData(_query);
 
   async function handleGetDelegatedProjects() {
-    const account = getItem("isAuthenticated") == "true" && getItem("account");
-
-    if (!account) return;
-    const projectsDelegated = await getDelegatedProjects(account);
+    if (!activeAddress) return;
+    const projectsDelegated = await getDelegatedProjects(activeAddress);
     setDelegatedProjects(projectsDelegated);
   }
 
