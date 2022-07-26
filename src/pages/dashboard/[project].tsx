@@ -12,20 +12,21 @@ import {
   where,
 } from "firebase/firestore";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
+import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getDashboardState,
   getSlideInModalState,
 } from "redux/reducers/selectors/dashboard";
 import { getProjectState } from "redux/reducers/selectors/project";
+import { getAddress } from "redux/reducers/selectors/user";
 import { setConfiguration } from "redux/reducers/slices/configuration";
 import { setLayers } from "redux/reducers/slices/layers";
 import { setProject } from "redux/reducers/slices/project";
 
 import { firebaseApp } from "@/lib/firebase";
-import useStorage from "@/hooks/storage";
 
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
 import Whitelist from "@/components/dashboard/Whitelist";
@@ -37,19 +38,18 @@ import PageLoader from "@/components/shared/PageLoader";
 
 import { enumNFTGenConfig } from "@/enums/nft-gen-configurations";
 import { IDashboardState, ILayer, IProject } from "@/interfaces";
+import { hasAccessToProject } from "@/utils/authentication";
 
 const firestore = getFirestore(firebaseApp);
 
 export default function DashboardHomePage() {
+  const [showProject, setShowProject] = useState(false);
   const dashboardState = useSelector(getDashboardState) as IDashboardState;
   const project = useSelector(getProjectState) as IProject;
   const selectedSidebar = dashboardState.selectedSidebar;
   const router = useRouter();
   const dispatch = useDispatch();
-  const { getItem, setItem, removeItem } = useStorage();
-
-  const account =
-    (getItem("isAuthenticated") == "true" ? getItem("account") : "") ?? "";
+  const address = useSelector(getAddress);
 
   const content: {
     component: any;
@@ -115,53 +115,73 @@ export default function DashboardHomePage() {
   const [snapshots, loading] = useCollectionData(_query);
   const [layerSnapshots, layerLoading] = useCollectionData(_layersQuery);
 
-  useEffect(() => {
-    if (!account) return;
-    if (loading) return;
-    if (!snapshots) return;
+  async function checkUserValidity() {
+    console.log({ address });
 
-    const data = snapshots.reduce((acc: IProject[], curr: DocumentData) => {
-      acc.push(curr as IProject);
-      return acc;
-    }, []);
+    if (!address) return;
+    const hasAccess = await hasAccessToProject(
+      router.query.project as string,
+      address
+    );
 
-    if (data.length < 1 && account) {
-      router.push("/dashboard");
+    console.log({ hasAccess });
+
+    if (hasAccess) {
+      if (loading) return;
+      if (!snapshots) return;
+
+      const data = snapshots.reduce((acc: IProject[], curr: DocumentData) => {
+        acc.push(curr as IProject);
+        return acc;
+      }, []);
+
+      if (data.length < 1 && address) {
+        router.push("/dashboard");
+      } else {
+        dispatch(setProject(data[0]));
+
+        dispatch(
+          setConfiguration({
+            key: enumNFTGenConfig.NAME,
+            value: data[0].projectName,
+          })
+        );
+
+        dispatch(
+          setConfiguration({
+            key: enumNFTGenConfig.SUPPLY,
+            value: data[0].tokenSupply,
+          })
+        );
+
+        dispatch(
+          setConfiguration({
+            key: enumNFTGenConfig.DESCRIPTION,
+            value: data[0].description,
+          })
+        );
+
+        dispatch(
+          setConfiguration({
+            key: enumNFTGenConfig.BASE_URL,
+            value: data[0].baseUrl,
+          })
+        );
+      }
     } else {
-      dispatch(setProject(data[0]));
+      toast.error("You dont have access to this project");
+      console.log("You dont have access to this project");
 
-      dispatch(
-        setConfiguration({
-          key: enumNFTGenConfig.NAME,
-          value: data[0].projectName,
-        })
-      );
-
-      dispatch(
-        setConfiguration({
-          key: enumNFTGenConfig.SUPPLY,
-          value: data[0].tokenSupply,
-        })
-      );
-
-      dispatch(
-        setConfiguration({
-          key: enumNFTGenConfig.DESCRIPTION,
-          value: data[0].description,
-        })
-      );
-
-      dispatch(
-        setConfiguration({
-          key: enumNFTGenConfig.BASE_URL,
-          value: data[0].baseUrl,
-        })
-      );
+      router.push("/dashboard");
     }
-  }, [loading, snapshots, account]);
+  }
 
   useEffect(() => {
-    if (!account) return;
+    checkUserValidity();
+  }, [loading, snapshots, address]);
+
+  useEffect(() => {
+    if (!address) return;
     if (layerLoading) return;
     if (!layerSnapshots) return;
 
@@ -171,7 +191,11 @@ export default function DashboardHomePage() {
     }, []);
 
     dispatch(setLayers(data));
-  }, [project, layerSnapshots, layerLoading, account]);
+  }, [project, layerSnapshots, layerLoading, address]);
+
+  // if(hasAccessToProject(project.slug,address) == false){
+  //   router.push("/dashboard");
+  // }
 
   if (loading)
     return (
@@ -181,24 +205,29 @@ export default function DashboardHomePage() {
       </div>
     );
 
+  if (project) {
+    return (
+      <div>
+        <DashboardLayout
+          showTitleBar={selectedSidebar == "dashboard-home" ? false : true}
+          title={
+            content.find((item) => item.value == selectedSidebar)?.label ?? ""
+          }
+          titleBarEndChildren={
+            content.find((item) => item.value == selectedSidebar)
+              ?.titleOptions ?? ""
+          }
+          child={
+            content.find((item) => item.value == selectedSidebar)
+              ?.component ?? <></>
+          }
+        />
+      </div>
+    );
+  }
+
   return (
-    <div>
-      <DashboardLayout
-        showTitleBar={selectedSidebar == "dashboard-home" ? false : true}
-        title={
-          content.find((item) => item.value == selectedSidebar)?.label ?? ""
-        }
-        titleBarEndChildren={
-          content.find((item) => item.value == selectedSidebar)?.titleOptions ??
-          ""
-        }
-        child={
-          content.find((item) => item.value == selectedSidebar)?.component ?? (
-            <></>
-          )
-        }
-      />
-    </div>
+    <div>Hmmm... If you&apos;re seeing this something terrible happened</div>
   );
 }
 

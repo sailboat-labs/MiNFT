@@ -1,6 +1,15 @@
 import { ethers } from "ethers";
+import {
+  collection,
+  collectionGroup,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
 import toast from "react-hot-toast";
 import Web3 from "web3";
+
+import { firestore } from "@/lib/firebase";
 
 export const changeNetwork = async (chainId: string | number) => {
   const web3 = new Web3();
@@ -19,7 +28,7 @@ export async function getAccountByProvider() {
   const signer = provider.getSigner();
   const signerAddress = await signer.getAddress();
 
-  return signerAddress;
+  return signerAddress?.toLowerCase();
 }
 
 export function getActiveAccount() {
@@ -51,4 +60,39 @@ export function setActiveAccount(account: string) {
     return toast.error("Invalid address");
   window.localStorage.setItem("isAuthenticated", "true");
   window.localStorage.setItem("account", account);
+}
+
+export async function hasAccessToProject(slug: string, account: string) {
+  //Check if account the owner of this project
+  try {
+    const dashboardCollection = collection(firestore, `Projects`);
+    const _query = query(
+      dashboardCollection,
+      where("slug", "==", slug),
+      where("owner", "==", account)
+    );
+    const exists = (await getDocs(_query)).docs.length > 0;
+
+    if (exists) toast.success("Welcome owner");
+    if (exists) return true;
+
+    //Check if you have been delegated to this project
+    const delegateAccessCollection = collectionGroup(firestore, `Delegates`);
+
+    const _delegatesQuery = query(
+      delegateAccessCollection,
+
+      where("delegate", "==", account),
+      where("slug", "==", slug)
+    );
+
+    const delegationExists = (await getDocs(_delegatesQuery)).docs.length > 0;
+    if (delegationExists) toast.success("Welcome delegate");
+
+    if (delegationExists) return true;
+  } catch (error) {
+    console.log(error);
+  }
+
+  return false;
 }

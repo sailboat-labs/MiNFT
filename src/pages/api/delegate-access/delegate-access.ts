@@ -66,6 +66,11 @@ async function delegateAccess(
       account
     );
 
+    // if (
+    //   (await getDocs(_projectQuery)).docs[0].data().owner != addressToDelegate
+    // ) {
+    //   return responder(false, "Can't delegate self");
+    // }
     if ((await getDocs(_projectQuery)).docs[0].data().owner != account) {
       console.log("Not allowed to delegate");
 

@@ -90,7 +90,7 @@ export default function DashboardGetStarted() {
     const result = await axios.post(
       "/api/delegate-access/get-delegated-accounts",
       {
-        account: activeAddress,
+        account: activeAddress.toLowerCase(),
       }
     );
   }

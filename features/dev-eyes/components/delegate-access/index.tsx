@@ -2,8 +2,9 @@ import { collection, limit, query, where } from "firebase/firestore";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import { useMoralis } from "react-moralis";
+import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { getAddress } from "redux/reducers/selectors/user";
 
 import { firestore } from "@/lib/firebase";
 import useStorage from "@/hooks/storage";
@@ -19,7 +20,7 @@ export default function DelegateAccess() {
     IDelegates[]
   >([]);
 
-  const { account, logout, isAuthenticated } = useMoralis();
+  const activeAddress = useSelector(getAddress);
 
   const [address, setAddress] = useState<string>("");
   const { getItem, setItem, removeItem } = useStorage();
@@ -32,7 +33,7 @@ export default function DelegateAccess() {
 
   const _query = query(
     collection(firestore, `Projects/${slug}/Delegates`),
-    where("owner", "==", account),
+    where("owner", "==", activeAddress),
     limit(100)
   );
 
@@ -53,19 +54,19 @@ export default function DelegateAccess() {
   }, [loading, snapshots]);
 
   if (!slug) return <div>No project found</div>;
-  if (!account) return <div>No account found</div>;
+  if (!activeAddress) return <div>No account found</div>;
 
   async function handleDelegateAccess() {
     if (!slug) return toast.error("No project provided");
-    if (!account) return toast.error("No account provided");
+    if (!activeAddress) return toast.error("No account provided");
 
     try {
-      console.log({ account });
+      console.log({ activeAddress });
 
       const result = await delegateAccessToAddress({
         address,
         slug: slug as string,
-        account,
+        account: activeAddress,
       });
     } catch (error: any) {
       toast.error(error.toString());

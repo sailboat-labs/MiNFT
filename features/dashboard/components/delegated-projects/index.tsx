@@ -12,7 +12,6 @@ import { useSelector } from "react-redux";
 import { getAddress } from "redux/reducers/selectors/user";
 
 import { firebaseApp } from "@/lib/firebase";
-import useStorage from "@/hooks/storage";
 
 import { IProject } from "@/interfaces";
 
@@ -23,7 +22,6 @@ const firestore = getFirestore(firebaseApp);
 export default function DelegatedProjects() {
   const [delegatedProjects, setDelegatedProjects] = useState<IProject[]>([]);
   const router = useRouter();
-  const { getItem, setItem, removeItem } = useStorage();
   const activeAddress = useSelector(getAddress);
 
   const _query = query(
