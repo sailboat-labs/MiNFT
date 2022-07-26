@@ -1,9 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
+import { ethers } from "ethers";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useMoralis } from "react-moralis";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { getAddress } from "redux/reducers/selectors/user";
+import { setAddress } from "redux/reducers/slices/user";
 
-import useStorage from "@/hooks/storage";
+import { getAccountByProvider, setActiveAccount } from "@/utils/authentication";
 
 import Layout from "../layout/Layout";
 
@@ -75,33 +80,38 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
   const environment = process.env.NEXT_PUBLIC_ENVIRONMENT;
 
   const [selectedWallet, setSelectedWallet] = useState("");
+  const dispatch = useDispatch();
+  const activeAddress = useSelector(getAddress);
+  console.log({ activeAddress });
 
-  const [activeAccount, setActiveAccount] = useState(
-    account ??
-      (process.env.NEXT_PUBLIC_ENVIRONMENT == "development"
-        ? process.env.NEXT_PUBLIC_DEVELOPMENT_ACCOUNT
-        : "")
-  );
+  // const [activeAccount, setActiveAccount] = useState(
+  //   account ??
+  //     (process.env.NEXT_PUBLIC_ENVIRONMENT == "development"
+  //       ? process.env.NEXT_PUBLIC_DEVELOPMENT_ACCOUNT
+  //       : "")
+  // );
 
-  const { getItem, setItem, removeItem } = useStorage();
+  async function prepareAuth() {
+    console.log({ account, isAuthenticated });
 
-  useEffect(() => {
     if (environment == "development") {
-      setActiveAccount(process.env.NEXT_PUBLIC_DEVELOPMENT_ACCOUNT);
-      setItem("account", process.env.NEXT_PUBLIC_DEVELOPMENT_ACCOUNT!);
-      setItem("isAuthenticated", "true");
+      setActiveAccount(process.env.NEXT_PUBLIC_DEVELOPMENT_ACCOUNT ?? "");
+      dispatch(setAddress(process.env.NEXT_PUBLIC_DEVELOPMENT_ACCOUNT ?? ""));
     } else {
-      if (account && isAuthenticated) {
-        setActiveAccount(account);
-        setItem("account", account);
-        setItem("isAuthenticated", isAuthenticated?.toString());
+      if (isAuthenticated) {
+        const address = await getAccountByProvider();
+        dispatch(setAddress(address));
       }
     }
-  }, [activeAccount, account, isAuthenticated]);
+  }
+
+  useEffect(() => {
+    prepareAuth();
+  }, [account, isAuthenticated]);
 
   // if (environment != "development") return <div></div>;
 
-  if (!activeAccount || activeAccount?.trim() == "") {
+  if (ethers.utils.isAddress(activeAddress) == false) {
     return (
       <Layout>
         <div className=" flex h-full w-full flex-col gap-5 px-10 pt-10 text-center dark:bg-black">

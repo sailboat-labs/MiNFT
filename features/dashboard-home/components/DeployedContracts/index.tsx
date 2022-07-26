@@ -45,7 +45,7 @@ export default function DeployedContracts() {
       setClones(_clones.response as any);
     } catch (error) {
       console.log(error);
-      toast.error("An error occurred while fetching contracts");
+      // toast.error("An error occurred while fetching contracts");
     }
     setIsFetchingContracts(false);
   }

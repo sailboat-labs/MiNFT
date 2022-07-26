@@ -6,9 +6,8 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { getDashboardState } from "redux/reducers/selectors/dashboard";
+import { getAddress } from "redux/reducers/selectors/user";
 import { setSelectedSidebar } from "redux/reducers/slices/dashboard";
-
-import useStorage from "@/hooks/storage";
 
 import { PROFILE_IMAGE } from "@/data/DemoProject";
 
@@ -190,8 +189,8 @@ const defaultStyles =
 export default function Sidebar({ currentPage }: SidebarProps) {
   const dashboardState = useSelector(getDashboardState) as IDashboardState;
   const selectedSidebar = dashboardState.selectedSidebar;
+  const address = useSelector(getAddress);
   const dispatch = useDispatch();
-  const { getItem, setItem, removeItem } = useStorage();
 
   return (
     <div className="z-1 relative z-[1000]  mt-0 flex h-screen w-[15rem] flex-col justify-between border-r bg-white  font-dmsans opacity-100">
@@ -215,9 +214,7 @@ export default function Sidebar({ currentPage }: SidebarProps) {
               Welcome back,
             </div>
             <div className="text-lg font-bold text-gray-600">
-              {getItem("isAuthenticated") == "true" &&
-                getItem("account") &&
-                formatEthAddress(getItem("account"))}
+              {formatEthAddress(address)}
             </div>
           </div>
         </div>
