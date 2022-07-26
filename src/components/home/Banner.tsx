@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-
+import TrydemoLink from "../buttons/TrydemoLink";
 import Vector1SVG from "~/svg/homepage/vector_1.svg";
 
 export default function Banner() {
@@ -37,7 +37,7 @@ export default function Banner() {
                   window.open("https://staging.magicmynt.com/dashboard");
                 }}
               >
-                Try Demo
+                <TrydemoLink />
               </div>
             )}
           </div>
