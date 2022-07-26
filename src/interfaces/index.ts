@@ -74,4 +74,5 @@ export interface IProject {
   slug?: string;
   description: string;
   isDemo?: boolean;
+  owner: string;
 }

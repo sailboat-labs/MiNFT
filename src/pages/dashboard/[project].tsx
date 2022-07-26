@@ -1,4 +1,5 @@
 import dashify from "dashify";
+import { formatEthAddress } from "eth-address";
 import ContractMakerView from "features/contract-maker/components";
 import DashboardHome from "features/dashboard-home/components/dashboard-home";
 import PageBuilder from "features/minting-page-builder/components/page-builder";
@@ -23,6 +24,7 @@ import {
 import { getProjectState } from "redux/reducers/selectors/project";
 import { getAddress } from "redux/reducers/selectors/user";
 import { setConfiguration } from "redux/reducers/slices/configuration";
+import { setInformationBarConfig } from "redux/reducers/slices/dashboard";
 import { setLayers } from "redux/reducers/slices/layers";
 import { setProject } from "redux/reducers/slices/project";
 
@@ -139,6 +141,16 @@ export default function DashboardHomePage() {
         router.push("/dashboard");
       } else {
         dispatch(setProject(data[0]));
+
+        if (data[0].owner != address) {
+          dispatch(
+            setInformationBarConfig({
+              show: true,
+              message: `Delegated Access by ${formatEthAddress(data[0].owner)}`,
+              showLoader: false,
+            })
+          );
+        }
 
         dispatch(
           setConfiguration({

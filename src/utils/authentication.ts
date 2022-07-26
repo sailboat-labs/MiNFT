@@ -73,7 +73,6 @@ export async function hasAccessToProject(slug: string, account: string) {
     );
     const exists = (await getDocs(_query)).docs.length > 0;
 
-    if (exists) toast.success("Welcome owner");
     if (exists) return true;
 
     //Check if you have been delegated to this project
@@ -87,7 +86,6 @@ export async function hasAccessToProject(slug: string, account: string) {
     );
 
     const delegationExists = (await getDocs(_delegatesQuery)).docs.length > 0;
-    if (delegationExists) toast.success("Welcome delegate");
 
     if (delegationExists) return true;
   } catch (error) {
