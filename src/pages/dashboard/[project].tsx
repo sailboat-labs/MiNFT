@@ -191,10 +191,6 @@ export default function DashboardHomePage() {
     dispatch(setLayers(data));
   }, [project, layerSnapshots, layerLoading, address]);
 
-  // if(hasAccessToProject(project.slug,address) == false){
-  //   router.push("/dashboard");
-  // }
-
   if (loading)
     return (
       <div className="flex h-screen w-screen items-center justify-center">
@@ -217,7 +213,9 @@ export default function DashboardHomePage() {
           }
           child={
             content.find((item) => item.value == selectedSidebar)
-              ?.component ?? <></>
+              ?.component ?? (
+              <>Something happened! No sidebar item was selected</>
+            )
           }
         />
       </div>

@@ -51,7 +51,7 @@ export default function DeployedContracts() {
   }
 
   useEffect(() => {
-    handleGetCloneContracts();
+    // handleGetCloneContracts();
   }, []);
 
   return (
@@ -87,7 +87,7 @@ export default function DeployedContracts() {
         )}
       </div>
 
-      {isFetchingContracts ? (
+      {/* {isFetchingContracts ? (
         <div className="mt-20 flex flex-col items-center justify-center gap-3">
           <PageLoader />
           Fetching contracts from network...
@@ -155,7 +155,7 @@ export default function DeployedContracts() {
             </div>
           )}
         </div>
-      )}
+      )} */}
     </div>
   );
 }

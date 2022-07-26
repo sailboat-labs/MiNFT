@@ -1,5 +1,3 @@
-import DelegateAccess from "features/dev-eyes/components/delegate-access";
-
 export default function DevPage() {
   const contractMakerAddresses: { name: string; address: string }[] = [
     {
@@ -52,8 +50,6 @@ export default function DevPage() {
           Development logs and variables
         </div>
       </div>
-
-      <DelegateAccess />
 
       <div>
         <div className="mt-10 mb-5 text-xl ">Contract Maker Addresses</div>
