@@ -21,7 +21,7 @@ export default function Homepage() {
 
   return (
     <div className="h-screen overflow-y-auto">
-      <Header viewContactForm={viewContactForm} />
+      <Header />
       <div className="bg-white bg-repeat">
         <Banner />
         <Marquee />

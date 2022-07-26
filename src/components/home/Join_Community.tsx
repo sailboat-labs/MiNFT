@@ -1,7 +1,8 @@
 import { useRouter } from "next/router";
 
-import VectorSVG3 from "~/svg/homepage/vector_3.svg";
 import ContactLink from "../buttons/ContactLink";
+
+import VectorSVG3 from "~/svg/homepage/vector_3.svg";
 
 export default function Join_Community() {
   const router = useRouter();

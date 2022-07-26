@@ -1,12 +1,12 @@
 import { useRouter } from "next/router";
 import React from "react";
 
+import ContactLink from "../buttons/ContactLink";
 import UnstyledLink from "../links/UnstyledLink";
 
 import StarSVG from "~/svg/homepage/header_star.svg";
-import ContactLink from "../buttons/ContactLink";
 
-export default function Header( { viewContactForm } ) {
+export default function Header() {
   const router = useRouter();
 
   return (
@@ -29,7 +29,7 @@ export default function Header( { viewContactForm } ) {
             ? "Get Started"
             : "Join Waitlist"}
         </span>
-        <ContactLink className='cursor-pointer' />
+        <ContactLink className="cursor-pointer" />
       </div>
     </div>
   );
