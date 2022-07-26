@@ -32,8 +32,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       console.log({ account, address, slug, role });
 
       const result = await delegateAccess(account, address, slug, role);
-
-      return res.send(responder(true, result));
+      if (result?.success) {
+        return res.send(result);
+      } else {
+        return res.send(result);
+      }
     }
     return res.status(404).json({ success: false, message: "Not Found" });
   } catch (error) {
@@ -66,12 +69,16 @@ async function delegateAccess(
       account
     );
 
-    // if (
-    //   (await getDocs(_projectQuery)).docs[0].data().owner != addressToDelegate
-    // ) {
-    //   return responder(false, "Can't delegate self");
-    // }
-    if ((await getDocs(_projectQuery)).docs[0].data().owner != account) {
+    if (
+      (await getDocs(_projectQuery)).docs[0].data().owner ==
+      addressToDelegate.toLowerCase()
+    ) {
+      return responder(false, "Can't delegate self");
+    }
+    if (
+      (await getDocs(_projectQuery)).docs[0].data().owner !=
+      account.toLowerCase()
+    ) {
       console.log("Not allowed to delegate");
 
       return responder(false, "Not allowed");
@@ -89,7 +96,7 @@ async function delegateAccess(
     delegateAccessCollection,
     where("slug", "==", slug),
     where("owner", "==", account),
-    where("delegate", "==", addressToDelegate)
+    where("delegate", "==", addressToDelegate.toLowerCase())
   );
 
   const exists = (await getDocs(_query)).docs.length > 0;
@@ -100,7 +107,7 @@ async function delegateAccess(
       `Projects/${slug}/Delegates/${addressToDelegate}`
     );
     const data = {
-      delegates: addressToDelegate,
+      delegates: addressToDelegate.toString().toLowerCase(),
       dateDelegated: new Date().toISOString(),
       role: role,
     };
@@ -110,10 +117,10 @@ async function delegateAccess(
   } else {
     const _doc = doc(
       firestore,
-      `Projects/${slug}/Delegates/${addressToDelegate}`
+      `Projects/${slug}/Delegates/${addressToDelegate.toLowerCase()}`
     );
     const data = {
-      delegate: addressToDelegate,
+      delegate: addressToDelegate.toString().toLowerCase(),
       dateDelegated: new Date().toISOString(),
       slug: slug,
       owner: account,

@@ -68,6 +68,15 @@ export default function DelegateAccess() {
         slug: slug as string,
         account: activeAddress,
       });
+
+      if (result.data.success != false) {
+        toast.success("Account delegated");
+        setAddress("");
+      } else {
+        toast.error(result.data.message);
+      }
+
+      console.log(result);
     } catch (error: any) {
       toast.error(error.toString());
       console.log(error);
@@ -91,6 +100,7 @@ export default function DelegateAccess() {
           onChange={(e) => {
             setAddress(e.target.value);
           }}
+          value={address}
           id="address"
           className="h-full w-[300px] rounded-lg border-2"
           type="text"
