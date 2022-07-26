@@ -169,10 +169,8 @@ export default function DashboardHomePage() {
         );
       }
     } else {
-      toast.error("You dont have access to this project");
-      console.log("You dont have access to this project");
-
       router.push("/dashboard");
+      toast.error("You dont have access to this project");
     }
   }
 
