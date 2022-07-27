@@ -63,7 +63,7 @@ export function generateTokens({
     };
     const hashImages = true;
     const extraMetadata = {};
-    const debugLogs = false;
+    const debugLogs = true;
 
     const uniqueDnaTorrance = 10000;
     const description = configuration[enumNFTGenConfig.DESCRIPTION];

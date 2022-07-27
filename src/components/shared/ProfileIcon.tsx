@@ -3,6 +3,7 @@ import { Menu, Transition } from "@headlessui/react";
 import { formatEthAddress } from "eth-address";
 import { doc, getFirestore } from "firebase/firestore";
 import Link from "next/link";
+import { useRouter } from "next/router";
 // import { useMetaMask } from "metamask-react";
 import { Fragment, useEffect, useState } from "react";
 import { useDocumentData } from "react-firebase-hooks/firestore";
@@ -20,7 +21,7 @@ export default function ProfileIcon() {
   // const { status, connect, account, chainId, ethereum } = useMetaMask();
   const { logout, isAuthenticated } = useMoralis();
   const account = useSelector(getAddress);
-
+  const router = useRouter();
   const [user, setUser] = useState<User>();
 
   const [animateIntoView, setAnimateIntoView] = useState(false);
@@ -158,7 +159,10 @@ export default function ProfileIcon() {
                 <Menu.Item>
                   {({ active }: any) => (
                     <button
-                      onClick={logout}
+                      onClick={() => {
+                        logout();
+                        router.push("/dashboard");
+                      }}
                       className={`${
                         active
                           ? "bg-primaryblue text-white dark:text-gray-200"
