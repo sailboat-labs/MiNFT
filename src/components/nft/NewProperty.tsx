@@ -1,14 +1,16 @@
+import addLayersToFirebase from "features/traitmixer/components/index.logic";
+import { handleUpload } from "features/traitmixer/components/PropertyGroup/upload-element";
 import { getFirestore } from "firebase/firestore";
 import React, { ChangeEvent, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { getLayers } from "redux/reducers/selectors/layers";
-import { addLayer } from "redux/reducers/slices/layers";
+import { getProjectState } from "redux/reducers/selectors/project";
 
 import { firebaseApp } from "@/lib/firebase";
 
-import { ILayer } from "@/interfaces";
+import { ILayer, IProject } from "@/interfaces";
 
 import TraitPreview from "./TraitPreview";
 
@@ -25,6 +27,8 @@ const NewProperty = ({ onDiscard, onSave }: props) => {
   const fileInput = useRef<HTMLInputElement>(null);
   const [propertyName, setPropertyName] = useState<string>("");
   const layers = useSelector(getLayers);
+  const toastId = useRef(null);
+  const project = useSelector(getProjectState) as IProject;
 
   /**
    * handles change in file input
@@ -72,28 +76,54 @@ const NewProperty = ({ onDiscard, onSave }: props) => {
    */
   async function saveProperty() {
     if (propertyName.length < 1) return toast.error("Add property name");
+
+    const elements: any[] = [];
+
+    for (let index = 0; index < files?.length; index++) {
+      const element = files[index];
+      const path = await handleUpload(
+        project,
+        (layers.length + 1).toString(),
+        element,
+        toastId
+      );
+
+      const uploadedElements = {
+        id: index,
+        sublayer: false,
+        weight: 1,
+        blendmode: "source-over",
+        opacity: 1,
+        name: propertyName,
+        filename: `${element.name}`,
+        path: path,
+        zindex: "",
+        trait: propertyName,
+        traitValue: propertyName,
+        isWeightTouched: false,
+      };
+
+      elements.push(uploadedElements);
+    }
+
     const layer: ILayer = {
       name: propertyName,
       id: layers.length + 1,
       blendmode: "source-over",
       opacity: 1,
       bypassDNA: false,
-      elements: files.map((file, index) => ({
-        id: index,
-        sublayer: false,
-        weight: index + 1,
-        blendmode: "source-over",
-        opacity: 1,
-        name: propertyName,
-        filename: `${file.name}`,
-        path: URL.createObjectURL(file),
-        zindex: "",
-        trait: propertyName,
-        traitValue: file.name?.split(".")[0],
-      })),
+      elements: elements,
     };
 
-    dispatch(addLayer(layer));
+    const _layers: any[] = [];
+    _layers.push(layer);
+    toast.dismiss();
+    toast("Generating thumbnails");
+    await addLayersToFirebase(_layers, project);
+    toast.dismiss();
+    toast.success("Layer Saved");
+
+    // dispatch(addLayer(layer));
     toast.success("New Layer Added");
     onSave && onSave();
   }
