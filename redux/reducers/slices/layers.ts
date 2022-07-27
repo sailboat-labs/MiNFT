@@ -16,16 +16,13 @@ const layerStore = createSlice({
       // console.log("setting layers", payload);
       state.layers = payload;
     },
-
     addLayer: (state: any, param: any) => {
       const { payload } = param;
       state.layers.push(payload);
     },
-
     setSearchFilter: (state: any, param: any) => {
       state.searchFilter = param.payload;
     },
-
     reOrderLayer: (state: any, param: any) => {
       const { payload } = param;
       const currentIndex = payload.currentIndex;
@@ -111,7 +108,6 @@ const layerStore = createSlice({
         (state.layers as ILayer[]).splice(layerIndex!, 1);
       }
     },
-
     addTraitsToLayer: (state: any, param: any) => {
       const { payload } = param;
 
@@ -122,7 +118,6 @@ const layerStore = createSlice({
         .find((layer: ILayer) => layer.name == layerName)
         .elements.push(...elements);
     },
-
     changeLayerName: (state: any, param: any) => {
       const { payload } = param;
       const currentName = payload.currentName;
@@ -144,7 +139,6 @@ const layerStore = createSlice({
       state.layers.find((layer: ILayer) => layer.name == currentName).name =
         newName;
     },
-
     changeElementCount: (state: any, param: any) => {
       const { payload } = param;
 
@@ -226,7 +220,6 @@ const layerStore = createSlice({
         }
       }
     },
-
     resetElementCounts: (state: any, param: any) => {
       const { payload } = param; // payload is the total supply
 

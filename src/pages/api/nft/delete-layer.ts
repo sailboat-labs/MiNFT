@@ -23,15 +23,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       const { layer, project, account } = req.body;
       if (layer == null || layer == undefined)
         return res.status(403).send("No layer given");
-      if (project?.owner == null)
-        return res.status(403).send("No Project given");
+      console.log(JSON.stringify(layer));
 
-      const result = await addNewLayer(layer, project, account);
-      if (result.success) {
-        return res.status(200).json(result);
-      } else {
-        return res.status(403).json(result);
-      }
+      const result = await deleteLayer(layer, project, account);
+      // if (result.success) {
+      //   return res.status(200).json(result);
+      // } else {
+      //   return res.status(403).json(result);
+      // }
     }
 
     return res.status(404).json({ success: false, message: "Not Found" });
@@ -42,6 +41,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       .json({ success: false, error, message: "Unable to process request" });
   }
 };
+
+async function deleteLayer(layer: ILayer, project: IProject, account: string) {
+  //Delete Layer from firebase
+  const dashboardCollection = collection(firestore, `Projects`);
+
+  const _doc = doc(firestore, `Projects/${project.slug}/Layers/${layer.id}`);
+}
 
 async function addNewLayer(layer: ILayer, project: IProject, account: string) {
   try {

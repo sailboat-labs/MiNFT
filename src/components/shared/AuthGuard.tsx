@@ -99,11 +99,15 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
 
     if (environment == "development") {
       setActiveAccount(process.env.NEXT_PUBLIC_DEVELOPMENT_ACCOUNT ?? "");
-      dispatch(setAddress(process.env.NEXT_PUBLIC_DEVELOPMENT_ACCOUNT ?? ""));
+      dispatch(
+        setAddress(
+          process.env.NEXT_PUBLIC_DEVELOPMENT_ACCOUNT?.toLowerCase() ?? ""
+        )
+      );
     } else {
       if (isAuthenticated) {
         const address = await getAccountByProvider();
-        dispatch(setAddress(address));
+        dispatch(setAddress(address?.toLowerCase()));
       }
     }
 
@@ -111,8 +115,6 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
   }
 
   useEffect(() => {
-    console.log({ activeAddress }, "here");
-
     prepareAuth();
   }, [account, isAuthenticated]);
 

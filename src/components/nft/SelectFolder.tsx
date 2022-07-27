@@ -1,8 +1,14 @@
-import { useEffect, useState } from "react";
+import addLayersToFirebase from "features/traitmixer/components/index.logic";
+import { handleUpload } from "features/traitmixer/components/PropertyGroup/upload-element";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { getProjectState } from "redux/reducers/selectors/project";
 import { setLayers } from "redux/reducers/slices/layers";
 
 import { DEMO_PROJECT } from "@/data/DemoProject";
+
+import { IProject } from "@/interfaces";
 
 import NewProperty from "./NewProperty";
 
@@ -14,12 +20,14 @@ type props = {
 
 export default function SelectFolder({ className }: props) {
   const [isOpen, setIsOpen] = useState(true);
+  const toastId = useRef(null);
   const [currentStep, setCurrentStep] = useState<
     "select-folder" | "new-property"
   >("select-folder");
-  let _layers: any[] = [];
+  const _layers: any[] = [];
   const layers: NFTLayer[] = [];
   const dispatch = useDispatch();
+  const project = useSelector(getProjectState) as IProject;
 
   let demoProject;
 
@@ -66,41 +74,56 @@ export default function SelectFolder({ className }: props) {
         options
       );
 
-      const files = await listAllFilesAndDirs(directoryHandle);
+      await listAllFilesAndDirs(directoryHandle);
 
-      _layers = layers?.map((layer, layerIndex) => ({
-        id: layerIndex,
-        name: layer.name,
-        blendmode: "source-over",
-        opacity: 1,
-        bypassDNA: false,
-        elements: layer.elements.map((element: any, index: number) => ({
-          id: index,
-          sublayer: false,
-          weight:
-            getMaximumSupply() / layer.elements.length > 100
-              ? 10
-              : getMaximumSupply() / layer.elements.length ?? 0,
+      for (let element = 0; element < layers.length; element++) {
+        const layer = layers[element];
+
+        const elements: any[] = [];
+
+        for (let index = 0; index < layer.elements?.length; index++) {
+          const element = layer.elements[index];
+          const path = await handleUpload(element.file, toastId);
+
+          const uploadedElements = {
+            id: index,
+            sublayer: false,
+            weight:
+              getMaximumSupply() / layer.elements.length > 100
+                ? 10
+                : getMaximumSupply() / layer.elements.length ?? 0,
+            blendmode: "source-over",
+            opacity: 1,
+            name: layer.name,
+            filename: `${element.file.name}`,
+            path: path,
+            zindex: "",
+            trait: layer.name,
+            traitValue: layer.name,
+            isWeightTouched: false,
+          };
+
+          elements.push(uploadedElements);
+        }
+
+        const outputLayer = {
+          id: element,
+          name: layer.name,
           blendmode: "source-over",
           opacity: 1,
-          name: layer.name,
-          filename: `${element.file.name}`,
-          path: URL.createObjectURL(element.file),
-          zindex: "",
-          trait: layer.name,
-          traitValue: layer.name,
-          isWeightTouched: false,
-        })),
-      }));
+          bypassDNA: false,
+          elements: elements,
+        };
 
-      const _layerOrder = _layers.map((layer) => ({
-        name: layer.name,
-      }));
+        _layers.push(outputLayer);
+      }
 
-      console.log(JSON.stringify(_layers));
-
-      dispatch(setLayers(_layers));
-      console.log(_layerOrder);
+      // dispatch(setLayers(_layers));
+      toast.dismiss();
+      toast("Generating thumbnails");
+      await addLayersToFirebase(_layers, project);
+      toast.dismiss();
+      toast.success("Layer Saved");
     } catch (e) {
       console.log(e);
     }

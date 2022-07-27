@@ -15,7 +15,6 @@ import OutputSettingsPage from "@/components/pages/settings/RenderSettings";
 import { IElement, ILayer, IProject } from "@/interfaces";
 
 import GeneratedTokens from "./generated-tokens";
-import addLayersToFirebase from "./index.logic";
 import ShareTraits from "./share";
 
 import { NFTLayer } from "@/types";
@@ -50,10 +49,10 @@ const NFTGenerator = ({ router }: any) => {
     }, 1000);
   }, [animateLayersIn]);
 
-  useEffect(() => {
-    if (layers.length < 1) return;
-    addLayersToFirebase(layers, project);
-  }, [layers]);
+  // useEffect(() => {
+  //   if (layers.length < 1) return;
+  //   addLayersToFirebase(layers, project);
+  // }, [layers]);
 
   return (
     <div className=" w-full">
@@ -134,7 +133,10 @@ const NFTGenerator = ({ router }: any) => {
             )}
           </Tab.Panel>
           <Tab.Panel>
-            <div className="grid h-screen grid-cols-2 gap-24 overflow-y-auto  px-20">
+            <div className="flex w-full justify-end px-20 py-5">
+              <div className="gradient-button">Save</div>
+            </div>
+            <div className="grid h-screen grid-cols-1 gap-24 overflow-y-auto px-10  xl:grid-cols-2">
               <div>
                 <BasicSettings />
                 <CollectionSettings />

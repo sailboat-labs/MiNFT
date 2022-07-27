@@ -15,7 +15,6 @@ const BasicSettings = () => {
 
   return (
     <div className="py-12">
-      <h3 className="mb-2 text-3xl font-bold">Generator Settings</h3>
       <h4>Blockchain</h4>
       <p>Select the format to use when exporting metadata</p>
       {/* radio group */}
