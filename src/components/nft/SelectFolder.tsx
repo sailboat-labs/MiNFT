@@ -76,14 +76,19 @@ export default function SelectFolder({ className }: props) {
 
       await listAllFilesAndDirs(directoryHandle);
 
-      for (let element = 0; element < layers.length; element++) {
-        const layer = layers[element];
+      for (let layerIndex = 0; layerIndex < layers.length; layerIndex++) {
+        const layer = layers[layerIndex];
 
         const elements: any[] = [];
 
         for (let index = 0; index < layer.elements?.length; index++) {
           const element = layer.elements[index];
-          const path = await handleUpload(element.file, toastId);
+          const path = await handleUpload(
+            project,
+            layerIndex.toString(),
+            element.file,
+            toastId
+          );
 
           const uploadedElements = {
             id: index,
@@ -107,7 +112,7 @@ export default function SelectFolder({ className }: props) {
         }
 
         const outputLayer = {
-          id: element,
+          id: layerIndex,
           name: layer.name,
           blendmode: "source-over",
           opacity: 1,

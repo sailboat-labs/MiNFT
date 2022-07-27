@@ -8,15 +8,25 @@ import { toast } from "react-toastify";
 
 import { firebaseApp } from "@/lib/firebase";
 
+import { IProject } from "@/interfaces";
+
 const storage = getStorage(firebaseApp);
 
-export async function handleUpload(file: File, toastId?: any) {
+export async function handleUpload(
+  project: IProject,
+  layerId: string,
+  file: File,
+  toastId?: any
+) {
   return new Promise(function (resolve, reject) {
     if (!file) {
       alert("Please choose a file first!");
     }
 
-    const storageRef = ref(storage, `/files/${file.name}`);
+    const storageRef = ref(
+      storage,
+      `/projects/${project.slug}/${layerId}/${file.name}`
+    );
     const uploadTask = uploadBytesResumable(storageRef, file);
 
     uploadTask.on(

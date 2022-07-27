@@ -7,6 +7,7 @@ import {
   getLayers,
   getSelectedLayerName,
 } from "redux/reducers/selectors/layers";
+import { getProjectState } from "redux/reducers/selectors/project";
 import {
   addTraitsToLayer,
   changeLayerName,
@@ -15,7 +16,7 @@ import {
 } from "redux/reducers/slices/layers";
 
 import { enumNFTGenConfig } from "@/enums/nft-gen-configurations";
-import { IElement, ILayer } from "@/interfaces";
+import { IElement, ILayer, IProject } from "@/interfaces";
 
 import LayerContextMenu from "./LayerContextMenu";
 import TraitPreview from "./TraitPreview";
@@ -52,6 +53,7 @@ const PropertyGroup: FC<AppProps> = ({
   const fileInput = useRef<HTMLInputElement>(null);
   const [newName, setNewName] = useState<string>();
   const layers = useSelector(getLayers) as ILayer[];
+  const project = useSelector(getProjectState) as IProject;
 
   const configuration = useSelector(getConfiguration);
   const [possibleConfigCount, setPossibleConfigCount] = useState(0);
@@ -86,7 +88,11 @@ const PropertyGroup: FC<AppProps> = ({
     if (files) {
       for (let index = 0; index < fileListArray.length; index++) {
         const file = fileListArray[index];
-        const downloadUrl = (await handleUpload(file)) as string;
+        const downloadUrl = (await handleUpload(
+          project,
+          layer.id?.toString() ?? "unknown",
+          file
+        )) as string;
         toast(downloadUrl?.toString());
 
         const element: IElement = {
