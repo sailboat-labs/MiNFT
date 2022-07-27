@@ -18,7 +18,6 @@ import { useSelector } from "react-redux";
 import { getAddress } from "redux/reducers/selectors/user";
 
 import { firebaseApp } from "@/lib/firebase";
-import useStorage from "@/hooks/storage";
 
 import { PROFILE_IMAGE } from "@/data/DemoProject";
 
@@ -45,7 +44,6 @@ export default function DashboardGetStarted() {
   const router = useRouter();
   const [canCreateModalBeDiscarded, setCanCreateModalBeDiscarded] =
     useState(true);
-  const { getItem, setItem, removeItem } = useStorage();
 
   //Project globals
   const [projectName, setProjectName] = useState("");
@@ -92,6 +90,7 @@ export default function DashboardGetStarted() {
       baseUrl: "https://baseurl.com/",
       description: "This is the Magic Mynt demo project: Nozomix Extreme",
       isDemo: true,
+      owner: activeAddress,
     };
 
     if (!data || !activeAddress) return;
@@ -210,7 +209,7 @@ export default function DashboardGetStarted() {
                 </div>
               )}
 
-              {!loading && allProjects.length < 1 && getItem("account") && (
+              {!loading && allProjects.length < 1 && activeAddress && (
                 <div className="mt-10 font-dmsans text-2xl">
                   No Project Created
                 </div>

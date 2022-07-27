@@ -2,9 +2,9 @@ import axios from "axios";
 import dashify from "dashify";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
-
-import useStorage from "@/hooks/storage";
+import { getAddress } from "redux/reducers/selectors/user";
 
 import PageLoader from "@/components/shared/PageLoader";
 
@@ -24,10 +24,7 @@ export default function ProjectDetails({
   const [description, setDescription] = useState("");
   const [isCreatingProject, setIsCreatingProject] = useState(false);
   const router = useRouter();
-  const { getItem, setItem, removeItem } = useStorage();
-
-  const account =
-    (getItem("isAuthenticated") == "true" ? getItem("account") : "") ?? "";
+  const account = useSelector(getAddress);
 
   async function handleCreateProject() {
     //
@@ -40,6 +37,7 @@ export default function ProjectDetails({
       tokenSupply,
       baseUrl,
       description,
+      owner: account,
     };
 
     if (!data) return;

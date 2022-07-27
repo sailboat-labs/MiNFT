@@ -61,7 +61,7 @@ export default function DelegatedProjects() {
               onClick={() => {
                 router.push(`/dashboard/${project.slug}`);
               }}
-              className="rounded-lg border bg-gray-50 px-5 py-5 "
+              className="cursor-pointer rounded-lg border bg-gray-50 px-5 py-5 transition-all hover:bg-gray-100"
             >
               <div className="pr-20 font-dmsans text-xl">
                 {project.projectName}
