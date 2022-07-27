@@ -10,14 +10,20 @@
 // import TwitterSVG from "~/svg/socials/twitter.svg";
 // import YoutubeSVG from "~/svg/socials/youtube.svg";
 
+import RequestDemoLink from "../buttons/RequestDemoLink";
+
 export default function Footer() {
   const currentYear = new Date().getFullYear();
-
+  
   return (
-    <div className="h-auto w-full border-t border-black bg-white pb-10 font-montserrat font-medium text-[#1F1A17]">
-      <div className="m-auto flex w-10/12 flex-col items-center pt-10 sm:flex-row lg:w-4/5">
+    <div className="h-auto w-full border-t border-black bg-white pb-20 font-montserrat font-medium text-[#1F1A17]">
+      <div className="m-auto flex w-10/12 flex-col items-center pt-10 lg:w-4/5">
         <div className="m-auto h-10 w-4/5 text-lg opacity-100 lg:w-3/4">
           <div>&copy; {currentYear} Magic Mynt. All rights reserved.</div>
+        </div>
+
+        <div className="mx-auto my-6 h-10 w-4/5 text-lg opacity-100 lg:w-3/4">
+          <RequestDemoLink className="my-2 w-fit cursor-pointer rounded-xl border border-black px-5 py-2 hover:bg-black hover:text-white" />
         </div>
 
         {/* <div>

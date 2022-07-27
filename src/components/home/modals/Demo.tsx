@@ -1,18 +1,12 @@
-import emailjs from "@emailjs/browser";
 import { Transition } from "@headlessui/react";
-import { Formik } from "formik";
-import React, { useEffect, useRef, useState } from "react";
-import ReCaptcha from "react-google-recaptcha";
-import * as Yup from "yup";
+import React, { useEffect } from "react";
 
-import Input from "./Input";
-
-interface ContactProps {
+interface DemoProps {
   show: boolean;
   onClose: React.MouseEventHandler<HTMLDivElement>;
 }
 
-export default function Demo({ show, onClose }: ContactProps) {
+export default function Demo({ show, onClose }: DemoProps) {
   useEffect(() => {
     document.documentElement.style.overflow = show ? "hidden" : "auto";
   }, [show]);
@@ -33,9 +27,19 @@ export default function Demo({ show, onClose }: ContactProps) {
           className="absolute inset-0 bg-[rgba(0,0,0,0.7)]"
           onClick={onClose}
         ></div>
-        <article className="relative z-[9999] mx-4 flex max-w-lg flex-1 flex-col overflow-hidden rounded-lg bg-white text-left lg:flex-row">
-          <div className="w-full sm:w-4/5 lg:w-3/5">
-            <iframe width="726" height="408" src="https://www.youtube.com/embed/IBXKoUMEWeM" title="Magic Mint Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <article className="relative z-[9999] mx-4 overflow-hidden lg:flex-row">
+          <div className="">
+            <iframe
+              // width={600}
+              // height={500}
+              width="871"
+              height="490"
+              src="https://www.youtube.com/embed/IBXKoUMEWeM?autoplay=1&rel=0"
+              title="Magic Mint Demo"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            ></iframe>
           </div>
         </article>
       </section>

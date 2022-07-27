@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import Contact from "../home/modals/Contact";
-import UnstyledLink from "../links/UnstyledLink";
+
 interface ContactProps {
   className?: string;
 }

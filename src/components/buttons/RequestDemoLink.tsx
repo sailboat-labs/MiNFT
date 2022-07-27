@@ -1,26 +1,25 @@
 import { useState } from "react";
 
-import Contact from "../home/modals/RequestDemo";
-import UnstyledLink from "../links/UnstyledLink";
+import RequestDemo from "../home/modals/RequestDemo";
+
 interface ContactProps {
   className?: string;
 }
 
-const RequestDemoLink = ( { className }: ContactProps) => {
-
-  const [showForm, setShowForm] = useState<boolean>(false)
+const RequestDemoLink = ({ className }: ContactProps) => {
+  const [showForm, setShowForm] = useState<boolean>(false);
 
   return (
     <>
       <a
-        className={`${className} flex z-30 items-center justify-center`}
+        className={`${className} z-30 flex items-center justify-center`}
         onClick={() => setShowForm(true)}
       >
-        Contact Us
+        Request a Demo
       </a>
       <RequestDemo show={showForm} onClose={() => setShowForm(false)} />
     </>
-  )
-}
+  );
+};
 
-export default RequestDemoLink
+export default RequestDemoLink;

@@ -34,12 +34,24 @@ export default function RequestDemo({ show, onClose }: RequestDemoProps) {
 
   const submitForm = (e) => {
     e.preventDefault();
-    emailjs.sendForm(
-      process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
-      process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID_REQUEST_DEMO,
-      formRef.current,
-      process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
-    );
+    if (
+      window.location.href.includes("localhost") ||
+      window.location.href.includes("staging")
+    ) {
+      alert(
+        `Hi ${e.target.name.value}, we have accurately captured your information. However, this project is not in production, hence we will not be sending your form to Magic Mynt.`
+      );
+    } else {
+      emailjs.sendForm(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
+        formRef.current,
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
+      );
+      alert(
+        `Hi ${e.target.name.value}, you have successfully requested a demo. You will hear from our team soon.`
+      );
+    }
     document.getElementById("request-demo-button").click();
   };
 
@@ -90,7 +102,7 @@ export default function RequestDemo({ show, onClose }: RequestDemoProps) {
                       type="submit"
                       className="rounded-xl border border-black bg-transparent py-3 px-12 font-dmsans text-lg text-[#1F1A17]"
                     >
-                      Request a quote
+                      Request a demo
                     </button>
                   </form>
                 )}

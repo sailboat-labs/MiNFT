@@ -1,11 +1,11 @@
 import { useState } from "react";
 
 import Demo from "../home/modals/Demo";
-interface ContactProps {
+interface TrydemoLinkProps {
   className?: string;
 }
 
-const TrydemoLink = ({ className }: ContactProps) => {
+const TrydemoLink = ({ className }: TrydemoLinkProps) => {
   const [showDemo, setShowDemo] = useState<boolean>(false);
 
   return (

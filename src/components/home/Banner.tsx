@@ -19,7 +19,7 @@ export default function Banner() {
           </p>
           <div className="flex gap-5">
             <div
-              className="relative z-30 mt-12 w-fit rounded-xl border border-black bg-transparent px-10 py-4 font-bold text-black transition-all hover:scale-105 hover:cursor-pointer"
+              className="relative z-30 mt-12 w-fit mr-10 lg:mr-6 rounded-xl border border-black bg-transparent px-10 py-4 font-bold text-black transition-all hover:scale-105 hover:cursor-pointer"
               onClick={() => {
                 process.env.NEXT_PUBLIC_ENVIRONMENT == "development"
                   ? router.push("/dashboard")
@@ -30,7 +30,8 @@ export default function Banner() {
                 ? "Start Now"
                 : "Join Waitlist"}
             </div>
-            {process.env.NEXT_PUBLIC_ENVIRONMENT == "production" && (
+            <TrydemoLink className="relative z-30 mt-12 w-fit rounded-xl border border-black bg-transparent px-10 py-4 font-bold text-black transition-all hover:scale-105 hover:cursor-pointer"/>
+            {/* {process.env.NEXT_PUBLIC_ENVIRONMENT == "production" && (
               <div
                 className="relative z-30 mt-12 w-fit rounded-xl border border-black bg-transparent px-10 py-4 font-bold text-black transition-all hover:scale-105 hover:cursor-pointer"
                 onClick={() => {
@@ -39,7 +40,7 @@ export default function Banner() {
               >
                 <TrydemoLink />
               </div>
-            )}
+            )} */}
           </div>
         </div>
       </div>
