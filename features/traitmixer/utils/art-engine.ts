@@ -287,12 +287,14 @@ export function generateTokens({
           (err: any) =>
             debugLogs && console.log(`failed to load ${_layer?.path}`, err)
         );
+        console.log({ _layer, image });
+
         resolve({ layer: _layer, loadedImage: image });
       });
     };
 
     const drawElement = (
-      _renderObject: { loadedImage: any },
+      _renderObject: any,
       mainCanvas: {
         drawImage: (
           arg0: any,
@@ -303,17 +305,17 @@ export function generateTokens({
         ) => void;
       }
     ) => {
+      console.log("drawing", _renderObject);
+
       const layerCanvas = createCanvas(format.width, format.height);
       const layerctx = layerCanvas.getContext("2d");
       layerctx.imageSmoothingEnabled = format.smoothing;
 
-      layerctx.drawImage(
-        _renderObject.loadedImage,
-        0,
-        0,
-        format.width,
-        format.height
-      );
+      const image = new Image();
+      image.crossOrigin = "anonymous";
+      image.src = _renderObject.layer?.path;
+
+      layerctx.drawImage(image, 0, 0, format.width, format.height);
 
       addAttributes(_renderObject);
       mainCanvas.drawImage(layerCanvas, 0, 0, format.width, format.height);
@@ -698,9 +700,11 @@ export function generateTokens({
       const { abstractedIndexes, _background } = layerData;
 
       renderObjectArray.forEach(async (renderObject: any) => {
+        console.log({ renderObject });
+
         // one main canvas
         // each render Object should be a solo canvas
-        // append them all to main canbas
+        // append them all to main canvas
         canvasContext.globalAlpha = renderObject.layer?.opacity;
         canvasContext.globalCompositeOperation = renderObject.layer?.blendmode;
         canvasContext.drawImage(
@@ -711,7 +715,15 @@ export function generateTokens({
           format.height
         );
       });
-      const image = canvas.toDataURL();
+      console.log({ canvas });
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      // let image = new Image();
+      // image.crossOrigin = "anonymous";
+      // image.src = "HTTPS://REMOTE.HOST/IMG";
+
+      const image = canvas.toDataURL("image/png");
+
       outputFiles(abstractedIndexes, layerData, image, renderObjectArray);
 
       // dispatch(addGeneratedImage(image));
@@ -933,6 +945,8 @@ export function generateTokens({
             sortZIndex(allImages).forEach((layer: any) => {
               loadedElements.push(loadLayerImg(layer));
             });
+
+            console.log({ loadedElements });
 
             await Promise.all(loadedElements).then((renderObjectArray) => {
               const layerData = {

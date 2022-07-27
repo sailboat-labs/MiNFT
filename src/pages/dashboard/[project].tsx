@@ -126,8 +126,6 @@ export default function DashboardHomePage() {
       address
     );
 
-    console.log({ hasAccess });
-
     if (hasAccess) {
       if (loading) return;
       if (!snapshots) return;
@@ -197,6 +195,7 @@ export default function DashboardHomePage() {
 
     const data = layerSnapshots.reduce((acc: ILayer[], curr: DocumentData) => {
       acc.push(curr as ILayer);
+
       return acc;
     }, []);
 

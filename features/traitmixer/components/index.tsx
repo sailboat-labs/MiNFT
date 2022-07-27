@@ -49,11 +49,6 @@ const NFTGenerator = ({ router }: any) => {
     }, 1000);
   }, [animateLayersIn]);
 
-  // useEffect(() => {
-  //   if (layers.length < 1) return;
-  //   addLayersToFirebase(layers, project);
-  // }, [layers]);
-
   return (
     <div className=" w-full">
       <Tab.Group>
