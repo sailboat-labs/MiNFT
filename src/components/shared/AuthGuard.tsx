@@ -10,6 +10,7 @@ import { setAddress } from "redux/reducers/slices/user";
 
 import { getAccountByProvider, setActiveAccount } from "@/utils/authentication";
 
+import PageLoader from "./PageLoader";
 import Layout from "../layout/Layout";
 
 export const connectors = [
@@ -84,6 +85,8 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
   const activeAddress = useSelector(getAddress);
   console.log({ activeAddress });
 
+  const [startingPage, setStartingPage] = useState(true);
+
   // const [activeAccount, setActiveAccount] = useState(
   //   account ??
   //     (process.env.NEXT_PUBLIC_ENVIRONMENT == "development"
@@ -103,9 +106,13 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
         dispatch(setAddress(address));
       }
     }
+
+    setStartingPage(false);
   }
 
   useEffect(() => {
+    console.log({ activeAddress }, "here");
+
     prepareAuth();
   }, [account, isAuthenticated]);
 
@@ -121,6 +128,13 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
   }, []);
 
   // if (environment != "development") return <div></div>;
+
+  if (startingPage)
+    return (
+      <div className="flex h-screen w-screen items-center justify-center">
+        <PageLoader />
+      </div>
+    );
 
   if (ethers.utils.isAddress(activeAddress) == false) {
     return (

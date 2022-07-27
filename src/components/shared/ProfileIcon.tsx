@@ -7,9 +7,10 @@ import Link from "next/link";
 import { Fragment, useEffect, useState } from "react";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import { useMoralis } from "react-moralis";
+import { useSelector } from "react-redux";
+import { getAddress } from "redux/reducers/selectors/user";
 
 import { firebaseApp } from "@/lib/firebase";
-import useStorage from "@/hooks/storage";
 
 import { User } from "@/types";
 
@@ -18,10 +19,7 @@ const firestore = getFirestore(firebaseApp);
 export default function ProfileIcon() {
   // const { status, connect, account, chainId, ethereum } = useMetaMask();
   const { logout, isAuthenticated } = useMoralis();
-  const { getItem, setItem, removeItem } = useStorage();
-
-  const account =
-    (getItem("isAuthenticated") == "true" ? getItem("account") : "") ?? "";
+  const account = useSelector(getAddress);
 
   const [user, setUser] = useState<User>();
 
