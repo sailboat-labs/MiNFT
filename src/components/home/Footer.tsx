@@ -14,10 +14,10 @@ import RequestDemoLink from "../buttons/RequestDemoLink";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
-  
+
   return (
     <div className="h-auto w-full border-t border-black bg-white pb-20 font-montserrat font-medium text-[#1F1A17]">
-      <div className="m-auto flex w-10/12 flex-col items-center pt-10 lg:w-4/5">
+      <div className="m-auto flex flex-col items-center pt-10 lg:w-4/5">
         <div className="m-auto h-10 w-4/5 text-lg opacity-100 lg:w-3/4">
           <div>&copy; {currentYear} Magic Mynt. All rights reserved.</div>
         </div>

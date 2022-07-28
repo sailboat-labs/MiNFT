@@ -1,5 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 
+import { isMobile } from "react-device-detect";
+
 import ButtonLink from "@/components/links/ButtonLink";
 
 import GuideSVG1 from "~/svg/homepage/guide_1.svg";
@@ -43,11 +45,11 @@ export default function Guides() {
         <VectorSVG2 className="absolute z-0 -ml-20 -mt-60 h-[30rem] w-[25rem] sm:h-[50rem] sm:w-[50rem]" />
       </div>
       <div className="relative z-30 mx-auto w-10/12 border-b border-t border-black">
-        <div className="m-auto px-5 flex sm:w-4/5 flex-col pt-20 pb-6 font-montserrat lg:w-3/4">
+        <div className="m-auto flex flex-col px-5 pt-20 pb-6 font-montserrat sm:w-4/5 lg:w-3/4">
           {guides.map((guide, index) => (
             <div
               key={index}
-              className="z-30 mb-12 flex flex-row items-center justify-center lg:justify-between rounded-2xl border border-black bg-transparent px-10 py-8 text-[#1F1A17] lg:h-96 lg:px-16 lg:py-10  "
+              className="z-30 mb-12 flex flex-row items-center justify-center rounded-2xl border border-black bg-transparent px-10 py-8 text-[#1F1A17] lg:h-96 lg:justify-between lg:px-16 lg:py-10  "
             >
               <div className="flex flex-col justify-center lg:w-[30rem]">
                 <div className="text-2xl font-bold">{guide.title}</div>
@@ -63,7 +65,14 @@ export default function Guides() {
                 >
                   <ButtonLink
                     className="mt-7 flex h-10 w-48 items-center justify-center rounded-lg border border-black bg-transparent text-base font-bold text-[#1F1A17] shadow-none hover:bg-[#202020] hover:text-white"
-                    href="/dashboard"
+                    href={isMobile ? "/" : "/dashboard"}
+                    onClick={() => {
+                      if (isMobile) {
+                        alert(
+                          "This software does not work on a mobile device. Please switch to another device and try again."
+                        );
+                      }
+                    }}
                   >
                     {guide.button}
                   </ButtonLink>

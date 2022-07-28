@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import { isMobile } from "react-device-detect";
 
 import ContactLink from "../buttons/ContactLink";
 
@@ -29,11 +30,15 @@ export default function Join_Community() {
               <div
                 className="z-30 flex h-14 w-32 cursor-pointer items-center justify-center rounded-xl border border-black bg-transparent text-base font-bold text-[#1F1A17] hover:bg-[#1c1815] hover:text-white lg:w-56"
                 onClick={() => {
-                  process.env.NEXT_PUBLIC_ENVIRONMENT == "development"
-                    ? router.push("/dashboard")
-                    : window.open(
-                        "https://r3c9oapreew.typeform.com/to/RDOUdJXk"
-                      );
+                  if (process.env.NEXT_PUBLIC_ENVIRONMENT == "development") {
+                    if (isMobile) {
+                      alert("This software does not work on a mobile device");
+                    } else {
+                      router.push("/dashboard");
+                    }
+                  } else {
+                    window.open("https://r3c9oapreew.typeform.com/to/RDOUdJXk");
+                  }
                 }}
               >
                 Join Waitlist

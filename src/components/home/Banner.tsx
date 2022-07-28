@@ -1,7 +1,9 @@
 import { useRouter } from "next/router";
-import TrydemoLink from "../buttons/TrydemoLink";
-import Vector1SVG from "~/svg/homepage/vector_1.svg";
+import { isMobile } from "react-device-detect";
 
+import TrydemoLink from "../buttons/TrydemoLink";
+
+import Vector1SVG from "~/svg/homepage/vector_1.svg";
 export default function Banner() {
   const router = useRouter();
 
@@ -17,20 +19,28 @@ export default function Banner() {
             No-code tool for creating, launching and managing your NFT
             collection
           </p>
-          <div className="flex gap-5">
+          <div className="flex justify-between gap-5 md:justify-start">
             <div
-              className="relative z-30 mt-12 w-fit mr-10 lg:mr-6 rounded-xl border border-black bg-transparent px-10 py-4 font-bold text-black transition-all hover:scale-105 hover:cursor-pointer"
+              className="relative z-30 mt-12 w-fit rounded-xl border border-black bg-transparent px-7 py-4 font-bold text-black transition-all hover:scale-105 hover:cursor-pointer md:mr-10 md:px-10 lg:mr-6"
               onClick={() => {
-                process.env.NEXT_PUBLIC_ENVIRONMENT == "development"
-                  ? router.push("/dashboard")
-                  : window.open("https://r3c9oapreew.typeform.com/to/RDOUdJXk");
+                if (isMobile) {
+                  alert(
+                    "This software does not work properly work on a mobile device. Please switch to another device and try again."
+                  );
+                } else {
+                  process.env.NEXT_PUBLIC_ENVIRONMENT == "development"
+                    ? router.push("/dashboard")
+                    : window.open(
+                        "https://r3c9oapreew.typeform.com/to/RDOUdJXk"
+                      );
+                }
               }}
             >
               {process.env.NEXT_PUBLIC_ENVIRONMENT == "development"
                 ? "Start Now"
                 : "Join Waitlist"}
             </div>
-            <TrydemoLink className="relative z-30 mt-12 w-fit rounded-xl border border-black bg-transparent px-10 py-4 font-bold text-black transition-all hover:scale-105 hover:cursor-pointer"/>
+            <TrydemoLink className="relative z-30 mt-12 w-fit rounded-xl border border-black bg-transparent px-7 py-4 font-bold text-black transition-all hover:scale-105 hover:cursor-pointer md:px-10" />
             {/* {process.env.NEXT_PUBLIC_ENVIRONMENT == "production" && (
               <div
                 className="relative z-30 mt-12 w-fit rounded-xl border border-black bg-transparent px-10 py-4 font-bold text-black transition-all hover:scale-105 hover:cursor-pointer"

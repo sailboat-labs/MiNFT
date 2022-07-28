@@ -14,7 +14,7 @@ const TrydemoLink = ({ className }: TrydemoLinkProps) => {
         className={`${className} z-30 flex items-center justify-center`}
         onClick={() => setShowDemo(true)}
       >
-        Try Demo
+        Watch Demo
       </a>
       <Demo show={showDemo} onClose={() => setShowDemo(false)} />
     </>

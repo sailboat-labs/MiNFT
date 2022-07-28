@@ -13,6 +13,7 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { isMobile } from "react-device-detect";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 
 import { firebaseApp } from "@/lib/firebase";
@@ -30,6 +31,8 @@ import { IProject } from "@/interfaces";
 export const firestore = getFirestore(firebaseApp);
 
 export default function DashboardGetStarted() {
+  const router = useRouter();
+
   const [isCreatingProjectStarted, setIsCreatingProjectStarted] =
     useState(false);
   const [currentStep, setCurrentStep] = useState("");
@@ -39,7 +42,6 @@ export default function DashboardGetStarted() {
   const [isCreatingProject, setIsCreatingProject] = useState(false);
   const [allProjects, setAllProjects] = useState<IProject[]>([]);
 
-  const router = useRouter();
   const [canCreateModalBeDiscarded, setCanCreateModalBeDiscarded] =
     useState(true);
   const { getItem, setItem, removeItem } = useStorage();
@@ -72,6 +74,7 @@ export default function DashboardGetStarted() {
     ),
     limit(100)
   );
+
   const [snapshots, loading] = useCollectionData(_query);
 
   useEffect(() => {
@@ -89,57 +92,66 @@ export default function DashboardGetStarted() {
   }, [loading, snapshots]);
 
   async function createDemoProject() {
-    const account =
-      (getItem("isAuthenticated") == "true" ? getItem("account") : "") ?? "";
-
-    setIsCreatingProject(true);
-    const data: IProject = {
-      projectName: "Nozomix Extreme",
-      tokenSupply: "64",
-      baseUrl: "https://baseurl.com/",
-      description: "This is the Magic Mynt demo project: Nozomix Extreme",
-      isDemo: true,
-    };
-
-    if (!data || !account) return;
-
-    const response = await axios.post("/api/dashboard/console/create-project", {
-      project: data,
-      account,
-    });
-
-    if (response.data.success) {
-      setIsCreatingProjectStarted(false);
-      setIsCreatingProject(false);
-      router.push(
-        `/dashboard/${dashify("Nozomix Extreme")}-${account.substring(
-          0,
-          9
-        )}${account.substring(account.length - 9, account.length - 1)}`
+    if (isMobile) {
+      alert(
+        "This software does not work properly on a mobile device. Please switch to another device."
       );
     } else {
-      // toast.error(
-      //   response.data.message ?? "An error occurred creating account"
-      // );
-      router.push(
-        `/dashboard/${dashify("Nozomix Extreme")}-${account.substring(
-          0,
-          9
-        )}${account.substring(account.length - 9, account.length - 1)}`
+      const account =
+        (getItem("isAuthenticated") == "true" ? getItem("account") : "") ?? "";
+
+      setIsCreatingProject(true);
+      const data: IProject = {
+        projectName: "Nozomix Extreme",
+        tokenSupply: "64",
+        baseUrl: "https://baseurl.com/",
+        description: "This is the Magic Mynt demo project: Nozomix Extreme",
+        isDemo: true,
+      };
+
+      if (!data || !account) return;
+
+      const response = await axios.post(
+        "/api/dashboard/console/create-project",
+        {
+          project: data,
+          account,
+        }
       );
-      setIsCreatingProject(false);
-      setCanCreateModalBeDiscarded(true);
+
+      if (response.data.success) {
+        setIsCreatingProjectStarted(false);
+        setIsCreatingProject(false);
+        router.push(
+          `/dashboard/${dashify("Nozomix Extreme")}-${account.substring(
+            0,
+            9
+          )}${account.substring(account.length - 9, account.length - 1)}`
+        );
+      } else {
+        // toast.error(
+        //   response.data.message ?? "An error occurred creating account"
+        // );
+        router.push(
+          `/dashboard/${dashify("Nozomix Extreme")}-${account.substring(
+            0,
+            9
+          )}${account.substring(account.length - 9, account.length - 1)}`
+        );
+        setIsCreatingProject(false);
+        setCanCreateModalBeDiscarded(true);
+      }
     }
   }
 
   return (
     <AuthGuard>
       <div
-        className={`flex h-screen  flex-col overflow-hidden pb-20 font-dmsans transition-all dark:bg-black lg:flex-row ${
+        className={`flex h-screen w-screen flex-col overflow-hidden pb-20 font-dmsans transition-all dark:bg-black lg:flex-row ${
           isCreatingProjectStarted ? "bg-indigo-200" : "bg-white"
         }`}
       >
-        <div className="absolute flex h-screen w-full">
+        <div className=" flex h-screen w-full">
           <div
             className={` flex h-full flex-col gap-36 overflow-y-auto transition-all duration-300 xl:flex-row  ${
               isCreatingProjectStarted
@@ -152,7 +164,7 @@ export default function DashboardGetStarted() {
               <div className=" mt-10">
                 <Link href="/" passHref>
                   <div className="flex w-fit justify-between">
-                    <span className="flex cursor-pointer select-none items-center font-dmsans text-4xl font-bold leading-none  text-gray-900  md:mb-0 lg:items-center lg:justify-center">
+                    <span className="flex cursor-pointer select-none items-center font-dmsans text-4xl font-bold leading-none  text-gray-900 md:mb-0 lg:items-center lg:justify-center">
                       Magic Mynt<span className="text-indigo-600">.</span>
                     </span>
                   </div>
@@ -163,14 +175,20 @@ export default function DashboardGetStarted() {
                 </div>
               </div>
 
-              <div className="mt-36 flex gap-5">
+              <div className="mt-20 flex gap-5 xl:mt-36">
                 <div
                   onClick={() => {
-                    setIsCreatingProjectStarted(!isCreatingProjectStarted);
-                    handleStepChange(
-                      "Let's start with a name for your project",
-                      "project-name"
-                    );
+                    if (isMobile) {
+                      alert(
+                        "You cannot perform this action on a mobile device. Please switch to another device."
+                      );
+                    } else {
+                      setIsCreatingProjectStarted(!isCreatingProjectStarted);
+                      handleStepChange(
+                        "Let's start with a name for your project",
+                        "project-name"
+                      );
+                    }
                   }}
                   className="flex h-52 w-72 cursor-pointer flex-col justify-between rounded-lg border-2 bg-white px-10 py-5 text-xl transition-all hover:scale-105 hover:bg-gray-50"
                 >
@@ -200,7 +218,7 @@ export default function DashboardGetStarted() {
               </div>
             </div>
             {/* Right section */}
-            <div className="mt-10 pb-24">
+            <div className="top- mt-10 pb-24">
               <div className="pt-10 font-dmsans text-xl text-gray-500">
                 {getItem("isAuthenticated") == "true" &&
                   getItem("account") &&
@@ -218,12 +236,17 @@ export default function DashboardGetStarted() {
                   No Project Created
                 </div>
               )}
-              <div className="3xl:grid-cols-4 mb-20 grid grid-cols-1 gap-5 xl:grid-cols-2 2xl:grid-cols-3">
+              {/* <div className="3xl:grid-cols-4 mb-20 grid grid-cols-1 gap-5 xl:grid-cols-2 2xl:grid-cols-3"> */}
+              <div className=" 3xl:grid-cols-4 mb-20 grid grid-cols-1 gap-5 xl:grid-cols-2 2xl:grid-cols-3">
                 {allProjects.map((project, index) => (
                   <div
                     key={index}
                     onClick={() => {
-                      router.push(`/dashboard/${project.slug}`);
+                      isMobile
+                        ? alert(
+                            "This action cannot be performed on a mobile device"
+                          )
+                        : router.push(`/dashboard/${project.slug}`);
                     }}
                     className="cursor-pointer rounded-lg border bg-gray-50 px-5 py-5 transition-all hover:bg-gray-100"
                   >
