@@ -23,8 +23,10 @@ module.exports = {
         primary: ["Inter", ...fontFamily.sans],
         dmsans: ["DMSans", "sans-serif"],
         montserrat: ["Montserrat", "sans-serif"],
-        heading: ["wfont_531ace_58938f917a1b4e66a2181c66dc63faa1","wf_58938f917a1b4e66a2181c66d"]
-
+        heading: [
+          "wfont_531ace_58938f917a1b4e66a2181c66dc63faa1",
+          "wf_58938f917a1b4e66a2181c66d",
+        ],
       },
       boxShadow: {
         "3xl": "3px -1px 27px 8px rgba(83, 224, 255, 0.4)",
@@ -82,5 +84,9 @@ module.exports = {
       },
     },
   },
-  plugins: [require("@tailwindcss/forms"), require("tw-elements/dist/plugin")],
+  plugins: [
+    require("@tailwindcss/forms"),
+    require("tw-elements/dist/plugin"),
+    // require("daisyui"),
+  ],
 };
