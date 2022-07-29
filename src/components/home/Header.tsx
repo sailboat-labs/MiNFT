@@ -1,3 +1,4 @@
+import ContactUs from "features/launch/components/contact-us";
 import { useRouter } from "next/router";
 import React from "react";
 
@@ -28,9 +29,7 @@ export default function Header() {
             ? "Get Started"
             : "Join Waitlist"}
         </span>
-        <UnstyledLink href="" className="hidden w-24 md:block">
-          Contact us
-        </UnstyledLink>
+        <ContactUs />
       </div>
     </div>
   );

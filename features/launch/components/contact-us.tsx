@@ -3,11 +3,12 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Input } from "@mui/material";
 import { Formik } from "formik";
 import { Fragment, useRef, useState } from "react";
+import ReCaptcha from "react-google-recaptcha";
 import toast from "react-hot-toast";
 import * as Yup from "yup";
 
 export default function ContactUs() {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   function closeModal() {
     setIsOpen(false);
@@ -61,19 +62,13 @@ export default function ContactUs() {
         `Hi ${e.target.name.value}, thank you for contacting Magic Mynt. We will get back to you as soon as possible.`
       );
     }
-    document.getElementById("contact-us").click();
+    document.getElementById("contact-us")?.click();
   };
 
   return (
     <>
-      <div className="fixed inset-0 flex items-center justify-center">
-        <button
-          type="button"
-          onClick={openModal}
-          className="rounded-md bg-black bg-opacity-20 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
-        >
-          Open dialog
-        </button>
+      <div onClick={openModal} className="cursor-pointer sm:mr-10 lg:mr-14">
+        Contact us
       </div>
 
       <Transition appear show={isOpen} as={Fragment}>
@@ -101,7 +96,7 @@ export default function ContactUs() {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="h-96 w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                   <section className="fixed inset-0 z-[9999] flex items-center justify-center">
                     <div
                       id="contact-us"
@@ -121,7 +116,9 @@ export default function ContactUs() {
                               message: "",
                             }}
                             validationSchema={validate}
-                            onSubmit={submitForm}
+                            onSubmit={() => {
+                              //
+                            }}
                           >
                             {(formik) => (
                               <form
