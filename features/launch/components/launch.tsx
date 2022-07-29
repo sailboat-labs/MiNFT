@@ -93,10 +93,10 @@ const ProjectLaunch: NextPage = () => {
     );
 
   return (
-    <div className="overflow-y-auto">
-      <div className="h-screen">
+    <div className="h-screen overflow-y-auto">
+      <div className="">
         <section>
-          <div className=" container mx-auto max-w-[1664px]  px-6 py-24 lg:grid lg:grid-cols-2">
+          <div className="container mx-auto mt-20 max-w-[1664px]  px-6 py-24 lg:grid lg:grid-cols-2">
             {/* left side */}
             <article className="md:pr-12 lg:pr-32">
               <h1 className="text-6xl font-extrabold">
@@ -171,7 +171,7 @@ const ProjectLaunch: NextPage = () => {
                     • <span>Price {contractInformation.mintPrice} ETH</span>
                   </p>
                 </div>
-                <div className=" rounded-2xl  p-4 ring-1 ring-pink-400">
+                <div className=" mb-20  rounded-2xl p-4 ring-1 ring-pink-400">
                   <div className="flex items-center justify-between">
                     <span className="text-medium  rounded-full bg-gray-100 py-1 px-2 text-sm text-gray-700 ring-1 ring-gray-200">
                       Public
@@ -197,10 +197,10 @@ const ProjectLaunch: NextPage = () => {
           </div>
         </section>
         <section className="bg-gray-100">
-          <div className="container mx-auto grid max-w-[1664px]  px-6  py-24 md:grid-cols-2">
-            <article className="md:pr-12 lg:pr-32">
+          <div className="container mx-auto grid max-w-[1664px] gap-10  px-6  py-24 md:grid-cols-2">
+            <article className="mt-20 md:pr-12 lg:pr-32">
               <h1 className="text-6xl font-extrabold">
-                Tomorrowland: The Reflection of Love
+                {contractInformation.name}
               </h1>
               <p className="my-5 text-gray-500">
                 Tomorrowland Music Festival started in 2005 with 10,000
@@ -260,12 +260,12 @@ const ProjectLaunch: NextPage = () => {
                 Tomorrowland.
               </p>
             </article>
-            <article>
+            <article className="mt-20">
               <div className="flex items-center gap-4">
                 <button
                   onClick={() => setActiveTab("roadmap")}
                   className={`py-2 pr-4 font-semibold ${
-                    activeTab === "roadmap" && "border-b-2 border-pink-500"
+                    activeTab == "roadmap" && "border-b-2 border-pink-500"
                   }`}
                 >
                   Roadmap
@@ -273,7 +273,7 @@ const ProjectLaunch: NextPage = () => {
                 <button
                   onClick={() => setActiveTab("team")}
                   className={`px-4 py-2 font-semibold ${
-                    activeTab === "team" && "border-b-2 border-pink-500"
+                    activeTab == "team" && "border-b-2 border-pink-500"
                   }`}
                 >
                   Team

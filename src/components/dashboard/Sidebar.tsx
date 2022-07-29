@@ -97,7 +97,7 @@ const sidebarItems: { label: string; icon: any; value: string }[] = [
   },
 
   {
-    label: "Minting Page Builder",
+    label: "Launchpad",
     value: "minting-page-builder",
     icon: (
       <svg
