@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { ethers } from "ethers";
 import { getContractForMinting } from "features/minting-page/utils/get-contract-for-minting";
 import { NextPage } from "next";
@@ -185,13 +186,13 @@ const ProjectLaunch: NextPage = () => {
               </div>
             </article>
             {/* right side */}
-            <article className="mt-20 lg:mt-0">
+            <article className="mt-20 mb-20 ml-20 lg:mt-0">
               <figure className="overflow-hidden rounded-2xl">
-                {/* <img
+                <img
                   className="h-auto w-full"
                   src="/images/launch-project.gif"
                   alt=""
-                /> */}
+                />
               </figure>
             </article>
           </div>

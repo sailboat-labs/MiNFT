@@ -84,6 +84,7 @@ export default function DashboardGetStarted() {
 
   async function createDemoProject() {
     setIsCreatingProject(true);
+
     const data: IProject = {
       projectName: "Nozomix Extreme",
       tokenSupply: "64",

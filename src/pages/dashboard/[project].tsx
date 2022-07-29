@@ -2,6 +2,7 @@ import dashify from "dashify";
 import { formatEthAddress } from "eth-address";
 import ContractMakerView from "features/contract-maker/components";
 import DashboardHome from "features/dashboard-home/components/dashboard-home";
+import LaunchpadConfig from "features/launch/components/launchpad-config/launchpad-config";
 import NFTGenerator from "features/traitmixer/components";
 import {
   collection,
@@ -12,14 +13,11 @@ import {
   where,
 } from "firebase/firestore";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getDashboardState,
-  getSlideInModalState,
-} from "redux/reducers/selectors/dashboard";
+import { getDashboardState } from "redux/reducers/selectors/dashboard";
 import { getProjectState } from "redux/reducers/selectors/project";
 import { getAddress } from "redux/reducers/selectors/user";
 import { setConfiguration } from "redux/reducers/slices/configuration";
@@ -44,7 +42,6 @@ import { hasAccessToProject } from "@/utils/authentication";
 const firestore = getFirestore(firebaseApp);
 
 export default function DashboardHomePage() {
-  const [showProject, setShowProject] = useState(false);
   const dashboardState = useSelector(getDashboardState) as IDashboardState;
   const project = useSelector(getProjectState) as IProject;
   const selectedSidebar = dashboardState.selectedSidebar;
@@ -75,7 +72,7 @@ export default function DashboardHomePage() {
       label: "Contract Maker",
     },
     {
-      component: <ComingSoon />,
+      component: <LaunchpadConfig />,
       value: "minting-page-builder",
       label: "Minting Page Builder",
     },
@@ -238,9 +235,6 @@ export default function DashboardHomePage() {
 }
 
 function NFTGeneratorTitleOptions() {
-  const slideInModalState = useSelector(getSlideInModalState);
-  const dispatch = useDispatch();
-
   return (
     <div className="flex items-center gap-3">
       <TraitsSearchbar />

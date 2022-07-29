@@ -1,7 +1,6 @@
 import axios from "axios";
 
-import { ILayer } from "./../../../src/interfaces/get-started";
-import { IProject } from "./../../../src/interfaces/index";
+import { ILayer, IProject } from "./../../../src/interfaces/index";
 export default async function addLayersToFirebase(
   layers: ILayer[],
   project: IProject

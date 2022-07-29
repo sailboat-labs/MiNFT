@@ -74,5 +74,22 @@ export interface IProject {
   slug?: string;
   description: string;
   isDemo?: boolean;
-  owner: string;
+  owner?: string;
+}
+
+export interface IProjectLaunch {
+  name: string;
+  totalQuantity: string;
+  symbol: string;
+  contractType: string;
+  startTimeStamp: string;
+  endDateTimeStamp: string;
+  mintPrice: string;
+  summary: string;
+  description: string;
+  mintPerWallet: string;
+  mintPerTransaction: string;
+  hasWhitelist: boolean;
+  team: string;
+  roadMap: { title: string; description: string }[];
 }
