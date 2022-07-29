@@ -2,7 +2,11 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import { useEffect, useRef, useState } from "react";
 
-export default function FAQ() {
+interface AppProps {
+  headingClass?: string;
+}
+
+export default function FAQ({ headingClass }: AppProps) {
   const FAQ: { title: string; details: JSX.Element }[] = [
     {
       title: "What is Magic Mynt",
@@ -52,7 +56,7 @@ export default function FAQ() {
       details: (
         <div>
           Adding a project is as easy as connecting your wallet, signing a
-          gasless transaction to confirm you’re the owner and then adding a
+          gasless transaction to confirm you&apos;re the owner and then adding a
           project you know a lot about. Once submitted, you can edit it when
           logged into the same wallet.
         </div>
@@ -79,7 +83,7 @@ export default function FAQ() {
             community.
           </div>
           <div>
-            In the long run, we’re also working on tokenomics that reward
+            In the long run, we&apos;re also working on tokenomics that reward
             contributors according to the quality and quantity of their work.
             Wen airdrop?
           </div>
@@ -143,7 +147,7 @@ export default function FAQ() {
       </div>
       <div className="relative z-[2]">
         <a href="#faq" className="flex" id="faq-anim-trigger">
-          <strong className="gradient-header mb-5">
+          <strong className={`gradient-header mb-5 ${headingClass}`}>
             Frequently Asked Questions
           </strong>
         </a>
