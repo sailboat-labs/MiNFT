@@ -178,7 +178,8 @@ const ProjectLaunch: NextPage = () => {
                     </span>
                   </div>
                   <p className="mt-6 text-sm">
-                    <span>UNLIMITED</span> • <span>Price 3◎</span>
+                    <span>{contractInformation.totalQuantity}</span> •{" "}
+                    <span>Price {contractInformation.mintPrice} ETH</span>
                   </p>
                 </div>
               </div>
