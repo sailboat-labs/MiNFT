@@ -4,6 +4,8 @@ import { NextPage } from "next";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
+import PageLoader from "@/components/shared/PageLoader";
+
 const ProjectLaunch: NextPage = () => {
   const [activeTab, setActiveTab] = useState<string>("roadmap");
   //Contract
@@ -11,12 +13,68 @@ const ProjectLaunch: NextPage = () => {
     undefined
   );
 
+  const [contractInformation, setContractInformation] = useState<any>();
+
   // const contractAddress = "0x7311102EcC5a3Effb9Fc2e734d918A4eb448A13E";
   const contractAddress = "0xd1aFbbdf886cc20E5c683B06444a116aDCe11F8E";
 
   async function prepareContract() {
     const _contract = await getContractForMinting(contractAddress);
     console.log({ _contract });
+
+    if (!_contract) return;
+
+    const name = await _contract.name();
+    const totalQuantity = parseInt(
+      await (
+        await _contract.totalQuantity()
+      )._hex
+    );
+    const contractType = ethers.utils.parseBytes32String(
+      await _contract.contractType()
+    );
+    const mintPrice = ethers.utils.formatEther(await _contract.mintPrice());
+    const endingTimestamp = await (
+      await _contract.endingTimestamp()
+    )._hex.toString();
+    const startingTimestamp = await _contract.startingTimestamp();
+    const symbol = await _contract.symbol();
+    const totalSupply = parseInt(await (await _contract.totalSupply())._hex);
+    const maxMintPerWallet = parseInt(
+      await (
+        await _contract.maxMintPerWallet()
+      )._hex
+    );
+    const maxMintPerTx = parseInt(await (await _contract.maxMintPerTx())._hex);
+    const hasMintStarted = await _contract.hasMintStarted();
+
+    console.log({
+      name,
+      totalQuantity,
+      contractType,
+      mintPrice,
+      endingTimestamp,
+      startingTimestamp,
+      symbol,
+      totalSupply,
+      maxMintPerWallet,
+      maxMintPerTx,
+      hasMintStarted,
+    });
+
+    setContractInformation({
+      name,
+      totalQuantity,
+      contractType,
+      mintPrice,
+      endingTimestamp,
+      startingTimestamp: new Date(startingTimestamp).toString().split("GMT")[0],
+      symbol,
+      totalSupply,
+      maxMintPerWallet,
+      maxMintPerTx,
+      hasMintStarted,
+    });
 
     if (_contract) {
       setContract(_contract);
@@ -27,6 +85,13 @@ const ProjectLaunch: NextPage = () => {
     prepareContract();
   }, []);
 
+  if (!contractInformation)
+    return (
+      <div className="flex h-screen w-screen items-center justify-center">
+        <PageLoader />
+      </div>
+    );
+
   return (
     <div className="overflow-y-auto">
       <div className="h-screen">
@@ -35,22 +100,26 @@ const ProjectLaunch: NextPage = () => {
             {/* left side */}
             <article className="md:pr-12 lg:pr-32">
               <h1 className="text-6xl font-extrabold">
-                Tomorrowland: The Reflection of Love
+                {contractInformation.name}
               </h1>
               <div className="my-4 inline-flex items-center gap-3 text-sm">
                 <div className="rounded border border-pink-500 py-1 px-2 text-pink-500 ">
-                  DOXXED
+                  {contractInformation.contractType}
                 </div>
                 <div className="rounded border border-pink-500 py-1 px-2 text-pink-500 ">
-                  ESCROW 7d
+                  {contractInformation.startingTimestamp}
                 </div>
                 <div className="flex items-center gap-2 rounded border border-gray-300 py-1 px-2 text-gray-400 ">
                   <span>Total items:</span>
-                  <strong className=" font-semibold">1,578</strong>
+                  <strong className=" font-semibold">
+                    {contractInformation.totalQuantity}
+                  </strong>
                 </div>
                 <div className="flex items-center gap-2 rounded border border-gray-300 py-1 px-2 text-gray-400 ">
                   <span>Price:</span>
-                  <strong className=" font-semibold">3◎</strong>
+                  <strong className=" font-semibold">
+                    {contractInformation.mintPrice}ETH
+                  </strong>
                 </div>
                 <div>
                   <svg
@@ -94,9 +163,12 @@ const ProjectLaunch: NextPage = () => {
                     </span>{" "}
                     •{" "}
                     <span>
-                      MAX <strong className="font-semibold">5 TOKENS</strong>
+                      MAX{" "}
+                      <strong className="font-semibold">
+                        {contractInformation.maxMintPerWallet} TOKENS
+                      </strong>
                     </span>{" "}
-                    • <span>Price 3◎</span>
+                    • <span>Price {contractInformation.mintPrice} ETH</span>
                   </p>
                 </div>
                 <div className=" rounded-2xl  p-4 ring-1 ring-pink-400">
@@ -114,11 +186,11 @@ const ProjectLaunch: NextPage = () => {
             {/* right side */}
             <article className="mt-20 lg:mt-0">
               <figure className="overflow-hidden rounded-2xl">
-                <img
+                {/* <img
                   className="h-auto w-full"
                   src="/images/launch-project.gif"
                   alt=""
-                />
+                /> */}
               </figure>
             </article>
           </div>
