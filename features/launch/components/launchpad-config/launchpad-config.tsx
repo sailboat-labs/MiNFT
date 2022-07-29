@@ -154,7 +154,7 @@ const LaunchpadConfig: NextPage = () => {
               </div>
             </article>
             {/* right side */}
-            {/* <article className="mt-20 mb-20 ml-20 lg:mt-0">
+            <article className="mt-20 mb-20 ml-20 lg:mt-0">
               <figure className="overflow-hidden rounded-2xl">
                 <img
                   className="h-auto w-full"
@@ -162,7 +162,7 @@ const LaunchpadConfig: NextPage = () => {
                   alt=""
                 />
               </figure>
-            </article> */}
+            </article>
           </div>
         </section>
         <section className="bg-gray-100 pb-20">
@@ -172,8 +172,15 @@ const LaunchpadConfig: NextPage = () => {
                 className="w-full bg-gray-100 text-6xl font-extrabold"
                 placeholder="Project Name"
                 defaultValue={launchInformation?.projectName}
+                onChange={(e) => {
+                  saveLaunchPadDraft(project, "projectName", e.target.value);
+                }}
               />
               <textarea
+                defaultValue={launchInformation?.description}
+                onChange={(e) => {
+                  saveLaunchPadDraft(project, "description", e.target.value);
+                }}
                 className="my-5 w-full rounded border-none bg-gray-100 pl-0 text-gray-500"
                 placeholder="Project Description"
               ></textarea>
