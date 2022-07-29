@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { getProjectState } from "redux/reducers/selectors/project";
 
 import Button from "@/components/buttons/Button";
+import PageLoader from "@/components/shared/PageLoader";
 
 import { IProject, IProjectLaunch } from "@/interfaces";
 import { firestore } from "@/pages/dashboard";
@@ -27,6 +28,9 @@ const LaunchpadConfig: NextPage = () => {
   const [roadMapDescription, setRoadMapDescription] = useState("");
   const [isShowingAddNewRoadmap, setIsShowingAddNewRoadmap] = useState(false);
 
+  //state
+  const [showSavingDraftLoader, setShowSavingDraftLoader] = useState(false);
+
   useEffect(() => {
     const _doc = doc(firestore, `Projects/${project.slug}/Launchpad/draft`);
     const unsubscribe = onSnapshot(_doc, (snapshot) => {
@@ -38,8 +42,30 @@ const LaunchpadConfig: NextPage = () => {
     };
   }, []);
 
+  async function handleSaveLaunchPadDraft(field: string, value: string) {
+    setShowSavingDraftLoader(true);
+    const saveDraft = await saveLaunchPadDraft(project, field, value);
+
+    if (!saveDraft)
+      toast.error(
+        "Error Ocurred while saving draft. Changes will not be saved"
+      );
+
+    setTimeout(() => {
+      setShowSavingDraftLoader(false);
+    }, 500);
+  }
+
   return (
     <div className="h-screen overflow-y-auto">
+      <div
+        className={`pointer-events-none fixed scale-75 bg-white transition-all ${
+          showSavingDraftLoader ? "opacity-100" : "opacity-0"
+        }`}
+      >
+        <PageLoader className="h-[30px] w-[30px]" />
+      </div>
+
       <div className="">
         <section>
           <div className="container mx-auto mt-20 max-w-[1664px]  px-6 py-24 lg:grid lg:grid-cols-2">
@@ -50,14 +76,14 @@ const LaunchpadConfig: NextPage = () => {
                 className="text-6xl font-extrabold"
                 placeholder="Project Name"
                 onChange={(e) => {
-                  saveLaunchPadDraft(project, "projectName", e.target.value);
+                  handleSaveLaunchPadDraft("projectName", e.target.value);
                 }}
               />
               <div className="my-4 grid grid-cols-2 items-center gap-3 text-sm xl:grid-cols-4">
                 <input
                   defaultValue={launchInformation?.contractType}
                   onChange={(e) => {
-                    saveLaunchPadDraft(project, "contractType", e.target.value);
+                    handleSaveLaunchPadDraft("contractType", e.target.value);
                   }}
                   className="rounded border border-pink-500 py-1 px-2 text-pink-500 "
                   placeholder="Mint Type eg. Classic Mint"
@@ -65,11 +91,7 @@ const LaunchpadConfig: NextPage = () => {
                 <input
                   defaultValue={launchInformation?.startTimeStamp}
                   onChange={(e) => {
-                    saveLaunchPadDraft(
-                      project,
-                      "startTimeStamp",
-                      e.target.value
-                    );
+                    handleSaveLaunchPadDraft("startTimeStamp", e.target.value);
                   }}
                   className="rounded border border-pink-500 py-1 px-2 text-pink-500 "
                   placeholder="Mint date"
@@ -82,11 +104,7 @@ const LaunchpadConfig: NextPage = () => {
                   <input
                     defaultValue={launchInformation?.totalQuantity}
                     onChange={(e) => {
-                      saveLaunchPadDraft(
-                        project,
-                        "totalQuantity",
-                        e.target.value
-                      );
+                      handleSaveLaunchPadDraft("totalQuantity", e.target.value);
                     }}
                     className="w-20 font-semibold"
                     placeholder="0"
@@ -97,7 +115,7 @@ const LaunchpadConfig: NextPage = () => {
                   <input
                     defaultValue={launchInformation?.mintPrice}
                     onChange={(e) => {
-                      saveLaunchPadDraft(project, "mintPrice", e.target.value);
+                      handleSaveLaunchPadDraft("mintPrice", e.target.value);
                     }}
                     className="w-10 font-semibold"
                     placeholder="0.1"
@@ -108,7 +126,7 @@ const LaunchpadConfig: NextPage = () => {
                 <textarea
                   defaultValue={launchInformation?.summary}
                   onChange={(e) => {
-                    saveLaunchPadDraft(project, "summary", e.target.value);
+                    handleSaveLaunchPadDraft("summary", e.target.value);
                   }}
                   className="w-full rounded border-none py-2 pr-2 pl-0"
                   placeholder="Project Summary..."
@@ -173,13 +191,13 @@ const LaunchpadConfig: NextPage = () => {
                 placeholder="Project Name"
                 defaultValue={launchInformation?.projectName}
                 onChange={(e) => {
-                  saveLaunchPadDraft(project, "projectName", e.target.value);
+                  handleSaveLaunchPadDraft("projectName", e.target.value);
                 }}
               />
               <textarea
                 defaultValue={launchInformation?.description}
                 onChange={(e) => {
-                  saveLaunchPadDraft(project, "description", e.target.value);
+                  handleSaveLaunchPadDraft("description", e.target.value);
                 }}
                 className="my-5 w-full rounded border-none bg-gray-100 pl-0 text-gray-500"
                 placeholder="Project Description"

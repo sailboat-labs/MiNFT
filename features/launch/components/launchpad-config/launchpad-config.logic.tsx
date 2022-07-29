@@ -18,7 +18,9 @@ export default async function saveLaunchPadDraft(
 
     const _doc = doc(firestore, `Projects/${project.slug}/Launchpad/draft`);
     await setDoc(_doc, data, { merge: true });
+    return true;
   } catch (error) {
     console.log(error);
+    return false;
   }
 }
