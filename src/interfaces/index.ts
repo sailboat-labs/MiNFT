@@ -78,7 +78,7 @@ export interface IProject {
 }
 
 export interface IProjectLaunch {
-  name: string;
+  projectName: string;
   totalQuantity: string;
   symbol: string;
   contractType: string;

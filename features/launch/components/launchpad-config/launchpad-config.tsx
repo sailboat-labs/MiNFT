@@ -1,12 +1,23 @@
 /* eslint-disable @next/next/no-img-element */
+import { doc, onSnapshot } from "firebase/firestore";
 import { NextPage } from "next";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
+import { getProjectState } from "redux/reducers/selectors/project";
 
 import Button from "@/components/buttons/Button";
 
+import { IProject, IProjectLaunch } from "@/interfaces";
+import { firestore } from "@/pages/dashboard";
+
+import saveLaunchPadDraft from "./launchpad-config.logic";
+
 const LaunchpadConfig: NextPage = () => {
   const [activeTab, setActiveTab] = useState<string>("roadmap");
+  const project = useSelector(getProjectState) as IProject;
+
+  const [launchInformation, setLaunchInformation] = useState<IProjectLaunch>();
 
   //roadmap
   const [roadmap, setRoadmap] = useState<
@@ -17,7 +28,14 @@ const LaunchpadConfig: NextPage = () => {
   const [isShowingAddNewRoadmap, setIsShowingAddNewRoadmap] = useState(false);
 
   useEffect(() => {
-    // prepareContract();
+    const _doc = doc(firestore, `Projects/${project.slug}/Launchpad/draft`);
+    const unsubscribe = onSnapshot(_doc, (snapshot) => {
+      setLaunchInformation(snapshot.data() as IProjectLaunch);
+    });
+
+    return () => {
+      unsubscribe();
+    };
   }, []);
 
   return (
@@ -28,15 +46,31 @@ const LaunchpadConfig: NextPage = () => {
             {/* left side */}
             <article className="md:pr-12 lg:pr-32">
               <input
+                defaultValue={launchInformation?.projectName}
                 className="text-6xl font-extrabold"
                 placeholder="Project Name"
+                onChange={(e) => {
+                  saveLaunchPadDraft(project, "projectName", e.target.value);
+                }}
               />
               <div className="my-4 grid grid-cols-2 items-center gap-3 text-sm xl:grid-cols-4">
                 <input
+                  defaultValue={launchInformation?.contractType}
+                  onChange={(e) => {
+                    saveLaunchPadDraft(project, "contractType", e.target.value);
+                  }}
                   className="rounded border border-pink-500 py-1 px-2 text-pink-500 "
                   placeholder="Mint Type eg. Classic Mint"
                 />
                 <input
+                  defaultValue={launchInformation?.startTimeStamp}
+                  onChange={(e) => {
+                    saveLaunchPadDraft(
+                      project,
+                      "startTimeStamp",
+                      e.target.value
+                    );
+                  }}
                   className="rounded border border-pink-500 py-1 px-2 text-pink-500 "
                   placeholder="Mint date"
                 />
@@ -45,15 +79,37 @@ const LaunchpadConfig: NextPage = () => {
                   <span className="flex">
                     Total <span className="block">&nbsp;Items</span>:
                   </span>
-                  <input className="w-20 font-semibold" placeholder="0" />
+                  <input
+                    defaultValue={launchInformation?.totalQuantity}
+                    onChange={(e) => {
+                      saveLaunchPadDraft(
+                        project,
+                        "totalQuantity",
+                        e.target.value
+                      );
+                    }}
+                    className="w-20 font-semibold"
+                    placeholder="0"
+                  />
                 </div>
                 <div className="flex items-center gap-2 rounded border border-gray-300 py-1 px-2 text-gray-400 ">
                   <span>Price:</span>
-                  <input className="w-10 font-semibold" placeholder="0.1" />
+                  <input
+                    defaultValue={launchInformation?.mintPrice}
+                    onChange={(e) => {
+                      saveLaunchPadDraft(project, "mintPrice", e.target.value);
+                    }}
+                    className="w-10 font-semibold"
+                    placeholder="0.1"
+                  />
                 </div>
               </div>
               <p className="my-4">
                 <textarea
+                  defaultValue={launchInformation?.summary}
+                  onChange={(e) => {
+                    saveLaunchPadDraft(project, "summary", e.target.value);
+                  }}
                   className="w-full rounded border-none py-2 pr-2 pl-0"
                   placeholder="Project Summary..."
                 ></textarea>
@@ -115,6 +171,7 @@ const LaunchpadConfig: NextPage = () => {
               <input
                 className="w-full bg-gray-100 text-6xl font-extrabold"
                 placeholder="Project Name"
+                defaultValue={launchInformation?.projectName}
               />
               <textarea
                 className="my-5 w-full rounded border-none bg-gray-100 pl-0 text-gray-500"
