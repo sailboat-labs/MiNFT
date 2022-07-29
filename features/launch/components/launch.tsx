@@ -1,9 +1,32 @@
+import { ethers } from "ethers";
+import { getContractForMinting } from "features/minting-page/utils/get-contract-for-minting";
 import { NextPage } from "next";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const ProjectLaunch: NextPage = () => {
   const [activeTab, setActiveTab] = useState<string>("roadmap");
+  //Contract
+  const [contract, setContract] = useState<ethers.Contract | undefined>(
+    undefined
+  );
+
+  // const contractAddress = "0x7311102EcC5a3Effb9Fc2e734d918A4eb448A13E";
+  const contractAddress = "0xd1aFbbdf886cc20E5c683B06444a116aDCe11F8E";
+
+  async function prepareContract() {
+    const _contract = await getContractForMinting(contractAddress);
+    console.log({ _contract });
+
+    if (_contract) {
+      setContract(_contract);
+    }
+  }
+
+  useEffect(() => {
+    prepareContract();
+  }, []);
+
   return (
     <div className="overflow-y-auto">
       <div className="h-screen">
