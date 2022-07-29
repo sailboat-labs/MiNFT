@@ -2,13 +2,17 @@ import { NextPage } from "next";
 import Link from "next/link";
 import React, { useState } from "react";
 
+import FAQ from "@/components/pages/landing/FAQ";
+import OfficialLinks from "@/components/pages/launch/OfficialLinks";
+
 const ProjectLaunch: NextPage = () => {
   const [activeTab, setActiveTab] = useState<string>("roadmap");
+
   return (
     <div className="overflow-y-auto">
       <div className="h-screen">
         <section>
-          <div className=" container mx-auto max-w-[1664px]  px-6 py-24 lg:grid lg:grid-cols-2">
+          <div className=" contained  mx-auto  px-6 py-24 lg:grid lg:grid-cols-2">
             {/* left side */}
             <article className="md:pr-12 lg:pr-32">
               <h1 className="text-6xl font-extrabold">
@@ -101,7 +105,7 @@ const ProjectLaunch: NextPage = () => {
           </div>
         </section>
         <section className="bg-gray-100">
-          <div className="container mx-auto grid max-w-[1664px]  px-6  py-24 md:grid-cols-2">
+          <div className="contained grid px-6  py-24 lg:grid-cols-2">
             <article className="md:pr-12 lg:pr-32">
               <h1 className="text-6xl font-extrabold">
                 Tomorrowland: The Reflection of Love
@@ -268,6 +272,10 @@ const ProjectLaunch: NextPage = () => {
             </article>
           </div>
         </section>
+        <div className="mb-28 mt-20">
+          <FAQ headingClass="text-black" />
+        </div>
+        <OfficialLinks />
       </div>
     </div>
   );
