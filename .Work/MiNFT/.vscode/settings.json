@@ -1,0 +1,38 @@
+{
+  "css.validate": false,
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
+  "editor.tabSize": 2,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
+    "source.fixAll.format": true
+  },
+  "headwind.runOnSave": false,
+  "cSpell.words": [
+    "antd",
+    "blendmode",
+    "bytecode",
+    "clsx",
+    "dashify",
+    "degen",
+    "Dropzone",
+    "favorited",
+    "Formik",
+    "Giffer",
+    "headlessui",
+    "Leaderboard",
+    "magicmynt",
+    "Moralis",
+    "Mynt",
+    "postbuild",
+    "Presale",
+    "primaryblue",
+    "Roadmap",
+    "STARTERCONF",
+    "typecheck",
+    "walletconnect",
+    "Watchlist",
+    "zflag"
+  ]
+}

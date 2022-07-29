@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <link rel="stylesheet" href="main.css" /> -->
+    <title>Playground</title>
+
+    <style>
+      * {
+        margin: 0;
+      }
+      header {
+        height: 60vh;
+        width: 100%;
+        background-color: red;
+
+        position: relative;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .text {
+        flex: 1;
+        background-color: blue;
+        height: 40%;
+        max-width: 500px;
+      }
+
+      .img-1 {
+        width: 200px;
+        height: 150px;
+        background: green;
+
+        position: absolute;
+        left: 10%;
+        top: 20%;
+      }
+      .img-2 {
+        width: 200px;
+        height: 150px;
+        background: yellow;
+
+        position: absolute;
+        right: 10%;
+        bottom: 20%;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="grid">
+      <div class="img-1"></div>
+      <div class="text"></div>
+      <div class="img-2"></div>
+    </header>
+  </body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>axios - file upload example</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="//maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <style>
+      div {
+        width: 400px;
+        height: 60px;
+        background-color: black;
+        color: white;
+
+        position: relative;
+      }
+      p {
+        transform: translateX(80%);
+        font-size: 24px;
+        mix-blend-mode: difference;
+      }
+    </style>
+  </head>
+  <!-- <body class="container"> -->
+    <!-- <h1>file upload</h1>
+
+    <form role="form" class="form" onsubmit="return false;">
+      <div class="form-group">
+        <label for="file">File</label>
+        <input id="file" type="file" class="form-control" />
+      </div>
+      <button id="upload" type="button" class="btn btn-primary">Upload</button>
+    </form>
+
+    <div id="output" class="container"></div> -->
+    <div>
+      <p>Some content to show</p>
+    </div>
+    <!-- 
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+      (function () {
+        var output = document.getElementById('output');
+        document.getElementById('upload').onclick = function () {
+          var data = new FormData();
+          data.append('foo', 'bar');
+          data.append('file', document.getElementById('file').files[0]);
+
+          var config = {
+            onUploadProgress: function(progressEvent) {
+              var percentCompleted = Math.round( (progressEvent.loaded * 100) / progressEvent.total );
+              console.log(percentCompleted);
+            }
+          };
+
+          axios.post('https://run.mocky.io/v3/51b787c0-e1bc-4f96-acf8-4f3d5f79a2b0', data, config)
+            .then(function (res) {
+              output.className = 'container';
+              output.innerHTML = res.data;
+            })
+            .catch(function (err) {
+              output.className = 'container text-danger';
+              output.innerHTML = err.message;
+            });
+        };
+      })();
+    </script> -->
+  </body>
+</html>

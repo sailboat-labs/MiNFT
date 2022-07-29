@@ -1,0 +1,7 @@
+{
+  "projects": {
+    "development": "minft-staging",
+    "staging": "minft-staging",
+    "production": "minft-production"
+  }
+}

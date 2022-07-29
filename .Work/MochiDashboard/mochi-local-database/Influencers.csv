@@ -1,0 +1,3 @@
+id,first_name,last_name,instagram_account,facebook_account,email,child_name,address,apartment,city,state,postcode,phone,country,child_birthday,created_at,modified_at,cancelled,is_ordered,timeline,is_read,emails_sent,correspondence,new_email
+2,Francis,Eshun,,,eshun.dev@gmail.com,,,,,,,,,,2021-10-22,,false,false,-1,true,0,false,false
+1,Francis,Eshun,dev_eshun,brainywaynes,eshunfrancisboateng@gmail.com,,,,,,,,,,2021-10-17,,false,false,-1,true,2,false,false

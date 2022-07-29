@@ -1,0 +1,13 @@
+{
+  "headerRequest": {
+    "sourceCode": "CMS_PORTAL",
+    "requestId": 123456,
+    "requestToken": "cc0f84ba4eafa6e60a74b5db4b32adcd100d1bf83c228baadc4a9933c38a73cdb299e1862f017544079a32935b95e04ebdcb94df50670f78ff483c335ababbdb",
+    "requestType": "AUTHTOKEN",
+    "affiliateCode": "EGH",
+    "ipAddress": "192.168.0.1",
+    "sourceChannelId": "CMS_PORTAL"
+  },
+  "username": "francis",
+  "password": "password"
+}
