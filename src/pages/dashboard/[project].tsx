@@ -74,7 +74,7 @@ export default function DashboardHomePage() {
     {
       component: <LaunchpadConfig />,
       value: "minting-page-builder",
-      label: "Minting Page Builder",
+      label: "Launchpad",
     },
     {
       component: <Whitelist />,
