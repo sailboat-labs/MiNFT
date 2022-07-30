@@ -10,6 +10,7 @@ import { IProjectLaunch } from "@/interfaces";
 import { firestore } from "@/pages/dashboard";
 
 import FAQ from "../faq";
+import WhitelistVerify from "../whitelist-verification/whitelist-verification";
 
 const ProjectLaunch: NextPage = () => {
   const [activeTab, setActiveTab] = useState<string>("roadmap");
@@ -154,6 +155,7 @@ const ProjectLaunch: NextPage = () => {
                 </article>
               </div>
             </section>
+            <WhitelistVerify />
             <section className="bg-gray-100">
               <div className="container mx-auto grid max-w-[1664px] gap-10  px-6  py-24 md:grid-cols-2">
                 <article className="mt-20 md:pr-12 lg:pr-32">
