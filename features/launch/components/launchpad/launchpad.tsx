@@ -9,6 +9,8 @@ import PageLoader from "@/components/shared/PageLoader";
 import { IProjectLaunch } from "@/interfaces";
 import { firestore } from "@/pages/dashboard";
 
+import FAQ from "../faq";
+
 const ProjectLaunch: NextPage = () => {
   const [activeTab, setActiveTab] = useState<string>("roadmap");
 
@@ -271,6 +273,7 @@ const ProjectLaunch: NextPage = () => {
                 </article>
               </div>
             </section>
+            <FAQ />
           </div>
         </div>
       ) : (
