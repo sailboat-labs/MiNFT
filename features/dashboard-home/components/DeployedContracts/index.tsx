@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProjectState } from "redux/reducers/selectors/project";
 
+import PageLoader from "@/components/shared/PageLoader";
+
+import { getCloneContracts } from "@/contract-api/logic/getClone";
 import {
   cmPayload,
   daPayload,
@@ -30,23 +33,23 @@ export default function DeployedContracts() {
       contractType: string;
     }[]
   >([]);
-  // const [isFetchingContracts, setIsFetchingContracts] = useState(false);
+  const [isFetchingContracts, setIsFetchingContracts] = useState(false);
 
-  // async function handleGetCloneContracts() {
-  //   setIsFetchingContracts(true);
+  async function handleGetCloneContracts() {
+    setIsFetchingContracts(true);
 
-  //   try {
-  //     const _clones = await getCloneContracts();
-  //     setClones(_clones.response as any);
-  //   } catch (error) {
-  //     console.log(error);
-  //     // toast.error("An error occurred while fetching contracts");
-  //   }
-  //   setIsFetchingContracts(false);
-  // }
+    try {
+      const _clones = await getCloneContracts();
+      setClones(_clones.response as any);
+    } catch (error) {
+      console.log(error);
+      // toast.error("An error occurred while fetching contracts");
+    }
+    setIsFetchingContracts(false);
+  }
 
   useEffect(() => {
-    // handleGetCloneContracts();
+    handleGetCloneContracts();
   }, []);
 
   return (
@@ -106,7 +109,7 @@ export default function DeployedContracts() {
         />
       </div>
 
-      {/* {isFetchingContracts ? (
+      {isFetchingContracts ? (
         <div className="mt-20 flex flex-col items-center justify-center gap-3">
           <PageLoader />
           Fetching contracts from network...
@@ -174,7 +177,7 @@ export default function DeployedContracts() {
             </div>
           )}
         </div>
-      )} */}
+      )}
     </div>
   );
 }
