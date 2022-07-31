@@ -8,10 +8,10 @@ import { useRouter } from "next/router";
 import { Fragment, useEffect, useState } from "react";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import { useMoralis } from "react-moralis";
-import { useSelector } from "react-redux";
-import { getAddress } from "redux/reducers/selectors/user";
 
 import { firebaseApp } from "@/lib/firebase";
+
+import { getActiveAccount } from "@/utils/authentication";
 
 import { User } from "@/types";
 
@@ -20,7 +20,7 @@ const firestore = getFirestore(firebaseApp);
 export default function ProfileIcon() {
   // const { status, connect, account, chainId, ethereum } = useMetaMask();
   const { logout, isAuthenticated } = useMoralis();
-  const account = useSelector(getAddress);
+  const account = getActiveAccount();
   const router = useRouter();
   const [user, setUser] = useState<User>();
 

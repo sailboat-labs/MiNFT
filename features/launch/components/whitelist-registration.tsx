@@ -252,12 +252,12 @@ export default function WhitelistRegistration() {
   return (
     <div
       id="join-whitelist"
-      className="mb-52 flex h-full flex-col items-center justify-center"
+      className=" flex h-full flex-col items-center justify-center"
     >
       <AuthDialog />
-      <div className="flex flex-col items-center text-white md:mx-20 lg:flex-row">
+      <div className="flex w-full flex-col items-center text-white lg:flex-row">
         {whitelisted && (
-          <div className="rounded-lg bg-white p-4 py-4 text-black shadow-xl lg:w-5/12">
+          <div className="rounded-lg bg-white p-4 py-4 text-black shadow-xl">
             <div>Hello,</div>
             <p>Your wallet {address} is whitelisted</p>
             <Button
@@ -272,10 +272,10 @@ export default function WhitelistRegistration() {
         )}
 
         {!whitelisted && (
-          <div className="flex flex-col gap-8 rounded-lg bg-white py-4 text-black shadow-xl lg:w-5/12">
-            <div className="px-4">
+          <div className="flex w-full flex-col gap-8 rounded-lg  text-black">
+            <div className="">
               {endDate > now && new Date(project.startDate) <= now && (
-                <h3>Register</h3>
+                <h3>Whitelist Registration</h3>
               )}
               {new Date(project.startDate) > now && (
                 <h3>
@@ -304,7 +304,7 @@ export default function WhitelistRegistration() {
               </div>
             )}
 
-            <div className="flex gap-4 bg-[#F8F9FA] py-2">
+            <div className="flex gap-4 rounded-lg bg-[#F8F9FA] py-2">
               <p>
                 <strong className="font-xl ml-4 font-bold text-[#2EBCDB]">
                   REQUIREMENTS,
@@ -442,16 +442,16 @@ export default function WhitelistRegistration() {
                   disabled={endDate <= now || !address || !twitterHandle}
                   className="rounded-0 w-full cursor-pointer justify-center border-none bg-[#FF9933] py-4 text-xl font-bold text-white hover:bg-[#FF9933] disabled:bg-[#A0A6AB] disabled:hover:bg-[#A0A6AB]"
                 >
-                  Reserve your chutiya
+                  Reserve your spot
                 </Button>
-                {endDate > now &&
+                {/* {endDate > now &&
                   new Date(project.startDate) <= now &&
                   (!address || !twitterHandle) && (
                     <p className="mx-16 mt-4 text-center text-red-500">
                       {" "}
                       Cannot register until you connect accounts above{" "}
                     </p>
-                  )}
+                  )} */}
               </div>
             )}
           </div>

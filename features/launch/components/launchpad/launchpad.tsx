@@ -10,6 +10,7 @@ import { IProjectLaunch } from "@/interfaces";
 import { firestore } from "@/pages/dashboard";
 
 import FAQ from "../faq";
+import LaunchHeader from "../LaunchHeader";
 import WhitelistRegistration from "../whitelist-registration";
 import WhitelistVerify from "../whitelist-verification/whitelist-verification";
 
@@ -60,6 +61,7 @@ const ProjectLaunch: NextPage = () => {
 
   return (
     <>
+      <LaunchHeader />
       {launchInformation ? (
         <div className="h-screen overflow-y-auto">
           <div className="">
