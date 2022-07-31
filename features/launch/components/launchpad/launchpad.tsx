@@ -10,6 +10,7 @@ import { IProjectLaunch } from "@/interfaces";
 import { firestore } from "@/pages/dashboard";
 
 import FAQ from "../faq";
+import WhitelistRegistration from "../whitelist-registration";
 import WhitelistVerify from "../whitelist-verification/whitelist-verification";
 
 const ProjectLaunch: NextPage = () => {
@@ -141,6 +142,7 @@ const ProjectLaunch: NextPage = () => {
                         <span>Price {launchInformation.mintPrice} ETH</span>
                       </p>
                     </div>
+                    <WhitelistRegistration />
                   </div>
                 </article>
                 {/* right side */}
