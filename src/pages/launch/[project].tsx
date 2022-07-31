@@ -1,4 +1,4 @@
-import ProjectLaunch from "features/launch/components/launchpad/launchpad";
+import ProjectLaunch from "features/launch/launch/components/launchpad/launchpad";
 import { NextPage } from "next";
 import React from "react";
 

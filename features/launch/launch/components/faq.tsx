@@ -9,7 +9,7 @@ interface AppProps {
 export default function FAQ({ headingClass }: AppProps) {
   const FAQ: { title: string; details: JSX.Element }[] = [
     {
-      title: "What is Magic Mynt",
+      title: "How to get Metamask",
       details: (
         <div className="flex flex-col gap-5">
           <p>
@@ -34,7 +34,7 @@ export default function FAQ({ headingClass }: AppProps) {
       ),
     },
     {
-      title: "What projects can I add to Magic Mynt?",
+      title: "What is an NFT?",
       details: (
         <div className="flex flex-col gap-5">
           <p>
@@ -52,7 +52,8 @@ export default function FAQ({ headingClass }: AppProps) {
       ),
     },
     {
-      title: "How can I add a project",
+      title:
+        "What are the Intellectual property rights associated with this NFT? ",
       details: (
         <div>
           Adding a project is as easy as connecting your wallet, signing a

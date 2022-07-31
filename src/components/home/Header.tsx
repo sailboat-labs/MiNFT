@@ -1,4 +1,4 @@
-import ContactUs from "features/launch/components/contact-us";
+import ContactUs from "features/launch/launch/components/contact-us";
 import { useRouter } from "next/router";
 import React from "react";
 

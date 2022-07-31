@@ -12,7 +12,7 @@ export async function deployClone(contractType: string, payload: any = "0x") {
   // const signerAddress = await signer.getAddress();
   const factory = getContract("Factory", signer)?.contract;
   const contract = getContract(contractType, signer)?.contract;
-  const abi = getContract(contractType, signer)?.abi;
+  const abi: any = getContract(contractType, signer)?.abi;
 
   if (!factory || !contract) {
     return {

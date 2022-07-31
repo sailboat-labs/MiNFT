@@ -265,15 +265,7 @@ const ProjectLaunch: NextPage = () => {
                         </div>
                       </>
                     ) : (
-                      <p>
-                        The Tomorrowland team consists of 140 people, based in
-                        Antwerp, Belgium. This huge group of talented and
-                        ambitious individuals push the Tomorrowland experience
-                        to the maximum, day in and day out. Everything related
-                        to this NFT is created by the in-house creative,
-                        narrative, and tech teams, with support from the entire
-                        company.
-                      </p>
+                      <p>{launchInformation.team}</p>
                     )}
                   </div>
                 </article>

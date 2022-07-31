@@ -2,7 +2,7 @@ import dashify from "dashify";
 import { formatEthAddress } from "eth-address";
 import ContractMakerView from "features/contract-maker/components";
 import DashboardHome from "features/dashboard-home/components/dashboard-home";
-import LaunchpadConfig from "features/launch/components/launchpad-config/launchpad-config";
+import LaunchpadConfig from "features/launch/launch-config/launchpad-config";
 import NFTGenerator from "features/traitmixer/components";
 import {
   collection,
@@ -140,7 +140,9 @@ export default function DashboardHomePage() {
           dispatch(
             setInformationBarConfig({
               show: true,
-              message: `Delegated Access by ${formatEthAddress(data[0].owner)}`,
+              message: `Delegated Access by ${formatEthAddress(
+                data[0].owner!
+              )}`,
               showLoader: false,
             })
           );

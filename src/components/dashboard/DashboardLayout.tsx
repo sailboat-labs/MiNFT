@@ -8,7 +8,6 @@ import {
 } from "redux/reducers/selectors/dashboard";
 import { setSlideInModalConfig } from "redux/reducers/slices/dashboard";
 
-import Navbar from "./NavBar";
 import Sidebar from "./Sidebar";
 import SlideInModal from "../modals/SlideIn";
 import BasicSettings from "../pages/settings/BasicSettings";
@@ -99,14 +98,12 @@ export default function DashboardLayout({
       <div className="flex h-screen flex-row overflow-y-hidden">
         <Sidebar currentPage="/" />
         <div className="h-screen flex-1 overflow-y-hidden">
-          {showTitleBar && (
+          {/* {showTitleBar && (
             <div className="absolute z-[2] w-[length:calc(100%-15rem)]">
               <Navbar endChildren={titleBarEndChildren} title={title} />
             </div>
-          )}
-          <div className="relative z-[1] h-screen overflow-y-auto pt-[4.5rem]">
-            {child}
-          </div>
+          )} */}
+          <div className="relative z-[1] h-screen overflow-y-auto">{child}</div>
         </div>
       </div>
     </AuthGuard>
