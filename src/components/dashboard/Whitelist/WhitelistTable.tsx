@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { collection, onSnapshot } from "firebase/firestore";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 // import useSWR from "swr";
@@ -13,10 +14,15 @@ interface UserData {
 export default function WhitelistTable() {
   const [users, setUsers] = useState<UserData[]>([]);
   // const { data, error } = useSWR("/api/user", fetcher);
-  const id = "indians-nft";
+
+  const router = useRouter();
 
   useEffect(() => {
-    const _collection = collection(firestore, `Projects/${id}/Whitelist`);
+    if (!router.query.project) return;
+    const _collection = collection(
+      firestore,
+      `Projects/${router.query.project as string}/Whitelist`
+    );
 
     const unsubscribe = onSnapshot(_collection, (snapshot) => {
       const _users = snapshot.docs.map((doc) => doc.data() as UserData);

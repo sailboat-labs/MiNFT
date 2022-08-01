@@ -47,6 +47,17 @@ export default function ProjectLaunch({ session }: props) {
     };
   }, [router.query]);
 
+  useEffect(() => {
+    if ((window as any).ethereum) {
+      (window as any).ethereum.on("chainChanged", () => {
+        window.location.reload();
+      });
+      (window as any).ethereum.on("accountsChanged", () => {
+        window.location.reload();
+      });
+    }
+  }, []);
+
   if (isLoadingProject)
     return (
       <div className="flex h-screen w-screen items-center justify-center">

@@ -6,6 +6,10 @@ import { httpsCallable } from "firebase/functions";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useMoralis } from "react-moralis";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { getAddress } from "redux/reducers/selectors/user";
+import { setAddress } from "redux/reducers/slices/user";
 import { v4 } from "uuid";
 
 import { firestore, functions } from "@/lib/firebase";
@@ -18,6 +22,7 @@ import PageLoader from "@/components/shared/PageLoader";
 import { checkTwitterExists, updateAccounts } from "@/firestore/project";
 import { addWhitelist, checkWhitelisted } from "@/firestore/whitelist";
 import { IProject, IProjectLaunch } from "@/interfaces";
+import { getAccountByProvider } from "@/utils/authentication";
 
 import Close from "~/svg/icons8-close.svg";
 import CloseWhite from "~/svg/icons8-close-white.svg";
@@ -30,11 +35,12 @@ type props = {
 
 export default function WhitelistRegistration({ launchInformation }: props) {
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const { AuthDialog, setShowAuthDialog } = useAuthenticationDialog();
   const now = new Date();
 
-  const [address, setAddress] = useState<string>("");
+  const [address, setAddressLocal] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const [twitterHandle, setTwitterHandle] = useState("");
   const [project, setProject] = useState<IProject>();
@@ -45,6 +51,7 @@ export default function WhitelistRegistration({ launchInformation }: props) {
   const [endDate, setEndDate] = useState<any>();
   const [isLoadingProject, setIsLoadingProject] = useState(true);
   const [error, setError] = useState("");
+  const activeAddress = useSelector(getAddress);
 
   useEffect(() => {
     if (!router.query.project) return;
@@ -108,20 +115,44 @@ export default function WhitelistRegistration({ launchInformation }: props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address]);
 
-  useEffect(() => {
-    if (account && isAuthenticated) {
-      setAddress(account);
-      setItem("account", account, "local");
-      setItem("isAuthenticated", isAuthenticated?.toString(), "local");
+  async function prepareAuth() {
+    console.log({ account, isAuthenticated });
+
+    if (process.env.NEXT_PUBLIC_ENVIRONMENT == "development") {
+      setAddressLocal(process.env.NEXT_PUBLIC_DEVELOPMENT_ACCOUNT ?? "");
+      dispatch(
+        setAddress(
+          process.env.NEXT_PUBLIC_DEVELOPMENT_ACCOUNT?.toLowerCase() ?? ""
+        )
+      );
     } else {
-      if (
-        getItem("isAuthenticated", "local") == "true" &&
-        getItem("account", "local")
-      ) {
-        setAddress(getItem("account", "local"));
+      if (isAuthenticated) {
+        if (account) {
+          window.localStorage.setItem("account", account);
+        }
+
+        let address = "";
+        try {
+          address = await getAccountByProvider();
+        } catch (error) {
+          address = window.localStorage.getItem("account") ?? "";
+        }
+
+        setAddressLocal(address);
+
+        if (ethers.utils.isAddress(address ?? "")) {
+          // toast.success("Wallet connected");
+          dispatch(setAddress(address?.toLowerCase()));
+        } else {
+          console.log("Reconnect wallet");
+        }
       }
     }
-  }, [account, isAuthenticated]);
+  }
+
+  useEffect(() => {
+    prepareAuth();
+  }, [account, isAuthenticated, activeAddress]);
 
   const connectWallet = async () => {
     setError("");
@@ -420,7 +451,7 @@ export default function WhitelistRegistration({ launchInformation }: props) {
 
                             <div
                               onClick={() => {
-                                setAddress("");
+                                setAddressLocal("");
                                 logout();
                               }}
                               className="cursor-pointer rounded-full border-[1px] p-[3px]"

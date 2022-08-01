@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import { getAddress } from "redux/reducers/selectors/user";
 import { setAddress } from "redux/reducers/slices/user";
 
-import { setActiveAccount } from "@/utils/authentication";
+import { getAccountByProvider, setActiveAccount } from "@/utils/authentication";
 
 import PageLoader from "./PageLoader";
 import Layout from "../layout/Layout";
@@ -109,7 +109,14 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
         if (account) {
           window.localStorage.setItem("account", account);
         }
-        const address = window.localStorage.getItem("account") ?? "";
+
+        let address = "";
+        try {
+          address = await getAccountByProvider();
+        } catch (error) {
+          address = window.localStorage.getItem("account") ?? "";
+        }
+
         if (ethers.utils.isAddress(address ?? "")) {
           // toast.success("Wallet connected");
           dispatch(setAddress(address?.toLowerCase()));
