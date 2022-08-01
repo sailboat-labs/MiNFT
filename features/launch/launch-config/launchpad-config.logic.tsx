@@ -1,8 +1,9 @@
-import { doc, getFirestore, setDoc } from "firebase/firestore";
+import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
 
 import { firebaseApp } from "@/lib/firebase";
 
 import { IProject } from "@/interfaces";
+import { isProjectOwner } from "@/utils/authentication";
 
 const firestore = getFirestore(firebaseApp);
 
@@ -23,4 +24,21 @@ export default async function saveLaunchPadDraft(
     console.log(error);
     return false;
   }
+}
+
+export async function publishLaunchpad(slug: string, address: string) {
+  const isOwner = isProjectOwner(slug, address);
+  if (!isOwner)
+    return { success: false, message: "Only owner can publish the launchpad" };
+
+  const _draftDoc = doc(firestore, `Projects/${slug}/Launchpad/draft`);
+  const _savedDraft = await getDoc(_draftDoc);
+
+  if (_savedDraft.exists() == false)
+    return { success: false, message: "Review your draft settings" };
+
+  const _doc = doc(firestore, `Projects/${slug}/Launchpad/published`);
+
+  await setDoc(_doc, _savedDraft.data(), { merge: true });
+  return { success: true, message: "Launchpad published" };
 }

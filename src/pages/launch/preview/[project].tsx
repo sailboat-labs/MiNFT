@@ -6,9 +6,6 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { getAddress } from "redux/reducers/selectors/user";
 
-import AuthGuard from "@/components/shared/AuthGuard";
-import PageLoader from "@/components/shared/PageLoader";
-
 import { hasAccessToProject } from "@/utils/authentication";
 
 const LaunchpadPreview: NextPage = () => {
@@ -50,21 +47,30 @@ const LaunchpadPreview: NextPage = () => {
   }, [router.query?.project, address]);
 
   return (
-    <AuthGuard>
-      {isLoadingPreview ? (
-        <div className="flex h-screen w-screen items-center justify-center">
-          <PageLoader />
-        </div>
-      ) : (
-        <div>
-          <div className="flex w-screen items-center justify-center bg-indigo-400 py-2 px-10 text-sm text-white transition-all">
-            Launchpad Preview
-          </div>
-          <ProjectLaunch />
-        </div>
-      )}
-    </AuthGuard>
+    <div>
+      <div className="flex w-screen items-center justify-center bg-indigo-400 py-2 px-10 text-sm text-white transition-all">
+        Launchpad Preview
+      </div>
+      <ProjectLaunch />
+    </div>
   );
+
+  // return (
+  //   <AuthGuard>
+  //     {isLoadingPreview ? (
+  //       <div className="flex h-screen w-screen items-center justify-center">
+  //         <PageLoader />
+  //       </div>
+  //     ) : (
+  //       <div>
+  //         <div className="flex w-screen items-center justify-center bg-indigo-400 py-2 px-10 text-sm text-white transition-all">
+  //           Launchpad Preview
+  //         </div>
+  //         <ProjectLaunch />
+  //       </div>
+  //     )}
+  //   </AuthGuard>
+  // );
 };
 
 export default LaunchpadPreview;

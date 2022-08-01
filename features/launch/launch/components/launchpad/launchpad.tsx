@@ -29,7 +29,7 @@ const ProjectLaunch: NextPage = () => {
 
     const _doc = doc(
       firestore,
-      `Projects/${router.query.project}/Launchpad/draft`
+      `Projects/${router.query.project}/Launchpad/published`
     );
 
     const unsubscribe = onSnapshot(_doc, (snapshot) => {
