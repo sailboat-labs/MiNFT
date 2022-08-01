@@ -51,7 +51,7 @@ const LaunchpadPreview: NextPage = () => {
       <div className="flex w-screen items-center justify-center bg-indigo-400 py-2 px-10 text-sm text-white transition-all">
         Launchpad Preview
       </div>
-      <ProjectLaunch />
+      <ProjectLaunch session="draft" />
     </div>
   );
 

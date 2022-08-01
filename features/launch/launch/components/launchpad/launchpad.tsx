@@ -1,6 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
 import { doc, onSnapshot } from "firebase/firestore";
-import { NextPage } from "next";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 
@@ -14,7 +13,11 @@ import LaunchHeader from "../LaunchHeader";
 import WhitelistRegistration from "../whitelist-registration";
 import WhitelistVerify from "../whitelist-verification/whitelist-verification";
 
-const ProjectLaunch: NextPage = () => {
+type props = {
+  session: "draft" | "published";
+};
+
+export default function ProjectLaunch({ session }: props) {
   const [activeTab, setActiveTab] = useState<string>("roadmap");
 
   const [launchInformation, setLaunchInformation] = useState<IProjectLaunch>();
@@ -29,7 +32,7 @@ const ProjectLaunch: NextPage = () => {
 
     const _doc = doc(
       firestore,
-      `Projects/${router.query.project}/Launchpad/published`
+      `Projects/${router.query.project}/Launchpad/${session}`
     );
 
     const unsubscribe = onSnapshot(_doc, (snapshot) => {
@@ -58,6 +61,8 @@ const ProjectLaunch: NextPage = () => {
         more
       </div>
     );
+
+  if (!launchInformation) return <div></div>;
 
   return (
     <>
@@ -256,7 +261,9 @@ const ProjectLaunch: NextPage = () => {
                       </p>
                     </div>
                     {launchInformation.hasWhitelist && (
-                      <WhitelistRegistration />
+                      <WhitelistRegistration
+                        launchInformation={launchInformation}
+                      />
                     )}
                   </div>
                 </article>
@@ -392,6 +399,4 @@ const ProjectLaunch: NextPage = () => {
       )}
     </>
   );
-};
-
-export default ProjectLaunch;
+}

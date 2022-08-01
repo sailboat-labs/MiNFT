@@ -3,7 +3,7 @@ import { NextPage } from "next";
 import React from "react";
 
 const Launch: NextPage = () => {
-  return <ProjectLaunch />;
+  return <ProjectLaunch session="published" />;
 };
 
 export default Launch;

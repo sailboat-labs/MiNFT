@@ -17,14 +17,18 @@ import PageLoader from "@/components/shared/PageLoader";
 
 import { checkTwitterExists, updateAccounts } from "@/firestore/project";
 import { addWhitelist, checkWhitelisted } from "@/firestore/whitelist";
-import { IProject } from "@/interfaces";
+import { IProject, IProjectLaunch } from "@/interfaces";
 
 import Close from "~/svg/icons8-close.svg";
 import CloseWhite from "~/svg/icons8-close-white.svg";
 import EthIcon from "~/svg/icons8-ethereum.svg";
 import TwitterIcon from "~/svg/icons8-twitter.svg";
 
-export default function WhitelistRegistration() {
+type props = {
+  launchInformation: IProjectLaunch;
+};
+
+export default function WhitelistRegistration({ launchInformation }: props) {
   const router = useRouter();
 
   const { AuthDialog, setShowAuthDialog } = useAuthenticationDialog();
@@ -195,50 +199,68 @@ export default function WhitelistRegistration() {
 
     setLoading(true);
 
-    const checkFollows = httpsCallable(functions, "checkFollows");
+    if (launchInformation.requiresTwitter) {
+      const checkFollows = httpsCallable(functions, "checkFollows");
 
-    const twitterExists = await checkTwitterExists(project.slug, twitterHandle);
-    if (twitterExists) {
-      setError("Twitter account is already in use");
-      setLoading(false);
-      return;
-    }
+      const twitterExists = await checkTwitterExists(
+        project.slug,
+        twitterHandle
+      );
+      if (twitterExists) {
+        setError("Twitter account is already in use");
+        setLoading(false);
+        return;
+      }
 
-    await checkFollows({
-      user_account: twitterHandle,
-      project_account: project.slug,
-    })
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      .then(async (result: any) => {
-        if (!project || !project.slug) return console.log("No project");
-
-        const { data } = result;
-        if (data.success && data.isFollowing) {
-          await updateAccounts(project.slug, twitterHandle);
-          await addWhitelist({
-            id: v4(),
-            projectSlug: project.slug,
-            wallet: address,
-            twitterUsername: twitterHandle,
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-          });
-          setWhitelisted(true);
-        } else if (data.success && !data.isFollowing) {
-          setError("This account is not following us");
-        }
+      await checkFollows({
+        user_account: twitterHandle,
+        project_account: project.slug,
       })
-      .catch((error) => {
-        console.log(error);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        .then(async (result: any) => {
+          if (!project || !project.slug) return console.log("No project");
+
+          const { data } = result;
+          if (data.success && data.isFollowing) {
+            await updateAccounts(project.slug, twitterHandle);
+            await addWhitelist({
+              id: v4(),
+              projectSlug: project.slug,
+              wallet: address,
+              twitterUsername: twitterHandle,
+              createdAt: new Date().toISOString(),
+              updatedAt: new Date().toISOString(),
+            });
+            setWhitelisted(true);
+          } else if (data.success && !data.isFollowing) {
+            setError("This account is not following us");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      // Twitter not required. Add to whitelist
+      await updateAccounts(project.slug, "N/A");
+      await addWhitelist({
+        id: v4(),
+        projectSlug: project.slug,
+        wallet: address,
+        twitterUsername: "N/A",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
       });
+      setWhitelisted(true);
+    }
   };
 
   const checkWhitelist = async () => {
     // setError("");
-    if (!project || !project.slug) return console.log("No project");
+
+    if (!router.query.project) return;
 
     const isWhitelisted = await checkWhitelisted(
-      project.slug,
+      router.query.project as string,
       (address as string) ?? ""
     );
 
@@ -249,7 +271,7 @@ export default function WhitelistRegistration() {
     }
   };
 
-  if (!project) return <div>No Project Found</div>;
+  if (!project) return <div></div>;
 
   return (
     <>
@@ -262,16 +284,19 @@ export default function WhitelistRegistration() {
           <div className="flex w-full flex-col items-center text-white lg:flex-row">
             {whitelisted && (
               <div className="rounded-lg bg-white p-4 py-4 text-black shadow-xl">
-                <div>Hello,</div>
-                <p>Your wallet {address} is whitelisted</p>
-                <Button
+                <div>Must be magic!</div>
+                <p>
+                  Your wallet <span className="text-indigo-500">{address}</span>{" "}
+                  is whitelisted 🎉
+                </p>
+                {/* <Button
                   onClick={() => {
-                    router.push("/indiansnft/whitelist/verify");
+                    // router.push("/indiansnft/whitelist/verify");
                   }}
                   className="rounded-0 mt-10 w-fit cursor-pointer justify-center border-none bg-[#FF9933] py-3 font-bold text-white hover:bg-[#FF9933] disabled:bg-[#A0A6AB] disabled:hover:bg-[#A0A6AB]"
                 >
                   Verify Whitelist Status
-                </Button>
+                </Button> */}
               </div>
             )}
 
@@ -322,24 +347,37 @@ export default function WhitelistRegistration() {
                 <div className="flex flex-col gap-2 px-4">
                   <div className="flex gap-2">
                     <EthIcon className="h-6 w-6" />
-                    <p>You must have at least 0.1 eth in your wallet</p>
+                    <p>Connect Wallet</p>
                   </div>
+                  {launchInformation.requiredEthAmount &&
+                    launchInformation.requiredEthAmount > 0 && (
+                      <div className="flex gap-2">
+                        <EthIcon className="h-6 w-6" />
+                        <p>
+                          You must have at least{" "}
+                          {launchInformation.requiredEthAmount} eth in your
+                          wallet
+                        </p>
+                      </div>
+                    )}
 
-                  <div className="flex gap-2">
-                    <TwitterIcon className="h-6 w-6" />
-                    <p>
-                      Follow{" "}
-                      <a
-                        href="https://twitter.com/magicmynt"
-                        target="_blank"
-                        className="cursor-pointer font-bold text-[#2EBCDB] underline"
-                        rel="noreferrer"
-                      >
-                        @MagicMynt
-                      </a>{" "}
-                      on twitter{" "}
-                    </p>
-                  </div>
+                  {launchInformation.requiresTwitter && (
+                    <div className="flex gap-2">
+                      <TwitterIcon className="h-6 w-6" />
+                      <p>
+                        Follow{" "}
+                        <a
+                          href={`https://twitter.com/${launchInformation.twitterLink}`}
+                          target="_blank"
+                          className="cursor-pointer font-bold text-[#2EBCDB] underline"
+                          rel="noreferrer"
+                        >
+                          {launchInformation.twitterLink}
+                        </a>{" "}
+                        on twitter{" "}
+                      </p>
+                    </div>
+                  )}
                 </div>
 
                 {endDate > now && new Date(project.startDate ?? "") <= now && (
@@ -394,49 +432,55 @@ export default function WhitelistRegistration() {
                       )}
                     </div>
 
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <input
-                          disabled
-                          checked={twitterHandle != ""}
-                          type="radio"
-                          className="h-4 w-4 text-green-500"
-                        />
-                        {twitterHandle && (
-                          <p className="text-green-500">Twitter Connected</p>
-                        )}
-                        {!twitterHandle && <p className="">Connect Twitter</p>}
-                      </div>
-
-                      {!twitterHandle && !twitterLoading && (
-                        <Button
-                          disabled={!address || twitterLoading}
-                          isLoading={twitterLoading}
-                          onClick={connectTwitter}
-                          variant="success"
-                          className="rounded-full disabled:bg-[#A0A6AB] disabled:hover:bg-[#A0A6AB]"
-                        >
-                          Connect
-                        </Button>
-                      )}
-
-                      {twitterLoading && <PageLoader />}
-
-                      {twitterHandle && (
-                        <div>
-                          <div className="flex items-center gap-3 rounded-full border-2 py-2 px-4">
-                            <p className="text-[#2EBCDB]">@{twitterHandle} </p>
-
-                            <div
-                              onClick={() => setTwitterHandle("")}
-                              className="cursor-pointer rounded-full border-[1px] p-[3px]"
-                            >
-                              <Close className="h-3 w-3" />
-                            </div>
-                          </div>{" "}
+                    {launchInformation.requiresTwitter && (
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <input
+                            disabled
+                            checked={twitterHandle != ""}
+                            type="radio"
+                            className="h-4 w-4 text-green-500"
+                          />
+                          {twitterHandle && (
+                            <p className="text-green-500">Twitter Connected</p>
+                          )}
+                          {!twitterHandle && (
+                            <p className="">Connect Twitter</p>
+                          )}
                         </div>
-                      )}
-                    </div>
+
+                        {!twitterHandle && !twitterLoading && (
+                          <Button
+                            disabled={!address || twitterLoading}
+                            isLoading={twitterLoading}
+                            onClick={connectTwitter}
+                            variant="success"
+                            className="rounded-full disabled:bg-[#A0A6AB] disabled:hover:bg-[#A0A6AB]"
+                          >
+                            Connect
+                          </Button>
+                        )}
+
+                        {twitterLoading && <PageLoader />}
+
+                        {twitterHandle && (
+                          <div>
+                            <div className="flex items-center gap-3 rounded-full border-2 py-2 px-4">
+                              <p className="text-[#2EBCDB]">
+                                @{twitterHandle}{" "}
+                              </p>
+
+                              <div
+                                onClick={() => setTwitterHandle("")}
+                                className="cursor-pointer rounded-full border-[1px] p-[3px]"
+                              >
+                                <Close className="h-3 w-3" />
+                              </div>
+                            </div>{" "}
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </div>
                 )}
 
@@ -445,7 +489,11 @@ export default function WhitelistRegistration() {
                     <Button
                       onClick={proceed}
                       isLoading={loading}
-                      disabled={endDate <= now || !address || !twitterHandle}
+                      disabled={
+                        endDate <= now ||
+                        !address ||
+                        (launchInformation.requiresTwitter && !twitterHandle)
+                      }
                       className="rounded-0 w-full cursor-pointer justify-center border-none bg-[#FF9933] py-4 text-xl font-bold text-white hover:bg-[#FF9933] disabled:bg-[#A0A6AB] disabled:hover:bg-[#A0A6AB]"
                     >
                       Reserve your spot
