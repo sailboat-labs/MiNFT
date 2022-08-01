@@ -149,7 +149,7 @@ export default function Contact({ project }: IContactProps) {
 
     setTwitterLoading(true);
     const requestTwitterUrl = httpsCallable(functions, "requestTwitterUrl");
-    requestTwitterUrl()
+    requestTwitterUrl({projectSlug: project.slug})
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .then((result: any) => {
         window.open(result.data.authUrl, "_self");
