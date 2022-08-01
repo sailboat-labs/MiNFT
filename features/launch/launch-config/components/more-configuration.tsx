@@ -24,6 +24,10 @@ export default function MoreConfiguration({ launchInformation }: props) {
   return (
     <div className="px-10 py-10">
       <div>
+        <div className="mt-10 mb-5 flex items-center gap-5">
+          <div className="text-xl">Whitelist Configuration</div>
+          <div className=" flex-1 rounded-lg border "></div>
+        </div>
         <div className="flex items-center">
           <input
             checked={launchInformation.hasWhitelist}
@@ -42,6 +46,46 @@ export default function MoreConfiguration({ launchInformation }: props) {
             Has Whitelist
           </label>
         </div>
+        <div className="mt-10 mb-5 flex items-center gap-5">
+          <div className="text-xl">Social Media Configuration</div>
+          <div className=" flex-1 rounded-lg border "></div>
+        </div>
+        <div className="">Discord</div>
+        <input
+          className="mt-2 rounded-lg px-5 py-2"
+          placeholder="Discord link"
+          defaultValue={launchInformation.discordLink}
+          onChange={(e) => {
+            handleSaveLaunchPadDraft("discordLink", e.target.value);
+          }}
+        />
+        <div className="mt-5">Twitter</div>
+        <input
+          className="mt-2 rounded-lg px-5 py-2"
+          placeholder="@magicmynt"
+          defaultValue={launchInformation.twitterLink}
+          onChange={(e) => {
+            handleSaveLaunchPadDraft("twitterLink", e.target.value);
+          }}
+        />
+        <div className="mt-5">Opensea</div>
+        <input
+          className="mt-2 rounded-lg px-5 py-2"
+          placeholder="Opensea"
+          defaultValue={launchInformation.openseaLink}
+          onChange={(e) => {
+            handleSaveLaunchPadDraft("openseaLink", e.target.value);
+          }}
+        />
+        <div className="mt-5">Website</div>
+        <input
+          className="mt-2 rounded-lg px-5 py-2"
+          placeholder="https://"
+          defaultValue={launchInformation.website}
+          onChange={(e) => {
+            handleSaveLaunchPadDraft("website", e.target.value);
+          }}
+        />
       </div>
     </div>
   );

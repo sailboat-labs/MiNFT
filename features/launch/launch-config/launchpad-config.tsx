@@ -186,28 +186,32 @@ const LaunchpadConfig: NextPage = () => {
                 </Link>
               </p> */}
                     <div className="mt-6 grid grid-rows-2 gap-5">
-                      <div className=" rounded-2xl  p-4 ring-1 ring-gray-200">
-                        <div className="flex items-center justify-between">
-                          <span className="text-medium  rounded-full bg-gray-100 py-1 px-2 text-sm text-gray-700 ring-1 ring-gray-200">
-                            Whitelist Mint
-                          </span>
-                          <span className="font-semibold text-pink-500">
-                            ENDED
-                          </span>
+                      {launchInformation.hasWhitelist && (
+                        <div className=" rounded-2xl  p-4 ring-1 ring-gray-200">
+                          <div className="flex items-center justify-between">
+                            <span className="text-medium  rounded-full bg-gray-100 py-1 px-2 text-sm text-gray-700 ring-1 ring-gray-200">
+                              Whitelist Mint
+                            </span>
+                            <span className="font-semibold text-pink-500">
+                              ENDED
+                            </span>
+                          </div>
+                          <p className="mt-6 text-sm">
+                            <span>
+                              WHITELIST{" "}
+                              <strong className="font-semibold">4463</strong>
+                            </span>{" "}
+                            •{" "}
+                            <span>
+                              MAX{" "}
+                              <strong className="font-semibold">
+                                3 TOKENS
+                              </strong>
+                            </span>{" "}
+                            • <span>Price 1 ETH</span>
+                          </p>
                         </div>
-                        <p className="mt-6 text-sm">
-                          <span>
-                            WHITELIST{" "}
-                            <strong className="font-semibold">4463</strong>
-                          </span>{" "}
-                          •{" "}
-                          <span>
-                            MAX{" "}
-                            <strong className="font-semibold">3 TOKENS</strong>
-                          </span>{" "}
-                          • <span>Price 1 ETH</span>
-                        </p>
-                      </div>
+                      )}
                       <div className=" mb-20  rounded-2xl p-4 ring-1 ring-pink-400">
                         <div className="flex items-center justify-between">
                           <span className="text-medium  rounded-full bg-gray-100 py-1 px-2 text-sm text-gray-700 ring-1 ring-gray-200">

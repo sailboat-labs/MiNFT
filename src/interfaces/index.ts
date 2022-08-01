@@ -91,5 +91,9 @@ export interface IProjectLaunch {
   mintPerTransaction: string;
   hasWhitelist: boolean;
   team: string;
+  discordLink?: string;
+  twitterLink?: string;
+  openseaLink?: string;
+  website?: string;
   roadMap: { title: string; description: string }[];
 }
