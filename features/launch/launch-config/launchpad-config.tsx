@@ -14,6 +14,7 @@ import PageLoader from "@/components/shared/PageLoader";
 import { IProject, IProjectLaunch } from "@/interfaces";
 import { firestore } from "@/pages/dashboard";
 
+import MoreConfiguration from "./components/more-configuration";
 import saveLaunchPadDraft from "./launchpad-config.logic";
 
 const LaunchpadConfig: NextPage = () => {
@@ -57,6 +58,13 @@ const LaunchpadConfig: NextPage = () => {
       setShowSavingDraftLoader(false);
     }, 500);
   }
+
+  if (!launchInformation)
+    return (
+      <div className="flex h-screen w-screen items-center justify-center">
+        <PageLoader />
+      </div>
+    );
 
   return (
     <div className="h-screen overflow-y-auto">
@@ -345,7 +353,9 @@ const LaunchpadConfig: NextPage = () => {
               </section>
             </div>
           </Tab.Panel>
-          <Tab.Panel></Tab.Panel>
+          <Tab.Panel>
+            <MoreConfiguration launchInformation={launchInformation} />
+          </Tab.Panel>
           <Tab.Panel></Tab.Panel>
         </Tab.Panels>
       </Tab.Group>

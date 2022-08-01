@@ -9,7 +9,7 @@ const firestore = getFirestore(firebaseApp);
 export default async function saveLaunchPadDraft(
   project: IProject,
   field: string,
-  value: string
+  value: string | boolean
 ) {
   try {
     const data = {
