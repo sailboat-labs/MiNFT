@@ -1,5 +1,5 @@
-import { useState } from "react";
-import TimezoneSelect from 'react-timezone-select'; 
+import { useEffect, useState } from "react";
+import TimezoneSelect from "react-timezone-select";
 
 interface AppProps {
   type?: string;
@@ -9,29 +9,32 @@ interface AppProps {
   postfixClass?: string;
   postfix?: React.ReactNode;
   error?: React.ReactNode | null;
-  onChange: (evt: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (value: any) => void;
 }
 
-const BaseTimezoneSelector = ({
-  error,
-  onChange,
-  ...props
-}: AppProps) => {
+const BaseTimezoneSelector = ({ error, onChange, ...props }: AppProps) => {
+  const [timezone, setTimezone] = useState(' ');
 
-  const [timezone, setTimezone ] = useState({})
+  useEffect(() => {
+    if (onChange) {
+      onChange(timezone)
+    }
+  
+  }, [timezone])
+  
 
   return (
     <>
-      <TimezoneSelect 
+      <TimezoneSelect
         value={timezone}
         onChange={(e) => {
-          setTimezone(e.value)
+          setTimezone(e.value);
         }}
-        placeholder='Select timezone...'
+        placeholder="Select timezone..."
       />
       <p className="text-sm text-red-500">{error}</p>
     </>
-  )
-}
+  );
+};
 
-export default BaseTimezoneSelector
+export default BaseTimezoneSelector;

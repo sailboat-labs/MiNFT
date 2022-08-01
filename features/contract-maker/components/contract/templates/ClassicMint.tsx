@@ -1,4 +1,4 @@
-import { Formik, useFormik } from "formik";
+import { useFormik } from "formik";
 import React from "react";
 import * as Yup from "yup";
 
@@ -6,17 +6,6 @@ import ClassicMintFormFields from "../ClassicMintFormFields";
 
 const ClassicMint = () => {
   const classicMintForm = useFormik({
-    // initialValues: {
-    //   quantityOfCollection: 0,
-    //   mintPrice: 0,
-    //   reservedTokens: 0,
-    //   maxMintPerWallet: 0,
-    //   maxMintPerTransaction: 0,
-    //   startDate: null,
-    //   endDate: null,
-    //   startTime: null,
-    //   endTime: null,
-    // },
     initialValues: {
       quantityOfCollection: 0,
       mintPrice: 0,
@@ -44,10 +33,10 @@ const ClassicMint = () => {
       maxMintPerTransaction: Yup.number().required(
         "*max mint per transaction is required"
       ),
-      startDate: Yup.string().required("Start date is required"),
-      endDate: Yup.string().required("End date is required"),
-      timezone: Yup.string().required("Timezone is required"),
-      minutes: Yup.string()
+      startDate: Yup.date().required("End date is required").nullable(false),
+      endDate: Yup.date().required("End date is required").nullable(false),
+      timezone: Yup.string().required("Timezone is required").nullable(false),
+      minutes: Yup.number().required("Minutes are required"),
     }),
     onSubmit: (values, formik) => {
       console.log("Values are ", values);
