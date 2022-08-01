@@ -1,5 +1,6 @@
 import React, { FC, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { useStore } from "react-redux";
 import { getContract } from "redux/reducers/selectors/contract";
 import { updateWhitelistDetails } from "redux/reducers/slices/contract";
 
@@ -58,14 +59,30 @@ const ContractSettingsStep: FC<AppProps> = ({ isPreview = false }) => {
     }
   }, [whitelisted]);
 
+  const store = useStore();
+
   useEffect(() => {
     if (isPreview) {
       // todo: load data from store and feed form
       console.log("prefilling");
+      console.log("Store is: ");
+      console.log(store);
     }
   }, [isPreview]);
 
   const gasFee = GAS_FEES[type.trim().toLowerCase()];
+
+  // Choose message to show on the confirmation page
+  const paragraphText = {
+    "Classic Mint":
+      "The price is fixed throughout the duration of the minting period. There are no restrictions on wallets that can purchase the NFTs, sale is open to all NFTs.",
+    "Dutch Auction":
+      "The price of an NFT starts at an initial price (ceiling) and drops by a small amount periodically (eg. 0.1 ETH every 10 minutes) until it hits its lowest price (the resting price).",
+    "Fair Dutch Auction":
+      "The price of an NFT starts at an initial price and drops by a small amount periodically until it hits its lowest price. The contract has a refund policy which means wallets pnly pay the lowest bid price that the auction sells out at. The difference is refunded back to the wallet.",
+    "Pure Whitelist":
+      "The price is fixed throughout the duration of the minting period. There are restrictions on which wallets can purchase the NFTs. Specific wallets are given access to purchase the NFTs by the contract owner.",
+  };
 
   return (
     <section className="mx-auto">
@@ -77,10 +94,7 @@ const ContractSettingsStep: FC<AppProps> = ({ isPreview = false }) => {
             </div>
             <div className="flex-1">
               <strong className="text-sm text-indigo-800">{type}</strong>
-              <p>
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eius,
-                et. Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              </p>
+              <p>{paragraphText[type]}</p>
               <br />
               <strong className="text-sm text-indigo-800">Gas Fees</strong>
               <p className="flex items-center gap-2">
@@ -118,7 +132,6 @@ const ContractSettingsStep: FC<AppProps> = ({ isPreview = false }) => {
           onChange={(value: any) => console.log(value)}
         />
       )}
-
       <div className="divide-y divide-indigo-800">
         {TEMPLATES[type]}
         {type.toLowerCase().trim() !== "pure whitelist" && whitelisted && (

@@ -244,7 +244,7 @@ export default function DashboardGetStarted() {
                     onClick={() => {
                       isMobile
                         ? alert(
-                            "This action cannot be performed on a mobile device"
+                            `${isMobile}, This action cannot be performed on a mobile device`
                           )
                         : router.push(`/dashboard/${project.slug}`);
                     }}

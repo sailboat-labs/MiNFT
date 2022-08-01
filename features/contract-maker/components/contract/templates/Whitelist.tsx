@@ -65,12 +65,12 @@ const WhitelistForm = () => {
 
   return (
     <form>
-      <div className="mx-auto flex flex-col divide-y-2 divide-gray-200 pb-8">
+      <div className="mx-auto flex flex-col divide-y-2 divide-gray-200 pb-6">
         {/* Timing */}
-        <ContractFormRowSection className="pt-4 pb-8" name="Timing">
+        <ContractFormRowSection className="pt-5 pb-8" name="Timing">
           <article>
-            <strong className="font-semibold ">Launch Time</strong>
-            <div className="flex gap-1">
+            <strong className="font-semibold">Launch Time</strong>
+            <div className="flex gap-1 py-2">
               <input
                 id="classic-1"
                 type="radio"
@@ -96,7 +96,7 @@ const WhitelistForm = () => {
             </div>
             <div
               // style={{ maxHeight: undefined, overflowY: "hidden" }}
-              className="mt-2"
+              className="mt-8 w-3/5"
             >
               <DateTimeRangePicker />
             </div>
@@ -105,8 +105,8 @@ const WhitelistForm = () => {
         {/* Price & Quantity */}
         <ContractFormRowSection className="py-8" name="Price & Quantity">
           <article>
-            <strong className="font-semibold ">Mint price</strong>
-            <div className="flex gap-1">
+            <strong className="font-semibold py-2">Mint price</strong>
+            <div className="flex gap-1 py-2">
               <input
                 id="price-classic-1"
                 type="checkbox"
@@ -130,7 +130,7 @@ const WhitelistForm = () => {
             </div>
             <BaseInput
               type="number"
-              wrapperClass="mt-3 md:w-1/2"
+              wrapperClass="mt-3 md:w-32"
               {...whitelistForm.getFieldProps("mintPrice")}
               error={
                 whitelistForm.touched.mintPrice &&
@@ -145,7 +145,7 @@ const WhitelistForm = () => {
             <div className="mt-6 flex flex-col gap-2">
               <label className="font-semibold">Total whitelist quantity</label>
               <BaseInput
-                wrapperClass="mt-3 md:w-1/2"
+                wrapperClass="mt-3 md:w-1/3"
                 {...whitelistForm.getFieldProps("totalQuantity")}
                 error={
                   whitelistForm.touched.totalQuantity &&
@@ -161,7 +161,7 @@ const WhitelistForm = () => {
             <div className="mt-6 flex flex-col gap-2">
               <label className="font-semibold">{contractType} quantity</label>
               <BaseInput
-                wrapperClass="mt-3 md:w-1/2"
+                wrapperClass="mt-3 md:w-1/3"
                 {...whitelistForm.getFieldProps("quantity")}
                 error={
                   whitelistForm.touched.quantity &&
@@ -178,7 +178,7 @@ const WhitelistForm = () => {
         </ContractFormRowSection>
         {/* Limitations */}
         <ContractFormRowSection className="pt-8" name="Limitations">
-          <article className="grid gap-10 md:grid-cols-2 2xl:grid-cols-4">
+          <article className="grid  md:grid-cols-2 2xl:grid-cols-4">
             <div className="mt-6 flex flex-col gap-2">
               <label className="font-semibold">
                 Number of tokens to reserve
@@ -194,6 +194,7 @@ const WhitelistForm = () => {
                   ) : null
                 }
                 type="number"
+                wrapperClass="md:w-1/2"
               />
             </div>
             <div className="mt-6 flex flex-col gap-2">
@@ -211,7 +212,7 @@ const WhitelistForm = () => {
                   ) : null
                 }
                 type="number"
-                wrapperClass=""
+                wrapperClass="md:w-1/2"
               />
             </div>
             <div className="mt-6 flex flex-col gap-2">
@@ -247,7 +248,7 @@ const WhitelistForm = () => {
                   ) : null
                 }
                 type="number"
-                wrapperClass=""
+                wrapperClass="md:w-1/2"
               />
             </div>
             <div className="mt-6 flex flex-col gap-2">
@@ -263,7 +264,7 @@ const WhitelistForm = () => {
                   ) : null
                 }
                 type="number"
-                wrapperClass=""
+                wrapperClass="md:w-1/2"
               />
             </div>
           </article>

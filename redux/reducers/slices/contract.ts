@@ -12,9 +12,7 @@ const contractSlice = createSlice({
     pureWhitelist: null,
   },
   reducers: {
-    setContract: (
-      state: any,
-      action: PayloadAction<{ key: string; value: any }>
+    setContract: (state: any, action: PayloadAction<{ key: string; value: any }>
     ) => {
       const { key, value } = action.payload;
       state[key] = value;
