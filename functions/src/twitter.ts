@@ -110,7 +110,9 @@ const twitterCallBack = functions.https.onRequest(
       ).data()?.codeVerifier;
 
       if (!codeVerifier || !code) {
-        res.redirect(`${process.env.APP_URL}/${project}/launch/verify-twiiter?success=false`);
+        res.redirect(
+          `${process.env.APP_URL}/launch/verify-twiiter?project=${project}&success=false`
+        );
       }
 
       // Get tokens
@@ -128,12 +130,12 @@ const twitterCallBack = functions.https.onRequest(
       await admin.firestore().doc(`Codes/${state}`).delete();
 
       res.redirect(
-        `${process.env.APP_URL}/${project}/launch/verify-twitter?success=true&twitterAccount=${user.data.username}&accessToken=${accessToken}`
+        `${process.env.APP_URL}/${project}/launch/verify-twitter?project=${project}&success=true&twitterAccount=${user.data.username}&accessToken=${accessToken}`
       );
     } catch (error) {
       functions.logger.log({ error });
       res.redirect(
-        `${process.env.APP_URL}/${project}/launch/verify-twiiter?success=false`
+        `${process.env.APP_URL}/launch/verify-twiiter?project=${project}&success=false`
       );
     }
   }
