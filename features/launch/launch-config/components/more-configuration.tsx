@@ -12,7 +12,6 @@ type props = {
 
 export default function MoreConfiguration({ launchInformation }: props) {
   const [hasWhitelist, setHasWhitelist] = useState(true);
-  const [requiresTwitter, setRequiresTwitter] = useState(true);
   const project = useSelector(getProjectState) as IProject;
 
   async function handleSaveLaunchPadDraft(
