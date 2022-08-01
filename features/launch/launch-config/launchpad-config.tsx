@@ -39,6 +39,7 @@ const LaunchpadConfig: NextPage = () => {
     const _doc = doc(firestore, `Projects/${project.slug}/Launchpad/draft`);
     const unsubscribe = onSnapshot(_doc, (snapshot) => {
       setLaunchInformation(snapshot.data() as IProjectLaunch);
+      console.log({ data: snapshot.data() });
     });
 
     return () => {

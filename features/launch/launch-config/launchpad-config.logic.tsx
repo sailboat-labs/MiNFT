@@ -39,6 +39,10 @@ export async function publishLaunchpad(slug: string, address: string) {
 
   const _doc = doc(firestore, `Projects/${slug}/Launchpad/published`);
 
-  await setDoc(_doc, _savedDraft.data(), { merge: true });
+  await setDoc(
+    _doc,
+    { ..._savedDraft.data(), publishTimeStamp: new Date().toISOString() },
+    { merge: true }
+  );
   return { success: true, message: "Launchpad published" };
 }

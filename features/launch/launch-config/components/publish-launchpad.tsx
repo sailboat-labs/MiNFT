@@ -1,10 +1,16 @@
+import { format } from "date-fns";
+import { doc, onSnapshot } from "firebase/firestore";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { getAddress } from "redux/reducers/selectors/user";
 
+import { firestore } from "@/lib/firebase";
+
 import Button from "@/components/buttons/Button";
+
+import { IProjectLaunch } from "@/interfaces";
 
 import { publishLaunchpad } from "../launchpad-config.logic";
 
@@ -12,6 +18,7 @@ export default function PublishLaunchPad() {
   const router = useRouter();
   const address = useSelector(getAddress);
   const [isPublishingProject, setIsPublishingProject] = useState(false);
+  const [launchInformation, setLaunchInformation] = useState<IProjectLaunch>();
 
   async function handlePublishLaunchpad() {
     setIsPublishingProject(true);
@@ -31,6 +38,24 @@ export default function PublishLaunchPad() {
       setIsPublishingProject(false);
     }, 3000);
   }
+
+  useEffect(() => {
+    if (!router.query.project) return;
+    const _doc = doc(
+      firestore,
+      `Projects/${router.query.project}/Launchpad/published`
+    );
+    const unsubscribe = onSnapshot(_doc, (snapshot) => {
+      setLaunchInformation(snapshot.data() as IProjectLaunch);
+      console.log({ data: snapshot.data() });
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, [router.query.project]);
+
+  if (!launchInformation) return <div></div>;
 
   return (
     <div className="p-10">
@@ -54,6 +79,18 @@ export default function PublishLaunchPad() {
         Publish your launchpad for it to be available for viewing. Review your
         configuration once more to make sure every information is correct
       </div>
+
+      {launchInformation.publishTimeStamp && (
+        <div className="mt-10">
+          Last Published:{" "}
+          <span className="font-bold">
+            {format(
+              new Date(launchInformation.publishTimeStamp! ?? "1999/01/01"),
+              "yyyy-MM-dd"
+            )}
+          </span>
+        </div>
+      )}
 
       <Button
         isLoading={isPublishingProject}
