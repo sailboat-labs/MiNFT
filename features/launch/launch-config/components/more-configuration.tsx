@@ -22,8 +22,8 @@ export default function MoreConfiguration({ launchInformation }: props) {
   }
 
   return (
-    <div className="px-10 py-10">
-      <div>
+    <div className="flex gap-10 px-10 py-10">
+      <div className="w-1/2 pr-10">
         <div className="mt-10 mb-5 flex items-center gap-5">
           <div className="text-xl">Whitelist Configuration</div>
           <div className=" flex-1 rounded-lg border "></div>
@@ -84,6 +84,21 @@ export default function MoreConfiguration({ launchInformation }: props) {
           defaultValue={launchInformation.website}
           onChange={(e) => {
             handleSaveLaunchPadDraft("website", e.target.value);
+          }}
+        />
+      </div>
+      <div className="w-1/2 border-l pl-10">
+        <div className="mt-10 mb-5 flex items-center gap-5">
+          <div className="text-xl">Contract Configuration</div>
+          <div className=" flex-1 rounded-lg border "></div>
+        </div>
+        <div className="mt-5">Contract Address</div>
+        <input
+          className="mt-2 rounded-lg px-5 py-2"
+          placeholder="0x...."
+          defaultValue={launchInformation.contractAddress}
+          onChange={(e) => {
+            handleSaveLaunchPadDraft("contractAddress", e.target.value);
           }}
         />
       </div>

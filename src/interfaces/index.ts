@@ -95,5 +95,6 @@ export interface IProjectLaunch {
   twitterLink?: string;
   openseaLink?: string;
   website?: string;
+  contractAddress?: string;
   roadMap: { title: string; description: string }[];
 }
