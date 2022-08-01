@@ -109,8 +109,9 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
         if (account) {
           window.localStorage.setItem("account", account);
         }
-        const address = window.localStorage.getItem("account");
+        const address = window.localStorage.getItem("account") ?? "";
         if (ethers.utils.isAddress(address ?? "")) {
+          // toast.success("Wallet connected");
           dispatch(setAddress(address?.toLowerCase()));
         } else {
           console.log("Reconnect wallet");
