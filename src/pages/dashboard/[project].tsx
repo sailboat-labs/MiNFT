@@ -13,9 +13,8 @@ import {
   where,
 } from "firebase/firestore";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { getDashboardState } from "redux/reducers/selectors/dashboard";
 import { getProjectState } from "redux/reducers/selectors/project";
@@ -48,6 +47,7 @@ export default function DashboardHomePage() {
   const router = useRouter();
   const dispatch = useDispatch();
   const address = useSelector(getAddress);
+  const [hasProjectAccess, setHasProjectAccess] = useState(true);
 
   const content: {
     component: any;
@@ -114,13 +114,12 @@ export default function DashboardHomePage() {
   const [layerSnapshots, layerLoading] = useCollectionData(_layersQuery);
 
   async function checkUserValidity() {
-    console.log({ address });
-
     if (!address) return;
     const hasAccess = await hasAccessToProject(
       router.query.project as string,
       address
     );
+    setHasProjectAccess(hasAccess);
 
     if (hasAccess) {
       if (loading) return;
@@ -178,7 +177,6 @@ export default function DashboardHomePage() {
       }
     } else {
       router.push("/dashboard");
-      toast.error("You dont have access to this project");
     }
   }
 
