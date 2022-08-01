@@ -9,7 +9,6 @@ export async function deployClone(contractType: string, payload: any = "0x") {
 
   const provider = new ethers.providers.Web3Provider((window as any).ethereum);
   const signer = provider.getSigner();
-  // const signerAddress = await signer.getAddress();
   const factory = getContract("Factory", signer)?.contract;
   const contract = getContract(contractType, signer)?.contract;
   const abi = getContract(contractType, signer)?.abi;

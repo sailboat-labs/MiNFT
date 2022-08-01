@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+// import { useState } from "react";
+import { useSelector } from "react-redux";
 import { getProjectState } from "redux/reducers/selectors/project";
 
+// import PageLoader from "@/components/shared/PageLoader";
 import {
   cmPayload,
   daPayload,
@@ -18,18 +19,18 @@ import { IProject } from "@/interfaces";
 import DeployButton from "./DeployButton";
 
 export default function DeployedContracts() {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const project = useSelector(getProjectState) as IProject;
 
-  const [clones, setClones] = useState<
-    {
-      name: string;
-      symbol: string;
-      address: string;
-      network: { chainId: number; name: string };
-      contractType: string;
-    }[]
-  >([]);
+  // const [clones, setClones] = useState<
+  //   {
+  //     name: string;
+  //     symbol: string;
+  //     address: string;
+  //     network: { chainId: number; name: string };
+  //     contractType: string;
+  //   }[]
+  // >([]);
   // const [isFetchingContracts, setIsFetchingContracts] = useState(false);
 
   // async function handleGetCloneContracts() {
@@ -45,9 +46,9 @@ export default function DeployedContracts() {
   //   setIsFetchingContracts(false);
   // }
 
-  useEffect(() => {
-    // handleGetCloneContracts();
-  }, []);
+  // useEffect(() => {
+  //   handleGetCloneContracts();
+  // }, []);
 
   return (
     <div className="mt-0 w-full ">
@@ -120,6 +121,9 @@ export default function DeployedContracts() {
                   Name
                 </th>
                 <th scope="col" className="py-3 px-6">
+                  Symbol
+                </th>
+                <th scope="col" className="py-3 px-6">
                   Contract Type
                 </th>
                 <th scope="col" className="py-3 px-6">
@@ -148,6 +152,7 @@ export default function DeployedContracts() {
                   >
                     {clone.name}
                   </th>
+                  <td className="py-4 px-6">{clone.symbol}</td>
                   <td className="py-4 px-6">{clone.contractType}</td>
                   <td className="py-4 px-6">{clone.network.name}</td>
                   <td className="py-4 px-6">{clone.address}</td>

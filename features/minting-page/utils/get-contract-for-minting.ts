@@ -1,6 +1,7 @@
 import { ethers } from "ethers";
-import { getContract } from "features/dashboard-home/components/DeployedContracts/index.logic";
 import toast from "react-hot-toast";
+
+import { getContract } from "@/contract-api/logic/getContract";
 
 export async function getContractForMinting(contractAddress: string) {
   const provider = new ethers.providers.Web3Provider((window as any).ethereum);

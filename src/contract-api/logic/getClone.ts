@@ -34,8 +34,8 @@ export async function getCloneContracts() {
       };
     }
 
-    const name = await clone.name();
-    const symbol = await clone.symbol();
+    const name = clone.name ? await clone.name() : "";
+    const symbol = clone.symbol ? await clone.symbol() : "";
     const network = await clone.provider.getNetwork();
 
     cloneDetails.push({
