@@ -15,6 +15,7 @@ import { IProject, IProjectLaunch } from "@/interfaces";
 import { firestore } from "@/pages/dashboard";
 
 import MoreConfiguration from "./components/more-configuration";
+import PublishLaunchPad from "./components/publish-launchpad";
 import saveLaunchPadDraft from "./launchpad-config.logic";
 
 const LaunchpadConfig: NextPage = () => {
@@ -360,7 +361,9 @@ const LaunchpadConfig: NextPage = () => {
           <Tab.Panel>
             <MoreConfiguration launchInformation={launchInformation} />
           </Tab.Panel>
-          <Tab.Panel></Tab.Panel>
+          <Tab.Panel>
+            <PublishLaunchPad />
+          </Tab.Panel>
         </Tab.Panels>
       </Tab.Group>
     </div>

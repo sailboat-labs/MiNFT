@@ -75,6 +75,7 @@ export interface IProject {
   description: string;
   isDemo?: boolean;
   owner?: string;
+  startDate?: string;
 }
 
 export interface IProjectLaunch {

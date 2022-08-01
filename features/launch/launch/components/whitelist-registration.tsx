@@ -27,14 +27,13 @@ import TwitterIcon from "~/svg/icons8-twitter.svg";
 export default function WhitelistRegistration() {
   const router = useRouter();
 
-  const projectAccount = "TheIndianNFTs";
   const { AuthDialog, setShowAuthDialog } = useAuthenticationDialog();
   const now = new Date();
 
   const [address, setAddress] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const [twitterHandle, setTwitterHandle] = useState("");
-  const [project, setProject] = useState<any>();
+  const [project, setProject] = useState<IProject>();
   const [twitterLoading, setTwitterLoading] = useState(false);
   const [isProjectExists, setIsProjectExists] = useState(true);
   const [whitelisted, setWhitelisted] = useState(false);
@@ -192,6 +191,7 @@ export default function WhitelistRegistration() {
 
   const proceed = async () => {
     // setError("");
+    if (!project || !project.slug) return console.log("No project");
 
     setLoading(true);
 
@@ -206,10 +206,12 @@ export default function WhitelistRegistration() {
 
     await checkFollows({
       user_account: twitterHandle,
-      project_account: projectAccount,
+      project_account: project.slug,
     })
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .then(async (result: any) => {
+        if (!project || !project.slug) return console.log("No project");
+
         const { data } = result;
         if (data.success && data.isFollowing) {
           await updateAccounts(project.slug, twitterHandle);
@@ -233,7 +235,7 @@ export default function WhitelistRegistration() {
 
   const checkWhitelist = async () => {
     // setError("");
-    if (!project) return;
+    if (!project || !project.slug) return console.log("No project");
 
     const isWhitelisted = await checkWhitelisted(
       project.slug,
@@ -250,201 +252,205 @@ export default function WhitelistRegistration() {
   if (!project) return <div>No Project Found</div>;
 
   return (
-    <div
-      id="join-whitelist"
-      className=" flex h-full flex-col items-center justify-center"
-    >
-      <AuthDialog />
-      <div className="flex w-full flex-col items-center text-white lg:flex-row">
-        {whitelisted && (
-          <div className="rounded-lg bg-white p-4 py-4 text-black shadow-xl">
-            <div>Hello,</div>
-            <p>Your wallet {address} is whitelisted</p>
-            <Button
-              onClick={() => {
-                router.push("/indiansnft/whitelist/verify");
-              }}
-              className="rounded-0 mt-10 w-fit cursor-pointer justify-center border-none bg-[#FF9933] py-3 font-bold text-white hover:bg-[#FF9933] disabled:bg-[#A0A6AB] disabled:hover:bg-[#A0A6AB]"
-            >
-              Verify Whitelist Status
-            </Button>
-          </div>
-        )}
-
-        {!whitelisted && (
-          <div className="flex w-full flex-col gap-8 rounded-lg  text-black">
-            <div className="">
-              {endDate > now && new Date(project.startDate) <= now && (
-                <h3>Whitelist Registration</h3>
-              )}
-              {new Date(project.startDate) > now && (
-                <h3>
-                  Registration <span className="text-red-500">not open</span>
-                </h3>
-              )}
-              {endDate <= now && (
-                <h3>
-                  Registration <span className="text-red-500">closed</span>
-                </h3>
-              )}
-              <p className="mt-2 text-gray-500">
-                Follow the steps below to add yourself to this list.
-              </p>
-            </div>
-
-            {error && (
-              <div className="relative mx-2 rounded-lg bg-red-400 p-4 text-white shadow-sm">
-                <p className="px-4 text-center">{error}</p>
-                <div
-                  onClick={() => setError("")}
-                  className="absolute top-2 right-2 w-min cursor-pointer rounded-full border-[1px] p-[3px]"
-                >
-                  <CloseWhite className="h-3 w-3" />
-                </div>
-              </div>
-            )}
-
-            <div className="flex gap-4 rounded-lg bg-[#F8F9FA] py-2">
-              <p>
-                <strong className="font-xl ml-4 font-bold text-[#2EBCDB]">
-                  REQUIREMENTS,
-                </strong>{" "}
-                TO REGISTER, YOU MUST:
-              </p>
-            </div>
-
-            <div className="flex flex-col gap-2 px-4">
-              <div className="flex gap-2">
-                <EthIcon className="h-6 w-6" />
-                <p>You must have at least 0.1 eth in your wallet</p>
-              </div>
-
-              <div className="flex gap-2">
-                <TwitterIcon className="h-6 w-6" />
-                <p>
-                  Follow{" "}
-                  <a
-                    href={`https://twitter.com/${projectAccount}`}
-                    target="_blank"
-                    className="cursor-pointer font-bold text-[#2EBCDB] underline"
-                    rel="noreferrer"
-                  >
-                    @{projectAccount}
-                  </a>{" "}
-                  on twitter{" "}
-                </p>
-              </div>
-            </div>
-
-            {endDate > now && new Date(project.startDate) <= now && (
-              <div className="flex flex-col gap-3 border-y-[1px] px-4 py-3">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <input
-                      disabled
-                      checked={address != undefined}
-                      type="radio"
-                      className="h-4 w-4 text-green-500"
-                    />
-
-                    {isAuthenticated && (
-                      <p className="text-green-500">Wallet Connected</p>
-                    )}
-                    {!isAuthenticated && <p className="">Connect Wallet</p>}
-                  </div>
-
-                  {!isAuthenticating && !isAuthenticated && (
-                    <Button
-                      isLoading={isAuthenticating}
-                      onClick={() => {
-                        connectWallet();
-                      }}
-                      variant="success"
-                      className="rounded-full"
-                    >
-                      {!isAuthenticated ? "Connect" : "Connected"}
-                    </Button>
-                  )}
-                  {isAuthenticating && <PageLoader />}
-
-                  {address && isAuthenticated && (
-                    <div>
-                      <div className="flex items-center gap-3 rounded-full border-2 py-2 px-4">
-                        <p className="text-[#2EBCDB]">
-                          {formatEthAddress(address)}
-                        </p>
-
-                        <div
-                          onClick={() => {
-                            setAddress("");
-                            logout();
-                          }}
-                          className="cursor-pointer rounded-full border-[1px] p-[3px]"
-                        >
-                          <Close className="h-3 w-3" />
-                        </div>
-                      </div>{" "}
-                    </div>
-                  )}
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <input
-                      disabled
-                      checked={twitterHandle != ""}
-                      type="radio"
-                      className="h-4 w-4 text-green-500"
-                    />
-                    {twitterHandle && (
-                      <p className="text-green-500">Twitter Connected</p>
-                    )}
-                    {!twitterHandle && <p className="">Connect Twitter</p>}
-                  </div>
-
-                  {!twitterHandle && !twitterLoading && (
-                    <Button
-                      disabled={!address || twitterLoading}
-                      isLoading={twitterLoading}
-                      onClick={connectTwitter}
-                      variant="success"
-                      className="rounded-full disabled:bg-[#A0A6AB] disabled:hover:bg-[#A0A6AB]"
-                    >
-                      Connect
-                    </Button>
-                  )}
-
-                  {twitterLoading && <PageLoader />}
-
-                  {twitterHandle && (
-                    <div>
-                      <div className="flex items-center gap-3 rounded-full border-2 py-2 px-4">
-                        <p className="text-[#2EBCDB]">@{twitterHandle} </p>
-
-                        <div
-                          onClick={() => setTwitterHandle("")}
-                          className="cursor-pointer rounded-full border-[1px] p-[3px]"
-                        >
-                          <Close className="h-3 w-3" />
-                        </div>
-                      </div>{" "}
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
-
-            {endDate > now && new Date(project.startDate) <= now && (
-              <div className="px-4">
+    <>
+      {project.startDate && (
+        <div
+          id="join-whitelist"
+          className=" flex h-full flex-col items-center justify-center"
+        >
+          <AuthDialog />
+          <div className="flex w-full flex-col items-center text-white lg:flex-row">
+            {whitelisted && (
+              <div className="rounded-lg bg-white p-4 py-4 text-black shadow-xl">
+                <div>Hello,</div>
+                <p>Your wallet {address} is whitelisted</p>
                 <Button
-                  onClick={proceed}
-                  isLoading={loading}
-                  disabled={endDate <= now || !address || !twitterHandle}
-                  className="rounded-0 w-full cursor-pointer justify-center border-none bg-[#FF9933] py-4 text-xl font-bold text-white hover:bg-[#FF9933] disabled:bg-[#A0A6AB] disabled:hover:bg-[#A0A6AB]"
+                  onClick={() => {
+                    router.push("/indiansnft/whitelist/verify");
+                  }}
+                  className="rounded-0 mt-10 w-fit cursor-pointer justify-center border-none bg-[#FF9933] py-3 font-bold text-white hover:bg-[#FF9933] disabled:bg-[#A0A6AB] disabled:hover:bg-[#A0A6AB]"
                 >
-                  Reserve your spot
+                  Verify Whitelist Status
                 </Button>
-                {/* {endDate > now &&
+              </div>
+            )}
+
+            {!whitelisted && (
+              <div className="flex w-full flex-col gap-8 rounded-lg  text-black">
+                <div className="">
+                  {endDate > now &&
+                    new Date(project.startDate ?? "") <= now && (
+                      <h3>Whitelist Registration</h3>
+                    )}
+                  {new Date(project.startDate ?? "") > now && (
+                    <h3>
+                      Registration{" "}
+                      <span className="text-red-500">not open</span>
+                    </h3>
+                  )}
+                  {endDate <= now && (
+                    <h3>
+                      Registration <span className="text-red-500">closed</span>
+                    </h3>
+                  )}
+                  <p className="mt-2 text-gray-500">
+                    Follow the steps below to add yourself to this list.
+                  </p>
+                </div>
+
+                {error && (
+                  <div className="relative mx-2 rounded-lg bg-red-400 p-4 text-white shadow-sm">
+                    <p className="px-4 text-center">{error}</p>
+                    <div
+                      onClick={() => setError("")}
+                      className="absolute top-2 right-2 w-min cursor-pointer rounded-full border-[1px] p-[3px]"
+                    >
+                      <CloseWhite className="h-3 w-3" />
+                    </div>
+                  </div>
+                )}
+
+                <div className="flex gap-4 rounded-lg bg-[#F8F9FA] py-2">
+                  <p>
+                    <strong className="font-xl ml-4 font-bold text-[#2EBCDB]">
+                      REQUIREMENTS,
+                    </strong>{" "}
+                    TO REGISTER, YOU MUST:
+                  </p>
+                </div>
+
+                <div className="flex flex-col gap-2 px-4">
+                  <div className="flex gap-2">
+                    <EthIcon className="h-6 w-6" />
+                    <p>You must have at least 0.1 eth in your wallet</p>
+                  </div>
+
+                  <div className="flex gap-2">
+                    <TwitterIcon className="h-6 w-6" />
+                    <p>
+                      Follow{" "}
+                      <a
+                        href="https://twitter.com/magicmynt"
+                        target="_blank"
+                        className="cursor-pointer font-bold text-[#2EBCDB] underline"
+                        rel="noreferrer"
+                      >
+                        @MagicMynt
+                      </a>{" "}
+                      on twitter{" "}
+                    </p>
+                  </div>
+                </div>
+
+                {endDate > now && new Date(project.startDate ?? "") <= now && (
+                  <div className="flex flex-col gap-3 border-y-[1px] px-4 py-3">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <input
+                          disabled
+                          checked={address != undefined}
+                          type="radio"
+                          className="h-4 w-4 text-green-500"
+                        />
+
+                        {isAuthenticated && (
+                          <p className="text-green-500">Wallet Connected</p>
+                        )}
+                        {!isAuthenticated && <p className="">Connect Wallet</p>}
+                      </div>
+
+                      {!isAuthenticating && !isAuthenticated && (
+                        <Button
+                          isLoading={isAuthenticating}
+                          onClick={() => {
+                            connectWallet();
+                          }}
+                          variant="success"
+                          className="rounded-full"
+                        >
+                          {!isAuthenticated ? "Connect" : "Connected"}
+                        </Button>
+                      )}
+                      {isAuthenticating && <PageLoader />}
+
+                      {address && isAuthenticated && (
+                        <div>
+                          <div className="flex items-center gap-3 rounded-full border-2 py-2 px-4">
+                            <p className="text-[#2EBCDB]">
+                              {formatEthAddress(address)}
+                            </p>
+
+                            <div
+                              onClick={() => {
+                                setAddress("");
+                                logout();
+                              }}
+                              className="cursor-pointer rounded-full border-[1px] p-[3px]"
+                            >
+                              <Close className="h-3 w-3" />
+                            </div>
+                          </div>{" "}
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <input
+                          disabled
+                          checked={twitterHandle != ""}
+                          type="radio"
+                          className="h-4 w-4 text-green-500"
+                        />
+                        {twitterHandle && (
+                          <p className="text-green-500">Twitter Connected</p>
+                        )}
+                        {!twitterHandle && <p className="">Connect Twitter</p>}
+                      </div>
+
+                      {!twitterHandle && !twitterLoading && (
+                        <Button
+                          disabled={!address || twitterLoading}
+                          isLoading={twitterLoading}
+                          onClick={connectTwitter}
+                          variant="success"
+                          className="rounded-full disabled:bg-[#A0A6AB] disabled:hover:bg-[#A0A6AB]"
+                        >
+                          Connect
+                        </Button>
+                      )}
+
+                      {twitterLoading && <PageLoader />}
+
+                      {twitterHandle && (
+                        <div>
+                          <div className="flex items-center gap-3 rounded-full border-2 py-2 px-4">
+                            <p className="text-[#2EBCDB]">@{twitterHandle} </p>
+
+                            <div
+                              onClick={() => setTwitterHandle("")}
+                              className="cursor-pointer rounded-full border-[1px] p-[3px]"
+                            >
+                              <Close className="h-3 w-3" />
+                            </div>
+                          </div>{" "}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {endDate > now && new Date(project.startDate ?? "") <= now && (
+                  <div className="px-4">
+                    <Button
+                      onClick={proceed}
+                      isLoading={loading}
+                      disabled={endDate <= now || !address || !twitterHandle}
+                      className="rounded-0 w-full cursor-pointer justify-center border-none bg-[#FF9933] py-4 text-xl font-bold text-white hover:bg-[#FF9933] disabled:bg-[#A0A6AB] disabled:hover:bg-[#A0A6AB]"
+                    >
+                      Reserve your spot
+                    </Button>
+                    {/* {endDate > now &&
                   new Date(project.startDate) <= now &&
                   (!address || !twitterHandle) && (
                     <p className="mx-16 mt-4 text-center text-red-500">
@@ -452,11 +458,13 @@ export default function WhitelistRegistration() {
                       Cannot register until you connect accounts above{" "}
                     </p>
                   )} */}
+                  </div>
+                )}
               </div>
             )}
           </div>
-        )}
-      </div>
-    </div>
+        </div>
+      )}
+    </>
   );
 }
