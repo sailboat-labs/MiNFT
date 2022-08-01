@@ -1,4 +1,5 @@
 import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
+import toast from "react-hot-toast";
 
 import { firebaseApp } from "@/lib/firebase";
 
@@ -27,8 +28,9 @@ export default async function saveLaunchPadDraft(
 }
 
 export async function publishLaunchpad(slug: string, address: string) {
-  const isOwner = isProjectOwner(slug, address);
-  if (!isOwner)
+  toast.dismiss();
+  const isOwner = await isProjectOwner(slug, address);
+  if (isOwner != true)
     return { success: false, message: "Only owner can publish the launchpad" };
 
   const _draftDoc = doc(firestore, `Projects/${slug}/Launchpad/draft`);

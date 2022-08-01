@@ -52,7 +52,7 @@ export default function MoreConfiguration({ launchInformation }: props) {
         </div>
         <div className="">Discord</div>
         <input
-          className="mt-2 rounded-lg px-5 py-2"
+          className="mt-2 rounded-lg border-2 bg-gray-50 px-5 py-2"
           placeholder="Discord link"
           defaultValue={launchInformation.discordLink}
           onChange={(e) => {
@@ -61,7 +61,7 @@ export default function MoreConfiguration({ launchInformation }: props) {
         />
         <div className="mt-5">Twitter</div>
         <input
-          className="mt-2 rounded-lg px-5 py-2"
+          className="mt-2 rounded-lg border-2 bg-gray-50 px-5 py-2"
           placeholder="@magicmynt"
           defaultValue={launchInformation.twitterLink}
           onChange={(e) => {
@@ -70,7 +70,7 @@ export default function MoreConfiguration({ launchInformation }: props) {
         />
         <div className="mt-5">Opensea</div>
         <input
-          className="mt-2 rounded-lg px-5 py-2"
+          className="mt-2 rounded-lg border-2 bg-gray-50 px-5 py-2"
           placeholder="Opensea"
           defaultValue={launchInformation.openseaLink}
           onChange={(e) => {
@@ -79,7 +79,7 @@ export default function MoreConfiguration({ launchInformation }: props) {
         />
         <div className="mt-5">Website</div>
         <input
-          className="mt-2 rounded-lg px-5 py-2"
+          className="mt-2 rounded-lg border-2 bg-gray-50 px-5 py-2"
           placeholder="https://"
           defaultValue={launchInformation.website}
           onChange={(e) => {
@@ -94,7 +94,7 @@ export default function MoreConfiguration({ launchInformation }: props) {
         </div>
         <div className="mt-5">Contract Address</div>
         <input
-          className="mt-2 rounded-lg px-5 py-2"
+          className="mt-2 rounded-lg border-2 bg-gray-50 px-5 py-2"
           placeholder="0x...."
           defaultValue={launchInformation.contractAddress}
           onChange={(e) => {
