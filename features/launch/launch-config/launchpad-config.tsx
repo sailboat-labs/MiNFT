@@ -23,6 +23,8 @@ const LaunchpadConfig: NextPage = () => {
   const project = useSelector(getProjectState) as IProject;
 
   const [launchInformation, setLaunchInformation] = useState<IProjectLaunch>();
+  const [isLoadingLaunchInformation, setisLoadingLaunchInformation] =
+    useState(true);
 
   //roadmap
   const [roadmap, setRoadmap] = useState<
@@ -39,6 +41,7 @@ const LaunchpadConfig: NextPage = () => {
     const _doc = doc(firestore, `Projects/${project.slug}/Launchpad/draft`);
     const unsubscribe = onSnapshot(_doc, (snapshot) => {
       setLaunchInformation(snapshot.data() as IProjectLaunch);
+      setisLoadingLaunchInformation(false);
       console.log({ data: snapshot.data() });
     });
 
@@ -61,18 +64,13 @@ const LaunchpadConfig: NextPage = () => {
     }, 500);
   }
 
-  if (!launchInformation)
-    return (
-      <div className="flex h-screen w-screen items-center justify-center">
-        <PageLoader />
-      </div>
-    );
-
   return (
     <div className="h-screen overflow-y-auto">
       <div
         className={`pointer-events-none fixed scale-75 bg-white transition-all ${
-          showSavingDraftLoader ? "opacity-100" : "opacity-0"
+          showSavingDraftLoader || isLoadingLaunchInformation
+            ? "opacity-100"
+            : "opacity-0"
         }`}
       >
         <PageLoader className="h-[30px] w-[30px]" />
@@ -188,7 +186,7 @@ const LaunchpadConfig: NextPage = () => {
                 </Link>
               </p> */}
                     <div className="mt-6 grid grid-rows-2 gap-5">
-                      {launchInformation.hasWhitelist && (
+                      {launchInformation && launchInformation.hasWhitelist && (
                         <div className=" rounded-2xl  p-4 ring-1 ring-gray-200">
                           <div className="flex items-center justify-between">
                             <span className="text-medium  rounded-full bg-gray-100 py-1 px-2 text-sm text-gray-700 ring-1 ring-gray-200">

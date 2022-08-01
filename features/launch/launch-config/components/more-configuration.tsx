@@ -7,7 +7,7 @@ import { IProject, IProjectLaunch } from "@/interfaces";
 import saveLaunchPadDraft from "../launchpad-config.logic";
 
 type props = {
-  launchInformation: IProjectLaunch;
+  launchInformation?: IProjectLaunch;
 };
 
 export default function MoreConfiguration({ launchInformation }: props) {
@@ -31,7 +31,7 @@ export default function MoreConfiguration({ launchInformation }: props) {
         </div>
         <div className="flex items-center">
           <input
-            checked={launchInformation.hasWhitelist}
+            checked={launchInformation?.hasWhitelist}
             onChange={() => {
               setHasWhitelist(!hasWhitelist);
               handleSaveLaunchPadDraft("hasWhitelist", !hasWhitelist);
@@ -49,11 +49,11 @@ export default function MoreConfiguration({ launchInformation }: props) {
         </div>
         <div className="mt-5 flex items-center">
           <input
-            checked={launchInformation.requiresTwitter}
+            checked={launchInformation?.requiresTwitter}
             onChange={() => {
               handleSaveLaunchPadDraft(
                 "requiresTwitter",
-                !(launchInformation.requiresTwitter ?? false)
+                !(launchInformation?.requiresTwitter ?? false)
               );
             }}
             id="checked-checkbox"
@@ -75,7 +75,7 @@ export default function MoreConfiguration({ launchInformation }: props) {
           className="mt-2 rounded-lg border-2 bg-gray-50 px-5 py-2"
           placeholder="Wallet ballance required"
           type="number"
-          defaultValue={launchInformation.requiredEthAmount}
+          defaultValue={launchInformation?.requiredEthAmount}
           onChange={(e) => {
             handleSaveLaunchPadDraft("requiredEthAmount", e.target.value);
           }}
@@ -88,7 +88,7 @@ export default function MoreConfiguration({ launchInformation }: props) {
         <input
           className="mt-2 rounded-lg border-2 bg-gray-50 px-5 py-2"
           placeholder="Discord link"
-          defaultValue={launchInformation.discordLink}
+          defaultValue={launchInformation?.discordLink}
           onChange={(e) => {
             handleSaveLaunchPadDraft("discordLink", e.target.value);
           }}
@@ -97,7 +97,7 @@ export default function MoreConfiguration({ launchInformation }: props) {
         <input
           className="mt-2 rounded-lg border-2 bg-gray-50 px-5 py-2"
           placeholder="@magicmynt"
-          defaultValue={launchInformation.twitterLink}
+          defaultValue={launchInformation?.twitterLink}
           onChange={(e) => {
             handleSaveLaunchPadDraft("twitterLink", e.target.value);
           }}
@@ -106,7 +106,7 @@ export default function MoreConfiguration({ launchInformation }: props) {
         <input
           className="mt-2 rounded-lg border-2 bg-gray-50 px-5 py-2"
           placeholder="Opensea"
-          defaultValue={launchInformation.openseaLink}
+          defaultValue={launchInformation?.openseaLink}
           onChange={(e) => {
             handleSaveLaunchPadDraft("openseaLink", e.target.value);
           }}
@@ -115,7 +115,7 @@ export default function MoreConfiguration({ launchInformation }: props) {
         <input
           className="mt-2 rounded-lg border-2 bg-gray-50 px-5 py-2"
           placeholder="https://"
-          defaultValue={launchInformation.website}
+          defaultValue={launchInformation?.website}
           onChange={(e) => {
             handleSaveLaunchPadDraft("website", e.target.value);
           }}
@@ -130,7 +130,7 @@ export default function MoreConfiguration({ launchInformation }: props) {
         <input
           className="mt-2 rounded-lg border-2 bg-gray-50 px-5 py-2"
           placeholder="0x...."
-          defaultValue={launchInformation.contractAddress}
+          defaultValue={launchInformation?.contractAddress}
           onChange={(e) => {
             handleSaveLaunchPadDraft("contractAddress", e.target.value);
           }}
