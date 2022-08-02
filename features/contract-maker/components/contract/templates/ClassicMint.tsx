@@ -4,7 +4,11 @@ import * as Yup from "yup";
 
 import ClassicMintFormFields from "../ClassicMintFormFields";
 
-const ClassicMint = () => {
+interface AppProps {
+  isPreview?: boolean;
+}
+
+const ClassicMint = ({isPreview = false}) => {
   const classicMintForm = useFormik({
     initialValues: {
       quantityOfCollection: 0,
@@ -44,7 +48,14 @@ const ClassicMint = () => {
     },
   });
 
-  return <ClassicMintFormFields form={classicMintForm} />;
+  if (isPreview) {
+    return (
+      <ClassicMintFormFields form={classicMintForm} isPreview />
+    )
+  }
+  
+  return <ClassicMintFormFields form={classicMintForm} /> 
+  
 };
 
 export default ClassicMint;

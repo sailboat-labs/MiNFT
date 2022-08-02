@@ -8,6 +8,7 @@ interface AppProps {
   postfixClass?: string;
   postfix?: React.ReactNode;
   error?: React.ReactNode | null;
+  isPreview: boolean;
   onChange: (evt: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -20,9 +21,27 @@ const BaseInput = ({
   wrapperClass,
   postfixClass,
   type = "text",
+  isPreview,
   ...props
 }: AppProps) => {
   const [isFocused, setIsFocused] = useState<boolean>(false);
+
+  // if (isPreview) {
+  //   return (
+  //     <>
+  //     <div
+  //       className={`inline-flex items-center overflow-hidden rounded-md bg-white ring-1 ring-gray-200 ${
+  //         isFocused && "ring-indigo-800"
+  //       } ${wrapperClass}`}
+  //     >
+  //       <input
+  //         className={`flex-1 border-0 outline-none focus:ring-0 ${inputClass}`}
+  //         value=''
+  //       />
+  //     </div>
+  //     </>
+  //   )
+  // }
 
   return (
     <>

@@ -10,22 +10,34 @@ import BaseSelect from "@/components/controls/BaseSelect";
 import BaseTimezoneSelector from "@/components/controls/BaseTimezoneSelector";
 import ContractFormRowSection from "@/components/layout/ContractRowSection";
 
+import ClassicMintPreview from "./previews/ClassicMintPreview";
+
 interface AppProps {
   form: any;
+  isPreview?: boolean;
 }
 
-const ClassicMintFormFields: FC<AppProps> = ({ form }) => {
+const ClassicMintFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
   const dispatch = useDispatch();
 
   const store = useStore();
 
-  const handleUpdateStore = (values: any) => {
-    
+  const disabled = isPreview;
+
+  const handleUpdateStore = async (values: any) => {
     for (const valueKey in values) {
-      dispatch(updateClassicMint({'key': valueKey, 'value': values[valueKey]}))
+      dispatch(updateClassicMint({ key: valueKey, value: values[valueKey] }));
     }
-    console.log('Store state is:', store.getState())
+    console.log("Store state after form submission is:", store.getState());
   };
+
+  if (isPreview) {
+    setTimeout(() => {
+      console.log("Getting current form values");
+      console.log("", store.getState());
+      return <ClassicMintPreview values={store.getState()} />;
+    }, 1000);
+  }
 
   return (
     <div className="pt-6">
@@ -33,8 +45,7 @@ const ClassicMintFormFields: FC<AppProps> = ({ form }) => {
         initialValues={form.initialValues}
         validationSchema={form.validationSchema}
         onSubmit={(values) => {
-          console.log(values);
-          handleUpdateStore(values)
+          handleUpdateStore(values);
         }}
         isInitialValid={false}
       >
@@ -61,6 +72,8 @@ const ClassicMintFormFields: FC<AppProps> = ({ form }) => {
                       <div>{form.errors.quantityOfCollection}</div>
                     ) : null
                   }
+                  disabled={disabled}
+                  isPreview={isPreview}
                 />
               </ContractFormRowSection>
               <ContractFormRowSection
@@ -102,7 +115,7 @@ const ClassicMintFormFields: FC<AppProps> = ({ form }) => {
                     form.touched.reservedTokens &&
                     form.errors.reservedTokens ? (
                       <p className="text-base text-red-500">
-                        {form.errors.reservedTokens}
+                        {/* {form.errors.reservedTokens}z */} 
                       </p>
                     ) : null
                   }
@@ -203,7 +216,6 @@ const ClassicMintFormFields: FC<AppProps> = ({ form }) => {
                     {...form.getFieldProps("timezone")}
                     required
                     onChange={(e) => {
-                      console.log(e);
                       formik.values.timezone = e;
                     }}
                     error={

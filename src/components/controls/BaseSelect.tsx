@@ -4,6 +4,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import { SelectOption } from "@/interfaces";
 
 interface AppProps {
+  disabled?: boolean,
   showCheck?: boolean;
   buttonClass?: string;
   options: SelectOption[];
@@ -14,6 +15,7 @@ interface AppProps {
 }
 
 const BaseSelect = ({
+  disabled,
   options,
   onChange,
   buttonClass,
@@ -33,7 +35,7 @@ const BaseSelect = ({
   }, [selected]);
 
   return (
-    <Listbox value={selected} onChange={(value) => setSelected(value)}>
+    <Listbox value={selected} disabled={disabled} onChange={(value) => setSelected(value)}>
       <div className="relative mt-1">
         <Listbox.Button
           className={`${
