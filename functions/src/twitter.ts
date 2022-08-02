@@ -85,7 +85,7 @@ const requestTwitterUrl = functions.https.onCall(async (data) => {
       process.env.TWITTER_CALLBACK_URL as string,
       {
         scope: ["tweet.read", "users.read", "follows.read"],
-        state: `${data.projectSlug}:${id}`
+        state: `${data.projectSlug}:${id}`,
       }
     );
 
@@ -130,7 +130,7 @@ const twitterCallBack = functions.https.onRequest(
       await admin.firestore().doc(`Codes/${state}`).delete();
 
       res.redirect(
-        `${process.env.APP_URL}/${project}/launch/verify-twitter?project=${project}&success=true&twitterAccount=${user.data.username}&accessToken=${accessToken}`
+        `${process.env.APP_URL}/launch/verify-twitter?project=${project}&success=true&twitterAccount=${user.data.username}&accessToken=${accessToken}`
       );
     } catch (error) {
       functions.logger.log({ error });

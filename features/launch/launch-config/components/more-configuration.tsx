@@ -51,10 +51,16 @@ export default function MoreConfiguration({ launchInformation }: props) {
           </label>
         </div>
 
-        <div className="mt-5 flex items-center">
+        <div
+          className={`mt-5 flex items-center ${
+            launchInformation?.hasWhitelist != true
+              ? "opacity-50"
+              : "opacity-100"
+          }`}
+        >
           <input
             checked={launchInformation?.requiresTwitter}
-            // disabled={launchInformation?.hasWhitelist == false}
+            disabled={launchInformation?.hasWhitelist == false}
             onChange={() => {
               if (launchInformation?.hasWhitelist == false)
                 return toast.error("Enable whitelist");
@@ -75,9 +81,16 @@ export default function MoreConfiguration({ launchInformation }: props) {
             Requires twitter account to register
           </label>
         </div>
-        <div className="mt-5 flex items-center">
+        <div
+          className={`mt-5 flex items-center ${
+            launchInformation?.hasWhitelist != true
+              ? "opacity-50"
+              : "opacity-100"
+          }`}
+        >
           <input
             checked={requiresMinEth}
+            disabled={launchInformation?.hasWhitelist == false}
             onChange={() => {
               if (launchInformation?.hasWhitelist == false)
                 return toast.error("Enable whitelist");
