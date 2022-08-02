@@ -14,8 +14,8 @@ const ClassicMint = () => {
       maxMintPerTransaction: 0,
       startDate: null,
       endDate: null,
-      startTime: null,
-      endTime: null,
+      timezone: null,
+      minutes: 0,
     },
     validationSchema: Yup.object({
       quantityOfCollection: Yup.number()
@@ -33,9 +33,14 @@ const ClassicMint = () => {
       maxMintPerTransaction: Yup.number().required(
         "*max mint per transaction is required"
       ),
+      startDate: Yup.date().required("End date is required").nullable(false),
+      endDate: Yup.date().required("End date is required").nullable(false),
+      timezone: Yup.string().required("Timezone is required").nullable(false),
+      minutes: Yup.number().required("Minutes are required"),
     }),
     onSubmit: (values, formik) => {
-      console.log(values);
+      console.log("Values are ", values);
+      alert(values);
     },
   });
 

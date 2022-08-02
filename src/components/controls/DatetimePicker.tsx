@@ -1,23 +1,25 @@
 import React, { FC, useEffect, useState } from "react";
 
-import BaseDatePicker from "./BaseDatePicker";
-
+import BaseDatetimeInput from "./BaseDatetimeInput";
+import BaseInput from './BaseInput'
 interface AppProps {
   error?: React.ReactNode;
-  onRangeChange?: (startDate: Date, endDate: Date) => void;
+  onChange?: (dateTime: any) => void;
 }
 
-const DateTimeRangePicker: FC<AppProps> = ({ onRangeChange, error }) => {
+const DatetimePicker: FC<AppProps> = ({ onChange, error }) => {
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
 
-  useEffect(() => {
-    if (startDate === null && endDate === null) return;
+  const [dateTime, setDatetime] = useState(null);
 
-    if (onRangeChange) {
-      onRangeChange(startDate as Date, endDate as Date);
+  useEffect(() => {
+    if (dateTime === null) return;
+
+    if (onChange) {
+      onChange(dateTime);
     }
-  }, [startDate, endDate]);
+  }, [dateTime]);
 
   return (
     <section
@@ -26,11 +28,11 @@ const DateTimeRangePicker: FC<AppProps> = ({ onRangeChange, error }) => {
       }`}
     >
       <div className="box-content grid grid-cols-1 gap-x-10 gap-y-6">
-        <BaseDatePicker
+        <BaseDatetimeInput
           onChange={(date) => setStartDate(date)}
           label="Start on a specific date & time"
         />
-        <BaseDatePicker
+        <BaseInput
           onChange={(date) => setEndDate(date)}
           label="End on a specific date & time"
         />

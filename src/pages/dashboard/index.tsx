@@ -13,6 +13,7 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { isMobile } from "react-device-detect";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { useSelector } from "react-redux";
 import { getAddress } from "redux/reducers/selectors/user";
@@ -222,7 +223,11 @@ export default function DashboardGetStarted() {
                   <div
                     key={index}
                     onClick={() => {
-                      router.push(`/dashboard/${project.slug}`);
+                      isMobile
+                        ? alert(
+                            `${isMobile}, This action cannot be performed on a mobile device`
+                          )
+                        : router.push(`/dashboard/${project.slug}`);
                     }}
                     className="cursor-pointer rounded-lg border bg-gray-50 px-5 py-5 transition-all hover:bg-gray-100"
                   >
