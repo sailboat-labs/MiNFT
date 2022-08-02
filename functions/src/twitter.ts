@@ -79,6 +79,7 @@ export const follows = async (
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const requestTwitterUrl = functions.https.onCall(async (data) => {
   const id = v4();
+  console.log(id)
   try {
     // Don't forget to specify 'offline.access' in scope list, you want to refresh your token later
     const { url, codeVerifier, state } = client.generateOAuth2AuthLink(
@@ -111,7 +112,7 @@ const twitterCallBack = functions.https.onRequest(
 
       if (!codeVerifier || !code) {
         res.redirect(
-          `${process.env.APP_URL}/${project}/launch/verify-twiiter?project=${project}&success=false`
+          `${process.env.APP_URL}/launch/${project}/?success=false`
         );
       }
 
@@ -130,12 +131,13 @@ const twitterCallBack = functions.https.onRequest(
       await admin.firestore().doc(`Codes/${state}`).delete();
 
       res.redirect(
-        `${process.env.APP_URL}/launch/verify-twitter?project=${project}&success=true&twitterAccount=${user.data.username}&accessToken=${accessToken}`
+        `${process.env.APP_URL}/launch/${project}?success=true&twitterAccount=${user.data.username}&accessToken=${accessToken}`
       );
     } catch (error) {
-      functions.logger.log({ error });
+      console.log(error)
+      // functions.logger.log({ error });
       res.redirect(
-        `${process.env.APP_URL}/${project}/launch/verify-twiiter?project=${project}&success=false`
+        `${process.env.APP_URL}/launch/${project}?success=false`
       );
     }
   }

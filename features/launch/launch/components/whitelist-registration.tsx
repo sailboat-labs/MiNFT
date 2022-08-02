@@ -200,7 +200,7 @@ export default function WhitelistRegistration({
 
     setTwitterLoading(true);
     const requestTwitterUrl = httpsCallable(functions, "requestTwitterUrl");
-    requestTwitterUrl()
+    requestTwitterUrl({projectSlug: project?.slug})
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .then((result: any) => {
         window.open(result.data.authUrl, "_self");
@@ -249,7 +249,7 @@ export default function WhitelistRegistration({
 
       await checkFollows({
         user_account: twitterHandle,
-        project_account: project.slug,
+        project_account: launchInformation.twitterLink,
       })
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         .then(async (result: any) => {
