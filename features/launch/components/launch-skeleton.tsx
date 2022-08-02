@@ -1,14 +1,14 @@
 import React from "react";
 
-import Skeleton from ".";
+import Skeleton from "./skeleton";
 
 const LaunchPadSkeleton = () => {
   return (
-    <section className="h-screen">
-      <div className="container mx-auto mt-8 max-w-[1664px]  px-6 py-24 lg:grid lg:grid-cols-2 ">
+    <section className="h-screen overflow-hidden">
+      <div className="container mx-auto mt-20 max-w-[1664px]  px-6 py-24 lg:grid lg:grid-cols-2 ">
         {/* left side */}
         <article className="md:pr-12 lg:pr-32">
-          <Skeleton type="heading" className="!h-12" />
+          <Skeleton type="heading" className="!h-20" />
           <div className="mt-6 mb-5 ml-0.5 flex gap-3">
             <Skeleton type="rect" className="h-5 !max-w-[130px]" />
             <Skeleton type="rect" className="h-5 !max-w-[130px]" />
