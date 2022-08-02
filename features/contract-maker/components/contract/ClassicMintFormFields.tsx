@@ -2,7 +2,6 @@ import React, { FC } from "react";
 
 import BaseInput from "@/components/controls/BaseInput";
 import BaseSelect from "@/components/controls/BaseSelect";
-import DateTimeRangePicker from "@/components/controls/DateTimeRangePicker";
 import ContractFormRowSection from "@/components/layout/ContractRowSection";
 
 interface AppProps {
@@ -104,9 +103,7 @@ const ClassicMintFormFields: FC<AppProps> = ({ form }) => {
       </section>
       <h4 className="mt-10">Timing</h4>
       <section className="mb-10 mt-3 flex items-start  gap-10">
-        <div className="flex-1">
-          <DateTimeRangePicker />
-        </div>
+        <div className="flex-1">{/* <DateTimeRangePicker /> */}</div>
         <div className="max-w-[250px] flex-1 rounded-md bg-white p-5 ring-1 ring-gray-200">
           <strong>Minutes</strong>
           <BaseSelect
