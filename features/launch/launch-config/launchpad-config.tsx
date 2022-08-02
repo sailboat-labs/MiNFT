@@ -286,14 +286,15 @@ const LaunchpadConfig: NextPage = () => {
                             <div className="mb-10">No roadmap</div>
                           )}
 
-                          {roadmap.map((item, index) => (
-                            <div key={index}>
-                              <strong>{item.title}</strong>
-                              <ul className="ml-6 mb-6 list-disc text-gray-600">
-                                <li>{item.description}</li>
-                              </ul>
-                            </div>
-                          ))}
+                          {roadmap &&
+                            roadmap.map((item, index) => (
+                              <div key={index}>
+                                <strong>{item.title}</strong>
+                                <ul className="ml-6 mb-6 list-disc text-gray-600">
+                                  <li>{item.description}</li>
+                                </ul>
+                              </div>
+                            ))}
 
                           {isShowingAddNewRoadmap ? (
                             <div className="flex flex-col rounded-lg bg-gray-200 p-5">

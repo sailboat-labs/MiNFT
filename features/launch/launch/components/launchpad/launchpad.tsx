@@ -280,8 +280,10 @@ export default function ProjectLaunch({ session }: props) {
                           <span>Price {launchInformation?.mintPrice} ETH</span>
                         </p>
                       </div>
+
                       {launchInformation?.hasWhitelist && (
                         <WhitelistRegistration
+                          session={session}
                           launchInformation={launchInformation}
                         />
                       )}
@@ -290,11 +292,11 @@ export default function ProjectLaunch({ session }: props) {
                   {/* right side */}
                   <article className="mt-20 mb-20 ml-20 lg:mt-0">
                     <figure className="overflow-hidden rounded-2xl">
-                      {/* <img
-                      className="h-auto w-full"
-                      src="/images/launch-project.gif"
-                      alt=""
-                    /> */}
+                      <img
+                        className="h-auto w-full"
+                        src="/images/launch-project.gif"
+                        alt=""
+                      />
                     </figure>
                   </article>
                 </div>

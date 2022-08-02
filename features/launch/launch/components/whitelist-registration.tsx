@@ -30,10 +30,14 @@ import EthIcon from "~/svg/icons8-ethereum.svg";
 import TwitterIcon from "~/svg/icons8-twitter.svg";
 
 type props = {
+  session: "draft" | "published";
   launchInformation: IProjectLaunch;
 };
 
-export default function WhitelistRegistration({ launchInformation }: props) {
+export default function WhitelistRegistration({
+  launchInformation,
+  session,
+}: props) {
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -306,6 +310,34 @@ export default function WhitelistRegistration({ launchInformation }: props) {
 
   return (
     <>
+      {!project.startDate &&
+        launchInformation.hasWhitelist &&
+        session == "draft" && (
+          <div className="flex flex-col gap-2 rounded-lg border-2 bg-gray-50 py-5 px-3">
+            <div className="flex items-center gap-2 text-indigo-500">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              Whitelist Registration
+            </div>
+            <div className="text-gray-500">
+              Set the start time of your whitelisting in dashboard to show the
+              whitelist registration
+            </div>
+          </div>
+        )}
+
       {project.startDate && (
         <div
           id="join-whitelist"
