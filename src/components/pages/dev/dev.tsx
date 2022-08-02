@@ -1,3 +1,17 @@
+import {
+  cmPayload,
+  daPayload,
+  fdaPayload,
+  paymentSliptPayload,
+  pwlPayload,
+  wlCMPayload,
+  wlDAPayload,
+  wlFDAPayload,
+} from "@/contract-api/payload";
+import { enumContractType } from "@/enums/contract-type.enum";
+
+import DeployButton from "./DeployButton";
+
 export default function DevPage() {
   const contractMakerAddresses: { name: string; address: string }[] = [
     {
@@ -82,6 +96,65 @@ export default function DevPage() {
               ))}
             </tbody>
           </table>
+        </div>
+      </div>
+
+      <div>
+        <div className="mt-10 mb-5 text-xl ">Contract Deployment</div>
+
+        <div className="mt-5">
+          <DeployButton
+            contractType={enumContractType.CLASSIC_MINT}
+            payload={cmPayload}
+          />
+        </div>
+        <div className="mt-5">
+          <DeployButton
+            contractType={enumContractType.PURE_WHITELIST}
+            payload={pwlPayload}
+          />
+        </div>
+
+        <div className="mt-5">
+          <DeployButton
+            contractType={enumContractType.DUTCH_AUCTION}
+            payload={daPayload}
+          />
+        </div>
+
+        <div className="mt-5">
+          <DeployButton
+            contractType={enumContractType.FAIR_DUTCH_AUCTION}
+            payload={fdaPayload}
+          />
+        </div>
+
+        <div className="mt-5">
+          <DeployButton
+            contractType={enumContractType.CLASSIC_MINT_WITH_WL}
+            payload={wlCMPayload}
+          />
+        </div>
+
+        <div className="mt-5">
+          <DeployButton
+            contractType={enumContractType.DUTCH_AUCTION_WITH_WL}
+            payload={wlDAPayload}
+          />
+        </div>
+
+        <div className="mt-5">
+          <DeployButton
+            contractType={enumContractType.FAIR_DUTCH_AUCTION_WITH_WL}
+            payload={wlFDAPayload}
+          />
+        </div>
+
+        <div className="mt-5">
+          <DeployButton
+            contractType="PaymentSplit"
+            payload={paymentSliptPayload}
+          />
         </div>
       </div>
     </div>

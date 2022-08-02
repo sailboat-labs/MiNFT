@@ -3,20 +3,7 @@ import { useSelector } from "react-redux";
 import { getProjectState } from "redux/reducers/selectors/project";
 
 // import PageLoader from "@/components/shared/PageLoader";
-import {
-  cmPayload,
-  daPayload,
-  fdaPayload,
-  paymentSliptPayload,
-  pwlPayload,
-  wlCMPayload,
-  wlDAPayload,
-  wlFDAPayload,
-} from "@/contract-api/payload";
-import { enumContractType } from "@/enums/contract-type.enum";
 import { IProject } from "@/interfaces";
-
-import DeployButton from "./DeployButton";
 
 export default function DeployedContracts() {
   // const dispatch = useDispatch();
@@ -65,46 +52,6 @@ export default function DeployedContracts() {
           </div>
           {/* <div className="gradient-button mt-5">Manage Contract</div> */}
         </div>
-
-        <DeployButton
-          contractType={enumContractType.CLASSIC_MINT}
-          payload={cmPayload}
-        />
-
-        <DeployButton
-          contractType={enumContractType.PURE_WHITELIST}
-          payload={pwlPayload}
-        />
-
-        <DeployButton
-          contractType={enumContractType.DUTCH_AUCTION}
-          payload={daPayload}
-        />
-
-        <DeployButton
-          contractType={enumContractType.FAIR_DUTCH_AUCTION}
-          payload={fdaPayload}
-        />
-
-        <DeployButton
-          contractType={enumContractType.CLASSIC_MINT_WITH_WL}
-          payload={wlCMPayload}
-        />
-
-        <DeployButton
-          contractType={enumContractType.DUTCH_AUCTION_WITH_WL}
-          payload={wlDAPayload}
-        />
-
-        <DeployButton
-          contractType={enumContractType.FAIR_DUTCH_AUCTION_WITH_WL}
-          payload={wlFDAPayload}
-        />
-
-        <DeployButton
-          contractType="PaymentSplit"
-          payload={paymentSliptPayload}
-        />
       </div>
 
       {/* {isFetchingContracts ? (
