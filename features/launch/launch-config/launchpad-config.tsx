@@ -282,7 +282,7 @@ const LaunchpadConfig: NextPage = () => {
                     <div className="mt-6">
                       {activeTab === "roadmap" ? (
                         <>
-                          {roadmap.length < 1 && (
+                          {roadmap && roadmap.length < 1 && (
                             <div className="mb-10">No roadmap</div>
                           )}
 
