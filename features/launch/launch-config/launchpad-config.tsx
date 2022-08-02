@@ -322,7 +322,7 @@ const LaunchpadConfig: NextPage = () => {
                                   }}
                                   className="cursor-pointer rounded-lg bg-white px-5 py-2 text-indigo-600"
                                 >
-                                  Cancel
+                                  Close
                                 </Button>
                                 <Button
                                   onClick={() => {
