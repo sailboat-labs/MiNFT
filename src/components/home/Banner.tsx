@@ -22,12 +22,14 @@ export default function Banner() {
             <div
               className="relative mt-12 w-fit rounded-xl border border-black bg-transparent px-10 py-4 font-bold text-black transition-all hover:scale-105 hover:cursor-pointer"
               onClick={() => {
-                process.env.NEXT_PUBLIC_ENVIRONMENT == "development"
+                process.env.NEXT_PUBLIC_ENVIRONMENT == "development" ||
+                process.env.NEXT_PUBLIC_ENVIRONMENT == "staging"
                   ? router.push("/dashboard")
                   : window.open("https://r3c9oapreew.typeform.com/to/RDOUdJXk");
               }}
             >
-              {process.env.NEXT_PUBLIC_ENVIRONMENT == "development"
+              {process.env.NEXT_PUBLIC_ENVIRONMENT == "development" ||
+              process.env.NEXT_PUBLIC_ENVIRONMENT == "staging"
                 ? "Start Now"
                 : "Join Waitlist"}
             </div>

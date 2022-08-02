@@ -10,7 +10,7 @@ export default function Header() {
   const router = useRouter();
 
   return (
-    <div className="fixed z-40 flex h-12 w-full flex-row items-center border border-[#1F1A17] bg-white font-montserrat font-extrabold text-[#1F1A17]">
+    <div className="fixed z-40 flex h-12 w-full flex-row items-center border-b border-[#1F1A17] bg-white font-montserrat font-extrabold text-[#1F1A17]">
       <StarSVG className="mx-3 h-6 w-6 sm:ml-20 lg:ml-40" />
       <UnstyledLink href="/" className="w-fit text-xl ">
         Magic Mynt
