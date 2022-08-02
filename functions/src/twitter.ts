@@ -4,6 +4,7 @@ import * as functions from "firebase-functions";
 import { TwitterApi } from "twitter-api-v2";
 
 import admin from "./config/admin";
+import { v4 } from "uuid";
 
 const credentials = {
   clientId: process.env.TWITTER_CLIENT_ID as string,
@@ -77,12 +78,14 @@ export const follows = async (
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const requestTwitterUrl = functions.https.onCall(async (data) => {
+  const id = v4();
   try {
     // Don't forget to specify 'offline.access' in scope list, you want to refresh your token later
     const { url, codeVerifier, state } = client.generateOAuth2AuthLink(
       process.env.TWITTER_CALLBACK_URL as string,
       {
         scope: ["tweet.read", "users.read", "follows.read"],
+        state: `${data.projectSlug}:${id}`
       }
     );
 
@@ -97,16 +100,19 @@ const requestTwitterUrl = functions.https.onCall(async (data) => {
 
 const twitterCallBack = functions.https.onRequest(
   async (req: functions.Request, res: functions.Response) => {
-    try {
-      const { code, state } = req.query;
+    const { code, state } = req.query;
+    const project = (state as string).split(":")[0];
 
+    try {
       // Check if a verifier is associated with given state
       const codeVerifier = (
         await admin.firestore().doc(`Codes/${state}`).get()
       ).data()?.codeVerifier;
 
       if (!codeVerifier || !code) {
-        res.redirect(`${process.env.APP_URL}/indiansnft?success=false`);
+        res.redirect(
+          `${process.env.APP_URL}/launch/verify-twiiter?project=${project}&success=false`
+        );
       }
 
       // Get tokens
@@ -124,11 +130,13 @@ const twitterCallBack = functions.https.onRequest(
       await admin.firestore().doc(`Codes/${state}`).delete();
 
       res.redirect(
-        `${process.env.APP_URL}/indiansnft?success=true&twitterAccount=${user.data.username}&accessToken=${accessToken}`
+        `${process.env.APP_URL}/${project}/launch/verify-twitter?project=${project}&success=true&twitterAccount=${user.data.username}&accessToken=${accessToken}`
       );
     } catch (error) {
       functions.logger.log({ error });
-      res.redirect(`${process.env.APP_URL}/indiansnft?success=false`);
+      res.redirect(
+        `${process.env.APP_URL}/launch/verify-twiiter?project=${project}&success=false`
+      );
     }
   }
 );
