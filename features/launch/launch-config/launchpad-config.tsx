@@ -41,6 +41,7 @@ const LaunchpadConfig: NextPage = () => {
     const _doc = doc(firestore, `Projects/${project.slug}/Launchpad/draft`);
     const unsubscribe = onSnapshot(_doc, (snapshot) => {
       setLaunchInformation(snapshot.data() as IProjectLaunch);
+      setRoadmap((snapshot.data() as IProjectLaunch)?.roadmap);
       setisLoadingLaunchInformation(false);
       console.log({ data: snapshot.data() });
     });
@@ -50,7 +51,10 @@ const LaunchpadConfig: NextPage = () => {
     };
   }, []);
 
-  async function handleSaveLaunchPadDraft(field: string, value: string) {
+  async function handleSaveLaunchPadDraft(
+    field: string,
+    value: string | boolean | { title: string; description: string }[]
+  ) {
     setShowSavingDraftLoader(true);
     const saveDraft = await saveLaunchPadDraft(project, field, value);
 
@@ -372,6 +376,10 @@ const LaunchpadConfig: NextPage = () => {
     toast.dismiss();
     if (roadMapTitle.length < 1 || roadMapDescription.length < 1)
       return toast.error("Enter roadmap title and description");
+    handleSaveLaunchPadDraft("roadmap", [
+      ...roadmap,
+      { title: roadMapTitle, description: roadMapDescription },
+    ]);
     setRoadmap([
       ...roadmap,
       { title: roadMapTitle, description: roadMapDescription },

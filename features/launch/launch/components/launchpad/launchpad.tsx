@@ -323,77 +323,20 @@ export default function ProjectLaunch({ session }: props) {
                   <div className="mt-6">
                     {activeTab === "roadmap" ? (
                       <>
-                        <div>
-                          <strong>Spring (finished)</strong>
-                          <ul className="ml-6 mb-6 list-disc text-gray-600">
-                            <li>
-                              Drop of the 1st Tomorrowland NFT collection: A
-                              Letter from the Universe
-                            </li>
-                            <li>
-                              First secret shows for holders only at
-                              Tomorrowland Winter
-                            </li>
-                            <li>
-                              Start of the Tomorrowland holders community and
-                              exclusive giveaways
-                            </li>
-                          </ul>
-                        </div>
-                        <div>
-                          <strong>Summer</strong>
-                          <ul className="ml-6 mb-6 list-disc text-gray-600">
-                            <li>
-                              Launch of NFT Ticketing Experiment for
-                              Tomorrowland Belgium 2022
-                            </li>
-                            <li>
-                              Start of NFT partnerships and collaborations
-                            </li>
-                            <li>
-                              Drop of the 2nd Tomorrowland NFT collection: The
-                              Reflection of Love
-                            </li>
-                            <li>New secret events & giveaways</li>
-                            <li>
-                              Expanding the team to work on enhanced community
-                              engagement
-                            </li>
-                          </ul>
-                        </div>
-                        <div>
-                          <strong>Fall</strong>
-                          <ul className="ml-6 mb-6 list-disc text-gray-600">
-                            <li>
-                              Drop of the 3rd Tomorrowland NFT collection: Name
-                              TBD
-                            </li>
-                            <li>The Launch of the Medallion of Memoria</li>
-                            <li>
-                              New verification flows for buyers to join
-                              exclusive moments
-                            </li>
-                            <li>
-                              Tomorrowland 2023 ticket presale for Medallion
-                              holders
-                            </li>
-                            <li>Launching brand partnerships in web 3</li>
-                          </ul>
-                        </div>
-                        <div>
-                          <strong>2023</strong>
-                          <ul className="ml-6 mb-6 list-disc text-gray-600">
-                            <li>Tomorrowland IP entering the metaverse</li>
-                            <li>Potential of Digital shows</li>
-                            <li>Future of Music NFTs</li>
-                            <li>Potential of tokenomics</li>
-                            <li>Potential of NFT ticketing</li>
-                            <li>
-                              Helping other projects by leveraging the
-                              Tomorrowland Brand.
-                            </li>
-                          </ul>
-                        </div>
+                        {!launchInformation.roadmap ||
+                          (launchInformation.roadmap?.length < 1 && (
+                            <div className="mb-10">No roadmap</div>
+                          ))}
+
+                        {launchInformation.roadmap &&
+                          launchInformation.roadmap.map((item, index) => (
+                            <div key={index}>
+                              <strong>{item.title}</strong>
+                              <ul className="ml-6 mb-6 list-disc text-gray-600">
+                                <li>{item.description}</li>
+                              </ul>
+                            </div>
+                          ))}
                       </>
                     ) : (
                       <p>{launchInformation.team}</p>

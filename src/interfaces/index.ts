@@ -95,10 +95,10 @@ export interface IProjectLaunch {
   discordLink?: string;
   twitterLink?: string;
   openseaLink?: string;
+  roadmap: { title: string; description: string }[];
   website?: string;
   requiresTwitter?: boolean;
   requiredEthAmount?: number;
   publishTimeStamp?: string;
   contractAddress?: string;
-  roadMap: { title: string; description: string }[];
 }
