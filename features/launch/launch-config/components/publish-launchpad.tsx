@@ -82,7 +82,7 @@ export default function PublishLaunchPad() {
         </Button>
 
         <div className="mt-10 mb-5 flex items-center gap-5">
-          <div className="text-xl">Publish</div>
+          <div className="text-xl text-indigo-500">Publish</div>
           <div className=" flex-1 rounded-lg border "></div>
         </div>
 

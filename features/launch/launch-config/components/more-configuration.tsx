@@ -25,7 +25,7 @@ export default function MoreConfiguration({ launchInformation }: props) {
     <div className="flex gap-10 px-10 py-10">
       <div className="w-1/2 pr-10">
         <div className="mt-10 mb-5 flex items-center gap-5">
-          <div className="text-xl">Whitelist Configuration</div>
+          <div className="text-xl text-indigo-500">Whitelist Configuration</div>
           <div className=" flex-1 rounded-lg border "></div>
         </div>
         <div className="flex items-center">
@@ -80,7 +80,9 @@ export default function MoreConfiguration({ launchInformation }: props) {
           }}
         />
         <div className="mt-10 mb-5 flex items-center gap-5">
-          <div className="text-xl">Social Media Configuration</div>
+          <div className="text-xl text-indigo-500">
+            Social Media Configuration
+          </div>
           <div className=" flex-1 rounded-lg border "></div>
         </div>
         <div className="">Discord</div>
@@ -122,7 +124,7 @@ export default function MoreConfiguration({ launchInformation }: props) {
       </div>
       <div className="w-1/2 border-l pl-10">
         <div className="mt-10 mb-5 flex items-center gap-5">
-          <div className="text-xl">Contract Configuration</div>
+          <div className="text-xl text-indigo-500">Contract Configuration</div>
           <div className=" flex-1 rounded-lg border "></div>
         </div>
         <div className="mt-5">Contract Address</div>
