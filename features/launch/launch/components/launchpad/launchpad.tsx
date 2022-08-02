@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import LaunchPadSkeleton from "features/launch/components/launch-skeleton";
 import { doc, onSnapshot } from "firebase/firestore";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
@@ -78,7 +79,9 @@ export default function ProjectLaunch({ session }: props) {
   return (
     <>
       <LaunchHeader />
-      {launchInformation ? (
+      {isLoadingProject || !launchInformation ? (
+        <LaunchPadSkeleton />
+      ) : (
         <div className="h-screen overflow-y-auto">
           <div className="">
             <section>
@@ -348,8 +351,6 @@ export default function ProjectLaunch({ session }: props) {
             <FAQ />
           </div>
         </div>
-      ) : (
-        <div></div>
       )}
     </>
   );
