@@ -314,7 +314,7 @@ export default function WhitelistRegistration({ launchInformation }: props) {
           <AuthDialog />
           <div className="flex w-full flex-col items-center text-white lg:flex-row">
             {whitelisted && (
-              <div className="rounded-lg bg-white p-4 py-4 text-black shadow-xl">
+              <div className="rounded-lg bg-white p-4 py-4 text-black">
                 <div>Must be magic!</div>
                 <p>
                   Your wallet <span className="text-indigo-500">{address}</span>{" "}
