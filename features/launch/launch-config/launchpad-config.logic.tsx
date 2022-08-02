@@ -27,6 +27,28 @@ export default async function saveLaunchPadDraft(
   }
 }
 
+export async function saveContractMaker(
+  project: IProject,
+  field: string,
+  value: string | boolean | { title: string; description: string }[]
+) {
+  try {
+    const data = {
+      [field]: value,
+    };
+
+    const _doc = doc(
+      firestore,
+      `Projects/${project.slug}/Contract-Maker/draft`
+    );
+    await setDoc(_doc, data, { merge: true });
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
 export async function publishLaunchpad(slug: string, address: string) {
   toast.dismiss();
   const isOwner = await isProjectOwner(slug, address);
