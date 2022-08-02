@@ -111,7 +111,7 @@ const twitterCallBack = functions.https.onRequest(
 
       if (!codeVerifier || !code) {
         res.redirect(
-          `${process.env.APP_URL}/launch/verify-twiiter?project=${project}&success=false`
+          `${process.env.APP_URL}/${project}/launch/verify-twiiter?project=${project}&success=false`
         );
       }
 
@@ -135,7 +135,7 @@ const twitterCallBack = functions.https.onRequest(
     } catch (error) {
       functions.logger.log({ error });
       res.redirect(
-        `${process.env.APP_URL}/launch/verify-twiiter?project=${project}&success=false`
+        `${process.env.APP_URL}/${project}/launch/verify-twiiter?project=${project}&success=false`
       );
     }
   }
