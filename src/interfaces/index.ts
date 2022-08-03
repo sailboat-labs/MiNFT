@@ -101,4 +101,6 @@ export interface IProjectLaunch {
   requiredEthAmount?: number;
   publishTimeStamp?: string;
   contractAddress?: string;
+  mainImage?: string;
+  secondaryImage?: string[];
 }

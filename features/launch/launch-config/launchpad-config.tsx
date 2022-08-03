@@ -3,7 +3,7 @@ import { Tab } from "@headlessui/react";
 import { classNames } from "features/traitmixer/components";
 import { doc, onSnapshot } from "firebase/firestore";
 import { NextPage } from "next";
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { getProjectState } from "redux/reducers/selectors/project";
@@ -16,11 +16,17 @@ import { firestore } from "@/pages/dashboard";
 
 import MoreConfiguration from "./components/more-configuration";
 import PublishLaunchPad from "./components/publish-launchpad";
-import saveLaunchPadDraft from "./launchpad-config.logic";
+import saveLaunchPadDraft, {
+  handleLaunchImageUpload,
+} from "./launchpad-config.logic";
 
 const LaunchpadConfig: NextPage = () => {
   const [activeTab, setActiveTab] = useState<string>("roadmap");
   const project = useSelector(getProjectState) as IProject;
+  const [mainImage, setMainImage] = useState<File>();
+  const [secondaryImage, setSecondaryImage] = useState<File[]>([]);
+  const fileInput = useRef<HTMLInputElement>(null);
+  const fileInputSecondaryImage = useRef<HTMLInputElement>(null);
 
   const [launchInformation, setLaunchInformation] = useState<IProjectLaunch>();
   const [isLoadingLaunchInformation, setisLoadingLaunchInformation] =
@@ -53,7 +59,11 @@ const LaunchpadConfig: NextPage = () => {
 
   async function handleSaveLaunchPadDraft(
     field: string,
-    value: string | boolean | { title: string; description: string }[]
+    value:
+      | string
+      | boolean
+      | { title: string; description: string }[]
+      | string[]
   ) {
     setShowSavingDraftLoader(true);
     const saveDraft = await saveLaunchPadDraft(project, field, value);
@@ -66,6 +76,58 @@ const LaunchpadConfig: NextPage = () => {
     setTimeout(() => {
       setShowSavingDraftLoader(false);
     }, 500);
+  }
+
+  async function handleFileChanged(
+    evt: ChangeEvent<HTMLInputElement>,
+    imageType: "main" | "secondary"
+  ) {
+    setShowSavingDraftLoader(true);
+    console.log("saving");
+
+    const fileListArray: File[] = [];
+    const files: FileList | null = evt.target.files;
+    // console.log(files?.length);
+    if (files !== null) {
+      for (let index = 0; index < files.length; index++) {
+        fileListArray.push(files[index]);
+      }
+    }
+
+    if (fileListArray.length < 1) return;
+
+    if (imageType == "main") {
+      setMainImage(fileListArray[0]);
+
+      const url = await handleLaunchImageUpload(
+        project,
+        fileListArray[0],
+        "draft",
+        "mainImage"
+      );
+      if (!url) return toast.error("Could not upload image");
+      await handleSaveLaunchPadDraft("mainImage", url as string);
+    } else {
+      setSecondaryImage(fileListArray);
+
+      const downloadUrls: string[] = [];
+
+      for (let index = 0; index < fileListArray.length; index++) {
+        const element = fileListArray[index];
+        const url = await handleLaunchImageUpload(
+          project,
+          element,
+          "draft",
+          `secondaryImage${index}`
+        );
+        if (!url) return toast.error("Could not upload image");
+        downloadUrls.push(url as string);
+      }
+      await handleSaveLaunchPadDraft(`secondaryImage`, downloadUrls);
+      setShowSavingDraftLoader(false);
+    }
+
+    console.log("saved");
   }
 
   return (
@@ -230,10 +292,23 @@ const LaunchpadConfig: NextPage = () => {
                   </article>
                   {/* right side */}
                   <article className="mt-20 mb-20 ml-20 lg:mt-0">
-                    <figure className="overflow-hidden rounded-2xl">
+                    <figure className="h-[30rem] w-[26rem] overflow-hidden rounded-2xl bg-gray-50">
+                      <input
+                        className="absolute h-20 rounded-lg "
+                        type="file"
+                        onChange={(event) => {
+                          handleFileChanged(event, "main");
+                        }}
+                        accept="image/*"
+                        ref={fileInput}
+                      />
                       <img
-                        className="h-auto w-full"
-                        src="/images/launch-project.gif"
+                        className="h-auto w-full object-cover"
+                        src={
+                          mainImage
+                            ? URL.createObjectURL(mainImage)
+                            : launchInformation?.mainImage
+                        }
                         alt=""
                       />
                     </figure>
@@ -251,6 +326,49 @@ const LaunchpadConfig: NextPage = () => {
                         handleSaveLaunchPadDraft("projectName", e.target.value);
                       }}
                     />
+
+                    <figure className="mt-10 w-fit overflow-hidden rounded-2xl ">
+                      <input
+                        className=" rounded-lg "
+                        type="file"
+                        onChange={(event: any) => {
+                          handleFileChanged(event, "secondary");
+                        }}
+                        multiple
+                        accept="image/*"
+                        ref={fileInputSecondaryImage}
+                      />
+                      <div className="mt-8 ">
+                        Select multiples of 3, up to 9, for best look
+                      </div>
+
+                      {secondaryImage.length > 0 ? (
+                        <figure className="grid h-fit  w-fit grid-cols-3 gap-3 overflow-hidden rounded-2xl">
+                          {secondaryImage.map((item, index) => (
+                            <img
+                              key={index}
+                              className="h-52 w-52 object-cover"
+                              src={URL.createObjectURL(item)}
+                              alt=""
+                            />
+                          ))}
+                        </figure>
+                      ) : (
+                        <figure className="mt-8 grid h-fit  w-fit grid-cols-3 gap-3 overflow-hidden rounded-2xl">
+                          {launchInformation?.secondaryImage &&
+                            launchInformation?.secondaryImage.map(
+                              (item, index) => (
+                                <img
+                                  key={index}
+                                  className="h-52 w-52 object-cover"
+                                  src={item}
+                                  alt=""
+                                />
+                              )
+                            )}
+                        </figure>
+                      )}
+                    </figure>
                     <textarea
                       defaultValue={launchInformation?.description}
                       onChange={(e) => {

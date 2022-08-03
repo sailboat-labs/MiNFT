@@ -291,10 +291,10 @@ export default function ProjectLaunch({ session }: props) {
                   </article>
                   {/* right side */}
                   <article className="mt-20 mb-20 ml-20 lg:mt-0">
-                    <figure className="overflow-hidden rounded-2xl">
+                    <figure className="h-fit w-auto overflow-hidden rounded-2xl">
                       <img
                         className="h-auto w-full"
-                        src="/images/launch-project.gif"
+                        src={launchInformation?.mainImage}
                         alt=""
                       />
                     </figure>
@@ -308,7 +308,18 @@ export default function ProjectLaunch({ session }: props) {
                     <h1 className="text-6xl font-extrabold">
                       {launchInformation?.projectName}
                     </h1>
-                    <p className="my-5 text-gray-500">
+                    <figure className="mt-8 grid h-fit w-fit grid-cols-3 gap-3 overflow-hidden rounded-2xl">
+                      {launchInformation?.secondaryImage &&
+                        launchInformation?.secondaryImage.map((item, index) => (
+                          <img
+                            key={index}
+                            className="h-52 w-52 object-cover"
+                            src={item}
+                            alt=""
+                          />
+                        ))}
+                    </figure>
+                    <p className="my-5 mt-8 text-gray-500">
                       {launchInformation?.description}
                     </p>
                   </article>
