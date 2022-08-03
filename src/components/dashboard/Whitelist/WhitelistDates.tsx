@@ -10,10 +10,8 @@ import Button from "@/components/buttons/Button";
 
 import { updateProject } from "@/firestore/project";
 
-import { Project } from "@/types";
-
 interface IProjectSlug {
-  project?: Project;
+  project?: any;
 }
 const WhitelistDates = ({ project }: IProjectSlug) => {
   const router = useRouter();

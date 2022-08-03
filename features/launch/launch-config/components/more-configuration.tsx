@@ -3,6 +3,8 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { getProjectState } from "redux/reducers/selectors/project";
 
+import WhitelistDates from "@/components/dashboard/Whitelist/WhitelistDates";
+
 import { IProject, IProjectLaunch } from "@/interfaces";
 
 import saveLaunchPadDraft from "../launchpad-config.logic";
@@ -128,6 +130,15 @@ export default function MoreConfiguration({ launchInformation }: props) {
             />
           </>
         )}
+        <div
+          className={`mt-10 transition-all ${
+            launchInformation?.hasWhitelist
+              ? "pointer-events-auto opacity-100"
+              : "pointer-events-none opacity-50"
+          }`}
+        >
+          {project && <WhitelistDates project={project} />}
+        </div>
         <div className="mt-10 mb-5 flex items-center gap-5">
           <div className="text-xl text-indigo-500">
             Social Media Configuration
