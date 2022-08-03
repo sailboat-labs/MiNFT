@@ -200,7 +200,7 @@ export default function WhitelistRegistration({
 
     setTwitterLoading(true);
     const requestTwitterUrl = httpsCallable(functions, "requestTwitterUrl");
-    requestTwitterUrl({projectSlug: project?.slug})
+    requestTwitterUrl({ projectSlug: project?.slug })
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .then((result: any) => {
         window.open(result.data.authUrl, "_self");
@@ -265,6 +265,7 @@ export default function WhitelistRegistration({
               twitterUsername: twitterHandle,
               createdAt: new Date().toISOString(),
               updatedAt: new Date().toISOString(),
+              channel: "premint",
             });
             setWhitelisted(true);
           } else if (data.success && !data.isFollowing) {
@@ -284,6 +285,7 @@ export default function WhitelistRegistration({
         twitterUsername: "N/A",
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
+        channel: "premint",
       });
       setWhitelisted(true);
     }

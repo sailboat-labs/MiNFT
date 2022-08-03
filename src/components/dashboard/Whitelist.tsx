@@ -25,6 +25,9 @@ export default function Whitelist() {
   const slug = router.query.project as string;
 
   const [loading, setLoading] = useState(false);
+  const [selectedChannel, setSelectedChannel] = useState<
+    "main" | "manual" | "premint"
+  >("main");
 
   const [project, setProject] = useState<Project>();
 
@@ -68,6 +71,7 @@ export default function Whitelist() {
         twitterUsername: values.twitter,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
+        channel: "manual",
       });
 
       toast.success("User added");
@@ -202,11 +206,25 @@ export default function Whitelist() {
 
       <div className="mt-28 border-t">
         <div className="pl-10 pt-5">
-          <span className="font-dmsans text-lg font-semibold text-gray-600 opacity-100">
-            Main list
-          </span>
+          <div className="flex items-center gap-5">
+            {["main", "premint", "manual"].map((item, index) => (
+              <span
+                key={index}
+                onClick={() => {
+                  setSelectedChannel(item as any);
+                }}
+                className={`cursor-pointer rounded-lg border-2 px-5 py-2 font-dmsans text-lg font-semibold capitalize  opacity-100 transition-all ${
+                  selectedChannel == item
+                    ? "bg-indigo-500 text-white"
+                    : "text-gray-600"
+                }`}
+              >
+                {item}
+              </span>
+            ))}
+          </div>
           <div className="mt-3 flex w-fit flex-col pr-10">
-            <WhitelistTable />
+            <WhitelistTable channel={selectedChannel} />
           </div>
         </div>
       </div>
