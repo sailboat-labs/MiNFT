@@ -41,9 +41,12 @@ export async function saveContractMaker(
       firestore,
       `Projects/${project.slug}/Contract-Maker/draft`
     );
+
     await setDoc(_doc, data, { merge: true });
     return true;
   } catch (error) {
+    console.log("Error ocurred in save contract maker");
+
     console.log(error);
     return false;
   }

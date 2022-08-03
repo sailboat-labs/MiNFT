@@ -38,17 +38,8 @@ const ContractMakerView = () => {
           )}
           {activeStep < 3 && (
             <button
-              // onClick={() => {
-              //   nextStep();
-              // }}
-              onClick={() => {
-                if (activeStep == 2) {
-                  document.getElementById("form-submit")?.click();
-                  nextStep()
-                } else nextStep();
-              }}
-              type='submit'
-              className="rounded-md bg-indigo-800 px-10 py-2 text-white transition-all duration-150 hover:bg-indigo-900 dark:text-gray-700"
+              onClick={() => nextStep()}
+              className='rounded-md bg-indigo-800 px-10 py-2 text-white transition-all duration-150 hover:bg-indigo-900 dark:text-gray-700 disabled:bg-indigo-400'
             >
               Next
             </button>
