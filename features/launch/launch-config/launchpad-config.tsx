@@ -377,14 +377,21 @@ const LaunchpadConfig: NextPage = () => {
     toast.dismiss();
     if (roadMapTitle.length < 1 || roadMapDescription.length < 1)
       return toast.error("Enter roadmap title and description");
-    handleSaveLaunchPadDraft("roadmap", [
-      ...roadmap,
-      { title: roadMapTitle, description: roadMapDescription },
-    ]);
-    setRoadmap([
-      ...roadmap,
-      { title: roadMapTitle, description: roadMapDescription },
-    ]);
+    if (roadmap) {
+      handleSaveLaunchPadDraft("roadmap", [
+        ...roadmap,
+        { title: roadMapTitle, description: roadMapDescription },
+      ]);
+      setRoadmap([
+        ...roadmap,
+        { title: roadMapTitle, description: roadMapDescription },
+      ]);
+    } else {
+      handleSaveLaunchPadDraft("roadmap", [
+        { title: roadMapTitle, description: roadMapDescription },
+      ]);
+      setRoadmap([{ title: roadMapTitle, description: roadMapDescription }]);
+    }
 
     setRoadMapDescription("");
     setRoadMapTitle("");
