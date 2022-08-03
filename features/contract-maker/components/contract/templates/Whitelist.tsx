@@ -1,18 +1,27 @@
 import { Formik, useFormik } from "formik";
-import React from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { getContractByField } from "redux/reducers/selectors/contract";
 import * as Yup from "yup";
+
+/* eslint-disable @typescript-eslint/ban-types */
+import { doc, onSnapshot } from "firebase/firestore";
+import React, { FC, useState } from "react";
+import { useEffect } from "react";
+import toast from "react-hot-toast";
+import { getProjectState } from "redux/reducers/selectors/project";
 
 import BaseDatetimeInput from "@/components/controls/BaseDatetimeInput";
 import BaseInput from "@/components/controls/BaseInput";
 import BaseTimezoneSelector from "@/components/controls/BaseTimezoneSelector";
 import ContractFormRowSection from "@/components/layout/ContractRowSection";
 
-const WhitelistForm = () => {
-  const contractType = useSelector(getContractByField("type"));
-  const dispatch = useDispatch();
+import { IProject } from "@/interfaces";
+import { firestore } from "@/pages/dashboard";
+
+import { saveContractMaker } from "./../../../../launch/launch-config/launchpad-config.logic";
+
+const WhitelistForm = ({ isPreview = false}) => {
 
   const whitelistForm = useFormik({
     initialValues: {
@@ -58,6 +67,19 @@ const WhitelistForm = () => {
       console.log(values);
     },
   });
+
+  const contractType = useSelector(getContractByField("type"));
+
+  const [whitelistValues, setWhiitelistValues] = useState<any>(); 
+
+  const project = useSelector(getProjectState) as IProject; 
+
+  useEffect(() => {
+    const _doc = doc(firestore, `Projects/${project.slug}/Contract-Maker/draft/whitelist/draft`)
+  })
+
+
+  
 
   return (
     <Formik

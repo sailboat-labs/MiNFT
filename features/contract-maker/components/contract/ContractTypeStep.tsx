@@ -25,7 +25,7 @@ const ContractTypeStep = () => {
     field: string,
     value: string | boolean | { title: string; description: string }[]
   ) {
-    const saveDraft = await saveContractMaker(project, field, value);
+    const saveDraft = await saveContractMaker(contractToFirestore, project, field, value);
 
     if (!saveDraft) {
       toast.error(
@@ -35,22 +35,27 @@ const ContractTypeStep = () => {
     }
   }
 
+  let contractToFirestore = ''; 
+
   useEffect(() => {
+
+    const a = contractType.split(" ")
+    contractToFirestore = a[0].toLowerCase().concat(a[1]); 
+    
     const _doc = doc(
       firestore,
-      `Projects/${project.slug}/Contract-Maker/draft/classicMint/details`
+      `Projects/${project.slug}/Contract-Maker/draft/${contractToFirestore}/draft`
     );
     const unsubscribe = onSnapshot(_doc, (snapshot) => {
       // eslint-disable-next-line @typescript-eslint/ban-types
       setContractType(snapshot.data()?.contractType as Object);
       setSelected(snapshot.data()?.contractType);
-      console.log({ data: snapshot.data() });
     });
 
     return () => {
       unsubscribe();
     };
-  }, []);
+  }, [project.slug]);
 
   useEffect(() => {
     handleSaveContractMaker("contractType", contractType);

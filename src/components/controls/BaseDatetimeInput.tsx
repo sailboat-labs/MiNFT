@@ -8,6 +8,7 @@ interface AppProps {
   postfixClass?: string;
   postfix?: React.ReactNode;
   error?: React.ReactNode | null;
+  value: string;
   onChange: (evt: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -20,6 +21,7 @@ const BaseDatetimeInput = ({
   wrapperClass,
   postfixClass,
   type = "text",
+  value,
   ...props
 }: AppProps) => {
   const [isFocused, setIsFocused] = useState<boolean>(false);
@@ -39,7 +41,7 @@ const BaseDatetimeInput = ({
   const dateTomorrow = new Date(Date.now() + 86400 * 1000).toISOString();
   const tomorrow = dateTomorrow.substring(0, 16);
 
-  const [startDate, setStartDate] = useState(null);
+  const [startDate, setStartDate] = useState<string>();
   const [endDate, setEndDate] = useState(tomorrow);
   
   return (
@@ -57,7 +59,7 @@ const BaseDatetimeInput = ({
           placeholder={placeholder}
           {...props}
           type={type}
-          value={startDate}
+          value={value}
         />
         {postfix && (
           <div className={`box-content p-2 ${postfixClass}`}>{postfix}</div>

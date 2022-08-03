@@ -20,38 +20,39 @@ import { saveContractMaker } from "./../../../launch/launch-config/launchpad-con
 
 interface AppProps {
   form: any;
+  isPreview?: boolean;
 }
 
-const ClassicMintFormFields: FC<AppProps> = ({ form }) => {
-  const [values, setValues] = useState({});
+const ClassicMintFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
+  const [values, setValues] = useState<any>();
 
   const project = useSelector(getProjectState) as IProject;
 
+  if (isPreview) {
+    console.log('This form is in preview. You cannot edit this form on this page')
+  }
+  
   useEffect(() => {
     const _doc = doc(
       firestore,
-      `Projects/${project.slug}/Contract-Maker/draft`
+      `Projects/${project.slug}/Contract-Maker/draft/classicMint/draft`
     );
     const unsubscribe = onSnapshot(_doc, (snapshot) => {
-      setValues({...snapshot.data()});
-      console.log("Retrieved values are: ", values);
-      console.log("Snapshot data", snapshot.data());
-
+      setValues(snapshot.data());
+      // console.log("Retrieved values are: ", snapshot.data()); // values not updated yet
+      // console.log("Snapshot data", snapshot.data());
     });
 
     return () => {
       unsubscribe();
     };
-  }, []);
-
-  
+  }, [project.slug]);
 
   async function handleSaveContractMaker(
     field: string,
     value: string | boolean | { title: string; description: string }[]
   ) {
-    const saveDraft = await saveContractMaker(project, field, value);
-    console.log(saveDraft);
+    const saveDraft = await saveContractMaker('classicMint', project, field, value);
 
     if (!saveDraft) {
       toast.error(
@@ -61,7 +62,7 @@ const ClassicMintFormFields: FC<AppProps> = ({ form }) => {
     }
   }
 
-  const updateContract = (key, value) => {
+  const updateContract = (key: string, value: string | boolean | { title: string; description: string}[]) => {
     handleSaveContractMaker(key, value);
   };
 
@@ -86,6 +87,7 @@ const ClassicMintFormFields: FC<AppProps> = ({ form }) => {
               >
                 <BaseInput
                   required
+                  disabled={isPreview}
                   {...form.getFieldProps("quantityOfCollection")}
                   type="number"
                   wrapperClass="w-40"
@@ -95,14 +97,13 @@ const ClassicMintFormFields: FC<AppProps> = ({ form }) => {
                       <div>{form.errors.quantityOfCollection}</div>
                     ) : null
                   }
-                  // onChange={(e) => {
-                  //   updateContract("quantityOfCollection", e.target.value);
-                  // }}
+                  value={values?.quantityOfCollection}
+                  onChange={(e) => {
+                    updateContract("quantityOfCollection", e.target.value);
+                  }}
                   onBlur={(e) => {
                     updateContract("quantityOfCollection", e.target.value);
                   }}
-                  // value={values?.quantityOfCollection}
-                  // defaultValue={values?.quantityOfCollection}
                 />
               </ContractFormRowSection>
               <ContractFormRowSection
@@ -112,7 +113,7 @@ const ClassicMintFormFields: FC<AppProps> = ({ form }) => {
               >
                 <BaseInput
                   required
-                  defaultValue={values?.mintPrice}
+                  disabled={isPreview}
                   {...form.getFieldProps("mintPrice")}
                   wrapperClass="w-40"
                   type="number"
@@ -127,6 +128,10 @@ const ClassicMintFormFields: FC<AppProps> = ({ form }) => {
                   postfix={
                     <span className="font-semibold text-indigo-800">ETH</span>
                   }
+                  value={values?.mintPrice}
+                  onChange={(e) => {
+                    updateContract("mintPrice", e.target.value);
+                  }}
                   onBlur={(e) => {
                     updateContract("mintPrice", e.target.value);
                   }}
@@ -138,6 +143,8 @@ const ClassicMintFormFields: FC<AppProps> = ({ form }) => {
                 className="mb-5 flex items-center"
               >
                 <BaseInput
+                  required
+                  disabled={isPreview}
                   {...form.getFieldProps("reservedTokens")}
                   type="number"
                   error={
@@ -149,6 +156,13 @@ const ClassicMintFormFields: FC<AppProps> = ({ form }) => {
                     ) : null
                   }
                   wrapperClass="w-40"
+                  value={values?.reservedTokens}
+                  onChange={(e) => {
+                    updateContract("reservedTokens", e.target.value);
+                  }}
+                  onBlur={(e) => {
+                    updateContract("reservedTokens", e.target.value);
+                  }}
                 />
               </ContractFormRowSection>
               <ContractFormRowSection
@@ -157,6 +171,7 @@ const ClassicMintFormFields: FC<AppProps> = ({ form }) => {
                 className="mb-5 flex items-center"
               >
                 <BaseInput
+                  disabled={isPreview}
                   {...form.getFieldProps("maxMintPerWallet")}
                   type="number"
                   wrapperClass="w-40"
@@ -168,6 +183,13 @@ const ClassicMintFormFields: FC<AppProps> = ({ form }) => {
                       </p>
                     ) : null
                   }
+                  value={values?.maxMintPerWallet}
+                  onChange={(e) => {
+                    updateContract("maxMintPerWallet", e.target.value);
+                  }}
+                  onBlur={(e) => {
+                    updateContract("maxMintPerWallet", e.target.value);
+                  }}
                 />
               </ContractFormRowSection>
               <ContractFormRowSection
@@ -176,6 +198,7 @@ const ClassicMintFormFields: FC<AppProps> = ({ form }) => {
                 className="mb-5 flex items-center"
               >
                 <BaseInput
+                  disabled={isPreview}
                   {...form.getFieldProps("maxMintPerTransaction")}
                   type="number"
                   wrapperClass="w-40"
@@ -187,6 +210,13 @@ const ClassicMintFormFields: FC<AppProps> = ({ form }) => {
                       </p>
                     ) : null
                   }
+                  value={values?.maxMintPerTransaction}
+                  onChange={(e) => {
+                    updateContract("maxMintPerTransaction", e.target.value);
+                  }}
+                  onBlur={(e) => {
+                    updateContract("maxMintPerTransaction", e.target.value);
+                  }}
                 />
               </ContractFormRowSection>
             </section>
@@ -199,6 +229,7 @@ const ClassicMintFormFields: FC<AppProps> = ({ form }) => {
                     <BaseDatetimeInput
                       {...form.getFieldProps("startDate")}
                       required
+                      disabled={isPreview}
                       type="datetime-local"
                       wrapperClass="border-gray-600"
                       error={
@@ -208,6 +239,13 @@ const ClassicMintFormFields: FC<AppProps> = ({ form }) => {
                           </p>
                         ) : null
                       }
+                      value={values?.startDate}
+                      onChange={(e) => {
+                        updateContract("startDate", e.target.value);
+                      }}
+                      onBlur={(e) => {
+                        updateContract("startDate", e.target.value);
+                      }}
                     />
                   </div>
                   <div className="flex flex-col">
@@ -215,6 +253,7 @@ const ClassicMintFormFields: FC<AppProps> = ({ form }) => {
                     <BaseDatetimeInput
                       {...form.getFieldProps("endDate")}
                       required
+                      disabled={isPreview}
                       type="datetime-local"
                       wrapperClass="border-gray-600"
                       error={
@@ -224,6 +263,13 @@ const ClassicMintFormFields: FC<AppProps> = ({ form }) => {
                           </p>
                         ) : null
                       }
+                      value={values?.endDate}
+                      onChange={(e) => {
+                        updateContract("endDate", e.target.value);
+                      }}
+                      onBlur={(e) => {
+                        updateContract("endDate", e.target.value);
+                      }}
                     />
                   </div>
                 </div>
@@ -231,6 +277,7 @@ const ClassicMintFormFields: FC<AppProps> = ({ form }) => {
                   <span className="my-3 font-bold">Timezone</span>
                   <BaseTimezoneSelector
                     {...form.getFieldProps("timezone")}
+                    disabled={isPreview}
                     error={
                       form.touched.timezone && form.errors.timezone ? (
                         <p className="text-base text-red-500">
@@ -238,27 +285,44 @@ const ClassicMintFormFields: FC<AppProps> = ({ form }) => {
                         </p>
                       ) : null
                     }
+                    defaultValue={values?.timezone}
+                    value={values?.timezone}
+                    onChange={(e) => {
+                      updateContract("timezone", e);
+                    }}
                   />
                 </div>
               </div>
               <div className="mt-10 w-1/2 max-w-[250px] flex-1 rounded-md bg-white p-5 ring-1 ring-gray-200">
                 <strong>Minutes</strong>
-                <BaseSelect
-                  {...form.getFieldProps("minutes")}
-                  options={Array(60)
-                    .fill(null)
-                    .map((_, index) => ({ name: index + 1 }))}
-                  buttonClass="!bg-white ring-1 mt-1 ring-gray-200 !text-gray-800"
-                  selectorIconColor="black"
-                  error={
-                    form.touched.minutes && form.errors.minutes ? (
-                      <p className="text-base text-red-500">
-                        {form.errors.minutes}
-                      </p>
-                    ) : null
-                  }
-                  onChange={(e) => console.log(e)}
-                />
+                {isPreview ? (
+                  <p className="mt-3 py-1 px-2 rounded-md bg-white !text-gray-800 ring-1 ring-gray-200 ">
+                    {values?.minutes}
+                  </p>
+                ) : (
+                  <BaseSelect
+                    {...form.getFieldProps("minutes")}
+                    options={Array(60)
+                      .fill(null)
+                      .map((_, index) => ({ name: index + 1 }))}
+                    buttonClass="!bg-white ring-1 mt-1 ring-gray-200 !text-gray-800"
+                    selectorIconColor="black"
+                    error={
+                      form.touched.minutes && form.errors.minutes ? (
+                        <p className="text-base text-red-500">
+                          {form.errors.minutes}
+                        </p>
+                      ) : null
+                    }
+                    value={values?.minutes}
+                    onChange={(e) => {
+                      updateContract("minutes", e.name);
+                    }}
+                    onBlur={(e) => {
+                      updateContract("minutes", e.name);
+                    }}
+                  />
+                )}
               </div>
             </section>
             <input

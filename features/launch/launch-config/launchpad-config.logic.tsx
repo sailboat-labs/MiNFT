@@ -28,6 +28,7 @@ export default async function saveLaunchPadDraft(
 }
 
 export async function saveContractMaker(
+  contractType: string,
   project: IProject,
   field: string,
   value: string | boolean | { title: string; description: string }[]
@@ -39,7 +40,7 @@ export async function saveContractMaker(
 
     const _doc = doc(
       firestore,
-      `Projects/${project.slug}/Contract-Maker/draft`
+      `Projects/${project.slug}/Contract-Maker/draft/${contractType}/draft`
     );
 
     await setDoc(_doc, data, { merge: true });

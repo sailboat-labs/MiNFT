@@ -10,6 +10,8 @@ interface AppProps {
   theme?: "light" | "dark";
   selectorIconColor?: string;
   defaultValue?: SelectOption;
+  value?: any;
+  disabled?: boolean;
   onChange?: (value: SelectOption) => void;
 }
 
@@ -17,20 +19,28 @@ const BaseSelect = ({
   options,
   onChange,
   buttonClass,
-  defaultValue,
   theme = "light",
   showCheck = true,
+  value,
+  defaultValue,
+  disabled,
   selectorIconColor = "white",
 }: AppProps) => {
   const [selected, setSelected] = useState(
-    defaultValue || options[0] || { name: "Default" }
+    { name: value } || defaultValue || options[0] || {name: 'Default'}
   );
+  
+  useEffect(() => {
+    if(value) {
+      setSelected({name: value})
+    }
+  }, [value])
 
   useEffect(() => {
-    if (onChange) {
+    if (onChange && selected.name && selected.name != value ) {
       onChange(selected);
     }
-  }, [selected]);
+  }, [selected, value]);
 
   return (
     <Listbox value={selected} onChange={(value) => setSelected(value)}>
@@ -41,6 +51,7 @@ const BaseSelect = ({
               ? "bg-white text-gray-800"
               : "bg-indigo-800 text-white"
           } relative w-full cursor-default rounded-lg  py-2 pl-3 pr-8 text-left  ring-1 ring-gray-200 focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 sm:text-sm ${buttonClass}`}
+          disabled={disabled}
         >
           <span className="block truncate">{selected.name}</span>
           <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">

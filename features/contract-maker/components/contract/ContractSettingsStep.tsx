@@ -20,6 +20,15 @@ const TEMPLATES: {
   "Fair Dutch Auction": <FairDutchAuction />,
 };
 
+const PREVIEW_TEMPLATES: {
+  [key: string]: JSX.Element;
+} = {
+  "Classic Mint": <ClassicMint isPreview />,
+  "Pure Whitelist": <PureWhitelist />,
+  "Dutch Auction": <DutchAuction />,
+  "Fair Dutch Auction": <FairDutchAuction />,
+};
+
 const GRAPHS: any = {
   "classic mint": "/svg/classic-mint-graph.svg",
   "pure whitelist": "/svg/classic-mint-graph.svg",
@@ -64,9 +73,9 @@ const ContractSettingsStep: FC<AppProps> = ({ isPreview = false }) => {
   useEffect(() => {
     if (isPreview) {
       // todo: load data from store and feed form
-      console.log("prefilling");
-      console.log("Store is: ");
-      console.log(store);
+      // console.log("prefilling");
+      // console.log("Store is: ");
+      // console.log(store);
     }
   }, [isPreview]);
 
@@ -133,11 +142,19 @@ const ContractSettingsStep: FC<AppProps> = ({ isPreview = false }) => {
         />
       )}
       <div className="divide-y divide-indigo-800">
-        {TEMPLATES[type]}
+        {isPreview ? PREVIEW_TEMPLATES[type] : TEMPLATES[type]}
         {type.toLowerCase().trim() !== "pure whitelist" && whitelisted && (
           <div>
             <h2 className="pt-8 text-xl text-indigo-800">Whitelist</h2>
-            {whitelisted && <WhitelistForm />}
+            {whitelisted ? (
+              isPreview ? (
+                <WhitelistForm isPreview />
+              ) : (
+                <WhitelistForm />
+              )
+            ) : (
+              <WhitelistForm />
+            )}
           </div>
         )}
       </div>

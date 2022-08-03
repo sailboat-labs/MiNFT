@@ -9,19 +9,27 @@ interface AppProps {
   postfixClass?: string;
   postfix?: React.ReactNode;
   error?: React.ReactNode | null;
-  onChange: (value: any) => void;
+  value?: string;
+  defaultValue?: string;
+  disabled?: boolean, 
+  onChange?: (value: any) => void;
 }
 
-const BaseTimezoneSelector = ({ error, onChange, ...props }: AppProps) => {
-  const [timezone, setTimezone] = useState(' ');
+const BaseTimezoneSelector = ({ error, onChange, value, defaultValue, disabled, ...props }: AppProps) => {
+  //const [timezone, setTimezone] = useState(value ?? '');
+  const [timezone, setTimezone] = useState(value ?? "");
 
   useEffect(() => {
-    if (onChange) {
-      onChange(timezone)
+    if (value) {
+      setTimezone(value);
     }
-  
-  }, [timezone])
-  
+  }, [value]);
+
+  useEffect(() => {
+    if (onChange && timezone && timezone != value) {
+      onChange(timezone);
+    }
+  }, [timezone, value]);
 
   return (
     <>
@@ -31,6 +39,7 @@ const BaseTimezoneSelector = ({ error, onChange, ...props }: AppProps) => {
           setTimezone(e.value);
         }}
         placeholder="Select timezone..."
+        isDisabled={disabled}
       />
       <p className="text-sm text-red-500">{error}</p>
     </>

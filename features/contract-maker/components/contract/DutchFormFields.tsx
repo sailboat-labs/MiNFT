@@ -1,16 +1,62 @@
+import { doc, onSnapshot } from "firebase/firestore";
 import { Formik } from "formik";
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
+import { getProjectState } from "redux/reducers/selectors/project";
 
 import BaseDatetimeInput from "@/components/controls/BaseDatetimeInput";
 import BaseInput from "@/components/controls/BaseInput";
 import BaseSelect from "@/components/controls/BaseSelect";
 import BaseTimezoneSelector from "@/components/controls/BaseTimezoneSelector";
 
+import { IProject } from "@/interfaces";
+import { firestore } from "@/pages/dashboard";
+
+import { saveContractMaker } from "./../../../launch/launch-config/launchpad-config.logic";
+
 interface AppProps {
   form: any;
 }
 
 const DutchAuctionFormFields: FC<AppProps> = ({ form }) => {
+  const [values, setValues] = useState({});
+
+  const project = useSelector(getProjectState) as IProject;
+
+  useEffect(() => {
+    const _doc = doc(firestore, `Project/${project.slug}/Contract-Maker/draft`);
+
+    const unsubscribe = onSnapshot(_doc, (snapshot) => {
+      setValues(snapshot.data());
+      console.log("Retrived values are: ", values);
+      console.log("Snapshot data: ", snapshot.data());
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
+  async function handleSaveContractMaker(
+    field: string,
+    value: string | boolean | { title: string; description: string }[]
+  ) {
+    const saveDraft = await saveContractMaker(project, field, value);
+    console.log(saveDraft);
+
+    if (!saveDraft) {
+      toast.error(
+        "Error Ocurred while saving draft. Changes will not be saved"
+      );
+      console.log("Toast error occured!");
+    }
+  }
+
+  const updateContract = (key, value) => {
+    handleSaveContractMaker(key, value);
+  };
+
   return (
     <Formik
       initialValues={form.initialValues}
@@ -37,6 +83,8 @@ const DutchAuctionFormFields: FC<AppProps> = ({ form }) => {
                   ) : null
                 }
                 wrapperClass="mt-3 w-3/5"
+                value={values?.quantity}
+                onChange={(e) => updateContract("quantity", e.target.value)}
               />
             </div>
 
@@ -167,7 +215,7 @@ const DutchAuctionFormFields: FC<AppProps> = ({ form }) => {
                 buttonClass="!bg-white ring-1 mt-1 ring-gray-200 !text-gray-800"
                 selectorIconColor="black"
                 onChange={(e) => {
-                  console.log(e);
+                  //console.log(e);
                 }}
                 error={
                   form.touched.minutes && form.errors.minutes ? (
