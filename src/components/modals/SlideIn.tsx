@@ -30,7 +30,7 @@ export default function SlideInModal({
         }`}
       ></div>
       <div
-        className={`container absolute z-[10001] mx-auto h-screen max-w-2xl divide-gray-200 overflow-auto bg-white py-10 px-10 transition-all duration-300 ${
+        className={`container absolute z-[10001] mx-auto h-screen max-w-2xl divide-gray-200 overflow-auto bg-white py-10 px-10 transition-all duration-300 dark:bg-[color:var(--dark)] ${
           slideFrom === "right"
             ? show
               ? "right-0"

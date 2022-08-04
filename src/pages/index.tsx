@@ -8,7 +8,7 @@ import Footer from "@/components/layout/footer";
 
 export default function Homepage() {
   return (
-    <div className="h-screen overflow-y-auto">
+    <div className="h-screen overflow-y-auto ">
       <Header />
       <div className="">
         <Banner />

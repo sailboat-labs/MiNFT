@@ -161,7 +161,7 @@ export default function SelectFolder({ className }: props) {
   return (
     <div className={`flex h-[40rem] items-center justify-center  ${className}`}>
       <div
-        className={`absolute z-[2] w-full max-w-md transform overflow-hidden rounded-2xl border-2 bg-white p-6 text-left align-middle transition-all duration-300 ${
+        className={`absolute z-[2] w-full max-w-md transform overflow-hidden rounded-2xl border-2 bg-white p-6 text-left align-middle transition-all duration-300 dark:bg-[color:var(--dark)] ${
           currentStep != "select-folder"
             ? "pointer-events-none -translate-x-[150%] opacity-30"
             : "pointer-events-auto translate-x-0 opacity-100"

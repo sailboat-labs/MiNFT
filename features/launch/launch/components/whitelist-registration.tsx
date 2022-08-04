@@ -200,7 +200,7 @@ export default function WhitelistRegistration({
 
     setTwitterLoading(true);
     const requestTwitterUrl = httpsCallable(functions, "requestTwitterUrl");
-    requestTwitterUrl({projectSlug: project?.slug})
+    requestTwitterUrl({ projectSlug: project?.slug })
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .then((result: any) => {
         window.open(result.data.authUrl, "_self");
@@ -346,7 +346,7 @@ export default function WhitelistRegistration({
           <AuthDialog />
           <div className="flex w-full flex-col items-center text-white lg:flex-row">
             {whitelisted && (
-              <div className="rounded-lg bg-white p-4 py-4 text-black">
+              <div className="rounded-lg bg-white p-4 py-4 text-black dark:bg-[color:var(--dark)]">
                 <div>Must be magic!</div>
                 <p>
                   Your wallet <span className="text-indigo-500">{address}</span>{" "}

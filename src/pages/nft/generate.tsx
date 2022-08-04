@@ -5,7 +5,7 @@ import { getGeneratedImages } from "redux/reducers/selectors/layers";
 export default function Generate() {
   const images = useSelector(getGeneratedImages);
 
-  console.log(images);
+  // console.log(images);
 
   return (
     <>

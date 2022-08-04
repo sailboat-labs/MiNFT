@@ -10,7 +10,7 @@ interface AppProps {
 const BaseRadio: FC<AppProps> = ({ className, onClick, checked, children }) => {
   return (
     <div
-      className={`relative flex cursor-pointer flex-wrap items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-500 transition-all duration-100 hover:bg-gray-50  ${
+      className={`relative flex cursor-pointer flex-wrap items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-500 transition-all duration-100 hover:bg-gray-50 dark:bg-[color:var(--dark)]  ${
         checked && "border-[#085E7D] text-[#085E7D]"
       } ${className}`}
       onClick={onClick}

@@ -71,7 +71,7 @@ const LaunchpadConfig: NextPage = () => {
   return (
     <div className="h-screen overflow-y-auto">
       <div
-        className={`pointer-events-none fixed scale-75 bg-white transition-all ${
+        className={`pointer-events-none fixed scale-75 bg-white transition-all dark:bg-[color:var(--dark)] ${
           showSavingDraftLoader || isLoadingLaunchInformation
             ? "opacity-100"
             : "opacity-0"
@@ -81,7 +81,7 @@ const LaunchpadConfig: NextPage = () => {
       </div>
 
       <Tab.Group>
-        <Tab.List className="sticky top-0 z-[2] flex w-full items-center justify-center space-x-1 rounded border-b bg-white p-3">
+        <Tab.List className="sticky top-0 z-[2] flex w-full items-center justify-center space-x-1 rounded border-b bg-white p-3 dark:bg-[color:var(--dark)]">
           <div className="flex w-fit items-center gap-2">
             {["Builder", "More", "Publish"].map((category) => (
               <Tab
@@ -321,7 +321,7 @@ const LaunchpadConfig: NextPage = () => {
                                   onClick={() => {
                                     setIsShowingAddNewRoadmap(false);
                                   }}
-                                  className="cursor-pointer rounded-lg bg-white px-5 py-2 text-indigo-600"
+                                  className="cursor-pointer rounded-lg bg-white px-5 py-2 text-indigo-600 dark:bg-[color:var(--dark)]"
                                 >
                                   Close
                                 </Button>

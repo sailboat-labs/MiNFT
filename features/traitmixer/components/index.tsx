@@ -52,7 +52,7 @@ const NFTGenerator = ({ router }: any) => {
   return (
     <div className=" w-full">
       <Tab.Group>
-        <Tab.List className="sticky top-0 z-[2] flex w-full items-center justify-center space-x-1 rounded border-b bg-white p-3">
+        <Tab.List className="sticky top-0 z-[2] flex w-full items-center justify-center space-x-1 rounded border-b bg-white p-3 dark:bg-[color:var(--dark)]">
           <div className="flex w-fit items-center gap-2">
             {["Mixer", "Settings", "Generated", "Share"].map((category) => (
               <Tab

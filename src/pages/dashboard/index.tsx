@@ -134,7 +134,7 @@ export default function DashboardGetStarted() {
   return (
     <AuthGuard>
       <div
-        className={`flex h-screen  flex-col overflow-hidden pb-20 font-dmsans transition-all dark:bg-black lg:flex-row ${
+        className={`flex h-screen  flex-col overflow-hidden pb-20 font-dmsans transition-all dark:bg-[color:var(--dark)] lg:flex-row ${
           isCreatingProjectStarted ? "bg-indigo-200" : "bg-white"
         }`}
       >
@@ -171,7 +171,7 @@ export default function DashboardGetStarted() {
                       "project-name"
                     );
                   }}
-                  className="flex h-52 w-72 cursor-pointer flex-col justify-between rounded-lg border-2 bg-white px-10 py-5 text-xl transition-all hover:scale-105 hover:bg-gray-50"
+                  className="flex h-52 w-72 cursor-pointer flex-col justify-between rounded-lg border-2 bg-white px-10 py-5 text-xl transition-all hover:scale-105 hover:bg-gray-50 dark:bg-[color:var(--dark)]"
                 >
                   Create Project
                 </div>
@@ -179,7 +179,7 @@ export default function DashboardGetStarted() {
                   onClick={() => {
                     createDemoProject();
                   }}
-                  className=" flex h-52 w-72 cursor-pointer flex-col justify-between rounded-lg border-2 bg-white px-10 py-5 transition-all hover:scale-105 hover:bg-gray-50"
+                  className=" flex h-52 w-72 cursor-pointer flex-col justify-between rounded-lg border-2 bg-white px-10 py-5 transition-all hover:scale-105 hover:bg-gray-50 dark:bg-[color:var(--dark)]"
                 >
                   <div className="font-dmsans text-xl">
                     Explore a demo project
@@ -244,7 +244,7 @@ export default function DashboardGetStarted() {
               : "pointer-events-none  translate-x-full opacity-0"
           }`}
         >
-          <div className="min-h-screen w-1/2  border-l bg-white px-20 pt-10">
+          <div className="min-h-screen w-1/2  border-l bg-white px-20 pt-10 dark:bg-[color:var(--dark)]">
             <img
               className={`absolute -bottom-20 -right-20 h-[30vw] w-[30vw] transition-all ${
                 currentStep == "project-name"

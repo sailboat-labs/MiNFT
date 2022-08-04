@@ -100,7 +100,7 @@ export default function DelegateAccess() {
     <div className="mt-10 border-y py-10">
       <div className="relative overflow-x-auto sm:rounded-lg">
         <table className="w-full rounded text-left text-sm text-gray-500 dark:text-gray-400">
-          <caption className="bg-white py-5 text-left text-lg font-semibold text-gray-900 dark:bg-gray-800 dark:text-white">
+          <caption className="bg-white py-5 text-left text-lg font-semibold text-gray-900 dark:bg-[color:var(--dark)] dark:bg-gray-800 dark:text-white">
             Delegate Access
             <p className="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">
               Allow other users to view this project by delegating access
@@ -126,7 +126,7 @@ export default function DelegateAccess() {
             {delegatedAccessToList.map((user, index) => (
               <tr
                 key={index}
-                className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
+                className="border-b bg-white dark:border-gray-700 dark:bg-[color:var(--dark)] dark:bg-gray-800"
               >
                 <th
                   scope="row"

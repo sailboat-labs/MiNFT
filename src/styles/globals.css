@@ -1,7 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import "add-to-calendar-button/assets/css/atcb.min": root {
+/* @import "add-to-calendar-button/assets/css/atcb.min"; */
+:root {
+  --dark: #262b30;
   /* #region  /**=========== Primary Color =========== */
   /* !STARTERCONF Customize these variable, copy and paste from /styles/colors.css for list of colors */
   --tw-color-primary-50: 240 249 255;

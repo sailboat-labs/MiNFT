@@ -23,11 +23,11 @@ export default function Navbar({ className }: props) {
 
   return (
     <section
-      className={`fixed z-[999] w-full border-gray-500 bg-white text-gray-700 shadow transition-all   ${className}`}
+      className={`fixed z-[999] w-full border-gray-500 bg-white text-gray-700 shadow transition-all dark:bg-[color:var(--dark)]   ${className}`}
     >
       {state && <Loader />}
       <div
-        className={`absolute z-[2] flex h-screen w-full flex-col bg-white shadow  transition-all   lg:hidden 
+        className={`absolute z-[2] flex h-screen w-full flex-col bg-white shadow transition-all  dark:bg-[color:var(--dark)]   lg:hidden 
       ${navOpen ? "translate-x-0" : "translate-x-full"}
       `}
       >

@@ -24,7 +24,7 @@ export default function TraitContextMenu() {
         <Menu.Button className="">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="absolute -right-2 -top-2 h-6 w-6 rotate-45 scale-0  transform rounded-full bg-white p-1 shadow-md transition duration-150 hover:rotate-[135deg] hover:cursor-pointer hover:border hover:border-gray-200 hover:shadow-none group-hover:scale-100"
+            className="absolute -right-2 -top-2 h-6 w-6 rotate-45 scale-0  transform rounded-full bg-white p-1 shadow-md transition duration-150 hover:rotate-[135deg] hover:cursor-pointer hover:border hover:border-gray-200 hover:shadow-none group-hover:scale-100 dark:bg-[color:var(--dark)]"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -46,7 +46,7 @@ export default function TraitContextMenu() {
           leaveFrom="transform opacity-100 scale-100"
           leaveTo="transform opacity-0 scale-95"
         >
-          <Menu.Items className="mt-21 absolute right-0 z-[1000000] w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+          <Menu.Items className="mt-21 absolute right-0 z-[1000000] w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-[color:var(--dark)]">
             <div className="px-1 py-1 ">
               {blendModes.map((item, index) => (
                 <Menu.Item key={index}>

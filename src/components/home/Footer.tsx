@@ -14,7 +14,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <div className="h-auto w-full bg-white pb-10 border-t border-black font-montserrat font-medium text-[#1F1A17]">
+    <div className="h-auto w-full border-t border-black bg-white pb-10 font-montserrat font-medium text-[#1F1A17] dark:bg-[color:var(--dark)]">
       <div className="m-auto flex w-10/12 flex-col justify-between pt-10 sm:flex-row">
         <div className="h-10 w-96 text-base opacity-100">
           <div>Copyright &copy; {currentYear}</div>

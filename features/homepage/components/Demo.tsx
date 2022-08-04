@@ -17,7 +17,7 @@ export default function Demo() {
   return (
     <>
       <a
-        className="relative mt-12 w-fit rounded-xl border border-black bg-transparent px-7 py-4 font-bold text-black transition-all hover:scale-105 hover:cursor-pointer md:px-10"
+        className="relative mt-12 w-fit rounded-xl border border-black bg-transparent px-7 py-4 font-bold text-black transition-all hover:scale-105 hover:cursor-pointer dark:border-gray-500 dark:font-medium dark:text-gray-400  md:px-10"
         onClick={openModal}
       >
         Watch Demo
@@ -33,11 +33,11 @@ export default function Demo() {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-black bg-opacity-25" />
+            <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur" />
           </Transition.Child>
 
           <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center p-4 text-center">
+            <div className="flex min-h-full items-center justify-center p-4 text-center ">
               <Transition.Child
                 as={Fragment}
                 enter="ease-out duration-300"
@@ -47,7 +47,7 @@ export default function Demo() {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="relative z-[99999999999] w-fit transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="relative z-[99999999999] w-fit transform overflow-hidden  bg-white text-left align-middle shadow-xl transition-all dark:bg-[color:var(--dark)]">
                   <div className="flex items-center justify-center">
                     <div className="absolute z-[1]">
                       <PageLoader />

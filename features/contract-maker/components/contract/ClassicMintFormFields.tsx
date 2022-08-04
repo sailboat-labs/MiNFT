@@ -104,7 +104,7 @@ const ClassicMintFormFields: FC<AppProps> = ({ form }) => {
       <h4 className="mt-10">Timing</h4>
       <section className="mb-10 mt-3 flex items-start  gap-10">
         <div className="flex-1">{/* <DateTimeRangePicker /> */}</div>
-        <div className="max-w-[250px] flex-1 rounded-md bg-white p-5 ring-1 ring-gray-200">
+        <div className="max-w-[250px] flex-1 rounded-md bg-white p-5 ring-1 ring-gray-200 dark:bg-[color:var(--dark)]">
           <strong>Minutes</strong>
           <BaseSelect
             options={Array(60)

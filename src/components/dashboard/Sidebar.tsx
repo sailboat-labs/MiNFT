@@ -255,7 +255,7 @@ export default function Sidebar({ currentPage }: SidebarProps) {
   const dispatch = useDispatch();
 
   return (
-    <div className="z-1 relative z-[1000]  mt-0 flex h-screen w-[15rem] flex-col justify-between border-r bg-white  font-dmsans opacity-100">
+    <div className="z-1 relative z-[1000]  mt-0 flex h-screen w-[15rem] flex-col justify-between border-r bg-white font-dmsans  opacity-100 dark:bg-[color:var(--dark)]">
       <div className="flex flex-col pt-5">
         <div className="box-border flex h-16 flex-row items-center px-5 pt-6">
           <div className="h-16 w-16 rounded-full bg-indigo-800">

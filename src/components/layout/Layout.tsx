@@ -4,7 +4,7 @@ import Footer from "./footer";
 import Seo from "../Seo";
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex flex-col bg-white text-black dark:bg-[#202124] dark:text-white dark:text-gray-200">
+    <div className="flex flex-col bg-white text-black dark:bg-[color:var(--dark)] dark:bg-[#202124] dark:text-white ">
       <Seo />
 
       {/* <Navbar /> */}

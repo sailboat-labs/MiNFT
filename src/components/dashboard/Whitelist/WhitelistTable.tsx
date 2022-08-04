@@ -56,7 +56,7 @@ export default function WhitelistTable() {
               {users.map((item, index) => (
                 <tr
                   key={index}
-                  className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
+                  className="border-b bg-white dark:border-gray-700 dark:bg-[color:var(--dark)] dark:bg-gray-800"
                 >
                   <th
                     scope="row"
