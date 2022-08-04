@@ -35,9 +35,7 @@ const PureWhitelistFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
       path
     );
     const unsubscribe = onSnapshot(_doc, (snapshot) => {
-      setValues(snapshot.data());
-      console.log(snapshot.data());
-      
+      setValues(snapshot.data());      
     });
 
     return () => {
@@ -71,9 +69,9 @@ const PureWhitelistFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
     handleSaveContractMaker(key, value);
   };
 
-  const displayValues = () => {
-    console.log('Logging Pure Whitelist Form user inputs');
-    console.log(values); 
+  const displayValues = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    console.log('Logging Pure Whitelist Form user inputs', values);
   }
   
   return (
@@ -327,15 +325,11 @@ const PureWhitelistFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
                     )}
                   </div>
                 </section>
-                <input
-                  id="form-submit"
-                  type="submit"
+                <button
+                  id="showValues"
                   className="hidden"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    console.log("Form submitted.");
-                  }}
-                />
+                  onClick={() => displayValues}
+                ></button>
               </article>
             </ContractFormRowSection>
           </div>

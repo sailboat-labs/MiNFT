@@ -29,18 +29,15 @@ const ClassicMintFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
   const project = useSelector(getProjectState) as IProject;
 
   const whitelisted = useSelector(getContractByField("whitelisted"));
-  
-  let path = ''
+
+  let path = "";
 
   whitelisted
-    ? path = `Projects/${project.slug}/Contract-Maker/draft/classicMint/draft/whitelisted/draft`
-    : path = `Projects/${project.slug}/Contract-Maker/draft/classicMint/draft`  
+    ? (path = `Projects/${project.slug}/Contract-Maker/draft/classicMint/draft/whitelisted/draft`)
+    : (path = `Projects/${project.slug}/Contract-Maker/draft/classicMint/draft`);
 
   useEffect(() => {
-    const _doc = doc(
-      firestore,
-      path
-    );
+    const _doc = doc(firestore, path);
     const unsubscribe = onSnapshot(_doc, (snapshot) => {
       setValues(snapshot.data());
     });
@@ -55,7 +52,7 @@ const ClassicMintFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
     value: string | boolean | { title: string; description: string }[]
   ) {
     const saveDraft = await saveContractMaker(
-      whitelisted ? 'classicMint/draft/whitelisted' : 'classicMint',
+      whitelisted ? "classicMint/draft/whitelisted" : "classicMint",
       project,
       field,
       value
@@ -77,9 +74,8 @@ const ClassicMintFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
   };
 
   const displayValues = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    console.log("Logging Classic Mint Form user inputs");
-    console.log(values);
+    e.preventDefault();
+    console.log("Logging Classic Mint Form user inputs", values);
   };
 
   return (
@@ -387,8 +383,11 @@ const ClassicMintFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
                     )}
                   </div>
                 </section>
-                <button id="showValues" className="hidden" onClick={() => displayValues}>
-                </button>
+                <button
+                  id="showValues"
+                  className="hidden"
+                  onClick={() => displayValues}
+                ></button>
               </article>
             </ContractFormRowSection>
           </div>

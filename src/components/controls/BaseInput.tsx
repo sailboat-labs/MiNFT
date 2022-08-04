@@ -9,6 +9,7 @@ interface AppProps {
   postfix?: React.ReactNode;
   disabled?: boolean;
   error?: React.ReactNode | null;
+  value?: string;
   onChange: (evt: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -22,6 +23,7 @@ const BaseInput = ({
   disabled,
   postfixClass,
   type = "text",
+  value,
   ...props
 }: AppProps) => {
   const [isFocused, setIsFocused] = useState<boolean>(false);
@@ -41,6 +43,7 @@ const BaseInput = ({
           placeholder={placeholder}
           {...props}
           type={type}
+          value={value}
           disabled={disabled}
         />
         {postfix && (
