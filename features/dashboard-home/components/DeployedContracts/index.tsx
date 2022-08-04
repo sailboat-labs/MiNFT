@@ -1,41 +1,44 @@
-// import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getProjectState } from "redux/reducers/selectors/project";
 
-// import PageLoader from "@/components/shared/PageLoader";
+import PageLoader from "@/components/shared/PageLoader";
+
+import { getCloneContracts } from "@/contract-api/logic/getClone";
 import { IProject } from "@/interfaces";
 
 export default function DeployedContracts() {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const project = useSelector(getProjectState) as IProject;
 
-  // const [clones, setClones] = useState<
-  //   {
-  //     name: string;
-  //     symbol: string;
-  //     address: string;
-  //     network: { chainId: number; name: string };
-  //     contractType: string;
-  //   }[]
-  // >([]);
-  // const [isFetchingContracts, setIsFetchingContracts] = useState(false);
+  const [clones, setClones] = useState<
+    {
+      name: string;
+      symbol: string;
+      address: string;
+      network: { chainId: number; name: string };
+      contractType: string;
+    }[]
+  >([]);
+  const [isFetchingContracts, setIsFetchingContracts] = useState(false);
 
-  // async function handleGetCloneContracts() {
-  //   setIsFetchingContracts(true);
+  async function handleGetCloneContracts() {
+    setIsFetchingContracts(true);
 
-  //   try {
-  //     const _clones = await getCloneContracts();
-  //     setClones(_clones.response as any);
-  //   } catch (error) {
-  //     console.log(error);
-  //     // toast.error("An error occurred while fetching contracts");
-  //   }
-  //   setIsFetchingContracts(false);
-  // }
+    try {
+      const _clones = await getCloneContracts();
+      setClones(_clones.response as any);
+    } catch (error) {
+      console.log(error);
+      // toast.error("An error occurred while fetching contracts");
+    }
+    setIsFetchingContracts(false);
+  }
 
-  // useEffect(() => {
-  //   handleGetCloneContracts();
-  // }, []);
+  useEffect(() => {
+    handleGetCloneContracts();
+  }, []);
 
   return (
     <div className="mt-0 w-full ">
@@ -50,11 +53,11 @@ export default function DeployedContracts() {
             The list of contract instances that you have deployed with minft
             across all networks.
           </div>
-          {/* <div className="gradient-button mt-5">Manage Contract</div> */}
+          <div className="gradient-button mt-5">Manage Contract</div>
         </div>
       </div>
 
-      {/* {isFetchingContracts ? (
+      {isFetchingContracts ? (
         <div className="mt-20 flex flex-col items-center justify-center gap-3">
           <PageLoader />
           Fetching contracts from network...
@@ -126,7 +129,7 @@ export default function DeployedContracts() {
             </div>
           )}
         </div>
-      )} */}
+      )}
     </div>
   );
 }
