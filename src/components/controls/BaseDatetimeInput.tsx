@@ -9,6 +9,7 @@ interface AppProps {
   postfix?: React.ReactNode;
   error?: React.ReactNode | null;
   value: string;
+  disabled?: boolean;
   onChange: (evt: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -22,6 +23,7 @@ const BaseDatetimeInput = ({
   postfixClass,
   type = "text",
   value,
+  disabled,
   ...props
 }: AppProps) => {
   const [isFocused, setIsFocused] = useState<boolean>(false);
@@ -60,6 +62,7 @@ const BaseDatetimeInput = ({
           {...props}
           type={type}
           value={value}
+          disabled={disabled}
         />
         {postfix && (
           <div className={`box-content p-2 ${postfixClass}`}>{postfix}</div>

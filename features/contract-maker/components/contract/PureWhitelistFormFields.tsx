@@ -4,7 +4,6 @@ import React, { FC, useState } from "react";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
-import { getContractByField } from "redux/reducers/selectors/contract";
 import { getProjectState } from "redux/reducers/selectors/project";
 
 import BaseDatetimeInput from "@/components/controls/BaseDatetimeInput";
@@ -23,18 +22,12 @@ interface AppProps {
   isPreview?: boolean;
 }
 
-const ClassicMintFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
+const PureWhitelistFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
   const [values, setValues] = useState<any>();
 
   const project = useSelector(getProjectState) as IProject;
 
-  const whitelisted = useSelector(getContractByField("whitelisted"));
-  
-  let path = ''
-
-  whitelisted
-    ? path = `Projects/${project.slug}/Contract-Maker/draft/classicMint/draft/whitelisted/draft`
-    : path = `Projects/${project.slug}/Contract-Maker/draft/classicMint/draft`  
+  const path = `Projects/${project.slug}/Contract-Maker/draft/pureWhitelist/draft`;
 
   useEffect(() => {
     const _doc = doc(
@@ -43,19 +36,21 @@ const ClassicMintFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
     );
     const unsubscribe = onSnapshot(_doc, (snapshot) => {
       setValues(snapshot.data());
+      console.log(snapshot.data());
+      
     });
 
     return () => {
       unsubscribe();
     };
-  }, [path, project.slug]);
+  }, [project.slug]);
 
   async function handleSaveContractMaker(
     field: string,
     value: string | boolean | { title: string; description: string }[]
   ) {
     const saveDraft = await saveContractMaker(
-      whitelisted ? 'classicMint/draft/whitelisted' : 'classicMint',
+      "pureWhitelist",
       project,
       field,
       value
@@ -76,12 +71,11 @@ const ClassicMintFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
     handleSaveContractMaker(key, value);
   };
 
-  const displayValues = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    console.log("Logging Classic Mint Form user inputs");
-    console.log(values);
-  };
-
+  const displayValues = () => {
+    console.log('Logging Pure Whitelist Form user inputs');
+    console.log(values); 
+  }
+  
   return (
     <div className="pt-6">
       <div className="mx-auto flex flex-col divide-y-2 divide-gray-200 pb-6">
@@ -106,24 +100,10 @@ const ClassicMintFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
                     ) : null
                   }
                   value={values?.quantityOfCollection}
-                  onChange={(e: {
-                    target: {
-                      value:
-                        | string
-                        | boolean
-                        | { title: string; description: string }[];
-                    };
-                  }) => {
+                  onChange={(e) => {
                     updateContract("quantityOfCollection", e.target.value);
                   }}
-                  onBlur={(e: {
-                    target: {
-                      value:
-                        | string
-                        | boolean
-                        | { title: string; description: string }[];
-                    };
-                  }) => {
+                  onBlur={(e) => {
                     updateContract("quantityOfCollection", e.target.value);
                   }}
                 />
@@ -151,14 +131,7 @@ const ClassicMintFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
                   onChange={(e) => {
                     updateContract("mintPrice", e.target.value);
                   }}
-                  onBlur={(e: {
-                    target: {
-                      value:
-                        | string
-                        | boolean
-                        | { title: string; description: string }[];
-                    };
-                  }) => {
+                  onBlur={(e) => {
                     updateContract("mintPrice", e.target.value);
                   }}
                 />
@@ -185,14 +158,7 @@ const ClassicMintFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
                   onChange={(e) => {
                     updateContract("reservedTokens", e.target.value);
                   }}
-                  onBlur={(e: {
-                    target: {
-                      value:
-                        | string
-                        | boolean
-                        | { title: string; description: string }[];
-                    };
-                  }) => {
+                  onBlur={(e) => {
                     updateContract("reservedTokens", e.target.value);
                   }}
                 />
@@ -218,14 +184,7 @@ const ClassicMintFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
                   onChange={(e) => {
                     updateContract("maxMintPerWallet", e.target.value);
                   }}
-                  onBlur={(e: {
-                    target: {
-                      value:
-                        | string
-                        | boolean
-                        | { title: string; description: string }[];
-                    };
-                  }) => {
+                  onBlur={(e) => {
                     updateContract("maxMintPerWallet", e.target.value);
                   }}
                 />
@@ -251,14 +210,7 @@ const ClassicMintFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
                   onChange={(e) => {
                     updateContract("maxMintPerTransaction", e.target.value);
                   }}
-                  onBlur={(e: {
-                    target: {
-                      value:
-                        | string
-                        | boolean
-                        | { title: string; description: string }[];
-                    };
-                  }) => {
+                  onBlur={(e) => {
                     updateContract("maxMintPerTransaction", e.target.value);
                   }}
                 />
@@ -266,12 +218,12 @@ const ClassicMintFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
             </article>
           </ContractFormRowSection>
 
-          <div className="mx-auto flex flex-col divide-y-2 divide-gray-200 ">
+          <div className="mx-auto flex flex-col divide-y-2 divide-gray-200 pb-6">
             {/* Timing */}
-            <ContractFormRowSection className="pt-5" name="Timing">
+            <ContractFormRowSection className="pt-5 pb-8" name="Timing">
               <article>
                 {/* <h4 className="mt-10 ">Timing</h4> */}
-                <section className="">
+                <section className="mb-10">
                   <div className="flex w-3/5 flex-col">
                     <div className="flex w-full flex-row items-center justify-between">
                       <div className="flex flex-col">
@@ -293,14 +245,7 @@ const ClassicMintFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
                           onChange={(e) => {
                             updateContract("startDate", e.target.value);
                           }}
-                          onBlur={(e: {
-                            target: {
-                              value:
-                                | string
-                                | boolean
-                                | { title: string; description: string }[];
-                            };
-                          }) => {
+                          onBlur={(e) => {
                             updateContract("startDate", e.target.value);
                           }}
                         />
@@ -324,14 +269,7 @@ const ClassicMintFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
                           onChange={(e) => {
                             updateContract("endDate", e.target.value);
                           }}
-                          onBlur={(e: {
-                            target: {
-                              value:
-                                | string
-                                | boolean
-                                | { title: string; description: string }[];
-                            };
-                          }) => {
+                          onBlur={(e) => {
                             updateContract("endDate", e.target.value);
                           }}
                         />
@@ -341,6 +279,7 @@ const ClassicMintFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
                       <span className="my-3 font-bold">Timezone</span>
                       <BaseTimezoneSelector
                         {...form.getFieldProps("timezone")}
+                        disabled={isPreview}
                         error={
                           form.touched.timezone && form.errors.timezone ? (
                             <p className="text-base text-red-500">
@@ -350,7 +289,6 @@ const ClassicMintFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
                         }
                         defaultValue={values?.timezone}
                         value={values?.timezone}
-                        disabled={isPreview}
                         onChange={(e) => {
                           updateContract("timezone", e);
                         }}
@@ -378,17 +316,26 @@ const ClassicMintFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
                             </p>
                           ) : null
                         }
-                        disabled={isPreview}
                         value={values?.minutes}
-                        onChange={(e: any) => {
+                        onChange={(e) => {
+                          updateContract("minutes", e.name);
+                        }}
+                        onBlur={(e) => {
                           updateContract("minutes", e.name);
                         }}
                       />
                     )}
                   </div>
                 </section>
-                <button id="showValues" className="hidden" onClick={() => displayValues}>
-                </button>
+                <input
+                  id="form-submit"
+                  type="submit"
+                  className="hidden"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    console.log("Form submitted.");
+                  }}
+                />
               </article>
             </ContractFormRowSection>
           </div>
@@ -398,4 +345,4 @@ const ClassicMintFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
   );
 };
 
-export default ClassicMintFormFields;
+export default PureWhitelistFormFields;

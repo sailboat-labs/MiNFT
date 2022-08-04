@@ -24,9 +24,9 @@ const PREVIEW_TEMPLATES: {
   [key: string]: JSX.Element;
 } = {
   "Classic Mint": <ClassicMint isPreview />,
-  "Pure Whitelist": <PureWhitelist />,
-  "Dutch Auction": <DutchAuction />,
-  "Fair Dutch Auction": <FairDutchAuction />,
+  "Pure Whitelist": <PureWhitelist isPreview />,
+  "Dutch Auction": <DutchAuction isPreview />,
+  "Fair Dutch Auction": <FairDutchAuction isPreview />,
 };
 
 const GRAPHS: any = {
