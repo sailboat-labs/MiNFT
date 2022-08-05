@@ -7,6 +7,7 @@ import WhitelistDates from "@/components/dashboard/Whitelist/WhitelistDates";
 
 import { IProject, IProjectLaunch } from "@/interfaces";
 
+import LaunchPadMoreConfigFAQ from "./faq";
 import saveLaunchPadDraft from "../launchpad-config.logic";
 
 type props = {
@@ -145,43 +146,52 @@ export default function MoreConfiguration({ launchInformation }: props) {
           </div>
           <div className=" flex-1 rounded-lg border "></div>
         </div>
-        <div className="">Discord</div>
-        <input
-          className="mt-2 rounded-lg border-2 bg-gray-50 px-5 py-2"
-          placeholder="Discord link"
-          defaultValue={launchInformation?.discordLink}
-          onChange={(e) => {
-            handleSaveLaunchPadDraft("discordLink", e.target.value);
-          }}
-        />
-        <div className="mt-5">Twitter</div>
-        <input
-          className="mt-2 rounded-lg border-2 bg-gray-50 px-5 py-2"
-          placeholder="@magicmynt"
-          defaultValue={launchInformation?.twitterLink}
-          onChange={(e) => {
-            handleSaveLaunchPadDraft("twitterLink", e.target.value);
-          }}
-        />
-        <div className="mt-5">Opensea</div>
-        <input
-          className="mt-2 rounded-lg border-2 bg-gray-50 px-5 py-2"
-          placeholder="Opensea"
-          defaultValue={launchInformation?.openseaLink}
-          onChange={(e) => {
-            handleSaveLaunchPadDraft("openseaLink", e.target.value);
-          }}
-        />
-        <div className="mt-5">Website</div>
-        <input
-          className="mt-2 rounded-lg border-2 bg-gray-50 px-5 py-2"
-          placeholder="https://"
-          defaultValue={launchInformation?.website}
-          onChange={(e) => {
-            handleSaveLaunchPadDraft("website", e.target.value);
-          }}
-        />
+        <div className="flex gap-5">
+          <div>
+            <div className="">Discord</div>
+            <input
+              className="mt-2 rounded-lg border-2 bg-gray-50 px-5 py-2"
+              placeholder="Discord link"
+              defaultValue={launchInformation?.discordLink}
+              onChange={(e) => {
+                handleSaveLaunchPadDraft("discordLink", e.target.value);
+              }}
+            />
+            <div className="mt-5">Twitter</div>
+            <input
+              className="mt-2 rounded-lg border-2 bg-gray-50 px-5 py-2"
+              placeholder="@magicmynt"
+              defaultValue={launchInformation?.twitterLink}
+              onChange={(e) => {
+                handleSaveLaunchPadDraft("twitterLink", e.target.value);
+              }}
+            />
+          </div>
+          <div>
+            <div className="">Opensea</div>
+            <input
+              className="mt-2 rounded-lg border-2 bg-gray-50 px-5 py-2"
+              placeholder="Opensea"
+              defaultValue={launchInformation?.openseaLink}
+              onChange={(e) => {
+                handleSaveLaunchPadDraft("openseaLink", e.target.value);
+              }}
+            />
+            <div className="mt-5">Website</div>
+            <input
+              className="mt-2 rounded-lg border-2 bg-gray-50 px-5 py-2"
+              placeholder="https://"
+              defaultValue={launchInformation?.website}
+              onChange={(e) => {
+                handleSaveLaunchPadDraft("website", e.target.value);
+              }}
+            />
+          </div>
+        </div>
+
+        <LaunchPadMoreConfigFAQ launchInformation={launchInformation} />
       </div>
+
       <div className="w-1/2 border-l pl-10">
         <div className="mt-10 mb-5 flex items-center gap-5">
           <div className="text-xl text-indigo-500">Contract Configuration</div>

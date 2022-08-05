@@ -70,7 +70,7 @@ export default function ProjectLaunch({ session }: props) {
     );
 
   return (
-    <>
+    <div className="pb-20">
       <LaunchHeader />
 
       <div
@@ -367,11 +367,11 @@ export default function ProjectLaunch({ session }: props) {
                   </article>
                 </div>
               </section>
-              <FAQ />
+              <FAQ launchInformation={launchInformation} />
             </div>
           </div>
         }
       </div>
-    </>
+    </div>
   );
 }

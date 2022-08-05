@@ -103,4 +103,5 @@ export interface IProjectLaunch {
   contractAddress?: string;
   mainImage?: string;
   secondaryImage?: string[];
+  faq?: { question: string; answer: string }[];
 }
