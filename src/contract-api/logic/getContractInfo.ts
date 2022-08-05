@@ -8,13 +8,10 @@ export async function getContractInfo(contract: ethers.Contract | undefined) {
     await contract?.contractType()
   );
   const name = await contract?.name();
+  const totalQuantity = parseInt((await contract?.totalQuantity())?._hex);
+  const totalSupply = parseInt((await contract?.totalSupply())?._hex);
 
   let contractInfo = {};
-  let mintPrice;
-  let startingPrice;
-  let endingPrice;
-  let currentPrice;
-
   if (
     [
       "ClassicMint",
@@ -23,8 +20,24 @@ export async function getContractInfo(contract: ethers.Contract | undefined) {
       "FairDutchAuction",
     ].includes(contractType)
   ) {
-    const totalQuantity = parseInt((await contract?.totalQuantity())?._hex);
-    const totalSupply = parseInt((await contract?.totalSupply())?._hex);
+    return await classicSaleInfo();
+  }
+
+  if (
+    ["WLClassicMint", "WLDutchAuction", "WLFairDutchAuction"].includes(
+      contractType
+    )
+  ) {
+    return await whitelistIncludedSaleInfo();
+  }
+
+  async function classicSaleInfo() {
+    let mintPrice;
+    let startingPrice;
+    let endingPrice;
+    let currentPrice;
+
+    // const totalSupply = parseInt((await contract?.totalSupply())?._hex);
     const maxMintPerWallet = parseInt(
       (await contract?.maxMintPerWallet())?._hex
     );
@@ -64,13 +77,8 @@ export async function getContractInfo(contract: ethers.Contract | undefined) {
     return { success: true, response: contractInfo };
   }
 
-  let whitelistSale = {};
-  if (
-    ["WLClassicMint", "WLDutchAuction", "WLFairDutchAuction"].includes(
-      contractType
-    )
-  ) {
-    const totalQuantity = parseInt((await contract?.totalQuantity())._hex);
+  async function whitelistSaleInfo() {
+    let whitelistSale = {};
     const whitelistQuantity = parseInt((await contract?.WL_Quantity())._hex);
     const whitelistTotalSupply = parseInt(
       (await contract?.WL_TotalSupply())._hex
@@ -85,9 +93,6 @@ export async function getContractInfo(contract: ethers.Contract | undefined) {
     const whitelistEndingTimestamp = parseInt(
       (await contract?.WL_EndingTimestamp())._hex
     );
-    // const tokensMinted = parseInt(
-    //   (await contract?.tokensMinted(signerAddress))._hex
-    // );
 
     whitelistSale = {
       quantity: whitelistQuantity,
@@ -98,6 +103,10 @@ export async function getContractInfo(contract: ethers.Contract | undefined) {
       endingTimestamp: whitelistEndingTimestamp,
     };
 
+    return { success: true, response: whitelistSale };
+  }
+
+  async function publicSaleInfo() {
     let publicSale = {};
     let quantity;
     let totalSupply;
@@ -179,13 +188,20 @@ export async function getContractInfo(contract: ethers.Contract | undefined) {
       };
     }
 
+    return { success: true, response: publicSale };
+  }
+
+  async function whitelistIncludedSaleInfo() {
+    const whitelistSale = (await whitelistSaleInfo()).response;
+    const publicSale = (await publicSaleInfo()).response;
+
     contractInfo = {
       contractType,
       name,
       totalQuantity,
+      totalSupply,
       whitelistSale,
       publicSale,
-      // tokensMinted,
     };
     console.log("my contract info", contractInfo);
     return { success: true, response: contractInfo };
