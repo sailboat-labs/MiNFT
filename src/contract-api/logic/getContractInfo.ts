@@ -10,6 +10,10 @@ export async function getContractInfo(contract: ethers.Contract | undefined) {
   const name = await contract?.name();
 
   let contractInfo = {};
+  let mintPrice;
+  let startingPrice;
+  let endingPrice;
+  let currentPrice;
 
   if (
     [
@@ -19,74 +23,171 @@ export async function getContractInfo(contract: ethers.Contract | undefined) {
       "FairDutchAuction",
     ].includes(contractType)
   ) {
-    const _totalQuantity = await contract?.totalQuantity();
-    const _totalSupply = await contract?.totalSupply();
-    const _maxMintPerWallet = await contract?.maxMintPerWallet();
-    const _tokensMinted = await contract?.tokensMinted(signerAddress);
-    const _startingTimestamp = await contract?.startingTimestamp();
-    const _endingTimestamp = await contract?.endingTimestamp();
+    const totalQuantity = parseInt((await contract?.totalQuantity())?._hex);
+    const totalSupply = parseInt((await contract?.totalSupply())?._hex);
+    const maxMintPerWallet = parseInt(
+      (await contract?.maxMintPerWallet())?._hex
+    );
+    const tokensMinted = parseInt(
+      (await contract?.tokensMinted(signerAddress))?._hex
+    );
+    const startingTimestamp = parseInt(
+      (await contract?.startingTimestamp())?._hex
+    );
+    const endingTimestamp = parseInt((await contract?.endingTimestamp())?._hex);
     const hasMintStarted = await contract?.hasMintStarted();
 
-    // if (["DutchAuction", "FairDutchAuction"].includes(contractType)) {
-    //   const startingPrice = parseInt((await contract?.startingPrice())._hex);
-    //   const endingPrice = parseInt((await contract?.startingPrice())._hex);
-    // } else {
-    //   const _mintPrice = await contract?.mintPrice();
-    //   const mintPrice = parseInt(_mintPrice?._hex);
-    // }
+    if (["DutchAuction", "FairDutchAuction"].includes(contractType)) {
+      startingPrice = parseInt((await contract?.startingPrice())._hex);
+      endingPrice = parseInt((await contract?.startingPrice())._hex);
+      currentPrice = parseInt((await contract?.currentPrice())._hex);
+    } else {
+      mintPrice = parseInt((await contract?.mintPrice())?._hex);
+    }
 
-    // parse to integer
-    const totalQuantity = parseInt(_totalQuantity?._hex);
-    const totalSupply = parseInt(_totalSupply?._hex);
-    const maxMintPerWallet = parseInt(_maxMintPerWallet?._hex);
-    const tokensMinted = parseInt(_tokensMinted?._hex);
-    const startingTimestamp = parseInt(_startingTimestamp?._hex);
-    const endingTimestamp = parseInt(_endingTimestamp?._hex);
-
-    console.log({
+    contractInfo = {
       contractType,
       name,
       totalQuantity,
       totalSupply,
       maxMintPerWallet,
-      hasMintStarted,
+      mintPrice,
+      startingPrice,
+      endingPrice,
+      currentPrice,
+      tokensMinted,
       startingTimestamp,
       endingTimestamp,
-      // mintPrice,
-    });
-
-    contractInfo = {
-      totalQuantity,
-      totalSupply,
-      maxMintPerWallet,
-      tokensMinted,
+      hasMintStarted,
     };
-
+    console.log("my contract info", contractInfo);
     return { success: true, response: contractInfo };
   }
 
-  // if (
-  //   ["WLClassicMint", "WLDutchAuction", "WLFairDutchAuction"].includes(
-  //     contractType
-  //   )
-  // ) {
-  //   const _totalQuantity = await contract?.totalQuantity();
-  //   const _totalSupply = await contract?.totalSupply();
-  //   const _maxMintPerWallet = await contract?.maxMintPerWallet();
-  //   const _tokensMinted = await contract?.tokensMinted(signerAddress);
-  //   const _startingTimestamp = await contract?.startingTimestamp();
-  //   const _endingTimestamp = await contract?.endingTimestamp();
-  //   const hasMintStarted = await contract?.hasMintStarted();
+  let whitelistSale = {};
+  if (
+    ["WLClassicMint", "WLDutchAuction", "WLFairDutchAuction"].includes(
+      contractType
+    )
+  ) {
+    const totalQuantity = parseInt((await contract?.totalQuantity())._hex);
+    const whitelistQuantity = parseInt((await contract?.WL_Quantity())._hex);
+    const whitelistTotalSupply = parseInt(
+      (await contract?.WL_TotalSupply())._hex
+    );
+    const whitelistMintPrice = parseInt((await contract?.WL_MintPrice())._hex);
+    const whitelistMaxMintPerWallet = parseInt(
+      (await contract?.WL_MaxMintPerWallet())._hex
+    );
+    const whitelistStartingTimestamp = parseInt(
+      (await contract?.WL_StartingTimestamp())._hex
+    );
+    const whitelistEndingTimestamp = parseInt(
+      (await contract?.WL_EndingTimestamp())._hex
+    );
+    // const tokensMinted = parseInt(
+    //   (await contract?.tokensMinted(signerAddress))._hex
+    // );
 
-  //   cons
+    whitelistSale = {
+      quantity: whitelistQuantity,
+      totalSupply: whitelistTotalSupply,
+      maxMintPerWallet: whitelistMaxMintPerWallet,
+      mintPrice: whitelistMintPrice,
+      startingTimestamp: whitelistStartingTimestamp,
+      endingTimestamp: whitelistEndingTimestamp,
+    };
 
-  //   contractInfo = {
-  //     totalQuantity,
-  //     totalSupply,
-  //     maxMintPerWallet,
-  //     tokensMinted,
-  //   };
+    let publicSale = {};
+    let quantity;
+    let totalSupply;
+    let maxMintPerWallet;
+    let mintPrice;
+    let startingPrice;
+    let endingPrice;
+    let currentPrice;
+    let startingTimestamp;
+    let endingTimestamp;
 
-  //   return { success: true, response: contractInfo };
-  // }
+    if (contractType === "WLClassicMint") {
+      quantity = parseInt((await contract?.CM_Quantity())._hex);
+      totalSupply = parseInt((await contract?.CM_TotalSupply())._hex);
+      maxMintPerWallet = parseInt((await contract?.CM_MaxMintPerWallet())._hex);
+      mintPrice = parseInt((await contract?.CM_MintPrice())._hex);
+      startingTimestamp = parseInt(
+        (await contract?.CM_StartingTimestamp())._hex
+      );
+      endingTimestamp = parseInt((await contract?.CM_EndingTimestamp())._hex);
+
+      publicSale = {
+        quantity,
+        totalSupply,
+        maxMintPerWallet,
+        mintPrice,
+        startingTimestamp,
+        endingTimestamp,
+      };
+    }
+
+    if (contractType === "WLDutchAuction") {
+      quantity = parseInt((await contract?.DA_Quantity())._hex);
+      totalSupply = parseInt((await contract?.DA_TotalSupply())._hex);
+      maxMintPerWallet = parseInt((await contract?.DA_MaxMintPerWallet())._hex);
+      startingPrice = parseInt((await contract?.DA_StartingPrice())._hex);
+      endingPrice = parseInt((await contract?.DA_EndingPrice())._hex);
+      currentPrice = parseInt((await contract?.currentPrice())._hex);
+      startingTimestamp = parseInt(
+        (await contract?.DA_StartingTimestamp())._hex
+      );
+      endingTimestamp = parseInt((await contract?.DA_EndingTimestamp())._hex);
+
+      publicSale = {
+        quantity,
+        totalSupply,
+        maxMintPerWallet,
+        startingPrice,
+        endingPrice,
+        currentPrice,
+        startingTimestamp,
+        endingTimestamp,
+      };
+    }
+
+    if (contractType === "WLFairDutchAuction") {
+      quantity = parseInt((await contract?.FDA_Quantity())._hex);
+      totalSupply = parseInt((await contract?.FDA_TotalSupply())._hex);
+      maxMintPerWallet = parseInt(
+        (await contract?.FDA_MaxMintPerWallet())._hex
+      );
+      startingPrice = parseInt((await contract?.FDA_StartingPrice())._hex);
+      endingPrice = parseInt((await contract?.FDA_EndingPrice())._hex);
+      currentPrice = parseInt((await contract?.currentPrice())._hex);
+      startingTimestamp = parseInt(
+        (await contract?.FDA_StartingTimestamp())._hex
+      );
+      endingTimestamp = parseInt((await contract?.FDA_EndingTimestamp())._hex);
+
+      publicSale = {
+        quantity,
+        totalSupply,
+        maxMintPerWallet,
+        startingPrice,
+        endingPrice,
+        currentPrice,
+        startingTimestamp,
+        endingTimestamp,
+      };
+    }
+
+    contractInfo = {
+      contractType,
+      name,
+      totalQuantity,
+      whitelistSale,
+      publicSale,
+      // tokensMinted,
+    };
+    console.log("my contract info", contractInfo);
+    return { success: true, response: contractInfo };
+  }
 }
