@@ -5,7 +5,7 @@ type props = {
 };
 
 export default function DarkModeMenu({ className }: props) {
-  const [theme, setTheme] = useState("dark");
+  const [theme, setTheme] = useState("light");
 
   useEffect(() => {
     window.localStorage.setItem("minft-theme", theme);
