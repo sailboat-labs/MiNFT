@@ -28,24 +28,28 @@ export default function DarkModeMenu({ className }: props) {
   };
 
   return (
-    <div className="flex items-center justify-center stroke-black px-0 text-sm font-medium dark:stroke-white">
+    <div
+      className={`${className} flex items-center justify-center stroke-black px-0 text-sm font-medium dark:stroke-white`}
+    >
       {theme === "light" ? (
-        <svg
-          onClick={() => {
-            handleTheme("dark");
-          }}
-          xmlns="http://www.w3.org/2000/svg"
-          className="translate h-6 w-6 translate-y-[0.35rem] cursor-pointer transition-all hover:scale-125 hover:fill-black md:translate-y-0"
-          fill="none"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-          />
-        </svg>
+        <div>
+          <svg
+            onClick={() => {
+              handleTheme("dark");
+            }}
+            xmlns="http://www.w3.org/2000/svg"
+            className="translate h-6 w-6 translate-y-[0.35rem] cursor-pointer transition-all hover:scale-125 hover:fill-black md:translate-y-0"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+            />
+          </svg>
+        </div>
       ) : (
         <svg
           onClick={() => {

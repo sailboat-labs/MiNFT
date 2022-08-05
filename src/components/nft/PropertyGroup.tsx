@@ -203,8 +203,11 @@ const PropertyGroup: FC<AppProps> = ({
   // }, selectedLayerName);
 
   return (
-    <div className="flex gap-6" id={`trait-group-${name} h-fit`}>
-      <div className="mt-20 flex flex-col items-center justify-center text-gray-500">
+    <div
+      className="flex h-fit gap-6 dark:text-gray-300"
+      id={`trait-group-${name} `}
+    >
+      <div className="mt-20 flex flex-col items-center justify-center text-gray-500 dark:text-gray-400">
         {index > 0 && (
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -252,7 +255,7 @@ const PropertyGroup: FC<AppProps> = ({
                   type="text"
                   defaultValue={layer.name}
                   onChange={handleChange}
-                  className="rounded-md border border-[#30489C] py-1 text-sm"
+                  className="dark:Text-white rounded-md border border-[#30489C] py-1 text-sm dark:border-gray-500 dark:bg-transparent dark:text-white"
                 />
                 {showEmptyNameError && (
                   <small className="absolute top-full -mt-1 text-xs text-red-500">
@@ -377,13 +380,9 @@ const PropertyGroup: FC<AppProps> = ({
           className="overflow-y-hidden transition-all  duration-200"
           ref={accordionContent}
         >
-          <div className="rounded-md border-2 bg-gray-100">
+          <div className="dark:border-1 rounded-md border-2 bg-gray-100 backdrop-blur dark:border-gray-600 dark:bg-[rgba(255,255,255,0.05)]">
             <div className="flex items-center gap-3">
-              <div
-                className={`flex flex-wrap gap-6 p-6 transition-all ${
-                  elements.length < 1 ? "mt-0" : "mt-0"
-                }`}
-              >
+              <div className="mt-0 flex flex-wrap gap-6 p-6 transition-all">
                 {elements.map((element: IElement, index: number) => (
                   <TraitPreview
                     key={index}
@@ -416,7 +415,7 @@ const PropertyGroup: FC<AppProps> = ({
                 )}
               </div>
               <div
-                className="mr-5 h-10 w-10 cursor-pointer rounded-full border-2 bg-gray-100 p-2 transition-all hover:scale-105"
+                className="dark:border-1 hover:dark:rgba(255,255,255,0.2) mr-5 h-10 w-10 cursor-pointer rounded-full border-2 bg-gray-100 p-2 transition-all hover:scale-105 dark:border-gray-500 dark:bg-[rgba(255,255,255,0.1)] dark:backdrop-blur"
                 onClick={openFileInput}
               >
                 <div className="flex items-center justify-center">

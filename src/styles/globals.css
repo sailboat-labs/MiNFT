@@ -29,6 +29,12 @@
   /* #endregion  /**======== Primary Color =========== */
 }
 
+/* material ui */
+.MuiButtonBase-root.MuiIconButton-root.MuiIconButton-edgeEnd,
+.MuiOutlinedInput-input.MuiInputBase-input.MuiInputBase-inputAdornedEnd {
+  @apply dark:text-gray-400;
+}
+
 .swal-text {
   text-align: center !important;
 }

@@ -17,7 +17,7 @@ export default function LayerContextMenu({ layer }: props) {
           <Menu.Button className="">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6 rounded-full border-2 bg-gray-50 transition-all hover:scale-105"
+              className="h-6 w-6 rounded-full border-2 bg-gray-50 transition-all hover:scale-105 dark:border-gray-500 dark:bg-transparent"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -40,7 +40,7 @@ export default function LayerContextMenu({ layer }: props) {
           leaveFrom="transform opacity-100 scale-100"
           leaveTo="transform opacity-0 scale-95"
         >
-          <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-[color:var(--dark)]">
+          <Menu.Items className="absolute right-0 z-[999] mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:border dark:border-gray-600 dark:bg-[color:var(--dark)]">
             <div className="px-1 py-1 ">
               <Menu.Item>
                 {({ active }) => <DeleteLayerModal layer={layer} />}

@@ -13,6 +13,7 @@ import { PROFILE_IMAGE } from "@/data/DemoProject";
 
 import { IDashboardState } from "@/interfaces";
 
+import DarkModeMenu from "../layout/DarkmodeToggle";
 import ButtonLink from "../links/ButtonLink";
 
 type SidebarProps = {
@@ -374,6 +375,7 @@ export default function Sidebar({ currentPage }: SidebarProps) {
           </ButtonLink>
         </div>
       </div> */}
+      <DarkModeMenu className="mb-6" />
     </div>
   );
 }

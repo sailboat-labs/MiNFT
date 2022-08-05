@@ -150,7 +150,7 @@ export default function DelegateAccess() {
           }}
           value={address}
           id="address"
-          className="h-full w-[300px] rounded-lg border-2"
+          className="h-full w-[300px] rounded-lg border-2 dark:bg-[rgba(255,255,255,0.1)] dark:text-white"
           type="text"
           placeholder="Address"
           // {...newUserForm.getFieldProps("address")}

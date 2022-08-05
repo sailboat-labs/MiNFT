@@ -80,7 +80,7 @@ const NFTGenerator = ({ router }: any) => {
 
             {layers.length > 0 && (
               <div className="flex w-full flex-col-reverse justify-between gap-10 2xl:flex-row">
-                <div className=" w-full overflow-y-hidden border-r">
+                <div className=" w-full overflow-y-hidden border-r dark:border-gray-500">
                   {layers.length > 0 && (
                     <div className="mt-0 w-full min-w-[900px] flex-col gap-10 overflow-y-auto px-10 ">
                       <>
@@ -118,7 +118,7 @@ const NFTGenerator = ({ router }: any) => {
                     </div>
                   )}
                 </div>
-                <div className="sticky top-0 flex h-10 items-start justify-center px-4 2xl:w-[40%]">
+                <div className="sticky top-4 flex h-10 items-start justify-center px-4 2xl:w-[40%]">
                   <section className="flex flex-col justify-center">
                     <NFTPreview className="mt-10" />
                     <GenerateToken />
@@ -127,7 +127,7 @@ const NFTGenerator = ({ router }: any) => {
               </div>
             )}
           </Tab.Panel>
-          <Tab.Panel>
+          <Tab.Panel className="dark:text-gray-400">
             <div className="flex w-full justify-end px-20 py-5">
               <div className="gradient-button">Save</div>
             </div>
