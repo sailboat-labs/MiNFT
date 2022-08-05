@@ -161,16 +161,16 @@ export default function SelectFolder({ className }: props) {
   return (
     <div className={`flex h-[40rem] items-center justify-center  ${className}`}>
       <div
-        className={`absolute z-[2] w-full max-w-md transform overflow-hidden rounded-2xl border-2 bg-white p-6 text-left align-middle transition-all duration-300 dark:bg-[color:var(--dark)] ${
+        className={`absolute z-[2] w-full max-w-md transform overflow-hidden rounded-2xl border-2 bg-white p-6 text-left align-middle transition-all duration-300 dark:border-gray-500 dark:bg-[color:var(--dark)] ${
           currentStep != "select-folder"
             ? "pointer-events-none -translate-x-[150%] opacity-30"
             : "pointer-events-auto translate-x-0 opacity-100"
         }`}
       >
-        <div className="text-lg font-medium leading-6 text-gray-900">
+        <div className="text-lg font-medium leading-6 text-gray-900 dark:text-white">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
+            className="h-6 w-6 dark:stroke-gray-400"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -187,7 +187,7 @@ export default function SelectFolder({ className }: props) {
         <div className="mt-4 flex w-full ">
           <button
             type="button"
-            className="inline-flex items-center justify-center gap-3 rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+            className="inline-flex items-center justify-center gap-3 rounded-md  border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:bg-[rgba(255,255,255,0.1)]  dark:text-white dark:backdrop-blur dark:hover:bg-[rgba(255,255,255,0.15)]"
             onClick={() => {
               dispatch(setLayers(DEMO_PROJECT));
             }}
@@ -195,7 +195,7 @@ export default function SelectFolder({ className }: props) {
             Try with a demo project
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
+              className="h-6 w-6 dark:stroke-gray-400"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -209,12 +209,12 @@ export default function SelectFolder({ className }: props) {
             </svg>
           </button>
         </div>
-        <div className="my-5 h-1 flex-1 rounded-xl border-2 "></div>
+        <div className="my-5 h-1 flex-1 rounded-xl border-2 dark:border-gray-500 "></div>
 
-        <div className="text-lg font-medium leading-6 text-gray-900">
+        <div className="text-lg font-medium leading-6 text-gray-900 dark:text-white">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
+            className="h-6 w-6 dark:stroke-gray-400"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -229,7 +229,7 @@ export default function SelectFolder({ className }: props) {
           Select a project folder
         </div>
         <div className="mt-2">
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-gray-500 dark:text-gray-400">
             Select a folder to import. Selected folder should contain a folder
             for each trait with a file for each trait variation
           </p>
@@ -238,7 +238,7 @@ export default function SelectFolder({ className }: props) {
         <div className="mt-4 flex w-full ">
           <button
             type="button"
-            className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+            className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:bg-[rgba(255,255,255,0.1)] dark:text-white dark:backdrop-blur dark:hover:bg-[rgba(255,255,255,0.15)]"
             onClick={() => {
               viewAllFiles();
             }}
@@ -247,11 +247,11 @@ export default function SelectFolder({ className }: props) {
           </button>
         </div>
 
-        <div className="my-5 h-1 flex-1 rounded-xl border-2 "></div>
-        <p className="text-lg font-medium leading-6 text-gray-900">
+        <div className="my-5 h-1 flex-1 rounded-xl border-2 dark:border-gray-500"></div>
+        <p className="text-lg font-medium leading-6 text-gray-900 dark:text-white">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
+            className="h-6 w-6 dark:stroke-gray-400"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -266,14 +266,14 @@ export default function SelectFolder({ className }: props) {
           Add Layers and traits manually
         </p>
         <div className="mt-2">
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-gray-500 dark:text-gray-400">
             Add a new layer and select traits for them. More can be added later
           </p>
         </div>
         <div className="mt-4 flex w-full">
           <button
             type="button"
-            className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+            className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:bg-[rgba(255,255,255,0.1)] dark:text-white dark:backdrop-blur dark:hover:bg-[rgba(255,255,255,0.15)]"
             onClick={() => {
               setCurrentStep("new-property");
             }}

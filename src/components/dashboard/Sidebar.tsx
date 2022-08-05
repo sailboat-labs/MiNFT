@@ -244,9 +244,9 @@ if (process.env.NEXT_PUBLIC_ENVIRONMENT == "production") {
 }
 
 const selectedPageStyles =
-  "flex h-12 cursor-pointer transition-all items-center border-r-4 border-y bg-indigo-50 border-y-indigo-100 border-indigo-500 hover:bg-indigo-200 border-0 px-3 py-4 text-base font-normal stroke-gray-500 shadow-none hover:bg-opacity-90";
+  "flex h-12 cursor-pointer transition-all items-center border-r-4 border-y bg-indigo-50 dark:bg-[rgba(255,255,255,0.05)] dark:border-y-gray-500 dark:text-white border-y-indigo-100 border-indigo-500 hover:bg-indigo-200 border-0 px-3 py-4 text-base font-normal stroke-gray-500 shadow-none hover:bg-opacity-90";
 const defaultStyles =
-  "flex h-12 cursor-pointer transition-all stroke-[#757D8A] items-center text-gray-500  border-0  px-3 py-4 text-base font-normal text-black shadow-none hover:bg-gray-200 hover:text-gray-500";
+  "flex h-12 cursor-pointer transition-all stroke-[#757D8A] items-center text-gray-500  border-0  px-3 py-4 text-base font-normal text-black dark:text-gray-400 shadow-none hover:bg-gray-200 hover:dark:text-gray-200 hover:dark:bg-[rgba(255,255,255,0.07)] hover:text-gray-500";
 
 export default function Sidebar({ currentPage }: SidebarProps) {
   const dashboardState = useSelector(getDashboardState) as IDashboardState;
@@ -255,7 +255,7 @@ export default function Sidebar({ currentPage }: SidebarProps) {
   const dispatch = useDispatch();
 
   return (
-    <div className="z-1 relative z-[1000]  mt-0 flex h-screen w-[15rem] flex-col justify-between border-r bg-white font-dmsans  opacity-100 dark:bg-[color:var(--dark)]">
+    <div className="z-1 relative z-[1000]  mt-0 flex h-screen w-[15rem] flex-col justify-between border-r bg-white font-dmsans opacity-100 dark:border-gray-500 dark:bg-[color:var(--dark)]">
       <div className="flex flex-col pt-5">
         <div className="box-border flex h-16 flex-row items-center px-5 pt-6">
           <div className="h-16 w-16 rounded-full bg-indigo-800">
@@ -272,7 +272,7 @@ export default function Sidebar({ currentPage }: SidebarProps) {
           </div>
 
           <div className="flex w-[15rem] flex-col pt-1 pl-4 pr-0 font-dmsans">
-            <div className="text-sm font-normal text-gray-500">
+            <div className="text-sm font-normal text-gray-500 dark:text-white">
               Welcome back,
             </div>
             <div className="text-lg font-bold text-gray-600">
@@ -281,7 +281,7 @@ export default function Sidebar({ currentPage }: SidebarProps) {
           </div>
         </div>
 
-        <div className="mt-20 px-5 text-xs text-indigo-500">
+        <div className="mt-20 px-5 text-base text-indigo-500">
           Product Features
         </div>
         <div className="mt-5 flex w-full flex-col gap-5">
@@ -298,8 +298,7 @@ export default function Sidebar({ currentPage }: SidebarProps) {
               }
             >
               {item.icon}
-
-              <span className="">{item.label}</span>
+              <span className="text-sm font-semibold">{item.label}</span>
             </div>
           ))}
         </div>

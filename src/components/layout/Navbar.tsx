@@ -16,25 +16,23 @@ type props = {
 
 export default function Navbar({ className }: props) {
   const router = useRouter();
-
   const [navOpen, setNavOpen] = useState(false);
-
   const { Loader, setState, state } = usePageLoader();
 
   return (
     <section
-      className={`fixed z-[999] w-full border-gray-500 bg-white text-gray-700 shadow transition-all dark:bg-[color:var(--dark)]   ${className}`}
+      className={`fixed z-[999] w-full border-gray-500 bg-white text-gray-700 shadow transition-all dark:bg-[color:var(--dark)]  ${className}`}
     >
       {state && <Loader />}
-      <div
-        className={`absolute z-[2] flex h-screen w-full flex-col bg-white shadow transition-all  dark:bg-[color:var(--dark)]   lg:hidden 
+      {/* <div
+        className={`absolute z-[2] flex h-screen w-full flex-col bg-white shadow transition-all  dark:bg-[color:var(--dark)]  lg:hidden 
       ${navOpen ? "translate-x-0" : "translate-x-full"}
       `}
-      >
-        <div className="flex justify-between px-8 py-3 ">
+      > */}
+      {/* <div className="flex justify-between px-8 py-3 ">
           <Link href="/" passHref>
             <div className="flex w-fit justify-between">
-              <span className="flex cursor-pointer select-none items-center text-xl font-black leading-none  text-gray-900  md:mb-0 lg:items-center lg:justify-center">
+              <span className="flex cursor-pointer select-none items-center text-xl font-black leading-none text-gray-900  dark:text-white  md:mb-0 lg:items-center lg:justify-center">
                 Magic Mynt<span className="text-indigo-600">.</span>
               </span>
             </div>
@@ -58,16 +56,17 @@ export default function Navbar({ className }: props) {
           </svg>
         </div>
         <div className="flex w-full justify-center py-5"></div>
-        <div className="flex justify-center"></div>
-        <DarkModeMenu />
-      </div>
+        <div className="flex justify-center"></div> */}
+      {/* <DarkModeMenu /> */}
+      {/* </div> */}
       <div className="container relative z-[1] mx-auto flex max-w-7xl flex-col flex-wrap items-center justify-between px-8 py-3 md:flex-row">
         <div className="relative flex w-full flex-col md:flex-row lg:w-fit">
           <div className="relative z-[2] flex w-full">
             <div className="flex w-full justify-between ">
               <Link href="/" passHref>
-                <span className="flex cursor-pointer select-none items-center text-xl font-black leading-none text-gray-900   md:mb-0 lg:items-center lg:justify-center">
-                  Magic Mynt<span className="text-indigo-600">.</span>
+                <span className="flex cursor-pointer select-none items-center text-xl font-black leading-none text-gray-900 dark:text-white   md:mb-0 lg:items-center lg:justify-center">
+                  Magic Mynt
+                  <span className="text-indigo-600">.</span>
                 </span>
               </Link>
 
@@ -93,9 +92,8 @@ export default function Navbar({ className }: props) {
         </div>
 
         <div className="ml-5 hidden  items-center space-x-6 lg:inline-flex lg:justify-end">
-          {/* <DarkModeMenu className="md:mr-5" /> */}
-
           <ProfileIcon />
+          <DarkModeMenu />
         </div>
       </div>
     </section>

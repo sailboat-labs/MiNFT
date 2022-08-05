@@ -241,7 +241,7 @@ const PropertyGroup: FC<AppProps> = ({
       <div className="flex-1">
         {/* header */}
         <div
-          className="flex items-end justify-between bg-white"
+          className="flex items-end justify-between bg-white dark:bg-[color:var(--dark)]"
           // onClick={() => setCollapsed(!collapsed)}
         >
           <div className="relative mt-5 flex items-center  gap-4 py-2">
@@ -314,7 +314,7 @@ const PropertyGroup: FC<AppProps> = ({
                     <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
                   </svg>
                 </div>
-                <span className="text-sm text-gray-700">
+                <span className="text-sm text-gray-700 dark:text-gray-400">
                   {elements?.length} variation{elements?.length == 1 ? "" : "s"}
                 </span>
               </>

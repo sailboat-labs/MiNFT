@@ -151,18 +151,18 @@ export default function DashboardGetStarted() {
               <div className=" mt-10">
                 <Link href="/" passHref>
                   <div className="flex w-fit justify-between">
-                    <span className="flex cursor-pointer select-none items-center font-dmsans text-4xl font-bold leading-none  text-gray-900  md:mb-0 lg:items-center lg:justify-center">
+                    <span className="flex cursor-pointer select-none items-center font-dmsans text-4xl font-bold leading-none text-gray-900  dark:text-white  md:mb-0 lg:items-center lg:justify-center">
                       Magic Mynt<span className="text-indigo-600">.</span>
                     </span>
                   </div>
                 </Link>
-                <div className="mt-5 text-xl">
+                <div className="mt-5 text-xl dark:text-gray-400">
                   Tools from Sailboat labs for creating your NFT project with no
                   code
                 </div>
               </div>
 
-              <div className="mt-36 flex gap-5">
+              <div className="mt-36 flex gap-5 dark:text-white">
                 <div
                   onClick={() => {
                     setIsCreatingProjectStarted(!isCreatingProjectStarted);
@@ -171,7 +171,7 @@ export default function DashboardGetStarted() {
                       "project-name"
                     );
                   }}
-                  className="flex h-52 w-72 cursor-pointer flex-col justify-between rounded-lg border-2 bg-white px-10 py-5 text-xl transition-all hover:scale-105 hover:bg-gray-50 dark:bg-[color:var(--dark)]"
+                  className="flex h-52 w-72 cursor-pointer flex-col justify-between rounded-lg border-2 bg-white px-10 py-5 text-xl transition-all hover:scale-105 hover:bg-gray-50 dark:border-gray-500 dark:bg-[color:var(--dark)]"
                 >
                   Create Project
                 </div>
@@ -179,7 +179,7 @@ export default function DashboardGetStarted() {
                   onClick={() => {
                     createDemoProject();
                   }}
-                  className=" flex h-52 w-72 cursor-pointer flex-col justify-between rounded-lg border-2 bg-white px-10 py-5 transition-all hover:scale-105 hover:bg-gray-50 dark:bg-[color:var(--dark)]"
+                  className=" flex h-52 w-72 cursor-pointer flex-col justify-between rounded-lg border-2 bg-white px-10 py-5 transition-all hover:scale-105 hover:bg-gray-50 dark:border-gray-500 dark:bg-[color:var(--dark)]"
                 >
                   <div className="font-dmsans text-xl">
                     Explore a demo project
@@ -192,7 +192,7 @@ export default function DashboardGetStarted() {
                         alt=""
                         src={PROFILE_IMAGE}
                       />
-                      <span>Nozomix</span>
+                      <span className="dark:text-gray-400">Nozomix</span>
                     </div>
                   )}
                 </div>
@@ -203,20 +203,22 @@ export default function DashboardGetStarted() {
               <div className="pt-10 font-dmsans text-xl text-gray-500">
                 {activeAddress}
               </div>
-              <div className="mb-10  font-dmsans text-2xl">Recent Projects</div>
+              <div className="mb-10  font-dmsans text-2xl dark:text-white">
+                Recent Projects
+              </div>
               {loading && (
-                <div className="flex w-full">
+                <div className="my-10 flex w-full">
                   <PageLoader />
                 </div>
               )}
 
               {!loading && allProjects.length < 1 && activeAddress && (
-                <div className="mt-10 font-dmsans text-2xl">
-                  No Project Created
-                </div>
+                <div className=" font-dmsans text-2xl">No Project Created</div>
               )}
               <DelegatedProjects />
-              <div className="mb-5 text-xl font-semibold">My Projects</div>
+              <div className="mb-5 text-xl font-semibold dark:text-white">
+                My Projects
+              </div>
 
               <div className="3xl:grid-cols-4 mb-20 grid grid-cols-1 gap-5 xl:grid-cols-2 2xl:grid-cols-3">
                 {allProjects.map((project, index) => (
@@ -225,12 +227,14 @@ export default function DashboardGetStarted() {
                     onClick={() => {
                       router.push(`/dashboard/${project.slug}`);
                     }}
-                    className="cursor-pointer rounded-lg border bg-gray-50 px-5 py-5 transition-all hover:bg-gray-100"
+                    className="cursor-pointer rounded-lg border bg-gray-50 px-5 py-5 transition-all hover:bg-gray-100 dark:border-gray-500 dark:bg-gray-600"
                   >
-                    <div className="pr-20 font-dmsans text-xl">
+                    <div className="pr-20 font-dmsans text-xl dark:text-white">
                       {project.projectName}
                     </div>
-                    <div className="pb-20 font-dmsans">{project.slug}</div>
+                    <div className="pb-20 font-dmsans dark:text-gray-400">
+                      {project.slug}
+                    </div>
                   </div>
                 ))}
               </div>

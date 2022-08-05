@@ -13,7 +13,7 @@ export default function DashboardHome() {
   return (
     <div className="container flex h-screen w-full px-10 pt-16">
       <div className="flex w-full flex-col  rounded-lg font-dmsans ">
-        <div className="text-3xl">{project.projectName}</div>
+        <div className="text-3xl dark:text-white">{project.projectName}</div>
         <div
           className={`text-lg text-gray-500 ${
             project.owner?.toLowerCase() == address.toLowerCase()
