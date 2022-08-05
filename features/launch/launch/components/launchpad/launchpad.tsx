@@ -367,7 +367,9 @@ export default function ProjectLaunch({ session }: props) {
                   </article>
                 </div>
               </section>
-              <FAQ launchInformation={launchInformation} />
+              {launchInformation?.faq && (
+                <FAQ launchInformation={launchInformation} />
+              )}
             </div>
           </div>
         }
