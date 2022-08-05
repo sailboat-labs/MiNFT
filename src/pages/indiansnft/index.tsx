@@ -32,7 +32,7 @@ export default function LandingPage() {
 
   // const contractAddress = "0x7311102EcC5a3Effb9Fc2e734d918A4eb448A13E";
   // const contractAddress = "0xd1aFbbdf886cc20E5c683B06444a116aDCe11F8E";
-  const contractAddress = "0x1D58c3D6a74fE95704356dC509a24AcAfd883804";
+  const contractAddress = "0x6c972da111012C9747a5C02B012A9880Cd8a3255";
 
   const [project, setProject] = useState<Project>();
 

@@ -37,7 +37,6 @@ export async function getContractInfo(contract: ethers.Contract | undefined) {
     let endingPrice;
     let currentPrice;
 
-    // const totalSupply = parseInt((await contract?.totalSupply())?._hex);
     const maxMintPerWallet = parseInt(
       (await contract?.maxMintPerWallet())?._hex
     );
