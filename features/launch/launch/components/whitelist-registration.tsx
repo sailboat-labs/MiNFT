@@ -348,7 +348,7 @@ export default function WhitelistRegistration({
           <AuthDialog />
           <div className="flex w-full flex-col items-center text-white lg:flex-row">
             {whitelisted && (
-              <div className="rounded-lg bg-white p-4 py-4 text-black">
+              <div className="rounded-lg bg-white p-4 py-4 text-black dark:bg-[color:var(--dark)]">
                 <div>Must be magic!</div>
                 <p>
                   Your wallet <span className="text-indigo-500">{address}</span>{" "}

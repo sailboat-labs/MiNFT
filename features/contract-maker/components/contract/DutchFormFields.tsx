@@ -79,7 +79,7 @@ const DutchAuctionFormFields: FC<AppProps> = ({ form }) => {
       </section>
       <section className="mt-10 flex items-start  gap-10">
         {/* <DateTimeRangePicker /> */}
-        <div className=" max-w-[300px] flex-1 rounded-md bg-white p-5 ring-1 ring-gray-200">
+        <div className=" max-w-[300px] flex-1 rounded-md bg-white p-5 ring-1 ring-gray-200 dark:bg-[color:var(--dark)]">
           <strong>Minutes</strong>
           <BaseSelect
             options={[]}

@@ -15,7 +15,7 @@ const BasicSettings = () => {
 
   return (
     <div className="py-12">
-      <h4>Blockchain</h4>
+      <h4 className="dark:text-white">Blockchain</h4>
       <p>Select the format to use when exporting metadata</p>
       {/* radio group */}
       <div className="mt-6 flex gap-x-6">

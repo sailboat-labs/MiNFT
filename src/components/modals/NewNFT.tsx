@@ -47,7 +47,7 @@ const NewNFT: FC<AppProps> = ({ isOpen, closeModal }) => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="w-full max-w-lg transform overflow-hidden rounded bg-white p-6 text-left align-middle shadow-xl transition-all">
+              <div className="w-full max-w-lg transform overflow-hidden rounded bg-white p-6 text-left align-middle shadow-xl transition-all dark:bg-[color:var(--dark)]">
                 <div className="mt-2">
                   <div className="flex flex-col gap-2">
                     <Dialog.Title

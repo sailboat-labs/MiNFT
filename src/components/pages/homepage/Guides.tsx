@@ -48,7 +48,7 @@ export default function Guides() {
               </div>
               <div className="">
                 <ButtonLink
-                  className="mt-7 flex h-10 w-48 items-center justify-center rounded-lg border-0 bg-white text-base font-bold text-indigo-800 hover:bg-indigo-500"
+                  className="mt-7 flex h-10 w-48 items-center justify-center rounded-lg border-0 bg-white text-base font-bold text-indigo-800 hover:bg-indigo-500 dark:bg-[color:var(--dark)]"
                   href={
                     index == 0
                       ? "/get-started"

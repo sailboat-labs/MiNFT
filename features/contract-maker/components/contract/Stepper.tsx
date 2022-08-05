@@ -25,7 +25,7 @@ const Stepper = ({
   return (
     <div className="relative mx-auto mb-10 mt-14 flex  items-center justify-between">
       <button
-        className="group h-6 w-6 rounded-full bg-white fill-indigo-800 disabled:cursor-not-allowed disabled:!fill-gray-300"
+        className="group h-6 w-6 rounded-full bg-white fill-indigo-800 disabled:cursor-not-allowed disabled:!fill-gray-300 dark:bg-[color:var(--dark)]"
         disabled={activeStep === 1}
         onClick={() => onStep(-1)}
       >
@@ -68,7 +68,7 @@ const Stepper = ({
         ))}
       <div className="absolute top-1/2 -z-10 h-[1px]  w-full -translate-y-1/2 transform bg-indigo-800"></div>
       <button
-        className="group h-6 w-6 rounded-full bg-white fill-indigo-800 disabled:cursor-not-allowed disabled:!fill-gray-300"
+        className="group h-6 w-6 rounded-full bg-white fill-indigo-800 disabled:cursor-not-allowed disabled:!fill-gray-300 dark:bg-[color:var(--dark)]"
         onClick={() => onStep()}
         disabled={activeStep === stepsCount}
       >

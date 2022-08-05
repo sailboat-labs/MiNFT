@@ -138,7 +138,7 @@ const LaunchpadConfig: NextPage = () => {
   return (
     <div className="h-screen overflow-y-auto">
       <div
-        className={`pointer-events-none fixed scale-75 bg-white transition-all ${
+        className={`pointer-events-none fixed scale-75 bg-white transition-all dark:bg-[color:var(--dark)] ${
           showSavingDraftLoader || isLoadingLaunchInformation
             ? "opacity-100"
             : "opacity-0"

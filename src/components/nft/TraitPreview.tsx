@@ -70,7 +70,7 @@ const TraitPreview: FC<AppProps> = ({
   return (
     <div className="flex flex-col items-center justify-center">
       <div
-        className={`text-xs font-semibold text-[#30489C] transition-all ${
+        className={`text-xs font-semibold text-[#30489C] transition-all dark:text-white ${
           active && !rarityMode ? "opacity-100" : "opacity-0"
         }`}
       >
@@ -107,7 +107,7 @@ const TraitPreview: FC<AppProps> = ({
         </div>
       </div>
       {!rarityMode && (
-        <div className="w-20 overflow-hidden text-center text-xs text-gray-600">
+        <div className="w-20 overflow-hidden text-center text-xs text-gray-600 dark:text-gray-300">
           {file.filename?.toString().split(".")[0]}
         </div>
       )}

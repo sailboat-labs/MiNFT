@@ -28,6 +28,7 @@ export default function DelegatedProjects() {
     collectionGroup(firestore, `Delegates`),
     where("delegate", "==", activeAddress)
   );
+
   const [snapshots, loading] = useCollectionData(_query);
 
   async function handleGetDelegatedProjects() {
@@ -53,15 +54,17 @@ export default function DelegatedProjects() {
   return (
     <div className="mb-10">
       <div>
-        <div className="mb-5 text-xl font-semibold">Delegated Projects</div>
-        <div className="3xl:grid-cols-4 mb-20 grid grid-cols-1 gap-5 xl:grid-cols-2 2xl:grid-cols-3">
+        <div className="mb-5 text-xl font-semibold dark:text-white">
+          Delegated Projects
+        </div>
+        <div className="3xl:grid-cols-4  grid grid-cols-1 gap-5 xl:grid-cols-2 2xl:grid-cols-3">
           {delegatedProjects.map((project, index) => (
             <div
               key={index}
               onClick={() => {
                 router.push(`/dashboard/${project.slug}`);
               }}
-              className="cursor-pointer rounded-lg border bg-gray-50 px-5 py-5 transition-all hover:bg-gray-100"
+              className="mt-10 mb-56 cursor-pointer rounded-lg border bg-gray-50 px-5 py-5 transition-all hover:bg-gray-100"
             >
               <div className="pr-20 font-dmsans text-xl">
                 {project.projectName}
@@ -72,7 +75,7 @@ export default function DelegatedProjects() {
         </div>
 
         {!loading && delegatedProjects.length < 1 && (
-          <div> No project delegated to you</div>
+          <div className="dark:text-gray-400"> No project delegated to you</div>
         )}
       </div>
     </div>

@@ -19,7 +19,7 @@ const ContractTypeRadio: FC<AppProps> = ({
 
   return (
     <button
-      className={`relative flex min-h-[150px] flex-col rounded-lg bg-white p-8 text-left ring-2 ring-gray-200 transition-shadow duration-75 hover:shadow-lg ${
+      className={`relative flex min-h-[150px] flex-col rounded-lg bg-white p-8 text-left ring-2 ring-gray-200 transition-shadow duration-75 hover:shadow-lg dark:bg-[color:var(--dark)] ${
         checked && " ring-indigo-400"
       }`}
       onClick={() => {

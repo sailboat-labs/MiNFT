@@ -149,7 +149,7 @@ export default function Contact({ project }: IContactProps) {
 
     setTwitterLoading(true);
     const requestTwitterUrl = httpsCallable(functions, "requestTwitterUrl");
-    requestTwitterUrl({projectSlug: project.slug})
+    requestTwitterUrl({ projectSlug: project.slug })
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .then((result: any) => {
         window.open(result.data.authUrl, "_self");
@@ -253,7 +253,7 @@ export default function Contact({ project }: IContactProps) {
         </div>
 
         {whitelisted && (
-          <div className="rounded-lg bg-white p-4 py-4 text-black shadow-xl lg:w-5/12">
+          <div className="rounded-lg bg-white p-4 py-4 text-black shadow-xl dark:bg-[color:var(--dark)] lg:w-5/12">
             <div>Hello,</div>
             <p>Your wallet {address} is whitelisted</p>
             <Button
@@ -268,7 +268,7 @@ export default function Contact({ project }: IContactProps) {
         )}
 
         {!whitelisted && (
-          <div className="flex flex-col gap-8 rounded-lg bg-white py-4 text-black shadow-xl lg:w-5/12">
+          <div className="flex flex-col gap-8 rounded-lg bg-white py-4 text-black shadow-xl dark:bg-[color:var(--dark)] lg:w-5/12">
             <div className="px-4">
               {endDate > now && new Date(project.startDate) <= now && (
                 <h3>Register</h3>

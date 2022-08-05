@@ -66,7 +66,10 @@ export default function ContactUs() {
 
   return (
     <>
-      <div onClick={openModal} className="cursor-pointer sm:mr-10 lg:mr-14">
+      <div
+        onClick={openModal}
+        className="cursor-pointer font-semibold dark:font-medium dark:text-gray-400 sm:mr-10 lg:mr-14"
+      >
         Contact us
       </div>
 
@@ -95,8 +98,8 @@ export default function ContactUs() {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="flex h-fit w-fit transform flex-col overflow-hidden rounded-2xl bg-white p-6 pr-20 text-left align-middle shadow-xl transition-all">
-                  <h4 className="mx-auto w-full px-3 text-3xl font-bold md:px-0">
+                <Dialog.Panel className="flex h-fit w-fit transform flex-col overflow-hidden rounded-2xl bg-white p-6 pr-20 text-left align-middle shadow-xl transition-all dark:bg-[color:var(--dark)]">
+                  <h4 className="mx-auto w-full px-3 text-3xl font-medium  md:px-0">
                     Contact us
                   </h4>
                   <div className="mx-auto flex items-center justify-center md:block lg:flex">

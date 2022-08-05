@@ -73,7 +73,7 @@ export default function Footer({ className }: props) {
           </div>
 
           <div className="pt-16 pb-8 lg:pt-10 lg:pr-12">
-            <div className="mb-5 text-center font-dmsans text-4xl font-extrabold text-[#675C4C] sm:text-start lg:mb-0">
+            <div className="mb-5 text-center font-dmsans text-4xl font-extrabold text-[#b8945f] sm:text-start lg:mb-0">
               Magic Mynt
             </div>
 

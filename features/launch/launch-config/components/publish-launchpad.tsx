@@ -62,7 +62,7 @@ export default function PublishLaunchPad() {
   return (
     <>
       <div
-        className={`pointer-events-none fixed scale-75 bg-white transition-all ${
+        className={`pointer-events-none fixed scale-75 bg-white transition-all dark:bg-[color:var(--dark)] ${
           isLoadingPublishedData ? "opacity-100" : "opacity-0"
         }`}
       >

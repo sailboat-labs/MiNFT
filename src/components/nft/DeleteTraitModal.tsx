@@ -27,7 +27,7 @@ export default function DeleteTraitModal({ trait }: props) {
     <>
       <svg
         xmlns="http://www.w3.org/1200/svg"
-        className="absolute -left-2 -top-2 h-6 w-6 rotate-45 scale-0  transform rounded-full bg-white p-1 shadow-md transition duration-150 hover:rotate-[135deg] hover:cursor-pointer hover:border hover:border-gray-200 hover:shadow-none group-hover:scale-100"
+        className="absolute -left-2 -top-2 h-6 w-6 rotate-45 scale-0  transform rounded-full bg-white p-1 shadow-md transition duration-150 hover:rotate-[135deg] hover:cursor-pointer hover:border hover:border-gray-200 hover:shadow-none group-hover:scale-100 dark:bg-[color:var(--dark)]"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"
@@ -62,7 +62,7 @@ export default function DeleteTraitModal({ trait }: props) {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-lg transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="w-full max-w-lg transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all dark:bg-[color:var(--dark)]">
                   <Dialog.Title
                     as="h3"
                     className="mb-5 flex items-center gap-2 text-lg font-medium leading-6 text-red-500"
