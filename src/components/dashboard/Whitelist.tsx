@@ -1,36 +1,85 @@
-import { useState } from "react";
+/* eslint-disable no-console */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { doc, onSnapshot } from "firebase/firestore";
+import { useFormik } from "formik";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { v4 } from "uuid";
+import * as Yup from "yup";
 
+import { firestore } from "@/lib/firebase";
+
+import { updateAccounts } from "@/firestore/project";
+import { checkTwitterExists } from "@/firestore/project";
+import { addWhitelist } from "@/firestore/whitelist";
+
+import WhitelistDates from "./Whitelist/WhitelistDates";
 import WhitelistTable from "./Whitelist/WhitelistTable";
-import ButtonLink from "../links/ButtonLink";
+import Button from "../buttons/Button";
+
+import { Project } from "@/types";
 
 export default function Whitelist() {
-  const [walletNumber, setWalletNumber] = useState("");
+  const router = useRouter();
+  const slug = router.query.project as string;
 
-  const clearWalletNumber = (e: any) => {
-    e.preventDefault();
-    setWalletNumber("");
-  };
+  const [loading, setLoading] = useState(false);
 
-  const updateWalletNumber = (e: any) => {
-    e.preventDefault();
-    setWalletNumber(e.target.value);
-  };
+  const [project, setProject] = useState<Project>();
 
-  const [twitterAccount, setTwitterAccount] = useState("");
+  useEffect(() => {
+    const _doc = doc(firestore, `Projects/${slug}`);
+    const unsubscribe = onSnapshot(_doc, (snapshot) => {
+      console.log(snapshot.data());
+      setProject(snapshot.data() as Project);
+    });
 
-  const clearTwitterAccount = (e: any) => {
-    e.preventDefault();
-    setTwitterAccount("");
-  };
+    return () => {
+      unsubscribe();
+    };
+  }, [slug]);
 
-  const updateTwitterAccount = (e: any) => {
-    e.preventDefault();
-    setTwitterAccount(e.target.value);
-  };
+  const newUserForm = useFormik({
+    initialValues: {
+      address: "",
+      twitter: "",
+    },
+    validationSchema: Yup.object().shape({
+      address: Yup.string().required("Required"),
+      twitter: Yup.string().required("Required"),
+    }),
+    onSubmit: async (values, formik) => {
+      setLoading(true);
+
+      const twitterExists = await checkTwitterExists(slug, values.twitter);
+
+      if (twitterExists) {
+        setLoading(false);
+        return toast.error("Twitter account is in use");
+      }
+
+      await updateAccounts(slug, values.twitter);
+
+      await addWhitelist({
+        id: v4(),
+        projectSlug: slug,
+        wallet: values.address,
+        twitterUsername: values.twitter,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      });
+
+      toast.success("User added");
+
+      formik.resetForm();
+      setLoading(false);
+    },
+  });
 
   return (
     <div className="h-[length:calc(100vh-80px)] overflow-auto font-dmsans opacity-100">
-      <div className=" pl-10 pt-24 ">
+      <div className="pl-10 pt-24">
         <div>
           <div className="-mt-16 text-2xl font-bold text-gray-700">
             Whitelist accounts
@@ -41,24 +90,31 @@ export default function Whitelist() {
           </div>
         </div>
 
+        {project && (
+          <div className="mt-5 border-y py-5 pl-0 pt-5">
+            <WhitelistDates project={project} />
+          </div>
+        )}
+
         <div className="mt-5">
-          <form>
-            <span className="font-dmsans text-base font-semibold text-gray-600 opacity-100">
-              Add a new person to the list
-            </span>
-            <div className="mt-3 flex h-12 w-3/5 flex-col justify-between">
-              <div className="flex h-12 flex-row">
-                <div className="flex h-12 w-72 flex-row items-center rounded-lg border border-gray-300 focus-within:border-2 focus-within:border-indigo-500 focus-within:ring focus-within:ring-indigo-300">
+          <span className="font-dmsans text-base font-semibold text-gray-600 opacity-100">
+            Add a new person to the list
+          </span>
+          <div className="mt-3 flex h-12 w-3/5 flex-col justify-between">
+            <div className="flex h-12 flex-row">
+              <div className="flex flex-col gap-2">
+                <div className="flex w-72 flex-row items-center rounded-lg border border-gray-300 focus-within:border-2 focus-within:border-indigo-500 focus-within:ring focus-within:ring-indigo-300">
                   <input
                     id="walletNumber"
                     className="h-full w-11/12 rounded-lg border-0"
                     type="text"
                     placeholder="Wallet number"
-                    value={walletNumber}
-                    onChange={updateWalletNumber}
-                    required
+                    {...newUserForm.getFieldProps("address")}
                   />
-                  <button onClick={clearWalletNumber}>
+
+                  <button
+                    onClick={() => newUserForm.setFieldValue("address", "")}
+                  >
                     <svg
                       className="mx-3"
                       width="24"
@@ -80,16 +136,25 @@ export default function Whitelist() {
                     </svg>
                   </button>
                 </div>
-                <div className="ml-10 flex w-72 flex-row items-center rounded-lg border border-gray-300 focus-within:border-2 focus-within:border-indigo-500 focus-within:ring focus-within:ring-indigo-300">
+
+                {newUserForm.errors.address && (
+                  <p className="text-sm text-red-500">
+                    {newUserForm.errors.address}
+                  </p>
+                )}
+              </div>
+              <div className="ml-10 flex flex-col gap-2">
+                <div className="flex w-72 flex-row items-center rounded-lg border border-gray-300 focus-within:border-2 focus-within:border-indigo-500 focus-within:ring focus-within:ring-indigo-300">
                   <input
                     id="twitterAccount"
                     className="h-full w-11/12 rounded-lg border-0"
                     type="text"
                     placeholder="Twitter account (optional)"
-                    value={twitterAccount}
-                    onChange={updateTwitterAccount}
+                    {...newUserForm.getFieldProps("twitter")}
                   />
-                  <button onClick={clearTwitterAccount}>
+                  <button
+                    onClick={() => newUserForm.setFieldValue("twitter", "")}
+                  >
                     <svg
                       className="mx-3"
                       width="24"
@@ -111,20 +176,27 @@ export default function Whitelist() {
                     </svg>
                   </button>
                 </div>
-              </div>
-              {/* SUBMIT FORM */}
-              <div className="block font-montserrat">
-                <button type="submit">
-                  <ButtonLink
-                    href="#"
-                    className="gradient-button mt-5 transition-all"
-                  >
-                    Add person
-                  </ButtonLink>
-                </button>
+                {newUserForm.errors.twitter && (
+                  <p className="text-sm text-red-500">
+                    {newUserForm.errors.twitter}
+                  </p>
+                )}
               </div>
             </div>
-          </form>
+            {/* SUBMIT FORM */}
+            <div className="mt-5 block font-montserrat">
+              <Button
+                onClick={(e) => {
+                  e.preventDefault();
+                  newUserForm.handleSubmit();
+                }}
+                isLoading={loading}
+                className="gradient-button mt-5 transition-all"
+              >
+                Add person
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
 

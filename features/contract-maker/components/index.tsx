@@ -43,11 +43,11 @@ const ContractMakerView = () => {
               // }}
               onClick={() => {
                 if (activeStep == 2) {
-                  document.getElementById("form-submit")?.click();
+                  //document.getElementById("form-submit")?.click();
                   nextStep();
                 } else nextStep();
               }}
-              type="submit"
+              // type='submit'
               className="rounded-md bg-indigo-800 px-10 py-2 text-white transition-all duration-150 hover:bg-indigo-900 dark:text-gray-700"
             >
               Next
@@ -55,7 +55,10 @@ const ContractMakerView = () => {
           )}
           {activeStep === 3 && (
             <button
-              // onClick={() => nextStep()}
+              onClick={() => {
+                document.getElementById("showValues")?.click();
+                document.getElementById("showWhitelistValues")?.click();
+              }}
               className="rounded-md bg-indigo-800 px-10 py-2 text-white transition-all duration-150 hover:bg-indigo-900"
             >
               Save

@@ -1,3 +1,4 @@
+import { handleUpload } from "features/traitmixer/components/PropertyGroup/upload-element";
 import React, { ChangeEvent, FC, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,6 +7,7 @@ import {
   getLayers,
   getSelectedLayerName,
 } from "redux/reducers/selectors/layers";
+import { getProjectState } from "redux/reducers/selectors/project";
 import {
   addTraitsToLayer,
   changeLayerName,
@@ -14,7 +16,7 @@ import {
 } from "redux/reducers/slices/layers";
 
 import { enumNFTGenConfig } from "@/enums/nft-gen-configurations";
-import { IElement, ILayer } from "@/interfaces";
+import { IElement, ILayer, IProject } from "@/interfaces";
 
 import LayerContextMenu from "./LayerContextMenu";
 import TraitPreview from "./TraitPreview";
@@ -51,6 +53,7 @@ const PropertyGroup: FC<AppProps> = ({
   const fileInput = useRef<HTMLInputElement>(null);
   const [newName, setNewName] = useState<string>();
   const layers = useSelector(getLayers) as ILayer[];
+  const project = useSelector(getProjectState) as IProject;
 
   const configuration = useSelector(getConfiguration);
   const [possibleConfigCount, setPossibleConfigCount] = useState(0);
@@ -66,7 +69,7 @@ const PropertyGroup: FC<AppProps> = ({
     }
   }
 
-  function handleFileChanged(evt: ChangeEvent<HTMLInputElement>) {
+  async function handleFileChanged(evt: ChangeEvent<HTMLInputElement>) {
     const fileListArray: File[] = [];
     const files: FileList | null = evt.target.files;
     // console.log(files?.length);
@@ -76,21 +79,60 @@ const PropertyGroup: FC<AppProps> = ({
       }
     }
 
+    // fileListArray.forEach((element) => {
+    //   handleUpload(element);
+    // });
+
+    const elements: any[] = [];
+
     if (files) {
-      const elements = fileListArray.map((file, index) => ({
-        id: index,
-        sublayer: false,
-        blendmode: "source-over",
-        opacity: 1,
-        name: layer.name,
-        filename: `${file.name}`,
-        path: URL.createObjectURL(file),
-        zindex: "",
-        trait: layer.name,
-        traitValue: file.name?.split(".")[0],
-        weight: getMaximumSupply() / layer.elements.length ?? 0,
-        isWeightTouched: false,
-      }));
+      for (let index = 0; index < fileListArray.length; index++) {
+        const file = fileListArray[index];
+        const downloadUrl = (await handleUpload(
+          project,
+          layer.id?.toString() ?? "unknown",
+          file
+        )) as string;
+        toast(downloadUrl?.toString());
+
+        const element: IElement = {
+          id: index,
+          sublayer: false,
+          blendmode: "source-over",
+          opacity: 1,
+          name: layer.name,
+          filename: `${file.name}`,
+          path: downloadUrl,
+          zindex: "",
+          trait: layer.name,
+          traitValue: file.name?.split(".")[0],
+          weight: getMaximumSupply() / layer.elements.length ?? 0,
+          isWeightTouched: false,
+        };
+
+        elements.push(element);
+      }
+
+      console.log({ elements });
+
+      // elements = fileListArray.map(async (file, index) => {
+      //   const downloadUrl = await handleUpload(file);
+
+      //   return {
+      //     id: index,
+      //     sublayer: false,
+      //     blendmode: "source-over",
+      //     opacity: 1,
+      //     name: layer.name,
+      //     filename: `${file.name}`,
+      //     path: downloadUrl,
+      //     zindex: "",
+      //     trait: layer.name,
+      //     traitValue: file.name?.split(".")[0],
+      //     weight: getMaximumSupply() / layer.elements.length ?? 0,
+      //     isWeightTouched: false,
+      //   };
+      // });
     }
 
     dispatch(addTraitsToLayer({ layerName: layer.name, elements: elements }));

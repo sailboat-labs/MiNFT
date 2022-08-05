@@ -21,7 +21,7 @@ export const loadImg = async (_img: any) => {
 };
 
 const preview_gif = {
-  numberOfImages: 10,
+  numberOfImages: 5,
   order: "ASC", // ASC, DESC, MIXED
   repeat: 0,
   quality: 30,

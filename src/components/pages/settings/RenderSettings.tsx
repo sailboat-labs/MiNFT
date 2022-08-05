@@ -48,7 +48,6 @@ const OutputSettingsPage = () => {
   return (
     <section className="container mx-auto max-w-2xl divide-y divide-gray-200 pb-10">
       <div className="py-12">
-        <h3 className="mb-2 text-4xl font-bold">Render Settings</h3>
         <h4>Backend</h4>
         <p>
           Magic Mynt comes with two render systems - one using canvas and the

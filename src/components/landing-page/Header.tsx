@@ -1,6 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
 import images from "./Images";
-import ButtonLink from "../links/ButtonLink";
 import UnstyledLink from "../links/UnstyledLink";
 
 export default function Header() {
@@ -16,16 +15,16 @@ export default function Header() {
           </UnstyledLink>
         </div>
         <div className="hidden space-x-20 lg:block">
-          <UnstyledLink href="/whitelist">Join Whitelist</UnstyledLink>
-          <UnstyledLink href="">Become a Bhenchod</UnstyledLink>
-          <UnstyledLink href="">About</UnstyledLink>
-          <UnstyledLink href="">Collection</UnstyledLink>
+          <UnstyledLink href="#join-whitelist">Join Whitelist</UnstyledLink>
+          <UnstyledLink href="#join-whitelist">Become a Bhenchod</UnstyledLink>
+          <UnstyledLink href="/indiansnft/whitelist/verify">
+            Verify Whitelist Status
+          </UnstyledLink>
+          {/* <UnstyledLink href="">About</UnstyledLink>
+          <UnstyledLink href="">Collection</UnstyledLink> */}
         </div>
         <div className="mr-1 hidden flex-row items-center justify-end space-x-3 lg:flex">
-          <UnstyledLink
-            href="https://discord.gg/xdtvt9g6"
-            target="_blank"
-          >
+          <UnstyledLink href="https://discord.gg/xdtvt9g6" target="_blank">
             <img src={images.discordSrc} alt="Discord" />
           </UnstyledLink>
           <UnstyledLink
@@ -34,12 +33,6 @@ export default function Header() {
           >
             <img src={images.twitterSrc} alt="Twitter" />
           </UnstyledLink>
-          <ButtonLink
-            href=""
-            className="rounded-2xl border-black bg-black py-3 px-12 uppercase hover:bg-black"
-          >
-            MINT NOW
-          </ButtonLink>
         </div>
       </div>
     </div>

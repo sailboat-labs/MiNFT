@@ -31,12 +31,12 @@ export default function Footer() {
           >
             Twitter
           </UnstyledLink>
-          <UnstyledLink
+          {/* <UnstyledLink
             href=""
             className="mb-6 text-2xl font-extrabold uppercase md:text-3xl lg:mb-0"
           >
             Opensea
-          </UnstyledLink>
+          </UnstyledLink> */}
         </div>
         <div className="mr-1 mt-7 flex flex-col items-center justify-center md:mt-10 lg:mt-0 lg:flex-row lg:justify-end lg:space-x-3">
           <UnstyledLink

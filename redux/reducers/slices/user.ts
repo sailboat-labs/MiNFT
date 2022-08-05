@@ -3,17 +3,15 @@ import { createSlice } from "@reduxjs/toolkit";
 const userStore = createSlice({
   name: "user",
   initialState: {
-    email: "",
-    name: "",
-    category: "group",
+    address: "",
   },
   reducers: {
-    setUser: (state, param) => {
+    setAddress: (state, param) => {
       const { payload } = param;
-      state = payload;
+      state.address = payload;
     },
   },
 });
 const { actions, reducer } = userStore;
-export const { setUser } = actions;
+export const { setAddress } = actions;
 export default userStore;

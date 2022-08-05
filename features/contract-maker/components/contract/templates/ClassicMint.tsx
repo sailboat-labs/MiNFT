@@ -4,11 +4,7 @@ import * as Yup from "yup";
 
 import ClassicMintFormFields from "../ClassicMintFormFields";
 
-interface AppProps {
-  isPreview?: boolean;
-}
-
-const ClassicMint = ({isPreview = false}) => {
+const ClassicMint = ({ isPreview = false }) => {
   const classicMintForm = useFormik({
     initialValues: {
       quantityOfCollection: 0,
@@ -19,7 +15,7 @@ const ClassicMint = ({isPreview = false}) => {
       startDate: null,
       endDate: null,
       timezone: null,
-      minutes: 0,
+      minutes: 1,
     },
     validationSchema: Yup.object({
       quantityOfCollection: Yup.number()
@@ -48,14 +44,7 @@ const ClassicMint = ({isPreview = false}) => {
     },
   });
 
-  if (isPreview) {
-    return (
-      <ClassicMintFormFields form={classicMintForm} isPreview />
-    )
-  }
-  
-  return <ClassicMintFormFields form={classicMintForm} /> 
-  
+  return <ClassicMintFormFields form={classicMintForm} isPreview={isPreview} />;
 };
 
 export default ClassicMint;

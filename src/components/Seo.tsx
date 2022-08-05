@@ -7,9 +7,10 @@ import { useRouter } from "next/router";
 const defaultMeta = {
   title: "Magic Mynt",
   siteName: "Magic Mynt",
-  description: "The place for crowd-sourced alpha on the hottest NFT projects",
+  description:
+    "No-code platform allowing anyone to monetize their art through NFTs",
   /** Without additional '/' on the end, e.g. https://theodorusclarence.com */
-  url: "https://minft.me",
+  url: "https://magicmynt.com",
   type: "website",
   robots: "follow, index",
   /** No need to be filled, will be populated with openGraph function */
@@ -74,8 +75,7 @@ export default function Seo(props: SeoProps) {
           />
         </>
       )}
-      {/* Favicons */}npx create-next-app next-tailwind-typescript-starter
-      --example with-typescript
+
       <meta name="msapplication-TileColor" content="#ffffff" />
       <meta
         name="msapplication-TileImage"

@@ -1,69 +1,17 @@
 /* eslint-disable @next/next/no-img-element */
 import { ethers } from "ethers";
-import { getContract } from "features/dashboard/components/DeployedContracts/index.logic";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-import images from "./Images";
+type props = {
+  contract?: ethers.Contract | undefined;
+};
 
-export default function Banner() {
-  let contract: ethers.Contract;
-  const [price, setPrice] = useState("0");
-  const [totalQuantity, setTotalQuantity] = useState("0");
-  const [totalMinted, setTotalMinted] = useState<any>();
+export default function Banner({ contract }: props) {
+  const [totalQuantity, setTotalQuantity] = useState<number>();
+  const [totalSupply, setTotalSupply] = useState<number>(0);
 
-  const contractAddress = "0x2D3947F68b6dd987e3061C31eF3D37391772842b";
-  let account: string;
-
-  async function prepareContract() {
-    const provider = new ethers.providers.Web3Provider(
-      (window as any).ethereum
-    );
-    const signer = provider.getSigner();
-    const signerAddress = await signer.getAddress();
-    account = signerAddress;
-    const registry = getContract("Registry", signer);
-
-    if (!registry) {
-      toast.error("Registry not found");
-      return;
-    }
-
-    const contractType = ethers.utils.parseBytes32String(
-      await registry.contract.proxyType(contractAddress)
-    );
-
-    const abi = getContract(contractType, signer)?.abi;
-
-    const _contract = new ethers.Contract(contractAddress, abi, signer);
-    contract = _contract;
-
-    const name = await contract.name();
-    const symbol = await contract.symbol();
-    const totalSupply = await contract.totalSupply();
-    setPrice(ethers.utils.formatEther(await contract.mintPrice()));
-    const tokensMinted = (
-      await contract.tokensMinted(signerAddress)
-    )._hex.toString();
-    const totalQuantity = (await contract.totalQuantity())._hex.toString();
-
-    console.log({ format: ethers.utils.formatEther(98) });
-
-    console.log({
-      name,
-      symbol,
-      price: contract.mintPrice()._hex,
-      tokensMinted,
-      totalQuantity,
-      totalSupply,
-    });
-    console.log({ contract });
-    return contract;
-  }
-
-  useEffect(() => {
-    prepareContract();
-  }, []);
+  const [mintButtonText, setMintButtonText] = useState("Mint Now");
 
   const [heading, setHeading] = useState(
     "We're here to puja the Crypto Winter away. You better mint Bloody Bastards"
@@ -81,10 +29,100 @@ export default function Banner() {
     }
   };
 
-//   style attribute {
-//     font-family: wfont_531ace_58938f917a1b4e66a2181c66dc63faa1,wf_58938f917a1b4e66a2181c66d,orig_century_schoolbook_std;
-// }
+  async function preparePage() {
+    const provider = new ethers.providers.Web3Provider(
+      (window as any).ethereum
+    );
+    const signer = provider.getSigner();
+    const signerAddress = await signer.getAddress();
+    const totalQuantity = await contract?.totalQuantity();
+    const totalSupply = await contract?.totalSupply();
+    const tokensMinted = await contract?.tokensMinted(signerAddress);
+    const price = await contract?.mintPrice();
+    let baseURI = await contract?.baseURI();
+    const baseExtension = await contract?.baseExtension();
+    const name = await contract?.name();
+    const hasMintStarted = await contract?.hasMintStarted();
+    const _startingTimestamp = await contract?.startingTimestamp();
+    const startingTimestamp = parseInt(_startingTimestamp?._hex);
+    const _endingTimestamp = await contract?.endingTimestamp();
+    const endingTimestamp = parseInt(_endingTimestamp?._hex);
+    const tokenURI = await contract?.tokenURI(1);
+    // await contract?.setBaseURI(
+    //   "https://gateway.pinata.cloud/ipfs/QmP2oPenwx9tMuQuCzAefvVfv8sjLPneT6Lea53XirhAYJ"
+    // );
+    // await contract?.setBaseExtension(".json");
+    baseURI = await contract?.baseURI();
 
+    console.log({
+      baseURI,
+      name,
+      tokenURI,
+      baseExtension,
+      hasMintStarted,
+      startingTimestamp,
+      endingTimestamp,
+    });
+
+    setTotalQuantity(parseInt(totalQuantity?._hex));
+    setTotalSupply(parseInt(totalSupply?._hex));
+    if (tokensMinted > 0) {
+      setMintButtonText("Already Minted Bloody Bastard! Come on...");
+    }
+  }
+
+  async function handleMint() {
+    try {
+      const provider = new ethers.providers.Web3Provider(
+        (window as any).ethereum
+      );
+      const signer = provider.getSigner();
+      const signerAddress = await signer.getAddress();
+
+      const tokensMinted = await contract?.tokensMinted(signerAddress);
+
+      if (tokensMinted > 0) return;
+      toast.dismiss();
+      toast.loading("Initializing Mint");
+      let mint: any;
+
+      const price = await contract?.mintPrice();
+      try {
+        mint = await contract?.mint(1, {
+          value: price,
+        });
+        console.log({ mint });
+      } catch (error: any) {
+        if (!error) return console.log("An Error Occurred");
+
+        toast.dismiss();
+        toast.error(error!.message);
+      }
+
+      if (!mint) return;
+
+      toast.dismiss();
+      toast.loading(
+        `Minting... Check your transaction on etherscan: ${mint.hash}`
+      );
+
+      const res = await mint.wait();
+
+      if (res.blockNumber) {
+        toast.dismiss();
+        toast.success("Minting successful");
+        preparePage();
+      } else {
+        toast.error("Minting failed");
+      }
+    } catch (error: any) {
+      toast.error(error?.data?.message);
+    }
+  }
+
+  useEffect(() => {
+    // preparePage();
+  }, [contract]);
 
   return (
     <div>
@@ -100,44 +138,38 @@ export default function Banner() {
             onBlur={changeHeading}
           />
         </div>
-        <div className="mt-8 mb-8 flex justify-center">
+        {/* <div className="mt-8 mb-8 flex w-full flex-col items-center justify-center">
           <div
             onClick={async () => {
-              try {
-                const contract = await prepareContract();
-
-                // const price = await contract.mintPrice();
-
-                // const setname = await contract.setName("Francis Eshun");
-                // setname.wait(2).then(async () => {
-                //   // read the contract again, similar to above
-                //   const read = await contract.name();
-                //   console.log("Updated name of contract is " + read.toString());
-                // });
-
-                const mint = await contract?.mint(1, {
-                  value: "1",
-                });
-
-                mint.wait(2).then(async () => {
-                  // read the contract again, similar to above
-                  const read = await contract?.name();
-                  console.log("Mint complete ");
-                });
-
-                // await contract.mint(1);
-
-                // console.log({ mint });
-              } catch (error: any) {
-                toast.error(error?.data?.message);
-                console.log(error);
-              }
+              handleMint();
             }}
-            className="cursor-pointer rounded-xl border-0 bg-black py-6 px-16 uppercase transition-all hover:scale-105 hover:bg-black"
+            className="w-fit cursor-pointer rounded-xl border-0 bg-black py-6 px-16 uppercase transition-all hover:scale-105 hover:bg-black"
           >
-            MINT NOW
+            {mintButtonText}
           </div>
-        </div>
+
+         
+
+          <div className="mt-10 w-[500px]">
+            <div className="mb-1 flex justify-between">
+              <span className="text-base font-medium text-white dark:text-white">
+                Total Minted
+              </span>
+              <span className="text-sm font-medium text-white dark:text-white">
+                {(totalSupply / (totalQuantity ?? 0)) * 100}% ({totalSupply}/
+                {totalQuantity})
+              </span>
+            </div>
+            <div className="h-2.5 w-full rounded-full bg-gray-200 dark:bg-gray-700">
+              <div
+                className="h-2.5 rounded-full bg-[#FF9933]"
+                style={{
+                  width: `${(totalSupply / (totalQuantity ?? 0)) * 100}%`,
+                }}
+              ></div>
+            </div>
+          </div>
+        </div> */}
         <div className="box-border flex w-full flex-row justify-center lg:hidden ">
           <img
             src="/images/landing/indiansnfts/1.png"
@@ -169,7 +201,7 @@ export default function Banner() {
           {[...Array(9)].map((_, index) => (
             <div key={index} className="box-border ">
               <img
-                src={`/images/landing/indiansnfts/${index+1}.png`}
+                src={`/images/landing/indiansnfts/${index + 1}.png`}
                 alt="Indian NFT Example"
                 className="object-cover lg:h-52 lg:w-52"
               />

@@ -50,7 +50,7 @@
   }
 
   @font-face {
-    font-family: "Heading"; 
+    font-family: "Heading";
   }
 
   @font-face {
@@ -63,7 +63,7 @@
   }
 
   html {
-    /* background-color: black; */
+    background-color: white;
 
     --bg-indigo: #e7ecf3;
     --bg-gray: #f3f7fa;
@@ -209,9 +209,9 @@ input[id="walletNumber"]:focus {
 }
 
 textarea[id="banner-heading"]:focus,
-textarea[id="sectiontwo-heading"]:focus, 
+textarea[id="sectiontwo-heading"]:focus,
 textarea[id="sectiontwo-paragraph"]:focus,
-textarea[id="sectionthree-heading"]:focus, 
+textarea[id="sectionthree-heading"]:focus,
 textarea[id="sectionthree-paragraph"]:focus,
 input[id="sectionthree-highlight"]:focus,
 textarea[id="sectionfour-heading"]:focus,
@@ -221,9 +221,10 @@ input[id="label1"]:focus,
 input[id="bitcoins"]:focus,
 input[id="label2"]:focus,
 input[id="oilbarrels"]:focus,
-input[id="label3"]:focus, 
+input[id="label3"]:focus,
 textarea[id="join-heading"]:focus,
-textarea[id="contact-heading"]:focus {
+textarea[id="contact-heading"]:focus,
+input[id="contact-input"]:focus {
   border-width: 0px;
   outline: 0;
   -webkit-appearance: none;
@@ -231,6 +232,3 @@ textarea[id="contact-heading"]:focus {
   -moz-box-shadow: none;
   -webkit-box-shadow: none;
 }
-
-input[id="contact-input"]:focus
-

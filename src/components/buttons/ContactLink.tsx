@@ -6,21 +6,20 @@ interface ContactProps {
   className?: string;
 }
 
-const ContactLink = ( { className }: ContactProps) => {
-
-  const [showForm, setShowForm] = useState<boolean>(false)
+const ContactLink = ({ className }: ContactProps) => {
+  const [showForm, setShowForm] = useState<boolean>(false);
 
   return (
     <>
       <a
-        className={`${className} flex z-30 items-center justify-center`}
+        className={`${className} z-30 flex items-center justify-center`}
         onClick={() => setShowForm(true)}
       >
         Contact Us
       </a>
       <Contact show={showForm} onClose={() => setShowForm(false)} />
     </>
-  )
-}
+  );
+};
 
-export default ContactLink
+export default ContactLink;

@@ -36,7 +36,8 @@ export default function Banner() {
                 }
               }}
             >
-              {process.env.NEXT_PUBLIC_ENVIRONMENT == "development"
+              {process.env.NEXT_PUBLIC_ENVIRONMENT == "development" ||
+              process.env.NEXT_PUBLIC_ENVIRONMENT == "staging"
                 ? "Start Now"
                 : "Join Waitlist"}
             </div>

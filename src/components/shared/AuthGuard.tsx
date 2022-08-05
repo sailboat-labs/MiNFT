@@ -1,10 +1,16 @@
 /* eslint-disable @next/next/no-img-element */
+import { ethers } from "ethers";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useMoralis } from "react-moralis";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { getAddress } from "redux/reducers/selectors/user";
+import { setAddress } from "redux/reducers/slices/user";
 
-import useStorage from "@/hooks/storage";
+import { getAccountByProvider, setActiveAccount } from "@/utils/authentication";
 
+import PageLoader from "./PageLoader";
 import Layout from "../layout/Layout";
 
 export const connectors = [
@@ -75,33 +81,79 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
   const environment = process.env.NEXT_PUBLIC_ENVIRONMENT;
 
   const [selectedWallet, setSelectedWallet] = useState("");
+  const dispatch = useDispatch();
+  const activeAddress = useSelector(getAddress);
+  console.log({ activeAddress });
 
-  const [activeAccount, setActiveAccount] = useState(
-    account ??
-      (process.env.NEXT_PUBLIC_ENVIRONMENT == "development"
-        ? process.env.NEXT_PUBLIC_DEVELOPMENT_ACCOUNT
-        : "")
-  );
+  const [startingPage, setStartingPage] = useState(true);
 
-  const { getItem, setItem, removeItem } = useStorage();
+  // const [activeAccount, setActiveAccount] = useState(
+  //   account ??
+  //     (process.env.NEXT_PUBLIC_ENVIRONMENT == "development"
+  //       ? process.env.NEXT_PUBLIC_DEVELOPMENT_ACCOUNT
+  //       : "")
+  // );
 
-  useEffect(() => {
+  async function prepareAuth() {
+    console.log({ account, isAuthenticated });
+
     if (environment == "development") {
-      setActiveAccount(process.env.NEXT_PUBLIC_DEVELOPMENT_ACCOUNT);
-      setItem("account", process.env.NEXT_PUBLIC_DEVELOPMENT_ACCOUNT!);
-      setItem("isAuthenticated", "true");
+      setActiveAccount(process.env.NEXT_PUBLIC_DEVELOPMENT_ACCOUNT ?? "");
+      dispatch(
+        setAddress(
+          process.env.NEXT_PUBLIC_DEVELOPMENT_ACCOUNT?.toLowerCase() ?? ""
+        )
+      );
     } else {
-      if (account && isAuthenticated) {
-        setActiveAccount(account);
-        setItem("account", account);
-        setItem("isAuthenticated", isAuthenticated?.toString());
+      if (isAuthenticated) {
+        if (account) {
+          window.localStorage.setItem("account", account);
+        }
+
+        let address = "";
+        try {
+          address = await getAccountByProvider();
+        } catch (error) {
+          address = window.localStorage.getItem("account") ?? "";
+        }
+
+        if (ethers.utils.isAddress(address ?? "")) {
+          // toast.success("Wallet connected");
+          dispatch(setAddress(address?.toLowerCase()));
+        } else {
+          console.log("Reconnect wallet");
+        }
       }
     }
-  }, [activeAccount, account, isAuthenticated]);
 
-  if (environment != "development") return <div></div>;
+    setStartingPage(false);
+  }
 
-  if (!activeAccount || activeAccount?.trim() == "") {
+  useEffect(() => {
+    prepareAuth();
+  }, [account, isAuthenticated]);
+
+  useEffect(() => {
+    if ((window as any).ethereum) {
+      (window as any).ethereum.on("chainChanged", () => {
+        window.location.reload();
+      });
+      (window as any).ethereum.on("accountsChanged", () => {
+        window.location.reload();
+      });
+    }
+  }, []);
+
+  // if (environment != "development") return <div></div>;
+
+  if (startingPage)
+    return (
+      <div className="flex h-screen w-screen items-center justify-center">
+        <PageLoader />
+      </div>
+    );
+
+  if (ethers.utils.isAddress(activeAddress) == false) {
     return (
       <Layout>
         <div className=" flex h-full w-full flex-col gap-5 px-10 pt-10 text-center dark:bg-black">

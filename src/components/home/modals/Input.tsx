@@ -11,7 +11,7 @@ export default function Input({ label = "none", ...props }) {
       {field.name == "message" ? (
         <textarea
           id="contact-input"
-          className={`h-32 md:h-40 w-[20rem] resize-none rounded-xl border border-gray-300 py-2 px-4 font-dmsans text-[#1F1A17] md:w-[28rem] lg:w-[25rem] lg:py-3 lg:px-5 ${
+          className={`h-32 w-[20rem] resize-none rounded-xl border border-gray-300 py-2 px-4 font-dmsans text-[#1F1A17] md:h-40 md:w-[28rem] lg:w-[25rem] lg:py-3 lg:px-5 ${
             meta.touched && meta.error && "is-invalid"
           }`}
           {...field}

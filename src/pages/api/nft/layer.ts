@@ -23,15 +23,17 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       const { layer, project, account } = req.body;
       if (layer == null || layer == undefined)
         return res.status(403).send("No layer given");
-      console.log(JSON.stringify(layer));
+      if (project?.owner == null)
+        return res.status(403).send("No Project given");
 
       const result = await addNewLayer(layer, project, account);
       if (result.success) {
         return res.status(200).json(result);
       } else {
-        return res.status(400).json(result);
+        return res.status(403).json(result);
       }
     }
+
     return res.status(404).json({ success: false, message: "Not Found" });
   } catch (error) {
     console.error(error);

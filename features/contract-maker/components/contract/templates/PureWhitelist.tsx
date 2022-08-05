@@ -3,8 +3,9 @@ import React from "react";
 import * as Yup from "yup";
 
 import ClassicMintFormFields from "../ClassicMintFormFields";
+import PureWhitelistFormFields from "../PureWhitelistFormFields";
 
-const PureWhitelist = () => {
+const PureWhitelist = ({isPreview = false}) => {
   const pureWhitelistForm = useFormik({
     initialValues: {
       quantityOfCollection: 0,
@@ -39,7 +40,7 @@ const PureWhitelist = () => {
     },
   });
 
-  return <ClassicMintFormFields form={pureWhitelistForm} />;
+  return <PureWhitelistFormFields form={pureWhitelistForm} isPreview={isPreview} />;
 };
 
 export default PureWhitelist;

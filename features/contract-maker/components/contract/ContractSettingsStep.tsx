@@ -24,9 +24,9 @@ const PREVIEW_TEMPLATES: {
   [key: string]: JSX.Element;
 } = {
   "Classic Mint": <ClassicMint isPreview />,
-  "Pure Whitelist": <PureWhitelist />,
-  "Dutch Auction": <DutchAuction />,
-  "Fair Dutch Auction": <FairDutchAuction />,
+  "Pure Whitelist": <PureWhitelist isPreview />,
+  "Dutch Auction": <DutchAuction isPreview />,
+  "Fair Dutch Auction": <FairDutchAuction isPreview />,
 };
 
 const GRAPHS: any = {
@@ -97,7 +97,7 @@ const ContractSettingsStep: FC<AppProps> = ({ isPreview = false }) => {
     <section className="mx-auto">
       {isPreview ? (
         <>
-          <article className="-mb-4 flex gap-8 pt-10 pb-8" id="previewHeader">
+          <article className="-mb-4 flex gap-8 pt-10 pb-8">
             <div className="w-[200px]">
               <img src={GRAPHS[type.trim().toLowerCase()]} alt="" />
             </div>
@@ -146,7 +146,15 @@ const ContractSettingsStep: FC<AppProps> = ({ isPreview = false }) => {
         {type.toLowerCase().trim() !== "pure whitelist" && whitelisted && (
           <div>
             <h2 className="pt-8 text-xl text-indigo-800">Whitelist</h2>
-            {whitelisted && <WhitelistForm />}
+            {whitelisted ? (
+              isPreview ? (
+                <WhitelistForm isPreview />
+              ) : (
+                <WhitelistForm />
+              )
+            ) : (
+              <WhitelistForm />
+            )}
           </div>
         )}
       </div>

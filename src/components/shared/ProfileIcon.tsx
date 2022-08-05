@@ -3,13 +3,15 @@ import { Menu, Transition } from "@headlessui/react";
 import { formatEthAddress } from "eth-address";
 import { doc, getFirestore } from "firebase/firestore";
 import Link from "next/link";
+import { useRouter } from "next/router";
 // import { useMetaMask } from "metamask-react";
 import { Fragment, useEffect, useState } from "react";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import { useMoralis } from "react-moralis";
 
 import { firebaseApp } from "@/lib/firebase";
-import useStorage from "@/hooks/storage";
+
+import { getActiveAccount } from "@/utils/authentication";
 
 import { User } from "@/types";
 
@@ -18,11 +20,8 @@ const firestore = getFirestore(firebaseApp);
 export default function ProfileIcon() {
   // const { status, connect, account, chainId, ethereum } = useMetaMask();
   const { logout, isAuthenticated } = useMoralis();
-  const { getItem, setItem, removeItem } = useStorage();
-
-  const account =
-    (getItem("isAuthenticated") == "true" ? getItem("account") : "") ?? "";
-
+  const account = getActiveAccount();
+  const router = useRouter();
   const [user, setUser] = useState<User>();
 
   const [animateIntoView, setAnimateIntoView] = useState(false);
@@ -160,7 +159,10 @@ export default function ProfileIcon() {
                 <Menu.Item>
                   {({ active }: any) => (
                     <button
-                      onClick={logout}
+                      onClick={() => {
+                        logout();
+                        router.push("/dashboard");
+                      }}
                       className={`${
                         active
                           ? "bg-primaryblue text-white dark:text-gray-200"
