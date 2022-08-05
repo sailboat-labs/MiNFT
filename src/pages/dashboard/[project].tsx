@@ -90,6 +90,7 @@ export default function DashboardHomePage() {
       value: "ip-rights",
       label: "IP Rights",
     },
+
     // {
     //   component: <DevPage />,
     //   value: "dev-page",
