@@ -31,7 +31,6 @@ import Whitelist from "@/components/dashboard/Whitelist";
 import ComingSoon from "@/components/layout/ComingSoon";
 import AddLayer from "@/components/nft/AddLayer";
 import TraitsSearchbar from "@/components/nft/TraitsSearchbar";
-import DevPage from "@/components/pages/dev/dev";
 import PageLoader from "@/components/shared/PageLoader";
 
 import { enumNFTGenConfig } from "@/enums/nft-gen-configurations";
@@ -91,11 +90,11 @@ export default function DashboardHomePage() {
       value: "ip-rights",
       label: "IP Rights",
     },
-    {
-      component: <DevPage />,
-      value: "dev-page",
-      label: "Development Eyes",
-    },
+    // {
+    //   component: <DevPage />,
+    //   value: "dev-page",
+    //   label: "Development Eyes",
+    // },
   ];
 
   const _query = query(
