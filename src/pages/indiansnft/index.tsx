@@ -30,9 +30,7 @@ export default function LandingPage() {
   const { network, authenticate, isAuthenticated, account, chainId, logout } =
     useMoralis();
 
-  // const contractAddress = "0x7311102EcC5a3Effb9Fc2e734d918A4eb448A13E";
-  // const contractAddress = "0xd1aFbbdf886cc20E5c683B06444a116aDCe11F8E";
-  const contractAddress = "0x6c972da111012C9747a5C02B012A9880Cd8a3255";
+  const contractAddress = "0x01472E8fd0887D88Eefa39eE07b0CDFD3713E22B";
 
   const [project, setProject] = useState<Project>();
 
