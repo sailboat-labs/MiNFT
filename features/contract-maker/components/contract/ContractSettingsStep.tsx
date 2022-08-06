@@ -61,14 +61,14 @@ const ContractSettingsStep: FC<AppProps> = ({ isPreview = false }) => {
   useEffect(() => {
     if (isPreview) {
       // todo: load data from store and feed form
-      console.log("prefilling");
+      // console.log("prefilling");
     }
   }, [isPreview]);
 
   const gasFee = GAS_FEES[type.trim().toLowerCase()];
 
   return (
-    <section className="mx-auto">
+    <section className="mx-auto dark:text-gray-400">
       {isPreview ? (
         <>
           <article className="-mb-4 flex gap-8 pt-10 pb-8">
@@ -119,7 +119,7 @@ const ContractSettingsStep: FC<AppProps> = ({ isPreview = false }) => {
         />
       )}
 
-      <div className="divide-y divide-indigo-800">
+      <div className="divide-y divide-indigo-800 dark:divide-gray-400">
         {TEMPLATES[type]}
         {type.toLowerCase().trim() !== "pure whitelist" && whitelisted && (
           <div>

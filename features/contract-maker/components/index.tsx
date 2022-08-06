@@ -31,7 +31,7 @@ const ContractMakerView = () => {
           {activeStep > 1 && (
             <button
               onClick={() => nextStep(-1)}
-              className="rounded-md border  border-indigo-800 px-10 py-2 text-indigo-800 transition-all duration-150"
+              className="transform transform rounded-md border  border-indigo-800 px-10 py-2 text-indigo-800 transition-all  duration-150 dark:scale-125 dark:scale-125 dark:border-gray-600 dark:bg-[rgba(255,255,255,0.05)] dark:text-white"
             >
               Back
             </button>
@@ -39,7 +39,7 @@ const ContractMakerView = () => {
           {activeStep < 3 && (
             <button
               onClick={() => nextStep()}
-              className="rounded-md bg-indigo-800 px-10 py-2 text-white transition-all duration-150 hover:bg-indigo-900 dark:text-gray-700"
+              className="gradient-button rounded-md bg-indigo-800 px-10 py-2 text-white transition-all duration-150 hover:bg-indigo-900 dark:text-gray-700"
             >
               Next
             </button>
@@ -47,7 +47,7 @@ const ContractMakerView = () => {
           {activeStep === 3 && (
             <button
               // onClick={() => nextStep()}
-              className="rounded-md bg-indigo-800 px-10 py-2 text-white transition-all duration-150 hover:bg-indigo-900"
+              className="gradient-button  rounded-md bg-indigo-800 px-10 py-2 text-white transition-all duration-150 hover:bg-indigo-900"
             >
               Save
             </button>

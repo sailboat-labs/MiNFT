@@ -49,13 +49,13 @@ const ContractTypeStep = () => {
   const contractState = useSelector(getContract);
 
   return (
-    <section>
+    <section className="dark:text-gray-400">
       {/* <ContractStepHeader
         selectOptions={[{ name: "Admin" }]}
         title=""
         onChange={(value) => setSelected(value)}
       /> */}
-      <h1 className="mt-6 text-3xl">Contract Type</h1>
+      <h1 className="mt-6 text-3xl dark:text-white">Contract Type</h1>
       <p>Select your preferred contract type</p>
       <div
         className="4xl:grid-cols-4 mt-8 grid gap-8 lg:grid-cols-2 2xl:grid-cols-3"

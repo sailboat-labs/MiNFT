@@ -48,7 +48,9 @@ export default function GeneratedToken({ token }: props) {
           alt=""
           className="h-76 w-76 cursor-pointer rounded-lg object-cover transition-all hover:scale-105"
         />
-        <div className="text-sm text-gray-500">{token.metadata.name}</div>
+        <div className="text-sm text-gray-500 dark:text-gray-400">
+          {token.metadata.name}
+        </div>
       </div>
 
       <Transition appear show={isOpen} as={Fragment}>
@@ -76,7 +78,7 @@ export default function GeneratedToken({ token }: props) {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-5xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all dark:bg-[color:var(--dark)]">
+                <Dialog.Panel className="w-full max-w-5xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all dark:bg-[color:var(--dark)] dark:shadow-lg dark:shadow-gray-800">
                   <div className="flex gap-5">
                     <img
                       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -86,12 +88,12 @@ export default function GeneratedToken({ token }: props) {
                       className=" h-96 w-96  rounded-lg object-cover"
                     />
                     <div>
-                      <div className="text-gray-500">
+                      <div className="text-gray-500 dark:text-gray-300">
                         {token.metadata?.name?.split("#")[0]}
                       </div>
                       <Dialog.Title
                         as="h3"
-                        className="text-xl font-medium leading-6 text-gray-900"
+                        className="text-xl font-medium leading-6 text-gray-900 dark:text-white"
                       >
                         {token.metadata.name}
                       </Dialog.Title>
@@ -109,20 +111,22 @@ export default function GeneratedToken({ token }: props) {
                               );
                               setIsOpen(false);
                             }}
-                            className="rounded-xl border bg-gray-50 p-3 text-left"
+                            className="rounded-xl border bg-gray-50 p-3 text-left dark:border-gray-600 dark:bg-[rgba(255,255,255,0.1)]"
                           >
-                            <div className="text-xs text-gray-500">
+                            <div className="text-xs text-gray-500 dark:text-gray-400">
                               <span>{object.trait}</span>
                             </div>
-                            <div>{object.filename?.split(".")[0]}</div>
+                            <div className="dark:text-white">
+                              {object.filename?.split(".")[0]}
+                            </div>
                             <div className="flex items-center gap-1 text-xs">
-                              <em>
+                              <em className="dark:text-gray-300">
                                 {getTraitUsagePecentage(
                                   object.filename.split(".")[0]
                                 )}
                                 %
                               </em>
-                              <div className="h-2 w-full rounded-full border ">
+                              <div className="h-2 w-full rounded-full border dark:border-gray-500">
                                 <div
                                   style={{
                                     width: `${getTraitUsagePecentage(

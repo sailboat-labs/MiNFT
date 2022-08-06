@@ -98,7 +98,10 @@ const OutputSettingsPage = () => {
           </p>
           <div className="mt-6 grid grid-cols-2 items-start gap-6">
             <div className="flex flex-col">
-              <label className="mb-2 font-medium" htmlFor="format">
+              <label
+                className="mb-2 font-medium dark:text-white"
+                htmlFor="format"
+              >
                 Format
               </label>
               <div className="relative w-full">
@@ -114,7 +117,7 @@ const OutputSettingsPage = () => {
                   }}
                 >
                   <div className="relative mt-1">
-                    <Listbox.Button className="relative w-full cursor-default rounded-lg  border border-gray-400 bg-gray-100 py-2 pl-3 pr-10 text-left transition-all duration-100 hover:bg-gray-200 focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
+                    <Listbox.Button className="relative w-full cursor-default rounded-lg border border-gray-400  bg-gray-100 py-2 pl-3 pr-10 text-left transition-all duration-100 hover:bg-gray-200 focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300  dark:bg-[rgba(255,255,255,0.1)] sm:text-sm">
                       <span className="block truncate">
                         {configuration[enumNFTGenConfig.OUTPUT_IMAGE_TYPE]}
                       </span>
@@ -139,7 +142,7 @@ const OutputSettingsPage = () => {
                       leaveFrom="opacity-100"
                       leaveTo="opacity-0"
                     >
-                      <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-[color:var(--dark)] sm:text-sm">
+                      <Listbox.Options className="!dark:text-white absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none   dark:bg-gray-500 sm:text-sm ">
                         {formats.map((format, formatIdx) => (
                           <Listbox.Option
                             key={formatIdx}
@@ -252,7 +255,7 @@ const OutputSettingsPage = () => {
               }}
             >
               <div className="relative mt-1">
-                <Listbox.Button className="relative w-full cursor-default rounded-lg border border-gray-400  bg-gray-100 py-2 pl-3 pr-10 text-left transition-all duration-100 hover:bg-gray-200 focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 dark:bg-gray-500 dark:text-white sm:text-sm">
+                <Listbox.Button className="sm relative w-full cursor-default rounded-lg border  border-gray-400 bg-gray-100 py-2 pl-3 pr-10 text-left transition-all duration-100 hover:bg-gray-200 focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 dark:bg-gray-500 dark:bg-[rgba(255,255,255,0.1)] dark:text-white dark:text-white sm:text-sm">
                   <span className="block truncate">
                     {configuration[enumNFTGenConfig.RENDER_QUALITY]?.name} (
                     {configuration[enumNFTGenConfig.RENDER_QUALITY]?.percentage}
@@ -279,7 +282,7 @@ const OutputSettingsPage = () => {
                   leaveFrom="opacity-100"
                   leaveTo="opacity-0"
                 >
-                  <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md border  border-gray-200 bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:border-gray-600 dark:bg-[rgba(255,255,255,0.1)] sm:text-sm">
+                  <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md border  border-gray-200 bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:border-gray-600 dark:bg-[rgba(255,255,255,0.1)] dark:text-white  sm:text-sm">
                     {qualities.map((quality, qualityIdx) => (
                       <Listbox.Option
                         key={qualityIdx}

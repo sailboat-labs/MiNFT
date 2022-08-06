@@ -161,18 +161,32 @@ const LaunchpadConfig: NextPage = () => {
         }`}
       >
         <Tab.Group>
-          <Tab.List className="sticky top-0 z-[2] flex w-full items-center justify-center space-x-1 rounded border-b bg-white p-3">
+          <Tab.List className="sticky top-0 z-[2] flex w-full items-center justify-center space-x-1  border-b bg-white p-3 dark:border-gray-500 dark:bg-[color:var(--dark)]">
             <div className="flex w-fit items-center gap-2">
               {["Builder", "More", "Publish"].map((category) => (
+                // <Tab
+                //   key={category}
+                //   className={({ selected }) =>
+                //     classNames(
+                //       "w-full rounded py-2 px-16 text-sm font-medium leading-5 text-blue-700",
+                //       "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2",
+                //       selected
+                //         ? "border bg-indigo-100 font-bold"
+                //         : "border text-gray-500 hover:bg-gray-50 "
+                //     )
+                //   }
+                // >
+                //   {category}
+                // </Tab>
                 <Tab
                   key={category}
                   className={({ selected }) =>
                     classNames(
                       "w-full rounded py-2 px-16 text-sm font-medium leading-5 text-blue-700",
-                      "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2",
+                      "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2 dark:border-gray-500",
                       selected
-                        ? "border bg-indigo-100 font-bold"
-                        : "border text-gray-500 hover:bg-gray-50 "
+                        ? "border bg-indigo-100 font-bold dark:bg-gray-600 dark:text-white"
+                        : "border text-gray-500 hover:bg-gray-50  dark:bg-[rgba(255,255,255,0.05)] dark:text-gray-300 dark:backdrop-blur "
                     )
                   }
                 >
@@ -190,7 +204,7 @@ const LaunchpadConfig: NextPage = () => {
                     <article className="md:pr-12 lg:pr-32">
                       <input
                         defaultValue={launchInformation?.projectName}
-                        className="text-6xl font-extrabold"
+                        className="p-4 text-5xl font-extrabold dark:border dark:border-gray-600 dark:bg-[rgba(255,255,255,0.05)] dark:text-white"
                         placeholder="Project Name"
                         onChange={(e) => {
                           handleSaveLaunchPadDraft(
@@ -208,7 +222,7 @@ const LaunchpadConfig: NextPage = () => {
                               e.target.value
                             );
                           }}
-                          className="rounded border border-pink-500 py-1 px-2 text-pink-500 "
+                          className="rounded border border-pink-500 py-1 px-2 text-pink-500 dark:border dark:border-gray-600 dark:bg-[rgba(255,255,255,0.05)]"
                           placeholder="Mint Type eg. Classic Mint"
                         />
                         <input
@@ -219,12 +233,12 @@ const LaunchpadConfig: NextPage = () => {
                               e.target.value
                             );
                           }}
-                          className="rounded border border-pink-500 py-1 px-2 text-pink-500 "
+                          className="rounded border border-pink-500 py-1 px-2 text-pink-500 dark:border dark:border-gray-600 dark:bg-[rgba(255,255,255,0.05)]"
                           placeholder="Mint date"
                         />
 
-                        <div className="flex items-center gap-1 rounded border border-gray-300 py-1 px-2 text-gray-400 ">
-                          <span className="flex">
+                        <div className="flex items-center gap-1 rounded border border-gray-300 py-1 px-2 text-gray-400 dark:border-none dark:text-white">
+                          <span className="flex dark:text-white">
                             Total <span className="block">&nbsp;Items</span>:
                           </span>
                           <input
@@ -235,12 +249,13 @@ const LaunchpadConfig: NextPage = () => {
                                 e.target.value
                               );
                             }}
-                            className="w-20 font-semibold"
+                            type="number"
+                            className="w-20 px-2 py-0 font-semibold dark:border dark:border-gray-600  dark:bg-[rgba(255,255,255,0.05)]"
                             placeholder="0"
                           />
                         </div>
-                        <div className="flex items-center gap-2 rounded border border-gray-300 py-1 px-2 text-gray-400 ">
-                          <span>Price:</span>
+                        <div className="flex items-center gap-2 rounded border border-gray-300 py-1 px-2 text-gray-400 dark:border-none">
+                          <span className="dark:text-white">Price:</span>
                           <input
                             defaultValue={launchInformation?.mintPrice}
                             onChange={(e) => {
@@ -249,7 +264,8 @@ const LaunchpadConfig: NextPage = () => {
                                 e.target.value
                               );
                             }}
-                            className="w-10 font-semibold"
+                            type="number"
+                            className="w-20 px-2 py-0 font-semibold dark:border dark:border-gray-600  dark:bg-[rgba(255,255,255,0.05)]"
                             placeholder="0.1"
                           />
                         </div>

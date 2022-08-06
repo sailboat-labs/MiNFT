@@ -11,9 +11,9 @@ interface AppProps {
 const ClassicMintFormFields: FC<AppProps> = ({ form }) => {
   return (
     <div className="py-8">
-      <section className="mt-6 grid gap-x-12 gap-y-6 md:grid-cols-2 2xl:grid-cols-3">
+      <section className="mt-6 grid gap-6 gap-x-8 md:grid-cols-2 2xl:grid-cols-3">
         <ContractFormRowSection
-          headingClass="font-semibold text-base"
+          headingClass="font-semibold text-base dark:text-gray-300"
           name="Quantity of collection"
         >
           <BaseInput
@@ -30,7 +30,7 @@ const ClassicMintFormFields: FC<AppProps> = ({ form }) => {
           />
         </ContractFormRowSection>
         <ContractFormRowSection
-          headingClass="font-semibold text-base"
+          headingClass="font-semibold text-base dark:text-gray-300"
           name="Mint Price"
         >
           <BaseInput
@@ -45,11 +45,15 @@ const ClassicMintFormFields: FC<AppProps> = ({ form }) => {
                 </p>
               ) : null
             }
-            postfix={<span className="font-semibold text-indigo-800">ETH</span>}
+            postfix={
+              <span className="font-semibold text-indigo-800 dark:text-white">
+                ETH
+              </span>
+            }
           />
         </ContractFormRowSection>
         <ContractFormRowSection
-          headingClass="font-semibold text-base"
+          headingClass="font-semibold text-base dark:text-gray-300"
           name="Number of tokens to reserve"
         >
           <BaseInput
@@ -66,7 +70,7 @@ const ClassicMintFormFields: FC<AppProps> = ({ form }) => {
           />
         </ContractFormRowSection>
         <ContractFormRowSection
-          headingClass="font-semibold text-base"
+          headingClass="font-semibold text-base dark:text-gray-300"
           name="Max mint per wallet"
         >
           <BaseInput
@@ -83,7 +87,7 @@ const ClassicMintFormFields: FC<AppProps> = ({ form }) => {
           />
         </ContractFormRowSection>
         <ContractFormRowSection
-          headingClass="font-semibold text-base"
+          headingClass="font-semibold text-base dark:text-gray-300"
           name="Max mint per transaction"
         >
           <BaseInput
@@ -101,10 +105,10 @@ const ClassicMintFormFields: FC<AppProps> = ({ form }) => {
           />
         </ContractFormRowSection>
       </section>
-      <h4 className="mt-10">Timing</h4>
+      <h4 className="mt-10 dark:text-white">Timing</h4>
       <section className="mb-10 mt-3 flex items-start  gap-10">
         <div className="flex-1">{/* <DateTimeRangePicker /> */}</div>
-        <div className="max-w-[250px] flex-1 rounded-md bg-white p-5 ring-1 ring-gray-200 dark:bg-[color:var(--dark)]">
+        <div className="max-w-[250px] flex-1 rounded-md bg-white p-5 ring-1 ring-gray-200  dark:ring-gray-600">
           <strong>Minutes</strong>
           <BaseSelect
             options={Array(60)

@@ -37,7 +37,7 @@ export default function GeneratedTokens() {
           <div className="flex items-center gap-5">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-10 w-10"
+              className="h-10 w-10 dark:stroke-white"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -49,13 +49,13 @@ export default function GeneratedTokens() {
                 d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
               />
             </svg>
-            <span className="text-3xl">Generated Images</span>
+            <span className="text-3xl dark:text-white">Generated Images</span>
           </div>
         </div>
-        <div className="flex items-center gap-3 font-normal">
+        <div className="flex items-center gap-3 font-normal dark:text-gray-400">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5 cursor-pointer rounded-xl transition-all hover:-rotate-45"
+            className="h-5 w-5 cursor-pointer rounded-xl transition-all hover:-rotate-45 dark:text-gray-300"
             viewBox="0 0 20 20"
             fill="currentColor"
             onClick={() => dispatch(setGeneratedImagesFilter(null))}
@@ -67,7 +67,7 @@ export default function GeneratedTokens() {
             />
           </svg>
           {generatedTokenFilter ? (
-            <p>
+            <p className="dark:bg-gray-400">
               Showing {filteredTokens.length} results where{" "}
               <strong>
                 &apos;{generatedTokenFilter.split("|||")[1]}&apos;
@@ -77,10 +77,10 @@ export default function GeneratedTokens() {
               &apos;
             </p>
           ) : (
-            <>
+            <span className="dark:bg-gray-400">
               {generatedTokens.length > 100 && "Showing 100 of"}{" "}
               {generatedTokens?.length} tokens
-            </>
+            </span>
           )}
         </div>
       </div>

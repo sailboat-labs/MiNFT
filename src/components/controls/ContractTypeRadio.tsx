@@ -19,15 +19,19 @@ const ContractTypeRadio: FC<AppProps> = ({
 
   return (
     <button
-      className={`relative flex min-h-[150px] flex-col rounded-lg bg-white p-8 text-left ring-2 ring-gray-200 transition-shadow duration-75 hover:shadow-lg dark:bg-[color:var(--dark)] ${
-        checked && " ring-indigo-400"
+      className={`relative flex min-h-[150px] flex-col rounded-lg bg-white p-8 text-left ring-2 ring-gray-200 transition-shadow duration-75 hover:shadow-lg dark:bg-[color:var(--dark)] dark:ring-gray-600 ${
+        checked && " ring-indigo-400 dark:ring-indigo-500"
       }`}
       onClick={() => {
         dispatch(setContract({ key: "type", value: type }));
         dispatch(setContract({ key: "whitelisted", value: whitelist }));
       }}
     >
-      <h2 className={`text-xl font-semibold ${checked && "text-indigo-800"}`}>
+      <h2
+        className={`text-xl font-semibold dark:text-white ${
+          checked && "text-indigo-800 dark:text-indigo-400"
+        }`}
+      >
         {type}
       </h2>
       {whitelist && (
