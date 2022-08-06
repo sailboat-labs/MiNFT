@@ -74,5 +74,34 @@ export interface IProject {
   slug?: string;
   description: string;
   isDemo?: boolean;
-  owner: string;
+  owner?: string;
+  startDate?: string;
+}
+
+export interface IProjectLaunch {
+  projectName: string;
+  totalQuantity: string;
+  symbol: string;
+  contractType: string;
+  startTimeStamp: string;
+  endDateTimeStamp: string;
+  mintPrice: string;
+  summary: string;
+  description: string;
+  mintPerWallet: string;
+  mintPerTransaction: string;
+  hasWhitelist: boolean;
+  team: string;
+  discordLink?: string;
+  twitterLink?: string;
+  openseaLink?: string;
+  roadmap: { title: string; description: string }[];
+  website?: string;
+  requiresTwitter?: boolean;
+  requiredEthAmount?: number;
+  publishTimeStamp?: string;
+  contractAddress?: string;
+  mainImage?: string;
+  secondaryImage?: string[];
+  faq?: { question: string; answer: string }[];
 }

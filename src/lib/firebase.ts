@@ -21,9 +21,9 @@ const auth = getAuth(firebaseApp);
 
 const functions = getFunctions(firebaseApp);
 
-// if (process.browser && process.env.NEXT_PUBLIC_USE_EMULATOR) {
-//   connectFirestoreEmulator(firestore, "localhost", 8080);
+// // if (process.browser && process.env.NEXT_PUBLIC_USE_EMULATOR) {
+// //   connectFirestoreEmulator(firestore, "localhost", 8080);
 // connectFunctionsEmulator(functions, "localhost", 5001);
-// }
+// // }
 
 export { auth, firebaseApp, firestore, functions };

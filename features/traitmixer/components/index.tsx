@@ -19,7 +19,7 @@ import ShareTraits from "./share";
 
 import { NFTLayer } from "@/types";
 
-function classNames(...classes: string[]) {
+export function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
@@ -50,9 +50,9 @@ const NFTGenerator = ({ router }: any) => {
   }, [animateLayersIn]);
 
   return (
-    <div className=" w-full">
+    <div className="w-full">
       <Tab.Group>
-        <Tab.List className="sticky top-0 z-[2] flex w-full items-center justify-center space-x-1 rounded border-b bg-white p-3">
+        <Tab.List className="sticky top-0 z-[2] flex w-full items-center justify-center space-x-1 rounded border-b bg-white p-3 dark:border-gray-500 dark:bg-[color:var(--dark)]">
           <div className="flex w-fit items-center gap-2">
             {["Mixer", "Settings", "Generated", "Share"].map((category) => (
               <Tab
@@ -60,10 +60,10 @@ const NFTGenerator = ({ router }: any) => {
                 className={({ selected }) =>
                   classNames(
                     "w-full rounded py-2 px-16 text-sm font-medium leading-5 text-blue-700",
-                    "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2",
+                    "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2 dark:border-gray-500",
                     selected
-                      ? "border bg-indigo-100 font-bold"
-                      : "border text-gray-500 hover:bg-gray-50 "
+                      ? "border bg-indigo-100 font-bold dark:bg-gray-600 dark:text-white"
+                      : "border text-gray-500 hover:bg-gray-50  dark:bg-[rgba(255,255,255,0.05)] dark:text-gray-300 dark:backdrop-blur "
                   )
                 }
               >
@@ -75,12 +75,12 @@ const NFTGenerator = ({ router }: any) => {
         <Tab.Panels className="relative z-[1]">
           <Tab.Panel>
             {layers.length < 1 && (
-              <SelectFolder className="mt-96 w-[length:calc(100vw-30rem)] flex-1 bg-red-600" />
+              <SelectFolder className="mt-96 w-[length:calc(100vw-30rem)] flex-1" />
             )}
 
             {layers.length > 0 && (
               <div className="flex w-full flex-col-reverse justify-between gap-10 2xl:flex-row">
-                <div className=" w-full overflow-y-hidden border-r">
+                <div className=" w-full overflow-y-hidden border-r dark:border-gray-500">
                   {layers.length > 0 && (
                     <div className="mt-0 w-full min-w-[900px] flex-col gap-10 overflow-y-auto px-10 ">
                       <>
@@ -118,7 +118,7 @@ const NFTGenerator = ({ router }: any) => {
                     </div>
                   )}
                 </div>
-                <div className="sticky top-0 flex h-10 items-start justify-center px-4 2xl:w-[40%]">
+                <div className="sticky top-4 flex h-10 items-start justify-center px-4 2xl:w-[40%]">
                   <section className="flex flex-col justify-center">
                     <NFTPreview className="mt-10" />
                     <GenerateToken />
@@ -127,7 +127,7 @@ const NFTGenerator = ({ router }: any) => {
               </div>
             )}
           </Tab.Panel>
-          <Tab.Panel>
+          <Tab.Panel className="dark:text-gray-400">
             <div className="flex w-full justify-end px-20 py-5">
               <div className="gradient-button">Save</div>
             </div>

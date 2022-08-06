@@ -53,7 +53,7 @@ const EditTemplate: FC<AppProps> = ({ isOpen, closeModal }) => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="mx-4 w-full max-w-5xl transform overflow-hidden rounded bg-white p-6 text-left align-middle shadow-xl transition-all">
+              <div className="mx-4 w-full max-w-5xl transform overflow-hidden rounded bg-white p-6 text-left align-middle shadow-xl transition-all dark:bg-[color:var(--dark)]">
                 <div className="flex items-center justify-between gap-2 ">
                   <Dialog.Title
                     as="h3"

@@ -2,7 +2,7 @@ import dashify from "dashify";
 import { formatEthAddress } from "eth-address";
 import ContractMakerView from "features/contract-maker/components";
 import DashboardHome from "features/dashboard-home/components/dashboard-home";
-import PageBuilder from "features/minting-page-builder/components/page-builder";
+import LaunchpadConfig from "features/launch/launch-config/launchpad-config";
 import NFTGenerator from "features/traitmixer/components";
 import {
   collection,
@@ -15,12 +15,8 @@ import {
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getDashboardState,
-  getSlideInModalState,
-} from "redux/reducers/selectors/dashboard";
+import { getDashboardState } from "redux/reducers/selectors/dashboard";
 import { getProjectState } from "redux/reducers/selectors/project";
 import { getAddress } from "redux/reducers/selectors/user";
 import { setConfiguration } from "redux/reducers/slices/configuration";
@@ -35,7 +31,6 @@ import Whitelist from "@/components/dashboard/Whitelist";
 import ComingSoon from "@/components/layout/ComingSoon";
 import AddLayer from "@/components/nft/AddLayer";
 import TraitsSearchbar from "@/components/nft/TraitsSearchbar";
-import DevPage from "@/components/pages/dev/dev";
 import PageLoader from "@/components/shared/PageLoader";
 
 import { enumNFTGenConfig } from "@/enums/nft-gen-configurations";
@@ -45,13 +40,13 @@ import { hasAccessToProject } from "@/utils/authentication";
 const firestore = getFirestore(firebaseApp);
 
 export default function DashboardHomePage() {
-  const [showProject, setShowProject] = useState(false);
   const dashboardState = useSelector(getDashboardState) as IDashboardState;
   const project = useSelector(getProjectState) as IProject;
   const selectedSidebar = dashboardState.selectedSidebar;
   const router = useRouter();
   const dispatch = useDispatch();
   const address = useSelector(getAddress);
+  const [hasProjectAccess, setHasProjectAccess] = useState(true);
 
   const content: {
     component: any;
@@ -76,9 +71,9 @@ export default function DashboardHomePage() {
       label: "Contract Maker",
     },
     {
-      component: <PageBuilder />,
+      component: <LaunchpadConfig />,
       value: "minting-page-builder",
-      label: "Minting Page Builder",
+      label: "Launchpad",
     },
     {
       component: <Whitelist />,
@@ -95,11 +90,12 @@ export default function DashboardHomePage() {
       value: "ip-rights",
       label: "IP Rights",
     },
-    {
-      component: <DevPage />,
-      value: "dev-page",
-      label: "Development Eyes",
-    },
+
+    // {
+    //   component: <DevPage />,
+    //   value: "dev-page",
+    //   label: "Development Eyes",
+    // },
   ];
 
   const _query = query(
@@ -118,13 +114,12 @@ export default function DashboardHomePage() {
   const [layerSnapshots, layerLoading] = useCollectionData(_layersQuery);
 
   async function checkUserValidity() {
-    console.log({ address });
-
     if (!address) return;
     const hasAccess = await hasAccessToProject(
       router.query.project as string,
       address
     );
+    setHasProjectAccess(hasAccess);
 
     if (hasAccess) {
       if (loading) return;
@@ -144,7 +139,9 @@ export default function DashboardHomePage() {
           dispatch(
             setInformationBarConfig({
               show: true,
-              message: `Delegated Access by ${formatEthAddress(data[0].owner)}`,
+              message: `Delegated Access by ${formatEthAddress(
+                data[0].owner!
+              )}`,
               showLoader: false,
             })
           );
@@ -180,7 +177,6 @@ export default function DashboardHomePage() {
       }
     } else {
       router.push("/dashboard");
-      toast.error("You dont have access to this project");
     }
   }
 
@@ -239,9 +235,6 @@ export default function DashboardHomePage() {
 }
 
 function NFTGeneratorTitleOptions() {
-  const slideInModalState = useSelector(getSlideInModalState);
-  const dispatch = useDispatch();
-
   return (
     <div className="flex items-center gap-3">
       <TraitsSearchbar />

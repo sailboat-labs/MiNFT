@@ -2,7 +2,6 @@ import React, { FC } from "react";
 
 import BaseInput from "@/components/controls/BaseInput";
 import BaseSelect from "@/components/controls/BaseSelect";
-import DateTimeRangePicker from "@/components/controls/DateTimeRangePicker";
 
 interface AppProps {
   form: any;
@@ -79,8 +78,8 @@ const DutchAuctionFormFields: FC<AppProps> = ({ form }) => {
         </div>
       </section>
       <section className="mt-10 flex items-start  gap-10">
-        <DateTimeRangePicker />
-        <div className=" max-w-[300px] flex-1 rounded-md bg-white p-5 ring-1 ring-gray-200">
+        {/* <DateTimeRangePicker /> */}
+        <div className=" max-w-[300px] flex-1 rounded-md bg-white p-5 ring-1 ring-gray-200 dark:bg-[color:var(--dark)]">
           <strong>Minutes</strong>
           <BaseSelect
             options={[]}

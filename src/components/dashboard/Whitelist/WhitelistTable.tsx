@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { collection, onSnapshot } from "firebase/firestore";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 // import useSWR from "swr";
@@ -9,14 +10,24 @@ interface UserData {
   wallet: string;
   twitterUsername: string;
   discord: string;
+  channel: "main" | "premint" | "manual";
 }
-export default function WhitelistTable() {
+
+type props = {
+  channel: "main" | "premint" | "manual";
+};
+export default function WhitelistTable({ channel }: props) {
   const [users, setUsers] = useState<UserData[]>([]);
   // const { data, error } = useSWR("/api/user", fetcher);
-  const id = "indians-nft";
+
+  const router = useRouter();
 
   useEffect(() => {
-    const _collection = collection(firestore, `Projects/${id}/Whitelist`);
+    if (!router.query.project) return;
+    const _collection = collection(
+      firestore,
+      `Projects/${router.query.project as string}/Whitelist`
+    );
 
     const unsubscribe = onSnapshot(_collection, (snapshot) => {
       const _users = snapshot.docs.map((doc) => doc.data() as UserData);
@@ -47,28 +58,44 @@ export default function WhitelistTable() {
               </tr>
             </thead>
             <tbody>
-              {users.map((item, index) => (
-                <tr
-                  key={index}
-                  className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
-                >
-                  <th
-                    scope="row"
-                    className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white dark:text-gray-200"
+              {users
+                .filter((item) => {
+                  if (channel == "main") {
+                    return item;
+                  } else {
+                    return item.channel == channel;
+                  }
+                })
+                .map((item, index) => (
+                  <tr
+                    key={index}
+                    className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
                   >
-                    {index + 1}. {item.wallet}
-                  </th>
-                  <td className="px-6 py-4">{item.twitterUsername}</td>
-                  <td className="px-6 py-4 text-right">
-                    <a
-                      href="#"
-                      className="font-medium text-blue-600 hover:underline dark:text-blue-500"
+                    <th
+                      scope="row"
+                      className="flex items-center whitespace-nowrap px-6 py-4 font-medium text-gray-900  dark:text-gray-200"
                     >
-                      Edit
-                    </a>
-                  </td>
-                </tr>
-              ))}
+                      {index + 1}.{" "}
+                      <div
+                        className={`mx-3 h-3 w-3 rounded-full ${
+                          item.channel == "manual"
+                            ? "bg-orange-500"
+                            : "bg-indigo-500"
+                        }`}
+                      ></div>
+                      {item.wallet}
+                    </th>
+                    <td className="px-6 py-4">{item.twitterUsername}</td>
+                    <td className="px-6 py-4 text-right">
+                      <a
+                        href="#"
+                        className="font-medium text-blue-600 hover:underline dark:text-blue-500"
+                      >
+                        Edit
+                      </a>
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>

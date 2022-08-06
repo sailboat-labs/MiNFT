@@ -109,7 +109,7 @@ export default function GenerateToken() {
             dispatch(setGeneratedGIF(srcBlob));
           }, 2000);
         }}
-        className={`mt-5 flex w-full cursor-pointer items-center justify-center gap-3 rounded-lg border-2 border-[#30489C] bg-white px-5 py-2 text-[#30489C] transition-all hover:scale-105 `}
+        className={`mt-5 flex w-full cursor-pointer items-center justify-center gap-3 rounded-lg border-2 border-[#30489C] bg-white px-5 py-2 text-[#30489C] transition-all hover:scale-105 dark:bg-[color:var(--dark)] `}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -168,7 +168,7 @@ export default function GenerateToken() {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className=" ml-[15rem] min-h-screen w-screen transform overflow-hidden bg-white p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className=" ml-[15rem] min-h-screen w-screen transform overflow-hidden bg-white p-6 text-left align-middle shadow-xl transition-all dark:bg-[color:var(--dark)]">
                   <Dialog.Title
                     as="h3"
                     className="text-lg font-medium leading-6 text-gray-900"

@@ -1,7 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import "add-to-calendar-button/assets/css/atcb.min": root {
+/* @import "add-to-calendar-button/assets/css/atcb.min"; */
+:root {
+  --dark: #262b30;
   /* #region  /**=========== Primary Color =========== */
   /* !STARTERCONF Customize these variable, copy and paste from /styles/colors.css for list of colors */
   --tw-color-primary-50: 240 249 255;
@@ -27,6 +29,12 @@
   /* #endregion  /**======== Primary Color =========== */
 }
 
+/* material ui */
+.MuiButtonBase-root.MuiIconButton-root.MuiIconButton-edgeEnd,
+.MuiOutlinedInput-input.MuiInputBase-input.MuiInputBase-inputAdornedEnd {
+  @apply dark:text-gray-400;
+}
+
 .swal-text {
   text-align: center !important;
 }
@@ -50,7 +58,7 @@
   }
 
   @font-face {
-    font-family: "Heading"; 
+    font-family: "Heading";
   }
 
   @font-face {
@@ -63,7 +71,7 @@
   }
 
   html {
-    /* background-color: black; */
+    background-color: white;
 
     --bg-indigo: #e7ecf3;
     --bg-gray: #f3f7fa;
@@ -209,9 +217,9 @@ input[id="walletNumber"]:focus {
 }
 
 textarea[id="banner-heading"]:focus,
-textarea[id="sectiontwo-heading"]:focus, 
+textarea[id="sectiontwo-heading"]:focus,
 textarea[id="sectiontwo-paragraph"]:focus,
-textarea[id="sectionthree-heading"]:focus, 
+textarea[id="sectionthree-heading"]:focus,
 textarea[id="sectionthree-paragraph"]:focus,
 input[id="sectionthree-highlight"]:focus,
 textarea[id="sectionfour-heading"]:focus,
@@ -221,7 +229,7 @@ input[id="label1"]:focus,
 input[id="bitcoins"]:focus,
 input[id="label2"]:focus,
 input[id="oilbarrels"]:focus,
-input[id="label3"]:focus, 
+input[id="label3"]:focus,
 textarea[id="join-heading"]:focus,
 textarea[id="contact-heading"]:focus,
 input[id="contact-input"]:focus {
@@ -232,5 +240,3 @@ input[id="contact-input"]:focus {
   -moz-box-shadow: none;
   -webkit-box-shadow: none;
 }
-
-

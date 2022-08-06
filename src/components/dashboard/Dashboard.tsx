@@ -71,7 +71,7 @@ export default function DashboardHome() {
 
   return (
     // <div className="ml-96 bg-white pl-10 pt-60 font-dmsans opacity-100">
-    <div className="border-t border-gray-300 bg-white pl-10 pt-24 font-dmsans opacity-100">
+    <div className="border-t border-gray-300 bg-white pl-10 pt-24 font-dmsans opacity-100 dark:bg-[color:var(--dark)]">
       {/* User Information */}
       <div>
         <div className="-mt-16 text-2xl font-bold text-gray-700">

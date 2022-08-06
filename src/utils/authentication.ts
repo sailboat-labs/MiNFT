@@ -32,22 +32,27 @@ export async function getAccountByProvider() {
 }
 
 export function getActiveAccount() {
-  let isAuthenticated = false;
-  let account = null;
+  try {
+    if (!window) return;
+    let isAuthenticated = false;
+    let account = null;
 
-  isAuthenticated =
-    window.localStorage.getItem("isAuthenticated") == "true" ? true : false;
-  if (!isAuthenticated) return;
+    isAuthenticated =
+      window.localStorage.getItem("isAuthenticated") == "true" ? true : false;
+    if (!isAuthenticated) return;
 
-  account = window.localStorage.getItem("account");
-  if (
-    account == null ||
-    account == undefined ||
-    ethers.utils.isAddress(account) == false
-  )
-    return;
+    account = window.localStorage.getItem("account");
+    if (
+      account == null ||
+      account == undefined ||
+      ethers.utils.isAddress(account) == false
+    )
+      return;
 
-  return account;
+    return account;
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 export function logout() {

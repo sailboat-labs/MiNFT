@@ -24,7 +24,7 @@ export async function getCloneContracts() {
       await registry.contract.proxyType(cloneAddress)
     );
 
-    const abi = getContract(contractType, signer)?.abi;
+    const abi: any = getContract(contractType, signer)?.abi;
     const clone = new ethers.Contract(cloneAddress, abi, signer);
 
     if (!clone) {

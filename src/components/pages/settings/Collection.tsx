@@ -90,12 +90,12 @@ const CollectionSettings = () => {
 
   return (
     <div className="pt-12">
-      <h4>Collection</h4>
+      <h4 className="dark:text-white">Collection</h4>
       <p>Metadata for this collection of NFTs</p>
       <form action="#" className="mt-6" onSubmit={formik.handleSubmit}>
         <div className="mt-6 grid grid-cols-2 items-start gap-6">
           <div className="flex flex-col">
-            <label className="mb-2 font-medium" htmlFor="name">
+            <label className="mb-2 font-medium dark:text-white" htmlFor="name">
               Name
             </label>
             <input
@@ -109,18 +109,21 @@ const CollectionSettings = () => {
                 );
               }}
               type="text"
-              className="flex-1 rounded-lg"
+              className="flex-1 rounded-lg dark:bg-[rgba(255,255,255,0.02)] dark:text-gray-300"
               // {...formik.getFieldProps("name")}
             />
           </div>
           <div className="flex flex-col">
-            <label className="mb-2 font-medium" htmlFor="familiy">
+            <label
+              className="mb-2 font-medium dark:text-white"
+              htmlFor="familiy"
+            >
               Family
             </label>
             <input
               placeholder="(optional)"
               type="text"
-              className="flex-1 rounded-lg"
+              className="flex-1 rounded-lg dark:bg-[rgba(255,255,255,0.02)] dark:text-gray-300"
               defaultValue={configuration[enumNFTGenConfig.FAMILY]}
               onChange={(e) => {
                 dispatch(
@@ -138,13 +141,16 @@ const CollectionSettings = () => {
         </div>
         <div className="mt-6 grid grid-cols-2 items-start gap-6">
           <div className="flex flex-col">
-            <label className="mb-2 font-medium" htmlFor="symbol">
+            <label
+              className="mb-2 font-medium dark:text-white"
+              htmlFor="symbol"
+            >
               Symbol
             </label>
             <input
               type="text"
               defaultValue={configuration[enumNFTGenConfig.SYMBOL]}
-              className="flex-1 rounded-lg"
+              className="flex-1 rounded-lg dark:bg-[rgba(255,255,255,0.02)] dark:text-gray-300"
               onChange={(e) => {
                 dispatch(
                   setConfiguration({
@@ -157,7 +163,10 @@ const CollectionSettings = () => {
             <p className="mt-2 text-sm">Exchange symbol (e.g NZMX)</p>
           </div>
           <div className="flex flex-col">
-            <label className="mb-2 font-medium" htmlFor="supply">
+            <label
+              className="mb-2 font-medium dark:text-white"
+              htmlFor="supply"
+            >
               Supply{" "}
               <span className="text-xs text-gray-500">
                 Max: {getMaximumSupply()}
@@ -168,7 +177,7 @@ const CollectionSettings = () => {
                 defaultValue={configuration[enumNFTGenConfig.SUPPLY]}
                 value={configuration.supply}
                 type="number"
-                className="flex-1 rounded-lg"
+                className="flex-1 rounded-lg dark:bg-[rgba(255,255,255,0.02)] dark:text-gray-300"
                 onChange={(e) => {
                   handleSupplyChange(parseInt(e.target.value));
                 }}
@@ -186,13 +195,16 @@ const CollectionSettings = () => {
           </div>
         </div>
         <div className="mt-6 flex flex-col">
-          <label className="mb-2 font-medium" htmlFor="external url">
+          <label
+            className="mb-2 font-medium dark:text-white"
+            htmlFor="external url"
+          >
             External URL
           </label>
           <input
             type="text"
             placeholder="External URL"
-            className="flex-1 rounded-lg"
+            className="flex-1 rounded-lg dark:bg-[rgba(255,255,255,0.02)] dark:text-gray-300"
             defaultValue={configuration[enumNFTGenConfig.BASE_URL]}
             onChange={(e) => {
               dispatch(
@@ -208,13 +220,16 @@ const CollectionSettings = () => {
           </p>
         </div>
         <div className="mt-6 flex flex-col">
-          <label className="mb-2 font-medium" htmlFor="description">
+          <label
+            className="mb-2 font-medium dark:text-white"
+            htmlFor="description"
+          >
             Description
           </label>
           <textarea
             rows={6}
             placeholder="Enter description"
-            className="flex-1 rounded-lg"
+            className="flex-1 rounded-lg dark:bg-[rgba(255,255,255,0.02)] dark:text-gray-300"
             defaultValue={configuration[enumNFTGenConfig.DESCRIPTION]}
             onChange={(e) => {
               dispatch(

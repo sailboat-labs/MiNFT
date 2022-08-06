@@ -6,7 +6,6 @@ import { getContractByField } from "redux/reducers/selectors/contract";
 import * as Yup from "yup";
 
 import BaseInput from "@/components/controls/BaseInput";
-import DateTimeRangePicker from "@/components/controls/DateTimeRangePicker";
 import ContractFormRowSection from "@/components/layout/ContractRowSection";
 
 const WhitelistForm = () => {
@@ -97,9 +96,7 @@ const WhitelistForm = () => {
             <div
               // style={{ maxHeight: undefined, overflowY: "hidden" }}
               className="mt-2"
-            >
-              <DateTimeRangePicker />
-            </div>
+            ></div>
           </article>
         </ContractFormRowSection>
         {/* Price & Quantity */}

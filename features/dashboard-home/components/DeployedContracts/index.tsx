@@ -94,7 +94,7 @@ export default function DeployedContracts() {
               {clones.map((clone, index) => (
                 <tr
                   key={index}
-                  className="border-b odd:bg-white even:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 odd:dark:bg-gray-800 even:dark:bg-gray-700"
+                  className="border-b odd:bg-white even:bg-gray-50 dark:border-gray-700 dark:bg-[color:var(--dark)] dark:bg-gray-800 odd:dark:bg-gray-800 even:dark:bg-gray-700"
                 >
                   <th
                     scope="row"

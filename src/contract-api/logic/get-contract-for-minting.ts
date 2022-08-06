@@ -22,7 +22,7 @@ export async function getContractForMinting(contractAddress: string) {
       await registry.contract.proxyType(contractAddress)
     );
 
-    const abi = getContract(contractType, signer)?.abi;
+    const abi: any = getContract(contractType, signer)?.abi;
 
     const contract = new ethers.Contract(contractAddress, abi, signer);
 

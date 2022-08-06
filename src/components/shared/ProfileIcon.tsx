@@ -8,10 +8,10 @@ import { useRouter } from "next/router";
 import { Fragment, useEffect, useState } from "react";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import { useMoralis } from "react-moralis";
-import { useSelector } from "react-redux";
-import { getAddress } from "redux/reducers/selectors/user";
 
 import { firebaseApp } from "@/lib/firebase";
+
+import { getActiveAccount } from "@/utils/authentication";
 
 import { User } from "@/types";
 
@@ -20,7 +20,7 @@ const firestore = getFirestore(firebaseApp);
 export default function ProfileIcon() {
   // const { status, connect, account, chainId, ethereum } = useMetaMask();
   const { logout, isAuthenticated } = useMoralis();
-  const account = useSelector(getAddress);
+  const account = getActiveAccount();
   const router = useRouter();
   const [user, setUser] = useState<User>();
 
@@ -74,7 +74,7 @@ export default function ProfileIcon() {
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1  ring-black ring-opacity-5 focus:outline-none ">
+            <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black  ring-opacity-5 focus:outline-none dark:bg-[color:var(--dark)] ">
               <div className="px-1 py-1 ">
                 <Menu.Item>
                   {({ active }: any) => (
