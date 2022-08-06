@@ -1,8 +1,7 @@
-import ContactUs from "features/launch/launch/components/contact-us";
 import { useRouter } from "next/router";
 import React from "react";
 
-import DarkModeMenu from "../layout/DarkmodeToggle";
+import ContactLink from "../buttons/ContactLink";
 import UnstyledLink from "../links/UnstyledLink";
 
 import StarSVG from "~/svg/homepage/header_star.svg";
@@ -19,10 +18,10 @@ export default function Header() {
       >
         Magic Mynt
       </UnstyledLink>
-      <span className="w-6 sm:w-1/5 md:inline md:w-2/5 lg:w-1/2 xl:w-3/5"></span>
-      <div className="hidden flex-row text-base md:flex lg:ml-0">
+      <span className="flex w-6 justify-end sm:w-1/5 md:inline md:w-1/3 lg:w-1/3 xl:w-1/2 2xl:w-3/5"></span>
+      <div className="mr-8 hidden flex-row justify-end text-base md:ml-12 md:flex lg:ml-0">
         <span
-          className="cursor-pointer font-semibold dark:font-medium dark:text-gray-400 sm:mr-10 lg:mr-14"
+          className=" w-fit cursor-pointer sm:mr-10 lg:mr-14"
           onClick={() => {
             process.env.NEXT_PUBLIC_ENVIRONMENT == "development"
               ? router.push("/dashboard")
@@ -33,8 +32,7 @@ export default function Header() {
             ? "Get Started"
             : "Join Waitlist"}
         </span>
-        <ContactUs />
-        <DarkModeMenu />
+        <ContactLink className="w-fit cursor-pointer" />
       </div>
     </div>
   );
