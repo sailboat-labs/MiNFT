@@ -15,7 +15,7 @@ const LaunchpadPreview: NextPage = () => {
   const [isLoadingPreview, setIsLoadingPreview] = useState(true);
 
   async function checkUserValidity() {
-    console.log({ address, "slug:": router.query.project });
+    // console.log({ address, "slug:": router.query.project });
 
     if (!router.query.project || address.length < 1) return;
     setIsLoadingPreview(true);
@@ -26,7 +26,7 @@ const LaunchpadPreview: NextPage = () => {
         address
       );
 
-      console.log({ hasAccess });
+      // console.log({ hasAccess });
       setIsLoadingPreview(false);
 
       toast(hasAccess);
