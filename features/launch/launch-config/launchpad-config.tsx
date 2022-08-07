@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import { getProjectState } from "redux/reducers/selectors/project";
 
 import Button from "@/components/buttons/Button";
+import CustomSelect from "@/components/input-controls/CustomSelect";
 import PageLoader from "@/components/shared/PageLoader";
 
 import { IProject, IProjectLaunch } from "@/interfaces";
@@ -20,6 +21,37 @@ import saveLaunchPadDraft, {
   handleLaunchImageUpload,
 } from "./launchpad-config.logic";
 import LaunchPadSkeleton from "../components/launch-skeleton";
+
+const CONTRACT_TYPES = [
+  {
+    name: "Classic Mint",
+    label: "Classic Mint",
+  },
+  {
+    name: "Dutch Auction",
+    label: "Dutch Auction",
+  },
+  {
+    name: "Fair Dutch Auction",
+    label: "Fair Dutch Auction",
+  },
+  {
+    name: "Classic Mint with whitelist",
+    label: "Classic Mint with whitelist",
+  },
+  {
+    name: "Dutch Auction with whitelist",
+    label: "Dutch Auction with whitelist",
+  },
+  {
+    name: "Fair Dutch Auction with whitelist",
+    label: "Fair Dutch Auction with whitelist",
+  },
+  {
+    name: "Pure whitelist",
+    label: "Pure whitelist",
+  },
+];
 
 const LaunchpadConfig: NextPage = () => {
   const [activeTab, setActiveTab] = useState<string>("roadmap");
@@ -199,8 +231,19 @@ const LaunchpadConfig: NextPage = () => {
                           );
                         }}
                       />
-                      <div className="my-4 grid grid-cols-2 items-center gap-3 text-sm xl:grid-cols-4">
-                        <input
+                      <div className="my-4  flex flex-wrap items-center gap-3 text-sm ">
+                        <CustomSelect
+                          onChange={(value) => {
+                            handleSaveLaunchPadDraft(
+                              "contractType",
+                              value.name as string
+                            );
+                          }}
+                          wrapperClass="flex-1"
+                          togglerClass="w-full py-1 border rounded bg-gray-50"
+                          options={CONTRACT_TYPES}
+                        />
+                        {/* <input
                           defaultValue={launchInformation?.contractType}
                           onChange={(e) => {
                             handleSaveLaunchPadDraft(
@@ -210,7 +253,7 @@ const LaunchpadConfig: NextPage = () => {
                           }}
                           className="rounded border border-pink-500 py-1 px-2 text-pink-500 "
                           placeholder="Mint Type eg. Classic Mint"
-                        />
+                        /> */}
                         <input
                           defaultValue={launchInformation?.startTimeStamp}
                           onChange={(e) => {
@@ -235,7 +278,8 @@ const LaunchpadConfig: NextPage = () => {
                                 e.target.value
                               );
                             }}
-                            className="w-20 font-semibold"
+                            type="number"
+                            className="w-20  py-0 px-2 text-sm font-semibold"
                             placeholder="0"
                           />
                         </div>
@@ -249,7 +293,8 @@ const LaunchpadConfig: NextPage = () => {
                                 e.target.value
                               );
                             }}
-                            className="w-10 font-semibold"
+                            type="number"
+                            className="w-20  py-0 px-2 text-sm font-semibold"
                             placeholder="0.1"
                           />
                         </div>
