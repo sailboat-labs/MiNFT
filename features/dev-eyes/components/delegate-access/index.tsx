@@ -9,12 +9,19 @@ import { getAddress } from "redux/reducers/selectors/user";
 import { firestore } from "@/lib/firebase";
 
 import Button from "@/components/buttons/Button";
+import CustomSelect from "@/components/input-controls/CustomSelect";
 
 import { isProjectOwner } from "@/utils/authentication";
 
 import { delegateAccessToAddress } from "./index.logic";
 
 import { IDelegates } from "@/types";
+
+const PRIVILEGES = [
+  { name: "viewer", label: "viewer" },
+  { name: "editor", label: "editor" },
+  { name: "admin", label: "admin" },
+];
 
 export default function DelegateAccess() {
   const [delegatedAccessToList, setDelegatedAccessToList] = useState<
@@ -23,9 +30,10 @@ export default function DelegateAccess() {
 
   const activeAddress = useSelector(getAddress);
 
-  const [address, setAddress] = useState<string>("");
-  const [isSaving, setIsSaving] = useState(false);
   const [isOwner, setIsOwner] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [address, setAddress] = useState<string>("");
+  const [selected, setSelected] = useState<{ name: string; label: string }>();
 
   const router = useRouter();
   const slug = router.query.project;
@@ -99,17 +107,17 @@ export default function DelegateAccess() {
   return (
     <div className="mt-10 border-y py-10 dark:border-y-gray-500">
       <div className="relative overflow-x-auto sm:rounded-lg">
-        <table className="w-full rounded text-left text-sm text-gray-500 dark:text-gray-400">
+        <table className=" w-full rounded text-left text-sm text-gray-500 dark:text-gray-400">
           <caption className="bg-white py-5 text-left text-lg font-semibold text-gray-900 dark:bg-[color:var(--dark)] dark:text-white">
             Delegate Access
             <p className="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">
               Allow other users to view this project by delegating access
             </p>
           </caption>
-          <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
+          <thead className="bg-gray-100 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-              <th scope="col" className="sr-only py-3 px-6">
-                Index
+              <th scope="col" className=" py-3 px-6">
+                #
               </th>
               <th scope="col" className="py-3 px-6">
                 Address
@@ -122,11 +130,11 @@ export default function DelegateAccess() {
               </th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="h-auto">
             {delegatedAccessToList.map((user, index) => (
               <tr
                 key={index}
-                className="border-b bg-white dark:border-gray-700 dark:bg-[color:var(--dark)] dark:bg-gray-800"
+                className="border-b bg-white hover:bg-gray-50 dark:border-gray-700  dark:bg-gray-800 dark:hover:bg-gray-700"
               >
                 <th
                   scope="row"
@@ -135,8 +143,20 @@ export default function DelegateAccess() {
                   {index + 1}
                 </th>
                 <td className="py-4 px-6">{user.delegate}</td>
-                <td className="py-4 px-6">{user.role}</td>
-                <td className="py-4 px-6">{user.dateDelegated}</td>
+                <td className="py-4 px-6">
+                  {/* {user.role} */}
+                  <CustomSelect
+                    onChange={(value) => console.log(value)}
+                    togglerClass="bg-gray-100"
+                    wrapperClass="ml-auto"
+                    options={PRIVILEGES}
+                  />
+                </td>
+                <td className="py-4 px-6">
+                  {user.dateDelegated
+                    ? new Date(user.dateDelegated).toDateString()
+                    : "N/A"}
+                </td>
               </tr>
             ))}
           </tbody>
