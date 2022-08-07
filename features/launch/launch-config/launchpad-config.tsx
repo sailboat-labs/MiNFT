@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import { getProjectState } from "redux/reducers/selectors/project";
 
 import Button from "@/components/buttons/Button";
+import UploadButton from "@/components/buttons/Upload";
 import CustomSelect from "@/components/input-controls/CustomSelect";
 import PageLoader from "@/components/shared/PageLoader";
 
@@ -358,8 +359,8 @@ const LaunchpadConfig: NextPage = () => {
                     </article>
                     {/* right side */}
                     <article className="mt-20 mb-20 ml-20 lg:mt-0">
-                      <figure className="h-[30rem] w-[26rem] overflow-hidden rounded-2xl bg-gray-50">
-                        <input
+                      <figure className="h-[30rem] w-[26rem] overflow-hidden rounded-md bg-gray-50">
+                        {/* <input
                           className="absolute h-20 rounded-lg "
                           type="file"
                           onChange={(event) => {
@@ -367,6 +368,14 @@ const LaunchpadConfig: NextPage = () => {
                           }}
                           accept="image/*"
                           ref={fileInput}
+                        /> */}
+                        <UploadButton
+                          wrapperClass="h-full w-full"
+                          onChange={(event) => {
+                            handleFileChanged(event, "main");
+                          }}
+                          accept="image/*"
+                          type="block"
                         />
                         <img
                           className="h-auto w-full object-cover"
@@ -396,8 +405,16 @@ const LaunchpadConfig: NextPage = () => {
                         }}
                       />
 
-                      <figure className="mt-10 w-fit overflow-hidden rounded-2xl ">
-                        <input
+                      <figure className="mt-10 w-fit">
+                        <UploadButton
+                          multiple
+                          onChange={(event: any) => {
+                            handleFileChanged(event, "secondary");
+                          }}
+                          accept="image/*"
+                          desc="Select multiples of 3, up to 9, for best look"
+                        />
+                        {/* <input
                           className=" rounded-lg "
                           type="file"
                           onChange={(event: any) => {
@@ -406,20 +423,38 @@ const LaunchpadConfig: NextPage = () => {
                           multiple
                           accept="image/*"
                           ref={fileInputSecondaryImage}
-                        />
-                        <div className="mt-8 ">
+                        /> */}
+                        {/* <div className="mt-8 ">
                           Select multiples of 3, up to 9, for best look
-                        </div>
+                        </div> */}
 
                         {secondaryImage.length > 0 ? (
-                          <figure className="grid h-fit  w-fit grid-cols-3 gap-3 overflow-hidden rounded-2xl">
+                          <figure className="mt-4 mb-10  grid h-fit w-fit grid-cols-3 gap-3 overflow-hidden rounded-2xl">
                             {secondaryImage.map((item, index) => (
-                              <img
-                                key={index}
-                                className="h-52 w-52 object-cover"
-                                src={URL.createObjectURL(item)}
-                                alt=""
-                              />
+                              <div className="group relative" key={index}>
+                                <img
+                                  className="h-52 w-52 object-cover"
+                                  src={URL.createObjectURL(item)}
+                                  alt=""
+                                />
+                                <div className="absolute inset-0 flex items-center justify-center opacity-0 backdrop-blur transition-all duration-100 group-hover:opacity-100">
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="h-6 w-6  transform cursor-pointer transition-all duration-100 hover:scale-110"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="red"
+                                    strokeWidth={2}
+                                    onClick={() => alert("removing image")}
+                                  >
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                    />
+                                  </svg>
+                                </div>
+                              </div>
                             ))}
                           </figure>
                         ) : (
@@ -427,12 +462,30 @@ const LaunchpadConfig: NextPage = () => {
                             {launchInformation?.secondaryImage &&
                               launchInformation?.secondaryImage.map(
                                 (item, index) => (
-                                  <img
-                                    key={index}
-                                    className="h-52 w-52 object-cover"
-                                    src={item}
-                                    alt=""
-                                  />
+                                  <div className="group relative" key={index}>
+                                    <img
+                                      className="h-52 w-52 object-cover"
+                                      src={item}
+                                      alt=""
+                                    />
+                                    <div className="absolute inset-0 flex  items-center justify-center opacity-0 backdrop-blur transition-all duration-100 group-hover:opacity-100">
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        className="h-6 w-6 transform cursor-pointer transition-all duration-100 hover:scale-110"
+                                        fill="none"
+                                        onClick={() => alert("removing image")}
+                                        viewBox="0 0 24 24"
+                                        stroke="red"
+                                        strokeWidth={2}
+                                      >
+                                        <path
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                        />
+                                      </svg>
+                                    </div>
+                                  </div>
                                 )
                               )}
                           </figure>
