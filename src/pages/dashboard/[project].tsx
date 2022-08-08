@@ -195,6 +195,26 @@ export default function DashboardHomePage() {
     checkUserValidity();
   }, [loading, snapshots, address]);
 
+  async function prepareLayers(layers: ILayer[]) {
+    for (let layerIndex = 0; layerIndex < layers.length; layerIndex++) {
+      const layer = layers[layerIndex];
+
+      for (
+        let elementIndex = 0;
+        elementIndex < layer.elements.length;
+        elementIndex++
+      ) {
+        const element = layer.elements[elementIndex];
+        const dataURL = await convertImageToBase64(element.path);
+        console.log("layer:", layerIndex, "element:", elementIndex);
+
+        layers[layerIndex].elements[elementIndex].path = dataURL as string;
+      }
+    }
+
+    dispatch(setLayers(layers));
+  }
+
   useEffect(() => {
     if (!address) return;
     if (layerLoading) return;
@@ -206,8 +226,26 @@ export default function DashboardHomePage() {
       return acc;
     }, []);
 
-    dispatch(setLayers(data));
+    prepareLayers(data);
+
+    // dispatch(setLayers(data));
   }, [project, layerSnapshots, layerLoading, address]);
+
+  async function convertImageToBase64(url: string) {
+    return new Promise(function (resolve, reject) {
+      fetch(url)
+        .then((res) => res.blob())
+        .then((blob) => {
+          // Read the Blob as DataURL using the FileReader API
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            resolve(reader.result);
+            // Logs data:image/jpeg;base64,wL2dvYWwgbW9yZ...
+          };
+          reader.readAsDataURL(blob);
+        });
+    });
+  }
 
   if (loading)
     return (
