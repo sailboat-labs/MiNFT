@@ -70,7 +70,7 @@ export default function ProjectLaunch({ session }: props) {
     );
 
   return (
-    <div className="pb-20">
+    <div className="mb-20">
       <LaunchHeader />
 
       <div
@@ -248,9 +248,9 @@ export default function ProjectLaunch({ session }: props) {
                             <span className="text-medium  rounded-full bg-gray-100 py-1 px-2 text-sm text-gray-700 ring-1 ring-gray-200">
                               Whitelist Mint
                             </span>
-                            <span className="font-semibold text-pink-500">
+                            {/* <span className="font-semibold text-pink-500">
                               ENDED
-                            </span>
+                            </span> */}
                           </div>
                           <p className="mt-6 text-sm">
                             <span>
@@ -303,8 +303,8 @@ export default function ProjectLaunch({ session }: props) {
               </section>
               {launchInformation?.hasWhitelist && <WhitelistVerify />}
               <section className="bg-gray-100">
-                <div className="container mx-auto grid max-w-[1664px] gap-10  px-6  py-24 md:grid-cols-2">
-                  <article className="mt-20 md:pr-12 lg:pr-32">
+                <div className="container mx-auto grid max-w-[1664px] gap-10  px-6  py-20 md:grid-cols-2">
+                  <article className=" md:pr-12 lg:pr-32">
                     <h1 className="text-6xl font-extrabold">
                       {launchInformation?.projectName}
                     </h1>

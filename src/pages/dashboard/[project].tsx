@@ -140,6 +140,7 @@ export default function DashboardHomePage() {
             setInformationBarConfig({
               show: true,
               message: `Delegated Access by ${formatEthAddress(
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                 data[0].owner!
               )}`,
               showLoader: false,

@@ -48,11 +48,11 @@ export default function FAQ({ headingClass, launchInformation }: AppProps) {
       id="faq"
       ref={wrapperElement}
       data-accordion="collapse"
-      className="contained mt-10"
+      className="contained py-10 pb-20"
     >
       <div
         id="faq-text"
-        className="absolute -translate-x-[11rem] translate-y-5 -rotate-90 text-8xl text-gray-200 dark:text-gray-700 lg:text-[6rem]"
+        className="absolute -translate-x-[11rem] -rotate-90 text-8xl text-gray-200 dark:text-gray-700 lg:text-[6rem]"
       >
         FAQs
       </div>
@@ -65,7 +65,7 @@ export default function FAQ({ headingClass, launchInformation }: AppProps) {
         <span className="text-gray-700 dark:text-gray-300">
           Here are answers to some frequently asked questions
         </span>
-        <div className="mt-5 flex flex-col gap-3">
+        <div className="mt-5 flex flex-col gap-3 pb-10">
           {FAQ.map((item, index) => (
             <div
               key={index}
