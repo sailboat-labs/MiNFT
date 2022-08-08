@@ -28,7 +28,7 @@ const UploadButton: FC<AppProps> = ({
       className={`relative  ${
         type === "inline"
           ? " flex items-center gap-2"
-          : "flex  flex-col items-center justify-center gap-4 rounded-md border-2 border-dashed border-gray-200 px-10 py-16 hover:border-gray-300"
+          : "flex  flex-col items-center justify-center gap-4 rounded-md border-2 border-dashed border-gray-200 px-10 hover:border-gray-300"
       } ${wrapperClass}`}
     >
       <button
