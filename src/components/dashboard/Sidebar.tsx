@@ -3,8 +3,7 @@
 
 import { formatEthAddress } from "eth-address";
 import React from "react";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getDashboardState } from "redux/reducers/selectors/dashboard";
 import { getAddress } from "redux/reducers/selectors/user";
 import { setSelectedSidebar } from "redux/reducers/slices/dashboard";
@@ -252,8 +251,11 @@ const defaultStyles =
 export default function Sidebar({ currentPage }: SidebarProps) {
   const dashboardState = useSelector(getDashboardState) as IDashboardState;
   const selectedSidebar = dashboardState.selectedSidebar;
-  const address = useSelector(getAddress);
+
   const dispatch = useDispatch();
+  const address = useSelector(getAddress);
+
+  // const router = useRouter();
 
   return (
     <div className="z-1 relative z-[1000]  mt-0 flex h-screen w-[15rem] flex-col justify-between border-r bg-white font-dmsans opacity-100 dark:border-gray-500 dark:bg-[color:var(--dark)]">
