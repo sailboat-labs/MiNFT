@@ -8,7 +8,7 @@ export default function MarqueeSection() {
   return (
     <div className=" lg:h-[55rem] xl:h-[47rem] 2xl:h-[75rem]">
       <div className="sm:float-left sm:w-3/5">
-        <div className="xl:mx-auto xl:w-1/2 pt-20 pb-10 text-center font-montserrat text-4xl font-bold text-black lg:w-3/5 2xl:text-6xl">
+        <div className="pt-20 pb-10 text-center font-yeseva text-4xl text-[#222020] lg:w-3/5 xl:text-5xl xl:mx-auto xl:w-1/2 2xl:text-6xl">
           Mix your traits
         </div>
         <Marquee
@@ -80,10 +80,12 @@ export default function MarqueeSection() {
             ))}
           </div>
         </Marquee>
-        <div className="mx-auto w-3/5 flex justify-end mt-10 2xl:w-1/4">
+        <div className="mx-auto mt-10 flex w-3/5 justify-end text-[#222020] 2xl:w-1/4">
           <div className="w-96">
-            <p className="text-lg font-bold pb-3 2xl:text-3xl">The future of art collecting</p>
-            <p className="font-montserrat 2xl:text-2xl">
+            <p className="pb-3 font-yeseva text-lg font-normal xl:text-2xl 2xl:text-3xl">
+              The future of art collecting
+            </p>
+            <p className="font-montserrat font-medium 2xl:text-2xl">
               Browse and build your collection of the world&apos;s most
               cutting-edge digital art
             </p>

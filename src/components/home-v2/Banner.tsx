@@ -8,7 +8,7 @@ export default function Banner() {
   return (
     <div className="mx-auto flex w-full flex-col items-center pb-16 pt-40 sm:pt-28 lg:w-3/4 lg:flex-row xl:w-3/5 2xl:justify-center 2xl:pt-60 2xl:pb-28">
       <div className="mx-auto w-4/5">
-        <h1 className=" text-6xl font-bold sm:text-6xl 2xl:text-9xl ">
+        <h1 className=" text-6xl font-yeseva sm:text-6xl xl:text-7xl 2xl:text-9xl ">
           Join <br /> Waitlist
         </h1>
         <p className="w-full sm:w-3/5 pt-7 pb-16 font-montserrat text-xl font-medium text-[#222020] 2xl:pt-12 2xl:text-4xl">

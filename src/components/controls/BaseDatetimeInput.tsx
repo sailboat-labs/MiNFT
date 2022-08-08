@@ -49,7 +49,7 @@ const BaseDatetimeInput = ({
   return (
     <>
       <div
-        className={`inline-flex items-center overflow-hidden rounded-md bg-white ring-1 ring-gray-200 ${
+        className={`inline-flex items-center overflow-hidden rounded-md bg-white ring-1 ring-gray-300 ${
           isFocused && "ring-indigo-800"
         } ${wrapperClass}`}
       >

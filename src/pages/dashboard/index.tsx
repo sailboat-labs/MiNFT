@@ -29,6 +29,8 @@ import PageLoader from "@/components/shared/PageLoader";
 
 import { IProject } from "@/interfaces";
 
+import DashboardModal from "./DashboardModal";
+
 export const firestore = getFirestore(firebaseApp);
 
 export default function DashboardGetStarted() {
@@ -132,12 +134,45 @@ export default function DashboardGetStarted() {
     }
   }
 
+  console.log(isMobile);
+
+  const [showMobile, setShowMobile] = useState<boolean>(isMobile);
+
+  useEffect(() => {
+    window.addEventListener("resize", (ev: UIEvent) => {
+      if (window.innerWidth < 1024) {
+        setShowMobile(true);
+      } else {
+        setShowMobile(false)
+      }
+      console.log('Width:, ', window.innerWidth);
+      
+    });
+  }, [showMobile]);
+
   return (
     <AuthGuard>
+      <section
+        className={
+          showMobile
+            ? "fixed inset-0 z-[9999] flex items-center justify-center"
+            : "hidden"
+        }
+      >
+        <div
+          id="displayPopup"
+          className="absolute inset-0 bg-[rgba(0,0,0,0.7)]"
+          onClick={() => {
+            router.push("/");
+          }}
+        ></div>
+        <DashboardModal show={showMobile} />
+      </section>
       <div
         className={`flex h-screen flex-col overflow-hidden pb-20 font-dmsans transition-all dark:bg-black lg:flex-row ${
           isCreatingProjectStarted ? "bg-indigo-200" : "bg-white"
-        }`}
+        } ${showMobile ? "hidden" : "block"}
+        `}
       >
         <div className="absolute flex h-screen w-full">
           <div

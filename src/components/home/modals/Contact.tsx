@@ -19,7 +19,7 @@ export default function Contact({ show, onClose }: ContactProps) {
 
   const [captchaChecked, setCaptchaChange] = useState(false);
 
-  const onCaptchaChange = (value: string) => {
+  const onCaptchaChange = () => {
     setCaptchaChange(!captchaChecked);
   };
 
@@ -33,16 +33,10 @@ export default function Contact({ show, onClose }: ContactProps) {
 
   const formRef = useRef();
 
-  const submitForm = (e) => {
+  const submitForm = (e: any) => {
     e.preventDefault();
-    if (
-      window.location.href.includes("localhost") ||
-      window.location.href.includes("staging")
-    ) {
-      alert(
-        `Hi ${e.target.name.value}, we have accurately captured your information. However, this project is not in production, hence we will not be sending your form to Magic Mynt.`
-      );
-    } else {
+
+    if (process.env.NEXT_PUBLIC_ENVIRONMENT == "production") {
       emailjs.sendForm(
         process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
         process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
@@ -52,8 +46,12 @@ export default function Contact({ show, onClose }: ContactProps) {
       alert(
         `Hi ${e.target.name.value}, thank you for contacting Magic Mynt. We will get back to you as soon as possible.`
       );
+    } else if (process.env.NEXT_PUBLIC_ENVIRONMENT == "development") {
+      alert(
+        `Hi ${e.target.name.value}, we have accurately captured your information. However, this project is not in production, hence we will not be sending your form to Magic Mynt.`
+      );
     }
-    document.getElementById("contact-us").click();
+    document.getElementById("contact-us")?.click();
   };
 
   return (
@@ -87,7 +85,7 @@ export default function Contact({ show, onClose }: ContactProps) {
                 validationSchema={validate}
                 onSubmit={submitForm}
               >
-                {(formik) => (
+                {() => (
                   <form id="contact-form" ref={formRef} onSubmit={submitForm}>
                     <div className="text-gray-200">
                       <Input name="name" type="text" placeholder="Name *" />

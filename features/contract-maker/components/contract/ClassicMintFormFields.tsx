@@ -353,10 +353,10 @@ const ClassicMintFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
                       />
                     </div>
                   </div>
-                  <div className="mt-10 w-3/5 max-w-[250px] flex-1 rounded-md bg-white p-5 ring-1 ring-gray-200">
+                  <div className="mt-10 w-3/5 max-w-[250px] flex-1 rounded-md bg-white p-5 ring-1 ring-gray-300">
                     <strong>Minutes</strong>
                     {isPreview ? (
-                      <p className="mt-3 rounded-md bg-white py-1 px-2 !text-gray-800 ring-1 ring-gray-200 ">
+                      <p className="mt-3 rounded-md bg-white py-1 px-2 !text-gray-800 ring-1 ring-gray-300 ">
                         {values?.minutes}
                       </p>
                     ) : (

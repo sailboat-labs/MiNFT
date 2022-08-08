@@ -106,13 +106,13 @@ export default function FAQ() {
   }, []);
 
   return (
-    <section id="faq" className="mx-auto w-4/5 lg:w-3/5 pt-20 2xl:w-1/2">
+    <section id="faq" className="mx-auto w-4/5 pt-20 lg:w-3/5 2xl:w-1/2">
       <div className="relative z-[2]">
-        <h1 className="text-4xl font-normal text-[#1D1D1D] 2xl:text-6xl">
+        <h1 className="font-yeseva text-4xl font-normal text-[#1D1D1D] xl:text-5xl 2xl:text-6xl">
           FAQ
         </h1>
         <p
-          className="flex sm:w-96 py-5 font-montserrat text-base font-medium text-[#222020] 2xl:w-[40rem] 2xl:text-3xl"
+          className="flex py-5 font-montserrat text-base font-medium text-[#222020] sm:w-96 2xl:w-[40rem] 2xl:text-3xl"
           id="faq-anim-trigger"
         >
           Browse and build your collection of the world’s most cutting-edge
@@ -138,28 +138,15 @@ export default function FAQ() {
                   aria-expanded="true"
                   aria-controls="accordion-collapse-body-1"
                 >
-                  <span className="text-base 2xl:text-3xl">{item.title}</span>
+                  <span className="font-yeseva text-base xl:text-xl 2xl:text-3xl">
+                    {item.title}
+                  </span>
                   <DownSVG
                     data-accordion-icon=""
                     className={`h-6 w-6 shrink-0 transition-all  ${
                       selectedItem == index ? "rotate-180" : "rotate-0"
                     }`}
                   />
-                  {/* <svg
-                    data-accordion-icon=""
-                    className={`h-6 w-6 shrink-0 transition-all  ${
-                      selectedItem == index ? "rotate-180" : "rotate-0"
-                    }`}
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                      clipRule="evenodd"
-                    ></path>
-                  </svg> */}
                 </button>
               </h2>
               <div

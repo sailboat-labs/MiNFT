@@ -11,7 +11,7 @@ export default function LiveAuctions() {
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-500 opacity-75"></span>
             <span className="relative inline-flex h-3 w-3 rounded-full bg-green-600 2xl:h-5 2xl:w-5"></span>
           </span>
-          <h1 className="ml-2 text-xl font-bold 2xl:text-4xl">Live auctions</h1>
+          <h1 className="ml-2 text-xl font-normal text-[#222020] font font-yeseva xl:text-2xl 2xl:text-4xl">Live auctions</h1>
         </div>
         <div>
           <div className="flex flex-col">

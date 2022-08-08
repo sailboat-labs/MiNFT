@@ -58,6 +58,11 @@
     src: url("../../public/fonts/Montserrat-Regular.ttf");
   }
 
+  @font-face {
+    font-family: "YesevaOne";
+    src: url("../../public/fonts/YesevaOne-Regular.ttf");
+  }
+
   * {
     font-family: "DMSans", "sans-serif";
   }
