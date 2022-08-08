@@ -8,7 +8,7 @@ import ProfileIcon from "@/components/shared/ProfileIcon";
 export default function LaunchHeader() {
   return (
     // <div className="fixed ml-96 mt-12 w-full bg-white opacity-100">
-    <div className="h-fit w-full bg-white opacity-100">
+    <div className="h-fit w-full bg-white opacity-100 dark:bg-[color:var(--dark)]">
       {/* Top Navigation Bar */}
       <div className="flex w-full flex-row items-center border-b border-gray-300 py-2">
         <div className="flex w-full items-center justify-between pr-10 font-dmsans">

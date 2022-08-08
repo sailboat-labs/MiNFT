@@ -10,10 +10,8 @@ import Button from "@/components/buttons/Button";
 
 import { updateProject } from "@/firestore/project";
 
-import { Project } from "@/types";
-
 interface IProjectSlug {
-  project?: Project;
+  project?: any;
 }
 const WhitelistDates = ({ project }: IProjectSlug) => {
   const router = useRouter();
@@ -66,7 +64,9 @@ const WhitelistDates = ({ project }: IProjectSlug) => {
               value={startDate}
               onChange={setStartDate}
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              renderInput={(params: any) => <TextField {...params} />}
+              renderInput={(params: any) => (
+                <TextField style={{ color: "red !important" }} {...params} />
+              )}
             />
           </div>
 
@@ -78,13 +78,19 @@ const WhitelistDates = ({ project }: IProjectSlug) => {
               value={endDate}
               onChange={setEndDate}
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              renderInput={(params: any) => <TextField {...params} />}
+              renderInput={(params: any) => (
+                <TextField style={{ color: "red !important" }} {...params} />
+              )}
             />
           </div>
         </div>
       </LocalizationProvider>
 
-      <Button isLoading={loading} onClick={update} className="mt-4">
+      <Button
+        isLoading={loading}
+        onClick={update}
+        className="gradient-button mt-4 !text-white transition-all"
+      >
         Update Dates
       </Button>
     </div>

@@ -25,6 +25,9 @@ export default function Whitelist() {
   const slug = router.query.project as string;
 
   const [loading, setLoading] = useState(false);
+  const [selectedChannel, setSelectedChannel] = useState<
+    "main" | "manual" | "premint"
+  >("main");
 
   const [project, setProject] = useState<Project>();
 
@@ -68,6 +71,7 @@ export default function Whitelist() {
         twitterUsername: values.twitter,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
+        channel: "manual",
       });
 
       toast.success("User added");
@@ -78,35 +82,35 @@ export default function Whitelist() {
   });
 
   return (
-    <div className="h-[length:calc(100vh-80px)] overflow-auto font-dmsans opacity-100">
+    <div className="h-[length:calc(100vh-80px)] overflow-auto font-dmsans opacity-100 dark:text-gray-300">
       <div className="pl-10 pt-24">
         <div>
-          <div className="-mt-16 text-2xl font-bold text-gray-700">
+          <div className="-mt-16 text-2xl font-bold text-gray-700 dark:text-white">
             Whitelist accounts
           </div>
-          <div className="mt-2 w-3/4 text-lg font-normal text-gray-500">
+          <div className="mt-2 w-3/4 text-lg font-normal text-gray-500 dark:text-gray-300">
             A list of people or things considered to be acceptable or
             trustworthy.
           </div>
         </div>
 
         {project && (
-          <div className="mt-5 border-y py-5 pl-0 pt-5">
+          <div className="mt-5 border-y py-8 pl-0 dark:border-y-gray-500 ">
             <WhitelistDates project={project} />
           </div>
         )}
 
-        <div className="mt-5">
-          <span className="font-dmsans text-base font-semibold text-gray-600 opacity-100">
+        <div className="py-8">
+          <span className="font-dmsans text-base font-medium text-gray-600 opacity-100 dark:text-gray-300">
             Add a new person to the list
           </span>
           <div className="mt-3 flex h-12 w-3/5 flex-col justify-between">
             <div className="flex h-12 flex-row">
               <div className="flex flex-col gap-2">
-                <div className="flex w-72 flex-row items-center rounded-lg border border-gray-300 focus-within:border-2 focus-within:border-indigo-500 focus-within:ring focus-within:ring-indigo-300">
+                <div className="focus-within:border-1 flex w-72 flex-row items-center rounded-lg border border-gray-300 focus-within:border-indigo-500 focus-within:ring focus-within:ring-indigo-300 dark:border-gray-500">
                   <input
                     id="walletNumber"
-                    className="h-full w-11/12 rounded-lg border-0"
+                    className="dark:text-whtie h-full w-11/12 rounded-lg border-0 dark:bg-[rgba(255,255,255,0.1)]"
                     type="text"
                     placeholder="Wallet number"
                     {...newUserForm.getFieldProps("address")}
@@ -144,10 +148,10 @@ export default function Whitelist() {
                 )}
               </div>
               <div className="ml-10 flex flex-col gap-2">
-                <div className="flex w-72 flex-row items-center rounded-lg border border-gray-300 focus-within:border-2 focus-within:border-indigo-500 focus-within:ring focus-within:ring-indigo-300">
+                <div className="focus-within:border-1 flex w-72 flex-row items-center rounded-lg border border-gray-300 focus-within:border-indigo-500 focus-within:ring focus-within:ring-indigo-300 dark:border-gray-500">
                   <input
                     id="twitterAccount"
-                    className="h-full w-11/12 rounded-lg border-0"
+                    className="dark:text-whtie h-full w-11/12 rounded-lg border-0 dark:bg-[rgba(255,255,255,0.1)]"
                     type="text"
                     placeholder="Twitter account (optional)"
                     {...newUserForm.getFieldProps("twitter")}
@@ -191,7 +195,7 @@ export default function Whitelist() {
                   newUserForm.handleSubmit();
                 }}
                 isLoading={loading}
-                className="gradient-button mt-5 transition-all"
+                className="gradient-button mt-5 !text-white transition-all"
               >
                 Add person
               </Button>
@@ -202,11 +206,25 @@ export default function Whitelist() {
 
       <div className="mt-28 border-t">
         <div className="pl-10 pt-5">
-          <span className="font-dmsans text-lg font-semibold text-gray-600 opacity-100">
-            Main list
-          </span>
+          <div className="flex items-center gap-5">
+            {["main", "premint", "manual"].map((item, index) => (
+              <span
+                key={index}
+                onClick={() => {
+                  setSelectedChannel(item as any);
+                }}
+                className={`cursor-pointer rounded-lg border-2 px-5 py-2 font-dmsans text-lg font-semibold capitalize  opacity-100 transition-all ${
+                  selectedChannel == item
+                    ? "bg-indigo-500 text-white"
+                    : "text-gray-600"
+                }`}
+              >
+                {item}
+              </span>
+            ))}
+          </div>
           <div className="mt-3 flex w-fit flex-col pr-10">
-            <WhitelistTable />
+            <WhitelistTable channel={selectedChannel} />
           </div>
         </div>
       </div>

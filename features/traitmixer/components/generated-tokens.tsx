@@ -31,7 +31,7 @@ export default function GeneratedTokens() {
   }
 
   return (
-    <div className="h-screen w-full transform overflow-y-auto  bg-white p-6 text-left align-middle shadow-xl transition-all">
+    <div className="h-screen w-full transform overflow-y-auto  bg-white p-6 text-left align-middle shadow-xl transition-all dark:bg-[color:var(--dark)]">
       <div className="text-lg font-medium leading-6 text-gray-900">
         <div className="mb-5 flex w-full items-center justify-between">
           <div className="flex items-center gap-5">

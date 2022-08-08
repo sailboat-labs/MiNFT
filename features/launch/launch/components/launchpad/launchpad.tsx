@@ -70,7 +70,7 @@ export default function ProjectLaunch({ session }: props) {
     );
 
   return (
-    <>
+    <div className="mb-20">
       <LaunchHeader />
 
       <div
@@ -248,9 +248,9 @@ export default function ProjectLaunch({ session }: props) {
                             <span className="text-medium  rounded-full bg-gray-100 py-1 px-2 text-sm text-gray-700 ring-1 ring-gray-200">
                               Whitelist Mint
                             </span>
-                            <span className="font-semibold text-pink-500">
+                            {/* <span className="font-semibold text-pink-500">
                               ENDED
-                            </span>
+                            </span> */}
                           </div>
                           <p className="mt-6 text-sm">
                             <span>
@@ -291,10 +291,10 @@ export default function ProjectLaunch({ session }: props) {
                   </article>
                   {/* right side */}
                   <article className="mt-20 mb-20 ml-20 lg:mt-0">
-                    <figure className="overflow-hidden rounded-2xl">
+                    <figure className="h-fit w-auto overflow-hidden rounded-2xl">
                       <img
                         className="h-auto w-full"
-                        src="/images/launch-project.gif"
+                        src={launchInformation?.mainImage}
                         alt=""
                       />
                     </figure>
@@ -303,12 +303,23 @@ export default function ProjectLaunch({ session }: props) {
               </section>
               {launchInformation?.hasWhitelist && <WhitelistVerify />}
               <section className="bg-gray-100">
-                <div className="container mx-auto grid max-w-[1664px] gap-10  px-6  py-24 md:grid-cols-2">
-                  <article className="mt-20 md:pr-12 lg:pr-32">
+                <div className="container mx-auto grid max-w-[1664px] gap-10  px-6  py-20 md:grid-cols-2">
+                  <article className=" md:pr-12 lg:pr-32">
                     <h1 className="text-6xl font-extrabold">
                       {launchInformation?.projectName}
                     </h1>
-                    <p className="my-5 text-gray-500">
+                    <figure className="mt-8 grid h-fit w-fit grid-cols-3 gap-3 overflow-hidden rounded-2xl">
+                      {launchInformation?.secondaryImage &&
+                        launchInformation?.secondaryImage.map((item, index) => (
+                          <img
+                            key={index}
+                            className="h-52 w-52 object-cover"
+                            src={item}
+                            alt=""
+                          />
+                        ))}
+                    </figure>
+                    <p className="my-5 mt-8 text-gray-500">
                       {launchInformation?.description}
                     </p>
                   </article>
@@ -356,11 +367,13 @@ export default function ProjectLaunch({ session }: props) {
                   </article>
                 </div>
               </section>
-              <FAQ />
+              {launchInformation?.faq && (
+                <FAQ launchInformation={launchInformation} />
+              )}
             </div>
           </div>
         }
       </div>
-    </>
+    </div>
   );
 }

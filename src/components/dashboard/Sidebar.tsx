@@ -13,6 +13,7 @@ import { PROFILE_IMAGE } from "@/data/DemoProject";
 
 import { IDashboardState } from "@/interfaces";
 
+import DarkModeMenu from "../layout/DarkmodeToggle";
 import ButtonLink from "../links/ButtonLink";
 
 type SidebarProps = {
@@ -21,232 +22,171 @@ type SidebarProps = {
 
 let sidebarItems: { label: string; icon: any; value: string }[] = [];
 
-if (process.env.NEXT_PUBLIC_ENVIRONMENT == "production") {
-  sidebarItems = [
-    {
-      label: "Dashboard",
-      value: "dashboard-home",
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="ml-2 mr-4 h-6 w-6"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-        >
-          <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" />
-        </svg>
-      ),
-    },
-    {
-      label: "Whitelist",
-      value: "whitelist",
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="ml-2 mr-4 h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth={2}
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"
-          />
-        </svg>
-      ),
-    },
+sidebarItems = [
+  {
+    label: "Dashboard",
+    value: "dashboard-home",
+    icon: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="ml-2 mr-4 h-6 w-6"
+        viewBox="0 0 20 20"
+        fill="currentColor"
+      >
+        <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" />
+      </svg>
+    ),
+  },
+  {
+    label: "Launchpad",
+    value: "minting-page-builder",
+    icon: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="ml-2 mr-4 h-6 w-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth={2}
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
+        />
+      </svg>
+    ),
+  },
+  {
+    label: "Whitelist",
+    value: "whitelist",
+    icon: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="ml-2 mr-4 h-6 w-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth={2}
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"
+        />
+      </svg>
+    ),
+  },
 
-    {
-      label: "Launchpad",
-      value: "minting-page-builder",
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="ml-2 mr-4 h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth={2}
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
-          />
-        </svg>
-      ),
-    },
-  ];
-} else {
-  sidebarItems = [
-    {
-      label: "Dashboard",
-      value: "dashboard-home",
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="ml-2 mr-4 h-6 w-6"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-        >
-          <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" />
-        </svg>
-      ),
-    },
-    {
-      label: "Whitelist",
-      value: "whitelist",
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="ml-2 mr-4 h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth={2}
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"
-          />
-        </svg>
-      ),
-    },
+  {
+    label: "Trait Mixer",
+    value: "nft-generator",
+    icon: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="ml-2 mr-4 h-6 w-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth={2}
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
+        />
+      </svg>
+    ),
+  },
+  {
+    label: "Contract Maker",
+    value: "contract-maker",
+    icon: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="ml-2 mr-4 h-6 w-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth={2}
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
+        />
+      </svg>
+    ),
+  },
 
-    {
-      label: "Trait Mixer",
-      value: "nft-generator",
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="ml-2 mr-4 h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth={2}
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
-          />
-        </svg>
-      ),
-    },
-    {
-      label: "Contract Maker",
-      value: "contract-maker",
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="ml-2 mr-4 h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth={2}
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
-          />
-        </svg>
-      ),
-    },
-
-    {
-      label: "Launchpad",
-      value: "minting-page-builder",
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="ml-2 mr-4 h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth={2}
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
-          />
-        </svg>
-      ),
-    },
-
-    {
-      label: "Marketing",
-      value: "marketing",
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="ml-2 mr-4 h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth={2}
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"
-          />
-        </svg>
-      ),
-    },
-    {
-      label: "IP Rights",
-      value: "ip-rights",
-      icon: (
-        <svg
-          className="ml-2 mr-4 h-6 w-6"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            fillRule="evenodd"
-            clipRule="evenodd"
-            d="M15 11C14.447 11 14 11.448 14 12C14 13.103 13.103 14 12 14C10.897 14 10 13.103 10 12C10 11.448 9.553 11 9 11C8.447 11 8 11.448 8 12C8 14.206 9.794 16 12 16C14.206 16 16 14.206 16 12C16 11.448 15.553 11 15 11ZM18 19H6C5.448 19 5 18.551 5 18V9H19V18C19 18.551 18.552 19 18 19ZM8.121 5.293C8.308 5.107 8.565 5 8.828 5H15.172C15.435 5 15.692 5.107 15.879 5.293L17.586 7H6.414L8.121 5.293ZM20.121 6.707L17.293 3.879C16.727 3.312 15.973 3 15.172 3H8.828C8.027 3 7.273 3.312 6.707 3.879L3.879 6.707C3.312 7.273 3 8.027 3 8.829V18C3 19.654 4.346 21 6 21H18C19.654 21 21 19.654 21 18V8.829C21 8.027 20.688 7.273 20.121 6.707Z"
-            fill="#757D8A"
-          />
-        </svg>
-      ),
-    },
-    {
-      label: "Development Eyes",
-      value: "dev-page",
-      icon: (
-        <svg
-          className="ml-2 mr-4 h-6 w-6"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            fillRule="evenodd"
-            clipRule="evenodd"
-            d="M15 11C14.447 11 14 11.448 14 12C14 13.103 13.103 14 12 14C10.897 14 10 13.103 10 12C10 11.448 9.553 11 9 11C8.447 11 8 11.448 8 12C8 14.206 9.794 16 12 16C14.206 16 16 14.206 16 12C16 11.448 15.553 11 15 11ZM18 19H6C5.448 19 5 18.551 5 18V9H19V18C19 18.551 18.552 19 18 19ZM8.121 5.293C8.308 5.107 8.565 5 8.828 5H15.172C15.435 5 15.692 5.107 15.879 5.293L17.586 7H6.414L8.121 5.293ZM20.121 6.707L17.293 3.879C16.727 3.312 15.973 3 15.172 3H8.828C8.027 3 7.273 3.312 6.707 3.879L3.879 6.707C3.312 7.273 3 8.027 3 8.829V18C3 19.654 4.346 21 6 21H18C19.654 21 21 19.654 21 18V8.829C21 8.027 20.688 7.273 20.121 6.707Z"
-            fill="#757D8A"
-          />
-        </svg>
-      ),
-    },
-  ];
-}
+  {
+    label: "Marketing",
+    value: "marketing",
+    icon: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="ml-2 mr-4 h-6 w-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth={2}
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"
+        />
+      </svg>
+    ),
+  },
+  {
+    label: "IP Rights",
+    value: "ip-rights",
+    icon: (
+      <svg
+        className="ml-2 mr-4 h-6 w-6"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M15 11C14.447 11 14 11.448 14 12C14 13.103 13.103 14 12 14C10.897 14 10 13.103 10 12C10 11.448 9.553 11 9 11C8.447 11 8 11.448 8 12C8 14.206 9.794 16 12 16C14.206 16 16 14.206 16 12C16 11.448 15.553 11 15 11ZM18 19H6C5.448 19 5 18.551 5 18V9H19V18C19 18.551 18.552 19 18 19ZM8.121 5.293C8.308 5.107 8.565 5 8.828 5H15.172C15.435 5 15.692 5.107 15.879 5.293L17.586 7H6.414L8.121 5.293ZM20.121 6.707L17.293 3.879C16.727 3.312 15.973 3 15.172 3H8.828C8.027 3 7.273 3.312 6.707 3.879L3.879 6.707C3.312 7.273 3 8.027 3 8.829V18C3 19.654 4.346 21 6 21H18C19.654 21 21 19.654 21 18V8.829C21 8.027 20.688 7.273 20.121 6.707Z"
+          fill="#757D8A"
+        />
+      </svg>
+    ),
+  },
+  // {
+  //   label: "Development Eyes",
+  //   value: "dev-page",
+  //   icon: (
+  //     <svg
+  //       className="ml-2 mr-4 h-6 w-6"
+  //       width="24"
+  //       height="24"
+  //       viewBox="0 0 24 24"
+  //       fill="none"
+  //       xmlns="http://www.w3.org/2000/svg"
+  //     >
+  //       <path
+  //         fillRule="evenodd"
+  //         clipRule="evenodd"
+  //         d="M15 11C14.447 11 14 11.448 14 12C14 13.103 13.103 14 12 14C10.897 14 10 13.103 10 12C10 11.448 9.553 11 9 11C8.447 11 8 11.448 8 12C8 14.206 9.794 16 12 16C14.206 16 16 14.206 16 12C16 11.448 15.553 11 15 11ZM18 19H6C5.448 19 5 18.551 5 18V9H19V18C19 18.551 18.552 19 18 19ZM8.121 5.293C8.308 5.107 8.565 5 8.828 5H15.172C15.435 5 15.692 5.107 15.879 5.293L17.586 7H6.414L8.121 5.293ZM20.121 6.707L17.293 3.879C16.727 3.312 15.973 3 15.172 3H8.828C8.027 3 7.273 3.312 6.707 3.879L3.879 6.707C3.312 7.273 3 8.027 3 8.829V18C3 19.654 4.346 21 6 21H18C19.654 21 21 19.654 21 18V8.829C21 8.027 20.688 7.273 20.121 6.707Z"
+  //         fill="#757D8A"
+  //       />
+  //     </svg>
+  //   ),
+  // },
+];
 
 const selectedPageStyles =
-  "flex h-12 cursor-pointer transition-all items-center border-r-4 border-y bg-indigo-50 border-y-indigo-100 border-indigo-500 hover:bg-indigo-200 border-0 px-3 py-4 text-base font-normal stroke-gray-500 shadow-none hover:bg-opacity-90";
+  "flex h-12 cursor-pointer transition-all items-center border-r-4 border-y bg-indigo-50 dark:bg-[rgba(255,255,255,0.05)] dark:border-y-gray-500 dark:text-white border-y-indigo-100 border-indigo-500 hover:bg-indigo-200 border-0 px-3 py-4 text-base font-normal stroke-gray-500 shadow-none hover:bg-opacity-90";
 const defaultStyles =
-  "flex h-12 cursor-pointer transition-all stroke-[#757D8A] items-center text-gray-500  border-0  px-3 py-4 text-base font-normal text-black shadow-none hover:bg-gray-200 hover:text-gray-500";
+  "flex h-12 cursor-pointer transition-all stroke-[#757D8A] items-center text-gray-500  border-0  px-3 py-4 text-base font-normal text-black dark:text-gray-400 shadow-none hover:bg-gray-200 hover:dark:text-gray-200 hover:dark:bg-[rgba(255,255,255,0.07)] hover:text-gray-500";
 
 export default function Sidebar({ currentPage }: SidebarProps) {
   const dashboardState = useSelector(getDashboardState) as IDashboardState;
@@ -255,7 +195,7 @@ export default function Sidebar({ currentPage }: SidebarProps) {
   const dispatch = useDispatch();
 
   return (
-    <div className="z-1 relative z-[1000]  mt-0 flex h-screen w-[15rem] flex-col justify-between border-r bg-white  font-dmsans opacity-100">
+    <div className="z-1 relative z-[1000]  mt-0 flex h-screen w-[15rem] flex-col justify-between border-r bg-white font-dmsans opacity-100 dark:border-gray-500 dark:bg-[color:var(--dark)]">
       <div className="flex flex-col pt-5">
         <div className="box-border flex h-16 flex-row items-center px-5 pt-6">
           <div className="h-16 w-16 rounded-full bg-indigo-800">
@@ -272,7 +212,7 @@ export default function Sidebar({ currentPage }: SidebarProps) {
           </div>
 
           <div className="flex w-[15rem] flex-col pt-1 pl-4 pr-0 font-dmsans">
-            <div className="text-sm font-normal text-gray-500">
+            <div className="text-sm font-normal text-gray-500 dark:text-white">
               Welcome back,
             </div>
             <div className="text-lg font-bold text-gray-600">
@@ -281,7 +221,7 @@ export default function Sidebar({ currentPage }: SidebarProps) {
           </div>
         </div>
 
-        <div className="mt-20 px-5 text-xs text-indigo-500">
+        <div className="mt-20 px-5 text-base text-indigo-500">
           Product Features
         </div>
         <div className="mt-5 flex w-full flex-col gap-5">
@@ -298,8 +238,7 @@ export default function Sidebar({ currentPage }: SidebarProps) {
               }
             >
               {item.icon}
-
-              <span className="">{item.label}</span>
+              <span className="text-sm font-semibold">{item.label}</span>
             </div>
           ))}
         </div>
@@ -375,6 +314,7 @@ export default function Sidebar({ currentPage }: SidebarProps) {
           </ButtonLink>
         </div>
       </div> */}
+      <DarkModeMenu className="mb-6" />
     </div>
   );
 }

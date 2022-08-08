@@ -13,7 +13,7 @@ export async function verifyWhitelistAddress(
   const getWhitelists = httpsCallable(functions, "getWhitelists");
 
   const { data }: any = await getWhitelists({
-    project_slug: "indians-nft",
+    project_slug: projectSlug,
   });
 
   if (data.success) {

@@ -31,7 +31,6 @@ import Whitelist from "@/components/dashboard/Whitelist";
 import ComingSoon from "@/components/layout/ComingSoon";
 import AddLayer from "@/components/nft/AddLayer";
 import TraitsSearchbar from "@/components/nft/TraitsSearchbar";
-import DevPage from "@/components/pages/dev/dev";
 import PageLoader from "@/components/shared/PageLoader";
 
 import { enumNFTGenConfig } from "@/enums/nft-gen-configurations";
@@ -61,13 +60,23 @@ export default function DashboardHomePage() {
       label: "Dashboard",
     },
     {
-      component: <NFTGenerator />,
+      component:
+        process.env.NEXT_PUBLIC_ENVIRONMENT == "production" ? (
+          <ComingSoon />
+        ) : (
+          <NFTGenerator />
+        ),
       value: "nft-generator",
       label: "Trait Mixer",
       titleOptions: <NFTGeneratorTitleOptions />,
     },
     {
-      component: <ContractMakerView />,
+      component:
+        process.env.NEXT_PUBLIC_ENVIRONMENT == "production" ? (
+          <ComingSoon />
+        ) : (
+          <ContractMakerView />
+        ),
       value: "contract-maker",
       label: "Contract Maker",
     },
@@ -91,11 +100,12 @@ export default function DashboardHomePage() {
       value: "ip-rights",
       label: "IP Rights",
     },
-    {
-      component: <DevPage />,
-      value: "dev-page",
-      label: "Development Eyes",
-    },
+
+    // {
+    //   component: <DevPage />,
+    //   value: "dev-page",
+    //   label: "Development Eyes",
+    // },
   ];
 
   const _query = query(
@@ -140,6 +150,7 @@ export default function DashboardHomePage() {
             setInformationBarConfig({
               show: true,
               message: `Delegated Access by ${formatEthAddress(
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                 data[0].owner!
               )}`,
               showLoader: false,

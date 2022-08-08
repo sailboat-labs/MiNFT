@@ -34,7 +34,7 @@ export default function Header() {
       </div>
 
       <div
-        className={`fixed z-[99] flex h-screen w-full flex-col bg-white shadow  transition-all  dark:bg-black lg:hidden 
+        className={`fixed z-[99] flex h-screen w-full flex-col bg-white shadow transition-all  dark:bg-[color:var(--dark)]  dark:bg-black lg:hidden 
       ${navOpen ? "translate-x-0" : "translate-x-full"}
       `}
       >
@@ -69,7 +69,7 @@ export default function Header() {
         <DarkModeMenu />
       </div>
       <section
-        className={`fixed z-[3] w-full bg-white px-8 text-gray-700 transition-all  ${
+        className={`fixed z-[3] w-full bg-white px-8 text-gray-700 transition-all dark:bg-[color:var(--dark)]  ${
           headerVisible
             ? "bg-transparent dark:border-b-0 dark:border-transparent"
             : "shadow dark:border-b-2  dark:border-gray-500 dark:bg-black"

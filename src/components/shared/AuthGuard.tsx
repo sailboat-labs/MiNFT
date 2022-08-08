@@ -1,6 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
 import { ethers } from "ethers";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useMoralis } from "react-moralis";
 import { useDispatch } from "react-redux";
@@ -95,7 +94,7 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
   // );
 
   async function prepareAuth() {
-    console.log({ account, isAuthenticated });
+    // console.log({ account, isAuthenticated });
 
     if (environment == "development") {
       setActiveAccount(process.env.NEXT_PUBLIC_DEVELOPMENT_ACCOUNT ?? "");
@@ -156,19 +155,21 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
   if (ethers.utils.isAddress(activeAddress) == false) {
     return (
       <Layout>
-        <div className=" flex h-full w-full flex-col gap-5 px-10 pt-10 text-center dark:bg-black">
+        <div className="flex h-full w-full flex-col gap-5 px-10 pt-10 text-center">
           <>
             <div className="pb-0 text-lg font-medium leading-6 text-gray-900">
-              <Link href="/" passHref>
+              {/* <Link href="/" passHref>
                 <div className="flex w-fit justify-between">
                   <span className="flex cursor-pointer select-none items-center font-dmsans text-4xl font-bold leading-none  text-gray-900  md:mb-0 lg:items-center lg:justify-center">
-                    Magic Mynt<span className="text-indigo-600">.</span>
+                    Magic Mynt
+                    <span className="text-indigo-600">.</span>
                   </span>
                 </div>
-              </Link>
+              </Link> */}
+
               <div className="mt-20 flex w-fit flex-col items-center justify-between text-3xl">
                 {isAuthenticating ? (
-                  <div className="flex items-center gap-2 fill-black dark:fill-white dark:text-white dark:text-gray-200">
+                  <div className="flex items-center gap-2 fill-black dark:fill-white  dark:text-gray-200">
                     <svg
                       role="status"
                       className="mr-2 inline h-4 w-4 animate-spin text-gray-200 "
@@ -190,7 +191,7 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
                 ) : isInitializing ? (
                   "Initializing"
                 ) : (
-                  <div className="font-dmsans  dark:text-white dark:text-gray-200">
+                  <div className="font-dmsans  dark:text-white">
                     Connect your wallet to continue
                   </div>
                 )}
@@ -203,7 +204,7 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
                   : "opacity-100"
               }`}
             >
-              <div className="w-fit rounded-lg border-2 border-indigo-200 bg-indigo-50  p-3 font-dmsans text-indigo-500 dark:bg-gray-600">
+              <div className="w-fit rounded-lg border-2 border-indigo-200 bg-indigo-50 p-3  font-dmsans text-indigo-500 dark:border-green-800 dark:bg-[rgba(255,255,255,0.1)] dark:text-green-500 dark:backdrop-blur">
                 By connecting a wallet, you agree to Magic Mynt&apos;s Terms of
                 Service and acknowledge that you have read and understand the
                 Magic Mynt Disclaimer.
@@ -212,7 +213,7 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
               <div className="grid w-fit grid-cols-2 gap-5 md:grid-cols-3 xl:grid-cols-4">
                 {connectors.map(({ title, icon, connectorId }, key) => (
                   <div
-                    className="flex h-36 w-52 cursor-pointer flex-col  gap-2 rounded-lg border-2 bg-gray-50 px-5 py-2 pt-3 transition-all hover:scale-105 hover:bg-gray-100"
+                    className="flex h-36 w-52 cursor-pointer flex-col  gap-2 rounded-lg border-2 bg-gray-50 px-5 py-2 pt-3 transition-all hover:scale-105 hover:bg-gray-100 dark:border-gray-500 dark:bg-[rgba(255,255,255,0.05)] dark:backdrop-blur dark:hover:bg-[rgba(255,255,255,0.08)]"
                     key={key}
                     onClick={async () => {
                       setSelectedWallet(title.toString());

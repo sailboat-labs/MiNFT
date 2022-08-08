@@ -200,7 +200,7 @@ export default function WhitelistRegistration({
 
     setTwitterLoading(true);
     const requestTwitterUrl = httpsCallable(functions, "requestTwitterUrl");
-    requestTwitterUrl()
+    requestTwitterUrl({ projectSlug: project?.slug })
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .then((result: any) => {
         window.open(result.data.authUrl, "_self");
@@ -249,7 +249,7 @@ export default function WhitelistRegistration({
 
       await checkFollows({
         user_account: twitterHandle,
-        project_account: project.slug,
+        project_account: launchInformation.twitterLink,
       })
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         .then(async (result: any) => {
@@ -265,6 +265,7 @@ export default function WhitelistRegistration({
               twitterUsername: twitterHandle,
               createdAt: new Date().toISOString(),
               updatedAt: new Date().toISOString(),
+              channel: "premint",
             });
             setWhitelisted(true);
           } else if (data.success && !data.isFollowing) {
@@ -284,6 +285,7 @@ export default function WhitelistRegistration({
         twitterUsername: "N/A",
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
+        channel: "premint",
       });
       setWhitelisted(true);
     }
@@ -346,7 +348,7 @@ export default function WhitelistRegistration({
           <AuthDialog />
           <div className="flex w-full flex-col items-center text-white lg:flex-row">
             {whitelisted && (
-              <div className="rounded-lg bg-white p-4 py-4 text-black">
+              <div className="rounded-lg bg-white p-4 py-4 text-black dark:bg-[color:var(--dark)]">
                 <div>Must be magic!</div>
                 <p>
                   Your wallet <span className="text-indigo-500">{address}</span>{" "}

@@ -22,7 +22,6 @@ interface AppProps {
 }
 
 const DutchAuctionFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
-
   const [values, setValues] = useState<any>();
 
   const project = useSelector(getProjectState) as IProject;
@@ -32,12 +31,12 @@ const DutchAuctionFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
   const contract =
     contractType == "Dutch Auction" ? "dutchAuction" : "fairDutch";
 
-  const whitelisted = useSelector(getContractByField('whitelisted'))
+  const whitelisted = useSelector(getContractByField("whitelisted"));
 
-  let path = ''
+  let path = "";
   whitelisted
     ? (path = `Projects/${project.slug}/Contract-Maker/draft/${contract}/draft/whitelisted/draft`)
-    : (path = `Projects/${project.slug}/Contract-Maker/draft/${contract}/draft`);  
+    : (path = `Projects/${project.slug}/Contract-Maker/draft/${contract}/draft`);
 
   useEffect(() => {
     const _doc = doc(firestore, path);

@@ -44,7 +44,7 @@ const NFTLayering = () => {
   }
 
   return (
-    <div className="w-full max-w-5xl transform overflow-hidden rounded bg-white text-left align-middle transition-all">
+    <div className="w-full max-w-5xl transform overflow-hidden rounded bg-white text-left align-middle transition-all dark:bg-[color:var(--dark)]">
       <div className="mt-0 flex gap-24">
         <article className="flex-1">
           <div className="mt-2">

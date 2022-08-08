@@ -8,7 +8,7 @@ const TraitsSearchbar = () => {
 
   return (
     <div
-      className={`group z-20 my-1 flex h-8 overflow-hidden rounded bg-white py-1 px-2 ring-1 ring-gray-300  ${
+      className={`group z-20 my-1 flex h-8 overflow-hidden rounded bg-white py-1 px-2 ring-1 ring-gray-300 dark:bg-[color:var(--dark)]  ${
         inputIsFocused && "!ring-indigo-800"
       }`}
     >

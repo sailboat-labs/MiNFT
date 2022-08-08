@@ -13,15 +13,15 @@ export default function Banner() {
         <div className="relative z-0 mx-auto flex w-4/5 justify-end md:w-full lg:w-full ">
           <Vector1SVG className="absolute z-0 -mt-10 h-[40rem] w-[40rem]" />
         </div>
-        <div className="z-30 m-auto w-4/5 pt-40 lg:w-3/5 lg:pt-44">
-          <h1 className="relative z-30 text-8xl font-bold">Magic Mynt.</h1>
-          <p className="relative z-30 border-b border-black py-10 text-2xl font-medium">
+        <div className="z-30 m-auto w-4/5 pt-40 dark:text-white lg:w-3/5 lg:pt-44">
+          <h1 className="relative text-8xl font-bold">Magic Mynt.</h1>
+          <p className="relative border-b border-black py-10 text-2xl font-medium dark:border-gray-500">
             No-code tool for creating, launching and managing your NFT
             collection
           </p>
           <div className="flex justify-between gap-5 md:justify-start">
             <div
-              className="relative z-30 mt-12 w-fit rounded-xl border border-black bg-transparent px-7 py-4 font-bold text-black transition-all hover:scale-105 hover:cursor-pointer md:mr-10 md:px-10 lg:mr-6"
+              className="relative mt-12 w-fit rounded-xl border border-black bg-transparent px-10 py-4 font-bold text-black transition-all hover:scale-105 hover:cursor-pointer dark:border-gray-500 dark:bg-[rgba(255,255,255,0.1)] dark:font-medium dark:text-gray-200 dark:backdrop-blur"
               onClick={() => {
                 if (isMobile) {
                   alert(

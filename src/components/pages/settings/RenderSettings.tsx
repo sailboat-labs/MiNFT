@@ -48,7 +48,7 @@ const OutputSettingsPage = () => {
   return (
     <section className="container mx-auto max-w-2xl divide-y divide-gray-200 pb-10">
       <div className="py-12">
-        <h4>Backend</h4>
+        <h4 className="dark:text-white">Backend</h4>
         <p>
           Magic Mynt comes with two render systems - one using canvas and the
           other using FFmpeg. The canvas backend is faster but only supports PNG
@@ -81,7 +81,7 @@ const OutputSettingsPage = () => {
             onClick={() => toast("Support for FFmpeg will come soon")}
           >
             <div className="p-6">
-              <strong>FFmpeg</strong>
+              <strong className="dark:text-white">FFmpeg</strong>
               <p className="text-sm">
                 Supports animation, but is slower and requires experimental
                 browser features
@@ -90,7 +90,7 @@ const OutputSettingsPage = () => {
           </BaseRadio>
         </div>
         <div className="py-10">
-          <h4>Output</h4>
+          <h4 className="dark: text-white">Output</h4>
           <p>
             Dimensions and format used for exporting tokens. We highly recommend
             using source files with the same dimensions to reduce generation
@@ -139,7 +139,7 @@ const OutputSettingsPage = () => {
                       leaveFrom="opacity-100"
                       leaveTo="opacity-0"
                     >
-                      <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                      <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-[color:var(--dark)] sm:text-sm">
                         {formats.map((format, formatIdx) => (
                           <Listbox.Option
                             key={formatIdx}
@@ -193,7 +193,10 @@ const OutputSettingsPage = () => {
             className="mt-6 grid grid-cols-2 items-start gap-6"
           >
             <div className="flex flex-col">
-              <label className="mb-2 font-medium" htmlFor="width">
+              <label
+                className="mb-2 font-medium dark:text-white"
+                htmlFor="width"
+              >
                 Width
               </label>
               <input
@@ -207,11 +210,14 @@ const OutputSettingsPage = () => {
                     })
                   );
                 }}
-                className="flex-1 rounded-lg"
+                className="flex-1 rounded-lg dark:bg-[rgba(255,255,255,0.02)] dark:text-gray-300"
               />
             </div>
             <div className="flex flex-col">
-              <label className="mb-2 font-medium" htmlFor="width">
+              <label
+                className="mb-2 font-medium dark:text-white"
+                htmlFor="width"
+              >
                 Height
               </label>
               <input
@@ -225,13 +231,13 @@ const OutputSettingsPage = () => {
                     })
                   );
                 }}
-                className="flex-1 rounded-lg"
+                className="flex-1 rounded-lg dark:bg-[rgba(255,255,255,0.02)] dark:text-gray-300"
               />
             </div>
           </form>
         </div>
         <div className="py-10">
-          <h4>Preview</h4>
+          <h4 className="dark:text-white">Preview</h4>
           <p>Lower preview quality will make updates quicker</p>
           <div className="relative w-1/3">
             <Listbox
@@ -246,7 +252,7 @@ const OutputSettingsPage = () => {
               }}
             >
               <div className="relative mt-1">
-                <Listbox.Button className="relative w-full cursor-default rounded-lg  border border-gray-400 bg-gray-100 py-2 pl-3 pr-10 text-left transition-all duration-100 hover:bg-gray-200 focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
+                <Listbox.Button className="relative w-full cursor-default rounded-lg border border-gray-400  bg-gray-100 py-2 pl-3 pr-10 text-left transition-all duration-100 hover:bg-gray-200 focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 dark:bg-gray-500 dark:text-white sm:text-sm">
                   <span className="block truncate">
                     {configuration[enumNFTGenConfig.RENDER_QUALITY]?.name} (
                     {configuration[enumNFTGenConfig.RENDER_QUALITY]?.percentage}
@@ -273,7 +279,7 @@ const OutputSettingsPage = () => {
                   leaveFrom="opacity-100"
                   leaveTo="opacity-0"
                 >
-                  <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md  border border-gray-200 bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                  <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md border  border-gray-200 bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:border-gray-600 dark:bg-[rgba(255,255,255,0.1)] sm:text-sm">
                     {qualities.map((quality, qualityIdx) => (
                       <Listbox.Option
                         key={qualityIdx}

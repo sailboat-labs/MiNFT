@@ -20,7 +20,7 @@ export default function Join_Community() {
         </ButtonLink>
         <ButtonLink
           href="/dashboard"
-          className="flex h-14 w-56 items-center justify-center rounded-xl border-0 bg-white text-base font-bold text-indigo-800 hover:bg-indigo-300 hover:text-indigo-800"
+          className="flex h-14 w-56 items-center justify-center rounded-xl border-0 bg-white text-base font-bold text-indigo-800 hover:bg-indigo-300 hover:text-indigo-800 dark:bg-[color:var(--dark)]"
         >
           Join Waitlist
         </ButtonLink>

@@ -1,7 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import "add-to-calendar-button/assets/css/atcb.min": root {
+/* @import "add-to-calendar-button/assets/css/atcb.min"; */
+:root {
+  --dark: #262b30;
   /* #region  /**=========== Primary Color =========== */
   /* !STARTERCONF Customize these variable, copy and paste from /styles/colors.css for list of colors */
   --tw-color-primary-50: 240 249 255;
@@ -25,6 +27,12 @@
   --color-primary-800: rgb(var(--tw-color-primary-800)); /* #075985 */
   --color-primary-900: rgb(var(--tw-color-primary-900)); /* #0c4a6e */
   /* #endregion  /**======== Primary Color =========== */
+}
+
+/* material ui */
+.MuiButtonBase-root.MuiIconButton-root.MuiIconButton-edgeEnd,
+.MuiOutlinedInput-input.MuiInputBase-input.MuiInputBase-inputAdornedEnd {
+  @apply dark:text-gray-400;
 }
 
 .swal-text {
