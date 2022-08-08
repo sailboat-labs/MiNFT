@@ -136,7 +136,9 @@ const WhitelistForm = ({ isPreview = false }) => {
         {/* Timing */}
         <ContractFormRowSection className="pt-5 pb-8" name="Timing">
           <article>
-            <strong className="font-semibold">Launch Time</strong>
+            <strong className="font-semibold">
+              Launch Time <span className="text-red-500">*</span>
+            </strong>
             <div className="flex gap-1 py-2">
               <input
                 id="classic-1"
@@ -172,7 +174,9 @@ const WhitelistForm = ({ isPreview = false }) => {
             <div className="mt-8 flex w-3/5 flex-col ">
               <div className="flex flex-row justify-between">
                 <div className="flex flex-col ">
-                  <span>Start Date</span>
+                  <span>
+                    Start Date <span className="text-red-500">*</span>
+                  </span>
                   <BaseDatetimeInput
                     type="datetime-local"
                     wrapperClass="border-gray-600"
@@ -184,7 +188,9 @@ const WhitelistForm = ({ isPreview = false }) => {
                   />
                 </div>
                 <div className="flex flex-col ">
-                  <span>End Date</span>
+                  <span>
+                    End Date <span className="text-red-500">*</span>
+                  </span>
                   <BaseDatetimeInput
                     type="datetime-local"
                     wrapperClass="border-gray-600"
@@ -197,7 +203,9 @@ const WhitelistForm = ({ isPreview = false }) => {
                 </div>
               </div>
               <div className="mt-8 flex flex-col">
-                <span>Timezone</span>
+                <span>
+                  Timezone <span className="text-red-500">*</span>
+                </span>
                 <BaseTimezoneSelector
                   disabled={isPreview}
                   value={whitelistValues?.whitelistTimezone}
@@ -212,7 +220,9 @@ const WhitelistForm = ({ isPreview = false }) => {
         {/* Price & Quantity */}
         <ContractFormRowSection className="py-8" name="Price & Quantity">
           <article>
-            <strong className="py-2 font-semibold">Mint price</strong>
+            <strong className="py-2 font-semibold">
+              Mint price <span className="text-red-500">*</span>
+            </strong>
             <div className="flex gap-1 py-2">
               <input
                 id="price-classic-1"
@@ -273,7 +283,9 @@ const WhitelistForm = ({ isPreview = false }) => {
               }}
             />
             <div className="mt-6 flex flex-col gap-2">
-              <label className="font-semibold">Total whitelist quantity</label>
+              <label className="font-semibold">
+                Total whitelist quantity <span className="text-red-500">*</span>
+              </label>
               <BaseInput
                 wrapperClass="mt-3 md:w-1/3"
                 {...whitelistForm.getFieldProps("totalQuantity")}
@@ -294,7 +306,9 @@ const WhitelistForm = ({ isPreview = false }) => {
               />
             </div>
             <div className="mt-6 flex flex-col gap-2">
-              <label className="font-semibold">{contractType} quantity</label>
+              <label className="font-semibold">
+                {contractType} quantity <span className="text-red-500">*</span>
+              </label>
               <BaseInput
                 wrapperClass="mt-3 md:w-1/3"
                 {...whitelistForm.getFieldProps("quantity")}
@@ -321,7 +335,8 @@ const WhitelistForm = ({ isPreview = false }) => {
           <article className="grid  md:grid-cols-2 2xl:grid-cols-4">
             <div className="mt-6 flex flex-col gap-2">
               <label className="font-semibold">
-                Number of tokens to reserve
+                Number of tokens to reserve{" "}
+                <span className="text-red-500">*</span>
               </label>
               <BaseInput
                 {...whitelistForm.getFieldProps("reservedTokensCount")}
@@ -347,7 +362,8 @@ const WhitelistForm = ({ isPreview = false }) => {
             </div>
             <div className="mt-6 flex flex-col gap-2">
               <label className="font-semibold">
-                Maximum Mint per whitelisted wallet
+                Maximum Mint per whitelisted wallet{" "}
+                <span className="text-red-500">*</span>
               </label>
               <BaseInput
                 {...whitelistForm.getFieldProps("maxMintPerWhitelistWallet")}
@@ -423,7 +439,11 @@ const WhitelistForm = ({ isPreview = false }) => {
           </article>
         </ContractFormRowSection>
       </div>
-      <button id="showWhitelistValues" className="hidden" onClick={(e) => displayValues(e)}></button>
+      <button
+        id="showWhitelistValues"
+        className="hidden"
+        onClick={(e) => displayValues(e)}
+      ></button>
     </form>
   );
 };

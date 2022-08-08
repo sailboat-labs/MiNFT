@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/ban-types */
 import { doc, onSnapshot } from "firebase/firestore";
 import React, { FC, useState } from "react";
@@ -41,7 +42,7 @@ const PureWhitelistFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
     return () => {
       unsubscribe();
     };
-  }, [project.slug]);
+  }, [path, project.slug]);
 
   async function handleSaveContractMaker(
     field: string,
@@ -101,7 +102,7 @@ const PureWhitelistFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
                   onChange={(e) => {
                     updateContract("quantityOfCollection", e.target.value);
                   }}
-                  onBlur={(e) => {
+                  onBlur={(e: { target: { value: string | boolean | { title: string; description: string; }[]; }; }) => {
                     updateContract("quantityOfCollection", e.target.value);
                   }}
                 />
@@ -129,7 +130,7 @@ const PureWhitelistFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
                   onChange={(e) => {
                     updateContract("mintPrice", e.target.value);
                   }}
-                  onBlur={(e) => {
+                  onBlur={(e: { target: { value: string | boolean | { title: string; description: string; }[]; }; }) => {
                     updateContract("mintPrice", e.target.value);
                   }}
                 />
@@ -156,7 +157,7 @@ const PureWhitelistFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
                   onChange={(e) => {
                     updateContract("reservedTokens", e.target.value);
                   }}
-                  onBlur={(e) => {
+                  onBlur={(e: { target: { value: string | boolean | { title: string; description: string; }[]; }; }) => {
                     updateContract("reservedTokens", e.target.value);
                   }}
                 />
@@ -182,7 +183,7 @@ const PureWhitelistFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
                   onChange={(e) => {
                     updateContract("maxMintPerWallet", e.target.value);
                   }}
-                  onBlur={(e) => {
+                  onBlur={(e: { target: { value: string | boolean | { title: string; description: string; }[]; }; }) => {
                     updateContract("maxMintPerWallet", e.target.value);
                   }}
                 />
@@ -208,7 +209,7 @@ const PureWhitelistFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
                   onChange={(e) => {
                     updateContract("maxMintPerTransaction", e.target.value);
                   }}
-                  onBlur={(e) => {
+                  onBlur={(e: { target: { value: string | boolean | { title: string; description: string; }[]; }; }) => {
                     updateContract("maxMintPerTransaction", e.target.value);
                   }}
                 />
@@ -243,7 +244,7 @@ const PureWhitelistFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
                           onChange={(e) => {
                             updateContract("startDate", e.target.value);
                           }}
-                          onBlur={(e) => {
+                          onBlur={(e: { target: { value: string | boolean | { title: string; description: string; }[]; }; }) => {
                             updateContract("startDate", e.target.value);
                           }}
                         />
@@ -267,7 +268,7 @@ const PureWhitelistFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
                           onChange={(e) => {
                             updateContract("endDate", e.target.value);
                           }}
-                          onBlur={(e) => {
+                          onBlur={(e: { target: { value: string | boolean | { title: string; description: string; }[]; }; }) => {
                             updateContract("endDate", e.target.value);
                           }}
                         />
@@ -315,10 +316,10 @@ const PureWhitelistFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
                           ) : null
                         }
                         value={values?.minutes}
-                        onChange={(e) => {
+                        onChange={(e: {name: string}) => {
                           updateContract("minutes", e.name);
                         }}
-                        onBlur={(e) => {
+                        onBlur={(e: { name: string | boolean | { title: string; description: string; }[]; }) => {
                           updateContract("minutes", e.name);
                         }}
                       />

@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import React, { FC, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useStore } from "react-redux";
@@ -103,7 +104,7 @@ const ContractSettingsStep: FC<AppProps> = ({ isPreview = false }) => {
             </div>
             <div className="flex-1">
               <strong className="text-sm text-indigo-800">{type}</strong>
-              <p>{paragraphText[type]}</p>
+              <p>{paragraphText[type as keyof typeof paragraphText]}</p>
               <br />
               <strong className="text-sm text-indigo-800">Gas Fees</strong>
               <p className="flex items-center gap-2">

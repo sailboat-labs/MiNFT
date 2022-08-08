@@ -86,8 +86,8 @@ const ClassicMintFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
             {/* <article className="mt-6 grid gap-x-12 gap-y-6 md:grid-cols-2 2xl:grid-cols-3"> */}
             <article className="">
               <div className="mb-8 flex flex-col">
-                <span className="mb-1 flex flex-col">
-                  Quantity of collection
+                <span className="mb-1">
+                  Quantity of collection <span className="text-red-500">*</span>
                 </span>
                 <BaseInput
                   required
@@ -125,7 +125,9 @@ const ClassicMintFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
                 />
               </div>
               <div className="mb-8 flex flex-col ">
-                <span className="mb-1 flex flex-col">Mint Price</span>
+                <span className="mb-1">
+                  Mint Price <span className="text-red-500">*</span>
+                </span>
                 <BaseInput
                   required
                   disabled={isPreview}
@@ -160,8 +162,9 @@ const ClassicMintFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
                 />
               </div>
               <div className="mb-8 flex flex-col">
-                <span className="mb-1 flex flex-col">
-                  Number of reserved tokens
+                <span className="mb-1">
+                  Number of reserved tokens{" "}
+                  <span className="text-red-500">*</span>
                 </span>
                 <BaseInput
                   required
@@ -194,8 +197,9 @@ const ClassicMintFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
                 />
               </div>
               <div className="mb-8 flex flex-col">
-                <span className="mb-1 flex flex-col">
-                  Maximum mint per wallet
+                <span className="mb-1">
+                  Maximum mint per wallet{" "}
+                  <span className="text-red-500">*</span>
                 </span>
                 <BaseInput
                   disabled={isPreview}
@@ -271,7 +275,9 @@ const ClassicMintFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
                   <div className="flex w-3/5 flex-col">
                     <div className="flex w-full flex-row items-center justify-between">
                       <div className="flex flex-col">
-                        <span className="my-3">Start date</span>
+                        <span className="my-3">
+                          Start date <span className="text-red-500">*</span>
+                        </span>
                         <BaseDatetimeInput
                           {...form.getFieldProps("startDate")}
                           required
@@ -302,7 +308,9 @@ const ClassicMintFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
                         />
                       </div>
                       <div className="flex flex-col">
-                        <span className="my-3">End date</span>
+                        <span className="my-3">
+                          End date <span className="text-red-500">*</span>
+                        </span>
                         <BaseDatetimeInput
                           {...form.getFieldProps("endDate")}
                           required
@@ -334,7 +342,9 @@ const ClassicMintFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
                       </div>
                     </div>
                     <div className="mt-8">
-                      <span className="my-3 font-bold">Timezone</span>
+                      <span className="my-3 font-bold">
+                        Timezone <span className="text-red-500">*</span>
+                      </span>
                       <BaseTimezoneSelector
                         {...form.getFieldProps("timezone")}
                         error={
@@ -354,7 +364,9 @@ const ClassicMintFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
                     </div>
                   </div>
                   <div className="mt-10 w-3/5 max-w-[250px] flex-1 rounded-md bg-white p-5 ring-1 ring-gray-300">
-                    <strong>Minutes</strong>
+                    <strong>
+                      Minutes <span className="text-red-500">*</span>
+                    </strong>
                     {isPreview ? (
                       <p className="mt-3 rounded-md bg-white py-1 px-2 !text-gray-800 ring-1 ring-gray-300 ">
                         {values?.minutes}

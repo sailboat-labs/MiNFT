@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import emailjs from "@emailjs/browser";
 import { Transition } from "@headlessui/react";
 import { Formik } from "formik";
@@ -13,6 +14,7 @@ interface ContactProps {
 }
 
 export default function Contact({ show, onClose }: ContactProps) {
+
   useEffect(() => {
     document.documentElement.style.overflow = show ? "hidden" : "auto";
   }, [show]);
@@ -31,9 +33,9 @@ export default function Contact({ show, onClose }: ContactProps) {
     message: Yup.string().required("Message is required"),
   });
 
-  const formRef = useRef();
+  const formRef = useRef<string | HTMLFormElement>();
 
-  const submitForm = (e) => {
+  const submitForm = (e: any) => {
     e.preventDefault();
     if (
       window.location.href.includes("localhost") ||
@@ -44,16 +46,17 @@ export default function Contact({ show, onClose }: ContactProps) {
       );
     } else {
       emailjs.sendForm(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
-        formRef.current,
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID as string,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID as string,
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        formRef.current!,
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY as string
       );
       alert(
         `Hi ${e.target.name.value}, thank you for contacting Magic Mynt. We will get back to you as soon as possible.`
       );
     }
-    document.getElementById("contact-us").click();
+    document.getElementById("contact-us")?.click();
   };
 
   return (
