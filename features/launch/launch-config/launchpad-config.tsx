@@ -232,7 +232,7 @@ const LaunchpadConfig: NextPage = () => {
                           );
                         }}
                       />
-                      <div className="my-4  flex flex-wrap items-center gap-3 text-sm ">
+                      <div className="my-4  grid grid-cols-2 flex-wrap items-center gap-3 text-sm ">
                         <CustomSelect
                           onChange={(value) => {
                             handleSaveLaunchPadDraft(
@@ -359,7 +359,7 @@ const LaunchpadConfig: NextPage = () => {
                     </article>
                     {/* right side */}
                     <article className="mt-20 mb-20 ml-20 lg:mt-0">
-                      <figure className="h-[30rem] w-[26rem] overflow-hidden rounded-md bg-gray-50">
+                      <figure className="h-[32rem] w-[26rem] overflow-hidden rounded-md bg-gray-50">
                         {/* <input
                           className="absolute h-20 rounded-lg "
                           type="file"
@@ -370,7 +370,7 @@ const LaunchpadConfig: NextPage = () => {
                           ref={fileInput}
                         /> */}
                         <UploadButton
-                          wrapperClass="h-full w-full"
+                          wrapperClass="h-fit w-full py-2 bg-gray-200"
                           onChange={(event) => {
                             handleFileChanged(event, "main");
                           }}
