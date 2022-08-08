@@ -60,13 +60,23 @@ export default function DashboardHomePage() {
       label: "Dashboard",
     },
     {
-      component: <NFTGenerator />,
+      component:
+        process.env.NEXT_PUBLIC_ENVIRONMENT == "production" ? (
+          <ComingSoon />
+        ) : (
+          <NFTGenerator />
+        ),
       value: "nft-generator",
       label: "Trait Mixer",
       titleOptions: <NFTGeneratorTitleOptions />,
     },
     {
-      component: <ContractMakerView />,
+      component:
+        process.env.NEXT_PUBLIC_ENVIRONMENT == "production" ? (
+          <ComingSoon />
+        ) : (
+          <ContractMakerView />
+        ),
       value: "contract-maker",
       label: "Contract Maker",
     },

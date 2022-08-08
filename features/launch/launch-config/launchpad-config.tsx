@@ -376,6 +376,7 @@ const LaunchpadConfig: NextPage = () => {
                           }}
                           accept="image/*"
                           type="block"
+                          label="Select new image"
                         />
                         <img
                           className="h-auto w-full object-cover"
