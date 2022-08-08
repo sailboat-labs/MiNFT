@@ -28,18 +28,11 @@ const DutchAuctionFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
 
   const contractType = useSelector(getContractByField("type"));
 
-  const contract =
-    contractType == "Dutch Auction" ? "dutchAuction" : "fairDutch";
-
-  const whitelisted = useSelector(getContractByField("whitelisted"));
-
-  let path = "";
-  whitelisted
-    ? (path = `Projects/${project.slug}/Contract-Maker/draft/${contract}/draft/whitelisted/draft`)
-    : (path = `Projects/${project.slug}/Contract-Maker/draft/${contract}/draft`);
-
   useEffect(() => {
-    const _doc = doc(firestore, path);
+    const _doc = doc(
+      firestore,
+      `Projects/${project.slug}/Contract-Maker/draft`
+    );
     const unsubscribe = onSnapshot(_doc, (snapshot) => {
       setValues(snapshot.data());
     });
@@ -47,18 +40,13 @@ const DutchAuctionFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
     return () => {
       unsubscribe();
     };
-  }, [path, project.slug]);
+  }, [project.slug]);
 
   async function handleSaveContractMaker(
     field: string,
     value: string | boolean | { title: string; description: string }[]
   ) {
-    const saveDraft = await saveContractMaker(
-      whitelisted ? `${contract}/draft/whitelisted` : `${contract}`,
-      project,
-      field,
-      value
-    );
+    const saveDraft = await saveContractMaker(project, field, value);
 
     if (!saveDraft) {
       toast.error(
@@ -75,13 +63,9 @@ const DutchAuctionFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
     handleSaveContractMaker(key, value);
   };
 
-  const displayValues = (
-    e:
-      | React.FormEvent<HTMLFormElement>
-      | React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const displayValues = (e: any) => {
     e.preventDefault();
-    console.log(`${contractType} values`, values);
+    console.log("Contract values", values);
   };
 
   return (
@@ -138,7 +122,7 @@ const DutchAuctionFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
                     updateContract("startingPrice", e.target.value)
                   }
                   onBlur={(e: any) =>
-                    updateContract("Starting Price", e.target.value)
+                    updateContract("startingPrice", e.target.value)
                   }
                 />
               </div>
@@ -300,7 +284,7 @@ const DutchAuctionFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
           <button
             id="showValues"
             className="hidden"
-            onClick={(e) => displayValues(e)}
+            onClick={(e: any) => displayValues(e)}
           ></button>
         </form>
       </div>

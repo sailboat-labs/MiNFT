@@ -28,12 +28,10 @@ const PureWhitelistFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
 
   const project = useSelector(getProjectState) as IProject;
 
-  const path = `Projects/${project.slug}/Contract-Maker/draft/pureWhitelist/draft`;
-
   useEffect(() => {
     const _doc = doc(
       firestore,
-      path
+      `Projects/${project.slug}/Contract-Maker/draft`
     );
     const unsubscribe = onSnapshot(_doc, (snapshot) => {
       setValues(snapshot.data());      
@@ -42,14 +40,13 @@ const PureWhitelistFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
     return () => {
       unsubscribe();
     };
-  }, [path, project.slug]);
+  }, [project.slug]);
 
   async function handleSaveContractMaker(
     field: string,
     value: string | boolean | { title: string; description: string }[]
   ) {
     const saveDraft = await saveContractMaker(
-      "pureWhitelist",
       project,
       field,
       value
@@ -72,7 +69,7 @@ const PureWhitelistFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
 
   const displayValues = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    console.log('Logging Pure Whitelist Form user inputs', values);
+    console.log('Contract values', values);
   }
   
   return (

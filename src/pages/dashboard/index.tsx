@@ -144,9 +144,7 @@ export default function DashboardGetStarted() {
         setShowMobile(true);
       } else {
         setShowMobile(false)
-      }
-      console.log('Width:, ', window.innerWidth);
-      
+      }      
     });
   }, [showMobile]);
 

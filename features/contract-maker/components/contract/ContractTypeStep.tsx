@@ -25,7 +25,7 @@ const ContractTypeStep = () => {
     field: string,
     value: string | boolean | { title: string; description: string }[]
   ) {
-    const saveDraft = await saveContractMaker(contractToFirestore, project, field, value);
+    const saveDraft = await saveContractMaker(project, field, value);
 
     if (!saveDraft) {
       toast.error(
@@ -35,16 +35,10 @@ const ContractTypeStep = () => {
     }
   }
 
-  let contractToFirestore = ''; 
-
   useEffect(() => {
-
-    const a = contractType.split(" ")
-    contractToFirestore = a[0].toLowerCase().concat(a[1]); 
-    
     const _doc = doc(
       firestore,
-      `Projects/${project.slug}/Contract-Maker/draft/${contractToFirestore}/draft`
+      `Projects/${project.slug}/Contract-Maker/draft`
     );
     const unsubscribe = onSnapshot(_doc, (snapshot) => {
       // eslint-disable-next-line @typescript-eslint/ban-types
@@ -55,11 +49,16 @@ const ContractTypeStep = () => {
     return () => {
       unsubscribe();
     };
-  }, [project.slug]);
+  }, [contractType, project.slug]);
 
   useEffect(() => {
-    handleSaveContractMaker("contractType", contractType);
-  }, [contractType]);
+    handleSaveContractMaker("contractType", contractState.type);
+    handleSaveContractMaker("whitelisted", contractState.whitelisted); 
+    
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [contractState]);
+  
 
   return (
     <section className="pt-10">

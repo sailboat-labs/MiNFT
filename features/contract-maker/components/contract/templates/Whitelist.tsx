@@ -68,23 +68,15 @@ const WhitelistForm = ({ isPreview = false }) => {
     },
   });
 
-  const contractType = useSelector(getContractByField("type"));
-
   const [whitelistValues, setWhitelistValues] = useState<any>();
 
   const project = useSelector(getProjectState) as IProject;
-
-  let contractToFirestore = "";
-
-  const a = contractType.split(" ");
-
-  contractToFirestore = a[0].toLowerCase().concat(a[1]);
 
   useEffect(() => {
 
     const _doc = doc(
       firestore,
-      `Projects/${project.slug}/Contract-Maker/draft/${contractToFirestore}/draft/whitelisted/draft`
+      `Projects/${project.slug}/Contract-Maker/draft`
     );
     const unsubscribe = onSnapshot(_doc, (snapshot) => {
       setWhitelistValues(snapshot.data());
@@ -93,14 +85,13 @@ const WhitelistForm = ({ isPreview = false }) => {
     return () => {
       unsubscribe();
     };
-  }, [contractToFirestore, project.slug]);
+  }, [project.slug]);
 
   async function handleSaveContractMaker(
     field: string,
     value: string | boolean | { title: string; description: string }[]
   ) {
     const saveDraft = await saveContractMaker(
-      `${contractToFirestore}/draft/whitelisted`,
       project,
       field,
       value
@@ -127,11 +118,11 @@ const WhitelistForm = ({ isPreview = false }) => {
       | React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
-    console.log("Whitelist Form values", whitelistValues);
+    //console.log("Whitelist values", whitelistValues);
   };
 
   return (
-    <form onSubmit={whitelistForm.handleSubmit}>
+    <form onSubmit={whitelistForm.handleSubmit} className='w-4/5'>
       <div className="mx-auto flex flex-col divide-y-2 divide-gray-200 pb-6">
         {/* Timing */}
         <ContractFormRowSection className="pt-5 pb-8" name="Timing">
@@ -307,7 +298,7 @@ const WhitelistForm = ({ isPreview = false }) => {
             </div>
             <div className="mt-6 flex flex-col gap-2">
               <label className="font-semibold">
-                {contractType} quantity <span className="text-red-500">*</span>
+                {whitelistValues?.contractType} quantity <span className="text-red-500">*</span>
               </label>
               <BaseInput
                 wrapperClass="mt-3 md:w-1/3"

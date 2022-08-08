@@ -103,7 +103,9 @@ const ContractSettingsStep: FC<AppProps> = ({ isPreview = false }) => {
               <img src={GRAPHS[type.trim().toLowerCase()]} alt="" />
             </div>
             <div className="flex-1">
-              <strong className="text-sm text-indigo-800">{type}</strong>
+              <strong className="text-sm text-indigo-800">
+                {`${type} ${whitelisted ? "with Whitelist" : ""}`}
+              </strong>
               <p>{paragraphText[type as keyof typeof paragraphText]}</p>
               <br />
               <strong className="text-sm text-indigo-800">Gas Fees</strong>
