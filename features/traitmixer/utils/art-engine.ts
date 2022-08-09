@@ -305,21 +305,37 @@ export function generateTokens({
         ) => void;
       }
     ) => {
-      console.log("drawing", _renderObject);
-
       const layerCanvas = createCanvas(format.width, format.height);
       const layerctx = layerCanvas.getContext("2d");
       layerctx.imageSmoothingEnabled = format.smoothing;
 
-      const image = new Image();
-      image.crossOrigin = "anonymous";
-      image.src = _renderObject.layer?.path;
-
-      layerctx.drawImage(image, 0, 0, format.width, format.height);
+      layerctx.drawImage(
+        _renderObject.loadedImage,
+        0,
+        0,
+        format.width,
+        format.height
+      );
 
       addAttributes(_renderObject);
       mainCanvas.drawImage(layerCanvas, 0, 0, format.width, format.height);
       return layerCanvas;
+
+      // console.log("drawing", _renderObject);
+
+      // const layerCanvas = createCanvas(format.width, format.height);
+      // const layerctx = layerCanvas.getContext("2d");
+      // layerctx.imageSmoothingEnabled = format.smoothing;
+
+      // const image = new Image();
+      // image.crossOrigin = "anonymous";
+      // image.src = _renderObject.layer?.path;
+
+      // layerctx.drawImage(image, 0, 0, format.width, format.height);
+
+      // addAttributes(_renderObject);
+      // mainCanvas.drawImage(layerCanvas, 0, 0, format.width, format.height);
+      // return layerCanvas;
     };
 
     const constructLayerToDna = (_dna: any = [], _layers: any[] = []) => {
