@@ -1,5 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { Dialog, Transition } from "@headlessui/react";
+import { deleteDoc, doc } from "firebase/firestore";
+import { useRouter } from "next/router";
 import { Fragment, useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
@@ -7,12 +9,16 @@ import { deleteLayer } from "redux/reducers/slices/layers";
 
 import { ILayer } from "@/interfaces";
 
+import { firestore } from "./NewProperty";
+
 type props = {
   layer: ILayer;
 };
 
 export default function DeleteLayerModal({ layer }: props) {
   const [isOpen, setIsOpen] = useState(false);
+
+  const router = useRouter();
 
   const dispatch = useDispatch();
   function closeModal() {
@@ -132,8 +138,15 @@ export default function DeleteLayerModal({ layer }: props) {
                       className="inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-red-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
                       onClick={() => {
                         dispatch(deleteLayer(layer.name));
+
                         closeModal();
-                        toast.success("Layer Deleted");
+                        toast.success(`${layer.name} Layer Deleted`);
+                        //Delete layer on firebase
+                        const _doc = doc(
+                          firestore,
+                          `Projects/${router.query.project}/Layers/${layer.id}`
+                        );
+                        deleteDoc(_doc);
                       }}
                     >
                       Delete

@@ -2,9 +2,10 @@ export interface ILayer {
   id?: number;
   name: string;
   blendmode: string;
-  opacity: 1;
+  opacity: number;
   elements: IElement[];
   bypassDNA: boolean;
+  layerPosition?: number;
 }
 
 export interface IDashboardState {
@@ -76,6 +77,8 @@ export interface IProject {
   isDemo?: boolean;
   owner?: string;
   startDate?: string;
+  family?: string;
+  symbol?: string;
 }
 
 export interface IProjectLaunch {

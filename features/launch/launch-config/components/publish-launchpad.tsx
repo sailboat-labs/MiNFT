@@ -92,13 +92,37 @@ export default function PublishLaunchPad() {
         </div>
 
         {launchInformation && launchInformation.publishTimeStamp && (
-          <div className="mt-10">
+          <div className="mt-10 flex items-center">
             Last Published:{" "}
-            <span className="font-bold">
+            <span className="ml-1 font-bold">
               {format(
                 new Date(launchInformation.publishTimeStamp! ?? "1999/01/01"),
                 "yyyy-MM-dd"
               )}
+            </span>
+            <span
+              onClick={() => {
+                navigator.clipboard.writeText(
+                  `${process.env.NEXT_PUBLIC_DOMAIN_URL}/launch/${router.query.project}`
+                );
+              }}
+              className="ml-10 flex cursor-pointer rounded-lg border-2 border-indigo-200 bg-indigo-50 px-3 py-1 text-indigo-600 transition-all hover:scale-105"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+                />
+              </svg>{" "}
+              Copy Link
             </span>
           </div>
         )}

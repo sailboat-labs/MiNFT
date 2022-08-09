@@ -21,7 +21,6 @@ import { getProjectState } from "redux/reducers/selectors/project";
 import { getAddress } from "redux/reducers/selectors/user";
 import { setConfiguration } from "redux/reducers/slices/configuration";
 import { setInformationBarConfig } from "redux/reducers/slices/dashboard";
-import { setLayers } from "redux/reducers/slices/layers";
 import { setProject } from "redux/reducers/slices/project";
 
 import { firebaseApp } from "@/lib/firebase";
@@ -34,7 +33,7 @@ import TraitsSearchbar from "@/components/nft/TraitsSearchbar";
 import PageLoader from "@/components/shared/PageLoader";
 
 import { enumNFTGenConfig } from "@/enums/nft-gen-configurations";
-import { IDashboardState, ILayer, IProject } from "@/interfaces";
+import { IDashboardState, IProject } from "@/interfaces";
 import { hasAccessToProject } from "@/utils/authentication";
 
 const firestore = getFirestore(firebaseApp);
@@ -47,6 +46,7 @@ export default function DashboardHomePage() {
   const dispatch = useDispatch();
   const address = useSelector(getAddress);
   const [hasProjectAccess, setHasProjectAccess] = useState(true);
+  const [hasLoadedProject, setHasLoadedProject] = useState(false);
 
   const content: {
     component: any;
@@ -116,12 +116,7 @@ export default function DashboardHomePage() {
     limit(1)
   );
 
-  const _layersQuery = query(
-    collection(firestore, `Projects/${project?.slug}/Layers`)
-  );
-
   const [snapshots, loading] = useCollectionData(_query);
-  const [layerSnapshots, layerLoading] = useCollectionData(_layersQuery);
 
   async function checkUserValidity() {
     if (!address) return;
@@ -194,58 +189,6 @@ export default function DashboardHomePage() {
   useEffect(() => {
     checkUserValidity();
   }, [loading, snapshots, address]);
-
-  async function prepareLayers(layers: ILayer[]) {
-    for (let layerIndex = 0; layerIndex < layers.length; layerIndex++) {
-      const layer = layers[layerIndex];
-
-      for (
-        let elementIndex = 0;
-        elementIndex < layer.elements.length;
-        elementIndex++
-      ) {
-        const element = layer.elements[elementIndex];
-        const dataURL = await convertImageToBase64(element.path);
-        console.log("layer:", layerIndex, "element:", elementIndex);
-
-        layers[layerIndex].elements[elementIndex].path = dataURL as string;
-      }
-    }
-
-    dispatch(setLayers(layers));
-  }
-
-  useEffect(() => {
-    if (!address) return;
-    if (layerLoading) return;
-    if (!layerSnapshots) return;
-
-    const data = layerSnapshots.reduce((acc: ILayer[], curr: DocumentData) => {
-      acc.push(curr as ILayer);
-
-      return acc;
-    }, []);
-
-    prepareLayers(data);
-
-    // dispatch(setLayers(data));
-  }, [project, layerSnapshots, layerLoading, address]);
-
-  async function convertImageToBase64(url: string) {
-    return new Promise(function (resolve, reject) {
-      fetch(url)
-        .then((res) => res.blob())
-        .then((blob) => {
-          // Read the Blob as DataURL using the FileReader API
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            resolve(reader.result);
-            // Logs data:image/jpeg;base64,wL2dvYWwgbW9yZ...
-          };
-          reader.readAsDataURL(blob);
-        });
-    });
-  }
 
   if (loading)
     return (

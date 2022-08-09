@@ -15,7 +15,10 @@ const BasicSettings = () => {
 
   return (
     <div className="py-12">
-      <h4 className="dark:text-white">Blockchain</h4>
+      <div className="mt-10 mb-5 flex items-center gap-5">
+        <div className="text-xl text-indigo-500">Blockchain</div>
+        <div className=" flex-1 rounded-lg border "></div>
+      </div>
       <p>Select the format to use when exporting metadata</p>
       {/* radio group */}
       <div className="mt-6 flex gap-x-6">

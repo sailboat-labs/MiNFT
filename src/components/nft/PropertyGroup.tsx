@@ -1,4 +1,5 @@
 import { handleUpload } from "features/traitmixer/components/PropertyGroup/upload-element";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import React, { ChangeEvent, FC, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,6 +18,8 @@ import {
 
 import { enumNFTGenConfig } from "@/enums/nft-gen-configurations";
 import { IElement, ILayer, IProject } from "@/interfaces";
+import { firestore } from "@/pages/dashboard";
+import { convertImageToBase64 } from "@/utils/convert-image-to-base64";
 
 import LayerContextMenu from "./LayerContextMenu";
 import TraitPreview from "./TraitPreview";
@@ -70,74 +73,82 @@ const PropertyGroup: FC<AppProps> = ({
   }
 
   async function handleFileChanged(evt: ChangeEvent<HTMLInputElement>) {
-    const fileListArray: File[] = [];
-    const files: FileList | null = evt.target.files;
-    // console.log(files?.length);
-    if (files !== null) {
-      for (let index = 0; index < files.length; index++) {
-        fileListArray.push(files[index]);
-      }
-    }
-
-    // fileListArray.forEach((element) => {
-    //   handleUpload(element);
-    // });
-
-    const elements: any[] = [];
-
-    if (files) {
-      for (let index = 0; index < fileListArray.length; index++) {
-        const file = fileListArray[index];
-        const downloadUrl = (await handleUpload(
-          project,
-          layer.id?.toString() ?? "unknown",
-          file
-        )) as string;
-        toast(downloadUrl?.toString());
-
-        const element: IElement = {
-          id: index,
-          sublayer: false,
-          blendmode: "source-over",
-          opacity: 1,
-          name: layer.name,
-          filename: `${file.name}`,
-          path: downloadUrl,
-          zindex: "",
-          trait: layer.name,
-          traitValue: file.name?.split(".")[0],
-          weight: getMaximumSupply() / layer.elements.length ?? 0,
-          isWeightTouched: false,
-        };
-
-        elements.push(element);
+    try {
+      const fileListArray: File[] = [];
+      const files: FileList | null = evt.target.files;
+      // console.log(files?.length);
+      if (files !== null) {
+        for (let index = 0; index < files.length; index++) {
+          fileListArray.push(files[index]);
+        }
       }
 
-      console.log({ elements });
+      toast.loading(
+        `Uploading ${fileListArray.length == 1 ? "trait" : "traits"}`
+      );
 
-      // elements = fileListArray.map(async (file, index) => {
-      //   const downloadUrl = await handleUpload(file);
+      const elements: any[] = [];
 
-      //   return {
-      //     id: index,
-      //     sublayer: false,
-      //     blendmode: "source-over",
-      //     opacity: 1,
-      //     name: layer.name,
-      //     filename: `${file.name}`,
-      //     path: downloadUrl,
-      //     zindex: "",
-      //     trait: layer.name,
-      //     traitValue: file.name?.split(".")[0],
-      //     weight: getMaximumSupply() / layer.elements.length ?? 0,
-      //     isWeightTouched: false,
-      //   };
-      // });
+      if (files) {
+        for (let index = 0; index < fileListArray.length; index++) {
+          const file = fileListArray[index];
+          const downloadUrl = (await handleUpload(
+            project,
+            layer.id?.toString() ?? "unknown",
+            file
+          )) as string;
+
+          const imageBase64 = await convertImageToBase64(downloadUrl);
+
+          const element: IElement = {
+            id: index,
+            sublayer: false,
+            blendmode: "source-over",
+            opacity: 1,
+            name: layer.name,
+            filename: `${file.name}`,
+            path: imageBase64 as string,
+            zindex: "",
+            trait: layer.name,
+            traitValue: file.name?.split(".")[0],
+            weight: getMaximumSupply() / layer.elements.length ?? 0,
+            isWeightTouched: false,
+          };
+
+          const _doc = doc(
+            firestore,
+            `Projects/${project.slug}/Layers/${layer.id}`
+          );
+          const _getDoc = getDoc(_doc);
+
+          const _elementsFromFirebase = (await _getDoc).data()?.elements;
+
+          setDoc(
+            _doc,
+            {
+              elements: [
+                ..._elementsFromFirebase,
+                {
+                  ...element,
+                  path: downloadUrl,
+                  id: _elementsFromFirebase.length,
+                },
+              ],
+            },
+            { merge: true }
+          );
+
+          elements.push(element);
+        }
+      }
+
+      toast.dismiss();
+      toast.success("Uploaded successfully");
+
+      dispatch(addTraitsToLayer({ layerName: layer.name, elements: elements }));
+    } catch (error) {
+      console.log(error);
     }
-
-    dispatch(addTraitsToLayer({ layerName: layer.name, elements: elements }));
-
-    console.log(elements);
   }
 
   function handleChange(evt: React.ChangeEvent<HTMLInputElement>) {
@@ -169,6 +180,15 @@ const PropertyGroup: FC<AppProps> = ({
       console.log(name, "wants to move down to", ++index);
       dispatch(reOrderLayer({ currentIndex: index, nextIndex: --index }));
     }
+
+    layers.forEach((layer, index) => {
+      //Update layers with correct order on firebase
+      const _doc = doc(
+        firestore,
+        `Projects/${project.slug}/Layers/${layer.id}`
+      );
+      setDoc(_doc, { layerPosition: index }, { merge: true });
+    });
   }
 
   function getElementCountTotal() {

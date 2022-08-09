@@ -1,9 +1,10 @@
+import saveInformationToFirebase from "features/traitmixer/utils/save-information";
 import { useFormik } from "formik";
-import React, { useEffect } from "react";
+import { useRouter } from "next/router";
+import React from "react";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { getConfiguration } from "redux/reducers/selectors/configuration";
 import { getLayers } from "redux/reducers/selectors/layers";
 import { getProjectState } from "redux/reducers/selectors/project";
 import { setConfiguration } from "redux/reducers/slices/configuration";
@@ -15,11 +16,10 @@ import { ILayer, IProject } from "@/interfaces";
 
 const CollectionSettings = () => {
   const dispatch = useDispatch();
-  const configuration = useSelector(getConfiguration);
   // console.log(configuration);
   const layers = useSelector(getLayers) as ILayer[];
   const project = useSelector(getProjectState) as IProject;
-
+  const router = useRouter();
   function setMaximumSupply() {
     let maxSupply = 1;
     for (let i = 0; i < layers.length; i++) {
@@ -27,9 +27,7 @@ const CollectionSettings = () => {
         maxSupply *= layers[i].elements.length;
       }
     }
-    dispatch(
-      setConfiguration({ key: enumNFTGenConfig.SUPPLY, value: maxSupply })
-    );
+    handleUpdateProjectInformation("tokenSupply", maxSupply);
   }
 
   function getMaximumSupply() {
@@ -82,15 +80,22 @@ const CollectionSettings = () => {
     },
   });
 
-  useEffect(() => {
-    if (getMaximumSupply() < configuration.supply) {
-      setMaximumSupply();
-    }
-  }, [layers]);
+  // useEffect(() => {
+  //   if (getMaximumSupply() < configuration.supply) {
+  //     setMaximumSupply();
+  //   }
+  // }, [layers]);
+
+  function handleUpdateProjectInformation(field: string, value: any) {
+    saveInformationToFirebase(project, field, value);
+  }
 
   return (
     <div className="pt-12">
-      <h4 className="dark:text-white">Collection</h4>
+      <div className="mt-10 mb-5 flex items-center gap-5">
+        <div className="text-xl text-indigo-500">Collection</div>
+        <div className=" flex-1 rounded-lg border "></div>
+      </div>
       <p>Metadata for this collection of NFTs</p>
       <form action="#" className="mt-6" onSubmit={formik.handleSubmit}>
         <div className="mt-6 grid grid-cols-2 items-start gap-6">
@@ -99,7 +104,7 @@ const CollectionSettings = () => {
               Name
             </label>
             <input
-              defaultValue={configuration[enumNFTGenConfig.NAME]}
+              defaultValue={project.projectName}
               onChange={(e) => {
                 dispatch(
                   setConfiguration({
@@ -107,6 +112,7 @@ const CollectionSettings = () => {
                     value: e.target.value,
                   })
                 );
+                handleUpdateProjectInformation("projectName", e.target.value);
               }}
               type="text"
               className="flex-1 rounded-lg dark:bg-[rgba(255,255,255,0.02)] dark:text-gray-300"
@@ -124,7 +130,7 @@ const CollectionSettings = () => {
               placeholder="(optional)"
               type="text"
               className="flex-1 rounded-lg dark:bg-[rgba(255,255,255,0.02)] dark:text-gray-300"
-              defaultValue={configuration[enumNFTGenConfig.FAMILY]}
+              defaultValue={project.family}
               onChange={(e) => {
                 dispatch(
                   setConfiguration({
@@ -132,6 +138,7 @@ const CollectionSettings = () => {
                     value: e.target.value,
                   })
                 );
+                handleUpdateProjectInformation("family", e.target.value);
               }}
             />
             <p className="mt-2 text-sm">
@@ -149,7 +156,7 @@ const CollectionSettings = () => {
             </label>
             <input
               type="text"
-              defaultValue={configuration[enumNFTGenConfig.SYMBOL]}
+              defaultValue={project.symbol}
               className="flex-1 rounded-lg dark:bg-[rgba(255,255,255,0.02)] dark:text-gray-300"
               onChange={(e) => {
                 dispatch(
@@ -158,6 +165,7 @@ const CollectionSettings = () => {
                     value: e.target.value,
                   })
                 );
+                handleUpdateProjectInformation("symbol", e.target.value);
               }}
             />
             <p className="mt-2 text-sm">Exchange symbol (e.g NZMX)</p>
@@ -174,12 +182,13 @@ const CollectionSettings = () => {
             </label>
             <div className="flex items-center gap-3">
               <input
-                defaultValue={configuration[enumNFTGenConfig.SUPPLY]}
-                value={configuration.supply}
+                defaultValue={project.tokenSupply}
+                // value={configuration.supply}
                 type="number"
                 className="flex-1 rounded-lg dark:bg-[rgba(255,255,255,0.02)] dark:text-gray-300"
                 onChange={(e) => {
                   handleSupplyChange(parseInt(e.target.value));
+                  handleUpdateProjectInformation("tokenSupply", e.target.value);
                 }}
               />
               <div
@@ -205,7 +214,7 @@ const CollectionSettings = () => {
             type="text"
             placeholder="External URL"
             className="flex-1 rounded-lg dark:bg-[rgba(255,255,255,0.02)] dark:text-gray-300"
-            defaultValue={configuration[enumNFTGenConfig.BASE_URL]}
+            defaultValue={project.baseUrl}
             onChange={(e) => {
               dispatch(
                 setConfiguration({
@@ -213,6 +222,7 @@ const CollectionSettings = () => {
                   value: e.target.value,
                 })
               );
+              handleUpdateProjectInformation("baseURL", e.target.value);
             }}
           />
           <p className="mt-2 text-sm">
@@ -230,7 +240,7 @@ const CollectionSettings = () => {
             rows={6}
             placeholder="Enter description"
             className="flex-1 rounded-lg dark:bg-[rgba(255,255,255,0.02)] dark:text-gray-300"
-            defaultValue={configuration[enumNFTGenConfig.DESCRIPTION]}
+            defaultValue={project.description}
             onChange={(e) => {
               dispatch(
                 setConfiguration({
@@ -238,6 +248,7 @@ const CollectionSettings = () => {
                   value: e.target.value,
                 })
               );
+              handleUpdateProjectInformation("description", e.target.value);
             }}
           ></textarea>
         </div>

@@ -48,7 +48,10 @@ const OutputSettingsPage = () => {
   return (
     <section className="container mx-auto max-w-2xl divide-y divide-gray-200 pb-10">
       <div className="py-12">
-        <h4 className="dark:text-white">Backend</h4>
+        <div className="mt-10 mb-5 flex items-center gap-5">
+          <div className="text-xl text-indigo-500">Backend</div>
+          <div className=" flex-1 rounded-lg border "></div>
+        </div>
         <p>
           Magic Mynt comes with two render systems - one using canvas and the
           other using FFmpeg. The canvas backend is faster but only supports PNG

@@ -325,9 +325,6 @@ const LaunchpadConfig: NextPage = () => {
                               <span className="text-medium  rounded-full bg-gray-100 py-1 px-2 text-sm text-gray-700 ring-1 ring-gray-200">
                                 Whitelist Mint
                               </span>
-                              <span className="font-semibold text-pink-500">
-                                ENDED
-                              </span>
                             </div>
                             <p className="mt-6 text-sm">
                               <span>

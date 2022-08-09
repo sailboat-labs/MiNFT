@@ -1,8 +1,11 @@
 import { Tab } from "@headlessui/react";
+import { collection, onSnapshot } from "firebase/firestore";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getLayers, getSearchFilter } from "redux/reducers/selectors/layers";
-import { getProjectState } from "redux/reducers/selectors/project";
+import { setLayers } from "redux/reducers/slices/layers";
 
 import GenerateToken from "@/components/nft/GenerateToken";
 import NFTPreview from "@/components/nft/NFTPreview";
@@ -11,10 +14,13 @@ import SelectFolder from "@/components/nft/SelectFolder";
 import BasicSettings from "@/components/pages/settings/BasicSettings";
 import CollectionSettings from "@/components/pages/settings/Collection";
 import OutputSettingsPage from "@/components/pages/settings/RenderSettings";
+import PageLoader from "@/components/shared/PageLoader";
 
-import { IElement, ILayer, IProject } from "@/interfaces";
+import { IElement, ILayer } from "@/interfaces";
+import { firestore } from "@/pages/dashboard";
 
 import GeneratedTokens from "./generated-tokens";
+import { prepareLayers } from "./index.logic";
 import ShareTraits from "./share";
 
 import { NFTLayer } from "@/types";
@@ -23,34 +29,54 @@ export function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-const NFTGenerator = ({ router }: any) => {
+const NFTGenerator = () => {
   const layers = useSelector(getLayers);
-  const project = useSelector(getProjectState) as IProject;
   const searchFilter = useSelector(getSearchFilter);
-  const [animateLayersIn, setAnimateLayersIn] = useState(false);
-
-  function handleTraitChanged({
-    groupName,
-    traitIndex,
-  }: {
-    groupName: string;
-    traitIndex: number;
-  }): void {
-    //
-  }
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const [isLoadingLayers, setIsLoadingLayers] = useState(layers.length < 1);
 
   useEffect(() => {
-    setTimeout(() => {
-      if (animateLayersIn) {
-        setAnimateLayersIn(true);
-      } else {
-        setAnimateLayersIn(false);
-      }
-    }, 1000);
-  }, [animateLayersIn]);
+    if (!router.query.project) return;
+
+    const _doc = collection(
+      firestore,
+      `Projects/${router.query.project}/Layers`
+    );
+
+    const unsubscribe = onSnapshot(_doc, (snapshot) => {
+      prepareLayers(snapshot.docs.map((item) => item.data()) as ILayer[]).then(
+        (layers) => {
+          dispatch(setLayers(layers));
+
+          setTimeout(() => {
+            setIsLoadingLayers(false);
+          }, 1000);
+        }
+      );
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, [router.query?.project]);
+
+  if (isLoadingLayers) {
+    return (
+      <div className="flex h-full w-full items-center justify-center">
+        <PageLoader /> Loading your layers...
+      </div>
+    );
+  }
 
   return (
-    <div className="w-full">
+    <div
+      className={`w-full transition-all ${
+        isLoadingLayers
+          ? "translate-x-10 opacity-0"
+          : "translate-x-0 opacity-100"
+      }`}
+    >
       <Tab.Group>
         <Tab.List className="sticky top-0 z-[2] flex w-full items-center justify-center space-x-1 rounded border-b bg-white p-3 dark:border-gray-500 dark:bg-[color:var(--dark)]">
           <div className="flex w-fit items-center gap-2">
@@ -105,7 +131,9 @@ const NFTGenerator = ({ router }: any) => {
                               key={index}
                               index={index}
                               layersCount={layers.length}
-                              onChange={handleTraitChanged}
+                              onChange={() => {
+                                //
+                              }}
                               layer={item}
                               elements={
                                 layers.find(
@@ -128,9 +156,6 @@ const NFTGenerator = ({ router }: any) => {
             )}
           </Tab.Panel>
           <Tab.Panel className="dark:text-gray-400">
-            <div className="flex w-full justify-end px-20 py-5">
-              <div className="gradient-button">Save</div>
-            </div>
             <div className="grid h-screen grid-cols-1 gap-24 overflow-y-auto px-10  xl:grid-cols-2">
               <div>
                 <BasicSettings />
