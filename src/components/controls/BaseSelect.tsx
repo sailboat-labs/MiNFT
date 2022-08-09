@@ -50,7 +50,7 @@ const BaseSelect = ({
             theme === "light"
               ? "bg-white text-gray-800 dark:bg-[color:var(--dark)]"
               : "bg-indigo-800 text-white"
-          } relative w-full cursor-default rounded-lg  py-2 pl-3 pr-8 text-left  ring-1 ring-gray-300 focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 sm:text-sm ${buttonClass}`}
+          } relative w-full cursor-default rounded-md py-2 pl-3 pr-8 text-left  ring-1 ring-gray-300 focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 sm:text-sm ${buttonClass}`}
           disabled={disabled}
         >
           <span className="block truncate">{selected.name}</span>

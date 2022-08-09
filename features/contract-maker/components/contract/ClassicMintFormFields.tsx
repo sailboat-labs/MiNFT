@@ -68,9 +68,13 @@ const ClassicMintFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
 
   return (
     <div className="">
-      <div className="mx-auto flex flex-col divide-y-2 divide-gray-200 ">
-        <form onSubmit={displayValues} className="w-4/5">
-          <div className="mt-10 mb-5 flex items-center gap-5">
+      <div className="mx-auto flex flex-col">
+        <form onSubmit={displayValues} className="">
+          <div
+            className={`${
+              isPreview ? "" : "mt-10 "
+            } mb-5 flex items-center gap-5`}
+          >
             <div className="text-xl text-indigo-500">Details</div>
             <div className=" flex-1 rounded-lg border "></div>
           </div>
@@ -253,7 +257,7 @@ const ClassicMintFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
             </div>
           </article>
 
-          <div className="mx-auto flex flex-col divide-y-2 divide-gray-200 ">
+          <div>
             {/* Timing */}
             <div className="mt-5 mb-5 flex items-center gap-5">
               <div className="text-xl text-indigo-500">Timing</div>
@@ -265,8 +269,8 @@ const ClassicMintFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
                 <div className="">
                   {/* <div className="flex flex-row items-center "> */}
                   <div className="grid grid-cols-3">
-                    <div className="flex flex-col">
-                      <span className="my-3">
+                    <div className="flex flex-col ">
+                      <span className="">
                         Start date <span className="text-red-500">*</span>
                       </span>
                       <BaseDatetimeInput
@@ -298,8 +302,8 @@ const ClassicMintFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
                         }}
                       />
                     </div>
-                    <div className="flex flex-col">
-                      <span className="my-3">
+                    <div className="flex w-fit flex-col">
+                      <span className="">
                         End date <span className="text-red-500">*</span>
                       </span>
                       <BaseDatetimeInput
@@ -345,7 +349,7 @@ const ClassicMintFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
                           options={Array(60)
                             .fill(null)
                             .map((_, index) => ({ name: index + 1 }))}
-                          buttonClass="!bg-white ring-1 py-3 ring-gray-200 !text-gray-800"
+                          buttonClass="!bg-white ring-1 py-2 ring-gray-200 !text-gray-800"
                           selectorIconColor="black"
                           error={
                             form.touched.minutes && form.errors.minutes ? (
@@ -386,38 +390,6 @@ const ClassicMintFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
                     </div>
                   </div>
                 </div>
-                {/* <div className="mt-10 w-fit flex-1 rounded-md bg-white p-5 ring-1 ring-gray-300"> */}
-                {/* <div className="w-fit flex-1 ">
-                  <strong>
-                    Minutes <span className="text-red-500">*</span>
-                  </strong>
-                  {isPreview ? (
-                    <p className="mt-3 rounded-md bg-white py-1 px-2 !text-gray-800 ring-1 ring-gray-300 ">
-                      {values?.minutes}
-                    </p>
-                  ) : (
-                    <BaseSelect
-                      {...form.getFieldProps("minutes")}
-                      options={Array(60)
-                        .fill(null)
-                        .map((_, index) => ({ name: index + 1 }))}
-                      buttonClass="!bg-white ring-1 py-3 ring-gray-200 !text-gray-800"
-                      selectorIconColor="black"
-                      error={
-                        form.touched.minutes && form.errors.minutes ? (
-                          <p className="text-base text-red-500">
-                            {form.errors.minutes}
-                          </p>
-                        ) : null
-                      }
-                      disabled={isPreview}
-                      value={values?.minutes}
-                      onChange={(e: any) => {
-                        updateContract("minutes", e.name);
-                      }}
-                    />
-                  )}
-                </div> */}
               </section>
               <button
                 id="showValues"

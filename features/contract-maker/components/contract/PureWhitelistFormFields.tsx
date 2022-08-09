@@ -11,7 +11,6 @@ import BaseDatetimeInput from "@/components/controls/BaseDatetimeInput";
 import BaseInput from "@/components/controls/BaseInput";
 import BaseSelect from "@/components/controls/BaseSelect";
 import BaseTimezoneSelector from "@/components/controls/BaseTimezoneSelector";
-import ContractFormRowSection from "@/components/layout/ContractRowSection";
 
 import { IProject } from "@/interfaces";
 import { firestore } from "@/pages/dashboard";
@@ -34,7 +33,7 @@ const PureWhitelistFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
       `Projects/${project.slug}/Contract-Maker/draft`
     );
     const unsubscribe = onSnapshot(_doc, (snapshot) => {
-      setValues(snapshot.data());      
+      setValues(snapshot.data());
     });
 
     return () => {
@@ -46,11 +45,7 @@ const PureWhitelistFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
     field: string,
     value: string | boolean | { title: string; description: string }[]
   ) {
-    const saveDraft = await saveContractMaker(
-      project,
-      field,
-      value
-    );
+    const saveDraft = await saveContractMaker(project, field, value);
 
     if (!saveDraft) {
       toast.error(
@@ -68,17 +63,21 @@ const PureWhitelistFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
   };
 
   const displayValues = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    console.log('Contract values', values);
-  }
-  
+    e.preventDefault();
+    console.log("Contract values", values);
+  };
+
   return (
-    <div className="pt-6">
-      <div className="mx-auto flex flex-col divide-y-2 divide-gray-200 pb-6">
+    <div className="">
+      <div className="mx-auto flex flex-col ">
         <form onSubmit={displayValues}>
-          <ContractFormRowSection className="pt-5 pb-8" name="Details">
+          <div className="">
             {/* <article className="mt-6 grid gap-x-12 gap-y-6 md:grid-cols-2 2xl:grid-cols-3"> */}
-            <article className="">
+            <div className={`${isPreview ? '' : 'mt-10 '} mb-5 flex items-center gap-5`}>
+              <div className="text-xl text-indigo-500">Details</div>
+              <div className=" flex-1 rounded-lg border "></div>
+            </div>
+            <article className="grid grid-cols-3">
               <div className="mb-8 flex flex-col">
                 <span className="mb-1 flex flex-col">
                   Quantity of collection
@@ -99,7 +98,14 @@ const PureWhitelistFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
                   onChange={(e) => {
                     updateContract("quantityOfCollection", e.target.value);
                   }}
-                  onBlur={(e: { target: { value: string | boolean | { title: string; description: string; }[]; }; }) => {
+                  onBlur={(e: {
+                    target: {
+                      value:
+                        | string
+                        | boolean
+                        | { title: string; description: string }[];
+                    };
+                  }) => {
                     updateContract("quantityOfCollection", e.target.value);
                   }}
                 />
@@ -127,7 +133,14 @@ const PureWhitelistFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
                   onChange={(e) => {
                     updateContract("mintPrice", e.target.value);
                   }}
-                  onBlur={(e: { target: { value: string | boolean | { title: string; description: string; }[]; }; }) => {
+                  onBlur={(e: {
+                    target: {
+                      value:
+                        | string
+                        | boolean
+                        | { title: string; description: string }[];
+                    };
+                  }) => {
                     updateContract("mintPrice", e.target.value);
                   }}
                 />
@@ -154,7 +167,14 @@ const PureWhitelistFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
                   onChange={(e) => {
                     updateContract("reservedTokens", e.target.value);
                   }}
-                  onBlur={(e: { target: { value: string | boolean | { title: string; description: string; }[]; }; }) => {
+                  onBlur={(e: {
+                    target: {
+                      value:
+                        | string
+                        | boolean
+                        | { title: string; description: string }[];
+                    };
+                  }) => {
                     updateContract("reservedTokens", e.target.value);
                   }}
                 />
@@ -180,7 +200,14 @@ const PureWhitelistFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
                   onChange={(e) => {
                     updateContract("maxMintPerWallet", e.target.value);
                   }}
-                  onBlur={(e: { target: { value: string | boolean | { title: string; description: string; }[]; }; }) => {
+                  onBlur={(e: {
+                    target: {
+                      value:
+                        | string
+                        | boolean
+                        | { title: string; description: string }[];
+                    };
+                  }) => {
                     updateContract("maxMintPerWallet", e.target.value);
                   }}
                 />
@@ -206,70 +233,129 @@ const PureWhitelistFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
                   onChange={(e) => {
                     updateContract("maxMintPerTransaction", e.target.value);
                   }}
-                  onBlur={(e: { target: { value: string | boolean | { title: string; description: string; }[]; }; }) => {
+                  onBlur={(e: {
+                    target: {
+                      value:
+                        | string
+                        | boolean
+                        | { title: string; description: string }[];
+                    };
+                  }) => {
                     updateContract("maxMintPerTransaction", e.target.value);
                   }}
                 />
               </div>
             </article>
-          </ContractFormRowSection>
+          </div>
 
-          <div className="mx-auto flex flex-col divide-y-2 divide-gray-200 pb-6">
+          <div className="">
             {/* Timing */}
-            <ContractFormRowSection className="pt-5 pb-8" name="Timing">
+            <div className="">
+              <div className="mt-3 mb-5 flex items-center gap-5">
+                <div className="text-xl text-indigo-500">Timing</div>
+                <div className=" flex-1 rounded-lg border "></div>
+              </div>
               <article>
                 {/* <h4 className="mt-10 ">Timing</h4> */}
-                <section className="mb-10">
-                  <div className="flex w-3/5 flex-col">
-                    <div className="flex w-full flex-row items-center justify-between">
-                      <div className="flex flex-col">
-                        <span className="my-3">Start date</span>
-                        <BaseDatetimeInput
-                          {...form.getFieldProps("startDate")}
-                          required
-                          disabled={isPreview}
-                          type="datetime-local"
-                          wrapperClass="border-gray-600"
+                <section className="">
+                  <div className="grid grid-cols-3">
+                    <div className="flex flex-col">
+                      <span className="my-3">Start date</span>
+                      <BaseDatetimeInput
+                        {...form.getFieldProps("startDate")}
+                        required
+                        disabled={isPreview}
+                        type="datetime-local"
+                        wrapperClass="border-gray-600 w-fit"
+                        error={
+                          form.touched.startDate && form.errors.startDate ? (
+                            <p className="text-base text-red-500">
+                              {form.errors.startDate}
+                            </p>
+                          ) : null
+                        }
+                        value={values?.startDate}
+                        onChange={(e) => {
+                          updateContract("startDate", e.target.value);
+                        }}
+                        onBlur={(e: {
+                          target: {
+                            value:
+                              | string
+                              | boolean
+                              | { title: string; description: string }[];
+                          };
+                        }) => {
+                          updateContract("startDate", e.target.value);
+                        }}
+                      />
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="my-3">End date</span>
+                      <BaseDatetimeInput
+                        {...form.getFieldProps("endDate")}
+                        required
+                        disabled={isPreview}
+                        type="datetime-local"
+                        wrapperClass="border-gray-600 w-fit"
+                        error={
+                          form.touched.endDate && form.errors.endDate ? (
+                            <p className="text-base text-red-500">
+                              {form.errors.endDate}
+                            </p>
+                          ) : null
+                        }
+                        value={values?.endDate}
+                        onChange={(e) => {
+                          updateContract("endDate", e.target.value);
+                        }}
+                        onBlur={(e: {
+                          target: {
+                            value:
+                              | string
+                              | boolean
+                              | { title: string; description: string }[];
+                          };
+                        }) => {
+                          updateContract("endDate", e.target.value);
+                        }}
+                      />
+                    </div>
+                    <div className="w-fit flex-1">
+                      <strong>Minutes</strong>
+                      {isPreview ? (
+                        <p className="mt-3 rounded-md bg-white py-1 px-2 !text-gray-800 ring-1 ring-gray-200 ">
+                          {values?.minutes}
+                        </p>
+                      ) : (
+                        <BaseSelect
+                          {...form.getFieldProps("minutes")}
+                          options={Array(60)
+                            .fill(null)
+                            .map((_, index) => ({ name: index + 1 }))}
+                          buttonClass="!bg-white ring-1 mt-1 ring-gray-200 !text-gray-800"
+                          selectorIconColor="black"
                           error={
-                            form.touched.startDate && form.errors.startDate ? (
+                            form.touched.minutes && form.errors.minutes ? (
                               <p className="text-base text-red-500">
-                                {form.errors.startDate}
+                                {form.errors.minutes}
                               </p>
                             ) : null
                           }
-                          value={values?.startDate}
-                          onChange={(e) => {
-                            updateContract("startDate", e.target.value);
+                          value={values?.minutes}
+                          onChange={(e: { name: string }) => {
+                            updateContract("minutes", e.name);
                           }}
-                          onBlur={(e: { target: { value: string | boolean | { title: string; description: string; }[]; }; }) => {
-                            updateContract("startDate", e.target.value);
-                          }}
-                        />
-                      </div>
-                      <div className="flex flex-col">
-                        <span className="my-3">End date</span>
-                        <BaseDatetimeInput
-                          {...form.getFieldProps("endDate")}
-                          required
-                          disabled={isPreview}
-                          type="datetime-local"
-                          wrapperClass="border-gray-600"
-                          error={
-                            form.touched.endDate && form.errors.endDate ? (
-                              <p className="text-base text-red-500">
-                                {form.errors.endDate}
-                              </p>
-                            ) : null
-                          }
-                          value={values?.endDate}
-                          onChange={(e) => {
-                            updateContract("endDate", e.target.value);
-                          }}
-                          onBlur={(e: { target: { value: string | boolean | { title: string; description: string; }[]; }; }) => {
-                            updateContract("endDate", e.target.value);
+                          onBlur={(e: {
+                            name:
+                              | string
+                              | boolean
+                              | { title: string; description: string }[];
+                          }) => {
+                            updateContract("minutes", e.name);
                           }}
                         />
-                      </div>
+                      )}
                     </div>
                     <div className="mt-8">
                       <span className="my-3 font-bold">Timezone</span>
@@ -283,6 +369,7 @@ const PureWhitelistFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
                             </p>
                           ) : null
                         }
+                        wrapperClass="w-fit"
                         defaultValue={values?.timezone}
                         value={values?.timezone}
                         onChange={(e) => {
@@ -291,7 +378,7 @@ const PureWhitelistFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
                       />
                     </div>
                   </div>
-                  <div className="mt-10 w-3/5 max-w-[250px] flex-1 rounded-md bg-white p-5 ring-1 ring-gray-200">
+                  {/* <div className="mt-10 w-3/5 max-w-[250px] flex-1 rounded-md bg-white p-5 ring-1 ring-gray-200">
                     <strong>Minutes</strong>
                     {isPreview ? (
                       <p className="mt-3 rounded-md bg-white py-1 px-2 !text-gray-800 ring-1 ring-gray-200 ">
@@ -313,15 +400,20 @@ const PureWhitelistFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
                           ) : null
                         }
                         value={values?.minutes}
-                        onChange={(e: {name: string}) => {
+                        onChange={(e: { name: string }) => {
                           updateContract("minutes", e.name);
                         }}
-                        onBlur={(e: { name: string | boolean | { title: string; description: string; }[]; }) => {
+                        onBlur={(e: {
+                          name:
+                            | string
+                            | boolean
+                            | { title: string; description: string }[];
+                        }) => {
                           updateContract("minutes", e.name);
                         }}
                       />
                     )}
-                  </div>
+                  </div> */}
                 </section>
                 <button
                   id="showValues"
@@ -329,7 +421,7 @@ const PureWhitelistFormFields: FC<AppProps> = ({ form, isPreview = false }) => {
                   onClick={() => displayValues}
                 ></button>
               </article>
-            </ContractFormRowSection>
+            </div>
           </div>
         </form>
       </div>

@@ -5,14 +5,12 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
-import { getContractByField } from "redux/reducers/selectors/contract";
 import { getProjectState } from "redux/reducers/selectors/project";
 import * as Yup from "yup";
 
 import BaseDatetimeInput from "@/components/controls/BaseDatetimeInput";
 import BaseInput from "@/components/controls/BaseInput";
 import BaseTimezoneSelector from "@/components/controls/BaseTimezoneSelector";
-import ContractFormRowSection from "@/components/layout/ContractRowSection";
 
 import { IProject } from "@/interfaces";
 import { firestore } from "@/pages/dashboard";
@@ -73,7 +71,6 @@ const WhitelistForm = ({ isPreview = false }) => {
   const project = useSelector(getProjectState) as IProject;
 
   useEffect(() => {
-
     const _doc = doc(
       firestore,
       `Projects/${project.slug}/Contract-Maker/draft`
@@ -91,11 +88,7 @@ const WhitelistForm = ({ isPreview = false }) => {
     field: string,
     value: string | boolean | { title: string; description: string }[]
   ) {
-    const saveDraft = await saveContractMaker(
-      project,
-      field,
-      value
-    );
+    const saveDraft = await saveContractMaker(project, field, value);
 
     if (!saveDraft) {
       toast.error(
@@ -122,10 +115,15 @@ const WhitelistForm = ({ isPreview = false }) => {
   };
 
   return (
-    <form onSubmit={whitelistForm.handleSubmit} className='w-4/5'>
-      <div className="mx-auto flex flex-col divide-y-2 divide-gray-200 pb-6">
+    <form onSubmit={whitelistForm.handleSubmit} className=" mt-10">
+      <h2 className="pt-8 text-2xl text-indigo-800">Whitelist</h2>
+      <div className=" pb-6">
         {/* Timing */}
-        <ContractFormRowSection className="pt-5 pb-8" name="Timing">
+        <div>
+          <div className="mt-7 mb-5 flex items-center gap-5">
+            <div className="text-xl text-indigo-500">Whitelist timing</div>
+            <div className=" flex-1 rounded-lg border "></div>
+          </div>
           <article>
             <strong className="font-semibold">
               Launch Time <span className="text-red-500">*</span>
@@ -162,38 +160,36 @@ const WhitelistForm = ({ isPreview = false }) => {
                 Special Time
               </label>
             </div>
-            <div className="mt-8 flex w-3/5 flex-col ">
-              <div className="flex flex-row justify-between">
-                <div className="flex flex-col ">
-                  <span>
-                    Start Date <span className="text-red-500">*</span>
-                  </span>
-                  <BaseDatetimeInput
-                    type="datetime-local"
-                    wrapperClass="border-gray-600"
-                    value={whitelistValues?.whitelistStartDate}
-                    disabled={isPreview}
-                    onChange={(e) => {
-                      updateWhitelist("whitelistStartDate", e.target.value);
-                    }}
-                  />
-                </div>
-                <div className="flex flex-col ">
-                  <span>
-                    End Date <span className="text-red-500">*</span>
-                  </span>
-                  <BaseDatetimeInput
-                    type="datetime-local"
-                    wrapperClass="border-gray-600"
-                    value={whitelistValues?.whitelistEndDate}
-                    disabled={isPreview}
-                    onChange={(e) => {
-                      updateWhitelist("whitelistEndDate", e.target.value);
-                    }}
-                  />
-                </div>
+            <div className="mt-8 grid grid-cols-3">
+              <div className="flex flex-col ">
+                <span>
+                  Start Date <span className="text-red-500">*</span>
+                </span>
+                <BaseDatetimeInput
+                  type="datetime-local"
+                  wrapperClass="border-gray-600 w-fit"
+                  value={whitelistValues?.whitelistStartDate}
+                  disabled={isPreview}
+                  onChange={(e) => {
+                    updateWhitelist("whitelistStartDate", e.target.value);
+                  }}
+                />
               </div>
-              <div className="mt-8 flex flex-col">
+              <div className="flex flex-col ">
+                <span>
+                  End Date <span className="text-red-500">*</span>
+                </span>
+                <BaseDatetimeInput
+                  type="datetime-local"
+                  wrapperClass="border-gray-600 w-fit"
+                  value={whitelistValues?.whitelistEndDate}
+                  disabled={isPreview}
+                  onChange={(e) => {
+                    updateWhitelist("whitelistEndDate", e.target.value);
+                  }}
+                />
+              </div>
+              <div className="flex flex-col">
                 <span>
                   Timezone <span className="text-red-500">*</span>
                 </span>
@@ -203,82 +199,93 @@ const WhitelistForm = ({ isPreview = false }) => {
                   onChange={(e) => {
                     updateWhitelist("whitelistTimezone", e);
                   }}
+                  wrapperClass="w-fit"
                 />
               </div>
             </div>
           </article>
-        </ContractFormRowSection>
+        </div>
+
         {/* Price & Quantity */}
-        <ContractFormRowSection className="py-8" name="Price & Quantity">
-          <article>
-            <strong className="py-2 font-semibold">
-              Mint price <span className="text-red-500">*</span>
-            </strong>
-            <div className="flex gap-1 py-2">
-              <input
-                id="price-classic-1"
-                type="checkbox"
-                className="mt-1"
-                value="The same as for classic participants"
-                disabled={isPreview}
-                checked={
-                  whitelistValues?.whitelistMintPriceType ===
-                  "The same as for classic participants"
-                }
-                onChange={() => {
-                  updateWhitelist(
-                    "whitelistMintPriceType",
+        <div>
+          <div className="mt-10 mb-5 flex items-center gap-5">
+            <div className="text-xl text-indigo-500">Price and Quantity</div>
+            <div className=" flex-1 rounded-lg border "></div>
+          </div>
+          {/* <article className="grid grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3"> */}
+          <article className="flex flex-row justify-between">
+            <div>
+              <span className="py-2 font-semibold">
+                Mint price <span className="text-red-500">*</span>
+              </span>
+              <div className="flex gap-1 py-2">
+                <input
+                  id="price-classic-1"
+                  type="checkbox"
+                  className="mt-1"
+                  value="The same as for classic participants"
+                  disabled={isPreview}
+                  checked={
+                    whitelistValues?.whitelistMintPriceType ===
                     "The same as for classic participants"
-                  );
-                }}
-              />
-              <label htmlFor="price-classic-1" className="ml-1">
-                The same as for classic participants
-              </label>
-            </div>
-            <div className="flex gap-1">
-              <input
-                id="special-price"
-                type="checkbox"
-                className="mt-1"
-                value="Special price"
+                  }
+                  onChange={() => {
+                    updateWhitelist(
+                      "whitelistMintPriceType",
+                      "The same as for classic participants"
+                    );
+                  }}
+                />
+                <label htmlFor="price-classic-1" className="ml-1">
+                  Same as for classic participants
+                </label>
+              </div>
+              <div className="flex gap-1">
+                <input
+                  id="special-price"
+                  type="checkbox"
+                  className="mt-1"
+                  value="Special price"
+                  disabled={isPreview}
+                  checked={
+                    whitelistValues?.whitelistMintPriceType === "Special price"
+                  }
+                  onChange={() => {
+                    updateWhitelist("whitelistMintPriceType", "Special price");
+                  }}
+                />
+                <label htmlFor="special-price" className="ml-1">
+                  Special price
+                </label>
+              </div>
+              <BaseInput
                 disabled={isPreview}
-                checked={
-                  whitelistValues?.whitelistMintPriceType === "Special price"
+                type="number"
+                wrapperClass="mt-3 md:w-32"
+                {...whitelistForm.getFieldProps("mintPrice")}
+                error={
+                  whitelistForm.touched.mintPrice &&
+                  whitelistForm.errors.mintPrice ? (
+                    <p className="text-base text-red-500">
+                      {whitelistForm.errors.mintPrice}
+                    </p>
+                  ) : null
                 }
-                onChange={() => {
-                  updateWhitelist("whitelistMintPriceType", "Special price");
+                postfix={
+                  <span className="font-normal text-indigo-600">ETH</span>
+                }
+                value={whitelistValues?.whitelistMintPrice}
+                onChange={(e) => {
+                  updateWhitelist("whitelistMintPrice", e.target.value);
                 }}
               />
-              <label htmlFor="special-price" className="ml-1">
-                Special price
-              </label>
             </div>
-            <BaseInput
-              disabled={isPreview}
-              type="number"
-              wrapperClass="mt-3 md:w-32"
-              {...whitelistForm.getFieldProps("mintPrice")}
-              error={
-                whitelistForm.touched.mintPrice &&
-                whitelistForm.errors.mintPrice ? (
-                  <p className="text-base text-red-500">
-                    {whitelistForm.errors.mintPrice}
-                  </p>
-                ) : null
-              }
-              postfix={<span className="font-semibold ">ETH</span>}
-              value={whitelistValues?.whitelistMintPrice}
-              onChange={(e) => {
-                updateWhitelist("whitelistMintPrice", e.target.value);
-              }}
-            />
             <div className="mt-6 flex flex-col gap-2">
               <label className="font-semibold">
                 Total whitelist quantity <span className="text-red-500">*</span>
               </label>
               <BaseInput
-                wrapperClass="mt-3 md:w-1/3"
+                wrapperClass="mt-3 md:w-40"
                 {...whitelistForm.getFieldProps("totalQuantity")}
                 error={
                   whitelistForm.touched.totalQuantity &&
@@ -298,10 +305,11 @@ const WhitelistForm = ({ isPreview = false }) => {
             </div>
             <div className="mt-6 flex flex-col gap-2">
               <label className="font-semibold">
-                {whitelistValues?.contractType} quantity <span className="text-red-500">*</span>
+                {whitelistValues?.contractType} quantity{" "}
+                <span className="text-red-500">*</span>
               </label>
               <BaseInput
-                wrapperClass="mt-3 md:w-1/3"
+                wrapperClass="mt-3 md:w-40"
                 {...whitelistForm.getFieldProps("quantity")}
                 error={
                   whitelistForm.touched.quantity &&
@@ -320,10 +328,15 @@ const WhitelistForm = ({ isPreview = false }) => {
               />
             </div>
           </article>
-        </ContractFormRowSection>
+        </div>
+
         {/* Limitations */}
-        <ContractFormRowSection className="pt-8" name="Limitations">
-          <article className="grid  md:grid-cols-2 2xl:grid-cols-4">
+        <div>
+          <div className="mt-10 mb-5 flex items-center gap-5">
+            <div className="text-xl text-indigo-500">Limitations</div>
+            <div className=" flex-1 rounded-lg border "></div>
+          </div>
+          <article className="grid md:grid-cols-2 2xl:grid-cols-4">
             <div className="mt-6 flex flex-col gap-2">
               <label className="font-semibold">
                 Number of tokens to reserve{" "}
@@ -340,7 +353,7 @@ const WhitelistForm = ({ isPreview = false }) => {
                   ) : null
                 }
                 type="number"
-                wrapperClass="md:w-1/2"
+                wrapperClass="md:w-fit"
                 disabled={isPreview}
                 onChange={(e) => {
                   updateWhitelist(
@@ -367,7 +380,7 @@ const WhitelistForm = ({ isPreview = false }) => {
                   ) : null
                 }
                 type="number"
-                wrapperClass="md:w-1/2"
+                wrapperClass="md:w-fit"
                 disabled={isPreview}
                 onChange={(e) => {
                   updateWhitelist(
@@ -381,7 +394,8 @@ const WhitelistForm = ({ isPreview = false }) => {
             <div className="mt-6 flex flex-col gap-2">
               <div className="flex items-center gap-2">
                 <label className="font-semibold">
-                  Maximum Mint per transaction
+                  Maximum Mint per transaction{" "}
+                  <span className="text-red-500">*</span>
                 </label>
               </div>
               <BaseInput
@@ -395,7 +409,7 @@ const WhitelistForm = ({ isPreview = false }) => {
                   ) : null
                 }
                 type="number"
-                wrapperClass="md:w-1/2"
+                wrapperClass="md:w-fit"
                 disabled={isPreview}
                 onChange={(e) => {
                   updateWhitelist(
@@ -407,7 +421,9 @@ const WhitelistForm = ({ isPreview = false }) => {
               />
             </div>
             <div className="mt-6 flex flex-col gap-2">
-              <label className="font-semibold">Maximum Mint per wallet</label>
+              <label className="font-semibold">
+                Maximum Mint per wallet <span className="text-red-500">*</span>
+              </label>
               <BaseInput
                 {...whitelistForm.getFieldProps("maxMintPerWallet")}
                 error={
@@ -419,7 +435,7 @@ const WhitelistForm = ({ isPreview = false }) => {
                   ) : null
                 }
                 type="number"
-                wrapperClass="md:w-1/2"
+                wrapperClass="md:w-fit"
                 disabled={isPreview}
                 onChange={(e) => {
                   updateWhitelist("whitelistMaxMintPerWallet", e.target.value);
@@ -428,7 +444,7 @@ const WhitelistForm = ({ isPreview = false }) => {
               />
             </div>
           </article>
-        </ContractFormRowSection>
+        </div>
       </div>
       <button
         id="showWhitelistValues"

@@ -95,7 +95,7 @@ const ContractSettingsStep: FC<AppProps> = ({ isPreview = false }) => {
   };
 
   return (
-    <section className="mx-auto">
+    <section className="mx-auto" id="contractMaker">
       {isPreview ? (
         <>
           <article className="-mb-4 flex gap-8 pt-10 pb-8">
@@ -103,8 +103,12 @@ const ContractSettingsStep: FC<AppProps> = ({ isPreview = false }) => {
               <img src={GRAPHS[type.trim().toLowerCase()]} alt="" />
             </div>
             <div className="flex-1">
-              <strong className="text-sm text-indigo-800">
-                {`${type} ${whitelisted ? "with Whitelist" : ""}`}
+              <strong className="text-lg text-indigo-800">
+                {type == "Pure Whitelist"
+                  ? `${type}`
+                  : whitelisted
+                  ? `${type} with Whitelist`
+                  : `${type}`}
               </strong>
               <p>{paragraphText[type as keyof typeof paragraphText]}</p>
               <br />
@@ -135,20 +139,26 @@ const ContractSettingsStep: FC<AppProps> = ({ isPreview = false }) => {
             </div>
           </article>
           <br />
-          <hr className="border-indigo-800" />
+          {/* <hr className="border-indigo-800" /> */}
         </>
       ) : (
         <ContractStepHeader
-          title={type}
+          title={
+            type == "Pure Whitelist"
+              ? `${type}`
+              : whitelisted
+              ? `${type} with Whitelist`
+              : `${type}`
+          }
           selectOptions={[{ name: "Admin" }]}
           onChange={(value: any) => console.log(value)}
         />
       )}
-      <div className="divide-y divide-indigo-800">
+      {/* <div className="divide-y divide-indigo-800 "> */}
+      <div className="">
         {isPreview ? PREVIEW_TEMPLATES[type] : TEMPLATES[type]}
         {type.toLowerCase().trim() !== "pure whitelist" && whitelisted && (
           <div>
-            <h2 className="pt-8 text-xl text-indigo-800">Whitelist</h2>
             {whitelisted ? (
               isPreview ? (
                 <WhitelistForm isPreview />

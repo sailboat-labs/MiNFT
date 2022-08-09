@@ -83,6 +83,9 @@ module.exports = {
         flicker: "flicker 3s linear infinite",
         shimmer: "shimmer 1.3s linear infinite",
       },
+      screens: {
+        '3xl': '1600px',
+      },
     },
   },
   plugins: [
