@@ -13,6 +13,7 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { isMobile } from "react-device-detect";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { useSelector } from "react-redux";
 import { getAddress } from "redux/reducers/selectors/user";
@@ -27,6 +28,8 @@ import AuthGuard from "@/components/shared/AuthGuard";
 import PageLoader from "@/components/shared/PageLoader";
 
 import { IProject } from "@/interfaces";
+
+import DashboardModal from "./DashboardModal";
 
 export const firestore = getFirestore(firebaseApp);
 
@@ -131,13 +134,42 @@ export default function DashboardGetStarted() {
     }
   }
 
+  const [showMobile, setShowMobile] = useState<boolean>(isMobile);
+
+  useEffect(() => {
+    window.addEventListener("resize", (ev: UIEvent) => {
+      if (window.innerWidth < 1024) {
+        setShowMobile(true);
+      } else {
+        setShowMobile(false)
+      }      
+    });
+  }, [showMobile]);
+
   return (
     <AuthGuard>
       <div
         className={`flex h-screen  flex-col overflow-hidden pb-20 font-dmsans transition-all dark:bg-[color:var(--dark)] lg:flex-row ${
           isCreatingProjectStarted ? "bg-indigo-200" : "bg-white"
-        }`}
+        } ${showMobile ? "hidden" : "block"}
+        `}
       >
+        <section
+          className={
+            showMobile
+              ? "fixed inset-0 z-[9999] flex items-center justify-center"
+              : "hidden"
+          }
+        >
+          <div
+            id="displayPopup"
+            className="absolute inset-0 bg-[rgba(0,0,0,0.7)]"
+            onClick={() => {
+              router.push("/");
+            }}
+          ></div>
+          <DashboardModal show={showMobile} />
+        </section>
         <div className="absolute flex h-screen w-full">
           <div
             className={` flex h-full flex-col gap-36 overflow-y-auto transition-all duration-300 xl:flex-row  ${
@@ -220,12 +252,16 @@ export default function DashboardGetStarted() {
                 My Projects
               </div>
 
-              <div className="3xl:grid-cols-4 mb-20 grid grid-cols-1 gap-5 xl:grid-cols-2 2xl:grid-cols-3">
+              <div className="mb-20 grid grid-cols-1 gap-5 xl:grid-cols-2 2xl:grid-cols-3 3xl:grid-cols-4">
                 {allProjects.map((project, index) => (
                   <div
                     key={index}
                     onClick={() => {
-                      router.push(`/dashboard/${project.slug}`);
+                      isMobile
+                        ? alert(
+                            `${isMobile}, This action cannot be performed on a mobile device`
+                          )
+                        : router.push(`/dashboard/${project.slug}`);
                     }}
                     className="cursor-pointer rounded-lg border bg-gray-50 px-5 py-5 transition-all hover:bg-gray-100 dark:border-gray-500 dark:bg-gray-600"
                   >

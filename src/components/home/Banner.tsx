@@ -1,8 +1,9 @@
-import Demo from "features/homepage/components/Demo";
 import { useRouter } from "next/router";
+import { isMobile } from "react-device-detect";
+
+import TrydemoLink from "../buttons/TrydemoLink";
 
 import Vector1SVG from "~/svg/homepage/vector_1.svg";
-
 export default function Banner() {
   const router = useRouter();
 
@@ -18,14 +19,21 @@ export default function Banner() {
             No-code tool for creating, launching and managing your NFT
             collection
           </p>
-          <div className="flex gap-5">
+          <div className="flex justify-between gap-5 md:justify-start">
             <div
               className="relative mt-12 w-fit rounded-xl border border-black bg-transparent px-10 py-4 font-bold text-black transition-all hover:scale-105 hover:cursor-pointer dark:border-gray-500 dark:bg-[rgba(255,255,255,0.1)] dark:font-medium dark:text-gray-200 dark:backdrop-blur"
               onClick={() => {
-                process.env.NEXT_PUBLIC_ENVIRONMENT == "development" ||
-                process.env.NEXT_PUBLIC_ENVIRONMENT == "staging"
-                  ? router.push("/dashboard")
-                  : window.open("https://r3c9oapreew.typeform.com/to/RDOUdJXk");
+                if (isMobile) {
+                  alert(
+                    "This software does not work properly work on a mobile device. Please switch to another device and try again."
+                  );
+                } else {
+                  process.env.NEXT_PUBLIC_ENVIRONMENT == "development"
+                    ? router.push("/dashboard")
+                    : window.open(
+                        "https://r3c9oapreew.typeform.com/to/RDOUdJXk"
+                      );
+                }
               }}
             >
               {process.env.NEXT_PUBLIC_ENVIRONMENT == "development" ||
@@ -33,9 +41,7 @@ export default function Banner() {
                 ? "Start Now"
                 : "Join Waitlist"}
             </div>
-
-            <Demo />
-
+            <TrydemoLink className="relative z-30 mt-12 w-fit rounded-xl border border-black bg-transparent px-7 py-4 font-bold text-black transition-all hover:scale-105 hover:cursor-pointer md:px-10" />
             {/* {process.env.NEXT_PUBLIC_ENVIRONMENT == "production" && (
               <div
                 className="relative z-30 mt-12 w-fit rounded-xl border border-black bg-transparent px-10 py-4 font-bold text-black transition-all hover:scale-105 hover:cursor-pointer"
@@ -43,7 +49,7 @@ export default function Banner() {
                   window.open("https://staging.magicmynt.com/dashboard");
                 }}
               >
-                Try Demo
+                <TrydemoLink />
               </div>
             )} */}
           </div>

@@ -1,5 +1,7 @@
+/* eslint-disable @next/next/no-img-element */
 import React, { FC, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { useStore } from "react-redux";
 import { getContract } from "redux/reducers/selectors/contract";
 import { updateWhitelistDetails } from "redux/reducers/slices/contract";
 
@@ -17,6 +19,15 @@ const TEMPLATES: {
   "Pure Whitelist": <PureWhitelist />,
   "Dutch Auction": <DutchAuction />,
   "Fair Dutch Auction": <FairDutchAuction />,
+};
+
+const PREVIEW_TEMPLATES: {
+  [key: string]: JSX.Element;
+} = {
+  "Classic Mint": <ClassicMint isPreview />,
+  "Pure Whitelist": <PureWhitelist isPreview />,
+  "Dutch Auction": <DutchAuction isPreview />,
+  "Fair Dutch Auction": <FairDutchAuction isPreview />,
 };
 
 const GRAPHS: any = {
@@ -58,17 +69,33 @@ const ContractSettingsStep: FC<AppProps> = ({ isPreview = false }) => {
     }
   }, [whitelisted]);
 
+  const store = useStore();
+
   useEffect(() => {
     if (isPreview) {
       // todo: load data from store and feed form
-      console.log("prefilling");
+      // console.log("prefilling");
+      // console.log("Store is: ");
+      // console.log(store);
     }
   }, [isPreview]);
 
   const gasFee = GAS_FEES[type.trim().toLowerCase()];
 
+  // Choose message to show on the confirmation page
+  const paragraphText = {
+    "Classic Mint":
+      "The price is fixed throughout the duration of the minting period. There are no restrictions on wallets that can purchase the NFTs, sale is open to all NFTs.",
+    "Dutch Auction":
+      "The price of an NFT starts at an initial price (ceiling) and drops by a small amount periodically (eg. 0.1 ETH every 10 minutes) until it hits its lowest price (the resting price).",
+    "Fair Dutch Auction":
+      "The price of an NFT starts at an initial price and drops by a small amount periodically until it hits its lowest price. The contract has a refund policy which means wallets pnly pay the lowest bid price that the auction sells out at. The difference is refunded back to the wallet.",
+    "Pure Whitelist":
+      "The price is fixed throughout the duration of the minting period. There are restrictions on which wallets can purchase the NFTs. Specific wallets are given access to purchase the NFTs by the contract owner.",
+  };
+
   return (
-    <section className="mx-auto">
+    <section className="mx-auto" id="contractMaker">
       {isPreview ? (
         <>
           <article className="-mb-4 flex gap-8 pt-10 pb-8">
@@ -76,11 +103,14 @@ const ContractSettingsStep: FC<AppProps> = ({ isPreview = false }) => {
               <img src={GRAPHS[type.trim().toLowerCase()]} alt="" />
             </div>
             <div className="flex-1">
-              <strong className="text-sm text-indigo-800">{type}</strong>
-              <p>
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eius,
-                et. Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              </p>
+              <strong className="text-lg text-indigo-800">
+                {type == "Pure Whitelist"
+                  ? `${type}`
+                  : whitelisted
+                  ? `${type} with Whitelist`
+                  : `${type}`}
+              </strong>
+              <p>{paragraphText[type as keyof typeof paragraphText]}</p>
               <br />
               <strong className="text-sm text-indigo-800">Gas Fees</strong>
               <p className="flex items-center gap-2">
@@ -109,22 +139,35 @@ const ContractSettingsStep: FC<AppProps> = ({ isPreview = false }) => {
             </div>
           </article>
           <br />
-          <hr className="border-indigo-800" />
+          {/* <hr className="border-indigo-800" /> */}
         </>
       ) : (
         <ContractStepHeader
-          title={type}
+          title={
+            type == "Pure Whitelist"
+              ? `${type}`
+              : whitelisted
+              ? `${type} with Whitelist`
+              : `${type}`
+          }
           selectOptions={[{ name: "Admin" }]}
           onChange={(value: any) => console.log(value)}
         />
       )}
-
-      <div className="divide-y divide-indigo-800">
-        {TEMPLATES[type]}
+      {/* <div className="divide-y divide-indigo-800 "> */}
+      <div className="">
+        {isPreview ? PREVIEW_TEMPLATES[type] : TEMPLATES[type]}
         {type.toLowerCase().trim() !== "pure whitelist" && whitelisted && (
           <div>
-            <h2 className="pt-8 text-xl text-indigo-800">Whitelist</h2>
-            {whitelisted && <WhitelistForm />}
+            {whitelisted ? (
+              isPreview ? (
+                <WhitelistForm isPreview />
+              ) : (
+                <WhitelistForm />
+              )
+            ) : (
+              <WhitelistForm />
+            )}
           </div>
         )}
       </div>

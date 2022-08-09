@@ -27,6 +27,7 @@ module.exports = {
           "wfont_531ace_58938f917a1b4e66a2181c66dc63faa1",
           "wf_58938f917a1b4e66a2181c66d",
         ],
+        yeseva: ["YesevaOne", "sans-serif"],
       },
       boxShadow: {
         "3xl": "3px -1px 27px 8px rgba(83, 224, 255, 0.4)",
@@ -81,6 +82,9 @@ module.exports = {
       animation: {
         flicker: "flicker 3s linear infinite",
         shimmer: "shimmer 1.3s linear infinite",
+      },
+      screens: {
+        '3xl': '1600px',
       },
     },
   },

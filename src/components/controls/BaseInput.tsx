@@ -7,7 +7,9 @@ interface AppProps {
   wrapperClass?: string;
   postfixClass?: string;
   postfix?: React.ReactNode;
+  disabled?: boolean;
   error?: React.ReactNode | null;
+  value?: string;
   onChange: (evt: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -18,8 +20,10 @@ const BaseInput = ({
   inputClass,
   placeholder,
   wrapperClass,
+  disabled,
   postfixClass,
   type = "text",
+  value,
   ...props
 }: AppProps) => {
   const [isFocused, setIsFocused] = useState<boolean>(false);
@@ -39,6 +43,8 @@ const BaseInput = ({
           placeholder={placeholder}
           {...props}
           type={type}
+          value={value}
+          disabled={disabled}
         />
         {postfix && (
           <div className={`box-content p-2 ${postfixClass}`}>{postfix}</div>
