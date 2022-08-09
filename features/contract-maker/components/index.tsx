@@ -44,7 +44,7 @@ const ContractMakerView = () => {
   // }, []);
 
   return (
-    <main className="flex-1 lg:bg-black" id="contractMakerForms">
+    <main className="flex-1 pb-16" id="contractMakerForms">
       <div className="mr-5 flex justify-end pt-5">
         <button
           onClick={() => {
@@ -93,7 +93,7 @@ const ContractMakerView = () => {
                 nextStep();
                 scrollUp();
               }}
-              className="rounded-md bg-indigo-800 px-10 py-2 text-white transition-all duration-150 hover:scale-125 hover:bg-indigo-900 dark:text-gray-700"
+              className="rounded-md bg-indigo-800 px-10 py-2 text-white transition-all duration-150 hover:scale-105 hover:bg-indigo-900 dark:text-gray-700"
             >
               Next
             </button>

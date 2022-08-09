@@ -25,7 +25,7 @@ export default function DashboardModal({ show }: DashboardModalProps) {
     >
       <section className="fixed inset-0 z-[9999] flex items-center justify-center">
         <div className="flex h-full w-full items-center justify-center ">
-          <div className="flex h-auto w-11/12 flex-col items-center justify-center rounded-xl border border-gray-200 bg-white py-10 px-20 xl:w-1/2">
+          <div className="flex h-auto w-11/12 flex-col items-center justify-center rounded-xl border border-gray-200 bg-white py-10 px-10 md:px-20 xl:w-1/2">
             <span className="flex h-16 w-16 items-center justify-center rounded-full bg-red-600 text-white">
               <ExclamationSVG className="h-8 w-8 text-white" />
             </span>

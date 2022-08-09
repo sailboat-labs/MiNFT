@@ -134,8 +134,6 @@ export default function DashboardGetStarted() {
     }
   }
 
-  console.log(isMobile);
-
   const [showMobile, setShowMobile] = useState<boolean>(isMobile);
 
   useEffect(() => {
@@ -150,28 +148,28 @@ export default function DashboardGetStarted() {
 
   return (
     <AuthGuard>
-      <section
-        className={
-          showMobile
-            ? "fixed inset-0 z-[9999] flex items-center justify-center"
-            : "hidden"
-        }
-      >
-        <div
-          id="displayPopup"
-          className="absolute inset-0 bg-[rgba(0,0,0,0.7)]"
-          onClick={() => {
-            router.push("/");
-          }}
-        ></div>
-        <DashboardModal show={showMobile} />
-      </section>
       <div
         className={`flex h-screen  flex-col overflow-hidden pb-20 font-dmsans transition-all dark:bg-[color:var(--dark)] lg:flex-row ${
           isCreatingProjectStarted ? "bg-indigo-200" : "bg-white"
         } ${showMobile ? "hidden" : "block"}
         `}
       >
+        <section
+          className={
+            showMobile
+              ? "fixed inset-0 z-[9999] flex items-center justify-center"
+              : "hidden"
+          }
+        >
+          <div
+            id="displayPopup"
+            className="absolute inset-0 bg-[rgba(0,0,0,0.7)]"
+            onClick={() => {
+              router.push("/");
+            }}
+          ></div>
+          <DashboardModal show={showMobile} />
+        </section>
         <div className="absolute flex h-screen w-full">
           <div
             className={` flex h-full flex-col gap-36 overflow-y-auto transition-all duration-300 xl:flex-row  ${
@@ -254,7 +252,7 @@ export default function DashboardGetStarted() {
                 My Projects
               </div>
 
-              <div className="3xl:grid-cols-4 mb-20 grid grid-cols-1 gap-5 xl:grid-cols-2 2xl:grid-cols-3">
+              <div className="mb-20 grid grid-cols-1 gap-5 xl:grid-cols-2 2xl:grid-cols-3 3xl:grid-cols-4">
                 {allProjects.map((project, index) => (
                   <div
                     key={index}
