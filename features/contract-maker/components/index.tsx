@@ -44,7 +44,7 @@ const ContractMakerView = () => {
   // }, []);
 
   return (
-    <main className="flex-1 3xl:bg-green-500 " id="contractMakerForms">
+    <main className="flex-1 " id="contractMakerForms">
       <div className="mr-5 flex justify-end pt-5">
         <button
           onClick={() => {
