@@ -2,6 +2,7 @@
 // !Needs the user's name to display each user's name
 
 import { formatEthAddress } from "eth-address";
+// import { useRouter } from "next/router";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getDashboardState } from "redux/reducers/selectors/dashboard";
@@ -190,6 +191,7 @@ const defaultStyles =
 export default function Sidebar({ currentPage }: SidebarProps) {
   const dashboardState = useSelector(getDashboardState) as IDashboardState;
   const selectedSidebar = dashboardState.selectedSidebar;
+  // const router = useRouter();
 
   const dispatch = useDispatch();
   const address = useSelector(getAddress);
@@ -230,6 +232,12 @@ export default function Sidebar({ currentPage }: SidebarProps) {
           {sidebarItems.map((item, index) => (
             <div
               onClick={() => {
+                // if (item.value.toLowerCase() !== "dashboard-home") {
+                //   router.replace(
+                //     router.asPath.split("?")[0].concat(`?nav=${item.value}`)
+                //   );
+                // }
+                localStorage.setItem("activeSidebarItem", item.value);
                 dispatch(setSelectedSidebar(item.value));
               }}
               key={index}
