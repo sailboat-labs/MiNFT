@@ -44,14 +44,14 @@ const ContractMakerView = () => {
   // }, []);
 
   return (
-    <main className="flex-1 " id="contractMakerForms">
+    <main className="flex-1 lg:bg-black" id="contractMakerForms">
       <div className="mr-5 flex justify-end pt-5">
         <button
           onClick={() => {
             setActiveStep(1);
             scrollUp();
             alert(
-              "The data from your previous contract will be preserved and used to prefill your new contract."
+              "The data from your previous contract will be preserved and used to prefill your new contract. Don't worry, you can overwrite the data by changing the fields accordingly."
             );
           }}
           className="rounded-md bg-indigo-800 px-5 py-3 text-white transition-all duration-150 hover:bg-indigo-900 dark:text-gray-700"

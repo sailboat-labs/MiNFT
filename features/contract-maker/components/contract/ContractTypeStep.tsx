@@ -56,6 +56,8 @@ const ContractTypeStep = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [contractState]);
 
+  console.log('Height = ', window.innerHeight, 'Width = ', window.innerWidth);
+  
   return (
     <section className="">
       <h1 className="text-3xl text-indigo-800">Contract Type</h1>

@@ -14,6 +14,7 @@ import {
 } from "firebase/firestore";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { isMobile } from "react-device-detect";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { useDispatch, useSelector } from "react-redux";
 import { getDashboardState } from "redux/reducers/selectors/dashboard";
@@ -36,6 +37,8 @@ import PageLoader from "@/components/shared/PageLoader";
 import { enumNFTGenConfig } from "@/enums/nft-gen-configurations";
 import { IDashboardState, ILayer, IProject } from "@/interfaces";
 import { hasAccessToProject } from "@/utils/authentication";
+
+import DashboardModal from "./DashboardModal";
 
 const firestore = getFirestore(firebaseApp);
 
@@ -208,6 +211,39 @@ export default function DashboardHomePage() {
 
     dispatch(setLayers(data));
   }, [project, layerSnapshots, layerLoading, address]);
+
+  const [showMobile, setShowMobile] = useState<boolean>(isMobile);
+
+  useEffect(() => {
+    window.addEventListener("resize", (ev: UIEvent) => {
+      if (window.innerWidth < 1024) {
+        setShowMobile(true);
+      } else {
+        setShowMobile(false);
+      }
+    });
+  }, [showMobile]);
+
+  if (showMobile) {
+    return (
+      <section
+        className={
+          showMobile
+            ? "fixed inset-0 z-[9999] flex items-center justify-center"
+            : "hidden"
+        }
+      >
+        <div
+          id="displayPopup"
+          className="absolute inset-0 bg-[rgba(0,0,0,0.7)]"
+          onClick={() => {
+            router.push("/");
+          }}
+        ></div>
+        <DashboardModal show={showMobile} />
+      </section>
+    );
+  }
 
   if (loading)
     return (
