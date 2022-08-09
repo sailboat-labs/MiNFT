@@ -191,6 +191,16 @@ export default function DashboardHomePage() {
     }
   }
 
+  // useEffect(() => {
+  //   const activeSidebarItem: string | null =
+  //     localStorage.getItem("activeSidebarItem");
+  //   if (activeSidebarItem) {
+  //     dispatch(setSelectedSidebar(activeSidebarItem));
+  //   }
+  // }, []);
+
+  // console.log(router.query.nav);
+
   useEffect(() => {
     checkUserValidity();
   }, [loading, snapshots, address]);
