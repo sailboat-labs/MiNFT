@@ -38,10 +38,10 @@ export default function Contact({ show, onClose }: ContactProps) {
 
     if (process.env.NEXT_PUBLIC_ENVIRONMENT == "production") {
       emailjs.sendForm(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
-        formRef.current,
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+        formRef.current!,
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
       );
       alert(
         `Hi ${e.target.name.value}, thank you for contacting Magic Mynt. We will get back to you as soon as possible.`
@@ -86,6 +86,8 @@ export default function Contact({ show, onClose }: ContactProps) {
                 onSubmit={submitForm}
               >
                 {() => (
+                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  // @ts-ignore
                   <form id="contact-form" ref={formRef} onSubmit={submitForm}>
                     <div className="text-gray-200">
                       <Input name="name" type="text" placeholder="Name *" />

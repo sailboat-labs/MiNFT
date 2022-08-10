@@ -32,7 +32,7 @@ export default function RequestDemo({ show, onClose }: RequestDemoProps) {
 
   const formRef = useRef();
 
-  const submitForm = (e) => {
+  const submitForm = (e: any) => {
     e.preventDefault();
     if (
       window.location.href.includes("localhost") ||
@@ -43,16 +43,16 @@ export default function RequestDemo({ show, onClose }: RequestDemoProps) {
       );
     } else {
       emailjs.sendForm(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
-        formRef.current,
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+        formRef.current!,
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
       );
       alert(
         `Hi ${e.target.name.value}, you have successfully requested a demo. You will hear from our team soon.`
       );
     }
-    document.getElementById("request-demo-button").click();
+    document.getElementById("request-demo-button")?.click();
   };
 
   return (
@@ -84,6 +84,8 @@ export default function RequestDemo({ show, onClose }: RequestDemoProps) {
                 onSubmit={submitForm}
               >
                 {(formik) => (
+                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  // @ts-ignore
                   <form id="contact-form" ref={formRef} onSubmit={submitForm}>
                     <div className="text-gray-200">
                       <Input name="name" type="text" placeholder="Name *" />

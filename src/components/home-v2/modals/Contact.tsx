@@ -14,7 +14,6 @@ interface ContactProps {
 }
 
 export default function Contact({ show, onClose }: ContactProps) {
-
   useEffect(() => {
     document.documentElement.style.overflow = show ? "hidden" : "auto";
   }, [show]);
@@ -91,6 +90,8 @@ export default function Contact({ show, onClose }: ContactProps) {
                 onSubmit={submitForm}
               >
                 {(formik) => (
+                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  // @ts-ignore
                   <form id="contact-form" ref={formRef} onSubmit={submitForm}>
                     <div className="text-gray-200">
                       <Input name="name" type="text" placeholder="Name *" />

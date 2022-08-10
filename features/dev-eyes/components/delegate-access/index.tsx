@@ -1,3 +1,4 @@
+import { ethers } from "ethers";
 import { collection, query, where } from "firebase/firestore";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -73,6 +74,8 @@ export default function DelegateAccess() {
   if (!activeAddress) return <div>No account found</div>;
 
   async function handleDelegateAccess() {
+    if (ethers.utils.isAddress(address) == false)
+      return toast.error("Invalid address");
     if (!slug) return toast.error("No project provided");
     if (!activeAddress) return toast.error("No account provided");
 

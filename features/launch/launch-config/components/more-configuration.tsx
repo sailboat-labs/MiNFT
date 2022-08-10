@@ -23,6 +23,9 @@ export default function MoreConfiguration({ launchInformation }: props) {
   const project = useSelector(getProjectState) as IProject;
 
   const [discordLink, setDiscordLink] = useState("");
+  const [twitterLink, setTwitterLink] = useState("");
+  const [openseaLink, setOpenseaLink] = useState("");
+  const [websiteLink, setWebsiteLink] = useState("");
 
   async function handleSaveLaunchPadDraft(
     field: string,
@@ -168,38 +171,89 @@ export default function MoreConfiguration({ launchInformation }: props) {
               }}
             />
 
-            {discordLink.length > 0 && validURL(discordLink) == false && (
-              <div className="text-xs text-red-500">Invalid URL</div>
-            )}
+            <div
+              className={`text-xs text-red-500 transition-all ${
+                discordLink.length > 0 && validURL(discordLink) == false
+                  ? "opacity-100"
+                  : "opacity-0"
+              }`}
+            >
+              Invalid URL
+            </div>
             <div className="mt-5">Twitter</div>
             <input
-              className="mt-2 rounded-lg border-2 bg-gray-50 px-5 py-2"
+              className={`mt-2 rounded-lg border-2  px-5 py-2 ${
+                twitterLink.length > 0 && validURL(twitterLink) == false
+                  ? "border-red-200 bg-red-100"
+                  : "bg-gray-50"
+              }`}
               placeholder="@magicmynt"
               defaultValue={launchInformation?.twitterLink}
               onChange={(e) => {
+                setTwitterLink(e.target.value);
+                if (validURL(e.target.value) == false) return;
                 handleSaveLaunchPadDraft("twitterLink", e.target.value);
               }}
             />
+            <div
+              className={`text-xs text-red-500 transition-all ${
+                twitterLink.length > 0 && validURL(twitterLink) == false
+                  ? "opacity-100"
+                  : "opacity-0"
+              }`}
+            >
+              Invalid URL
+            </div>
           </div>
           <div>
             <div className="">Opensea</div>
             <input
-              className="mt-2 rounded-lg border-2 bg-gray-50 px-5 py-2"
+              className={`mt-2 rounded-lg border-2  px-5 py-2 ${
+                openseaLink.length > 0 && validURL(openseaLink) == false
+                  ? "border-red-200 bg-red-100"
+                  : "bg-gray-50"
+              }`}
               placeholder="Opensea"
               defaultValue={launchInformation?.openseaLink}
               onChange={(e) => {
+                setOpenseaLink(e.target.value);
+                if (validURL(e.target.value) == false) return;
                 handleSaveLaunchPadDraft("openseaLink", e.target.value);
               }}
             />
+            <div
+              className={`text-xs text-red-500 transition-all ${
+                openseaLink.length > 0 && validURL(openseaLink) == false
+                  ? "opacity-100"
+                  : "opacity-0"
+              }`}
+            >
+              Invalid URL
+            </div>
             <div className="mt-5">Website</div>
             <input
-              className="mt-2 rounded-lg border-2 bg-gray-50 px-5 py-2"
+              className={`mt-2 rounded-lg border-2  px-5 py-2 ${
+                websiteLink.length > 0 && validURL(websiteLink) == false
+                  ? "border-red-200 bg-red-100"
+                  : "bg-gray-50"
+              }`}
               placeholder="https://"
               defaultValue={launchInformation?.website}
               onChange={(e) => {
+                setWebsiteLink(e.target.value);
+                if (validURL(e.target.value) == false) return;
                 handleSaveLaunchPadDraft("website", e.target.value);
               }}
             />
+            <div
+              className={`text-xs text-red-500 transition-all ${
+                websiteLink.length > 0 && validURL(websiteLink) == false
+                  ? "opacity-100"
+                  : "opacity-0"
+              }`}
+            >
+              Invalid URL
+            </div>
           </div>
         </div>
 
