@@ -249,7 +249,7 @@ export default function WhitelistRegistration({
 
       await checkFollows({
         user_account: twitterHandle,
-        project_account: launchInformation.twitterLink,
+        project_account: launchInformation.twitterLink?.split("/").pop(),
       })
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         .then(async (result: any) => {
@@ -432,12 +432,12 @@ export default function WhitelistRegistration({
                       <p>
                         Follow{" "}
                         <a
-                          href={`https://twitter.com/${launchInformation.twitterLink}`}
+                          href={`${launchInformation.twitterLink}`}
                           target="_blank"
                           className="cursor-pointer font-bold text-[#2EBCDB] underline"
                           rel="noreferrer"
                         >
-                          {launchInformation.twitterLink}
+                          @{launchInformation.twitterLink?.split("/").pop()}
                         </a>{" "}
                         on twitter{" "}
                       </p>

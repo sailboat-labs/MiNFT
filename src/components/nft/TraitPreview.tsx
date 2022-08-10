@@ -151,7 +151,7 @@ const TraitPreview: FC<AppProps> = ({
         </div>
       </div>
       {!rarityMode && (
-        <div className="w-20 overflow-hidden text-center text-xs text-gray-600 dark:text-gray-300">
+        <div className="w-20 overflow-hidden truncate text-center text-xs text-gray-600 dark:text-gray-300">
           {file.filename?.toString().split(".")[0]}
         </div>
       )}

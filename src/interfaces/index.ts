@@ -95,11 +95,9 @@ export interface IProjectLaunch {
   mintPerTransaction: string;
   hasWhitelist: boolean;
   team: string;
-  discordLink?: string;
   twitterLink?: string;
-  openseaLink?: string;
   roadmap: { title: string; description: string }[];
-  website?: string;
+  links?: { label: string; link: string }[];
   requiresTwitter?: boolean;
   requiredEthAmount?: number;
   publishTimeStamp?: string;

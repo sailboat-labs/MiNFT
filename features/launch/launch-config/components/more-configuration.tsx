@@ -3,10 +3,10 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { getProjectState } from "redux/reducers/selectors/project";
 
+import Button from "@/components/buttons/Button";
 import WhitelistDates from "@/components/dashboard/Whitelist/WhitelistDates";
 
 import { IProject, IProjectLaunch } from "@/interfaces";
-import { validURL } from "@/utils/ValidUrl";
 
 import LaunchPadMoreConfigFAQ from "./faq";
 import saveLaunchPadDraft from "../launchpad-config.logic";
@@ -22,21 +22,20 @@ export default function MoreConfiguration({ launchInformation }: props) {
   );
   const project = useSelector(getProjectState) as IProject;
 
-  const [discordLink, setDiscordLink] = useState("");
-  const [twitterLink, setTwitterLink] = useState("");
-  const [openseaLink, setOpenseaLink] = useState("");
-  const [websiteLink, setWebsiteLink] = useState("");
+  const [links, setLinks] = useState<{ label: string; link: string }[]>(
+    launchInformation?.links ?? []
+  );
 
   async function handleSaveLaunchPadDraft(
     field: string,
-    value: string | boolean
+    value: string | boolean | any[]
   ) {
     const saveDraft = await saveLaunchPadDraft(project, field, value);
   }
 
   return (
-    <div className="flex gap-10 px-10 py-10">
-      <div className="w-1/2 pr-10">
+    <div className="grid grid-cols-1 gap-10 px-10 py-10 xl:grid-cols-2">
+      <div className=" pr-10">
         <div className="mt-10 mb-5 flex items-center gap-5">
           <div className="text-xl text-indigo-500">Whitelist Configuration</div>
           <div className=" flex-1 rounded-lg border "></div>
@@ -152,115 +151,103 @@ export default function MoreConfiguration({ launchInformation }: props) {
           </div>
           <div className=" flex-1 rounded-lg border "></div>
         </div>
-        <div className="mb-5 text-sm">Enter full links</div>
-        <div className="flex gap-5">
-          <div>
-            <div className="">Discord</div>
-            <input
-              className={`mt-2 rounded-lg border-2  px-5 py-2 ${
-                discordLink.length > 0 && validURL(discordLink) == false
-                  ? "border-red-200 bg-red-100"
-                  : "bg-gray-50"
-              }`}
-              placeholder="Discord link"
-              defaultValue={launchInformation?.discordLink}
-              onChange={(e) => {
-                setDiscordLink(e.target.value);
-                if (validURL(e.target.value) == false) return;
-                handleSaveLaunchPadDraft("discordLink", e.target.value);
-              }}
-            />
+        {links.length > 0 && (
+          <div className="mt-5 mb-1 text-sm">Enter full links</div>
+        )}
 
-            <div
-              className={`text-xs text-red-500 transition-all ${
-                discordLink.length > 0 && validURL(discordLink) == false
-                  ? "opacity-100"
-                  : "opacity-0"
-              }`}
-            >
-              Invalid URL
+        <div className="flex flex-col gap-3">
+          {links.map((link, index) => (
+            <div key={index} className="flex gap-5">
+              <div className="flex items-center gap-3">
+                <input
+                  className={`rounded-lg border-2  px-5 py-2 `}
+                  placeholder="Label"
+                  value={link.label}
+                  onChange={(e) => {
+                    if (e.target.value?.length < 1) return;
+                    const _links = links;
+                    _links[index].label = e.target.value;
+                    setLinks(_links);
+                    handleSaveLaunchPadDraft("links", links);
+                  }}
+                />
+                <input
+                  className={`rounded-lg border-2  px-5 py-2 `}
+                  placeholder="Link"
+                  value={link.link}
+                  onChange={(e) => {
+                    // if (validURL(e.target.value) == false) return;
+                    if (e.target.value?.length < 1) return;
+                    const _links = links;
+                    _links[index].link = e.target.value;
+                    setLinks(_links);
+                    handleSaveLaunchPadDraft("links", links);
+                  }}
+                />
+                <div
+                  onClick={() => {
+                    const _links = links.filter(
+                      (item, linkIndex) => item.label != link.label
+                    );
+                    setLinks(_links);
+                    handleSaveLaunchPadDraft("links", _links);
+                  }}
+                  className=" cursor-pointer rounded-full border-2 border-indigo-500 bg-indigo-200 p-1 text-indigo-500 transition-all hover:scale-105"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-4 w-4 "
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </div>
+              </div>
             </div>
-            <div className="mt-5">Twitter</div>
-            <input
-              className={`mt-2 rounded-lg border-2  px-5 py-2 ${
-                twitterLink.length > 0 && validURL(twitterLink) == false
-                  ? "border-red-200 bg-red-100"
-                  : "bg-gray-50"
-              }`}
-              placeholder="@magicmynt"
-              defaultValue={launchInformation?.twitterLink}
-              onChange={(e) => {
-                setTwitterLink(e.target.value);
-                if (validURL(e.target.value) == false) return;
-                handleSaveLaunchPadDraft("twitterLink", e.target.value);
-              }}
-            />
-            <div
-              className={`text-xs text-red-500 transition-all ${
-                twitterLink.length > 0 && validURL(twitterLink) == false
-                  ? "opacity-100"
-                  : "opacity-0"
-              }`}
-            >
-              Invalid URL
+          ))}
+
+          {links.length < 1 && (
+            <div className="mt-5 flex items-center gap-3 text-red-500">
+              {" "}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
+                />
+              </svg>
+              No Links Added
             </div>
-          </div>
-          <div>
-            <div className="">Opensea</div>
-            <input
-              className={`mt-2 rounded-lg border-2  px-5 py-2 ${
-                openseaLink.length > 0 && validURL(openseaLink) == false
-                  ? "border-red-200 bg-red-100"
-                  : "bg-gray-50"
-              }`}
-              placeholder="Opensea"
-              defaultValue={launchInformation?.openseaLink}
-              onChange={(e) => {
-                setOpenseaLink(e.target.value);
-                if (validURL(e.target.value) == false) return;
-                handleSaveLaunchPadDraft("openseaLink", e.target.value);
-              }}
-            />
-            <div
-              className={`text-xs text-red-500 transition-all ${
-                openseaLink.length > 0 && validURL(openseaLink) == false
-                  ? "opacity-100"
-                  : "opacity-0"
-              }`}
-            >
-              Invalid URL
-            </div>
-            <div className="mt-5">Website</div>
-            <input
-              className={`mt-2 rounded-lg border-2  px-5 py-2 ${
-                websiteLink.length > 0 && validURL(websiteLink) == false
-                  ? "border-red-200 bg-red-100"
-                  : "bg-gray-50"
-              }`}
-              placeholder="https://"
-              defaultValue={launchInformation?.website}
-              onChange={(e) => {
-                setWebsiteLink(e.target.value);
-                if (validURL(e.target.value) == false) return;
-                handleSaveLaunchPadDraft("website", e.target.value);
-              }}
-            />
-            <div
-              className={`text-xs text-red-500 transition-all ${
-                websiteLink.length > 0 && validURL(websiteLink) == false
-                  ? "opacity-100"
-                  : "opacity-0"
-              }`}
-            >
-              Invalid URL
-            </div>
-          </div>
+          )}
         </div>
+
+        <Button
+          onClick={() => {
+            setLinks([...links, { label: "", link: "" }]);
+          }}
+          className="mt-10"
+        >
+          Add New Link
+        </Button>
 
         <LaunchPadMoreConfigFAQ launchInformation={launchInformation} />
       </div>
 
-      <div className="w-1/2 border-l pl-10">
+      <div className=" pl-0">
         <div className="mt-10 mb-5 flex items-center gap-5">
           <div className="text-xl text-indigo-500">Contract Configuration</div>
           <div className=" flex-1 rounded-lg border "></div>
