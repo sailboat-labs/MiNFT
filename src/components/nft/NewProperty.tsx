@@ -28,12 +28,6 @@ const NewProperty = ({ onDiscard, onSave }: props) => {
   const toastId = useRef(null);
   const project = useSelector(getProjectState) as IProject;
 
-  /**
-   * handles change in file input
-   *
-   * @param evt - ChangeEvent
-   * @returns {undefined}
-   */
   function handleFileChanged(evt: ChangeEvent<HTMLInputElement>) {
     const fileListArray: File[] = [];
     const _files: FileList | null = evt.target.files;
