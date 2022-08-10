@@ -1,11 +1,11 @@
 import { Tab } from "@headlessui/react";
-import { collection, onSnapshot } from "firebase/firestore";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { getLayers, getSearchFilter } from "redux/reducers/selectors/layers";
-import { setLayers } from "redux/reducers/slices/layers";
+import {
+  getIsLoadingLayers,
+  getLayers,
+  getSearchFilter,
+} from "redux/reducers/selectors/layers";
 
 import GenerateToken from "@/components/nft/GenerateToken";
 import NFTPreview from "@/components/nft/NFTPreview";
@@ -17,10 +17,8 @@ import OutputSettingsPage from "@/components/pages/settings/RenderSettings";
 import PageLoader from "@/components/shared/PageLoader";
 
 import { IElement, ILayer } from "@/interfaces";
-import { firestore } from "@/pages/dashboard";
 
 import GeneratedTokens from "./generated-tokens";
-import { prepareLayers } from "./index.logic";
 import ShareTraits from "./share";
 
 import { NFTLayer } from "@/types";
@@ -31,35 +29,9 @@ export function classNames(...classes: string[]) {
 
 const NFTGenerator = () => {
   const layers = useSelector(getLayers);
+  const isLoadingLayers = useSelector(getIsLoadingLayers);
   const searchFilter = useSelector(getSearchFilter);
   const dispatch = useDispatch();
-  const router = useRouter();
-  const [isLoadingLayers, setIsLoadingLayers] = useState(layers.length < 1);
-
-  useEffect(() => {
-    if (!router.query.project) return;
-
-    const _doc = collection(
-      firestore,
-      `Projects/${router.query.project}/Layers`
-    );
-
-    const unsubscribe = onSnapshot(_doc, (snapshot) => {
-      prepareLayers(snapshot.docs.map((item) => item.data()) as ILayer[]).then(
-        (layers) => {
-          dispatch(setLayers(layers));
-
-          setTimeout(() => {
-            setIsLoadingLayers(false);
-          }, 1000);
-        }
-      );
-    });
-
-    return () => {
-      unsubscribe();
-    };
-  }, [router.query?.project]);
 
   if (isLoadingLayers) {
     return (

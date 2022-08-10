@@ -4,11 +4,13 @@ import ContractMakerView from "features/contract-maker/components";
 import DashboardHome from "features/dashboard-home/components/dashboard-home";
 import LaunchpadConfig from "features/launch/launch-config/launchpad-config";
 import NFTGenerator from "features/traitmixer/components";
+import { prepareLayers } from "features/traitmixer/components/index.logic";
 import {
   collection,
   DocumentData,
   getFirestore,
   limit,
+  onSnapshot,
   query,
   where,
 } from "firebase/firestore";
@@ -21,6 +23,7 @@ import { getProjectState } from "redux/reducers/selectors/project";
 import { getAddress } from "redux/reducers/selectors/user";
 import { setConfiguration } from "redux/reducers/slices/configuration";
 import { setInformationBarConfig } from "redux/reducers/slices/dashboard";
+import { setIsLoadingLayers, setLayers } from "redux/reducers/slices/layers";
 import { setProject } from "redux/reducers/slices/project";
 
 import { firebaseApp } from "@/lib/firebase";
@@ -33,7 +36,7 @@ import TraitsSearchbar from "@/components/nft/TraitsSearchbar";
 import PageLoader from "@/components/shared/PageLoader";
 
 import { enumNFTGenConfig } from "@/enums/nft-gen-configurations";
-import { IDashboardState, IProject } from "@/interfaces";
+import { IDashboardState, ILayer, IProject } from "@/interfaces";
 import { hasAccessToProject } from "@/utils/authentication";
 
 const firestore = getFirestore(firebaseApp);
@@ -189,6 +192,31 @@ export default function DashboardHomePage() {
   useEffect(() => {
     checkUserValidity();
   }, [loading, snapshots, address]);
+
+  useEffect(() => {
+    if (!router.query.project) return;
+
+    const _doc = collection(
+      firestore,
+      `Projects/${router.query.project}/Layers`
+    );
+
+    const unsubscribe = onSnapshot(_doc, (snapshot) => {
+      prepareLayers(snapshot.docs.map((item) => item.data()) as ILayer[]).then(
+        (layers) => {
+          dispatch(setLayers(layers));
+
+          setTimeout(() => {
+            dispatch(setIsLoadingLayers(false));
+          }, 1000);
+        }
+      );
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, [router.query?.project]);
 
   if (loading)
     return (

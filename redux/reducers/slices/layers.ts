@@ -9,12 +9,17 @@ const layerStore = createSlice({
     layers: [],
     selectedLayerName: null,
     searchFilter: "",
+    isLoadingLayers: true,
   },
   reducers: {
     setLayers: (state: any, param: any) => {
       const { payload } = param;
       // console.log("setting layers", payload);
       state.layers = payload;
+    },
+    setIsLoadingLayers: (state: any, param: any) => {
+      const { payload } = param;
+      state.isLoadingLayers = payload;
     },
     addLayer: (state: any, param: any) => {
       const { payload } = param;
@@ -258,5 +263,6 @@ export const {
   addLayer,
   changeElementCount,
   resetElementCounts,
+  setIsLoadingLayers,
 } = actions;
 export default layerStore;

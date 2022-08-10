@@ -9,6 +9,8 @@ export const getTraitGroups = (state: any) =>
   state.layersReducer.layers.map((layer: NFTLayer) => layer.name) ?? [];
 
 export const getLayers = (state: any) => state.layersReducer.layers ?? [];
+export const getIsLoadingLayers = (state: any) =>
+  state.layersReducer.isLoadingLayers ?? true;
 
 export const getSearchFilter = (state: any) =>
   state.layersReducer.searchFilter ?? "";
