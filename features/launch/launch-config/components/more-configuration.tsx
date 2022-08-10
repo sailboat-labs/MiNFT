@@ -6,6 +6,7 @@ import { getProjectState } from "redux/reducers/selectors/project";
 import WhitelistDates from "@/components/dashboard/Whitelist/WhitelistDates";
 
 import { IProject, IProjectLaunch } from "@/interfaces";
+import { validURL } from "@/utils/ValidUrl";
 
 import LaunchPadMoreConfigFAQ from "./faq";
 import saveLaunchPadDraft from "../launchpad-config.logic";
@@ -20,6 +21,8 @@ export default function MoreConfiguration({ launchInformation }: props) {
     launchInformation ? launchInformation.requiredEthAmount! > 0 : false
   );
   const project = useSelector(getProjectState) as IProject;
+
+  const [discordLink, setDiscordLink] = useState("");
 
   async function handleSaveLaunchPadDraft(
     field: string,
@@ -140,23 +143,34 @@ export default function MoreConfiguration({ launchInformation }: props) {
         >
           {project && <WhitelistDates project={project} />}
         </div>
-        <div className="mt-10 mb-5 flex items-center gap-5">
+        <div className="mt-10 flex items-center gap-5">
           <div className="text-xl text-indigo-500">
             Social Media Configuration
           </div>
           <div className=" flex-1 rounded-lg border "></div>
         </div>
+        <div className="mb-5 text-sm">Enter full links</div>
         <div className="flex gap-5">
           <div>
             <div className="">Discord</div>
             <input
-              className="mt-2 rounded-lg border-2 bg-gray-50 px-5 py-2"
+              className={`mt-2 rounded-lg border-2  px-5 py-2 ${
+                discordLink.length > 0 && validURL(discordLink) == false
+                  ? "border-red-200 bg-red-100"
+                  : "bg-gray-50"
+              }`}
               placeholder="Discord link"
               defaultValue={launchInformation?.discordLink}
               onChange={(e) => {
+                setDiscordLink(e.target.value);
+                if (validURL(e.target.value) == false) return;
                 handleSaveLaunchPadDraft("discordLink", e.target.value);
               }}
             />
+
+            {discordLink.length > 0 && validURL(discordLink) == false && (
+              <div className="text-xs text-red-500">Invalid URL</div>
+            )}
             <div className="mt-5">Twitter</div>
             <input
               className="mt-2 rounded-lg border-2 bg-gray-50 px-5 py-2"

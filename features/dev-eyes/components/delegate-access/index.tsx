@@ -16,7 +16,6 @@ import { isProjectOwner } from "@/utils/authentication";
 import { delegateAccessToAddress } from "./index.logic";
 
 import { IDelegates } from "@/types";
-
 const PRIVILEGES = [
   { name: "viewer", label: "viewer" },
   { name: "editor", label: "editor" },

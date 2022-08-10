@@ -15,7 +15,7 @@ export async function delegateAccessToAddress({
   slug,
   role,
 }: payload) {
-  if (ethers.utils.isAddress(account) == false)
+  if (ethers.utils.isAddress(address) == false)
     return toast.error("Invalid address");
 
   const delegateResponse = await axios.post(
