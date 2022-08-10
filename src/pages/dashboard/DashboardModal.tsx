@@ -10,7 +10,7 @@ export default function DashboardModal({ show }: DashboardModalProps) {
   }, [show]);
 
   return (
-    <></>
+    <div></div>
     // <Transition
     //   show={show}
     //   enter="transition-opacity duration-75"
