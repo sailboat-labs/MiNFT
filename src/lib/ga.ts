@@ -1,9 +1,15 @@
 export const pageview = (url: URL) => {
-  gtag('config', process.env.NEXT_PUBLIC_GA_ID, {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  gtag("config", process.env.NEXT_PUBLIC_GA_ID, {
     page_path: url,
-  })
-}
+  });
+};
 
-export const event = ( {action, params} ) => {
-  window.gtag('event', action, params)
-}
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+export const event = ({ action, params }) => {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  window.gtag("event", action, params);
+};

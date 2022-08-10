@@ -101,7 +101,7 @@ export default function ProjectLaunch({ session }: props) {
                         {launchInformation?.contractType}
                       </div>
                       <div className="rounded border border-pink-500 py-1 px-2 text-pink-500 ">
-                        { launchInformation?.startTimeStamp.replace('T', " at ") }
+                        {launchInformation?.startTimeStamp.replace("T", " at ")}
                       </div>
                       <div className="flex items-center gap-2 rounded border border-gray-300 py-1 px-2 text-gray-400 ">
                         <span>Total items:</span>
