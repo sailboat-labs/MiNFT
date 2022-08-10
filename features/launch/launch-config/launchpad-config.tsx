@@ -171,7 +171,7 @@ const LaunchpadConfig: NextPage = () => {
   return (
     <div className="h-screen overflow-y-auto">
       <div
-        className={`pointer-events-none fixed scale-75 bg-white transition-all dark:bg-[color:var(--dark)] ${
+        className={`pointer-events-none fixed flex scale-75 items-center bg-white transition-all dark:bg-[color:var(--dark)] ${
           showSavingDraftLoader || isLoadingLaunchInformation
             ? "opacity-100"
             : "opacity-0"
@@ -232,18 +232,41 @@ const LaunchpadConfig: NextPage = () => {
                           );
                         }}
                       />
-                      <div className="my-4  grid grid-cols-2 flex-wrap items-center gap-3 text-sm ">
-                        <CustomSelect
-                          onChange={(value) => {
-                            handleSaveLaunchPadDraft(
-                              "contractType",
-                              value.name as string
-                            );
-                          }}
-                          wrapperClass="flex-1"
-                          togglerClass="w-full py-1 border rounded bg-gray-50"
-                          options={CONTRACT_TYPES}
-                        />
+                      <div
+                        className="grid grid-cols-2"
+                        style={{
+                          gap: "15px 50px",
+                        }}
+                      >
+                        <div className="flex items-center gap-4">
+                          <span>Contract type:</span>
+                          <CustomSelect
+                            onChange={(value) => {
+                              handleSaveLaunchPadDraft(
+                                "contractType",
+                                value.name as string
+                              );
+                            }}
+                            wrapperClass="flex-1"
+                            togglerClass="py-1 border rounded bg-gray-50"
+                            options={CONTRACT_TYPES}
+                          />
+                        </div>
+                        <div className="flex items-center gap-4">
+                          <span className="w-[100px]">Total Items:&nbsp;</span>
+                          <input
+                            defaultValue={launchInformation?.totalQuantity}
+                            onChange={(e) => {
+                              handleSaveLaunchPadDraft(
+                                "totalQuantity",
+                                e.target.value
+                              );
+                            }}
+                            type="number"
+                            className="py-0 px-2 text-sm font-semibold"
+                            placeholder="0"
+                          />
+                        </div>
                         {/* <input
                           defaultValue={launchInformation?.contractType}
                           onChange={(e) => {
@@ -255,37 +278,23 @@ const LaunchpadConfig: NextPage = () => {
                           className="rounded border border-pink-500 py-1 px-2 text-pink-500 "
                           placeholder="Mint Type eg. Classic Mint"
                         /> */}
-                        <input
-                          defaultValue={launchInformation?.startTimeStamp}
-                          onChange={(e) => {
-                            handleSaveLaunchPadDraft(
-                              "startTimeStamp",
-                              e.target.value
-                            );
-                          }}
-                          className="rounded border border-pink-500 py-1 px-2 text-pink-500 "
-                          placeholder="Mint date"
-                        />
-
-                        <div className="flex items-center gap-1 rounded border border-gray-300 py-1 px-2 text-gray-400 ">
-                          <span className="flex">
-                            Total <span className="block">&nbsp;Items</span>:
-                          </span>
+                        <div className="flex items-center">
+                          <span className="w-[120px]">Mint date:&nbsp;</span>
                           <input
-                            defaultValue={launchInformation?.totalQuantity}
+                            defaultValue={launchInformation?.startTimeStamp}
                             onChange={(e) => {
                               handleSaveLaunchPadDraft(
-                                "totalQuantity",
+                                "startTimeStamp",
                                 e.target.value
                               );
                             }}
-                            type="number"
-                            className="w-20  py-0 px-2 text-sm font-semibold"
-                            placeholder="0"
+                            className="flex-1 rounded border border-gray-300 px-3 py-1"
+                            placeholder="Mint date"
                           />
                         </div>
-                        <div className="flex items-center gap-2 rounded border border-gray-300 py-1 px-2 text-gray-400 ">
-                          <span>Price:</span>
+
+                        <div className="flex items-center gap-4">
+                          <span className="w-[120px]">Price:</span>
                           <input
                             defaultValue={launchInformation?.mintPrice}
                             onChange={(e) => {
@@ -295,7 +304,7 @@ const LaunchpadConfig: NextPage = () => {
                               );
                             }}
                             type="number"
-                            className="w-20  py-0 px-2 text-sm font-semibold"
+                            className="py-1 px-2 text-sm font-semibold"
                             placeholder="0.1"
                           />
                         </div>

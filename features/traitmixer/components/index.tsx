@@ -16,6 +16,7 @@ import { IElement, ILayer, IProject } from "@/interfaces";
 
 import GeneratedTokens from "./generated-tokens";
 import ShareTraits from "./share";
+import TraitMixerSkeleton from "./trait-mixer-skeleton";
 
 import { NFTLayer } from "@/types";
 
@@ -72,6 +73,7 @@ const NFTGenerator = ({ router }: any) => {
             ))}
           </div>
         </Tab.List>
+        <TraitMixerSkeleton />
         <Tab.Panels className="relative z-[1]">
           <Tab.Panel>
             {layers.length < 1 && (
