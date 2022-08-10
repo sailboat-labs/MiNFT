@@ -20,8 +20,6 @@ import { getAddress } from "redux/reducers/selectors/user";
 
 import { firebaseApp } from "@/lib/firebase";
 
-import { PROFILE_IMAGE } from "@/data/DemoProject";
-
 import ProjectDetails from "@/components/pages/Dashboard/home/project-details";
 import ProjectName from "@/components/pages/Dashboard/home/project-name";
 import AuthGuard from "@/components/shared/AuthGuard";
@@ -172,15 +170,15 @@ export default function DashboardGetStarted() {
         </section>
         <div className="absolute flex h-screen w-full">
           <div
-            className={` flex h-full flex-col gap-36 overflow-y-auto transition-all duration-300 xl:flex-row  ${
+            className={` flex h-full w-full flex-col gap-10 overflow-y-auto transition-all duration-300  ${
               isCreatingProjectStarted
                 ? "pointer-events-auto px-10 opacity-30 lg:px-36"
                 : "pointer-events-auto px-10 opacity-100 lg:px-36"
             }`}
           >
-            {/* Left section */}
-            <div className="sticky top-0">
-              <div className=" mt-10">
+            {/* Top section */}
+            <div className="">
+              <div className="mt-10">
                 <Link href="/" passHref>
                   <div className="flex w-fit justify-between">
                     <span className="flex cursor-pointer select-none items-center font-dmsans text-4xl font-bold leading-none text-gray-900  dark:text-white  md:mb-0 lg:items-center lg:justify-center">
@@ -194,7 +192,7 @@ export default function DashboardGetStarted() {
                 </div>
               </div>
 
-              <div className="mt-36 flex gap-5 dark:text-white">
+              <div className="mt-10 flex gap-5 dark:text-white">
                 <div
                   onClick={() => {
                     setIsCreatingProjectStarted(!isCreatingProjectStarted);
@@ -203,7 +201,7 @@ export default function DashboardGetStarted() {
                       "project-name"
                     );
                   }}
-                  className="flex h-52 w-72 cursor-pointer flex-col justify-between rounded-lg border-2 bg-white px-10 py-5 text-xl transition-all hover:scale-105 hover:bg-gray-50 dark:border-gray-500 dark:bg-[color:var(--dark)]"
+                  className="flex w-72 cursor-pointer flex-col justify-between rounded-lg border-2 bg-white px-10 py-5 text-xl transition-all hover:scale-105 hover:bg-gray-50 dark:border-gray-500 dark:bg-[color:var(--dark)]"
                 >
                   Create Project
                 </div>
@@ -211,13 +209,13 @@ export default function DashboardGetStarted() {
                   onClick={() => {
                     createDemoProject();
                   }}
-                  className=" flex h-52 w-72 cursor-pointer flex-col justify-between rounded-lg border-2 bg-white px-10 py-5 transition-all hover:scale-105 hover:bg-gray-50 dark:border-gray-500 dark:bg-[color:var(--dark)]"
+                  className=" flex w-72 cursor-pointer flex-col justify-between rounded-lg border-2 bg-white px-10 py-5 transition-all hover:scale-105 hover:bg-gray-50 dark:border-gray-500 dark:bg-[color:var(--dark)]"
                 >
                   <div className="font-dmsans text-xl">
                     Explore a demo project
                   </div>
                   {isCreatingProject && <PageLoader />}
-                  {!isCreatingProject && (
+                  {/* {!isCreatingProject && (
                     <div className="flex items-center gap-5">
                       <img
                         className="h-16 w-16 rounded-full"
@@ -226,18 +224,18 @@ export default function DashboardGetStarted() {
                       />
                       <span className="dark:text-gray-400">Nozomix</span>
                     </div>
-                  )}
+                  )} */}
                 </div>
               </div>
             </div>
-            {/* Right section */}
-            <div className="mt-10 pb-24">
+            {/* Bottom section */}
+            <div className=" pb-24">
               <div className="pt-10 font-dmsans text-xl text-gray-500">
                 {activeAddress}
               </div>
-              <div className="mb-10  font-dmsans text-2xl dark:text-white">
+              {/* <div className="mb-10  font-dmsans text-2xl dark:text-white">
                 Recent Projects
-              </div>
+              </div> */}
               <DelegatedProjects />
               {loading && (
                 <div className="mb-10 flex w-fit items-center rounded-lg border-2 bg-gray-50 pr-5">
@@ -255,7 +253,7 @@ export default function DashboardGetStarted() {
                 </div>
               )}
 
-              <div className="mb-20 grid grid-cols-1 gap-5 xl:grid-cols-2 2xl:grid-cols-3 3xl:grid-cols-4">
+              <div className="mb-20 grid grid-cols-2 gap-5 xl:grid-cols-2 2xl:grid-cols-3 3xl:grid-cols-4">
                 {allProjects.map((project, index) => (
                   <div
                     key={index}

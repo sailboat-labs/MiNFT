@@ -66,12 +66,12 @@ export default function DelegatedProjects() {
     );
 
   return (
-    <div className="mb-10">
+    <div className="mb-10 mt-5">
       <div>
-        <div className="mb-5 text-xl font-semibold dark:text-white">
+        <div className=" text-xl font-semibold dark:text-white">
           Delegated Projects
         </div>
-        <div className="grid  grid-cols-1 gap-5 xl:grid-cols-2 2xl:grid-cols-3 3xl:grid-cols-4">
+        <div className="rid-cols-2 grid gap-5 xl:grid-cols-2 2xl:grid-cols-3 3xl:grid-cols-4">
           {delegatedProjects.map((project, index) => (
             <div
               key={index}
