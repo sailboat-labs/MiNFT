@@ -296,7 +296,7 @@ const LaunchpadConfig: NextPage = () => {
                       <div>
                         <TextareaAutosize
                           defaultValue={launchInformation?.summary}
-                          className="w-full resize-none px-0 overflow-hidden border-0"
+                          className="w-full resize-none overflow-hidden border-0 px-0"
                           onChange={(e) => {
                             handleSaveLaunchPadDraft("summary", e.target.value);
                           }}
