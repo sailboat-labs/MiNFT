@@ -1,6 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable jsx-a11y/alt-text */
-import React, { FC, useState } from "react";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import debounce from "lodash.debounce";
+import { useRouter } from "next/router";
+import React, { FC, useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
@@ -12,14 +15,16 @@ import {
 } from "redux/reducers/slices/layers";
 
 import { enumNFTGenConfig } from "@/enums/nft-gen-configurations";
-import { IElement } from "@/interfaces";
+import { IElement, ILayer } from "@/interfaces";
 import { getMaximumSupply } from "@/utils/module_utils/nft";
 
 import DeleteTraitModal from "./DeleteTraitModal";
+import { firestore } from "./NewProperty";
 
 interface AppProps {
   active?: boolean;
   traitIndex: number;
+  layer: ILayer;
   file: IElement;
   rarityMode?: boolean;
   onRemove?: (traitIndex: number) => void;
@@ -30,23 +35,57 @@ const TraitPreview: FC<AppProps> = ({
   traitIndex,
   active = false,
   rarityMode = false,
+  layer,
   onRemove,
 }) => {
-  // const url = typeof file === "string" ? file : URL.createObjectURL(file);
   const dispatch = useDispatch();
   const [rarity, setRarity] = useState<number>(0);
   const layers = useSelector(getLayers);
   const configuration = useSelector(getConfiguration);
+  const router = useRouter();
+  const debouncedChangeHandler = useMemo(
+    () => debounce(updateRarityOnFirestore, 500),
+    []
+  );
 
-  function handleOnRarityInputed(evt: React.ChangeEvent<HTMLInputElement>) {
-    const value: number = parseFloat(evt.target.value);
+  async function updateRarityOnFirestore() {
+    //
 
-    setRarity(value ? Math.abs(value) : 0);
+    try {
+      let _elementsFromFirebase: any[] = [];
+      const _doc = doc(
+        firestore,
+        `Projects/${router.query.project}/Layers/${layer.id}`
+      );
+      const _getDoc = getDoc(_doc);
+      _elementsFromFirebase = (await _getDoc).data()?.elements;
+
+      layer.elements.forEach(async (element) => {
+        console.log(
+          "old weight:",
+          _elementsFromFirebase.find((item) => item.id == element.id).weight,
+          "new weight",
+          element.weight
+        );
+
+        _elementsFromFirebase.find((item) => item.id == element.id).weight =
+          element.weight;
+      });
+
+      setDoc(
+        _doc,
+        {
+          elements: _elementsFromFirebase,
+        },
+        { merge: true }
+      );
+    } catch (error) {
+      console.log(error);
+    }
   }
 
-  function onRangeChanged(e: React.ChangeEvent<HTMLInputElement>) {
-    if (parseInt(e.target.value) > getMaximumSupply(layers)) return;
-    if (parseInt(e.target.value) > getMaximumSupply(layers)) {
+  function handleOnRarityChanged(value: any) {
+    if (parseInt(value) > getMaximumSupply(layers)) {
       dispatch(
         changeElementCount({
           layerName: file.trait,
@@ -60,12 +99,17 @@ const TraitPreview: FC<AppProps> = ({
       changeElementCount({
         layerName: file.trait,
         elementName: file.filename,
-        newCount: isNaN(parseInt(e.target.value))
-          ? 0
-          : parseInt(e.target.value ?? "0"),
+        newCount: isNaN(parseInt(value)) ? 0 : parseInt(value ?? "0"),
       })
     );
+    debouncedChangeHandler();
   }
+
+  useEffect(() => {
+    return () => {
+      debouncedChangeHandler.cancel();
+    };
+  }, []);
 
   return (
     <div className="flex flex-col items-center justify-center">
@@ -141,27 +185,7 @@ const TraitPreview: FC<AppProps> = ({
             min={0}
             max={getMaximumSupply(layers)}
             onChange={(e) => {
-              if (parseInt(e.target.value) > getMaximumSupply(layers)) {
-                dispatch(
-                  changeElementCount({
-                    layerName: file.trait,
-                    elementName: file.filename,
-                    newCount: getMaximumSupply(layers),
-                  })
-                );
-                return toast.error(
-                  `Maximum can be ${getMaximumSupply(layers)}`
-                );
-              }
-              dispatch(
-                changeElementCount({
-                  layerName: file.trait,
-                  elementName: file.filename,
-                  newCount: isNaN(parseInt(e.target.value))
-                    ? 0
-                    : parseInt(e.target.value ?? "0"),
-                })
-              );
+              handleOnRarityChanged(e.target.value);
             }}
             type="number"
           />

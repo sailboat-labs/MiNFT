@@ -1,4 +1,6 @@
 import axios from "axios";
+import { ethers } from "ethers";
+import toast from "react-hot-toast";
 
 type payload = {
   address: string;
@@ -13,6 +15,9 @@ export async function delegateAccessToAddress({
   slug,
   role,
 }: payload) {
+  if (ethers.utils.isAddress(account) == false)
+    return toast.error("Invalid address");
+
   const delegateResponse = await axios.post(
     "/api/delegate-access/delegate-access",
     {

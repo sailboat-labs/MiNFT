@@ -141,8 +141,8 @@ export default function DashboardGetStarted() {
       if (window.innerWidth < 1024) {
         setShowMobile(true);
       } else {
-        setShowMobile(false)
-      }      
+        setShowMobile(false);
+      }
     });
   }, [showMobile]);
 
@@ -238,19 +238,22 @@ export default function DashboardGetStarted() {
               <div className="mb-10  font-dmsans text-2xl dark:text-white">
                 Recent Projects
               </div>
+              <DelegatedProjects />
               {loading && (
-                <div className="my-10 flex w-full">
-                  <PageLoader />
+                <div className="mb-10 flex w-fit items-center rounded-lg border-2 bg-gray-50 pr-5">
+                  <PageLoader /> Loading Projects
                 </div>
               )}
 
               {!loading && allProjects.length < 1 && activeAddress && (
                 <div className=" font-dmsans text-2xl">No Project Created</div>
               )}
-              <DelegatedProjects />
-              <div className="mb-5 text-xl font-semibold dark:text-white">
-                My Projects
-              </div>
+
+              {!loading && (
+                <div className="mb-5 text-xl font-semibold dark:text-white">
+                  My Projects
+                </div>
+              )}
 
               <div className="mb-20 grid grid-cols-1 gap-5 xl:grid-cols-2 2xl:grid-cols-3 3xl:grid-cols-4">
                 {allProjects.map((project, index) => (

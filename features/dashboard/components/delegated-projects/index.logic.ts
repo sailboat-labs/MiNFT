@@ -18,7 +18,7 @@ export async function getDelegatedProjects(account: string) {
     const _query = query(
       delegateAccessCollection,
 
-      where("delegate", "==", account.toString())
+      where("delegate", "==", account.toString()?.toLowerCase().trim())
     );
 
     const delegatedAccess = (await getDocs(_query)).docs.map((item) =>

@@ -1,3 +1,4 @@
+import { ethers } from "ethers";
 import {
   collectionGroup,
   DocumentData,
@@ -13,6 +14,8 @@ import { getAddress } from "redux/reducers/selectors/user";
 
 import { firebaseApp } from "@/lib/firebase";
 
+import PageLoader from "@/components/shared/PageLoader";
+
 import { IProject } from "@/interfaces";
 
 import { getDelegatedProjects } from "./index.logic";
@@ -23,6 +26,8 @@ export default function DelegatedProjects() {
   const [delegatedProjects, setDelegatedProjects] = useState<IProject[]>([]);
   const router = useRouter();
   const activeAddress = useSelector(getAddress);
+  const [isLoadingDelegatedProjects, setIsLoadingDelegatedProjects] =
+    useState(true);
 
   const _query = query(
     collectionGroup(firestore, `Delegates`),
@@ -35,11 +40,13 @@ export default function DelegatedProjects() {
     if (!activeAddress) return;
     const projectsDelegated = await getDelegatedProjects(activeAddress);
     setDelegatedProjects(projectsDelegated);
+    setIsLoadingDelegatedProjects(false);
   }
 
   useEffect(() => {
     if (loading) return;
     if (!snapshots) return;
+    if (ethers.utils.isAddress(activeAddress) == false) return;
 
     const data = snapshots.reduce((acc: IProject[], curr: DocumentData) => {
       acc.push(curr as IProject);
@@ -49,7 +56,14 @@ export default function DelegatedProjects() {
     if (data.length < 0) return;
 
     handleGetDelegatedProjects();
-  }, [loading, snapshots]);
+  }, [loading, snapshots, activeAddress]);
+
+  if (isLoadingDelegatedProjects)
+    return (
+      <div className="mb-10 flex w-fit items-center rounded-lg border-2 bg-gray-50 pr-5">
+        <PageLoader /> Loading Delegated Projects
+      </div>
+    );
 
   return (
     <div className="mb-10">
@@ -57,7 +71,7 @@ export default function DelegatedProjects() {
         <div className="mb-5 text-xl font-semibold dark:text-white">
           Delegated Projects
         </div>
-        <div className="3xl:grid-cols-4  grid grid-cols-1 gap-5 xl:grid-cols-2 2xl:grid-cols-3">
+        <div className="grid  grid-cols-1 gap-5 xl:grid-cols-2 2xl:grid-cols-3 3xl:grid-cols-4">
           {delegatedProjects.map((project, index) => (
             <div
               key={index}
@@ -74,7 +88,7 @@ export default function DelegatedProjects() {
           ))}
         </div>
 
-        {!loading && delegatedProjects.length < 1 && (
+        {!isLoadingDelegatedProjects && delegatedProjects.length < 1 && (
           <div className="dark:text-gray-400"> No project delegated to you</div>
         )}
       </div>

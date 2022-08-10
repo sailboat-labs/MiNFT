@@ -1,4 +1,3 @@
-import addLayersToFirebase from "features/traitmixer/components/index.logic";
 import { handleUpload } from "features/traitmixer/components/PropertyGroup/upload-element";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -79,8 +78,6 @@ export default function SelectFolder({ className }: props) {
       for (let layerIndex = 0; layerIndex < layers.length; layerIndex++) {
         const layer = layers[layerIndex];
 
-        const elements: any[] = [];
-
         for (let index = 0; index < layer.elements?.length; index++) {
           const element = layer.elements[index];
           const path = await handleUpload(
@@ -107,8 +104,6 @@ export default function SelectFolder({ className }: props) {
             traitValue: layer.name,
             isWeightTouched: false,
           };
-
-          elements.push(uploadedElements);
         }
 
         const outputLayer = {
@@ -117,7 +112,6 @@ export default function SelectFolder({ className }: props) {
           blendmode: "source-over",
           opacity: 1,
           bypassDNA: false,
-          elements: elements,
         };
 
         _layers.push(outputLayer);
@@ -126,7 +120,8 @@ export default function SelectFolder({ className }: props) {
       // dispatch(setLayers(_layers));
       toast.dismiss();
       toast("Generating thumbnails");
-      await addLayersToFirebase(_layers, project);
+      // await addLayersToFirebase(_layers, project);
+
       toast.dismiss();
       toast.success("Layer Saved");
     } catch (e) {

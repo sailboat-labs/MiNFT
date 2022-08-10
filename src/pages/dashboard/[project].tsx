@@ -205,7 +205,7 @@ export default function DashboardHomePage() {
       prepareLayers(snapshot.docs.map((item) => item.data()) as ILayer[]).then(
         (layers) => {
           dispatch(setLayers(layers));
-
+          unsubscribe();
           setTimeout(() => {
             dispatch(setIsLoadingLayers(false));
           }, 1000);

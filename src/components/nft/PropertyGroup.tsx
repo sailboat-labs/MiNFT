@@ -406,6 +406,7 @@ const PropertyGroup: FC<AppProps> = ({
                 {elements.map((element: IElement, index: number) => (
                   <TraitPreview
                     key={index}
+                    layer={layer}
                     file={element}
                     traitIndex={index}
                     rarityMode={layer.name === selectedLayerName}
