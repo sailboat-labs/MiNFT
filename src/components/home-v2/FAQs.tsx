@@ -106,7 +106,7 @@ export default function FAQ() {
   }, []);
 
   return (
-    <section id="faq" className="mx-auto w-4/5 pt-20 lg:w-3/5 2xl:w-1/2">
+    <section id="faq" className="mx-auto w-4/5 pt-20 lg:w-3/5 2xl:w-3/5">
       <div className="relative z-[2]">
         <h1 className="font-yeseva text-4xl font-normal text-[#1D1D1D] xl:text-5xl 2xl:text-6xl">
           FAQ

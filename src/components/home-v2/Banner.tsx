@@ -8,14 +8,14 @@ export default function Banner() {
   return (
     <div className="mx-auto flex w-full flex-col items-center pb-16 pt-40 sm:pt-28 lg:w-3/4 lg:flex-row xl:w-3/5 2xl:justify-center 2xl:pt-60 2xl:pb-28">
       <div className="mx-auto w-4/5">
-        <h1 className=" text-6xl font-yeseva sm:text-6xl xl:text-7xl 2xl:text-9xl ">
+        <h1 className=" font-yeseva text-6xl sm:text-5xl xl:text-6xl 2xl:text-8xl ">
           Join <br /> Waitlist
         </h1>
-        <p className="w-full sm:w-3/5 pt-7 pb-16 font-montserrat text-xl font-medium text-[#222020] 2xl:pt-12 2xl:text-4xl">
+        <p className="w-full pt-7 pb-16 font-montserrat text-xl font-medium text-[#222020] sm:w-3/5 2xl:pt-12 2xl:text-3xl">
           Buy and sell NFTs from the world&apos;s top artists
         </p>
         <div
-          className="w-fit rounded-xl bg-[#222020] px-10 py-5 text-xl sm:px-7 sm:py-4 font-bold text-white transition-all hover:scale-105 hover:cursor-pointer md:mr-10 md:px-10 lg:mr-6 2xl:px-20 2xl:py-7 2xl:text-3xl"
+          className="w-fit rounded-xl bg-[#222020] px-10 py-5 text-xl font-bold text-white transition-all hover:scale-105 hover:cursor-pointer sm:px-7 sm:py-4 md:mr-10 md:px-10 lg:mr-6 2xl:px-16 2xl:py-5 2xl:text-2xl"
           onClick={() => {
             process.env.NEXT_PUBLIC_ENVIRONMENT == "development"
               ? router.push("/dashboard")

@@ -30,19 +30,19 @@ export default function Highlights() {
 
           <div className="flex flex-row items-center justify-between pt-3 pb-5">
             <div className="block pl-8 pr-8 font-montserrat sm:pr-0">
-              <h2 className="pb-3 font-yeseva text-lg font-normal xl:text-2xl 2xl:text-4xl">
+              <h2 className="pb-3 font-yeseva text-lg font-normal xl:text-2xl 2xl:text-3xl">
                 {notes[active].title}
               </h2>
-              <p className=" font-montserrat text-base font-medium 2xl:text-3xl">
+              <p className=" font-montserrat text-base font-medium 2xl:text-2xl">
                 {notes[active].description}
               </p>
             </div>
             <LineSVG className="hidden h-24 sm:inline 2xl:h-32" />
             <div className="hidden pr-5 pl-8 font-montserrat sm:block">
-              <h2 className="pb-3 font-yeseva text-lg font-normal xl:text-2xl 2xl:text-4xl">
+              <h2 className="pb-3 font-yeseva text-lg font-normal xl:text-2xl 2xl:text-3xl">
                 {notes[active + 1].title}
               </h2>
-              <p className="font-montserrat text-base font-medium 2xl:text-3xl">
+              <p className="font-montserrat text-base font-medium 2xl:text-2xl">
                 {notes[active + 1].description}
               </p>
             </div>

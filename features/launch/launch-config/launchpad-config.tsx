@@ -6,6 +6,7 @@ import { NextPage } from "next";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
+import TextareaAutosize from "react-textarea-autosize";
 import { getProjectState } from "redux/reducers/selectors/project";
 
 import Button from "@/components/buttons/Button";
@@ -221,53 +222,45 @@ const LaunchpadConfig: NextPage = () => {
                   <div className="container mx-auto mt-20 max-w-[1664px]  px-6 py-24 lg:grid lg:grid-cols-2">
                     {/* left side */}
                     <article className="md:pr-12 lg:pr-32">
-                      <input
-                        defaultValue={launchInformation?.projectName}
-                        className="text-6xl font-extrabold"
-                        placeholder="Project Name"
+                      <TextareaAutosize
+                        className="w-full resize-none border-0 px-0 text-6xl font-extrabold focus:border focus:border-blue-500"
                         onChange={(e) => {
                           handleSaveLaunchPadDraft(
                             "projectName",
                             e.target.value
                           );
                         }}
+                        value={launchInformation?.projectName}
                       />
-                      <div className="my-4  grid grid-cols-2 flex-wrap items-center gap-3 text-sm ">
-                        <CustomSelect
-                          onChange={(value) => {
-                            handleSaveLaunchPadDraft(
-                              "contractType",
-                              value.name as string
-                            );
-                          }}
-                          wrapperClass="flex-1"
-                          togglerClass="w-full py-1 border rounded bg-gray-50"
-                          options={CONTRACT_TYPES}
-                        />
-                        {/* <input
-                          defaultValue={launchInformation?.contractType}
-                          onChange={(e) => {
-                            handleSaveLaunchPadDraft(
-                              "contractType",
-                              e.target.value
-                            );
-                          }}
-                          className="rounded border border-pink-500 py-1 px-2 text-pink-500 "
-                          placeholder="Mint Type eg. Classic Mint"
-                        /> */}
-                        <input
-                          defaultValue={launchInformation?.startTimeStamp}
-                          onChange={(e) => {
-                            handleSaveLaunchPadDraft(
-                              "startTimeStamp",
-                              e.target.value
-                            );
-                          }}
-                          className="rounded border border-pink-500 py-1 px-2 text-pink-500 "
-                          placeholder="Mint date"
-                        />
-
-                        <div className="flex items-center gap-1 rounded border border-gray-300 py-1 px-2 text-gray-400 ">
+                      <div className="my-4 grid grid-cols-2 flex-wrap items-center gap-3 text-sm ">
+                        <div className="flex items-center">
+                          <CustomSelect
+                            onChange={(value) => {
+                              handleSaveLaunchPadDraft(
+                                "contractType",
+                                value.name as string
+                              );
+                            }}
+                            wrapperClass="flex-1"
+                            togglerClass="h-10 border rounded bg-gray-50 mb-1 text-gray-700"
+                            options={CONTRACT_TYPES}
+                          />
+                        </div>
+                        <div className="flex w-full items-center">
+                          <input
+                            type="datetime-local"
+                            className="h-10 flex-1 rounded border border-gray-200 bg-gray-50 text-gray-700"
+                            defaultValue={launchInformation?.startTimeStamp}
+                            onChange={(e) => {
+                              handleSaveLaunchPadDraft(
+                                "startTimeStamp",
+                                e.target.value
+                              );
+                            }}
+                            placeholder="Mint date"
+                          />
+                        </div>
+                        <div className="flex h-10 items-center gap-1 rounded border border-gray-300 bg-gray-50 py-1 px-2 text-gray-700">
                           <span className="flex">
                             Total <span className="block">&nbsp;Items</span>:
                           </span>
@@ -280,11 +273,11 @@ const LaunchpadConfig: NextPage = () => {
                               );
                             }}
                             type="number"
-                            className="w-20  py-0 px-2 text-sm font-semibold"
+                            className="w-full rounded border-gray-400 bg-transparent py-1 px-2 text-sm font-semibold"
                             placeholder="0"
                           />
                         </div>
-                        <div className="flex items-center gap-2 rounded border border-gray-300 py-1 px-2 text-gray-400 ">
+                        <div className="flex h-10 items-center gap-2 rounded border border-gray-300 bg-gray-50 py-1 px-2 text-gray-700 ">
                           <span>Price:</span>
                           <input
                             defaultValue={launchInformation?.mintPrice}
@@ -295,29 +288,21 @@ const LaunchpadConfig: NextPage = () => {
                               );
                             }}
                             type="number"
-                            className="w-20  py-0 px-2 text-sm font-semibold"
+                            className="w-full rounded border-gray-400 bg-transparent py-1 px-2 text-sm font-semibold"
                             placeholder="0.1"
                           />
                         </div>
                       </div>
-                      <p className="my-4">
-                        <textarea
+                      <div>
+                        <TextareaAutosize
                           defaultValue={launchInformation?.summary}
+                          className="w-full resize-none overflow-hidden border-0 px-0"
                           onChange={(e) => {
                             handleSaveLaunchPadDraft("summary", e.target.value);
                           }}
-                          className="w-full rounded border-none py-2 pr-2 pl-0"
                           placeholder="Project Summary..."
-                        ></textarea>
-                      </p>
-                      {/* <p>
-                Read our&nbsp;
-                <Link href="/terms-and-conditions">
-                  <a className="relative font-medium text-pink-500 before:absolute before:top-full before:left-0 before:h-[2px] before:w-0 before:bg-pink-400 before:transition-all before:duration-150 before:hover:w-full">
-                    terms & conditions
-                  </a>
-                </Link>
-              </p> */}
+                        />
+                      </div>
                       <div className="mt-6 grid grid-rows-2 gap-5">
                         {launchInformation && launchInformation.hasWhitelist && (
                           <div className=" rounded-2xl  p-4 ring-1 ring-gray-200">
@@ -354,18 +339,10 @@ const LaunchpadConfig: NextPage = () => {
                         </div>
                       </div>
                     </article>
+
                     {/* right side */}
                     <article className="mt-20 mb-20 ml-20 lg:mt-0">
                       <figure className="h-[32rem] w-[26rem] overflow-hidden rounded-md bg-gray-50">
-                        {/* <input
-                          className="absolute h-20 rounded-lg "
-                          type="file"
-                          onChange={(event) => {
-                            handleFileChanged(event, "main");
-                          }}
-                          accept="image/*"
-                          ref={fileInput}
-                        /> */}
                         <UploadButton
                           wrapperClass="h-fit w-full py-2 bg-gray-200"
                           onChange={(event) => {
@@ -391,18 +368,16 @@ const LaunchpadConfig: NextPage = () => {
                 <section className="bg-gray-100 pb-20">
                   <div className="container mx-auto grid max-w-[1664px] gap-10  px-6  py-24 md:grid-cols-2">
                     <article className="mt-20 w-full md:pr-12 lg:pr-32">
-                      <input
-                        className="w-full bg-gray-100 text-6xl font-extrabold"
-                        placeholder="Project Name"
-                        defaultValue={launchInformation?.projectName}
+                      <TextareaAutosize
+                        className="w-full resize-none border-0 bg-transparent px-0 text-6xl font-extrabold focus:border focus:border-blue-500"
                         onChange={(e) => {
                           handleSaveLaunchPadDraft(
                             "projectName",
                             e.target.value
                           );
                         }}
+                        value={launchInformation?.projectName}
                       />
-
                       <figure className="mt-10 w-fit">
                         <UploadButton
                           multiple
@@ -412,20 +387,6 @@ const LaunchpadConfig: NextPage = () => {
                           accept="image/*"
                           desc="Select multiples of 3, up to 9, for best look"
                         />
-                        {/* <input
-                          className=" rounded-lg "
-                          type="file"
-                          onChange={(event: any) => {
-                            handleFileChanged(event, "secondary");
-                          }}
-                          multiple
-                          accept="image/*"
-                          ref={fileInputSecondaryImage}
-                        /> */}
-                        {/* <div className="mt-8 ">
-                          Select multiples of 3, up to 9, for best look
-                        </div> */}
-
                         {secondaryImage.length > 0 ? (
                           <figure className="mt-4 mb-10  grid h-fit w-fit grid-cols-3 gap-3 overflow-hidden rounded-2xl">
                             {secondaryImage.map((item, index) => (
@@ -489,17 +450,16 @@ const LaunchpadConfig: NextPage = () => {
                           </figure>
                         )}
                       </figure>
-                      <textarea
-                        defaultValue={launchInformation?.description}
+                      <TextareaAutosize
+                        className="my-5 w-full resize-none rounded border-0 border-none bg-gray-100 pl-0 text-gray-500 focus:border focus:border-blue-500"
                         onChange={(e) => {
                           handleSaveLaunchPadDraft(
                             "description",
                             e.target.value
                           );
                         }}
-                        className="my-5 w-full rounded border-none bg-gray-100 pl-0 text-gray-500"
-                        placeholder="Project Description"
-                      ></textarea>
+                        value={launchInformation?.description}
+                      />
                     </article>
                     <article className="mt-20">
                       <div className="flex items-center gap-4">
@@ -532,7 +492,7 @@ const LaunchpadConfig: NextPage = () => {
                               roadmap.map((item, index) => (
                                 <div key={index}>
                                   <strong>{item.title}</strong>
-                                  <ul className="ml-6 mb-6 list-disc text-gray-600">
+                                  <ul className=" mb-6 list-disc text-gray-600">
                                     <li>{item.description}</li>
                                   </ul>
                                 </div>
@@ -589,13 +549,12 @@ const LaunchpadConfig: NextPage = () => {
                             )}
                           </>
                         ) : (
-                          <textarea
+                          <TextareaAutosize
+                            className="w-full resize-none rounded-lg border-0 border-none bg-gray-100 px-1 text-gray-500 focus:border focus:border-blue-500"
                             onChange={(e) => {
                               handleSaveLaunchPadDraft("team", e.target.value);
                             }}
-                            defaultValue={launchInformation?.team}
-                            className="rounded-lg border-none bg-gray-100"
-                            placeholder="Team information... "
+                            value={launchInformation?.team}
                           />
                         )}
                       </div>
