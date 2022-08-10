@@ -7,7 +7,7 @@ export default function Footer() {
 
   return (
     <div className="h-auto w-full border-t border-black bg-white pb-20 font-montserrat font-medium text-[#1F1A17]">
-      <div className="m-auto flex flex-col items-center pt-10 lg:w-4/5 2xl:w-1/2">
+      <div className="m-auto flex flex-col items-center pt-10 lg:w-4/5 2xl:w-3/5">
         <div className=" h-10 w-4/5 text-lg opacity-100 lg:w-3/4 2xl:w-full 2xl:text-2xl">
           <div>&copy; {currentYear} Magic Mynt. All rights reserved.</div>
         </div>

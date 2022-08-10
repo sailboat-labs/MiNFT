@@ -43,20 +43,22 @@ export default function Features() {
 
   return (
     <div className="bg-[#222020] py-16 lg:py-24 2xl:py-28">
-      <div className="mx-auto  lg:w-4/5 2xl:w-3/5">
-        <div className="grid w-fit grid-cols-1 gap-10 px-5 md:grid-cols-2 lg:px-10 2xl:gap-20 ">
+      <div className="mx-auto lg:w-4/5 2xl:w-4/5">
+        <div className="grid w-fit grid-cols-1 gap-10 px-8 md:grid-cols-2 lg:px-10 2xl:gap-20 ">
           {features.map((feature, index) => (
-            <div key={index} className="z-30 flex items-center gap-5">
-              <span className="z-30 flex w-16 items-center justify-center rounded-full border-2 border-white p-1 text-lg font-bold text-white lg:h-20 lg:w-36 lg:p-0 lg:text-3xl 2xl:mr-5">
+            <div key={index} className="z-30 flex items-center">
+              <span className="z-30 mr-4 flex w-16 items-center justify-center rounded-full border-2 border-white p-3 text-lg font-bold text-white lg:mr-0 lg:h-20 lg:w-36 lg:p-5 lg:text-3xl xl:mr-3 xl:h-20 xl:w-28 2xl:mr-5 2xl:h-24 2xl:w-36">
                 0{index + 1}
               </span>
-              <div className="z-30 flex max-w-lg flex-col gap-5 rounded-lg border border-white bg-transparent px-5 py-3 sm:flex-row lg:px-10 lg:py-5 lg:pr-20 2xl:max-w-5xl 2xl:py-10">
-                <div className="flex items-center ">{feature.icon}</div>
+              <div className="z-30 flex max-w-lg flex-col rounded-lg border border-white bg-transparent px-5 py-3 sm:flex-row lg:px-10 lg:py-5 lg:pr-20 xl:px-6 2xl:max-w-5xl 2xl:px-5 2xl:py-10">
+                <div className="hidden items-center lg:flex xl:pr-4 2xl:px-5 ">
+                  {feature.icon}
+                </div>
                 <div>
                   <div className="font-montserrat text-lg font-bold text-white 2xl:text-3xl">
                     {feature.title}
                   </div>
-                  <div className="relative z-30 mt-2 font-montserrat font-medium text-white text-base 2xl:mt-5 2xl:text-3xl">
+                  <div className="relative z-30 mt-2 font-montserrat text-base font-medium text-white 2xl:mt-5 2xl:text-2xl">
                     {feature.description}
                   </div>
                 </div>
