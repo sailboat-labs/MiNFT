@@ -54,7 +54,7 @@ const ContractMakerView = () => {
               "The data from your previous contract will be preserved and used to prefill your new contract. Don't worry, you can overwrite the data by changing the fields accordingly."
             );
           }}
-          className="rounded-md bg-indigo-800 px-5 py-3 text-white transition-all duration-150 hover:bg-indigo-900 dark:text-gray-700"
+          className={activeStep == 1 ? 'hidden' : 'rounded-md bg-indigo-800 px-5 py-3 text-white transition-all duration-150 hover:bg-indigo-900 dark:text-gray-700'}
         >
           Start a new contract
         </button>
@@ -67,9 +67,9 @@ const ContractMakerView = () => {
               onClick={() => {
                 nextStep(-1);
                 scrollUp();
-                alert(
-                  "The data from your previous contract will be preserved and used to prefill your new contract."
-                );
+                // alert(
+                //   "The data from your previous contract will be preserved and used to prefill your new contract."
+                // );
               }}
               className="rounded-md border border-indigo-800 px-10 py-2 text-indigo-800 transition-all duration-150 2xl:mr-10"
             >

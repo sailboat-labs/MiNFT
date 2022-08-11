@@ -243,7 +243,9 @@ const layerStore = createSlice({
         });
 
         const remainder = payload - currentElementCount;
-        layer.elements[0].weight += remainder;
+        if (layer.elements?.length > 0) {
+          layer.elements[0].weight += remainder;
+        }
       });
     },
   },

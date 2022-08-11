@@ -43,7 +43,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   useEffect;
 
   useEffect(() => {
-    const handleRouteChange = (path) => {
+    const handleRouteChange = (path: any) => {
       ga.pageview(path);
     };
 

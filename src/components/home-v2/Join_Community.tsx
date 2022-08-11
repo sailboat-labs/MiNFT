@@ -9,7 +9,7 @@ export default function Join_Community() {
   return (
     <div className="w-full">
       <div>
-        <div className="z-30 m-auto w-4/5 pt-12 lg:w-3/5 2xl:w-1/2">
+        <div className="z-30 m-auto w-4/5 pt-12 lg:w-3/5 2xl:w-3/5 2xl:py-20">
           <div className="z-30 m-auto mb-12 mt-5 flex flex-col justify-between font-montserrat xl:flex-row xl:items-center">
             <div className="z-30 text-[#1F1A17]">
               <div className="z-30 font-montserrat text-2xl font-bold 2xl:text-4xl">

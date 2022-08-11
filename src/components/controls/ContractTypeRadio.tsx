@@ -38,7 +38,7 @@ const ContractTypeRadio: FC<AppProps> = ({
           name="whitelist"
           type="checkbox"
           value="Whitelist"
-          className="mr-2"
+          className="mr-2 rounded-md"
           checked={checked && whitelist}
           onChange={(e) => {
             dispatch(

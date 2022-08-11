@@ -6,9 +6,9 @@ import LiveAuctions from "./Live_Auctions";
 
 export default function MarqueeSection() {
   return (
-    <div className=" lg:h-[55rem] xl:h-[47rem] 2xl:h-[75rem]">
+    <div className=" lg:h-[55rem] xl:h-[47rem] 2xl:h-[70rem]">
       <div className="sm:float-left sm:w-3/5">
-        <div className="pt-20 pb-10 text-center font-yeseva text-4xl text-[#222020] lg:w-3/5 xl:text-5xl xl:mx-auto xl:w-1/2 2xl:text-6xl">
+        <div className="pt-20 pb-10 text-center font-yeseva text-3xl text-[#222020] lg:w-3/5 xl:mx-auto xl:w-1/2 xl:text-4xl 2xl:pt-32 2xl:pb-16 2xl:text-5xl">
           Mix your traits
         </div>
         <Marquee
@@ -80,15 +80,17 @@ export default function MarqueeSection() {
             ))}
           </div>
         </Marquee>
-        <div className="mx-auto mt-10 flex w-3/5 justify-end text-[#222020] 2xl:w-1/4">
-          <div className="w-96">
-            <p className="pb-3 font-yeseva text-lg font-normal xl:text-2xl 2xl:text-3xl">
-              The future of art collecting
-            </p>
-            <p className="font-montserrat font-medium 2xl:text-2xl">
-              Browse and build your collection of the world&apos;s most
-              cutting-edge digital art
-            </p>
+        <div className="flex justify-start lg:justify-end">
+          <div className="mt-10 w-3/5 justify-end text-[#222020] 2xl:mt-28 2xl:w-3/5">
+            <div className="w-96 px-10 lg:px-0 2xl:w-[30rem] ">
+              <p className="pb-3 font-yeseva text-lg font-normal xl:text-2xl 2xl:text-3xl">
+                The future of art collecting
+              </p>
+              <p className="font-montserrat w-full font-medium 2xl:text-xl">
+                Browse and build your collection of the world&apos;s most
+                cutting-edge digital art
+              </p>
+            </div>
           </div>
         </div>
       </div>

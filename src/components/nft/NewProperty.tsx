@@ -12,8 +12,6 @@ import { firebaseApp } from "@/lib/firebase";
 
 import { ILayer, IProject } from "@/interfaces";
 
-import TraitPreview from "./TraitPreview";
-
 export const firestore = getFirestore(firebaseApp);
 
 type props = {
@@ -30,12 +28,6 @@ const NewProperty = ({ onDiscard, onSave }: props) => {
   const toastId = useRef(null);
   const project = useSelector(getProjectState) as IProject;
 
-  /**
-   * handles change in file input
-   *
-   * @param evt - ChangeEvent
-   * @returns {undefined}
-   */
   function handleFileChanged(evt: ChangeEvent<HTMLInputElement>) {
     const fileListArray: File[] = [];
     const _files: FileList | null = evt.target.files;
@@ -178,7 +170,7 @@ const NewProperty = ({ onDiscard, onSave }: props) => {
           />
         </div>
       )}
-      {propertyName.length > 0 && files.length > 0 && (
+      {/* {propertyName.length > 0 && files.length > 0 && (
         <div className="mt-5 flex flex-wrap gap-6 rounded-md p-6 pb-0">
           {files
             .map((file, index) => ({
@@ -203,7 +195,7 @@ const NewProperty = ({ onDiscard, onSave }: props) => {
               />
             ))}
         </div>
-      )}
+      )} */}
       <div className="mt-8 flex items-center justify-center gap-4">
         <div
           className="flex max-w-[130px] flex-1 cursor-pointer items-center justify-center rounded-md bg-[color:var(--blue)] py-2 text-white dark:text-gray-200"
