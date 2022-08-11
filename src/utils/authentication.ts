@@ -51,7 +51,7 @@ export function getActiveAccount() {
 
     return account;
   } catch (error) {
-    console.log(error);
+    //
   }
 }
 
