@@ -1,11 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { setSearchFilter } from "redux/reducers/slices/layers";
 
 const TraitsSearchbar = () => {
+  const dispatch = useDispatch();
+  const [inputIsFocused, setInputIsFocused] = useState<boolean>(false);
+
   return (
-    <div className="group sticky top-1 z-20 flex bg-white py-2 px-2">
+    <div
+      className={`group z-20 my-1 flex h-8 overflow-hidden rounded bg-white py-1 px-2 ring-1 ring-gray-300 dark:bg-[color:var(--dark)]  ${
+        inputIsFocused && "!ring-indigo-800"
+      }`}
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        className="h-5 w-5  self-center fill-gray-300 "
+        className={`ml-2 h-5  w-5 self-center fill-gray-300  ${
+          inputIsFocused && "fill-indigo-800"
+        }`}
         viewBox="0 0 20 20"
       >
         <path
@@ -15,9 +26,14 @@ const TraitsSearchbar = () => {
         />
       </svg>
       <input
+        onBlur={() => setInputIsFocused(false)}
+        onFocus={() => setInputIsFocused(true)}
         type="text"
-        placeholder="search"
-        className="w-full border-none placeholder:text-gray-300 focus:ring-0 placeholder:focus:text-gray-400"
+        onChange={(evt: React.ChangeEvent<HTMLInputElement>) =>
+          dispatch(setSearchFilter(evt.target.value))
+        }
+        placeholder="search layer or trait"
+        className="w-full border-none text-gray-500 placeholder:text-gray-300 focus:ring-0 placeholder:focus:text-gray-400"
       />
     </div>
   );

@@ -53,7 +53,7 @@ const EditTemplate: FC<AppProps> = ({ isOpen, closeModal }) => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="mx-4 w-full max-w-5xl transform overflow-hidden rounded bg-white p-6 text-left align-middle shadow-xl transition-all">
+              <div className="mx-4 w-full max-w-5xl transform overflow-hidden rounded bg-white p-6 text-left align-middle shadow-xl transition-all dark:bg-[color:var(--dark)]">
                 <div className="flex items-center justify-between gap-2 ">
                   <Dialog.Title
                     as="h3"
@@ -102,7 +102,7 @@ const EditTemplate: FC<AppProps> = ({ isOpen, closeModal }) => {
                 <div className="mt-4">
                   <button
                     type="button"
-                    className="inline-flex justify-center rounded-md border border-transparent bg-blue-500 px-4 py-2 text-sm font-medium text-white transition-all duration-150 hover:bg-blue-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                    className="inline-flex justify-center rounded-md border border-transparent bg-blue-500 px-4 py-2 text-sm font-medium text-white transition-all duration-150 hover:bg-blue-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:text-gray-700"
                     // onClick={createProject}
                   >
                     Create Project

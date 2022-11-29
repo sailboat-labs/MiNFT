@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import Head from "next/head";
+import Link from "next/link";
 import React from "react";
 import { useMoralis } from "react-moralis";
 import { useSelector } from "react-redux";
@@ -7,13 +8,13 @@ import { useDispatch } from "react-redux";
 import { getGeneratedImages } from "redux/reducers/selectors/layers";
 
 import TraitGroupNavigator from "@/components/layout/TraitGroupNavigator";
-import Generate from "@/components/nft/Generate";
-import NFTPreview from "@/components/nft/NFTPreview";
+import GeneratedToken from "@/components/nft/GeneratedToken";
+import PreviewLayers from "@/components/nft/PreviewLayers";
 import PropertyGroup from "@/components/nft/PropertyGroup";
 import SelectedTraits from "@/components/nft/SelectedTraits";
 import SelectFolder from "@/components/nft/SelectFolder";
 
-import { IGeneratedTokens } from "@/interfaces";
+import { IGeneratedTokens, ILayer } from "@/interfaces";
 
 import { NFTLayer } from "@/types";
 
@@ -28,20 +29,12 @@ const Index = ({ router }: any) => {
   const layersState = store.layersReducer;
   const generatedImagesState = store.generatedImagesReducer;
 
-  /**
-   * handles change in a property group trait
-   *
-   * @param {Object.<string, string|number>} param0 - object of group name and traitIndex
-   */
-  function handleTraitChanged({
-    groupName,
-    traitIndex,
-  }: {
-    groupName: string;
-    traitIndex: number;
-  }): void {
-    //
-  }
+  const tabs: { label: string; route: string }[] = [
+    { label: "Preview", route: "" },
+    { label: "Manage", route: "" },
+    { label: "Settings", route: "" },
+    { label: "Generate", route: "" },
+  ];
 
   return (
     <>
@@ -49,24 +42,44 @@ const Index = ({ router }: any) => {
         <title>Manage</title>
       </Head>
       <SelectFolder />
+      <div className="flex w-full justify-between py-5 px-5">
+        <Link href="/" passHref>
+          <span className="flex cursor-pointer select-none items-center justify-center text-xl font-black leading-none  text-black">
+            Magic Mynt<span className="text-[#FFD32D]">.</span>
+          </span>
+        </Link>
+        <div className="flex gap-5">
+          {tabs.map((tab, index) => (
+            <div key={index} className="rounded-2xl border px-5 py-2">
+              {tab.label}
+            </div>
+          ))}
+        </div>
+        <Link href="/" passHref>
+          <span className="flex cursor-pointer select-none items-center justify-center text-xl font-black leading-none  text-black">
+            Magic Mynt<span className="text-[#FFD32D]">.</span>
+          </span>
+        </Link>
+      </div>
       <div className="flex">
         <TraitGroupNavigator />
         <div className="h-screen w-[20%] overflow-y-auto overflow-x-hidden border-r">
           {/* <TraitsSearchbar /> */}
 
-          <div className="mt-0 h-[length:calc(100vh-0px)] flex-col gap-10 overflow-y-auto">
+          <div className="mt-0 h-[length:calc(100vh-55px)] flex-col gap-10 overflow-y-auto">
             {layersState && (
               <>
-                {layersState.layers.map((item: NFTLayer, index: number) => (
+                {layersState.layers.map((item: ILayer, index: number) => (
                   <PropertyGroup
                     key={index}
-                    onChange={handleTraitChanged}
-                    name={item.name}
+                    layer={item}
                     elements={
                       layersState.layers.find(
                         (layer: NFTLayer) => layer.name == item.name
                       )?.elements
                     }
+                    index={index}
+                    layersCount={item.elements.length}
                   />
                 ))}
               </>
@@ -74,24 +87,20 @@ const Index = ({ router }: any) => {
           </div>
         </div>
 
-        <div className="min-h-screen w-[20%] border-r">
+        <div className="min-h-screen w-[40%] border-r">
           <section className="box-border flex min-h-screen bg-white">
             <div className="container mx-auto flex max-w-7xl items-start justify-between gap-8">
               <section className="flex-1">
                 <div className="flex flex-col justify-between gap-5">
                   <SelectedTraits />
-                  <Generate />
+                  {/* <NFTLayering /> */}
                 </div>
               </section>
             </div>
           </section>
         </div>
-        <div className="mt-0 min-h-screen w-[60%]">
-          <section className="grid grid-cols-2 px-0">
-            <div className="flex w-full justify-center">
-              <NFTPreview className="mt-20" />
-            </div>
-
+        <div className="mt-0 min-h-screen w-[40%]">
+          <section className=" px-0">
             <div
               className={`border-l pt-5 pl-5 pr-0 transition-all duration-200 ${
                 generatedTokens.length > 0
@@ -116,30 +125,15 @@ const Index = ({ router }: any) => {
                 </svg>
                 <span className="text-xl">Generated Images</span>
               </div>
-              <div className="grid h-[length:calc(100vh-3.9rem)] w-full  grid-cols-4 flex-col gap-3 overflow-y-auto pt-5 ">
+              <div className="grid h-[length:calc(100vh-3.9rem)] w-full  grid-cols-5 flex-col gap-3 overflow-y-auto pt-5 ">
                 {generatedTokens
                   .filter((token, index) => index < 40)
                   .map((token, index) => (
-                    <div
-                      onClick={() => {
-                        // setSelectedToken(token);
-                        console.log(token);
-                      }}
-                      key={index}
-                      className="mb-5 flex flex-col gap-1"
-                    >
-                      <img
-                        src={token.file}
-                        alt=""
-                        className="h-32 w-32 cursor-pointer rounded-lg object-cover transition-all hover:scale-105"
-                      />
-                      <div className="text-sm text-gray-500">
-                        Nozomix #{token.edition}
-                      </div>
-                    </div>
+                    <GeneratedToken key={index} token={token} />
                   ))}
               </div>
             </div>
+            <PreviewLayers />
           </section>
         </div>
       </div>

@@ -8,11 +8,12 @@ export default function DarkModeMenu({ className }: props) {
   const [theme, setTheme] = useState("light");
 
   useEffect(() => {
+    window.localStorage.setItem("minft-theme", theme);
     setTheme(window.localStorage.getItem("minft-theme") || "light");
 
-    if (window.localStorage.getItem("minft-theme") === "system") {
-      //do something
-    }
+    // if (window.localStorage.getItem("minft-theme") === "system") {
+    //   //do something
+    // }
 
     if (window.localStorage.getItem("minft-theme") === "dark") {
       document.documentElement.classList.add("dark");
@@ -27,11 +28,32 @@ export default function DarkModeMenu({ className }: props) {
   };
 
   return (
-    <div className="flex items-center justify-center px-0 text-sm font-medium dark:stroke-white stroke-black">
+    <div
+      className={`${className} flex items-center justify-center stroke-black px-0 text-sm font-medium dark:stroke-white`}
+    >
       {theme === "light" ? (
+        <div>
+          <svg
+            onClick={() => {
+              handleTheme("dark");
+            }}
+            xmlns="http://www.w3.org/2000/svg"
+            className="translate h-6 w-6 translate-y-[0.35rem] cursor-pointer transition-all hover:scale-125 hover:fill-black md:translate-y-0"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+            />
+          </svg>
+        </div>
+      ) : (
         <svg
           onClick={() => {
-            handleTheme("dark");
+            handleTheme("light");
           }}
           xmlns="http://www.w3.org/2000/svg"
           className="translate h-6 translate-y-[0.35rem] transform cursor-pointer transition-all hover:rotate-180 hover:scale-125 md:translate-y-0"
@@ -43,23 +65,6 @@ export default function DarkModeMenu({ className }: props) {
             strokeLinejoin="round"
             strokeWidth="2"
             d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
-          />
-        </svg>
-      ) : (
-        <svg
-          onClick={() => {
-            handleTheme("light");
-          }}
-          xmlns="http://www.w3.org/2000/svg"
-          className="translate h-6 w-6 translate-y-[0.35rem] cursor-pointer transition-all hover:scale-125 hover:fill-black md:translate-y-0"
-          fill="none"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
           />
         </svg>
       )}
@@ -109,7 +114,7 @@ export default function DarkModeMenu({ className }: props) {
   //       leaveFrom="transform opacity-100 scale-100"
   //       leaveTo="transform opacity-0 scale-95"
   //     >
-  //       <Menu.Items className="absolute right-0 w-56 mt-2 origin-top-right dark:text-white  dark:bg-[#202124] divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+  //       <Menu.Items className="absolute right-0 w-56 mt-2 origin-top-right dark:text-white dark:text-gray-200  dark:bg-[#202124] divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
   //         <div className="px-1 py-1 ">
   //           <Menu.Item>
   //             {({ active }) => (
@@ -119,8 +124,8 @@ export default function DarkModeMenu({ className }: props) {
   //                 }}
   //                 className={`${
   //                   active
-  //                     ? "bg-[#2D8DA7] text-white"
-  //                     : "text-gray-900 dark:text-white"
+  //                     ? "bg-[#2D8DA7] text-white dark:text-gray-200"
+  //                     : "text-gray-900 dark:text-white dark:text-gray-200"
   //                 } group flex rounded-md items-center w-full px-2 py-2 text-sm transition`}
   //               >
   //                 {active ? (
@@ -166,8 +171,8 @@ export default function DarkModeMenu({ className }: props) {
   //                 }}
   //                 className={`${
   //                   active
-  //                     ? "bg-[#2D8DA7] text-white"
-  //                     : "text-gray-900 dark:text-white"
+  //                     ? "bg-[#2D8DA7] text-white dark:text-gray-200"
+  //                     : "text-gray-900 dark:text-white dark:text-gray-200"
   //                 } group flex rounded-md items-center w-full px-2 py-2 text-sm transition`}
   //               >
   //                 {active ? (
@@ -213,7 +218,7 @@ export default function DarkModeMenu({ className }: props) {
   //               onClick={()=>{handleTheme('system')}}
 
   //                 className={`${
-  //                   active ? "bg-[#2D8DA7] text-white" : "text-gray-900"
+  //                   active ? "bg-[#2D8DA7] text-white dark:text-gray-200" : "text-gray-900"
   //                 } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
   //               >
   //                 {active ? (

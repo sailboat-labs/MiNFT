@@ -2,14 +2,11 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { useMoralis } from "react-moralis";
 import VisibilitySensor from "react-visibility-sensor";
 
 import { usePageLoader } from "@/hooks/pageloader";
-import useAuthenticationDialog from "@/hooks/UseAuthDialog";
 
 import DarkModeMenu from "@/components/layout/DarkmodeToggle";
-import ProfileIcon from "@/components/shared/profile_icon";
 import Search from "@/components/shared/Search";
 
 // import DarkModeMenu from "../navbar/darkmode-toggle";
@@ -19,10 +16,6 @@ export default function Header() {
   const [navOpen, setNavOpen] = useState(false);
   // const [showAuthDialog, setShowAuthDialog] = useState(false);
   const { Loader, setState } = usePageLoader(false);
-
-  const { account, isAuthenticated } = useMoralis();
-
-  const { AuthDialog, setShowAuthDialog } = useAuthenticationDialog();
 
   return (
     <div
@@ -40,17 +33,16 @@ export default function Header() {
         <div className="absolute z-[2] hidden h-[27rem] w-full bg-gradient-to-b from-transparent to-black dark:block"></div>
       </div>
 
-      <AuthDialog />
       <div
-        className={`fixed z-[99] flex h-screen w-full flex-col bg-white shadow  transition-all  dark:bg-black lg:hidden 
+        className={`fixed z-[99] flex h-screen w-full flex-col bg-white shadow transition-all  dark:bg-[color:var(--dark)]  dark:bg-black lg:hidden 
       ${navOpen ? "translate-x-0" : "translate-x-full"}
       `}
       >
-        <div className="flex justify-between px-8 py-3 dark:text-white">
+        <div className="flex justify-between px-8 py-3 dark:text-white dark:text-gray-200">
           <Link href="/" passHref>
             <div className="flex w-fit justify-between">
               <span className="flex cursor-pointer select-none items-center text-xl font-black leading-none text-gray-900 dark:text-gray-200 md:mb-0 lg:items-center lg:justify-center">
-                MiNFT<span className="text-indigo-600">.</span>
+                Magic Mynt<span className="text-indigo-600">.</span>
               </span>
             </div>
           </Link>
@@ -72,25 +64,12 @@ export default function Header() {
             />
           </svg>
         </div>
-        <div className="flex w-full justify-center py-5">
-          {!account && (
-            <div
-              onClick={() => {
-                setShowAuthDialog(true);
-              }}
-              className="gradient-button mr-5 cursor-pointer rounded px-3 py-1 text-xs font-medium leading-6  hover:text-gray-900 dark:text-gray-200"
-            >
-              Connect your wallet
-            </div>
-          )}
-        </div>
-        <div className="flex justify-center">
-          {account && isAuthenticated && <ProfileIcon />}
-        </div>
+        <div className="flex w-full justify-center py-5"></div>
+
         <DarkModeMenu />
       </div>
       <section
-        className={`fixed z-[3] w-full bg-white px-8 text-gray-700 transition-all  ${
+        className={`fixed z-[3] w-full bg-white px-8 text-gray-700 transition-all dark:bg-[color:var(--dark)]  ${
           headerVisible
             ? "bg-transparent dark:border-b-0 dark:border-transparent"
             : "shadow dark:border-b-2  dark:border-gray-500 dark:bg-black"
@@ -110,7 +89,7 @@ export default function Header() {
                 }
                 `}
                   >
-                    MiNFT<span className="text-indigo-600">.</span>
+                    Magic Mynt<span className="text-indigo-600">.</span>
                   </span>
                 </Link>
                 <svg
@@ -136,29 +115,7 @@ export default function Header() {
           <div className="ml-5 hidden items-center space-x-6 md:inline-flex lg:justify-end">
             {/* <DarkModeMenu className="md:mr-5" /> */}
             <Search />
-            {account && isAuthenticated && (
-              <Link passHref href="/collection/add">
-                <div
-                  onClick={() => {
-                    setState(true);
-                  }}
-                  className="mr-5 cursor-pointer rounded bg-gray-200 px-3 py-1 font-medium leading-6 hover:text-gray-900  dark:bg-gray-700 dark:text-gray-200"
-                >
-                  Add Project
-                </div>
-              </Link>
-            )}
-            {!account && (
-              <div
-                onClick={() => {
-                  setShowAuthDialog(true);
-                }}
-                className="gradient-button mr-5 cursor-pointer rounded px-3 py-1 text-xs font-medium leading-6  hover:text-gray-900 dark:text-gray-200"
-              >
-                Connect your wallet
-              </div>
-            )}
-            {account && isAuthenticated && <ProfileIcon />}
+
             <DarkModeMenu />
           </div>
         </div>
@@ -177,7 +134,7 @@ export default function Header() {
           <div className="-mt-5 p-10 "></div>
         </VisibilitySensor>
         <div className="flex w-full flex-col justify-between gap-10 lg:flex-row">
-          <div className="flex flex-col justify-center text-center dark:text-white lg:justify-start lg:text-left">
+          <div className="flex flex-col justify-center text-center dark:text-white dark:text-gray-200 lg:justify-start lg:text-left">
             <div className="mt-10 text-4xl font-bold">
               The place for crowd-sourced
             </div>
@@ -208,11 +165,10 @@ export default function Header() {
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  strokeWidth="2"
                   d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
               </svg>
-              <span>Learn More About MiNFT</span>
+              <span>Learn More About Magic Mynt</span>
             </div>
           </div>
         </div>

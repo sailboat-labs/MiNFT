@@ -47,17 +47,15 @@ export default function Leaderboard() {
   }, []);
 
   return (
-    <div className="mt-10 relative z-[2] bg-gray-50 py-12 dark:bg-gray-900">
+    <div className="relative z-[2] mt-10 bg-gray-50 py-12 dark:bg-gray-900">
       {leaderboard && (
         <div className="contained mt-0 flex h-fit flex-col items-start">
           <div className="flex items-center gap-5">
-            <span className="gradient-header">
-              Leaderboard
-            </span>
+            <span className="gradient-header">Leaderboard</span>
 
             <Menu as="div" className="relative z-[1] inline-block text-left">
               <div className="flex items-center gap-3">
-                <Menu.Button className="rounded bg-primaryblue px-2 py-1 text-sm capitalize text-white transition-all hover:scale-105">
+                <Menu.Button className="rounded bg-primaryblue px-2 py-1 text-sm capitalize text-white transition-all hover:scale-105 dark:text-gray-700">
                   {sort}
                 </Menu.Button>
               </div>
@@ -70,7 +68,7 @@ export default function Leaderboard() {
                 leaveFrom="transform opacity-100 scale-100"
                 leaveTo="transform opacity-0 scale-95"
               >
-                <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1  ring-black ring-opacity-5 focus:outline-none dark:bg-gray-700 dark:text-white">
+                <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black  ring-opacity-5 focus:outline-none dark:bg-[color:var(--dark)] dark:bg-gray-700 dark:text-white dark:text-gray-200">
                   <div className="px-1 py-1 ">
                     <Menu.Item>
                       {({ active }) => (
@@ -80,8 +78,8 @@ export default function Leaderboard() {
                           }}
                           className={`${
                             active
-                              ? "bg-primaryblue text-white"
-                              : "text-gray-900 dark:text-white"
+                              ? "bg-primaryblue text-white dark:text-gray-200"
+                              : "text-gray-900 dark:text-white dark:text-gray-200"
                           } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                         >
                           Comment
@@ -96,8 +94,8 @@ export default function Leaderboard() {
                           }}
                           className={`${
                             active
-                              ? "bg-primaryblue text-white"
-                              : "text-gray-900 dark:text-white"
+                              ? "bg-primaryblue text-white dark:text-gray-200"
+                              : "text-gray-900 dark:text-white dark:text-gray-200"
                           } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                         >
                           Collection

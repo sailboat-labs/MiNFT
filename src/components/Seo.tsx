@@ -5,11 +5,12 @@ import { useRouter } from "next/router";
 
 // !STARTERCONF Change these default meta
 const defaultMeta = {
-  title: "MiNFT",
-  siteName: "MiNFT",
-  description: "The place for crowd-sourced alpha on the hottest NFT projects",
+  title: "Magic Mynt",
+  siteName: "Magic Mynt",
+  description:
+    "No-code platform allowing anyone to monetize their art through NFTs",
   /** Without additional '/' on the end, e.g. https://theodorusclarence.com */
-  url: "https://minft.me",
+  url: "https://magicmynt.com",
   type: "website",
   robots: "follow, index",
   /** No need to be filled, will be populated with openGraph function */
@@ -74,8 +75,7 @@ export default function Seo(props: SeoProps) {
           />
         </>
       )}
-      {/* Favicons */}npx create-next-app next-tailwind-typescript-starter
-      --example with-typescript
+
       <meta name="msapplication-TileColor" content="#ffffff" />
       <meta
         name="msapplication-TileImage"

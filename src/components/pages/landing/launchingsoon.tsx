@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 
-import dayjs from "dayjs";
 import {
   collection,
   DocumentData,
@@ -18,11 +17,8 @@ import { useEffect, useRef, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 
 import { firebaseApp } from "@/lib/firebase";
-import useAuthenticationDialog from "@/hooks/UseAuthDialog";
 
 import PageLoader from "@/components/shared/PageLoader";
-
-import { getRandomAvatar } from "@/utils/GetRandomAvatar";
 
 import ExploreCategories from "./categories";
 
@@ -33,8 +29,6 @@ export default function LaunchingSoon() {
   const [collections, setCollections] = useState<Collection[]>([]);
   const [loadingCollection, setLoadingCollection] = useState(false);
   const [animateIntoView, setAnimateIntoView] = useState(false);
-
-  const { account, isAuthenticated } = useAuthenticationDialog();
 
   const router = useRouter();
 
@@ -365,242 +359,6 @@ export default function LaunchingSoon() {
                       </td>
                     </tr>
                   ))}
-                </tbody>
-
-                {/* Table data */}
-                <tbody className={`${!animateIntoView ? "hidden" : ""}`}>
-                  {collections &&
-                    collections
-                      .filter((item) => {
-                        if (selectedCategory == "all" || !selectedCategory)
-                          return item.projectType;
-                        else return item.projectType == selectedCategory;
-                      })
-                      .sort((a: any, b: any) => {
-                        switch (sort.sortBy) {
-                          case "name":
-                            if (sort.isAsc) {
-                              return ("" + a.name).localeCompare(b.name ?? "");
-                            }
-                            return ("" + b.name).localeCompare(a.name ?? "");
-
-                          case "projectType":
-                            if (sort.isAsc) {
-                              return ("" + a.projectType).localeCompare(
-                                b.projectType ?? ""
-                              );
-                            }
-                            return ("" + b.projectType).localeCompare(
-                              a.projectType ?? ""
-                            );
-
-                          case "preMintDate":
-                            if (sort.isAsc) {
-                              return a.preMintDate?.localeCompare(
-                                b.preMintDate!
-                              );
-                            }
-                            return b.preMintDate?.localeCompare(a.preMintDate!);
-
-                          case "commentCount":
-                            if (sort.isAsc) {
-                              return (
-                                (a.commentCount ?? 0) - (b.commentCount ?? 0)
-                              );
-                            }
-                            return (
-                              (b.commentCount ?? 0) - (a.commentCount ?? 0)
-                            );
-
-                          case "favorited":
-                            if (sort.isAsc) {
-                              return (
-                                (a.favorited?.length ?? 0) -
-                                (b.favorited?.length ?? 0)
-                              );
-                            }
-                            return (
-                              (b.favorited?.length ?? 0) -
-                              (a.favorited?.length ?? 0)
-                            );
-
-                          case "publicMintDate":
-                            if (sort.isAsc) {
-                              return a.publicMintDate?.localeCompare(
-                                b.publicMintDate!
-                              );
-                            }
-                            return b.publicMintDate?.localeCompare(
-                              a.publicMintDate!
-                            );
-
-                          default:
-                            if (sort.isAsc) {
-                              return ("" + a.preMintDate).localeCompare(
-                                b.preMintDate ?? ""
-                              );
-                            }
-                            return ("" + b.preMintDate).localeCompare(
-                              a.preMintDate ?? ""
-                            );
-                        }
-                      })
-                      .map((collection, index) => (
-                        <tr
-                          key={index}
-                          onClick={() => {
-                            setLoadingCollection(true);
-                            router.push(`/collection/${collection.slug!}`);
-                          }}
-                          className="cursor-pointer border-b transition-all hover:bg-gray-50 dark:bg-[#121212] dark:hover:bg-gray-700"
-                        >
-                          <td className="flex items-center gap-5 whitespace-nowrap border-r py-4 px-6 text-sm font-medium text-gray-900">
-                            <div className="h-10 w-10 flex-shrink-0 rounded-[50%] bg-gray-100">
-                              <img
-                                className="h-full w-full rounded-[50%] object-cover"
-                                src={
-                                  collection.image ??
-                                  getRandomAvatar(collection.owner)
-                                }
-                                alt=""
-                              />
-                            </div>
-                            <div>
-                              <div className="text-md dark:text-white">
-                                {collection.name}
-                              </div>
-                              {collection.supply &&
-                                parseInt(collection.supply ?? "0") > 0 && (
-                                  <div className="whitespace-nowrap text-sm text-gray-500 dark:text-gray-200 ">
-                                    <span>{collection.supply}</span>
-                                    <span>&nbsp;circulating supply</span>
-                                  </div>
-                                )}
-                            </div>
-                          </td>
-                          <td className="whitespace-nowrap border-r py-4 px-6 text-sm text-gray-500 dark:text-gray-200">
-                            {collection.preMintDate
-                              ? dayjs(new Date(collection.preMintDate!)).format(
-                                  "DD/MM/YYYY"
-                                )
-                              : "N/A"}
-                          </td>
-                          <td className="whitespace-nowrap border-r py-4 px-6 text-sm text-gray-500 dark:text-gray-200">
-                            {collection.publicMintDate
-                              ? dayjs(
-                                  new Date(collection.publicMintDate!)
-                                ).format("DD/MM/YYYY")
-                              : "N/A"}
-                          </td>
-                          <td className="whitespace-nowrap border-r py-4 px-6 text-sm uppercase text-gray-500 dark:text-gray-200">
-                            {collection.whitelistAvailable == "yes" ? (
-                              <div className="w-fit rounded-md bg-green-600 stroke-white">
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  className="h-5 w-5"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  strokeWidth="2"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M5 13l4 4L19 7"
-                                  />
-                                </svg>
-                              </div>
-                            ) : (
-                              <div className="w-fit rounded-md bg-red-600 stroke-white">
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  className="h-5 w-5"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  strokeWidth="2"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M6 18L18 6M6 6l12 12"
-                                  />
-                                </svg>
-                              </div>
-                            )}
-                          </td>
-                          <td className="whitespace-nowrap border-r py-4 px-6 text-sm uppercase text-gray-500 dark:text-gray-200">
-                            {collection.teamInfo ? (
-                              <div className="w-fit rounded-md bg-green-600 stroke-white">
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  className="h-5 w-5"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  strokeWidth="2"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M5 13l4 4L19 7"
-                                  />
-                                </svg>
-                              </div>
-                            ) : (
-                              <div className="w-fit rounded-md bg-red-600 stroke-white">
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  className="h-5 w-5"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  strokeWidth="2"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M6 18L18 6M6 6l12 12"
-                                  />
-                                </svg>
-                              </div>
-                            )}
-                          </td>
-                          <td className="whitespace-nowrap border-r py-4 px-6 text-sm capitalize text-gray-500 dark:text-gray-200">
-                            {collection.projectType}
-                          </td>
-                          <td className="whitespace-nowrap border-r py-4 px-6 text-sm capitalize text-gray-500 dark:text-gray-200">
-                            {collection.commentCount ?? 0}
-                          </td>
-                          <td className=" gap-2 whitespace-nowrap py-4 px-6 text-sm capitalize text-gray-500 dark:text-gray-200 ">
-                            <div className="flex items-center gap-5">
-                              {collection.favorited?.length ?? 0}
-                              {account && isAuthenticated && (
-                                <div
-                                  className={` ${
-                                    collection.favorited?.some(
-                                      (walletId) =>
-                                        walletId.toLowerCase() ==
-                                        account.toLowerCase()
-                                    )
-                                      ? "fill-red-600 stroke-red-600"
-                                      : "hidden stroke-black dark:stroke-white"
-                                  }`}
-                                >
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="h-4 w-4"
-                                    viewBox="0 0 24 24"
-                                    strokeWidth="2"
-                                  >
-                                    <path
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                                    />
-                                  </svg>
-                                </div>
-                              )}
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
                 </tbody>
               </table>
               <div className="flex items-center justify-center text-center">

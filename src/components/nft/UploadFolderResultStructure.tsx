@@ -2,7 +2,6 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { useRouter } from "next/router";
 import { Fragment } from "react";
-import { useMoralis } from "react-moralis";
 import { useDispatch } from "react-redux";
 
 import NFTLayering from "../NFTLayering";
@@ -22,7 +21,6 @@ export default function UploadFolderResultStructure({
   setShowLayerStructure,
   onConfirm,
 }: props) {
-  const { account, logout, isAuthenticated } = useMoralis();
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -180,7 +178,7 @@ export default function UploadFolderResultStructure({
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-6xl transform overflow-hidden rounded-2xl bg-white  text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="w-full max-w-6xl transform overflow-hidden rounded-2xl bg-white text-left  align-middle shadow-xl transition-all dark:bg-[color:var(--dark)]">
                   <Dialog.Title
                     as="h3"
                     className="flex items-center justify-between bg-gray-100 px-6 py-3 text-lg font-medium leading-6 text-gray-900"

@@ -1,17 +1,29 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const userStore = createSlice({
-  name: "configuration",
+import { enumNFTGenConfig } from "@/enums/nft-gen-configurations";
+
+const configurationStore = createSlice({
+  name: "nft_configuration",
   initialState: {
-    name: "",
+    configuration: {
+      [enumNFTGenConfig.RENDER_FORMAT]: "canvas",
+      [enumNFTGenConfig.OUTPUT_IMAGE_TYPE]: "PNG",
+      [enumNFTGenConfig.RENDER_FORMAT_WIDTH]: 1024,
+      [enumNFTGenConfig.RENDER_FORMAT_HEIGHT]: 1024,
+      [enumNFTGenConfig.RENDER_QUALITY]: { percentage: 60, name: "Medium" },
+      [enumNFTGenConfig.BLOCKCHAIN]: "ethereum",
+    },
   },
   reducers: {
-    setName: (state, param) => {
+    setConfiguration: (state, param) => {
       const { payload } = param;
-      state.name = payload;
+
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      state.configuration[payload.key] = payload.value;
     },
   },
 });
-const { actions, reducer } = userStore;
-export const { setName } = actions;
-export default userStore;
+const { actions, reducer } = configurationStore;
+export const { setConfiguration } = actions;
+export default configurationStore;
